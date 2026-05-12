@@ -29,7 +29,7 @@ Give feedback through discord or via GitHub.
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/city-watchdog.1702575/" />
 	<ModVersion Value="0.5.0" />
 	<GameVersion Value="1.5.*" />
-	<Dependency Id="74417" DisplayName="Unified Icon Library" Version="1.0.11" />
+	<Dependency Id="74417" DisplayName="Unified Icon Library" Version="1.0.14" />
 	<ChangeLog>
 
 	</ChangeLog>
