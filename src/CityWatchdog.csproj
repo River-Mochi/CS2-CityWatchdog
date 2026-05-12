@@ -3,6 +3,11 @@
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<Configurations>Debug;Release</Configurations>
+
+        <!-- Enable nullable reference types project-wide -->
+        <Nullable>enable</Nullable>
+
+
 		<Product>City Watchdog</Product>
 		<AssemblyName>CityWatchdog</AssemblyName>
 		<RootNamespace>CityWatchdog</RootNamespace>
@@ -13,7 +18,8 @@
 
 		<!--The file where mod information which is required for publishing mod on PDX mods are stored-->
 		<PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
-		
+
+ 
 		
 	</PropertyGroup>
 
