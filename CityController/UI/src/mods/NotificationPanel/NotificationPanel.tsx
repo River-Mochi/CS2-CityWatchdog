@@ -1,4 +1,4 @@
-import { useValue } from "cs2/api";
+﻿import { useValue } from "cs2/api";
 import { game } from "cs2/bindings";
 import { useLocalization } from "cs2/l10n";
 import { getModule } from "cs2/modding";
@@ -71,13 +71,20 @@ import styles from "../NotificationPanel/NotificationPanel.module.scss";
 import { VanillaComponentResolver } from "../VanillaComponentResolver/VanillaComponentResolver";
 
 
-const modIconSrc = "coui://ui-mods/images/CityControllerIcon_colored.svg";
+const modIconSrc = "coui://ui-mods/images/
+
+
+
+
+
+
+Icon_colored.svg";
 const roundButtonHighlightStyle = getModule("game-ui/common/input/button/themes/round-highlight-button.module.scss", "classes");
 
 
 export const NotificationPanel = () => {
     const { translate } = useLocalization();
-    const localize = (localeId: string): string => translate(`CityController.UI[${localeId}]`) ?? "Default Value";
+    const localize = (localeId: string): string => translate(`CityWatchdog.UI[${localeId}]`) ?? "Default Value";
 
     const showPanel = useValue(controlPanelEnabled$);
     const isPhotoMode = useValue(game.activeGamePanel$)?.__Type == game.GamePanelType.PhotoMode;

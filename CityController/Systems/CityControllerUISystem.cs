@@ -1,10 +1,11 @@
-﻿using CityController.Data;
-using CityController.Settings;
+﻿using 
+    .Data;
+using CityWatchdog.Settings;
 using CS2Shared.Common;
 
-namespace CityController.Systems;
+namespace CityWatchdog.Systems;
 
-public partial class CityControllerUISystem : UISystemBaseExtension {
+public partial class CityWatchdogUISystem : UISystemBaseExtension {
     private NotificationControllerSystem notificationControllerSystem;
 
     private BoolBinding panelVisibleBinding;

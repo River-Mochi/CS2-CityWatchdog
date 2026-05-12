@@ -1,12 +1,16 @@
-﻿using CityController.Settings;
-using CityController.Systems;
+﻿using 
+    
+    
+    
+    .Settings;
+using CityWatchdog.Systems;
 using CS2Shared.Common;
 using CS2Shared.Tools;
 using Game;
 using Game.Modding;
 using System;
 
-namespace CityController;
+namespace CityWatchdog;
 
 public class Mod : ModBase, IMod {
     public override bool BetaVersion => true;
@@ -23,7 +27,7 @@ public class Mod : ModBase, IMod {
             updateSystem.UpdateAfter<AchievementsControllerSystem>(SystemUpdatePhase.Deserialize);
         updateSystem.UpdateAt<MoneyControllerSystem>(SystemUpdatePhase.ModificationEnd);
         updateSystem.UpdateAt<UnlockMilestonesSystem>(SystemUpdatePhase.ModificationEnd);
-        updateSystem.UpdateAt<CityControllerUISystem>(SystemUpdatePhase.UIUpdate);
+        updateSystem.UpdateAt<CityWatchdogUISystem>(SystemUpdatePhase.UIUpdate);
         updateSystem.UpdateAt<NotificationControllerSystem>(SystemUpdatePhase.ModificationEnd);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CityController.Data;
+﻿namespace CityWatchdog.Data;
 
 public enum BuildingNotificationIcon {
     AbandonedCollapsedNotification,

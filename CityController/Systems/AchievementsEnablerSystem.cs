@@ -1,10 +1,10 @@
-﻿using CityController.Settings;
+﻿using CityWatchdog.Settings;
 using Colossal.PSI.Common;
 using Colossal.Serialization.Entities;
 using CS2Shared.Common;
 using Game;
 
-namespace CityController.Systems;
+namespace CityWatchdog.Systems;
 
 public partial class AchievementsControllerSystem : GameSystemBaseExtension {
     protected override void OnGamePreload(Purpose purpose, GameMode mode) {

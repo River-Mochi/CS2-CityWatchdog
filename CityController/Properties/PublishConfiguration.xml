@@ -1,6 +1,6 @@
 ﻿<Publish>
-	<ModId Value="89495" />
-	<DisplayName Value="City Controller" />
+	<ModId Value="" />
+	<DisplayName Value="City Watchdog" />
 	<ShortDescription Value="Provides more options to control various city settings." />
 	<LongDescription>
 # City Controller
@@ -27,15 +27,13 @@ Give feedback through discord or via GitHub.
 	<Screenshot Value="Properties/Previews/NotificationPanel.png" />
 	<Tag Value="Code Mod" />
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/city-controller.1702575/" />
-	<ModVersion Value="0.2.1" />
-	<GameVersion Value="1.1.*" />
+	<ModVersion Value="0.5.0" />
+	<GameVersion Value="1.5.*" />
 	<Dependency Id="74417" DisplayName="Unified Icon Library" Version="1.0.11" />
 	<ChangeLog>
-## [0.2.1]
-- Added company, disaster, fire, garbage, work provider, healthcare, police, pollution, resource consumer, route, transport line notification icon toggle function.
-- Code optimization.
+
 	</ChangeLog>
-	<ExternalLink Type="github" Url="https://github.com/Mbyron26/CityController" />
-	<ExternalLink Type="discord" Url="https://discord.gg/ZxbyzmvGxG" />
-	<ExternalLink Type="crowdin" Url="https://crowdin.com/project/city-controller" />
+	<ExternalLink Type="github" Url="https://github.com/River-Mochi/CityWatchdog" />
+	<ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
+
 </Publish>

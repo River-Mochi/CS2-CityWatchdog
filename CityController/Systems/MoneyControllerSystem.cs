@@ -1,4 +1,5 @@
-using CityController.Settings;
+﻿using 
+    .Settings;
 using Colossal.Serialization.Entities;
 using CS2Shared.Common;
 using Game;
@@ -10,7 +11,7 @@ using System.Reflection;
 using System.Text;
 using Unity.Entities;
 
-namespace CityController.Systems;
+namespace CityWatchdog.Systems;
 
 public partial class MoneyControllerSystem : GameSystemBaseExtension {
     private CitySystem citySystem;

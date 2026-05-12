@@ -1,5 +1,6 @@
-﻿using CityController.Data;
-using CityController.Settings;
+﻿using 
+    .Data;
+using CityWatchdog.Settings;
 using Colossal.Serialization.Entities;
 using CS2Shared.Common;
 using CS2Shared.Extension;
@@ -14,7 +15,7 @@ using System.Text;
 using Unity.Collections;
 using Unity.Entities;
 
-namespace CityController.Systems;
+namespace CityWatchdog.Systems;
 
 public partial class NotificationControllerSystem : GameSystemBaseExtension {
     private StringBuilder logBuilder;

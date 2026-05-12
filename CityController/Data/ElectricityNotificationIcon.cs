@@ -1,4 +1,5 @@
-﻿namespace CityController.Data;
+﻿namespace 
+    .Data;
 
 public enum ElectricityNotificationIcon {
     ElectricityNotification,
