@@ -60,6 +60,7 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Custom Milestone" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)), "Enable this before loading or starting a city to unlock a chosen milestone immediately after the city loads. This is grayed out while already in-game." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Milestone" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)), "Pick the milestone level to unlock on the next city load. This is only editable outside a loaded city, and only after Custom Milestone is enabled." },
 
