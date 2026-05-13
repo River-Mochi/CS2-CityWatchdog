@@ -1,9 +1,10 @@
 // File: src/Data/TrafficNotificationIcon.cs
-// Purpose: Defines notification icon identifiers used by City Watchdog.
+// Purpose: Defines traffic notification icon identifiers used by City Watchdog.
 
 namespace CityWatchdog.Data
 {
-    public enum TrafficNotificationIcon {
+    public enum TrafficNotificationIcon
+    {
         BottleneckNotification,
         DeadEndNotification,
         RoadConnectionNotification,
@@ -13,5 +14,4 @@ namespace CityWatchdog.Data
         TrainConnectionNotification,
         PedestrianConnectionNotification,
     }
-
 }

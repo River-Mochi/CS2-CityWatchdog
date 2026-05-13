@@ -51,7 +51,7 @@ namespace CityWatchdog.Systems
             stringBuilder.AppendLine(string.Join(", ", cityConfigurationSystem.usedMods));
             stringBuilder.AppendLine("---End Current City Configuration Information---");
 
-            LogUtils.Info(Mod.s_Log, () => stringBuilder.ToString());
+            LogUtils.Info(() => stringBuilder.ToString());
         }
 
         public void SetUnlimitedMoneyToLimitedMoney()
@@ -62,7 +62,7 @@ namespace CityWatchdog.Systems
             }
 
             PlayerMoney beforeMoney = EntityManager.GetComponentData<PlayerMoney>(citySystem.City);
-            LogUtils.Info(Mod.s_Log, () => $"Starting set unlimited money to limited money, PlayerMoney.m_Unlimited: {beforeMoney.m_Unlimited}, PlayerMoney.money: {beforeMoney.money}, CityConfigurationSystem.unlimitedMoney: {cityConfigurationSystem.unlimitedMoney}, CityConfigurationSystem.overrideUnlimitedMoney: {cityConfigurationSystem.overrideUnlimitedMoney}");
+            LogUtils.Info(() => $"Starting set unlimited money to limited money, PlayerMoney.m_Unlimited: {beforeMoney.m_Unlimited}, PlayerMoney.money: {beforeMoney.money}, CityConfigurationSystem.unlimitedMoney: {cityConfigurationSystem.unlimitedMoney}, CityConfigurationSystem.overrideUnlimitedMoney: {cityConfigurationSystem.overrideUnlimitedMoney}");
 
             cityConfigurationSystem.unlimitedMoney = false;
             cityConfigurationSystem.overrideUnlimitedMoney = false;
@@ -74,14 +74,14 @@ namespace CityWatchdog.Systems
             FieldInfo? loadedUnlimitedMoneyField = typeof(CityConfigurationSystem).GetField("m_LoadedUnlimitedMoney", BindingFlags.NonPublic | BindingFlags.Instance);
             if (loadedUnlimitedMoneyField == null)
             {
-                LogUtils.Info(Mod.s_Log, () => "m_LoadedUnlimitedMoney is null");
+                LogUtils.Info(() => "m_LoadedUnlimitedMoney is null");
             }
             else
             {
                 loadedUnlimitedMoneyField.SetValue(cityConfigurationSystem, false);
             }
 
-            LogUtils.Info(Mod.s_Log, () => $"Set unlimited money to limited money completed, PlayerMoney.m_Unlimited: {playerMoney.m_Unlimited}, PlayerMoney.money: {playerMoney.money}, CityConfigurationSystem.unlimitedMoney: {cityConfigurationSystem.unlimitedMoney}, CityConfigurationSystem.overrideUnlimitedMoney: {cityConfigurationSystem.overrideUnlimitedMoney}");
+            LogUtils.Info(() => $"Set unlimited money to limited money completed, PlayerMoney.m_Unlimited: {playerMoney.m_Unlimited}, PlayerMoney.money: {playerMoney.money}, CityConfigurationSystem.unlimitedMoney: {cityConfigurationSystem.unlimitedMoney}, CityConfigurationSystem.overrideUnlimitedMoney: {cityConfigurationSystem.overrideUnlimitedMoney}");
         }
 
         public void OnSubtractMoney()
@@ -119,14 +119,14 @@ namespace CityWatchdog.Systems
                 if (!playerMoney.m_Unlimited)
                 {
                     int rawMoney = playerMoney.money;
-                    LogUtils.Info(Mod.s_Log, () => $"Setting initial money, default money: {rawMoney}");
+                    LogUtils.Info(() => $"Setting initial money, default money: {rawMoney}");
 
                     ModifyMoney(ModifyMoneyType.AutoSubtract, rawMoney);
                     ModifyMoney(ModifyMoneyType.AutoAdd, Setting.Instance.InitialMoney);
                     Setting.Instance.ResetInitialMoney();
 
                     PlayerMoney updatedMoney = EntityManager.GetComponentData<PlayerMoney>(citySystem.City);
-                    LogUtils.Info(Mod.s_Log, () => $"Set initial money completed, money: {updatedMoney.money}");
+                    LogUtils.Info(() => $"Set initial money completed, money: {updatedMoney.money}");
                 }
             }
         }
@@ -138,7 +138,7 @@ namespace CityWatchdog.Systems
                 PlayerMoney playerMoney = EntityManager.GetComponentData<PlayerMoney>(citySystem.City);
                 if (playerMoney.money < Setting.Instance.AutomaticAddMoneyThreshold)
                 {
-                    LogUtils.Info(Mod.s_Log, () => $"{playerMoney.money} < {Setting.Instance.AutomaticAddMoneyThreshold}, automatically add money");
+                    LogUtils.Info(() => $"{playerMoney.money} < {Setting.Instance.AutomaticAddMoneyThreshold}, automatically add money");
                     ModifyMoney(ModifyMoneyType.AutoAdd, Setting.Instance.AutomaticAddMoneyAmount);
                 }
             }
@@ -173,7 +173,7 @@ namespace CityWatchdog.Systems
                 playerMoney.Subtract(money);
             }
 
-            LogUtils.Info(Mod.s_Log, () => $"{modifyMoneyType} money {money} to {playerMoney.money} ");
+            LogUtils.Info(() => $"{modifyMoneyType} money {money} to {playerMoney.money} ");
             EntityManager.SetComponentData(citySystem.City, playerMoney);
         }
     }

@@ -14,13 +14,13 @@ namespace CityWatchdog.Systems
         protected override void OnGamePreload(Purpose purpose, GameMode mode)
         {
             base.OnGamePreload(purpose, mode);
-            LogUtils.Info(Mod.s_Log () => $"AchievementsControllerSystem OnGamePreload, game mode: {mode}, game/mod achievements status: {PlatformManager.instance.achievementsEnabled} {Setting.Instance.AchievementsEnabled} ");
+            LogUtils.Info(() => $"AchievementsControllerSystem OnGamePreload, game mode: {mode}, game/mod achievements status: {PlatformManager.instance.achievementsEnabled} {Setting.Instance.AchievementsEnabled} ");
         }
 
         protected override void OnGameLoaded(Context serializationContext)
         {
             base.OnGameLoaded(serializationContext);
-            LogUtils.Info(Mod.s_Log, () => $"AchievementsControllerSystem OnGameLoaded, game/mod achievements status: {PlatformManager.instance.achievementsEnabled} {Setting.Instance.AchievementsEnabled} ");
+            LogUtils.Info(() => $"AchievementsControllerSystem OnGameLoaded, game/mod achievements status: {PlatformManager.instance.achievementsEnabled} {Setting.Instance.AchievementsEnabled} ");
             SetAchievements(Setting.Instance.AchievementsEnabled);
         }
 
@@ -32,7 +32,7 @@ namespace CityWatchdog.Systems
             }
 
             PlatformManager.instance.achievementsEnabled = enabled;
-            LogUtils.Info(Mod.s_Log, () => $"Set achievements: {enabled}");
+            LogUtils.Info(() => $"Set achievements: {enabled}");
         }
     }
 }

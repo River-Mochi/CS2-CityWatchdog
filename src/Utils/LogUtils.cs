@@ -13,7 +13,6 @@ namespace CityWatchdog
         private static readonly object s_WarnOnceLock = new object();
         private static readonly object s_FileWriteLock = new object();
 
-        // Per-process key cache so hot-path warnings show once instead of repeating every update.
         private static readonly HashSet<string> s_WarnOnceKeys =
             new HashSet<string>(StringComparer.Ordinal);
 
@@ -33,6 +32,11 @@ namespace CityWatchdog
             {
                 s_FallbackLogName = cleaned;
             }
+        }
+
+        public static bool WarnOnce(string key, Func<string> messageFactory, Exception? exception = null)
+        {
+            return WarnOnce(Mod.s_Log, key, messageFactory, exception);
         }
 
         public static bool WarnOnce(ILog log, string key, Func<string> messageFactory, Exception? exception = null)
@@ -67,9 +71,19 @@ namespace CityWatchdog
             return true;
         }
 
+        public static void Info(Func<string> messageFactory)
+        {
+            TryLog(Mod.s_Log, Level.Info, messageFactory);
+        }
+
         public static void Info(ILog log, Func<string> messageFactory)
         {
             TryLog(log, Level.Info, messageFactory);
+        }
+
+        public static void Warn(Func<string> messageFactory, Exception? exception = null)
+        {
+            TryLog(Mod.s_Log, Level.Warn, messageFactory, exception);
         }
 
         public static void Warn(ILog log, Func<string> messageFactory, Exception? exception = null)
@@ -77,9 +91,19 @@ namespace CityWatchdog
             TryLog(log, Level.Warn, messageFactory, exception);
         }
 
+        public static void Debug(Func<string> messageFactory)
+        {
+            TryLog(Mod.s_Log, Level.Debug, messageFactory);
+        }
+
         public static void Debug(ILog log, Func<string> messageFactory)
         {
             TryLog(log, Level.Debug, messageFactory);
+        }
+
+        public static void Error(Func<string> messageFactory, Exception? exception = null)
+        {
+            TryLog(Mod.s_Log, Level.Error, messageFactory, exception);
         }
 
         public static void Error(ILog log, Func<string> messageFactory, Exception? exception = null)
@@ -143,8 +167,6 @@ namespace CityWatchdog
 
             lock (s_FileWriteLock)
             {
-                // Direct append keeps routine mod diagnostics out of Colossal's UI-log path.
-                // ShareReadWrite keeps the file readable while the game is running.
                 string? directory = Path.GetDirectoryName(logPath);
                 if (!string.IsNullOrEmpty(directory))
                 {

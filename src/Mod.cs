@@ -38,7 +38,7 @@ namespace CityWatchdog
         internal static void DebugLog(string message)
         {
 #if DEBUG
-            LogUtils.Info(s_Log, () => message);
+            LogUtils.Info(() => message);
 #else
             _ = message;
 #endif
@@ -46,6 +46,8 @@ namespace CityWatchdog
 
         protected override void CreateSetting()
         {
+            LogUtils.Configure(ModId);
+
             Setting setting = new Setting(this);
             Setting = Settings.Setting.Instance = setting;
 
@@ -62,7 +64,6 @@ namespace CityWatchdog
             // AddLocaleSource("zh-HANS", new LocaleZH_CN(setting));    // Simplified Chinese
             // AddLocaleSource("zh-HANT", new LocaleZH_HANT(setting));  // Traditional Chinese
 
-            // CS2 persists ModSetting values in ModsSettings/CityWatchdog/CityWatchdog.coc.
             AssetDatabase.global.LoadSettings(ModId, setting, new Setting(this));
         }
 
@@ -91,7 +92,7 @@ namespace CityWatchdog
             }
 
             s_BannerLogged = true;
-            LogUtils.Info(s_Log, () => $"{ModName} v{ModVersion} {ModTag} loaded");
+            LogUtils.Info(() => $"{ModName} v{ModVersion} {ModTag} loaded");
         }
 
         private static void AddLocaleSource(string localeId, IDictionarySource source)
@@ -104,7 +105,7 @@ namespace CityWatchdog
             LocalizationManager? localizationManager = GameManager.instance.localizationManager;
             if (localizationManager == null)
             {
-                LogUtils.Warn(s_Log, () => $"AddLocaleSource: No LocalizationManager; cannot add source for '{localeId}'.");
+                LogUtils.Warn(() => $"AddLocaleSource: No LocalizationManager; cannot add source for '{localeId}'.");
                 return;
             }
 
@@ -114,7 +115,7 @@ namespace CityWatchdog
             }
             catch (Exception ex)
             {
-                LogUtils.Warn(s_Log, () => $"AddLocaleSource: AddSource for '{localeId}' failed: {ex.GetType().Name}: {ex.Message}", ex);
+                LogUtils.Warn(() => $"AddLocaleSource: AddSource for '{localeId}' failed: {ex.GetType().Name}: {ex.Message}", ex);
             }
         }
     }
