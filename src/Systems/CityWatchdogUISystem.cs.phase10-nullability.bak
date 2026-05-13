@@ -8,80 +8,80 @@ namespace CityWatchdog.Systems
     using CS2Shared.Common;
 
     public partial class CityWatchdogUISystem : UISystemBaseExtension {
-        private NotificationControllerSystem notificationControllerSystem = null!;
+        private NotificationControllerSystem notificationControllerSystem;
 
-        private BoolBinding panelVisibleBinding = null!;
+        private BoolBinding panelVisibleBinding;
 
-        private BoolBinding electricityElectricityNotificationBinding = null!;
-        private BoolBinding electricityBottleneckNotificationBinding = null!;
-        private BoolBinding electricityBuildingBottleneckNotificationBinding = null!;
-        private BoolBinding electricityNotEnoughProductionNotificationBinding = null!;
-        private BoolBinding electricityTransformerNotificationBinding = null!;
-        private BoolBinding electricityNotEnoughConnectedNotificationBinding = null!;
-        private BoolBinding electricityBatteryEmptyNotificationBinding = null!;
-        private BoolBinding electricityLowVoltageNotConnectedBinding = null!;
-        private BoolBinding electricityHighVoltageNotConnectedBinding = null!;
+        private BoolBinding electricityElectricityNotificationBinding;
+        private BoolBinding electricityBottleneckNotificationBinding;
+        private BoolBinding electricityBuildingBottleneckNotificationBinding;
+        private BoolBinding electricityNotEnoughProductionNotificationBinding;
+        private BoolBinding electricityTransformerNotificationBinding;
+        private BoolBinding electricityNotEnoughConnectedNotificationBinding;
+        private BoolBinding electricityBatteryEmptyNotificationBinding;
+        private BoolBinding electricityLowVoltageNotConnectedBinding;
+        private BoolBinding electricityHighVoltageNotConnectedBinding;
 
-        private BoolBinding waterPipeWaterNotificationBinding = null!;
-        private BoolBinding waterPipeDirtyWaterNotificationBinding = null!;
-        private BoolBinding waterPipeSewageNotificationBinding = null!;
-        private BoolBinding waterPipeWaterPipeNotConnectedNotificationBinding = null!;
-        private BoolBinding waterPipeSewagePipeNotConnectedNotificationBinding = null!;
-        private BoolBinding waterPipeNotEnoughWaterCapacityNotificationBinding = null!;
-        private BoolBinding waterPipeNotEnoughSewageCapacityNotificationBinding = null!;
-        private BoolBinding waterPipeNotEnoughGroundwaterNotificationBinding = null!;
-        private BoolBinding waterPipeNotEnoughSurfaceWaterNotificationBinding = null!;
-        private BoolBinding waterPipeDirtyWaterPumpNotificationBinding = null!;
+        private BoolBinding waterPipeWaterNotificationBinding;
+        private BoolBinding waterPipeDirtyWaterNotificationBinding;
+        private BoolBinding waterPipeSewageNotificationBinding;
+        private BoolBinding waterPipeWaterPipeNotConnectedNotificationBinding;
+        private BoolBinding waterPipeSewagePipeNotConnectedNotificationBinding;
+        private BoolBinding waterPipeNotEnoughWaterCapacityNotificationBinding;
+        private BoolBinding waterPipeNotEnoughSewageCapacityNotificationBinding;
+        private BoolBinding waterPipeNotEnoughGroundwaterNotificationBinding;
+        private BoolBinding waterPipeNotEnoughSurfaceWaterNotificationBinding;
+        private BoolBinding waterPipeDirtyWaterPumpNotificationBinding;
 
-        private BoolBinding buildingAbandonedCollapsedNotificationBinding = null!;
-        private BoolBinding buildingAbandonedNotificationBinding = null!;
-        private BoolBinding buildingCondemnedNotificationBinding = null!;
-        private BoolBinding buildingTurnedOffNotificationBinding = null!;
-        private BoolBinding buildingHighRentNotificationBinding = null!;
+        private BoolBinding buildingAbandonedCollapsedNotificationBinding;
+        private BoolBinding buildingAbandonedNotificationBinding;
+        private BoolBinding buildingCondemnedNotificationBinding;
+        private BoolBinding buildingTurnedOffNotificationBinding;
+        private BoolBinding buildingHighRentNotificationBinding;
 
-        private BoolBinding trafficBottleneckNotificationBinding = null!;
-        private BoolBinding trafficDeadEndNotificationBinding = null!;
-        private BoolBinding trafficRoadConnectionNotificationBinding = null!;
-        private BoolBinding trafficTrackConnectionNotificationBinding = null!;
-        private BoolBinding trafficCarConnectionNotificationBinding = null!;
-        private BoolBinding trafficShipConnectionNotificationBinding = null!;
-        private BoolBinding trafficTrainConnectionNotificationBinding = null!;
-        private BoolBinding trafficPedestrianConnectionNotificationBinding = null!;
+        private BoolBinding trafficBottleneckNotificationBinding;
+        private BoolBinding trafficDeadEndNotificationBinding;
+        private BoolBinding trafficRoadConnectionNotificationBinding;
+        private BoolBinding trafficTrackConnectionNotificationBinding;
+        private BoolBinding trafficCarConnectionNotificationBinding;
+        private BoolBinding trafficShipConnectionNotificationBinding;
+        private BoolBinding trafficTrainConnectionNotificationBinding;
+        private BoolBinding trafficPedestrianConnectionNotificationBinding;
 
-        private BoolBinding companyNoInputsNotificationBinding = null!;
-        private BoolBinding companyNoCustomersNotificationBinding = null!;
+        private BoolBinding companyNoInputsNotificationBinding;
+        private BoolBinding companyNoCustomersNotificationBinding;
 
-        private BoolBinding workProviderUneducatedNotificationBinding = null!;
-        private BoolBinding workProviderEducatedNotificationBinding = null!;
+        private BoolBinding workProviderUneducatedNotificationBinding;
+        private BoolBinding workProviderEducatedNotificationBinding;
 
-        private BoolBinding disasterWeatherDamageNotificationBinding = null!;
-        private BoolBinding disasterWeatherDestroyedNotificationBinding = null!;
-        private BoolBinding disasterWaterDamageNotificationBinding = null!;
-        private BoolBinding disasterWaterDestroyedNotificationBinding = null!;
-        private BoolBinding disasterDestroyedNotificationBinding = null!;
+        private BoolBinding disasterWeatherDamageNotificationBinding;
+        private BoolBinding disasterWeatherDestroyedNotificationBinding;
+        private BoolBinding disasterWaterDamageNotificationBinding;
+        private BoolBinding disasterWaterDestroyedNotificationBinding;
+        private BoolBinding disasterDestroyedNotificationBinding;
 
-        private BoolBinding fireFireNotificationBinding = null!;
-        private BoolBinding fireBurnedDownNotificationBinding = null!;
+        private BoolBinding fireFireNotificationBinding;
+        private BoolBinding fireBurnedDownNotificationBinding;
 
-        private BoolBinding garbageGarbageNotificationBinding = null!;
-        private BoolBinding garbageFacilityFullNotificationBinding = null!;
+        private BoolBinding garbageGarbageNotificationBinding;
+        private BoolBinding garbageFacilityFullNotificationBinding;
 
-        private BoolBinding healthcareAmbulanceNotificationBinding = null!;
-        private BoolBinding healthcareHearseNotificationBinding = null!;
-        private BoolBinding healthcareFacilityFullNotificationBinding = null!;
+        private BoolBinding healthcareAmbulanceNotificationBinding;
+        private BoolBinding healthcareHearseNotificationBinding;
+        private BoolBinding healthcareFacilityFullNotificationBinding;
 
-        private BoolBinding policeTrafficAccidentNotificationBinding = null!;
-        private BoolBinding policeCrimeSceneNotificationBinding = null!;
+        private BoolBinding policeTrafficAccidentNotificationBinding;
+        private BoolBinding policeCrimeSceneNotificationBinding;
 
-        private BoolBinding pollutionAirPollutionNotificationBinding = null!;
-        private BoolBinding pollutionNoisePollutionNotificationBinding = null!;
-        private BoolBinding pollutionGroundPollutionNotificationBinding = null!;
+        private BoolBinding pollutionAirPollutionNotificationBinding;
+        private BoolBinding pollutionNoisePollutionNotificationBinding;
+        private BoolBinding pollutionGroundPollutionNotificationBinding;
 
-        private BoolBinding resourceConsumerNoResourceNotificationBinding = null!;
+        private BoolBinding resourceConsumerNoResourceNotificationBinding;
 
-        private BoolBinding routePathfindNotificationBinding = null!;
+        private BoolBinding routePathfindNotificationBinding;
 
-        private BoolBinding transportLineVehicleNotificationBinding = null!;
+        private BoolBinding transportLineVehicleNotificationBinding;
 
         protected override void OnCreate() {
             base.OnCreate();

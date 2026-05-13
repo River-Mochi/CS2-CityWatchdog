@@ -1,11 +1,18 @@
 // File: DebugConsole/Attributes/GenerateMethodNameAttribute.cs
-// Purpose: Contains debug-console support code for City Watchdog development.
+// Purpose: Marks debug-console methods with the output method name to generate.
 
 namespace DebugConsole.Attributes
 {
-    [AttributeUsage(AttributeTargets.Method)]
-    internal class GenerateMethodNameAttribute(string value) : Attribute {
-        public string Value { get; } = value;
-    }
+    using System;
 
+    [AttributeUsage(AttributeTargets.Method)]
+    internal sealed class GenerateMethodNameAttribute : Attribute
+    {
+        public GenerateMethodNameAttribute(string value)
+        {
+            Value = value;
+        }
+
+        public string Value { get; }
+    }
 }

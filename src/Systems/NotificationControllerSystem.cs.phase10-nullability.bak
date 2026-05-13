@@ -20,10 +20,10 @@ namespace CityWatchdog.Systems
     using Unity.Entities;
 
     public partial class NotificationControllerSystem : GameSystemBaseExtension {
-        private StringBuilder logBuilder = null!;
+        private StringBuilder logBuilder;
         private EntityQuery iconQuery;
         private EntityQuery waterPipeParameterQuery;
-        private PrefabSystem prefabSystem = null!;
+        private PrefabSystem prefabSystem;
         private EntityQuery notificationIconDisplayDataQuery;
         private EntityQuery electricityParameterQuery;
         private EntityQuery buildingConfigurationDataQuery;
