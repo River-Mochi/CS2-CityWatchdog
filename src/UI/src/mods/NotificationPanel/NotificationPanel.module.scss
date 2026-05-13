@@ -51,6 +51,19 @@
     color: rgba(254, 254, 254, 0.9);
 }
 
+.bulkControls {
+    display: flex;
+    flex-direction: row;
+    gap: 8rem;
+    padding: 0 10rem 10rem 10rem;
+}
+
+.bulkButton {
+    flex: 1;
+    height: 30rem;
+    font-size: var(--fontSizeS);
+}
+
 .modIcon {
     width: 1.2em;
     height: 1.2em;

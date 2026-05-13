@@ -244,6 +244,14 @@ const sections: NotificationSection[] = [
     },
 ];
 
+const setAllNotifications = (enabled: boolean) => {
+    sections.forEach((section) => {
+        section.items.forEach((item) => {
+            item.onToggle(enabled);
+        });
+    });
+};
+
 export const NotificationPanel = () => {
     const showPanel = useValue(controlPanelEnabled$);
     const isPhotoMode = useValue(game.activeGamePanel$)?.__Type == game.GamePanelType.PhotoMode;
@@ -258,6 +266,7 @@ export const NotificationPanel = () => {
 const NotificationPanelContent = () => {
     const { translate } = useLocalization();
     const localize: Localize = (localeId) => translate(`CityWatchdog.UI[${localeId}]`) ?? localeId;
+    const orderedSections = [...sections].sort((a, b) => localize(a.localeId).localeCompare(localize(b.localeId)));
 
     return (
         <Panel
@@ -278,7 +287,23 @@ const NotificationPanelContent = () => {
             }
         >
             <div className={styles.introText}>{localize("NotificationIconShowOrHide")}</div>
-            {sections.map((section, index) => (
+            <div className={styles.bulkControls}>
+                <Button
+                    className={styles.bulkButton}
+                    onClick={() => { setAllNotifications(true); }}
+                    focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
+                >
+                    {localize("AllOn")}
+                </Button>
+                <Button
+                    className={styles.bulkButton}
+                    onClick={() => { setAllNotifications(false); }}
+                    focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
+                >
+                    {localize("AllOff")}
+                </Button>
+            </div>
+            {orderedSections.map((section, index) => (
                 <NotificationSectionView key={section.localeId} section={section} localize={localize} showDivider={index > 0} />
             ))}
         </Panel>
