@@ -61,11 +61,18 @@ module.exports = {
               modules: {
                 auto: true,
                 exportLocalsConvention: "camelCase",
+                namedExport: false,
                 localIdentName: "[local]_[hash:base64:3]",
               },
             },
           },
-          "sass-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              api: "modern",
+              implementation: require("sass"),
+            },
+          },
         ],
       },
       {
