@@ -12,18 +12,20 @@ namespace CityWatchdog.Settings
     using Game.Settings;
     using Game.UI;
     using Game.UI.Widgets;
+    using System;
     using System.Collections.Generic;
     using Unity.Entities;
+    using UnityEngine;
 
     [FileLocation("ModsSettings/CityWatchdog/CityWatchdog")]
 #if DEBUG
-    [SettingsUITabOrder(General, KeyBindings, Advanced, Debug)]
-    [SettingsUIGroupOrder(ModInfo, Achievements, Money, Reset, Serialize)]
-    [SettingsUIShowGroupName(ModInfo, Achievements, Money, Reset, Serialize)]
+    [SettingsUITabOrder(General, KeyBindings, About, Debug)]
+    [SettingsUIGroupOrder(Achievements, Money, Milestone, AboutInfo, AboutLinks, AboutUsage, Serialize)]
+    [SettingsUIShowGroupName(Achievements, Money, Milestone, AboutUsage, Serialize)]
 #else
-    [SettingsUITabOrder(General, KeyBindings, Advanced)]
-    [SettingsUIGroupOrder(ModInfo, Achievements, Money, Reset)]
-    [SettingsUIShowGroupName(ModInfo, Achievements, Money, Reset)]
+    [SettingsUITabOrder(General, KeyBindings, About)]
+    [SettingsUIGroupOrder(Achievements, Money, Milestone, AboutInfo, AboutLinks, AboutUsage)]
+    [SettingsUIShowGroupName(Achievements, Money, Milestone, AboutUsage)]
 #endif
     public partial class Setting : ModSetting
     {
@@ -31,10 +33,8 @@ namespace CityWatchdog.Settings
 
         internal const string General = nameof(General);
         internal const string KeyBindings = nameof(KeyBindings);
-        internal const string Advanced = nameof(Advanced);
+        internal const string About = nameof(About);
         internal const string Debug = nameof(Debug);
-        internal const string ModInfo = nameof(ModInfo);
-        internal const string Reset = nameof(Reset);
         internal const string Serialize = nameof(Serialize);
 
         public const string AddMoneyAction = nameof(AddMoneyAction);
@@ -43,6 +43,14 @@ namespace CityWatchdog.Settings
         internal const string Achievements = nameof(Achievements);
         internal const string Money = nameof(Money);
         internal const string Milestone = nameof(Milestone);
+        internal const string AboutInfo = nameof(AboutInfo);
+        internal const string AboutLinks = nameof(AboutLinks);
+        internal const string AboutUsage = nameof(AboutUsage);
+
+        private const string AboutLinksRow = nameof(AboutLinksRow);
+        private const string UrlParadox =
+            "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
+        private const string UrlDiscord = "https://discord.gg/HTav7ARPs2";
 
         public Setting(IMod mod) : base(mod)
         {
@@ -118,6 +126,53 @@ namespace CityWatchdog.Settings
         [SettingsUISection(KeyBindings, Money)]
         public ProxyBinding SubtractMoneyKeyboardBinding { get; set; }
 
+        [SettingsUISection(About, AboutInfo)]
+        public string NameText => Mod.ModName;
+
+        [SettingsUISection(About, AboutInfo)]
+        public string VersionText =>
+#if DEBUG
+            Mod.ModVersion + " (DEBUG)";
+#else
+            Mod.ModVersion;
+#endif
+
+        [SettingsUIButtonGroup(AboutLinksRow)]
+        [SettingsUIButton]
+        [SettingsUISection(About, AboutLinks)]
+        public bool OpenParadox
+        {
+            set
+            {
+                if (value)
+                {
+                    TryOpenUrl(UrlParadox);
+                }
+            }
+        }
+
+        [SettingsUIButtonGroup(AboutLinksRow)]
+        [SettingsUIButton]
+        [SettingsUISection(About, AboutLinks)]
+        public bool OpenDiscord
+        {
+            set
+            {
+                if (value)
+                {
+                    TryOpenUrl(UrlDiscord);
+                }
+            }
+        }
+
+        [SettingsUISection(About, AboutUsage)]
+        public bool ShowUsage { get; set; }
+
+        [SettingsUIMultilineText]
+        [SettingsUIHideByCondition(typeof(Setting), nameof(HideUsageText))]
+        [SettingsUISection(About, AboutUsage)]
+        public string UsageText => string.Empty;
+
         public string[] Milestones { get; } =
         {
             "TinyVillage",
@@ -156,6 +211,23 @@ namespace CityWatchdog.Settings
         public bool EnsureAutomaticAddMoneyEnabled()
         {
             return !AutomaticAddMoney;
+        }
+
+        private bool HideUsageText()
+        {
+            return !ShowUsage;
+        }
+
+        private static void TryOpenUrl(string url)
+        {
+            try
+            {
+                Application.OpenURL(url);
+            }
+            catch (Exception ex)
+            {
+                LogUtils.WarnOnce("open-url-" + url, () => $"Failed to open URL '{url}': {ex.GetType().Name}: {ex.Message}", ex);
+            }
         }
 
         public DropdownItem<int>[] GetAutomaticAddMoneyThresholdItems()
@@ -213,6 +285,7 @@ namespace CityWatchdog.Settings
             InitialMoney = 0;
             CustomMilestone = false;
             MilestoneLevel = 19;
+            ShowUsage = false;
 
             Notification.SetDefaults();
             Hidden.SetDefaults();

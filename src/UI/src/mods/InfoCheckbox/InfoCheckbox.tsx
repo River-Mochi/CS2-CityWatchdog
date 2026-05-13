@@ -15,7 +15,7 @@ interface InfoCheckboxProps {
 
 export const InfoCheckbox = ({ image, label, count, isChecked, onToggle, className, style }: InfoCheckboxProps) => {
     return (
-        <div className={styles.subPanel + " " + className} style={{ ...style, opacity: isChecked ? 1 : 0.5 }} onClick={() => onToggle(!isChecked)}>
+        <div className={styles.subPanel + " " + (className ?? "")} style={{ ...style, opacity: isChecked ? 1 : 0.5 }} onClick={() => onToggle(!isChecked)}>
             <div className={styles.iconLabelSection}>
                 <Icon src={image} className={styles.icon} />
                 <span className={styles.label}>{label}</span>
