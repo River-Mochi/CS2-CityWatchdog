@@ -31,7 +31,7 @@ namespace CS2Shared.Extension
 
         public static string LogsDirectory { get; } = LogManager.kDefaultLogPath;
 
-        public static string GetModPath(ExecutableAsset executableAsset)
+        public static string GetModPath(ExecutableAsset? executableAsset)
         {
             if (executableAsset == null || string.IsNullOrEmpty(executableAsset.path))
             {
@@ -47,7 +47,7 @@ namespace CS2Shared.Extension
             return directory.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
         }
 
-        public static string GetModDirectoryCreationTime(ExecutableAsset executableAsset)
+        public static string GetModDirectoryCreationTime(ExecutableAsset? executableAsset)
         {
             string modPath = GetModPath(executableAsset);
             if (!string.IsNullOrEmpty(modPath) && Directory.Exists(modPath))

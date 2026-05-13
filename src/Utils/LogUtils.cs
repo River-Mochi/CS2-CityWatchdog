@@ -34,12 +34,12 @@ namespace CityWatchdog
             }
         }
 
-        public static bool WarnOnce(string key, Func<string> messageFactory, Exception exception = null)
+        public static bool WarnOnce(string key, Func<string> messageFactory, Exception? exception = null)
         {
             return WarnOnce(Mod.s_Log, key, messageFactory, exception);
         }
 
-        public static bool WarnOnce(ILog log, string key, Func<string> messageFactory, Exception exception = null)
+        public static bool WarnOnce(ILog log, string key, Func<string> messageFactory, Exception? exception = null)
         {
             if (log == null || string.IsNullOrEmpty(key) || messageFactory == null)
             {
@@ -80,12 +80,12 @@ namespace CityWatchdog
             TryLog(log, Level.Info, messageFactory);
         }
 
-        public static void Warn(Func<string> messageFactory, Exception exception = null)
+        public static void Warn(Func<string> messageFactory, Exception? exception = null)
         {
             TryLog(Mod.s_Log, Level.Warn, messageFactory, exception);
         }
 
-        public static void Warn(ILog log, Func<string> messageFactory, Exception exception = null)
+        public static void Warn(ILog log, Func<string> messageFactory, Exception? exception = null)
         {
             TryLog(log, Level.Warn, messageFactory, exception);
         }
@@ -100,17 +100,17 @@ namespace CityWatchdog
             TryLog(log, Level.Debug, messageFactory);
         }
 
-        public static void Error(Func<string> messageFactory, Exception exception = null)
+        public static void Error(Func<string> messageFactory, Exception? exception = null)
         {
             TryLog(Mod.s_Log, Level.Error, messageFactory, exception);
         }
 
-        public static void Error(ILog log, Func<string> messageFactory, Exception exception = null)
+        public static void Error(ILog log, Func<string> messageFactory, Exception? exception = null)
         {
             TryLog(log, Level.Error, messageFactory, exception);
         }
 
-        public static void TryLog(ILog log, Level level, Func<string> messageFactory, Exception exception = null)
+        public static void TryLog(ILog log, Level level, Func<string> messageFactory, Exception? exception = null)
         {
             if (log == null || messageFactory == null)
             {
@@ -156,7 +156,7 @@ namespace CityWatchdog
             }
         }
 
-        private static void AppendDirect(ILog log, Level level, string message, Exception exception)
+        private static void AppendDirect(ILog log, Level level, string message, Exception? exception)
         {
             string logPath = GetLogPath(log);
             if (string.IsNullOrEmpty(logPath))
@@ -166,7 +166,7 @@ namespace CityWatchdog
 
             lock (s_FileWriteLock)
             {
-                string directory = Path.GetDirectoryName(logPath);
+                string? directory = Path.GetDirectoryName(logPath);
                 if (!string.IsNullOrEmpty(directory))
                 {
                     Directory.CreateDirectory(directory);
