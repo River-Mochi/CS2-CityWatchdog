@@ -20,12 +20,12 @@ namespace CityWatchdog.Settings
     [FileLocation("ModsSettings/CityWatchdog/CityWatchdog")]
 #if DEBUG
     [SettingsUITabOrder(General, KeyBindings, About, Debug)]
-    [SettingsUIGroupOrder(Achievements, Money, Milestone, AboutInfo, AboutLinks, AboutUsage, Serialize)]
-    [SettingsUIShowGroupName(Achievements, Money, Milestone, AboutUsage, Serialize)]
+    [SettingsUIGroupOrder(Achievements, Money, Milestone, SaveConversion, AboutInfo, AboutLinks, AboutUsage, Serialize)]
+    [SettingsUIShowGroupName(Achievements, Money, Milestone, SaveConversion, AboutUsage, Serialize)]
 #else
     [SettingsUITabOrder(General, KeyBindings, About)]
-    [SettingsUIGroupOrder(Achievements, Money, Milestone, AboutInfo, AboutLinks, AboutUsage)]
-    [SettingsUIShowGroupName(Achievements, Money, Milestone, AboutUsage)]
+    [SettingsUIGroupOrder(Achievements, Money, Milestone, SaveConversion, AboutInfo, AboutLinks, AboutUsage)]
+    [SettingsUIShowGroupName(Achievements, Money, Milestone, SaveConversion, AboutUsage)]
 #endif
     public partial class Setting : ModSetting
     {
@@ -43,6 +43,7 @@ namespace CityWatchdog.Settings
         internal const string Achievements = nameof(Achievements);
         internal const string Money = nameof(Money);
         internal const string Milestone = nameof(Milestone);
+        internal const string SaveConversion = nameof(SaveConversion);
         internal const string AboutInfo = nameof(AboutInfo);
         internal const string AboutLinks = nameof(AboutLinks);
         internal const string AboutUsage = nameof(AboutUsage);
@@ -62,7 +63,7 @@ namespace CityWatchdog.Settings
         [SettingsUISetter(typeof(Setting), nameof(OnAchievementsOptionChanged))]
         public bool AchievementsEnabled { get; set; }
 
-        [SettingsUISlider(min = 10000, max = 5000000, step = 50000, scalarMultiplier = 1, unit = Unit.kInteger)]
+        [SettingsUISlider(min = 20000, max = 2000000, step = 20000, scalarMultiplier = 1, unit = Unit.kInteger)]
         [SettingsUISection(General, Money)]
         public int ManualMoneyAmount { get; set; }
 
@@ -84,25 +85,6 @@ namespace CityWatchdog.Settings
         [SettingsUIDisableByCondition(typeof(Setting), nameof(IsInGame))]
         public int InitialMoney { get; set; }
 
-        [SettingsUIButton]
-        [SettingsUIConfirmation]
-        [SettingsUISection(General, Money)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(NotInGame))]
-        public bool MoneyTransfer
-        {
-            set
-            {
-                if (NotInGame)
-                {
-                    return;
-                }
-
-                World.DefaultGameObjectInjectionWorld?
-                    .GetOrCreateSystemManaged<MoneyControllerSystem>()?
-                    .SetUnlimitedMoneyToLimitedMoney();
-            }
-        }
-
         [SettingsUISection(General, Milestone)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(IsInGame))]
         public bool CustomMilestone { get; set; }
@@ -111,6 +93,27 @@ namespace CityWatchdog.Settings
         [SettingsUISection(General, Milestone)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(GetMilestoneLevelStatus))]
         public int MilestoneLevel { get; set; }
+
+        [SettingsUIButton]
+        [SettingsUIConfirmation]
+        [SettingsUISection(General, SaveConversion)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(CannotConvertUnlimitedMoneySave))]
+        public bool ConvertUnlimitedMoneySave
+        {
+            set
+            {
+                if (!value)
+                {
+                    return;
+                }
+
+                MoneyControllerSystem? moneyControllerSystem = GetMoneyControllerSystem();
+                if (moneyControllerSystem?.CanConvertUnlimitedMoneySave() == true)
+                {
+                    moneyControllerSystem.SetUnlimitedMoneyToLimitedMoney();
+                }
+            }
+        }
 
 #if DEBUG
         [SettingsUIKeyboardBinding(BindingKeyboard.T, "DebugAction", ctrl: true, shift: true)]
@@ -216,6 +219,17 @@ namespace CityWatchdog.Settings
         private bool HideUsageText()
         {
             return !ShowUsage;
+        }
+
+        private bool CannotConvertUnlimitedMoneySave()
+        {
+            return GetMoneyControllerSystem()?.CanConvertUnlimitedMoneySave() != true;
+        }
+
+        private static MoneyControllerSystem? GetMoneyControllerSystem()
+        {
+            return World.DefaultGameObjectInjectionWorld?
+                .GetExistingSystemManaged<MoneyControllerSystem>();
         }
 
         private static void TryOpenUrl(string url)

@@ -1,4 +1,3 @@
-import { Icon } from "cs2/ui";
 import { CSSProperties } from "react";
 import { Checkbox } from "../Checkbox/Checkbox";
 import styles from "./InfoCheckbox.module.scss";
@@ -17,7 +16,7 @@ export const InfoCheckbox = ({ image, label, count, isChecked, onToggle, classNa
     return (
         <div className={styles.subPanel + " " + (className ?? "")} style={{ ...style, opacity: isChecked ? 1 : 0.5 }} onClick={() => onToggle(!isChecked)}>
             <div className={styles.iconLabelSection}>
-                <Icon src={image} className={styles.icon} />
+                <img src={image} className={styles.icon} alt="" />
                 <span className={styles.label}>{label}</span>
             </div>
             <div className={styles.labelCheckboxSection}>

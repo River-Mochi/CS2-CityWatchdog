@@ -55,7 +55,7 @@ namespace CityWatchdog.Systems
 
         public void SetUnlimitedMoneyToLimitedMoney()
         {
-            if (citySystem == null || cityConfigurationSystem == null)
+            if (!CanConvertUnlimitedMoneySave())
             {
                 return;
             }
@@ -81,6 +81,30 @@ namespace CityWatchdog.Systems
             }
 
             LogUtils.Info(() => $"Set unlimited money to limited money completed, PlayerMoney.m_Unlimited: {playerMoney.m_Unlimited}, PlayerMoney.money: {playerMoney.money}, CityConfigurationSystem.unlimitedMoney: {cityConfigurationSystem.unlimitedMoney}, CityConfigurationSystem.overrideUnlimitedMoney: {cityConfigurationSystem.overrideUnlimitedMoney}");
+        }
+
+        public bool CanConvertUnlimitedMoneySave()
+        {
+            if (GameManager.instance == null ||
+                GameManager.instance.gameMode != GameMode.Game ||
+                citySystem == null ||
+                cityConfigurationSystem == null)
+            {
+                return false;
+            }
+
+            Entity city = citySystem.City;
+            if (city == Entity.Null ||
+                !EntityManager.Exists(city) ||
+                !EntityManager.HasComponent<PlayerMoney>(city))
+            {
+                return false;
+            }
+
+            PlayerMoney playerMoney = EntityManager.GetComponentData<PlayerMoney>(city);
+            return playerMoney.m_Unlimited ||
+                   cityConfigurationSystem.unlimitedMoney ||
+                   cityConfigurationSystem.overrideUnlimitedMoney;
         }
 
         public void OnSubtractMoney()

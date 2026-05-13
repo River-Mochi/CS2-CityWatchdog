@@ -38,6 +38,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "Achievements" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Money" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Milestone" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Save Conversion" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "USAGE" },
@@ -57,14 +58,18 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Automatic Add Money Amount" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Amount added each time Automatic Add Money triggers. Choose a value high enough to bring the city safely above the threshold." },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTransfer)), "Money Transfer" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTransfer)), "In a loaded city, converts an Unlimited Money save back to normal limited money mode. It does not add money and cannot be used from the main menu." },
-                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.MoneyTransfer)), "Are you sure you want to convert Unlimited Money to Limited Money? This operation is not reversible!" },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Custom Milestone" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)), "Enable this before loading or starting a city to unlock a chosen milestone immediately after the city loads. This is grayed out while already in-game." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Milestone" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)), "Pick the milestone level to unlock on the next city load. This is only editable outside a loaded city, and only after Custom Milestone is enabled." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Convert Unlimited Money Save" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
+                    "For cities started with Unlimited Money. While that city is loaded, this converts the save to normal limited-money budgeting so the city has regular money challenge again.\n" +
+                    "Button is <disabled/ greyed-out> unless the loaded city is an Unlimited Money type." },
+
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
+                    "Convert this city from Unlimited Money to normal limited money? Save a backup first; City Watchdog cannot undo this conversion." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Add Money" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Hotkey for adding money within the game." },
@@ -93,16 +98,16 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Show Instructions" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Show or hide the usage instructions below." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
-                    "Notification panel:\n" +
+                    "<Notification panel>\n" +
                     "1. In-game, click the City Watchdog top-left button to open the panel.\n" +
                     "2. Expand a section, then uncheck the notification icons you want to hide above buildings.\n" +
                     "3. Check an item again to show that notification icon again.\n" +
                     "4. City Watchdog hides or shows icons only; it does not fix the underlying city problem.\n\n" +
-                    "Money helpers:\n" +
+                    "<Money helpers>\n" +
                     "1. Add Money and Subtract Money use the Manual Money Amount value.\n" +
                     "2. Automatic Add Money watches your balance while a city is loaded and adds money below the threshold.\n" +
-                    "3. Money Transfer converts Unlimited Money saves back to normal limited money mode and is not reversible.\n\n" +
-                    "Custom milestone:\n" +
+                    "3. Convert Unlimited Money Save is only for loaded cities that were started with Unlimited Money and is not reversible by City Watchdog.\n\n" +
+                    "<Custom milestone>\n" +
                     "Set Initial Money and Custom Milestone from the main menu before loading or starting a city." },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
 

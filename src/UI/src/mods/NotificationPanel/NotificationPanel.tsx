@@ -3,6 +3,7 @@ import { game } from "cs2/bindings";
 import { useLocalization } from "cs2/l10n";
 import { getModule } from "cs2/modding";
 import { Button, Panel } from "cs2/ui";
+import { useEffect, useState } from "react";
 import {
     BuildingAbandonedCollapsedNotificationBinding$, BuildingAbandonedNotificationBinding$, BuildingCondemnedNotificationBinding$,
     BuildingHighRentNotificationBinding$,
@@ -91,7 +92,7 @@ import { VanillaComponentResolver } from "../VanillaComponentResolver/VanillaCom
 
 const modIconSrc = "coui://ui-mods/images/CityWatchdogIcon_colored.svg";
 const roundButtonHighlightStyle = getModule("game-ui/common/input/button/themes/round-highlight-button.module.scss", "classes");
-const icon = (name: string) => `coui://uil/Media/Game/Notifications/${name}.svg`;
+const icon = (name: string) => `Media/Game/Notifications/${name}.svg`;
 
 type Localize = (localeId: string) => string;
 
@@ -285,6 +286,9 @@ const NotificationPanelContent = () => {
 };
 
 const NotificationSectionView = ({ section, localize, showDivider }: { section: NotificationSection; localize: Localize; showDivider: boolean }) => {
+    const values = useSectionValues(section);
+    const selectedCount = values.filter(Boolean).length;
+
     return (
         <>
             {showDivider && <Divider></Divider>}
@@ -292,18 +296,47 @@ const NotificationSectionView = ({ section, localize, showDivider }: { section: 
                 title={localize(section.localeId)}
                 collapsible={true}
                 defaultExpanded={section.defaultExpanded === true}
-                summary={section.items.length.toString()}
-                renderChildren={() => section.items.map((item) => (
-                    <NotificationRow key={item.localeId} item={item} localize={localize} />
+                summary={`${selectedCount}/${section.items.length}`}
+                renderChildren={() => section.items.map((item, itemIndex) => (
+                    <NotificationRow
+                        key={item.localeId}
+                        item={item}
+                        isChecked={values[itemIndex] ?? false}
+                        localize={localize}
+                    />
                 ))}
             />
         </>
     );
 };
 
-const NotificationRow = ({ item, localize }: { item: NotificationItem; localize: Localize }) => {
-    const isChecked = useValue(item.binding);
+const useSectionValues = (section: NotificationSection) => {
+    const [values, setValues] = useState(() => section.items.map((item) => item.binding.value));
 
+    useEffect(() => {
+        setValues(section.items.map((item) => item.binding.value));
+
+        const subscriptions = section.items.map((item, itemIndex) => item.binding.subscribe((value) => {
+            setValues((currentValues) => {
+                if (currentValues[itemIndex] === value) {
+                    return currentValues;
+                }
+
+                const nextValues = currentValues.slice();
+                nextValues[itemIndex] = value;
+                return nextValues;
+            });
+        }));
+
+        return () => {
+            subscriptions.forEach((subscription) => subscription.dispose());
+        };
+    }, [section]);
+
+    return values;
+};
+
+const NotificationRow = ({ item, isChecked, localize }: { item: NotificationItem; isChecked: boolean; localize: Localize }) => {
     return (
         <InfoCheckbox
             image={item.icon}
