@@ -1,5 +1,5 @@
 // File: src/Systems/AchievementsEnablerSystem.cs
-// Purpose: Contains a City Watchdog gameplay or UI system.
+// Purpose: Applies the City Watchdog achievements setting when a game is loaded.
 
 namespace CityWatchdog.Systems
 {
@@ -9,24 +9,30 @@ namespace CityWatchdog.Systems
     using CS2Shared.Common;
     using Game;
 
-    public partial class AchievementsControllerSystem : GameSystemBaseExtension {
-        protected override void OnGamePreload(Purpose purpose, GameMode mode) {
+    public partial class AchievementsControllerSystem : GameSystemBaseExtension
+    {
+        protected override void OnGamePreload(Purpose purpose, GameMode mode)
+        {
             base.OnGamePreload(purpose, mode);
             LogUtils.Info(Mod.s_Log, () => $"AchievementsControllerSystem OnGamePreload, game mode: {mode}, game/mod achievements status: {PlatformManager.instance.achievementsEnabled} {Setting.Instance.AchievementsEnabled} ");
         }
 
-        protected override void OnGameLoaded(Context serializationContext) {
+        protected override void OnGameLoaded(Context serializationContext)
+        {
             base.OnGameLoaded(serializationContext);
             LogUtils.Info(Mod.s_Log, () => $"AchievementsControllerSystem OnGameLoaded, game/mod achievements status: {PlatformManager.instance.achievementsEnabled} {Setting.Instance.AchievementsEnabled} ");
             SetAchievements(Setting.Instance.AchievementsEnabled);
         }
 
-        public void SetAchievements(bool enabled) {
+        public void SetAchievements(bool enabled)
+        {
             if (PlatformManager.instance.achievementsEnabled == enabled)
+            {
                 return;
+            }
+
             PlatformManager.instance.achievementsEnabled = enabled;
             LogUtils.Info(Mod.s_Log, () => $"Set achievements: {enabled}");
         }
     }
-
 }

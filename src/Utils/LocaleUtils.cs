@@ -1,5 +1,5 @@
 // File: src/Utils/LocaleUtils.cs
-// Purpose: Provides safe localization lookup and formatting helpers for Options UI strings.
+// Purpose: Provides safe localization lookup and formatting helpers for City Watchdog UI text.
 
 namespace CityWatchdog
 {
@@ -8,9 +8,9 @@ namespace CityWatchdog
     using System;
     using System.Globalization;
 
-    public static class LocaleUtils
+    internal static class LocaleUtils
     {
-        public static string Localize(string entryId, string fallback)
+        internal static string Localize(string entryId, string fallback)
         {
             if (string.IsNullOrEmpty(entryId))
             {
@@ -20,8 +20,10 @@ namespace CityWatchdog
             try
             {
                 // During early load the active dictionary may be unavailable; fallback keeps UI safe.
-                LocalizationDictionary? dict = GameManager.instance.localizationManager.activeDictionary;
-                if (dict != null && dict.TryGetValue(entryId, out string value) && !string.IsNullOrEmpty(value))
+                LocalizationDictionary? dictionary = GameManager.instance.localizationManager.activeDictionary;
+                if (dictionary != null &&
+                    dictionary.TryGetValue(entryId, out string value) &&
+                    !string.IsNullOrEmpty(value))
                 {
                     return value;
                 }
@@ -33,7 +35,7 @@ namespace CityWatchdog
             return fallback;
         }
 
-        public static string SafeFormat(string entryId, string fallbackFormat, params object[] args)
+        internal static string SafeFormat(string entryId, string fallbackFormat, params object[] args)
         {
             string format = Localize(entryId, fallbackFormat);
 
@@ -59,9 +61,8 @@ namespace CityWatchdog
             }
         }
 
-        public static string FormatN0(long value)
+        internal static string FormatN0(long value)
         {
-            // Shared number formatting keeps UI rows and log reports visually consistent.
             return value.ToString("N0", CultureInfo.CurrentCulture);
         }
     }

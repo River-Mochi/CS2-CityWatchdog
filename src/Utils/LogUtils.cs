@@ -1,6 +1,5 @@
 // File: src/Utils/LogUtils.cs
-// Version: 0.5.2
-// Purpose: Popup-safe logging helpers for City Watchdog.
+// Purpose: Provides popup-safe direct-file logging helpers for City Watchdog.
 
 namespace CityWatchdog
 {
@@ -20,6 +19,22 @@ namespace CityWatchdog
 
         private const int MaxWarnOnceKeys = 2048;
 
+        private static string s_FallbackLogName = Mod.ModId;
+
+        public static void Configure(string fallbackLogName)
+        {
+            if (string.IsNullOrWhiteSpace(fallbackLogName))
+            {
+                return;
+            }
+
+            string cleaned = Path.GetFileNameWithoutExtension(fallbackLogName.Trim());
+            if (!string.IsNullOrWhiteSpace(cleaned))
+            {
+                s_FallbackLogName = cleaned;
+            }
+        }
+
         public static bool WarnOnce(ILog log, string key, Func<string> messageFactory, Exception? exception = null)
         {
             if (log == null || string.IsNullOrEmpty(key) || messageFactory == null)
@@ -32,7 +47,8 @@ namespace CityWatchdog
                 return false;
             }
 
-            string fullKey = GetLogName(log) + "|" + key;
+            string logName = GetLogName(log);
+            string fullKey = string.IsNullOrEmpty(logName) ? key : logName + "|" + key;
 
             lock (s_WarnOnceLock)
             {
@@ -64,6 +80,11 @@ namespace CityWatchdog
         public static void Debug(ILog log, Func<string> messageFactory)
         {
             TryLog(log, Level.Debug, messageFactory);
+        }
+
+        public static void Error(ILog log, Func<string> messageFactory, Exception? exception = null)
+        {
+            TryLog(log, Level.Error, messageFactory, exception);
         }
 
         public static void TryLog(ILog log, Level level, Func<string> messageFactory, Exception? exception = null)
@@ -122,10 +143,12 @@ namespace CityWatchdog
 
             lock (s_FileWriteLock)
             {
-                string? dir = Path.GetDirectoryName(logPath);
-                if (!string.IsNullOrEmpty(dir))
+                // Direct append keeps routine mod diagnostics out of Colossal's UI-log path.
+                // ShareReadWrite keeps the file readable while the game is running.
+                string? directory = Path.GetDirectoryName(logPath);
+                if (!string.IsNullOrEmpty(directory))
                 {
-                    Directory.CreateDirectory(dir);
+                    Directory.CreateDirectory(directory);
                 }
 
                 using FileStream stream = new FileStream(
@@ -133,6 +156,7 @@ namespace CityWatchdog
                     FileMode.Append,
                     FileAccess.Write,
                     FileShare.ReadWrite);
+
                 using StreamWriter writer = new StreamWriter(stream);
 
                 writer.Write('[');
@@ -159,16 +183,21 @@ namespace CityWatchdog
                 }
 
                 string logName = GetLogName(log);
-                if (string.IsNullOrEmpty(logName))
+                if (!string.IsNullOrEmpty(logName))
+                {
+                    return Path.Combine(LogManager.kDefaultLogPath, logName + ".log");
+                }
+
+                return string.Empty;
+            }
+            catch
+            {
+                if (string.IsNullOrEmpty(s_FallbackLogName))
                 {
                     return string.Empty;
                 }
 
-                return Path.Combine(LogManager.kDefaultLogPath, logName + ".log");
-            }
-            catch
-            {
-                return Path.Combine(LogManager.kDefaultLogPath, Mod.ModId + ".log");
+                return Path.Combine(LogManager.kDefaultLogPath, s_FallbackLogName + ".log");
             }
         }
 
@@ -176,11 +205,16 @@ namespace CityWatchdog
         {
             try
             {
-                return string.IsNullOrEmpty(log.name) ? Mod.ModId : log.name;
+                if (!string.IsNullOrEmpty(log.name))
+                {
+                    return log.name;
+                }
+
+                return s_FallbackLogName;
             }
             catch
             {
-                return Mod.ModId;
+                return s_FallbackLogName;
             }
         }
 

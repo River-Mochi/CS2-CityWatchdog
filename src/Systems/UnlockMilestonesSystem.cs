@@ -1,5 +1,5 @@
 // File: src/Systems/UnlockMilestonesSystem.cs
-// Purpose: Contains a City Watchdog gameplay or UI system.
+// Purpose: Applies the custom milestone setting to new or loaded cities.
 
 namespace CityWatchdog.Systems
 {
@@ -14,65 +14,106 @@ namespace CityWatchdog.Systems
     using Unity.Entities;
     using Unity.Mathematics;
 
-    public partial class UnlockMilestonesSystem : GameSystemBaseExtension {
+    public partial class UnlockMilestonesSystem : GameSystemBaseExtension
+    {
         private EntityArchetype unlockEventArchetype;
         private EntityQuery milestoneLevelGroup;
         private EntityQuery milestoneGroup;
-        private CitySystem citySystem;
+        private CitySystem citySystem = null!;
 
-        protected override void OnCreate() {
+        protected override void OnCreate()
+        {
             base.OnCreate();
+
             citySystem = World.GetOrCreateSystemManaged<CitySystem>();
-            unlockEventArchetype = EntityManager.CreateArchetype(new ComponentType[] {
+
+            unlockEventArchetype = EntityManager.CreateArchetype(new ComponentType[]
+            {
                 ComponentType.ReadWrite<Event>(),
                 ComponentType.ReadWrite<Unlock>()
             });
-            milestoneLevelGroup = GetEntityQuery(new ComponentType[] { ComponentType.ReadWrite<MilestoneLevel>() });
-            milestoneGroup = GetEntityQuery(new ComponentType[] { ComponentType.ReadOnly<MilestoneData>() });
+
+            milestoneLevelGroup = GetEntityQuery(new ComponentType[]
+            {
+                ComponentType.ReadWrite<MilestoneLevel>()
+            });
+
+            milestoneGroup = GetEntityQuery(new ComponentType[]
+            {
+                ComponentType.ReadOnly<MilestoneData>()
+            });
+
             RequireForUpdate(milestoneLevelGroup);
             RequireForUpdate(milestoneGroup);
         }
 
-
-        protected override void OnGameLoaded(Context serializationContext) {
+        protected override void OnGameLoaded(Context serializationContext)
+        {
             base.OnGameLoaded(serializationContext);
+
             if (InGame)
+            {
                 UnlockMilestone();
+            }
         }
 
-        private void UnlockMilestone() {
+        private void UnlockMilestone()
+        {
             if (!Setting.Instance.CustomMilestone)
+            {
                 return;
-            NativeArray<Entity> nativeArray = milestoneGroup.ToEntityArray(Allocator.TempJob);
-            NativeArray<MilestoneData> nativeArray2 = milestoneGroup.ToComponentDataArray<MilestoneData>(Allocator.TempJob);
-            MilestoneLevel singleton = milestoneLevelGroup.GetSingleton<MilestoneLevel>();
-            PlayerMoney componentData = EntityManager.GetComponentData<PlayerMoney>(citySystem.City);
-            Creditworthiness componentData2 = EntityManager.GetComponentData<Creditworthiness>(citySystem.City);
-            DevTreePoints componentData3 = EntityManager.GetComponentData<DevTreePoints>(citySystem.City);
-            XP componentData4 = EntityManager.GetComponentData<XP>(citySystem.City);
-            try {
-                for (int i = singleton.m_AchievedMilestone; i < Setting.Instance.MilestoneLevel + 1; i++) {
+            }
+
+            NativeArray<Entity> milestoneEntities = milestoneGroup.ToEntityArray(Allocator.TempJob);
+            NativeArray<MilestoneData> milestoneData = milestoneGroup.ToComponentDataArray<MilestoneData>(Allocator.TempJob);
+
+            try
+            {
+                MilestoneLevel milestoneLevel = milestoneLevelGroup.GetSingleton<MilestoneLevel>();
+                int targetMilestone = math.min(Setting.Instance.MilestoneLevel + 1, milestoneEntities.Length);
+
+                if (milestoneLevel.m_AchievedMilestone >= targetMilestone)
+                {
+                    return;
+                }
+
+                PlayerMoney playerMoney = EntityManager.GetComponentData<PlayerMoney>(citySystem.City);
+                Creditworthiness creditworthiness = EntityManager.GetComponentData<Creditworthiness>(citySystem.City);
+                DevTreePoints devTreePoints = EntityManager.GetComponentData<DevTreePoints>(citySystem.City);
+                XP xp = EntityManager.GetComponentData<XP>(citySystem.City);
+
+                for (int i = milestoneLevel.m_AchievedMilestone; i < targetMilestone; i++)
+                {
                     Entity entity = EntityManager.CreateEntity(unlockEventArchetype);
-                    EntityManager.SetComponentData(entity, new Unlock(nativeArray[i]));
-                    singleton.m_AchievedMilestone = math.max(singleton.m_AchievedMilestone, nativeArray2[i].m_Index);
-                    componentData.Add(nativeArray2[i].m_Reward);
-                    componentData2.m_Amount += nativeArray2[i].m_LoanLimit;
-                    componentData3.m_Points += nativeArray2[i].m_DevTreePoints;
-                    componentData4.m_XP = nativeArray2[i].m_XpRequried;
+                    EntityManager.SetComponentData(entity, new Unlock(milestoneEntities[i]));
+
+                    milestoneLevel.m_AchievedMilestone = math.max(milestoneLevel.m_AchievedMilestone, milestoneData[i].m_Index);
+                    playerMoney.Add(milestoneData[i].m_Reward);
+                    creditworthiness.m_Amount += milestoneData[i].m_LoanLimit;
+                    devTreePoints.m_Points += milestoneData[i].m_DevTreePoints;
+                    xp.m_XP = milestoneData[i].m_XpRequried;
+                }
+
+                milestoneLevelGroup.SetSingleton(milestoneLevel);
+                EntityManager.SetComponentData(citySystem.City, playerMoney);
+                EntityManager.SetComponentData(citySystem.City, creditworthiness);
+                EntityManager.SetComponentData(citySystem.City, devTreePoints);
+                EntityManager.SetComponentData(citySystem.City, xp);
+
+                LogUtils.Info(Mod.s_Log, () => $"Unlock level {Setting.Instance.MilestoneLevel + 1} Milestone");
+            }
+            finally
+            {
+                if (milestoneEntities.IsCreated)
+                {
+                    milestoneEntities.Dispose();
+                }
+
+                if (milestoneData.IsCreated)
+                {
+                    milestoneData.Dispose();
                 }
             }
-            finally {
-                nativeArray.Dispose();
-                nativeArray2.Dispose();
-            }
-            milestoneLevelGroup.SetSingleton(singleton);
-            EntityManager.SetComponentData(citySystem.City, componentData);
-            EntityManager.SetComponentData(citySystem.City, componentData2);
-            EntityManager.SetComponentData(citySystem.City, componentData3);
-            EntityManager.SetComponentData(citySystem.City, componentData4);
-            LogUtils.Info(Mod.s_Log, () => $"Unlock level {Setting.Instance.MilestoneLevel + 1} Milestone");
         }
-
     }
-
 }

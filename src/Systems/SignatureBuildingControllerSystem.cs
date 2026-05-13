@@ -1,5 +1,5 @@
 // File: src/Systems/SignatureBuildingControllerSystem.cs
-// Purpose: Contains a City Watchdog gameplay or UI system.
+// Purpose: Clears the unique-placement flag from signature building placeable data after load.
 
 namespace CityWatchdog.Systems
 {
@@ -10,27 +10,45 @@ namespace CityWatchdog.Systems
     using Unity.Collections;
     using Unity.Entities;
 
-    public partial class SignatureBuildingControllerSystem : GameSystemBaseExtension {
+    public partial class SignatureBuildingControllerSystem : GameSystemBaseExtension
+    {
         private EntityQuery signatureBuildingGroup;
-        protected override void OnCreate() {
+
+        protected override void OnCreate()
+        {
             base.OnCreate();
-            signatureBuildingGroup = GetEntityQuery(new ComponentType[]{
-                ComponentType.ReadWrite<SignatureBuildingData>()
+
+            signatureBuildingGroup = GetEntityQuery(new ComponentType[]
+            {
+                ComponentType.ReadOnly<SignatureBuildingData>(),
+                ComponentType.ReadWrite<PlaceableObjectData>()
             });
+
             RequireForUpdate(signatureBuildingGroup);
         }
 
-        protected override void OnGameLoaded(Context serializationContext) {
+        protected override void OnGameLoaded(Context serializationContext)
+        {
             base.OnGameLoaded(serializationContext);
-            var t = signatureBuildingGroup.ToEntityArray(Allocator.TempJob);
-            for (int i = 0; i < t.Length; i++) {
-                var ts = EntityManager.GetComponentData<PlaceableObjectData>(t[i]);
-                ts.m_Flags ^= PlacementFlags.Unique;
-                EntityManager.SetComponentData<PlaceableObjectData>(t[i], ts);
-                LogUtils.Info(Mod.s_Log, () => ts.m_Flags.ToString());
+
+            NativeArray<Entity> signatureBuildings = signatureBuildingGroup.ToEntityArray(Allocator.TempJob);
+            try
+            {
+                for (int i = 0; i < signatureBuildings.Length; i++)
+                {
+                    PlaceableObjectData placeableObjectData = EntityManager.GetComponentData<PlaceableObjectData>(signatureBuildings[i]);
+                    placeableObjectData.m_Flags ^= PlacementFlags.Unique;
+                    EntityManager.SetComponentData(signatureBuildings[i], placeableObjectData);
+                    LogUtils.Info(Mod.s_Log, () => placeableObjectData.m_Flags.ToString());
+                }
+            }
+            finally
+            {
+                if (signatureBuildings.IsCreated)
+                {
+                    signatureBuildings.Dispose();
+                }
             }
         }
-
     }
-
 }
