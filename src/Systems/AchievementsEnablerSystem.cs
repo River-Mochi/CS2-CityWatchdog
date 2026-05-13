@@ -14,7 +14,7 @@ namespace CityWatchdog.Systems
         protected override void OnGamePreload(Purpose purpose, GameMode mode)
         {
             base.OnGamePreload(purpose, mode);
-            LogUtils.Info(Mod.s_Log, () => $"AchievementsControllerSystem OnGamePreload, game mode: {mode}, game/mod achievements status: {PlatformManager.instance.achievementsEnabled} {Setting.Instance.AchievementsEnabled} ");
+            LogUtils.Info(Mod.s_Log () => $"AchievementsControllerSystem OnGamePreload, game mode: {mode}, game/mod achievements status: {PlatformManager.instance.achievementsEnabled} {Setting.Instance.AchievementsEnabled} ");
         }
 
         protected override void OnGameLoaded(Context serializationContext)
