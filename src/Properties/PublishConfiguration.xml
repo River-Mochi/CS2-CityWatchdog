@@ -47,7 +47,7 @@ Use it as a work-in-progress utility mod while the takeover cleanup continues.
 ### Support and feedback
 
 Feedback is welcome through GitHub or Discord.
-	</LongDescription>
+</LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail.png" />
 	<!--Screenshot, can be set multiple times-->
@@ -70,7 +70,7 @@ Feedback is welcome through GitHub or Discord.
 - Convert C# 10 file-scoped namespaces to C# 9-compatible block namespaces.
 - Restore full PublishConfiguration.xml structure.
 - Begin cleanup of old shared-code dependency and generated files.
-	</ChangeLog>
+</ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
 	<ExternalLink Type="github" Url="https://github.com/River-Mochi/CityWatchdog" />
 	<ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
