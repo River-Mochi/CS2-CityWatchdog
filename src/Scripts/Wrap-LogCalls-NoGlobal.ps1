@@ -1,24 +1,15 @@
-# File: src/Scripts/Wrap-LogCalls.ps1
+# File: src/Scripts/Wrap-LogCalls-NoGlobal.ps1
 # Purpose: Find and safely rewrite simple one-line logger calls to CityWatchdog LogUtils wrappers.
 
 [CmdletBinding()]
 param(
-    [switch]$Apply,
-    [switch]$IncludeDebugConsole
+    [switch]$Apply
 )
 
 $ErrorActionPreference = "Stop"
 
-$repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
-$repoRoot = $repoRoot.Path
-
-$scanRoots = @(
-    (Join-Path $repoRoot ".")
-)
-
-if ($IncludeDebugConsole) {
-    $scanRoots += (Join-Path $repoRoot "..\DebugConsole")
-}
+$srcRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
+$srcRoot = $srcRoot.Path
 
 $excludePathParts = @(
     "\bin\",
@@ -56,31 +47,26 @@ function Convert-LoggerLine {
         }
     }
 
-    # Skip obvious format/error APIs. These need manual review because parameter shapes differ.
     if ($Line -match "\.(InfoFormat|WarnFormat|Error|ErrorFormat|Trace|Verbose)\(") {
-        if ($Line -match "\.(InfoFormat|WarnFormat|Error|ErrorFormat|Trace|Verbose)\(") {
-            return [pscustomobject]@{
-                Changed = $false
-                NewLine = $Line
-                Report = "$Path:$LineNumber MANUAL: $($Line.Trim())"
-            }
+        return [pscustomobject]@{
+            Changed = $false
+            NewLine = $Line
+            Report = "${Path}:${LineNumber} MANUAL: $($Line.Trim())"
         }
     }
 
-    # Only rewrite one-line calls ending with a semicolon.
-    # Avoid multiline lambdas, comments, and statements with extra chained calls.
     $patterns = @(
         @{
             Regex = '^(?<indent>\s*)Logger\.(?<level>Info|Warn|Debug)\((?<arg>.+)\);\s*$'
-            Target = 'global::CityWatchdog.LogUtils.{0}(global::CityWatchdog.Mod.s_Log, () => {1});'
+            Target = 'LogUtils.{0}(Mod.s_Log, () => {1});'
         },
         @{
             Regex = '^(?<indent>\s*)Mod\.s_Log\.(?<level>Info|Warn|Debug)\((?<arg>.+)\);\s*$'
-            Target = 'global::CityWatchdog.LogUtils.{0}(global::CityWatchdog.Mod.s_Log, () => {1});'
+            Target = 'LogUtils.{0}(Mod.s_Log, () => {1});'
         },
         @{
             Regex = '^(?<indent>\s*)s_Log\.(?<level>Info|Warn|Debug)\((?<arg>.+)\);\s*$'
-            Target = 'global::CityWatchdog.LogUtils.{0}(global::CityWatchdog.Mod.s_Log, () => {1});'
+            Target = 'LogUtils.{0}(Mod.s_Log, () => {1});'
         }
     )
 
@@ -92,12 +78,11 @@ function Convert-LoggerLine {
 
         $arg = $match.Groups["arg"].Value.Trim()
 
-        # Keep risky calls manual: comma usually means multiple args or format call.
         if ($arg.Contains(",")) {
             return [pscustomobject]@{
                 Changed = $false
                 NewLine = $Line
-                Report = "$Path:$LineNumber MANUAL comma args: $($Line.Trim())"
+                Report = "${Path}:${LineNumber} MANUAL comma args: $($Line.Trim())"
             }
         }
 
@@ -108,7 +93,7 @@ function Convert-LoggerLine {
         return [pscustomobject]@{
             Changed = $true
             NewLine = $replacement
-            Report = "$Path:$LineNumber AUTO $level: $($Line.Trim())"
+            Report = "${Path}:${LineNumber} AUTO $level: $($Line.Trim())"
         }
     }
 
@@ -116,7 +101,7 @@ function Convert-LoggerLine {
         return [pscustomobject]@{
             Changed = $false
             NewLine = $Line
-            Report = "$Path:$LineNumber MANUAL complex: $($Line.Trim())"
+            Report = "${Path}:${LineNumber} MANUAL complex: $($Line.Trim())"
         }
     }
 
@@ -127,12 +112,8 @@ function Convert-LoggerLine {
     }
 }
 
-$files = foreach ($root in $scanRoots) {
-    if (Test-Path $root) {
-        Get-ChildItem -Path $root -Recurse -File -Filter "*.cs" |
-            Where-Object { -not (Test-ExcludedPath $_.FullName) }
-    }
-}
+$files = Get-ChildItem -Path $srcRoot -Recurse -File -Filter "*.cs" |
+    Where-Object { -not (Test-ExcludedPath $_.FullName) }
 
 $reports = New-Object System.Collections.Generic.List[string]
 $changedFiles = New-Object System.Collections.Generic.List[string]
@@ -171,7 +152,7 @@ foreach ($file in $files) {
     }
 }
 
-$reportPath = Join-Path $repoRoot "LogWrapReport.txt"
+$reportPath = Join-Path $srcRoot "LogWrapReport.txt"
 $reports | Set-Content -Path $reportPath -Encoding UTF8
 
 Write-Host ""
@@ -181,7 +162,7 @@ Write-Host "Auto-change candidates: $($changedFiles.Count) file(s)."
 Write-Host ""
 
 if ($Apply) {
-    Write-Host "Applied simple one-line replacements."
+    Write-Host "Applied simple one-line replacements without global:: prefixes."
     Write-Host "Backup files created beside changed files with .logwrap.bak suffix."
 }
 else {
