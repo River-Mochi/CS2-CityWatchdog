@@ -45,7 +45,7 @@ namespace CityWatchdog.Systems
         public void SetUnlimitedMoneyToLimitedMoney() {
             if (citySystem is null || cityConfigurationSystem is null)
                 return;
-            LogUtils.Info(Mod.s_Log, () => $"Starting set unlimited money to limited money to limited money, PlayerMoney.m_Unlimited: {EntityManager.GetComponentData<PlayerMoney>(citySystem.City).m_Unlimited}, PlayerMoney.money: {EntityManager.GetComponentData<PlayerMoney>(citySystem.City).money}, CityConfigurationSystem.unlimitedMoney: {cityConfigurationSystem.unlimitedMoney}, CityConfigurationSystem.overrideUnlimitedMoney: {cityConfigurationSystem.overrideUnlimitedMoney}");
+            Logger.Info($"Starting set unlimited money to limited money to limited money, PlayerMoney.m_Unlimited: {EntityManager.GetComponentData<PlayerMoney>(citySystem.City).m_Unlimited}, PlayerMoney.money: {EntityManager.GetComponentData<PlayerMoney>(citySystem.City).money}, CityConfigurationSystem.unlimitedMoney: {cityConfigurationSystem.unlimitedMoney}, CityConfigurationSystem.overrideUnlimitedMoney: {cityConfigurationSystem.overrideUnlimitedMoney}");
             cityConfigurationSystem.unlimitedMoney = false;
             cityConfigurationSystem.overrideUnlimitedMoney = false;
             var componentData = EntityManager.GetComponentData<PlayerMoney>(citySystem.City);
@@ -56,7 +56,7 @@ namespace CityWatchdog.Systems
                 LogUtils.Info(Mod.s_Log, () => "m_LoadedUnlimitedMoney is null");
             else
                 field.SetValue(cityConfigurationSystem, false);
-            LogUtils.Info(Mod.s_Log, () => $"Set unlimited money to limited money to limited money completed, PlayerMoney.m_Unlimited: {componentData.m_Unlimited}, PlayerMoney.money: {componentData.money}, CityConfigurationSystem.unlimitedMoney: {cityConfigurationSystem.unlimitedMoney}, CityConfigurationSystem.overrideUnlimitedMoney: {cityConfigurationSystem.overrideUnlimitedMoney}");
+            Logger.Info($"Set unlimited money to limited money to limited money completed, PlayerMoney.m_Unlimited: {componentData.m_Unlimited}, PlayerMoney.money: {componentData.money}, CityConfigurationSystem.unlimitedMoney: {cityConfigurationSystem.unlimitedMoney}, CityConfigurationSystem.overrideUnlimitedMoney: {cityConfigurationSystem.overrideUnlimitedMoney}");
         }
 
         public void OnSubtractMoney() => ModifyMoney(ModifyMoneyType.ManualSubtract, Setting.Instance.ManualMoneyAmount);
@@ -91,11 +91,11 @@ namespace CityWatchdog.Systems
                 var componentData = EntityManager.GetComponentData<PlayerMoney>(citySystem.City);
                 if (!componentData.m_Unlimited) {
                     var raw = componentData.money;
-                    LogUtils.Info(Mod.s_Log, () => $"Setting initial money, default money: {raw}");
+                    Logger.Info($"Setting initial money, default money: {raw}");
                     ModifyMoney(ModifyMoneyType.AutoSubtract, raw);
                     ModifyMoney(ModifyMoneyType.AutoAdd, Setting.Instance.InitialMoney);
                     Setting.Instance.ResetInitialMoney();
-                    LogUtils.Info(Mod.s_Log, () => $"Set initial money completed, money: {componentData.money}");
+                    Logger.Info($"Set initial money completed, money: {componentData.money}");
                 }
             }
         }
@@ -114,7 +114,7 @@ namespace CityWatchdog.Systems
             if (Setting.Instance.AutomaticAddMoney && InGame) {
                 PlayerMoney componentData = EntityManager.GetComponentData<PlayerMoney>(citySystem.City);
                 if (componentData.money < Setting.Instance.AutomaticAddMoneyThreshold) {
-                    LogUtils.Info(Mod.s_Log, () => $"{componentData.money} < {Setting.Instance.AutomaticAddMoneyThreshold}, automatically add money");
+                    Logger.Info($"{componentData.money} < {Setting.Instance.AutomaticAddMoneyThreshold}, automatically add money");
                     ModifyMoney(ModifyMoneyType.AutoAdd, Setting.Instance.AutomaticAddMoneyAmount);
                 }
             }

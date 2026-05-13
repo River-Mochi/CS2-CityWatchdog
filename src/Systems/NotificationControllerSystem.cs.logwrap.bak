@@ -138,21 +138,21 @@ namespace CityWatchdog.Systems
             nativeArray.Dispose();
             if (EntityDictionary.Any()) {
                 foreach (var item in EntityDictionary) {
-                    LogUtils.Info(Mod.s_Log, () => $"{prefabSystem.GetPrefab<NotificationIconPrefab>(item.Key).name} | {item.Value}");
+                    Logger.Info($"{prefabSystem.GetPrefab<NotificationIconPrefab>(item.Key).name} | {item.Value}");
                     //EnableNotification(item.Key, Act);
                 }
             }
         }
 
         public void DebugNotificationIconPrefab() {
-            LogUtils.Info(Mod.s_Log, () => $"Debug NotificationIconPrefab");
+            Logger.Info($"Debug NotificationIconPrefab");
             var entityArray = notificationIconDisplayDataQuery.ToEntityArray(Allocator.TempJob);
             foreach (var item in entityArray) {
-                LogUtils.Info(Mod.s_Log, () => $"{prefabSystem.GetPrefab<NotificationIconPrefab>(item).name}");
+                Logger.Info($"{prefabSystem.GetPrefab<NotificationIconPrefab>(item).name}");
             }
 
             entityArray.Dispose();
-            LogUtils.Info(Mod.s_Log, () => $"Debug NotificationIconPrefab completed");
+            Logger.Info($"Debug NotificationIconPrefab completed");
         }
 
         public void EnableNotification(Entity entity, bool enabled) {
@@ -593,7 +593,7 @@ namespace CityWatchdog.Systems
             //LogRouteNotificationPrefabName,
             //LogTransportLineNotificationSvgSources,
             //LogTransportLineNotificationPrefabName,
-        }.ForEach(action => LogUtils.Info(Mod.s_Log, action));
+        }.ForEach(action => Logger.Info(action()));
 
         private List<NotificationIconPrefab> GetTransportLineNotificationPrefab() {
             List<NotificationIconPrefab> result = new();

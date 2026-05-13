@@ -593,7 +593,7 @@ namespace CityWatchdog.Systems
             //LogRouteNotificationPrefabName,
             //LogTransportLineNotificationSvgSources,
             //LogTransportLineNotificationPrefabName,
-        }.ForEach(action => LogUtils.Info(Mod.s_Log, action));
+        }.ForEach(action => Logger.Info(action()));
 
         private List<NotificationIconPrefab> GetTransportLineNotificationPrefab() {
             List<NotificationIconPrefab> result = new();

@@ -70,7 +70,7 @@ namespace CityWatchdog.Systems
             EntityManager.SetComponentData(citySystem.City, componentData2);
             EntityManager.SetComponentData(citySystem.City, componentData3);
             EntityManager.SetComponentData(citySystem.City, componentData4);
-            LogUtils.Info(Mod.s_Log, () => $"Unlock level {Setting.Instance.MilestoneLevel + 1} Milestone");
+            Logger.Info($"Unlock level {Setting.Instance.MilestoneLevel + 1} Milestone");
         }
 
     }

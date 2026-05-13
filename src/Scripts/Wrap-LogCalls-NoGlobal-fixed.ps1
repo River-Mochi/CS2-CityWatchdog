@@ -93,7 +93,7 @@ function Convert-LoggerLine {
         return [pscustomobject]@{
             Changed = $true
             NewLine = $replacement
-            Report = "${Path}:${LineNumber} AUTO $level: $($Line.Trim())"
+            Report = "${Path}:${LineNumber} AUTO ${level}: $($Line.Trim())"
         }
     }
 

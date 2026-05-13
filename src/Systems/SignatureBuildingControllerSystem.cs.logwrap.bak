@@ -27,7 +27,7 @@ namespace CityWatchdog.Systems
                 var ts = EntityManager.GetComponentData<PlaceableObjectData>(t[i]);
                 ts.m_Flags ^= PlacementFlags.Unique;
                 EntityManager.SetComponentData<PlaceableObjectData>(t[i], ts);
-                LogUtils.Info(Mod.s_Log, () => ts.m_Flags.ToString());
+                Logger.Info(ts.m_Flags.ToString());
             }
         }
 
