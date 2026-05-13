@@ -18,6 +18,22 @@ namespace CityWatchdog
 
         private const int MaxWarnOnceKeys = 2048;
 
+        private static string s_FallbackLogName = Mod.ModId;
+
+        public static void Configure(string fallbackLogName)
+        {
+            if (string.IsNullOrWhiteSpace(fallbackLogName))
+            {
+                return;
+            }
+
+            string cleaned = Path.GetFileNameWithoutExtension(fallbackLogName.Trim());
+            if (!string.IsNullOrWhiteSpace(cleaned))
+            {
+                s_FallbackLogName = cleaned;
+            }
+        }
+
         public static bool WarnOnce(string key, Func<string> messageFactory, Exception exception = null)
         {
             return WarnOnce(Mod.s_Log, key, messageFactory, exception);
@@ -193,11 +209,11 @@ namespace CityWatchdog
                     return Path.Combine(LogManager.kDefaultLogPath, logName + ".log");
                 }
 
-                return Path.Combine(LogManager.kDefaultLogPath, Mod.ModId + ".log");
+                return Path.Combine(LogManager.kDefaultLogPath, s_FallbackLogName + ".log");
             }
             catch
             {
-                return Path.Combine(LogManager.kDefaultLogPath, Mod.ModId + ".log");
+                return Path.Combine(LogManager.kDefaultLogPath, s_FallbackLogName + ".log");
             }
         }
 
@@ -205,11 +221,11 @@ namespace CityWatchdog
         {
             try
             {
-                return string.IsNullOrEmpty(log.name) ? Mod.ModId : log.name;
+                return string.IsNullOrEmpty(log.name) ? s_FallbackLogName : log.name;
             }
             catch
             {
-                return Mod.ModId;
+                return s_FallbackLogName;
             }
         }
 
