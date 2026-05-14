@@ -1,6 +1,6 @@
 import { FocusKey, Theme, UniqueFocusKey } from "cs2/bindings";
 import { ModuleRegistry } from "cs2/modding";
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 
 // These are specific to the types of components that this mod uses.
 // In the UI developer tools at http://localhost:9444/ go to Sources -> Index.js. Pretty print if it is formatted in a single line.
@@ -35,11 +35,20 @@ type PropsSection = {
     children: string | JSX.Element | JSX.Element[]
 }
 
+type PropsDescriptionTooltip = {
+    title?: string | null;
+    description?: string | null;
+    direction?: any;
+    children: ReactNode;
+}
+
 // This is an array of the different components and sass themes that are appropriate for your UI. You need to figure out which ones you need from the registry.
 const registryIndex = {
     Section: ["game-ui/game/components/tool-options/mouse-tool-options/mouse-tool-options.tsx", "Section"],
     ToolButton: ["game-ui/game/components/tool-options/tool-button/tool-button.tsx", "ToolButton"],
     StepToolButton: ["game-ui/game/components/tool-options/tool-button/tool-button.tsx", "StepToolButton"],
+    DescriptionTooltip: ["game-ui/common/tooltip/description-tooltip/description-tooltip.tsx", "DescriptionTooltip"],
+
     toolButtonTheme: ["game-ui/game/components/tool-options/tool-button/tool-button.module.scss", "classes"],
     mouseToolOptionsTheme: ["game-ui/game/components/tool-options/mouse-tool-options/mouse-tool-options.module.scss", "classes"],
     FOCUS_DISABLED: ["game-ui/common/focus/focus-key.ts", "FOCUS_DISABLED"],
@@ -72,6 +81,7 @@ export class VanillaComponentResolver {
     public get Section(): (props: PropsSection) => JSX.Element { return this.cachedData["Section"] ?? this.updateCache("Section") }
     public get ToolButton(): (props: PropsToolButton) => JSX.Element { return this.cachedData["ToolButton"] ?? this.updateCache("ToolButton") }
     public get StepToolButton(): (props: PropsStepToolButton) => JSX.Element { return this.cachedData["StepToolButton"] ?? this.updateCache("StepToolButton") }
+    public get DescriptionTooltip(): (props: PropsDescriptionTooltip) => JSX.Element { return this.cachedData["DescriptionTooltip"] ?? this.updateCache("DescriptionTooltip") }
 
     public get toolButtonTheme(): Theme | any { return this.cachedData["toolButtonTheme"] ?? this.updateCache("toolButtonTheme") }
     public get mouseToolOptionsTheme(): Theme | any { return this.cachedData["mouseToolOptionsTheme"] ?? this.updateCache("mouseToolOptionsTheme") }

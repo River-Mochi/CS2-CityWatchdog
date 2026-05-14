@@ -1,19 +1,58 @@
+// File: src/UI/src/mods/EntryButton/EntryButton.tsx
+// Purpose:
+//   Floating GameTopLeft launcher button for City Watchdog notification panel.
+//   Clicking toggles the in-game SIP panel.
+// Notes:
+//   - Uses the CS2 "floating" button variant so it matches GameTopLeft buttons.
+//   - Uses onSelect because that is the CS2 UI button handler.
+//   - Uses vanilla DescriptionTooltip through VanillaComponentResolver for title + description tooltip styling.
+//   - Tooltip text is localized through CityWatchdog.UI[...] locale keys.
+
 import { useValue } from "cs2/api";
-import { Button, Icon, Tooltip } from "cs2/ui";
-import { OnControlPanelBindingToggle, controlPanelEnabled$ } from "../Bindings/Bindings";
+import { useLocalization } from "cs2/l10n";
+import { Button, Icon } from "cs2/ui";
+import {
+    OnControlPanelBindingToggle,
+    controlPanelEnabled$,
+} from "../Bindings/Bindings";
+import { VanillaComponentResolver } from "../VanillaComponentResolver/VanillaComponentResolver";
+
+// Icon emitted by webpack to coui://ui-mods/images/.
+import ModIconPath from "../../../images/CWDNotificationIcon_Blk_Wht_Lg.svg";
 
 export const EntryButton = () => {
+    const { translate } = useLocalization();
     const showPanel = useValue(controlPanelEnabled$);
-    const modIcon = "coui://ui-mods/images/CWDNotificationIcon_Blk_Wht_Lg.svg";
+
+    // Tooltip strings live in LocaleEN.cs. Fallbacks keep the button usable if locale loading fails.
+    const title = translate("CityWatchdog.UI[EntryButtonTitle]", "CITY WATCHDOG");
+    const description = translate(
+        "CityWatchdog.UI[EntryButtonDescription]",
+        "Open the notification icon control panel."
+    );
+
+    // Vanilla title + description tooltip, matching the style used by EasyZoning.
+    const DescriptionTooltip = VanillaComponentResolver.instance.DescriptionTooltip;
+
+    const handleSelect = () => {
+        OnControlPanelBindingToggle(!showPanel);
+
+        // Devtools trace only. This does not write to the game log.
+        try {
+            console.log("[CWD][UI] GameTopLeft button toggled notification panel");
+        } catch {
+        }
+    };
 
     return (
-        <Tooltip tooltip="CITY WATCHDOG">
+        <DescriptionTooltip title={title} description={description} direction="right">
             <Button
                 variant="floating"
                 selected={showPanel}
-                onSelect={() => { OnControlPanelBindingToggle(!showPanel); }}>
-                <Icon tinted={true} src={modIcon} />
+                onSelect={handleSelect}
+            >
+                <Icon tinted={true} src={ModIconPath} />
             </Button>
-        </Tooltip>
+        </DescriptionTooltip>
     );
 };
