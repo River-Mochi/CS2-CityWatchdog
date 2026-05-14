@@ -244,11 +244,11 @@ const sections: NotificationSection[] = [
     },
 ];
 
+const allItems = sections.flatMap((section) => section.items);
+
 const setAllNotifications = (enabled: boolean) => {
-    sections.forEach((section) => {
-        section.items.forEach((item) => {
-            item.onToggle(enabled);
-        });
+    allItems.forEach((item) => {
+        item.onToggle(enabled);
     });
 };
 
@@ -265,8 +265,18 @@ export const NotificationPanel = () => {
 
 const NotificationPanelContent = () => {
     const { translate } = useLocalization();
+    const [sortAscending, setSortAscending] = useState(true);
+    const allValues = useAllNotificationValues();
+    const allSelected = allValues.every(Boolean);
     const localize: Localize = (localeId) => translate(`CityWatchdog.UI[${localeId}]`) ?? localeId;
-    const orderedSections = [...sections].sort((a, b) => localize(a.localeId).localeCompare(localize(b.localeId)));
+    const orderedSections = [...sections].sort((a, b) => {
+        const result = localize(a.localeId).localeCompare(localize(b.localeId));
+        return sortAscending ? result : -result;
+    });
+
+    const onToggleAll = () => {
+        setAllNotifications(!allSelected);
+    };
 
     return (
         <Panel
@@ -287,20 +297,20 @@ const NotificationPanelContent = () => {
             }
         >
             <div className={styles.introText}>{localize("NotificationIconShowOrHide")}</div>
-            <div className={styles.bulkControls}>
+            <div className={styles.toolbar}>
                 <Button
-                    className={styles.bulkButton}
-                    onClick={() => { setAllNotifications(true); }}
+                    className={roundButtonHighlightStyle.button + " " + styles.toolbarButton}
+                    onClick={onToggleAll}
                     focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
                 >
-                    {localize("AllOn")}
+                    {localize("ToggleAll")}
                 </Button>
                 <Button
-                    className={styles.bulkButton}
-                    onClick={() => { setAllNotifications(false); }}
+                    className={roundButtonHighlightStyle.button + " " + styles.toolbarButton + " " + styles.sortButton}
+                    onClick={() => { setSortAscending(!sortAscending); }}
                     focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
                 >
-                    {localize("AllOff")}
+                    {sortAscending ? localize("SortAscending") : localize("SortDescending")}
                 </Button>
             </div>
             {orderedSections.map((section, index) => (
@@ -333,6 +343,32 @@ const NotificationSectionView = ({ section, localize, showDivider }: { section: 
             />
         </>
     );
+};
+
+const useAllNotificationValues = () => {
+    const [values, setValues] = useState(() => allItems.map((item) => item.binding.value));
+
+    useEffect(() => {
+        setValues(allItems.map((item) => item.binding.value));
+
+        const subscriptions = allItems.map((item, itemIndex) => item.binding.subscribe((value) => {
+            setValues((currentValues) => {
+                if (currentValues[itemIndex] === value) {
+                    return currentValues;
+                }
+
+                const nextValues = currentValues.slice();
+                nextValues[itemIndex] = value;
+                return nextValues;
+            });
+        }));
+
+        return () => {
+            subscriptions.forEach((subscription) => subscription.dispose());
+        };
+    }, []);
+
+    return values;
 };
 
 const useSectionValues = (section: NotificationSection) => {

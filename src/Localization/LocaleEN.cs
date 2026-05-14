@@ -56,7 +56,7 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Automatic Add Money" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
-                    "When enabled [ ✓ ], City Watchdog checks your city balance in-game and adds money when it drops below the selected threshold." },
+                    "When enabled [ ✓ ], if balance < threshold → add this amount" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Money Hotkey amount" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
@@ -152,7 +152,14 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLocaleID("GameDefault"), "Game Default" },
 
+
+
+
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"), "Expand a section, then choose which notification icons should be visible above buildings." },
+                { m_Settings.GetUILocaleID("ToggleAll"), "Toggle All" },
+                { m_Settings.GetUILocaleID("SortAscending"), "ASC ↑" },
+                { m_Settings.GetUILocaleID("SortDescending"), "DESC ↓" },
+
                 { m_Settings.GetUILocaleID("Electricity"), "ELECTRICITY" },
                 { m_Settings.GetUILocaleID("ElectricityElectricityNotification"), "Not enough electricity" },
                 { m_Settings.GetUILocaleID("ElectricityBottleneckNotification"), "Electricity bottleneck" },
