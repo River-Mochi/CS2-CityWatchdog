@@ -5,7 +5,12 @@ namespace CityWatchdog
 {
     using CityWatchdog.Settings;
     using Colossal;
+    using Game.Citizens;
+    using Game.City;
+    using Game.Common;
+    using System;
     using System.Collections.Generic;
+    using static Colossal.IO.AssetDatabase.GeometryAsset;
 
     public sealed class LocaleEN : IDictionarySource
     {
@@ -44,45 +49,66 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "USAGE" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "Enable Achievements" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)), "Keeps achievements enabled when this mod is loaded. If AchievementFixer or another achievement mod is installed, City Watchdog hides this option and leaves achievement handling to that mod." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)),
+                    "Keeps achievements enabled [ ✓ ] when this mod is loaded.\n" +
+                    "If AchievementFixer mod is installed,\n" +
+                    "City Watchdog hides this option and leaves achievement handling to that mod." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Automatic Add Money" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)), "When enabled, City Watchdog checks your city balance in-game and adds money when it drops below the selected threshold." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
+                    "When enabled [ ✓ ], City Watchdog checks your city balance in-game and adds money when it drops below the selected threshold." },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Manual Money Amount" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)), "Amount used by the Add Money and Subtract Money hotkeys. It does not set your current balance by itself." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Money Hotkey amount" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
+                    "**Use Hotkey** keybind, this amount used to Add money or Subtract money every time you hit the Hotkey.\n" +
+                    "Default = 10,000\n" +
+                    "It does not set your current balance by itself, see Automatic for that." },
+                
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Automatic Money Amount" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)),
+                    "Amount added each time **[Automatic Money]** triggers.\n" +
+                    "Choose a value high enough to bring the city safely above the threshold." },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Automatic Add Money Threshold" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "If Automatic Add Money is enabled and your city balance falls below this value, City Watchdog adds the selected automatic amount." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Automatic Money Threshold" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),
+                    "If Automatic Money is [ ✓ ] enabled and your city balance falls below this value,\n" +
+                    "Watchdog adds the selected automatic amount." },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Automatic Add Money Amount" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Amount added each time Automatic Add Money triggers. Choose a value high enough to bring the city safely above the threshold." },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Custom Milestone" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)), "Enable this before loading or starting a city to unlock a chosen milestone immediately after the city loads. This is grayed out while already in-game." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
+                    "Enable this before loading or starting a city to unlock a chosen milestone immediately after the city loads.\n" +
+                    "This is grayed out once a city is loaded, must restart game to change." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Milestone" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)), "Pick the milestone level to unlock on the next city load. This is only editable outside a loaded city, and only after Custom Milestone is enabled." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)),
+                    "Pick the milestone level to unlock on the next city load.\n" +
+                    "This is only adjustable outside a loaded city, and only after [Milestone Selector] is enabled [ ✓ ]." },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "Enable Unlimited Money Save Conversion" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "Unlimited Money Converter" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)),
-                    "Turn this ON only after making a backup. This unlocks the Convert Unlimited Money Save button when the loaded city was started with Unlimited Money.\n" +
-                    "City Watchdog cannot undo this conversion." },
+                    "Turn this ON <only after making a backup>.\n" +
+                    "This unlocks the <[Convert Unlimited Money Save]> button when the loaded city was started with Unlimited Money.\n" +
+                    "Watchdog cannot undo this conversion." },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Convert Unlimited Money Save" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Convert Unlimited Money Save to Normal" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
-                    "For cities started with Unlimited Money. While that city is loaded, this converts the save to normal limited-money budgeting so the city has regular money challenge again.\n" +
-                    "Button is <disabled/ greyed-out> unless the loaded city is an Unlimited Money type and Enable Unlimited Money Save Conversion is ON." },
+                    "For cities started with Unlimited Money.\n" +
+                    "While that city is loaded, this converts the save to normal limited money budgeting so the city has regular money challenges again.\n" +
+                    "Button is <disabled/ greyed-out> unless the loaded city is an <Unlimited Money> type\n " +
+                    "and Enable <Unlimited Money Converter> is ON [ ✓ ]." },
 
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
-                    "Convert this city from Unlimited Money to normal limited money? Save a backup first; City Watchdog cannot undo this conversion." },
+                    "Convert this city from Unlimited Money to normal limited money?\n" +
+                    "Save Backup FIRST; Watchdog can NOT undo this.\n" +
+                    "Are you SURE?"
+                },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Add Money" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Hotkey for adding money within the game." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Hotkey for adding money inside the city." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Add Money" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Subtract Money" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Hotkey for subtracting money within the game." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Hotkey for subtracting money inside the city." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "Subtract Money" },
 
 #if DEBUG
@@ -106,19 +132,24 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Notification panel>\n" +
                     "1. In-game, click the City Watchdog top-left button to open the panel.\n" +
-                    "2. Expand a section, then uncheck the notification icons you want to hide above buildings.\n" +
-                    "3. Check an item again to show that notification icon again.\n" +
-                    "4. City Watchdog hides or shows icons only; it does not fix the underlying city problem.\n\n" +
+                    "2. Expand a section, then uncheck [ ] the notification icons you want to hide.\n" +
+                    "3. Check an item again to show that notification icon.\n" +
+                    "4. Watchdog hides or shows icons only; it does not fix underlying city problem.\n\n" +
                     "<Money helpers>\n" +
-                    "1. Add Money and Subtract Money use the Manual Money Amount value.\n" +
-                    "2. Automatic Add Money watches your balance while a city is loaded and adds money below the threshold.\n" +
-                    "3. Convert Unlimited Money Save is only for loaded cities that were started with Unlimited Money and is not reversible by City Watchdog.\n\n" +
+                    "1. Use Hotkey to Add Money or Subtract Money with the <Money Hotkey> amount.\n" +
+                    "2. Automatic Add Money watches your balance while a city is loaded and adds money when below the threshold.\n" +
+                    "3. Convert Unlimited Money Save is only for cities that were started with Unlimited Money and is <Not Reversible> by City Watchdog.\n\n" +
                     "<Custom milestone>\n" +
-                    "Set Initial Money and Custom Milestone from the main menu before loading or starting a city." },
+                    "Set Initial Money and select Milestones from the Options menu before loading or starting a city." },
+
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Initial Money" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)), "Sets the starting balance for the next loaded or new limited-money city, then resets to Game Default after it applies. This is grayed out while already in-game." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
+                    "Sets the starting balance for a new <limited money> city or the first loaded city, then resets to Game Default after it applies.\n" +
+                    "This is grayed out if a city is already loaded.\n" +
+                    "Set before starting/loading a city → applies once → then use <Manual Money hotkey> or <Auto Money> afterward." },
+
                 { m_Settings.GetOptionLocaleID("GameDefault"), "Game Default" },
 
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"), "Expand a section, then choose which notification icons should be visible above buildings." },
