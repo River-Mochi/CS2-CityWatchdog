@@ -4,7 +4,6 @@ import { NotificationPanel } from "./mods/NotificationPanel/NotificationPanel";
 import { EntryButton } from "./mods/EntryButton/EntryButton";
 import { VanillaComponentResolver } from "./mods/VanillaComponentResolver/VanillaComponentResolver";
 import "../images/CWDNotificationIcon_Blk_Wht01.svg";
-import "../images/CWDNotificationIcon_Blk_Wht01.svg";
 
 const register: ModRegistrar = (moduleRegistry) => {
     VanillaComponentResolver.setRegistry(moduleRegistry);
