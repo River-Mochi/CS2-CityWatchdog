@@ -1,3 +1,6 @@
+// File: src/UI/src/mods/NotificationPanel/NotificationPanel.tsx
+// Purpose: In-game City Watchdog notification icon control panel.
+
 import { useValue, type ValueBinding } from "cs2/api";
 import { game } from "cs2/bindings";
 import { useLocalization } from "cs2/l10n";
@@ -306,7 +309,6 @@ const NotificationPanelContent = () => {
     return (
         <Panel
             className={styles.panel}
-
             header={
                 <div className={styles.header}>
                     <Tooltip tooltip={localize("NotificationIconShowOrHide")}>
@@ -325,18 +327,15 @@ const NotificationPanelContent = () => {
                     </Button>
                 </div>
             }
-
         >
-    
             <div className={styles.toolbar}>
                 <Button
-                    className={styles.toolbarButton}
+                    className={styles.toolbarButton + " " + styles.expandButton}
                     onClick={onToggleAllSections}
                     focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
                 >
                     {allSectionsExpanded ? localize("CollapseAll", "Collapse All") : localize("ExpandAll", "Expand All")}
                 </Button>
-
                 <Tooltip tooltip={localize("SortOrderTooltip", "Sort order")}>
                     <Button
                         className={styles.toolbarButton + " " + styles.sortButton}
@@ -346,9 +345,8 @@ const NotificationPanelContent = () => {
                         {sortAscending ? localize("SortAscending", "ASC ↑") : localize("SortDescending", "DESC ↓")}
                     </Button>
                 </Tooltip>
-
                 <Button
-                    className={styles.toolbarButton}
+                    className={styles.toolbarButton + " " + styles.toggleButton}
                     onClick={onToggleAll}
                     focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
                 >
