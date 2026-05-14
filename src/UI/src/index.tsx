@@ -3,7 +3,7 @@ import mod from "../mod.json";
 import { NotificationPanel } from "./mods/NotificationPanel/NotificationPanel";
 import { EntryButton } from "./mods/EntryButton/EntryButton";
 import { VanillaComponentResolver } from "./mods/VanillaComponentResolver/VanillaComponentResolver";
-import "../images/CityWatchdogIcon_colored.svg";
+import "../images/Yellow_Warning.svg";
 
 const register: ModRegistrar = (moduleRegistry) => {
     VanillaComponentResolver.setRegistry(moduleRegistry);
