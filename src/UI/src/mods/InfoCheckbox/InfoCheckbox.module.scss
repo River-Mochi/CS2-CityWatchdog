@@ -2,55 +2,50 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-    padding: 6rem;
-    background-color: var(--hoverColorBright);
-    border-top-left-radius: var(--panelRadiusInnerSIP);
-    border-top-right-radius: var(--panelRadiusInnerSIP);
-    border-bottom-left-radius: var(--panelRadiusInnerSIP);
-    border-bottom-right-radius: var(--panelRadiusInnerSIP);
-    align-items: center;
-}
+    padding: 5rem 6rem;
+    background-color: rgba(255, 255, 255, 0.12);
 
-.subPanel:hover {
-    background-color: var(--activeColorNormal);
-}
 
-.subPanel:active {
-    background-color: var(--activeColorBright);
-}
+    .subPanel:hover {
+        background-color: rgba(255, 255, 255, 0.18);
+    }
 
-.iconLabelSection {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: auto;
-}
+    .subPanel:active {
+        background-color: var(--activeColorBright);
+    }
 
-.labelCheckboxSection {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: auto;
-    margin-left: 4rem;
-    font-size: var(--fontSizeXS);
-}
+    .iconLabelSection {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: auto;
+    }
 
-.icon {
-    width: 24rem;
-    height: 24rem;
-    margin-right: 0.5em;
-}
+    .labelCheckboxSection {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: auto;
+        margin-left: 4rem;
+        font-size: var(--fontSizeXS);
+    }
 
-.label {
-    color: rgba(254, 254, 254, 0.8);
-    font-size: var(--fontSizeS);
-}
+    .icon {
+        width: 24rem;
+        height: 24rem;
+        margin-right: 0.5em;
+    }
 
-.label:disabled {
-    color: rgba(254, 254, 254, 0.6);
-}
+    .label {
+        color: rgba(254, 254, 254, 0.8);
+        font-size: var(--fontSizeS);
+    }
+
+        .label:disabled {
+            color: rgba(254, 254, 254, 0.6);
+        }
