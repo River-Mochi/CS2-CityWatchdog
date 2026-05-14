@@ -3,7 +3,7 @@
     top: 60rem;
     left: var(--screenPadding);
     overflow: visible;
-    width: 400rem;
+    width: 380rem;
     max-height: 890rem;
 
     > :nth-child(2) {
@@ -23,6 +23,14 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.headerTitleArea {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+    min-width: 0;
 }
 
 .headerModIcon {
@@ -56,7 +64,7 @@
     flex-direction: row;
     justify-content: flex-end;
     gap: 8rem;
-    padding: 0 10rem 10rem 10rem;
+    padding: 10rem 10rem 10rem 10rem;
 }
 
 .toolbarButton {
@@ -65,14 +73,14 @@
     padding: 0 12rem;
     border-radius: 4rem;
     border: 1rem solid rgba(255, 255, 255, 0.35);
-    background-color: rgba(36, 54, 66, 0.92);
+    background-color: rgba(36, 54, 66, 0.62);
     color: rgba(255, 255, 255, 0.95);
     font-size: var(--fontSizeS);
     text-align: center;
     text-transform: none;
 
     &:hover {
-        background-color: rgba(55, 78, 94, 0.96);
+        background-color: rgba(55, 78, 94, 0.84);
         color: #ffffff;
     }
 }

@@ -156,13 +156,14 @@ namespace CityWatchdog
                     "Set Initial Money and select Milestones from the Options menu before loading or starting a city." },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
 
-                // --- Notification panel common text ---
-                { m_Settings.GetUILocaleID("NotificationIconShowOrHide"), "Expand a section, then choose which notification icons should be visible above buildings." },
+                // --- Notification SIP panel common text ---
+                { m_Settings.GetUILocaleID("NotificationIconShowOrHide"), "Expand a section; uncheck to hide it." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Toggle All" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Expand All" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Collapse All" },
                 { m_Settings.GetUILocaleID("SortAscending"), "ASC ↑" },
                 { m_Settings.GetUILocaleID("SortDescending"), "DESC ↓" },
+                { m_Settings.GetUILocaleID("SortOrderTooltip"), "Sort order" },
 
                 // --- Electricity notifications ---
                 { m_Settings.GetUILocaleID("Electricity"), "ELECTRICITY" },

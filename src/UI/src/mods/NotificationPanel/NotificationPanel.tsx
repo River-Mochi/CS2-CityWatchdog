@@ -2,7 +2,7 @@ import { useValue, type ValueBinding } from "cs2/api";
 import { game } from "cs2/bindings";
 import { useLocalization } from "cs2/l10n";
 import { getModule } from "cs2/modding";
-import { Button, Panel } from "cs2/ui";
+import { Button, Panel, Tooltip } from "cs2/ui";
 import { useEffect, useState } from "react";
 import {
     BuildingAbandonedCollapsedNotificationBinding$, BuildingAbandonedNotificationBinding$, BuildingCondemnedNotificationBinding$,
@@ -90,7 +90,7 @@ import { InfoPanel } from "../InfoPanel/InfoPanel";
 import styles from "../NotificationPanel/NotificationPanel.module.scss";
 import { VanillaComponentResolver } from "../VanillaComponentResolver/VanillaComponentResolver";
 
-const modIconSrc = "coui://ui-mods/images/CWDNotificationIcon_Blk_Wht01.svg";
+const modIconSrc = "coui://ui-mods/images/CWDNotificationIcon_Blk_Wht_Lg.svg";
 const roundButtonHighlightStyle = getModule("game-ui/common/input/button/themes/round-highlight-button.module.scss", "classes");
 const icon = (name: string) => `Media/Game/Notifications/${name}.svg`;
 
@@ -306,10 +306,15 @@ const NotificationPanelContent = () => {
     return (
         <Panel
             className={styles.panel}
+
             header={
                 <div className={styles.header}>
-                    <img src={modIconSrc} className={styles.headerModIcon} />
-                    <div className={styles.headerModName}>CITY WATCHDOG</div>
+                    <Tooltip tooltip={localize("NotificationIconShowOrHide")}>
+                        <div className={styles.headerTitleArea}>
+                            <img src={modIconSrc} className={styles.headerModIcon} />
+                            <div className={styles.headerModName}>CITY WATCHDOG</div>
+                        </div>
+                    </Tooltip>
                     <Button
                         className={roundButtonHighlightStyle.button + " " + styles.headerCloseButton}
                         variant="icon"
@@ -320,8 +325,9 @@ const NotificationPanelContent = () => {
                     </Button>
                 </div>
             }
+
         >
-            <div className={styles.introText}>{localize("NotificationIconShowOrHide")}</div>
+    
             <div className={styles.toolbar}>
                 <Button
                     className={styles.toolbarButton}
@@ -330,13 +336,17 @@ const NotificationPanelContent = () => {
                 >
                     {allSectionsExpanded ? localize("CollapseAll", "Collapse All") : localize("ExpandAll", "Expand All")}
                 </Button>
-                <Button
-                    className={styles.toolbarButton + " " + styles.sortButton}
-                    onClick={() => { setSortAscending(!sortAscending); }}
-                    focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
-                >
-                    {sortAscending ? localize("SortAscending", "ASC ↑") : localize("SortDescending", "DESC ↓")}
-                </Button>
+
+                <Tooltip tooltip={localize("SortOrderTooltip", "Sort order")}>
+                    <Button
+                        className={styles.toolbarButton + " " + styles.sortButton}
+                        onClick={() => { setSortAscending(!sortAscending); }}
+                        focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
+                    >
+                        {sortAscending ? localize("SortAscending", "ASC ↑") : localize("SortDescending", "DESC ↓")}
+                    </Button>
+                </Tooltip>
+
                 <Button
                     className={styles.toolbarButton}
                     onClick={onToggleAll}

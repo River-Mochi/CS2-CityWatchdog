@@ -307,7 +307,6 @@ namespace CityWatchdog
             ShowUsage = false;
 
             Notification.SetDefaults();
-            Hidden.SetDefaults();
         }
 
         private bool IsAchievementEnablerIncluded()
