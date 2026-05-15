@@ -18,7 +18,7 @@
   <!-- Main notification bubble: inner white outline -->
   <g fill="none"
      stroke="#ffffff"
-     stroke-width="8"
+     stroke-width="7.8"
      stroke-linecap="round"
      stroke-linejoin="round">
     <path d="M36 22 H66" stroke-linecap="butt"/>
