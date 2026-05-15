@@ -264,7 +264,9 @@ const createExpandedSections = (expanded: boolean | null = null) => {
     const result: Record<string, boolean> = {};
 
     sections.forEach((section) => {
-        result[section.localeId] = expanded ?? section.defaultExpanded === true;
+        // First panel open defaults all sections expanded.
+        // The toolbar can collapse all sections after that.
+        result[section.localeId] = expanded ?? true;
     });
 
     return result;
@@ -334,8 +336,9 @@ const NotificationPanelContent = () => {
             }
 
         >
-            
-            <div className={styles.toolbar}>    // Keeps Info icon pinned left, and buttons pinned right.
+
+            {/* Keeps the help icon pinned left and the three action buttons grouped right. */}
+            <div className={styles.toolbar}>
                 <Tooltip tooltip={localize("NotificationIconShowOrHide", "Expand any section; check to show, uncheck to hide.")}>
                     <div className={styles.infoButton}>
                         <img src={InfoIconPath} className={styles.infoIcon} />
@@ -350,6 +353,7 @@ const NotificationPanelContent = () => {
                     >
                         {allSectionsExpanded ? localize("CollapseAll", "Collapse All") : localize("ExpandAll", "Expand All")}
                     </Button>
+
                     <Tooltip tooltip={localize("SortOrderTooltip", "Sort order")}>
                         <Button
                             className={styles.toolbarButton + " " + styles.sortButton}
@@ -359,16 +363,18 @@ const NotificationPanelContent = () => {
                             {sortAscending ? localize("SortAscending", "ASC ↑") : localize("SortDescending", "DESC ↓")}
                         </Button>
                     </Tooltip>
-                    <Button
-                        className={styles.toolbarButton + " " + styles.toggleButton}
-                        onClick={onToggleAll}
-                        focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
-                    >
-                        {localize("ToggleAll", "Toggle All")}
-                    </Button>
+
+                    <Tooltip tooltip={localize("ToggleAllTooltip", "Show or hide all icons")}>
+                        <Button
+                            className={styles.toolbarButton + " " + styles.toggleButton}
+                            onClick={onToggleAll}
+                            focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
+                        >
+                            {localize("ToggleAll", "Toggle All")}
+                        </Button>
+                    </Tooltip>
                 </div>
             </div>
-
 
             {orderedSections.map((section, index) => (
                 <NotificationSectionView

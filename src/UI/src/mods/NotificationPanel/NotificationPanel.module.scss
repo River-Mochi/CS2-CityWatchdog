@@ -18,7 +18,7 @@
     // Higher alpha = darker/less see-through. Lower alpha = lighter/more see-through.
     > div[class*="header_"] {
         min-height: 34rem !important;
-        background-color: rgba(40, 58, 74, 0.58) !important;
+        background-color: rgba(36, 54, 66, 0.72) !important;
         background-image: none !important;
         transition: background-color 120ms ease-out;
     }
