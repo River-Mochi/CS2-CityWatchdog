@@ -159,7 +159,7 @@ namespace CityWatchdog
                 // --- Notification SIP panel common text ---
                 { m_Settings.GetUILocaleID("EntryButtonTitle"), "CITY WATCHDOG" },
                 { m_Settings.GetUILocaleID("EntryButtonDescription"), "Open the notification icon panel." },
-                { m_Settings.GetUILocaleID("NotificationIconShowOrHide"), "Expand a section; uncheck to hide notification icons." },
+                { m_Settings.GetUILocaleID("NotificationIconShowOrHide"), "Expand any section; check ✓ to show, uncheck to hide alert icons." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Toggle All" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Expand All" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Collapse All" },

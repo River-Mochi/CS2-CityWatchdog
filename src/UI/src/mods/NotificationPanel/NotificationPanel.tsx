@@ -334,9 +334,8 @@ const NotificationPanelContent = () => {
             }
 
         >
-
-        // Keeps Info icon pinned left, and buttons pinned right.
-            <div className={styles.toolbar}>
+            
+            <div className={styles.toolbar}>    // Keeps Info icon pinned left, and buttons pinned right.
                 <Tooltip tooltip={localize("NotificationIconShowOrHide", "Expand any section; check to show, uncheck to hide.")}>
                     <div className={styles.infoButton}>
                         <img src={InfoIconPath} className={styles.infoIcon} />
