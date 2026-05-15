@@ -92,6 +92,8 @@ import { InfoCheckbox } from "../InfoCheckbox/InfoCheckbox";
 import { InfoPanel } from "../InfoPanel/InfoPanel";
 import styles from "../NotificationPanel/NotificationPanel.module.scss";
 import { VanillaComponentResolver } from "../VanillaComponentResolver/VanillaComponentResolver";
+// Info icon emitted by webpack to coui://ui-mods/images/.
+import InfoIconPath from "../../../images/AdvisorInfoViewWhite.svg";
 
 const modIconSrc = "coui://ui-mods/images/NotificationIcon_TitleBar.svg";
 const roundButtonHighlightStyle = getModule("game-ui/common/input/button/themes/round-highlight-button.module.scss", "classes");
@@ -330,6 +332,12 @@ const NotificationPanelContent = () => {
 
         >
             <div className={styles.toolbar}>
+                <Tooltip tooltip={localize("NotificationIconShowOrHide", "Expand any section; check to show, uncheck to hide.")}>
+                    <div className={styles.infoButton}>
+                        <img src={InfoIconPath} className={styles.infoIcon} />
+                    </div>
+                </Tooltip>
+
                 <Button
                     className={styles.toolbarButton + " " + styles.expandButton}
                     onClick={onToggleAllSections}

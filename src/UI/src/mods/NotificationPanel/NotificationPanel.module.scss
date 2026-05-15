@@ -5,8 +5,35 @@
     overflow: visible;
     width: 380rem;
     max-height: 890rem;
+    // Let custom wrapper colors show through instead of stacking extra vanilla fills.
+    // This follows the same idea used by ZoneTools: make the Panel shell transparent,
+    // then style the real vanilla header/content wrappers below.
+    --menuPanel1: transparent;
+    --menuPanel2: transparent;
+    --panelColorDark: transparent;
+    --panelColorNormal: transparent;
+    --sectionHeaderColor: transparent;
+    background-color: transparent;
+    // Actual vanilla Panel header wrapper.
+    // Higher alpha = darker/less see-through. Lower alpha = lighter/more see-through.
+    > div[class*="header_"] {
+        min-height: 34rem !important;
+        background-color: rgba(40, 58, 74, 0.58) !important;
+        background-image: none !important;
+        transition: background-color 120ms ease-out;
+    }
+        // Header hover: lighter gray and a little more transparent.
+        > div[class*="header_"]:hover {
+            background-color: rgba(76, 98, 112, 0.46) !important;
+        }
+    // Actual vanilla Panel content wrapper.
+    // This is the main large panel body behind toolbar + notification rows.
+    > div[class*="content_"] {
+        background-image: linear-gradient( to bottom, rgba(55, 82, 96, 0.72), rgba(31, 45, 60, 0.66) ) !important;
+        background-color: transparent !important;
+    }
     // Keep only the original padding/close-button positioning fixes.
-    // Do not set background colors through these Panel internals; they can target the body area.
+    // Do not set background colors here; that can accidentally target the panel body.
     > :nth-child(2) {
         > :nth-child(1) {
             > :nth-child(1) {
@@ -20,11 +47,10 @@
     }
 }
 
-
 .header {
     width: 100%;
     min-width: 0;
-    height: 26rem;
+    height: 30rem;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -33,19 +59,21 @@
     background-color: transparent;
 }
 
-
 .headerTitleArea {
     display: flex;
     flex: 1 1 auto;
     min-width: 0;
+    height: 100%;
     flex-direction: row;
     align-items: center;
 }
 
 .headerModIcon {
-    width: 30rem;
-    height: 30rem;
+    height: 100%;
+    width: auto;
+    max-width: 34rem;
     margin-right: 10rem;
+    object-fit: contain;
 }
 
 .headerModName {
@@ -77,8 +105,31 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    align-items: center;
     gap: 8rem;
     padding: 10rem 10rem 10rem 10rem;
+}
+
+.infoButton {
+    width: 26rem;
+    height: 26rem;
+    display: flex;
+    flex: 0 0 26rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4rem;
+    background-color: rgba(36, 54, 66, 0.42);
+
+    &:hover {
+        background-color: rgba(55, 78, 94, 0.70);
+    }
+}
+
+.infoIcon {
+    width: 20rem;
+    height: 20rem;
+    object-fit: contain;
+    pointer-events: none;
 }
 
 .toolbarButton {
@@ -90,15 +141,16 @@
     background-color: rgba(36, 54, 66, 0.58);
     color: rgba(255, 255, 255, 0.95);
     font-size: var(--fontSizeS);
+    line-height: 1;
     text-align: center;
     text-transform: none;
+    white-space: nowrap;
 
     &:hover {
         background-color: rgba(55, 78, 94, 0.74);
         color: #ffffff;
     }
 }
-
 
 .expandButton {
     width: 102rem;
