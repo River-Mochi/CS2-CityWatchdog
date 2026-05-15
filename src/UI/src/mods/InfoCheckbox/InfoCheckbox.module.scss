@@ -11,13 +11,13 @@
     align-items: center;
 }
 
-    .subPanel:hover {
-        background-color: rgba(255, 255, 255, 0.18);
-    }
+.subPanel:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+}
 
-    .subPanel:active {
-        background-color: var(--activeColorBright);
-    }
+.subPanel:active {
+    background-color: var(--activeColorBright);
+}
 
 .iconLabelSection {
     display: flex;

@@ -92,10 +92,13 @@ import { InfoCheckbox } from "../InfoCheckbox/InfoCheckbox";
 import { InfoPanel } from "../InfoPanel/InfoPanel";
 import styles from "../NotificationPanel/NotificationPanel.module.scss";
 import { VanillaComponentResolver } from "../VanillaComponentResolver/VanillaComponentResolver";
-// Info icon emitted by webpack to coui://ui-mods/images/.
-import InfoIconPath from "../../../images/AdvisorInfoViewWhite.svg";
 
-const modIconSrc = "coui://ui-mods/images/NotificationIcon_TitleBar.svg";
+// Icons emitted by webpack to coui://ui-mods/images/.
+import InfoIconPath from "../../../images/AdvisorInfoViewWhite.svg";
+import TitleBarIconPath from "../../../images/NotificationIcon_TitleBar.svg";
+
+const modIconSrc = TitleBarIconPath;
+
 const roundButtonHighlightStyle = getModule("game-ui/common/input/button/themes/round-highlight-button.module.scss", "classes");
 const icon = (name: string) => `Media/Game/Notifications/${name}.svg`;
 
@@ -331,6 +334,8 @@ const NotificationPanelContent = () => {
             }
 
         >
+
+        // Keeps Info icon pinned left, and buttons pinned right.
             <div className={styles.toolbar}>
                 <Tooltip tooltip={localize("NotificationIconShowOrHide", "Expand any section; check to show, uncheck to hide.")}>
                     <div className={styles.infoButton}>
@@ -338,30 +343,34 @@ const NotificationPanelContent = () => {
                     </div>
                 </Tooltip>
 
-                <Button
-                    className={styles.toolbarButton + " " + styles.expandButton}
-                    onClick={onToggleAllSections}
-                    focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
-                >
-                    {allSectionsExpanded ? localize("CollapseAll", "Collapse All") : localize("ExpandAll", "Expand All")}
-                </Button>
-                <Tooltip tooltip={localize("SortOrderTooltip", "Sort order")}>
+                <div className={styles.toolbarButtons}>
                     <Button
-                        className={styles.toolbarButton + " " + styles.sortButton}
-                        onClick={() => { setSortAscending(!sortAscending); }}
+                        className={styles.toolbarButton + " " + styles.expandButton}
+                        onClick={onToggleAllSections}
                         focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
                     >
-                        {sortAscending ? localize("SortAscending", "ASC ↑") : localize("SortDescending", "DESC ↓")}
+                        {allSectionsExpanded ? localize("CollapseAll", "Collapse All") : localize("ExpandAll", "Expand All")}
                     </Button>
-                </Tooltip>
-                <Button
-                    className={styles.toolbarButton + " " + styles.toggleButton}
-                    onClick={onToggleAll}
-                    focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
-                >
-                    {localize("ToggleAll", "Toggle All")}
-                </Button>
+                    <Tooltip tooltip={localize("SortOrderTooltip", "Sort order")}>
+                        <Button
+                            className={styles.toolbarButton + " " + styles.sortButton}
+                            onClick={() => { setSortAscending(!sortAscending); }}
+                            focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
+                        >
+                            {sortAscending ? localize("SortAscending", "ASC ↑") : localize("SortDescending", "DESC ↓")}
+                        </Button>
+                    </Tooltip>
+                    <Button
+                        className={styles.toolbarButton + " " + styles.toggleButton}
+                        onClick={onToggleAll}
+                        focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
+                    >
+                        {localize("ToggleAll", "Toggle All")}
+                    </Button>
+                </div>
             </div>
+
+
             {orderedSections.map((section, index) => (
                 <NotificationSectionView
                     key={section.localeId}
