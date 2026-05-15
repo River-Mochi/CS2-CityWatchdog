@@ -8,7 +8,7 @@
   <!-- Main notification bubble: outer black outline -->
   <g fill="none"
      stroke="#111111"
-     stroke-width="9.4"
+     stroke-width="8.5"
      stroke-linecap="round"
      stroke-linejoin="round">
     <path d="M36 22 H66" stroke-linecap="butt"/>
@@ -18,7 +18,7 @@
   <!-- Main notification bubble: inner white outline -->
   <g fill="none"
      stroke="#ffffff"
-     stroke-width="5.8"
+     stroke-width="8"
      stroke-linecap="round"
      stroke-linejoin="round">
     <path d="M36 22 H66" stroke-linecap="butt"/>
@@ -28,13 +28,13 @@
   <!-- Top-right badge: orange fill with thin black border -->
   <circle cx="76"
           cy="24"
-          r="11.4"
+          r="11.7"
           fill="#f97316"
           stroke="#111111"
-          stroke-width="2.4"/>
+          stroke-width="2.5"/>
 
   <!-- Bigger three message dots -->
-  <circle cx="39.5" cy="54" r="5.8" fill="#ff4d5a"/>
-  <circle cx="52"   cy="54" r="5.8" fill="#facc15"/>
-  <circle cx="64.5" cy="54" r="5.8" fill="#38bdf8"/>
+  <circle cx="38" cy="52" r="5.8" fill="#ff4d5a"/>
+  <circle cx="52"   cy="52" r="5.8" fill="#facc15"/>
+  <circle cx="66" cy="52" r="5.8" fill="#38bdf8"/>
 </svg>

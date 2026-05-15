@@ -20,7 +20,7 @@ import {
 import { VanillaComponentResolver } from "../VanillaComponentResolver/VanillaComponentResolver";
 
 // Icon emitted by webpack to coui://ui-mods/images/.
-import ModIconPath from "../../../images/CWDNotificationIcon_whiteStroke02.svg";
+import ModIconPath from "../../../images/CWDNotificationIcon_white02.svg";
 
 export const EntryButton = () => {
     const { translate } = useLocalization();
