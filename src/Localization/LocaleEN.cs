@@ -4,7 +4,6 @@
 namespace CityWatchdog
 {
     using Colossal;                   // IDictionarySource
-    using Colossal.IO.AssetDatabase.Internal;
     using System.Collections.Generic; // Dictionary and KeyValuePair
 
     public sealed class LocaleEN : IDictionarySource
@@ -33,16 +32,16 @@ namespace CityWatchdog
 
                 // --- Tabs ---
                 { m_Settings.GetOptionTabLocaleID(Setting.Actions), "Actions" },
-                { m_Settings.GetOptionTabLocaleID(Setting.Keybinds), "Hotkeys" },
+                { m_Settings.GetOptionTabLocaleID(Setting.Hotkeys), "Hotkeys" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "About" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "Debug" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.KeybindActions), "Action Hotkeys" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "Achievements" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Money" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Milestone" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Save Conversion" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "Hotkeys" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "USAGE" },
@@ -63,7 +62,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Automatic Add Money" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
                     "When enabled [ ✓ ], City Watchdog checks the city balance while a city is loaded.\n" +
-                    "If balance < threshold, it adds the selected automatic amount." },
+                    "If the balance is below the threshold, it adds the selected automatic amount." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Automatic Money Threshold" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),
@@ -86,8 +85,9 @@ namespace CityWatchdog
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
-                    "Enable this before loading or starting a city to unlock a chosen milestone immediately after the city loads.\n" +
-                    "This is grayed out once a city is loaded; restart the game to change it safely." },
+                    "Enable before loading or starting a city to unlock a chosen milestone immediately after the city loads.\n" +
+                    "This cannot be turned ON while a city is loaded, but it can be turned OFF if it was left enabled by mistake.\n" +
+                    "City Watchdog cannot undo milestone changes already saved into a city; use an earlier save if needed." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Milestone" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)),
@@ -98,32 +98,29 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "Unlimited Money Converter" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)),
                     "<Make a Backup of city FIRST>.\n" +
-                    "Converts a City that started as Unlimited Money to a normal city with regular money challenges.\n" +
-                    "Enabling this unlocks the <[Convert Unlimited Money Save]> button when the loaded city is **Unlimited Money** type.\n" +
+                    "Converts a city that started as Unlimited Money to a normal city with regular money challenges.\n" +
+                    "Enabling this unlocks the <[Convert Unlimited Money Save]> button when the loaded city is <Unlimited Money> type.\n" +
                     "City Watchdog cannot undo this conversion.\n" +
-                    "If you have normal cities don't worry about this, it's not needed."
-                    },
+                    "If you have normal cities, do not worry about this; it is not needed." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Convert Unlimited Money Save City to Normal" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
-                    "For cities started with **Unlimited Money**.\n" +
+                    "For cities started with <Unlimited Money>.\n" +
                     "While that city is loaded, this converts the save to normal limited-money budgeting so the city has regular money challenges again.\n" +
-                    "Button is <disabled/greyed-out> unless the loaded city is an <Unlimited Money> type and <Unlimited Money Converter> is ON [ ✓ ]\n." +
-                    "Make backup save, and use at your own risk; City Watchdog cannot undo this conversion."
-                 },
+                    "Button is <disabled/greyed-out> unless the loaded city is an <Unlimited Money> type and <Unlimited Money Converter> is ON [ ✓ ].\n" +
+                    "Make a backup save, and use at your own risk; City Watchdog cannot undo this conversion." },
 
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
                     "Convert this city from Unlimited Money to normal limited money?\n" +
                     "Save a backup FIRST; City Watchdog cannot undo this.\n" +
                     "Are you sure?" },
 
-                // --- Key bindings ---
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)) "Toggle Notification Panel" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding))
-                    "Hotkey for toggling the notification Icons on/off.\n" +
-                    "This panel shows all the same icons as the in-game notification area, but organized and filterable to help you find important alerts and hide the less important ones."
-                },
+                // --- Hotkeys ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Toggle Notification Icons" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
+                    "Hotkey for the same action as the in-game [Toggle All] notification icon button.\n" +
+                    "It shows or hides all City Watchdog notification icons at once." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Toggle Notification Icons" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Add Money" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Hotkey for adding money inside the city." },
@@ -132,14 +129,6 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Subtract Money" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Hotkey for subtracting money inside the city." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "Subtract Money" },
-
-
-#if DEBUG
-                // --- Debug key binding ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DebugKeyboardBinding)), "Debug Action" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DebugKeyboardBinding)), "Developer-only debug keybinding. This only appears in Debug builds." },
-                { m_Settings.GetBindingKeyLocaleID("DebugAction"), "Debug Action" },
-#endif
 
                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Mod name" },
@@ -173,8 +162,7 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("EntryButtonDescription"), "Open the notification icon panel." },
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
                     "Expand any row; [✓] check to show, uncheck to hide alerts.\n" +
-                    "This does not fix city problems, it hides icon clutter."
-                },
+                    "This does not fix city problems, it hides icon clutter." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Toggle All" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Expand All" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Collapse All" },
