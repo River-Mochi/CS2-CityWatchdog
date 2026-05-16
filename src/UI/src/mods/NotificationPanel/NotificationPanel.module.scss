@@ -17,7 +17,7 @@
     // Actual vanilla Panel header wrapper.
     // Higher alpha = darker/less see-through. Lower alpha = lighter/more see-through.
     > div[class*="header_"] {
-        min-height: 34rem !important;
+        min-height: 31rem !important;
         background-color: rgba(36, 54, 66, 0.72) !important;
         background-image: none !important;
         transition: background-color 120ms ease-out;
@@ -50,7 +50,7 @@
 .header {
     width: 100%;
     min-width: 0;
-    height: 30rem;
+    height: 28rem;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -69,8 +69,8 @@
 }
 
 .headerModIcon {
-    width: 30rem;
-    height: 30rem;
+    width: 28rem;
+    height: 28rem;
     margin-right: 10rem;
     object-fit: contain;
 }

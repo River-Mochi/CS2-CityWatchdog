@@ -86,8 +86,9 @@ namespace CityWatchdog
         public int InitialMoney { get; set; }
 
         [SettingsUISection(General, Milestone)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(IsInGame))]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(CannotEnableCustomMilestoneInGame))]
         public bool CustomMilestone { get; set; }
+
 
         [SettingsUIDropdown(typeof(Setting), nameof(GetMilestoneLevelItems))]
         [SettingsUISection(General, Milestone)]
@@ -206,6 +207,11 @@ namespace CityWatchdog
         private bool IsInGame()
         {
             return GameManager.instance != null && GameManager.instance.gameMode == GameMode.Game;
+        }
+
+        private bool CannotEnableCustomMilestoneInGame()
+        {
+            return IsInGame() && !CustomMilestone;
         }
 
         public bool NotInGame => !IsInGame();
