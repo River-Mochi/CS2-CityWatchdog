@@ -93,11 +93,15 @@ import { InfoPanel } from "../InfoPanel/InfoPanel";
 import styles from "../NotificationPanel/NotificationPanel.module.scss";
 import { VanillaComponentResolver } from "../VanillaComponentResolver/VanillaComponentResolver";
 
-// Icons emitted by webpack to coui://ui-mods/images/.
-import InfoIconPath from "../../../images/AdvisorInfoViewWhite.svg";
+
+// Title icon is a custom mod image emitted by webpack to coui://ui-mods/images/.
 import TitleBarIconPath from "../../../images/NotificationIcon_TitleBar.svg";
 
 const modIconSrc = TitleBarIconPath;
+
+// Info icon uses the built-in game media path, notification icon path below.
+const infoIconSrc = "Media/Game/Icons/AdvisorInfoViewWhite.svg";
+
 
 const roundButtonHighlightStyle = getModule("game-ui/common/input/button/themes/round-highlight-button.module.scss", "classes");
 const icon = (name: string) => `Media/Game/Notifications/${name}.svg`;
@@ -342,7 +346,7 @@ const NotificationPanelContent = () => {
             <div className={styles.toolbar}>
                 <Tooltip tooltip={localize("NotificationIconShowOrHide", "Expand any section; check to show, uncheck to hide.")}>
                     <div className={styles.infoButton}>
-                        <img src={InfoIconPath} className={styles.infoIcon} />
+                        <img src={infoIconSrc} className={styles.infoIcon} />
                     </div>
                 </Tooltip>
 
