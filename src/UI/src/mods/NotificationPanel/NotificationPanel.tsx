@@ -106,14 +106,15 @@ const infoIconSrc = "Media/Game/Icons/AdvisorInfoViewWhite.svg";
 const roundButtonHighlightStyle = getModule("game-ui/common/input/button/themes/round-highlight-button.module.scss", "classes");
 const icon = (name: string) => `Media/Game/Notifications/${name}.svg`;
 
-type Localize = (localeId: string, fallback?: string) => string;
+
+type Localize = (localeId: string, fallback?: string, raw?: boolean) => string;
 
 interface NotificationItem {
     readonly localeId: string;
 
     // Built-in game localization key for the notification title.
-    // Example: Notifications.TITLE[No Inputs]
-    // If this is missing or unavailable, CWD falls back to localeId.
+    // Example: NOTIFICATIONS.TITLE[GATE BYPASS]
+    // If the game key is missing, CWD falls back to localeId.
     readonly gameTitleKey?: string;
 
     readonly icon: string;
@@ -185,7 +186,14 @@ const sections: NotificationSection[] = [
     {
         localeId: "Company",
         items: [
-            { icon: icon("NoInputs"), localeId: "CompanyNoInputsNotification", binding: CompanyNoInputsNotificationBinding$, onToggle: OnCompanyNoInputsNotificationBindingToggle },
+            {
+                icon: icon("NoInputs"),
+                localeId: "CompanyNoInputsNotification",
+                gameTitleKey: "Notifications.TITLE[No Inputs]",
+                binding: CompanyNoInputsNotificationBinding$,
+                onToggle: OnCompanyNoInputsNotificationBindingToggle,
+            },
+
             { icon: icon("NoCustomers"), localeId: "CompanyNoCustomersNotification", binding: CompanyNoCustomersNotificationBinding$, onToggle: OnCompanyNoCustomersNotificationBindingToggle },
         ],
     },
@@ -304,7 +312,14 @@ const NotificationPanelContent = () => {
     const allSelected = allValues.every(Boolean);
     const allSectionsExpanded = sections.every((section) => expandedSections[section.localeId] === true);
 
-    const localize: Localize = (localeId, fallback) => translate(`CityWatchdog.UI[${localeId}]`) ?? fallback ?? localeId;
+    const localize: Localize = (localeId, fallback, raw = false) => {
+        if (raw) {
+            return translate(localeId) ?? fallback ?? localeId;
+        }
+
+        return translate(`CityWatchdog.UI[${localeId}]`) ?? fallback ?? localeId;
+    };
+
     const orderedSections = [...sections].sort((a, b) => {
         const result = localize(a.localeId).localeCompare(localize(b.localeId));
         return sortAscending ? result : -result;
@@ -507,11 +522,32 @@ const localizeRaw = (localeId: string) => {
     return VanillaComponentResolver.instance.translate?.(localeId) ?? localeId;
 };
 
-const NotificationRow = ({ item, isChecked, localize }: { item: NotificationItem; isChecked: boolean; localize: Localize }) => {
+
+const NotificationRow = ({
+    item,
+    isChecked,
+    localize,
+}: {
+    item: NotificationItem;
+    isChecked: boolean;
+    localize: Localize;
+}) => {
+    const gameLabel = item.gameTitleKey
+        ? localize(item.gameTitleKey, undefined, true)
+        : undefined;
+
+    const label =
+        gameLabel &&
+            gameLabel !== item.gameTitleKey &&
+            !gameLabel.includes("NOTIFICATIONS.TITLE") &&
+            !gameLabel.includes("Notifications.TITLE")
+            ? gameLabel
+            : localize(item.localeId);
+
     return (
         <InfoCheckbox
             image={item.icon}
-            label={localize(item.localeId)}
+            label={label}
             isChecked={isChecked}
             onToggle={item.onToggle}
             style={{ marginBottom: "5rem" }}

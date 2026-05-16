@@ -1,15 +1,10 @@
-
-
-    /*  6rem top/bottom
-    12rem left/right */
+// File: src/UI/src/mods/InfoPanel/InfoPanel.module.scss
+// Purpose: Styling for reusable collapsible sections in the City Watchdog notification panel.
 
 .infoPanel {
+    // 6rem top/bottom, 12rem left/right.
     padding: 6rem 12rem;
     background-color: rgba(0, 0, 0, 0.15);
-    /*    border-top-left-radius: var(--panelRadius);
-    border-top-right-radius: var(--panelRadius);
-    border-bottom-left-radius: var(--panelRadius);
-    border-bottom-right-radius: var(--panelRadius);*/
 }
 
 .infoPanelTitle {
@@ -29,25 +24,22 @@
     border: 0;
     background-color: transparent;
     color: rgba(254, 254, 254, 0.9);
-    // Use the normal UI font path for localized section names.
-    // This avoids missing glyph boxes for CJK and accented section names.
-    font-family: var(--fontFamilyRegular, var(--fontFamily, sans-serif));
+    // Use a broad UI font stack for localized section names.
+    // This helps CJK and accented Latin labels avoid missing-glyph boxes.
+    font-family: var(--fontFamilyRegular), var(--fontFamily), "Microsoft YaHei", "Yu Gothic UI", "Meiryo", "Malgun Gothic", "Segoe UI", sans-serif;
     text-align: left;
 }
 
+    .infoPanelHeader:hover {
+        color: white;
+    }
+
     .infoPanelHeader .infoPanelTitle {
+        flex: 1 1 auto;
+        margin-bottom: 0;
         font-family: inherit;
         text-transform: none;
     }
-
-.infoPanelHeader:hover {
-    color: white;
-}
-
-.infoPanelHeader .infoPanelTitle {
-    flex: 1 1 auto;
-    margin-bottom: 0;
-}
 
 .infoPanelSummary {
     min-width: 26rem;
