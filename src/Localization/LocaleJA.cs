@@ -31,8 +31,8 @@ namespace CityWatchdog
                 { m_Settings.GetSettingsLocaleID(), title },
 
                 // --- Tabs ---
-                { m_Settings.GetOptionTabLocaleID(Setting.Actions), "一般" },
-                { m_Settings.GetOptionTabLocaleID(Setting.Hotkeys), "キー設定" },
+                { m_Settings.GetOptionTabLocaleID(Setting.Actions), "アクション" },
+                { m_Settings.GetOptionTabLocaleID(Setting.Hotkeys), "ホットキー" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "情報" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "デバッグ" },
 
@@ -40,6 +40,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "実績" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "お金" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "マイルストーン" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "ホットキー" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "セーブ変換" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
@@ -103,20 +104,16 @@ namespace CityWatchdog
                     "よろしいですか？" },
 
                 // --- Key bindings ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "通知アイコンを切り替え" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "すべての通知アイコンをまとめて表示/非表示にするホットキーです。" },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "通知アイコンを切り替え" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "お金を追加" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "都市内でお金を追加するホットキーです。" },
                 { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "お金を追加" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "お金を減らす" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "都市内でお金を減らすホットキーです。" },
                 { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "お金を減らす" },
-
-#if DEBUG
-                // --- Debug key binding ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DebugKeyboardBinding)), "デバッグ操作" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DebugKeyboardBinding)), "開発者用のデバッグキー設定です。Debug ビルドでのみ表示されます。" },
-                { m_Settings.GetBindingKeyLocaleID("DebugAction"), "デバッグ操作" },
-
-#endif
 
                                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "MOD名" },
@@ -125,7 +122,6 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "現在のMODバージョンです。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "作者の Paradox Mods ページを開きます。" },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "説明を表示" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "下の使い方説明を表示/非表示にします。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),

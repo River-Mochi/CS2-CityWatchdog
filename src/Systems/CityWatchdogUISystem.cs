@@ -4,10 +4,17 @@
 namespace CityWatchdog.Systems
 {
     using CityWatchdog.Data;
+    using Game;
+    using Game.Input;
+    using Game.SceneFlow;
+    using System;
+    using System.Reflection;
+    using UnityEngine.InputSystem;
 
     public partial class CityWatchdogUISystem : UISystemBaseExtension {
-        private NotificationControllerSystem notificationControllerSystem = null!;
 
+        private NotificationControllerSystem notificationControllerSystem = null!;
+        private ProxyAction? toggleNotificationsAction;
         private BoolBinding panelVisibleBinding = null!;
 
         private BoolBinding electricityElectricityNotificationBinding = null!;
@@ -83,7 +90,9 @@ namespace CityWatchdog.Systems
 
         protected override void OnCreate() {
             base.OnCreate();
+
             notificationControllerSystem = World.GetOrCreateSystemManaged<NotificationControllerSystem>();
+            InitializeToggleNotificationsAction();
 
             panelVisibleBinding = AddBoolBindingAndTriggerBinding("ControlPanelEnabled", false, OnControlPanelBindingToggle);
 
@@ -486,6 +495,106 @@ namespace CityWatchdog.Systems
             notificationControllerSystem.EnableTransportLineNotification(TransportLineNotificationIcon.VehicleNotification, value, true);
         }
         #endregion
+
+        private void InitializeToggleNotificationsAction()
+        {
+            toggleNotificationsAction = TryGetAction(Setting.ToggleNotificationsAction);
+            if (toggleNotificationsAction == null)
+            {
+                return;
+            }
+
+            toggleNotificationsAction.shouldBeEnabled = true;
+            toggleNotificationsAction.onInteraction -= OnToggleNotificationsHotkey;
+            toggleNotificationsAction.onInteraction += OnToggleNotificationsHotkey;
+        }
+
+        private void OnToggleNotificationsHotkey(ProxyAction action, InputActionPhase phase)
+        {
+            if (phase != InputActionPhase.Performed || !IsInGame())
+            {
+                return;
+            }
+
+            ToggleAllNotificationsFromHotkey();
+        }
+
+        private void ToggleAllNotificationsFromHotkey()
+        {
+            bool enabled = !AreAllNotificationSettingsEnabled();
+
+            notificationControllerSystem.SetAllNotifications(enabled);
+            UpdateAllNotificationBindings(enabled);
+        }
+
+        private void UpdateAllNotificationBindings(bool enabled)
+        {
+            FieldInfo[] fields = typeof(CityWatchdogUISystem).GetFields(
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
+            foreach (FieldInfo field in fields)
+            {
+                if (!IsNotificationBindingField(field))
+                {
+                    continue;
+                }
+
+                if (field.GetValue(this) is BoolBinding binding)
+                {
+                    binding.Update(enabled);
+                }
+            }
+        }
+
+        private static bool IsNotificationBindingField(FieldInfo field)
+        {
+            return field.FieldType == typeof(BoolBinding) &&
+                   !string.Equals(field.Name, nameof(panelVisibleBinding), StringComparison.Ordinal);
+        }
+
+        private static bool AreAllNotificationSettingsEnabled()
+        {
+            Setting.NotificationSetting notification = Setting.Instance.Notification;
+            PropertyInfo[] properties = typeof(Setting.NotificationSetting).GetProperties(
+                BindingFlags.Instance | BindingFlags.Public);
+
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.PropertyType != typeof(bool) || !property.CanRead)
+                {
+                    continue;
+                }
+
+                if (property.GetValue(notification) is bool enabled && !enabled)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static bool IsInGame()
+        {
+            return GameManager.instance != null &&
+                   GameManager.instance.gameMode == GameMode.Game;
+        }
+
+        private ProxyAction? TryGetAction(string actionName)
+        {
+            try
+            {
+                return Setting.Instance.GetAction(actionName);
+            }
+            catch (Exception ex)
+            {
+                LogUtils.WarnOnce(
+                    "missing-keybind-" + actionName,
+                    () => $"Keybinding action '{actionName}' is unavailable: {ex.GetType().Name}: {ex.Message}",
+                    ex);
+                return null;
+            }
+        }
 
         private void OnControlPanelBindingToggle(bool value) => panelVisibleBinding.Update(value);
 

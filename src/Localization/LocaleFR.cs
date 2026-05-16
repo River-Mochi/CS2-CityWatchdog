@@ -31,7 +31,7 @@ namespace CityWatchdog
                 { m_Settings.GetSettingsLocaleID(), title },
 
                 // --- Tabs ---
-                { m_Settings.GetOptionTabLocaleID(Setting.Actions), "Général" },
+                { m_Settings.GetOptionTabLocaleID(Setting.Actions), "Actions" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Hotkeys), "Raccourcis" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "À propos" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "Débogage" },
@@ -40,6 +40,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "Succès" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Argent" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Palier" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "Raccourcis" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Conversion de sauvegarde" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
@@ -103,20 +104,16 @@ namespace CityWatchdog
                     "Confirmer ?" },
 
                 // --- Key bindings ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Basculer les icônes de notification" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Raccourci pour afficher ou masquer toutes les icônes de notification d’un coup." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Basculer les icônes de notification" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Ajouter de l'argent" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Raccourci pour ajouter de l'argent dans la ville." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Ajouter de l'argent" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Retirer de l'argent" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Raccourci pour retirer de l'argent dans la ville." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "Retirer de l'argent" },
-
-#if DEBUG
-                // --- Debug key binding ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DebugKeyboardBinding)), "Action de débogage" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DebugKeyboardBinding)), "Raccourci de débogage réservé au développement. N'apparaît que dans les builds Debug." },
-                { m_Settings.GetBindingKeyLocaleID("DebugAction"), "Action de débogage" },
-
-#endif
 
                                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Nom du mod" },
@@ -125,7 +122,6 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "Version actuelle du mod." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Ouvre la page Paradox Mods de l'auteur." },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Afficher les instructions" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Affiche ou masque les instructions ci-dessous." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),

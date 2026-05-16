@@ -13,6 +13,7 @@ namespace CityWatchdog.Systems
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Text;
     using Unity.Collections;
     using Unity.Entities;
@@ -115,7 +116,6 @@ namespace CityWatchdog.Systems
 
         private readonly Dictionary<Entity, int> EntityDictionary = new();
 
-
         public void Refresh() {
             EntityDictionary.Clear();
             NativeArray<ArchetypeChunk> nativeArray = iconQuery.ToArchetypeChunkArray(Allocator.TempJob);
@@ -157,8 +157,6 @@ namespace CityWatchdog.Systems
             EntityManager.SetComponentEnabled<NotificationIconDisplayData>(entity, enabled);
             RefreshIcon();
         }
-
-
 
 
         public void EnableTransportLineNotification(TransportLineNotificationIcon transportLineNotificationIcon, bool value, bool refresh = false) {
@@ -556,6 +554,47 @@ namespace CityWatchdog.Systems
                 RefreshIcon();
             }
         }
+
+
+
+        public void SetAllNotifications(bool enabled)
+        {
+            SetAllNotificationSettings(enabled);
+
+            SetElectricityNotifications(false);
+            SetWaterPipeNotifications(false);
+            SetBuildingNotifications(false);
+            SetTrafficNotifications(false);
+            SetCompanyNotifications(false);
+            SetWorkProviderNotifications(false);
+            SetDisasterNotifications(false);
+            SetFireNotifications(false);
+            SetGarbageNotifications(false);
+            SetHealthcareNotifications(false);
+            SetPoliceNotifications(false);
+            SetPollutionNotifications(false);
+            SetResourceConsumerNotifications(false);
+            SetRouteNotifications(false);
+            SetTransportLineNotifications(false);
+
+            RefreshIcon();
+        }
+
+        private static void SetAllNotificationSettings(bool enabled)
+        {
+            Setting.NotificationSetting notification = Setting.Instance.Notification;
+            PropertyInfo[] properties = typeof(Setting.NotificationSetting).GetProperties(
+                BindingFlags.Instance | BindingFlags.Public);
+
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.PropertyType == typeof(bool) && property.CanWrite)
+                {
+                    property.SetValue(notification, enabled);
+                }
+            }
+        }
+
 
         public void RefreshIcon() => World.GetOrCreateSystemManaged<IconClusterSystem>().RecalculateClusters();
 

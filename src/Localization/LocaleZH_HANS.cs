@@ -31,7 +31,7 @@ namespace CityWatchdog
                 { m_Settings.GetSettingsLocaleID(), title },
 
                 // --- Tabs ---
-                { m_Settings.GetOptionTabLocaleID(Setting.Actions), "常规" },
+                { m_Settings.GetOptionTabLocaleID(Setting.Actions), "操作" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Hotkeys), "快捷键" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "关于" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "调试" },
@@ -40,6 +40,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "成就" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "金钱" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "里程碑" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "快捷键" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "存档转换" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
@@ -103,20 +104,16 @@ namespace CityWatchdog
                     "确定吗？" },
 
                 // --- Key bindings ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "切换通知图标" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "一次显示或隐藏所有通知图标的快捷键。" },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "切换通知图标" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "添加金钱" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "在城市中添加金钱的快捷键。" },
                 { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "添加金钱" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "扣除金钱" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "在城市中扣除金钱的快捷键。" },
                 { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "扣除金钱" },
-
-#if DEBUG
-                // --- Debug key binding ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DebugKeyboardBinding)), "调试操作" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DebugKeyboardBinding)), "仅开发者使用的调试快捷键。只会在 Debug 构建中显示。" },
-                { m_Settings.GetBindingKeyLocaleID("DebugAction"), "调试操作" },
-
-#endif
 
                                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "模组名称" },
@@ -125,7 +122,6 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "当前模组版本。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "打开作者的 Paradox Mods 页面。" },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "显示说明" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "显示或隐藏下方使用说明。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),

@@ -92,7 +92,7 @@ namespace CityWatchdog
             try
             {
                 setting.RegisterKeyBindings();
-                EnableMoneyKeybinds(setting);
+                EnableKeybinds(setting);
             }
             catch (Exception ex)
             {
@@ -188,17 +188,21 @@ namespace CityWatchdog
             updateSystem.UpdateAt<NotificationControllerSystem>(SystemUpdatePhase.ModificationEnd);
         }
 
-        private static void EnableMoneyKeybinds(Setting setting)
+
+        private static void EnableKeybinds(Setting setting)
         {
             EnableAction(setting, Setting.AddMoneyAction);
             EnableAction(setting, Setting.SubtractMoneyAction);
+            EnableAction(setting, Setting.ToggleNotificationsAction);
         }
 
-        private static void DisableMoneyKeybinds(Setting setting)
+     private static void DisableMoneyKeybinds(Setting setting)
         {
             DisableAction(setting, Setting.AddMoneyAction);
             DisableAction(setting, Setting.SubtractMoneyAction);
+            DisableAction(setting, Setting.ToggleNotificationsAction);
         }
+
 
         private static void EnableAction(Setting setting, string actionName)
         {
