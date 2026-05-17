@@ -47,11 +47,11 @@ export const EntryButton = () => {
     };
 
     // Color SVG path:
-    //   Use Button src={ModIconPath}; this lets the SVG keep its own colors.
+    //   Use Button src={ModIconPath}; this lets SVG keep its own colors for GTL button.
     //
-    // Monochrome/tinted path:
-    //   Use <Icon tinted={true} src={ModIconPath} /> inside the Button body instead,
-    //   but only for white/tintable icons where losing the SVG's own colors is intended.
+    // For a white/tintable icons use Monochrome/tinted path:
+    //   <Icon tinted={true} src={ModIconPath} /> inside the Button body,
+    //   only do this where losing the SVG's own colors is intended.
 
     return (
         <DescriptionTooltip title={title} description={description} direction="right">
