@@ -413,7 +413,7 @@ const NotificationPanelContent = () => {
                         </Button>
                     </Tooltip>
 
-                    <Tooltip tooltip={localize("ToggleAllTooltip", "Show or hide all icons.\nGreen = show all, Red = show none, Blue = mixed.")}>
+                    <Tooltip tooltip={localize("ToggleAllTooltip", "Show/hide all icons. Color: green = all on; blue = mixed; red = all off.")}>
                         <Button
                             className={`${styles.toolbarButton} ${styles.toggleButton} ${toggleAllStateClass}`}
 
