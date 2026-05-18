@@ -160,7 +160,7 @@ namespace CityWatchdog
                     "Set Initial Money and select Milestones from the Options menu before loading or starting a city." },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
 
-                // --- Notification SIP panel common text ---
+                // --- Notification panel common text ---
                 { m_Settings.GetUILocaleID("EntryButtonTitle"), "CITY WATCHDOG" },
                 { m_Settings.GetUILocaleID("EntryButtonDescription"), "Open the notification icon panel." },
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
@@ -168,7 +168,7 @@ namespace CityWatchdog
                     "This does not fix city problems, it hides icon clutter." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Toggle All" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Expand All" },
-                { m_Settings.GetUILocaleID("CollapseAll"), "Collapse All" },
+                { m_Settings.GetUILocaleID("CollapseAll"), "Collapse All Rows" },
                 { m_Settings.GetUILocaleID("SortAscending"), "ASC ↑" },
                 { m_Settings.GetUILocaleID("SortDescending"), "DESC ↓" },
                 { m_Settings.GetUILocaleID("SortOrderTooltip"), "Sort order" },

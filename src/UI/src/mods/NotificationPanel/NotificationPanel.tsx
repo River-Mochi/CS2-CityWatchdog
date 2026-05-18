@@ -317,6 +317,13 @@ const NotificationPanelContent = () => {
     const allValues = useAllNotificationValues();
 
     const allSelected = allValues.every(Boolean);
+    const anySelected = allValues.some(Boolean);
+    const toggleAllStateClass = allSelected
+        ? styles.toggleAllOn
+        : anySelected
+            ? styles.toggleAllPartial
+            : styles.toggleAllOff;
+
     const allSectionsExpanded = sections.every((section) => expandedSections[section.localeId] === true);
 
     const localize: Localize = (localeId, fallback, raw = false) => {
@@ -381,16 +388,19 @@ const NotificationPanelContent = () => {
 
                 <div className={styles.toolbarButtons}>
 
-                    <Tooltip tooltip={allSectionsExpanded ? localize("CollapseAll", "Collapse All") : localize("ExpandAll", "Expand All")}>
+                    <Tooltip tooltip={allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows")}>
                         <Button
                             className={styles.toolbarButton + " " + styles.expandButton}
                             onClick={onToggleAllSections}
                             focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
                         >
                             <img
-                                src={allSectionsExpanded ? collapseAllIconSrc : expandAllIconSrc}
-                                className={styles.toolbarIcon}
+                                src={allSectionsExpanded ? collapseAllIconSrc : expandAllIconSrc}              
+                                className={`${styles.toolbarIcon} ${styles.expandCollapseIcon}`}
                                 alt=""
+                            />
+
+
                             />
                         </Button>
                     </Tooltip>
@@ -407,7 +417,8 @@ const NotificationPanelContent = () => {
 
                     <Tooltip tooltip={localize("ToggleAllTooltip", "Show or hide all icons")}>
                         <Button
-                            className={styles.toolbarButton + " " + styles.toggleButton}
+                            className={`${styles.toolbarButton} ${styles.toggleButton} ${toggleAllStateClass}`}
+
                             onClick={onToggleAll}
                             focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
                         >

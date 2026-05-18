@@ -135,18 +135,22 @@
     }
 }
 
+
 .infoIcon {
-    width: 22rem;
-    height: 22rem;
+    width: 24rem;
+    height: 24rem;
+    display: block;
     object-fit: contain;
     pointer-events: none;
 }
-
 
 .toolbarButton {
     height: 32rem;
     min-width: 86rem;
     padding: 0 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 4rem;
     border: 1rem solid rgba(255, 255, 255, 0.35);
     background-color: rgba(36, 54, 66, 0.58);
@@ -162,6 +166,21 @@
         color: #ffffff;
     }
 }
+
+.toolbarIcon {
+    width: 22rem;
+    height: 22rem;
+    display: block;
+    object-fit: contain;
+    pointer-events: none;
+    vertical-align: middle;
+}
+
+.expandCollapseIcon {
+    transform: rotate(90deg);
+    transform-origin: center;
+}
+
 
 .expandButton {
     width: 34rem;
@@ -187,12 +206,19 @@
     padding-right: 0;
 }
 
-.toolbarIcon {
-    width: 22rem;
-    height: 22rem;
-    display: block;
-    object-fit: contain;
-    pointer-events: none;
+.toggleAllOn {
+    border-color: rgba(95, 220, 120, 0.9);
+    background-color: rgba(40, 110, 62, 0.58);
+}
+
+.toggleAllPartial {
+    border-color: rgba(84, 215, 255, 0.9);
+    background-color: rgba(36, 88, 112, 0.58);
+}
+
+.toggleAllOff {
+    border-color: rgba(245, 96, 96, 0.9);
+    background-color: rgba(112, 42, 42, 0.58);
 }
 
 
