@@ -164,9 +164,11 @@
 }
 
 .expandButton {
-    width: 102rem;
-    min-width: 102rem;
-    flex: 0 0 102rem;
+    width: 34rem;
+    min-width: 34rem;
+    flex: 0 0 34rem;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .sortButton {
@@ -178,12 +180,21 @@
 }
 
 .toggleButton {
-    width: 92rem;
-    min-width: 92rem;
-    flex: 0 0 92rem;
-    padding-left: 5rem;
-    padding-right: 5rem;
+    width: 34rem;
+    min-width: 34rem;
+    flex: 0 0 34rem;
+    padding-left: 0;
+    padding-right: 0;
 }
+
+.toolbarIcon {
+    width: 22rem;
+    height: 22rem;
+    display: block;
+    object-fit: contain;
+    pointer-events: none;
+}
+
 
 .modIcon {
     width: 1.2em;

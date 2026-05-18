@@ -102,6 +102,13 @@ const modIconSrc = TitleBarIconPath;
 // Info icon uses the built-in game media path, notification icon path below.
 const infoIconSrc = "Media/Game/Icons/AdvisorInfoViewWhite.svg";
 
+// Toolbar icons use built-in game media paths.
+// All.svg is vanilla snap-options "all" icon.
+const toggleAllIconSrc = "Media/Tools/Snap Options/All.svg";
+
+// ParallelPlus / ParallelMinus used as compact expand/collapse icons.
+const expandAllIconSrc = "Media/Tools/Net Tool/ParallelPlus.svg";
+const collapseAllIconSrc = "Media/Tools/Net Tool/ParallelMinus.svg";
 
 const roundButtonHighlightStyle = getModule("game-ui/common/input/button/themes/round-highlight-button.module.scss", "classes");
 const icon = (name: string) => `Media/Game/Notifications/${name}.svg`;
@@ -366,20 +373,27 @@ const NotificationPanelContent = () => {
 
             {/* Keeps the help icon pinned left and the three action buttons grouped right. */}
             <div className={styles.toolbar}>
-                <Tooltip tooltip={localize("NotificationIconShowOrHide", "Expand any section; check to show, uncheck to hide.")}>
+                <Tooltip tooltip={localize("NotificationIconShowOrHide", "Expand any section; ☑ check to show, uncheck to hide.")}>
                     <div className={styles.infoButton}>
                         <img src={infoIconSrc} className={styles.infoIcon} />
                     </div>
                 </Tooltip>
 
                 <div className={styles.toolbarButtons}>
-                    <Button
-                        className={styles.toolbarButton + " " + styles.expandButton}
-                        onClick={onToggleAllSections}
-                        focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
-                    >
-                        {allSectionsExpanded ? localize("CollapseAll", "Collapse All") : localize("ExpandAll", "Expand All")}
-                    </Button>
+
+                    <Tooltip tooltip={allSectionsExpanded ? localize("CollapseAll", "Collapse All") : localize("ExpandAll", "Expand All")}>
+                        <Button
+                            className={styles.toolbarButton + " " + styles.expandButton}
+                            onClick={onToggleAllSections}
+                            focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
+                        >
+                            <img
+                                src={allSectionsExpanded ? collapseAllIconSrc : expandAllIconSrc}
+                                className={styles.toolbarIcon}
+                                alt=""
+                            />
+                        </Button>
+                    </Tooltip>
 
                     <Tooltip tooltip={localize("SortOrderTooltip", "Sort order")}>
                         <Button
@@ -397,9 +411,14 @@ const NotificationPanelContent = () => {
                             onClick={onToggleAll}
                             focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
                         >
-                            {localize("ToggleAll", "Toggle All")}
+                            <img
+                                src={toggleAllIconSrc}
+                                className={styles.toolbarIcon}
+                                alt=""
+                            />
                         </Button>
                     </Tooltip>
+
                 </div>
             </div>
 

@@ -137,11 +137,11 @@ namespace CityWatchdog
         [SettingsUISection(Hotkeys, HotkeyActions)]
         public ProxyBinding ToggleNotificationsKeyboardBinding { get; set; }
 
-        [SettingsUIKeyboardBinding(BindingKeyboard.Digit4, AddMoneyAction, shift: true)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.LeftBracket, AddMoneyAction)]
         [SettingsUISection(Hotkeys, HotkeyActions)]
         public ProxyBinding AddMoneyKeyboardBinding { get; set; }
 
-        [SettingsUIKeyboardBinding(BindingKeyboard.Digit4, SubtractMoneyAction)]
+        [SettingsUIKeyboardBinding(BindingKeyboard.RightBracket, SubtractMoneyAction)]
         [SettingsUISection(Hotkeys, HotkeyActions)]
         public ProxyBinding SubtractMoneyKeyboardBinding { get; set; }
 
