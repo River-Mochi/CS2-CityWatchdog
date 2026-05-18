@@ -172,7 +172,7 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("SortAscending"), "ASC ↑" },
                 { m_Settings.GetUILocaleID("SortDescending"), "DESC ↓" },
                 { m_Settings.GetUILocaleID("SortOrderTooltip"), "Sort order" },
-                { m_Settings.GetUILocaleID("ToggleAllTooltip"), "Show or hide all icons" },
+                { m_Settings.GetUILocaleID("ToggleAllTooltip"), "Show or hide all icons.\nGreen = show all, Red = show none, Blue = mixed." },
 
                 // --- Electricity notifications ---
                 { m_Settings.GetUILocaleID("Electricity"), "ELECTRICITY" },

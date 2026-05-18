@@ -122,6 +122,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "Aktuelle Modversion." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Öffnet die Paradox-Mods-Seite des Autors." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Anleitung anzeigen" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Blendet die Anleitung unten ein oder aus." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),

@@ -400,8 +400,6 @@ const NotificationPanelContent = () => {
                                 alt=""
                             />
 
-
-                            />
                         </Button>
                     </Tooltip>
 
@@ -415,7 +413,7 @@ const NotificationPanelContent = () => {
                         </Button>
                     </Tooltip>
 
-                    <Tooltip tooltip={localize("ToggleAllTooltip", "Show or hide all icons")}>
+                    <Tooltip tooltip={localize("ToggleAllTooltip", "Show or hide all icons.\nGreen = show all, Red = show none, Blue = mixed.")}>
                         <Button
                             className={`${styles.toolbarButton} ${styles.toggleButton} ${toggleAllStateClass}`}
 
@@ -424,7 +422,7 @@ const NotificationPanelContent = () => {
                         >
                             <img
                                 src={toggleAllIconSrc}
-                                className={styles.toolbarIcon}
+                                className={`${styles.toolbarIcon} ${styles.toggleAllIcon}`}
                                 alt=""
                             />
                         </Button>
