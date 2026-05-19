@@ -129,9 +129,9 @@ const MoneyTrendTooltipContent = ({ baseContent }: { readonly baseContent: React
         <>
             {baseContent}
             <div className={styles.tooltipRows}>
-                <TrendTooltipRow label="Current monthly trend:" value={monthlyMoney} />
-                <TrendTooltipRow label="Current monthly income:" value={totalIncome} />
-                <TrendTooltipRow label="Current monthly expenses:" value={-Math.abs(totalExpenses)} />
+                <TrendTooltipRow label="Monthly trend:" value={monthlyMoney} />
+                <TrendTooltipRow label="Monthly income:" value={totalIncome} />
+                <TrendTooltipRow label="Monthly expenses:" value={-Math.abs(totalExpenses)} />
             </div>
         </>
     );
