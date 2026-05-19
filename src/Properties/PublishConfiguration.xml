@@ -8,46 +8,50 @@
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
-# City Watchdog (CWD)
+        # City Watchdog (CWD)
 
-- Helps you control city alert icon clutter and gives a few convenient city setup tools.
-- This is redux and expansion of the original City Controller mod (broken, retired).
+        - Helps you control city alert icon clutter and gives a few convenient city setup tools.
+        - This is redux and expansion of the original City Controller mod (broken, retired).
 
-### Features
+        ### Features
 
-- Notification icon display/hide controls.
-- Trend Tracker for money/population toolbar values and detailed money tooltip.
-- Change the MilesStone you start with.
-- Manual add/subtract money controls using hotkeys.
-- Automatic add money option.
-- Convert saves from Unlimited money type to normal Limited money.
-- Built-in Achievement Fixer behavior and achievement repair tools.
+        - Notification icon display/hide controls.
+        - Built-in Achievement Fixer and achievement repair tools.
+        - Change the MilesStone you start with (if you want Trains now, you can have it!).
 
-Hotkeys
-- N to toggle all notification icons on/off.
-- [  = Add Money
-- ]  = Subtract Money
+        #### Money
 
-### Important Notes
-- City Watchdog hides/shows alert icons; it does not fix the city problem behind the icons. Good for making videos and reducing stress.
-- Make a backup before converting an Unlimited Money city save. Mod cannot undo that conversion.
-- City Watchdog now includes Achievement Fixer behavior. Running the separate Achievement Fixer mod at the same time is not needed.
+        - Manual add/subtract money controls using hotkeys.
+        - Automatic add money option.
+        - Trend Tracker for money/population toolbar values and detailed money tooltip.
+        - Convert saves from Unlimited money type to normal Limited money.
 
-### Support and feedback
-Feedback is welcome through GitHub or Discord links on the right.
-If you like free mods, give a Like, easy way to show support :)
 
-### Future
-- New 9 languages supported, more needed.
-- If anyone can make better Thumbnail and screenshots, please let me know.
+        Hotkeys
+        - N to toggle all notification icons on/off.
+        - [  = Add Money
+        - ]  = Subtract Money
 
-### Credits
-- River Mochi - mod author and maintainer
-- Thanks to Mbyron26 for the original City Controller mod
-- Dorkington, Flightech, SonNathan - testers
-- Thumbnail photograph by Maryia Shedava at Mont Saint-Michel in Normandy, France https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
+        ### Important Notes
+        - City Watchdog hides/shows alert icons; it does not fix the city problem behind the icons. Good for making videos and reducing stress.
+        - Make a backup before converting an Unlimited Money city save. Mod cannot undo that conversion.
+        - You can remove any separate Achievement Fixer mod if you use this mod.
 
-</LongDescription>
+        ### Support and feedback
+        Feedback is welcome through GitHub or Discord links on the right.
+        If you like free mods, give a Like, easy way to show support :)
+
+        ### Future
+        - New 9 languages supported, more needed.
+        - If anyone can make better Thumbnail and screenshots, please let me know.
+
+        ### Credits
+        - River Mochi - mod author and maintainer
+        - Thanks to Mbyron26 for the original City Controller mod
+        - Dorkington, Flightech, SonNathan - testers
+        - Thumbnail photograph by Maryia Shedava at Mont Saint-Michel in Normandy, France https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
+
+    </LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail-dog-city01.jpg" />
 	<!--Screenshot, can be set multiple times-->

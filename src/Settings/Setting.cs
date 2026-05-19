@@ -208,10 +208,15 @@ namespace CityWatchdog
         [SettingsUISection(AchievementsTab, Achievements)]
         public string AchievementNotes => string.Empty;
 
+        [SettingsUISection(AchievementsTab, Achievements)]
+        public bool ShowAdvancedAchievementTools { get; set; }
+
+        [SettingsUIHideByCondition(typeof(Setting), nameof(HideAdvancedAchievementTools))]
         [SettingsUISection(AchievementsTab, AchievementTools)]
         [SettingsUIDropdown(typeof(Setting), nameof(GetAchievementChoices))]
         public string SelectedAchievement { get; set; } = string.Empty;
 
+        [SettingsUIHideByCondition(typeof(Setting), nameof(HideAdvancedAchievementTools))]
         [SettingsUIButton]
         [SettingsUIButtonGroup(AchievementTools)]
         [SettingsUISection(AchievementsTab, AchievementTools)]
@@ -250,6 +255,7 @@ namespace CityWatchdog
             }
         }
 
+        [SettingsUIHideByCondition(typeof(Setting), nameof(HideAdvancedAchievementTools))]
         [SettingsUIButton]
         [SettingsUIButtonGroup(AchievementTools)]
         [SettingsUIConfirmation]
@@ -289,10 +295,12 @@ namespace CityWatchdog
             }
         }
 
+        [SettingsUIHideByCondition(typeof(Setting), nameof(HideAdvancedAchievementTools))]
         [SettingsUIMultilineText]
         [SettingsUISection(AchievementsTab, AchievementTools)]
         public string AchievementToolsAdvisory => string.Empty;
 
+        [SettingsUIHideByCondition(typeof(Setting), nameof(HideAdvancedAchievementTools))]
         [SettingsUIButton]
         [SettingsUIConfirmation]
         [SettingsUIButtonGroup(AchievementDanger)]
@@ -395,6 +403,11 @@ namespace CityWatchdog
         private bool HideUsageText()
         {
             return !ShowUsage;
+        }
+
+        private bool HideAdvancedAchievementTools()
+        {
+            return !ShowAdvancedAchievementTools;
         }
 
         private bool CannotConvertUnlimitedMoneySave()
@@ -514,6 +527,7 @@ namespace CityWatchdog
         public override void SetDefaults()
         {
             AchievementsEnabled = true;
+            ShowAdvancedAchievementTools = false;
             SelectedAchievement = string.Empty;
 
             TrendTracker = true;

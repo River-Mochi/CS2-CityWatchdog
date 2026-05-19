@@ -44,7 +44,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Milestone" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Save Conversion" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "Achievements" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.AchievementTools), "Achievement Tools" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AchievementTools), "Advanced Tools" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AchievementDanger), "Reset Achievements" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "Hotkeys" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
@@ -145,42 +145,57 @@ namespace CityWatchdog
                 // --- Achievements ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "Enable Achievements" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)),
-                    "- Keeps <achievements enabled [ ✓ ]> while mod is loaded.\n" +
-                    "- After a city loads, CWD re-checks achievements for a short window in case the game turns them off because mods are active." },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementNotes)),
-                    "- Keeps achievements enabled, refreshes the game's achievements warning text." +
-                    "- Optional tools below for testing or repairing individual achievements.\n" +
-                    "- Normal players usually only need to [Enable Achievements]."
+                    "Keep this **ON [ ✓ ]** to allow achievements while using mods.\n" +
+                    "Game doesn't count tasks done in the past,\n " +
+                    "so just keep it enabled and do the tasks to naturally complete achievements."
                 },
+             
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementNotes)),
+                    "• Achievements are <enabled> by default without using the Advanced buttons below.\n\n" +
+                    "• Do the required tasks to naturally complete achievements :)\n"
+                },
+
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementNotes)), "" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowAdvancedAchievementTools)), "Show Advanced Tools" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowAdvancedAchievementTools)),
+                    "**Optional:** for testing, clearing, or activating an achievement."
+                },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SelectedAchievement)), "Selected Achievement" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.SelectedAchievement)),
-                    "Choose an achievement by the game's localized achievement name.\n" +
-                    "The dropdown uses the game's own achievement title keys when available." },
+                    "Select one achievement to change.\n"+
+                    "<Not needed for normal achievement progress.>\n" +
+                    "This is only if you want to reset/clear your achievements or unlock them without doing the tasks."
+                },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UnlockSelectedAchievement)), "Unlock Selected" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.UnlockSelectedAchievement)), "Attempts to unlock the selected achievement through the platform achievement API." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.UnlockSelectedAchievement)), "**Unlocks & Completes** the selected achievement." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ClearSelectedAchievement)), "Clear Selected" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ClearSelectedAchievement)), "Attempts to clear the selected achievement through the platform achievement API." },
-                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ClearSelectedAchievement)),
-                    "Clear the selected achievement?\n" +
-                    "This is intended for testing and repair work." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ClearSelectedAchievement)), "Marks the selected achievement as **not completed**." },
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ClearSelectedAchievement)), "CLEAR / RESET this achievement.\n\nContinue?" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementToolsAdvisory)),
-                    "- Unlock/Clear tools are for testing, recovery, or modder troubleshooting.\n" +
-                    "- They call the platform achievement API directly and may not be reversible on every platform." },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementToolsAdvisory)), "" },
+                    "<Advanced tools are optional>\n" +
+                    "• Use for testing, repairs, or resetting all achievements.\n" +
+                    "• Hover over any button for details in the right side panel."
+                },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementToolsAdvisory)), "Test" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ResetAllAchievements)), "Reset All Achievements" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ResetAllAchievements)), "RESET ALL" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ResetAllAchievements)),
-                    "Requests a platform reset of all achievements.\n" +
-                    "Use only for testing or serious repair work." },
+                    "This clears out all your completed achievements and lets you start fresh.\n" +
+                    "**BE CAREFUL** using **[RESET ALL]**.\n" +
+                    "If you accidentally use it, you can recover completed achievements with the [Unlock Selected] button."
+                },
+
+                // Confirmation modal Yes/No
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ResetAllAchievements)),
-                    "Reset ALL achievements?\n" +
-                    "This is a destructive testing/repair action and may not be reversible on every platform." },
+                      "WARNING: RESET/CLEAR all achievements to a NOT complete status.\n" +
+                      "Continue?"
+                },
+
 
                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Mod name" },
