@@ -119,6 +119,7 @@ const gameTitleKeys: Record<string, string> = {
     ElectricityBuildingBottleneckNotification: "Notifications.TITLE[Electricity Building Bottleneck Notification]",
     ElectricityNotEnoughProductionNotification: "Notifications.TITLE[Electricity Not Enough Production Notification]",
     ElectricityTransformerNotification: "Notifications.TITLE[Electricity Transformer Out of Capacity]",
+    ElectricityNotEnoughConnectedNotification: "Notifications.TITLE[Electricity Not Enough Connected Notification]",
     ElectricityBatteryEmptyNotification: "Notifications.TITLE[Battery Empty]",
     ElectricityLowVoltageNotConnected: "Notifications.TITLE[Powerline Not Connected - Low]",
     ElectricityHighVoltageNotConnected: "Notifications.TITLE[Powerline Not Connected]",

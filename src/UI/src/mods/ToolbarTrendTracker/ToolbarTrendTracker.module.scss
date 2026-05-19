@@ -1,13 +1,41 @@
 .trendText {
     margin-left: 4rem;
-    min-width: 44rem;
+    width: 86rem;
+    flex: 0 0 auto;
     color: var(--accentColorLight);
     font-size: 11rem;
     font-weight: 600;
     line-height: 1;
+    text-align: right;
     white-space: nowrap;
+    coh-font-fit-mode: shrink;
     pointer-events: none;
     text-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.85);
+}
+
+.tooltipRows {
+    margin-top: 1rem;
+}
+
+.tooltipRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 335rem;
+    gap: 16rem;
+}
+
+.tooltipLabel {
+    flex: 1 1 auto;
+    white-space: nowrap;
+}
+
+.tooltipValue {
+    flex: 0 0 auto;
+    text-align: right;
+    white-space: nowrap;
+    coh-font-fit-mode: shrink;
 }
 
 .positive {
