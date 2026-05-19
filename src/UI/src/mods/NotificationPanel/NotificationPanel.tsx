@@ -405,6 +405,23 @@ const NotificationPanelContent = () => {
         return translate(`CityWatchdog.UI[${localeId}]`) ?? fallback ?? localeId;
     };
 
+    const tooltipContent = (localeId: string, fallback: string) => {
+        const tooltip = localize(localeId, fallback);
+        const lines = tooltip.split("\n");
+
+        if (lines.length <= 1) {
+            return tooltip;
+        }
+
+        return (
+            <div className={styles.tooltipText}>
+                {lines.map((line, index) => (
+                    <div key={`${localeId}-${index}`}>{line}</div>
+                ))}
+            </div>
+        );
+    };
+
     const orderedSections = [...sections].sort((a, b) => {
         const result = localize(a.localeId).localeCompare(localize(b.localeId));
         return sortAscending ? result : -result;
@@ -451,7 +468,7 @@ const NotificationPanelContent = () => {
 
             {/* Keeps the help icon pinned left and the three action buttons grouped right. */}
             <div className={styles.toolbar}>
-                <Tooltip tooltip={localize("NotificationIconShowOrHide", "Expand any section; ☑ check to show, uncheck to hide.")}>
+                <Tooltip tooltip={tooltipContent("NotificationIconShowOrHide", "Expand any row; [✓] check to show, uncheck to hide alerts.\nThis does not fix city problems, it hides icon clutter.")}>
                     <div className={styles.infoButton}>
                         <img src={infoIconSrc} className={styles.infoIcon} />
                     </div>
@@ -484,7 +501,7 @@ const NotificationPanelContent = () => {
                         </Button>
                     </Tooltip>
 
-                    <Tooltip tooltip={localize("ToggleAllTooltip", "Show/hide all icons. Color: green = all on; blue = mixed; red = all off.")}>
+                    <Tooltip tooltip={tooltipContent("ToggleAllTooltip", "Show/hide all icons.\nColor: green = all on; blue = mixed; red = all off.")}>
                         <Button
                             className={`${styles.toolbarButton} ${styles.toggleButton} ${toggleAllStateClass}`}
 
