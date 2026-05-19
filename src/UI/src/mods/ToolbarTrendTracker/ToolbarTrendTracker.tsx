@@ -35,6 +35,8 @@ export const DescriptionTooltipTrendTrackerExtension: ModuleRegistryExtend = (Co
 
         return Component({
             ...props,
+            title: null,
+            description: null,
             content: <MoneyTrendTooltipContent baseContent={props.content} />,
         });
     };
@@ -130,12 +132,10 @@ const MoneyTrendTooltipContent = ({ baseContent }: { readonly baseContent: React
 
     return (
         <div className={styles.tooltipRows}>
-            <TrendTooltipRow label="Income/mo:" value={monthlyIncome} />
-            <TrendTooltipRow label="Expenses/mo:" value={monthlyExpenses} />
-            <TrendTooltipRow label="Balance/mo:" value={monthlyBalance} />
-            <TrendTooltipRow label="Income/h:" value={hourlyIncome} />
-            <TrendTooltipRow label="Expenses/h:" value={hourlyExpenses} />
-            <TrendTooltipRow label="Trend/h:" value={hourlyTrend} />
+            <div className={styles.tooltipTitle}>TRENDS</div>
+            <TrendTooltipGroup label="Income:" hourlyValue={hourlyIncome} monthlyValue={monthlyIncome} />
+            <TrendTooltipGroup label="Expenses:" hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} />
+            <TrendTooltipGroup label="Net:" hourlyValue={hourlyTrend} monthlyValue={monthlyBalance} />
         </div>
     );
 };
@@ -157,18 +157,23 @@ const containsIcon = (node: ReactNode, icon: string): boolean => {
     return Children.toArray(props?.children).some((child) => containsIcon(child, icon));
 };
 
-const TrendTooltipRow = ({ label, value, suffix }: { readonly label: string; readonly value: number; readonly suffix?: string }) => {
-    const tone = getTrendTone(value);
-    const text = suffix ? `${formatTrendValue(value)}\u00A0${suffix}` : formatTrendValue(value);
-
+const TrendTooltipGroup = ({ label, hourlyValue, monthlyValue }: { readonly label: string; readonly hourlyValue: number; readonly monthlyValue: number }) => {
     return (
-        <div className={styles.tooltipRow}>
+        <div className={styles.tooltipGroup}>
             <div className={styles.tooltipLabel}>{label}</div>
-            <div className={`${styles.tooltipValue} ${styles[tone]}`}>
-                {text}
+            <div className={styles.tooltipValues}>
+                <TrendTooltipValue value={hourlyValue} suffix="/h" />
+                <TrendTooltipValue value={monthlyValue} suffix="/mo" />
             </div>
         </div>
     );
+};
+
+const TrendTooltipValue = ({ value, suffix }: { readonly value: number; readonly suffix: string }) => {
+    const tone = getTrendTone(value);
+    const text = `${formatTrendValue(value)}\u00A0${suffix}`;
+
+    return <div className={`${styles.tooltipValue} ${styles[tone]}`}>{text}</div>;
 };
 
 const getTrendTone = (value: number): TrendTone => {

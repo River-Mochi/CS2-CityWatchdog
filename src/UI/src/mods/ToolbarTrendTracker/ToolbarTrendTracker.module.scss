@@ -13,26 +13,36 @@
 }
 
 .tooltipRows {
-    width: 285rem;
+    width: 240rem;
 }
 
-.tooltipRow {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    gap: 16rem;
-}
-
-.tooltipLabel {
-    flex: 1 1 auto;
+.tooltipTitle {
+    margin-bottom: 6rem;
+    font-weight: 700;
     white-space: nowrap;
 }
 
-.tooltipValue {
+.tooltipGroup {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    gap: 16rem;
+    margin-top: 5rem;
+}
+
+.tooltipLabel {
     flex: 0 0 auto;
-    font-size: 15rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.tooltipValues {
+    flex: 0 0 auto;
+}
+
+.tooltipValue {
     text-align: right;
     white-space: nowrap;
 }

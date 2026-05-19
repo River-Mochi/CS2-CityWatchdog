@@ -61,6 +61,7 @@ namespace CityWatchdog
         internal const string AboutUsage = nameof(AboutUsage);
 
         private const string AboutLinksRow = nameof(AboutLinksRow);
+        private const string UsageIconPath = "coui://ui-mods/images/CWDNotificationIcon_white02.svg";
         private const string UrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
 
@@ -365,7 +366,7 @@ namespace CityWatchdog
         [SettingsUISection(About, AboutUsage)]
         public bool ShowUsage { get; set; }
 
-        [SettingsUIMultilineText]
+        [SettingsUIMultilineText(UsageIconPath)]
         [SettingsUIHideByCondition(typeof(Setting), nameof(HideUsageText))]
         [SettingsUISection(About, AboutUsage)]
         public string UsageText => string.Empty;
