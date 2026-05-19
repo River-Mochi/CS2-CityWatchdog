@@ -117,7 +117,7 @@ const TrendText = ({ value, displayMode }: { readonly value: number; readonly di
 
 const MoneyTrendTooltipContent = ({ baseContent }: { readonly baseContent: ReactNode }) => {
     const trendTracker = useValue(trendTracker$);
-    const trendDisplayMode = useValue(trendDisplayMode$);
+    const hourlyTrend = getNumericValue(useValue(toolbarBottom.moneyDelta$));
     const monthlyIncome = getNumericValue(useValue(economyBudget.totalIncome$));
     const monthlyExpenses = -Math.abs(getNumericValue(useValue(economyBudget.totalExpenses$)));
     const monthlyBalance = monthlyIncome + monthlyExpenses;
@@ -129,16 +129,14 @@ const MoneyTrendTooltipContent = ({ baseContent }: { readonly baseContent: React
     }
 
     return (
-        <>
-            {baseContent}
-            <div className={styles.tooltipRows}>
-                <TrendTooltipRow label="Monthly income:" value={monthlyIncome} suffix="/m" />
-                <TrendTooltipRow label="Monthly expenses:" value={monthlyExpenses} suffix="/m" />
-                <TrendTooltipRow label="Monthly balance:" value={monthlyBalance} suffix="/m" />
-                <TrendTooltipRow label="Hourly income:" value={hourlyIncome} suffix="/h" />
-                <TrendTooltipRow label="Hourly expenses:" value={hourlyExpenses} suffix="/h" />
-            </div>
-        </>
+        <div className={styles.tooltipRows}>
+            <TrendTooltipRow label="Income/mo:" value={monthlyIncome} />
+            <TrendTooltipRow label="Expenses/mo:" value={monthlyExpenses} />
+            <TrendTooltipRow label="Balance/mo:" value={monthlyBalance} />
+            <TrendTooltipRow label="Income/h:" value={hourlyIncome} />
+            <TrendTooltipRow label="Expenses/h:" value={hourlyExpenses} />
+            <TrendTooltipRow label="Trend/h:" value={hourlyTrend} />
+        </div>
     );
 };
 
@@ -159,9 +157,9 @@ const containsIcon = (node: ReactNode, icon: string): boolean => {
     return Children.toArray(props?.children).some((child) => containsIcon(child, icon));
 };
 
-const TrendTooltipRow = ({ label, value, suffix }: { readonly label: string; readonly value: number; readonly suffix: string }) => {
+const TrendTooltipRow = ({ label, value, suffix }: { readonly label: string; readonly value: number; readonly suffix?: string }) => {
     const tone = getTrendTone(value);
-    const text = `${formatTrendValue(value)}\u00A0${suffix}`;
+    const text = suffix ? `${formatTrendValue(value)}\u00A0${suffix}` : formatTrendValue(value);
 
     return (
         <div className={styles.tooltipRow}>
