@@ -151,7 +151,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementNotes)),
                     "- Keeps achievements enabled, refreshes the game's achievements warning text." +
                     "- Optional tools below for testing or repairing individual achievements.\n" +
-                    "Normal players usually only need to [Enable Achievements]." },
+                    "- Normal players usually only need to [Enable Achievements]."
+                },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementNotes)), "" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SelectedAchievement)), "Selected Achievement" },
@@ -169,8 +170,8 @@ namespace CityWatchdog
                     "This is intended for testing and repair work." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementToolsAdvisory)),
-                    "Unlock/Clear tools are for testing, recovery, or modder troubleshooting.\n" +
-                    "They call the platform achievement API directly and may not be reversible on every platform." },
+                    "- Unlock/Clear tools are for testing, recovery, or modder troubleshooting.\n" +
+                    "- They call the platform achievement API directly and may not be reversible on every platform." },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementToolsAdvisory)), "" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ResetAllAchievements)), "Reset All Achievements" },
