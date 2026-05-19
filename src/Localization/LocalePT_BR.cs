@@ -32,45 +32,47 @@ namespace CityWatchdog
 
                 // --- Tabs ---
                 { m_Settings.GetOptionTabLocaleID(Setting.Actions), "Ações" },
+                { m_Settings.GetOptionTabLocaleID(Setting.AchievementsTab), "Conquistas" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Hotkeys), "Atalhos" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "Sobre" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "Depuração" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "Conquistas" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "Trend Tracker" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Dinheiro" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "Notificações" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Marco" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Converter save" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "Conquistas" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "Atalhos" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "USO" },
 
-                // --- Achievements ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "Ativar conquistas" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)),
-                    "Mantém conquistas ativadas [ ✓ ] enquanto este mod estiver carregado.\n" +
-                    "É recomendado usar o mod <Achievement Fixer (AF)>, pois ele é mais completo e robusto nessa área.\n" +
-                    "Se <Achievement Fixer> estiver instalado, o City Watchdog esconde esta opção e deixa o AF cuidar das conquistas.\n" +
-                    "FUTURO: pretendo mesclar o AF neste mod; por enquanto, adicionar o AF é a melhor opção." },
+                // --- Trend Tracker ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "Trend Tracker" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
+                    "Adiciona valores numéricos de tendência ao lado das setas vanilla de dinheiro e população na barra inferior.\n" +
+                    "É apenas uma exibição leve da barra; não altera o dinheiro nem a população da cidade." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Modo do Trend Tracker" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
+                    "Escolha se o texto de tendência da barra inferior mostra valores por hora ou mensais para dinheiro e população.\n" +
+                    "Mensal usa receita menos despesas do orçamento para dinheiro, e uma projeção de 24 horas para população." },
+                { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "Por hora (/h)" },
+                { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "Mensal (/mo)" },
 
                 // --- Money helpers ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "Rastreador de tendências" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
-                    "Adiciona valores numéricos ao lado das setas de tendência de dinheiro e população na barra inferior.\n" +
-                    "É apenas uma leitura visual leve; não altera dinheiro nem população." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Modo de exibição de tendência" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
-                    "Escolha se o texto de tendência da barra inferior mostra valores por hora ou mensais.\n" +
-                    "Mensal usa receita menos despesa para dinheiro e uma projeção de 24 horas para população." },
-                { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "Por hora (/h)" },
-                { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "Por mês (/mo)" },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Valor do atalho de dinheiro" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
-                    "Use este valor com os atalhos de Adicionar dinheiro e Subtrair dinheiro.\n" +
+                    "Use este valor com os atalhos Adicionar dinheiro e Subtrair dinheiro.\n" +
                     "Padrão = 20.000.\n" +
                     "Isto não altera o saldo atual sozinho." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Adicionar dinheiro" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Atalho para adicionar dinheiro dentro da cidade." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Adicionar dinheiro" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Subtrair dinheiro" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Atalho para subtrair dinheiro dentro da cidade." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "Subtrair dinheiro" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Adicionar dinheiro automático" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
                     "Quando ativado [ ✓ ], o City Watchdog verifica o saldo da cidade enquanto ela está carregada.\n" +
@@ -89,6 +91,13 @@ namespace CityWatchdog
                     "Fica cinza se uma cidade já estiver carregada.\n" +
                     "Defina antes de iniciar/carregar uma cidade → aplica uma vez → depois use <Valor do atalho de dinheiro> ou <Adicionar dinheiro automático>." },
                 { m_Settings.GetOptionLocaleID("GameDefault"), "Padrão do jogo" },
+
+                // --- Notifications ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Alternar ícones de notificação" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
+                    "Atalho para a mesma ação do botão [Toggle All] no painel de ícones de notificação do jogo.\n" +
+                    "Mostra ou oculta todos os ícones de notificação do City Watchdog de uma vez." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Alternar ícones de notificação" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Seletor de marco" },
@@ -120,18 +129,13 @@ namespace CityWatchdog
                     "Salve um backup PRIMEIRO; o City Watchdog não pode desfazer isto.\n" +
                     "Tem certeza?" },
 
-                // --- Hotkeys ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Alternar ícones de notificação" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
-                    "Atalho para a mesma ação do botão [Alternar tudo] no painel do jogo.\n" +
-                    "Mostra ou oculta todos os ícones de notificação do City Watchdog de uma vez." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Alternar ícones de notificação" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Adicionar dinheiro" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Atalho para adicionar dinheiro dentro da cidade." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Adicionar dinheiro" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Subtrair dinheiro" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Atalho para subtrair dinheiro dentro da cidade." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "Subtrair dinheiro" },
+                // --- Achievements ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "Ativar conquistas" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)),
+                    "Mantém conquistas ativadas [ ✓ ] enquanto este mod estiver carregado.\n" +
+                    "É recomendado usar o mod <Achievement Fixer (AF)>, pois ele é mais completo e robusto nessa área.\n" +
+                    "Se <Achievement Fixer> estiver instalado, o City Watchdog deixa todo o gerenciamento de conquistas para o AF e esconde esta opção.\n" +
+                    "FUTURO: pretendo mesclar o AF neste mod; por enquanto, adicionar o AF é a melhor opção." },
 
                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Nome do mod" },
@@ -140,18 +144,17 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "Versão atual do mod." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Abre a página do autor no Paradox Mods." },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Mostrar instruções" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Mostra ou oculta as instruções abaixo." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Painel de notificações>\n" +
                     "1. No jogo, clique no botão City Watchdog no canto superior esquerdo para abrir o painel.\n" +
                     "2. Use ASC/DESC para ordenar as seções.\n" +
-                    "3. Use Alternar tudo para configuração rápida, ou expanda uma seção para mudar ícones individuais.\n" +
-                    "4. O City Watchdog só oculta ou mostra ícones; ele não corrige o problema da cidade.\n" +
+                    "3. Use Toggle All para configuração rápida, ou expanda uma seção para mudar ícones individuais.\n" +
+                    "4. O City Watchdog só oculta ou mostra ícones; ele não corrige o problema real da cidade.\n" +
                     "\n" +
                     "<Ferramentas de dinheiro>\n" +
-                    "1. Rastreador de tendências adiciona valores /h ou /mo ao lado das setas de dinheiro e população.\n" +
+                    "1. Trend Tracker adiciona valores /h ou /mo ao lado das setas de tendência de dinheiro e população na barra inferior.\n" +
                     "2. Adicionar dinheiro e Subtrair dinheiro usam o Valor do atalho de dinheiro.\n" +
                     "3. Adicionar dinheiro automático observa o saldo da cidade enquanto ela está carregada e adiciona dinheiro abaixo do limite.\n" +
                     "4. Converter save de Dinheiro ilimitado é apenas para cidades iniciadas com Dinheiro ilimitado e <não pode ser revertido> pelo City Watchdog.\n" +
@@ -160,19 +163,21 @@ namespace CityWatchdog
                     "Defina Dinheiro inicial e selecione Marcos no menu de Opções antes de carregar ou iniciar uma cidade." },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
 
-                // --- Notification SIP panel common text ---
+                // --- Notification panel common text ---
                 { m_Settings.GetUILocaleID("EntryButtonTitle"), "CITY WATCHDOG" },
                 { m_Settings.GetUILocaleID("EntryButtonDescription"), "Abrir o painel de ícones de notificação." },
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
-                    "Expanda qualquer seção; marque [✓] para mostrar e desmarque para ocultar alertas.\n" +
-                    "Isto não corrige problemas da cidade; apenas reduz a poluição visual dos ícones." },
+                    "Expanda qualquer linha; marque [✓] para mostrar e desmarque para ocultar alertas.\n" +
+                    "Isto não corrige problemas da cidade; apenas oculta a bagunça de ícones." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Alternar tudo" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Expandir tudo" },
-                { m_Settings.GetUILocaleID("CollapseAll"), "Recolher tudo" },
+                { m_Settings.GetUILocaleID("CollapseAll"), "Recolher todas as linhas" },
                 { m_Settings.GetUILocaleID("SortAscending"), "ASC ↑" },
                 { m_Settings.GetUILocaleID("SortDescending"), "DESC ↓" },
                 { m_Settings.GetUILocaleID("SortOrderTooltip"), "Ordem de classificação" },
-                { m_Settings.GetUILocaleID("ToggleAllTooltip"), "Mostrar ou ocultar todos os ícones" },
+                { m_Settings.GetUILocaleID("ToggleAllTooltip"),
+                    "Mostra/oculta todos os ícones.\n" +
+                    "Cor: verde = tudo ligado; azul = misto; vermelho = tudo desligado." },
 
                 // --- Electricity notifications ---
                 { m_Settings.GetUILocaleID("Electricity"), "ELETRICIDADE" },

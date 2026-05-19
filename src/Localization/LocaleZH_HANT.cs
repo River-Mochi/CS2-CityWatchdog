@@ -32,45 +32,47 @@ namespace CityWatchdog
 
                 // --- Tabs ---
                 { m_Settings.GetOptionTabLocaleID(Setting.Actions), "操作" },
+                { m_Settings.GetOptionTabLocaleID(Setting.AchievementsTab), "成就" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Hotkeys), "快捷鍵" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "關於" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "除錯" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "成就" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "Trend Tracker" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "金錢" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "通知" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "里程碑" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "存檔轉換" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "成就" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "快捷鍵" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "使用方式" },
 
-                // --- Achievements ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "啟用成就" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)),
-                    "載入本模組時，保持成就啟用。\n" +
-                    "建議使用 <Achievement Fixer (AF)> 模組，因為它在這方面最完整也最穩定。\n" +
-                    "如果已安裝 <Achievement Fixer>，City Watchdog 會隱藏此選項，並讓 AF 處理所有成就功能。\n" +
-                    "未來：會把 AF 模組整合進本模組；目前加入 AF 模組是最佳選擇。" },
-
-                // --- Money helpers ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "趨勢追蹤" },
+                // --- Trend Tracker ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "Trend Tracker" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
-                    "在底部工具列的金錢與人口趨勢箭頭旁加入數字讀數。\n" +
-                    "這只是輕量 UI 讀數，不會改變城市金錢或人口。" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "趨勢顯示模式" },
+                    "在底部工具列的原版金錢與人口箭頭旁顯示數字趨勢值。\n" +
+                    "這只是輕量顯示，不會改變城市金錢或人口。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Trend Tracker 顯示模式" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
-                    "選擇底部工具列趨勢文字顯示每小時數值或每月數值。\n" +
-                    "每月金錢使用收入減支出，人口使用 24 小時預測。" },
+                    "選擇底部工具列的趨勢文字顯示金錢與人口的每小時值或每月值。\n" +
+                    "每月金錢使用預算收入減去支出，人口使用 24 小時預測。" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "每小時 (/h)" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "每月 (/mo)" },
 
+                // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "金錢快捷鍵金額" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
                     "用於增加金錢和扣除金錢快捷鍵的金額。\n" +
                     "預設 = 20,000。\n" +
-                    "此設定本身不會直接改變目前餘額。" },
+                    "此設定本身不會改變目前餘額。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "增加金錢" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "在城市內增加金錢的快捷鍵。" },
+                { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "增加金錢" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "扣除金錢" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "在城市內扣除金錢的快捷鍵。" },
+                { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "扣除金錢" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "自動增加金錢" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
                     "啟用 [ ✓ ] 後，City Watchdog 會在城市載入期間檢查城市餘額。\n" +
@@ -89,6 +91,13 @@ namespace CityWatchdog
                     "如果城市已經載入，此選項會變成灰色不可用。\n" +
                     "在開始/載入城市前設定 → 套用一次 → 之後使用 <金錢快捷鍵金額> 或 <自動增加金錢>。" },
                 { m_Settings.GetOptionLocaleID("GameDefault"), "遊戲預設" },
+
+                // --- Notifications ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "切換通知圖示" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
+                    "與遊戲內通知圖示面板的 [Toggle All] 按鈕相同功能的快捷鍵。\n" +
+                    "可一次顯示或隱藏所有 City Watchdog 通知圖示。" },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "切換通知圖示" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "里程碑選擇器" },
@@ -120,18 +129,13 @@ namespace CityWatchdog
                     "請先備份；City Watchdog 無法復原此操作。\n" +
                     "確定嗎？" },
 
-                // --- Hotkeys ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "切換通知圖示" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
-                    "與遊戲內 [全部切換] 通知圖示按鈕相同功能的快捷鍵。\n" +
-                    "可一次顯示或隱藏所有 City Watchdog 通知圖示。" },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "切換通知圖示" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "增加金錢" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "在城市內增加金錢的快捷鍵。" },
-                { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "增加金錢" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "扣除金錢" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "在城市內扣除金錢的快捷鍵。" },
-                { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "扣除金錢" },
+                // --- Achievements ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "啟用成就" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)),
+                    "載入本模組時，保持成就啟用 [ ✓ ]。\n" +
+                    "建議使用 <Achievement Fixer (AF)> 模組，因為它在這方面最完整也最穩定。\n" +
+                    "如果已安裝 <Achievement Fixer>，City Watchdog 會把所有成就處理交給 AF，並隱藏此選項。\n" +
+                    "未來：會把 AF 模組整合進本模組；目前加入 AF 模組是最佳選擇。" },
 
                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "模組名稱" },
@@ -140,18 +144,17 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "目前模組版本。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "開啟作者的 Paradox Mods 頁面。" },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "顯示說明" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "顯示或隱藏下方使用說明。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<通知面板>\n" +
                     "1. 在遊戲中點擊左上角的 City Watchdog 按鈕開啟面板。\n" +
                     "2. 使用 ASC/DESC 排序分類。\n" +
-                    "3. 使用全部切換快速設定，或展開分類逐一調整通知圖示。\n" +
+                    "3. 使用 Toggle All 快速設定，或展開分類逐一調整通知圖示。\n" +
                     "4. City Watchdog 只會隱藏或顯示圖示；不會修復圖示背後的城市問題。\n" +
                     "\n" +
                     "<金錢工具>\n" +
-                    "1. 趨勢追蹤會在金錢與人口趨勢箭頭旁加入 /h 或 /mo 數值。\n" +
+                    "1. Trend Tracker 會在底部工具列的金錢與人口趨勢箭頭旁顯示 /h 或 /mo 數值。\n" +
                     "2. 增加金錢和扣除金錢會使用金錢快捷鍵金額。\n" +
                     "3. 自動增加金錢會在城市載入期間監看餘額，低於門檻時增加金錢。\n" +
                     "4. 轉換無限金錢存檔只適用於以無限金錢開始的城市，City Watchdog <無法復原>。\n" +
@@ -160,19 +163,21 @@ namespace CityWatchdog
                     "請在載入或開始城市前，於選項選單設定初始金錢與里程碑。" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
 
-                // --- Notification SIP panel common text ---
+                // --- Notification panel common text ---
                 { m_Settings.GetUILocaleID("EntryButtonTitle"), "CITY WATCHDOG" },
                 { m_Settings.GetUILocaleID("EntryButtonDescription"), "開啟通知圖示面板。" },
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
-                    "展開任一分類；勾選 [✓] 顯示，取消勾選則隱藏警示。\n" +
-                    "這不會修復城市問題，只會減少圖示雜亂。" },
+                    "展開任一列；勾選 [✓] 顯示，取消勾選則隱藏警示。\n" +
+                    "這不會修復城市問題，只會隱藏圖示雜亂。" },
                 { m_Settings.GetUILocaleID("ToggleAll"), "全部切換" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "全部展開" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "全部折疊" },
                 { m_Settings.GetUILocaleID("SortAscending"), "升序 ↑" },
                 { m_Settings.GetUILocaleID("SortDescending"), "降序 ↓" },
                 { m_Settings.GetUILocaleID("SortOrderTooltip"), "排序方式" },
-                { m_Settings.GetUILocaleID("ToggleAllTooltip"), "顯示或隱藏所有圖示" },
+                { m_Settings.GetUILocaleID("ToggleAllTooltip"),
+                    "顯示/隱藏所有圖示。\n" +
+                    "顏色：綠色 = 全部開啟；藍色 = 混合；紅色 = 全部關閉。" },
 
                 // --- Electricity notifications ---
                 { m_Settings.GetUILocaleID("Electricity"), "電力" },

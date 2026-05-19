@@ -32,45 +32,47 @@ namespace CityWatchdog
 
                 // --- Tabs ---
                 { m_Settings.GetOptionTabLocaleID(Setting.Actions), "작업" },
+                { m_Settings.GetOptionTabLocaleID(Setting.AchievementsTab), "도전 과제" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Hotkeys), "단축키" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "정보" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "디버그" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "도전 과제" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "Trend Tracker" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "돈" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "알림" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "마일스톤" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "저장 변환" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "도전 과제" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "단축키" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "사용법" },
 
-                // --- Achievements ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "도전 과제 켜기" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)),
-                    "이 모드가 로드되어 있을 때 도전 과제를 켜진 상태로 유지합니다.\n" +
-                    "<Achievement Fixer (AF)> 모드가 이 부분에서 가장 자세하고 안정적이므로 같이 쓰는 것을 권장합니다.\n" +
-                    "<Achievement Fixer>가 설치되어 있으면 City Watchdog은 이 옵션을 숨기고 도전 과제 처리를 AF에 맡깁니다.\n" +
-                    "향후: AF 모드를 이 모드에 통합할 예정입니다. 지금은 AF 모드를 추가하는 것이 가장 좋은 선택입니다." },
-
-                // --- Money helpers ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "추세 추적기" },
+                // --- Trend Tracker ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "Trend Tracker" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
-                    "하단 도구막대의 돈과 인구 추세 화살표 옆에 숫자 값을 추가합니다.\n" +
-                    "가벼운 UI 표시 기능일 뿐이며 도시의 돈이나 인구를 바꾸지 않습니다." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "추세 표시 모드" },
+                    "하단 툴바의 바닐라 돈/인구 화살표 옆에 숫자 추세 값을 추가합니다.\n" +
+                    "가벼운 툴바 표시 기능일 뿐이며 도시 자금이나 인구를 변경하지 않습니다." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Trend Tracker 표시 모드" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
-                    "하단 도구막대 추세 텍스트를 시간당 또는 월간 값으로 표시할지 선택합니다.\n" +
-                    "월간은 돈에는 수입-지출을, 인구에는 24시간 예측을 사용합니다." },
+                    "하단 툴바의 추세 텍스트를 돈과 인구에 대해 시간당 또는 월간 값으로 표시할지 선택합니다.\n" +
+                    "월간 돈은 예산 수입에서 지출을 뺀 값이며, 인구는 24시간 예측을 사용합니다." },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "시간당 (/h)" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "월간 (/mo)" },
 
+                // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "돈 단축키 금액" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
                     "돈 추가와 돈 차감 단축키에 사용할 금액입니다.\n" +
                     "기본값 = 20,000.\n" +
                     "이 옵션만으로 현재 잔액이 바뀌지는 않습니다." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "돈 추가" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "도시 안에서 돈을 추가하는 단축키입니다." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "돈 추가" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "돈 차감" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "도시 안에서 돈을 차감하는 단축키입니다." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "돈 차감" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "자동 돈 추가" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
                     "켜져 있으면 [ ✓ ], City Watchdog이 도시가 로드된 동안 도시 잔액을 확인합니다.\n" +
@@ -89,6 +91,13 @@ namespace CityWatchdog
                     "도시가 이미 로드되어 있으면 회색으로 비활성화됩니다.\n" +
                     "도시 시작/로드 전에 설정 → 한 번 적용 → 이후에는 <돈 단축키 금액> 또는 <자동 돈 추가>를 사용하세요." },
                 { m_Settings.GetOptionLocaleID("GameDefault"), "게임 기본값" },
+
+                // --- Notifications ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "알림 아이콘 전환" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
+                    "게임 내 [Toggle All] 알림 아이콘 버튼과 같은 기능의 단축키입니다.\n" +
+                    "모든 City Watchdog 알림 아이콘을 한 번에 표시하거나 숨깁니다." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "알림 아이콘 전환" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "마일스톤 선택기" },
@@ -120,18 +129,13 @@ namespace CityWatchdog
                     "먼저 백업을 저장하세요. City Watchdog은 이 작업을 되돌릴 수 없습니다.\n" +
                     "확실한가요?" },
 
-                // --- Hotkeys ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "알림 아이콘 전환" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
-                    "게임 내 [모두 전환] 알림 아이콘 버튼과 같은 기능의 단축키입니다.\n" +
-                    "모든 City Watchdog 알림 아이콘을 한 번에 표시하거나 숨깁니다." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "알림 아이콘 전환" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "돈 추가" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "도시 안에서 돈을 추가하는 단축키입니다." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "돈 추가" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "돈 차감" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "도시 안에서 돈을 차감하는 단축키입니다." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "돈 차감" },
+                // --- Achievements ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "도전 과제 켜기" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)),
+                    "이 모드가 로드되어 있을 때 도전 과제를 켜진 상태로 유지합니다 [ ✓ ].\n" +
+                    "<Achievement Fixer (AF)> 모드가 이 부분에서 가장 자세하고 안정적이므로 같이 쓰는 것을 권장합니다.\n" +
+                    "<Achievement Fixer>가 설치되어 있으면 City Watchdog은 도전 과제 처리를 모두 AF에 맡기고 이 옵션을 숨깁니다.\n" +
+                    "향후: AF 모드를 이 모드에 통합할 예정입니다. 지금은 AF 모드를 추가하는 것이 가장 좋은 선택입니다." },
 
                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "모드 이름" },
@@ -140,18 +144,17 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "현재 모드 버전입니다." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "작성자의 Paradox Mods 페이지를 엽니다." },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "사용법 표시" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "아래 사용법 설명을 표시하거나 숨깁니다." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<알림 패널>\n" +
                     "1. 게임 안에서 왼쪽 위 City Watchdog 버튼을 눌러 패널을 엽니다.\n" +
                     "2. ASC/DESC로 섹션을 정렬합니다.\n" +
-                    "3. 빠른 설정은 모두 전환을 사용하거나, 섹션을 펼쳐 개별 알림 아이콘을 변경합니다.\n" +
+                    "3. Toggle All로 빠르게 설정하거나, 섹션을 펼쳐 개별 알림 아이콘을 변경합니다.\n" +
                     "4. City Watchdog은 아이콘만 숨기거나 표시합니다. 도시 문제 자체를 해결하지는 않습니다.\n" +
                     "\n" +
                     "<돈 도우미>\n" +
-                    "1. 추세 추적기는 돈과 인구 추세 화살표 옆에 /h 또는 /mo 값을 추가합니다.\n" +
+                    "1. Trend Tracker는 하단 툴바 돈/인구 추세 화살표 옆에 /h 또는 /mo 값을 추가합니다.\n" +
                     "2. 돈 추가와 돈 차감은 돈 단축키 금액 값을 사용합니다.\n" +
                     "3. 자동 돈 추가는 도시가 로드된 동안 잔액을 확인하고 기준값보다 낮으면 돈을 추가합니다.\n" +
                     "4. 무제한 돈 저장 변환은 무제한 돈으로 시작한 도시만 대상으로 하며, City Watchdog은 <되돌릴 수 없습니다>.\n" +
@@ -160,19 +163,21 @@ namespace CityWatchdog
                     "도시를 로드하거나 시작하기 전에 옵션 메뉴에서 초기 자금과 마일스톤을 설정하세요." },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
 
-                // --- Notification SIP panel common text ---
+                // --- Notification panel common text ---
                 { m_Settings.GetUILocaleID("EntryButtonTitle"), "CITY WATCHDOG" },
                 { m_Settings.GetUILocaleID("EntryButtonDescription"), "알림 아이콘 패널을 엽니다." },
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
-                    "아무 섹션이나 펼치세요. [✓] 체크하면 표시, 체크 해제하면 알림을 숨깁니다.\n" +
-                    "도시 문제를 해결하지는 않고, 아이콘만 줄입니다." },
+                    "아무 행이나 펼치세요. [✓] 체크하면 표시, 체크 해제하면 알림을 숨깁니다.\n" +
+                    "도시 문제를 해결하지는 않고, 아이콘 clutter만 줄입니다." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "모두 전환" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "모두 펼치기" },
-                { m_Settings.GetUILocaleID("CollapseAll"), "모두 접기" },
+                { m_Settings.GetUILocaleID("CollapseAll"), "모든 행 접기" },
                 { m_Settings.GetUILocaleID("SortAscending"), "오름차순 ↑" },
                 { m_Settings.GetUILocaleID("SortDescending"), "내림차순 ↓" },
                 { m_Settings.GetUILocaleID("SortOrderTooltip"), "정렬 순서" },
-                { m_Settings.GetUILocaleID("ToggleAllTooltip"), "모든 아이콘 표시 또는 숨기기" },
+                { m_Settings.GetUILocaleID("ToggleAllTooltip"),
+                    "모든 아이콘을 표시/숨깁니다.\n" +
+                    "색상: 초록 = 모두 켜짐, 파랑 = 혼합, 빨강 = 모두 꺼짐." },
 
                 // --- Electricity notifications ---
                 { m_Settings.GetUILocaleID("Electricity"), "전기" },
