@@ -44,7 +44,6 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Milestone" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Save Conversion" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "Achievements" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.AchievementLinks), "Achievement Links" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AchievementTools), "Achievement Tools" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AchievementDanger), "Reset Achievements" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "Hotkeys" },
@@ -154,13 +153,6 @@ namespace CityWatchdog
                     "It keeps platform achievements enabled, refreshes the game's achievements warning text, and adds optional tools below for testing or repairing individual achievements.\n" +
                     "Normal players usually only need [Enable Achievements] checked." },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementNotes)), "" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenAchievementParadox)), "Paradox Mods" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenAchievementParadox)), "Open the author's Paradox Mods page." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenAchievementDiscord)), "Discord" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenAchievementDiscord)), "Open the River-Mochi Discord support link." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenAchievementsWiki)), "Achievements Wiki" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenAchievementsWiki)), "Open the Cities: Skylines II achievements wiki page." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SelectedAchievement)), "Selected Achievement" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.SelectedAchievement)),

@@ -22,12 +22,12 @@ namespace CityWatchdog
     [FileLocation("ModsSettings/CityWatchdog/CityWatchdog")]
 #if DEBUG
     [SettingsUITabOrder(Actions, AchievementsTab, About, Debug)]
-    [SettingsUIGroupOrder(Money, Trends, Notifications, Milestone, SaveConversion, Achievements, AchievementLinks, AchievementTools, AchievementDanger, AboutInfo, AboutLinks, AboutUsage, Serialize)]
-    [SettingsUIShowGroupName(Money, Trends, Notifications, Milestone, SaveConversion, Achievements, AchievementLinks, AchievementTools, AchievementDanger, AboutUsage, Serialize)]
+    [SettingsUIGroupOrder(Money, Trends, Notifications, Milestone, SaveConversion, Achievements, AchievementTools, AchievementDanger, AboutInfo, AboutLinks, AboutUsage, Serialize)]
+    [SettingsUIShowGroupName(Money, Trends, Notifications, Milestone, SaveConversion, Achievements, AchievementTools, AchievementDanger, AboutUsage, Serialize)]
 #else
     [SettingsUITabOrder(Actions, AchievementsTab, About)]
-    [SettingsUIGroupOrder(Money, Trends, Notifications, Milestone, SaveConversion, Achievements, AchievementLinks, AchievementTools, AchievementDanger, AboutInfo, AboutLinks, AboutUsage)]
-    [SettingsUIShowGroupName(Money, Trends, Notifications, Milestone, SaveConversion, Achievements, AchievementLinks, AchievementTools, AchievementDanger, AboutUsage)]
+    [SettingsUIGroupOrder(Money, Trends, Notifications, Milestone, SaveConversion, Achievements, AchievementTools, AchievementDanger, AboutInfo, AboutLinks, AboutUsage)]
+    [SettingsUIShowGroupName(Money, Trends, Notifications, Milestone, SaveConversion, Achievements, AchievementTools, AchievementDanger, AboutUsage)]
 #endif
     public partial class Setting : ModSetting
     {
@@ -53,7 +53,6 @@ namespace CityWatchdog
         internal const string Milestone = nameof(Milestone);
         internal const string SaveConversion = nameof(SaveConversion);
         internal const string Achievements = nameof(Achievements);
-        internal const string AchievementLinks = nameof(AchievementLinks);
         internal const string AchievementTools = nameof(AchievementTools);
         internal const string AchievementDanger = nameof(AchievementDanger);
         internal const string HotkeyActions = nameof(HotkeyActions);
@@ -62,11 +61,8 @@ namespace CityWatchdog
         internal const string AboutUsage = nameof(AboutUsage);
 
         private const string AboutLinksRow = nameof(AboutLinksRow);
-        private const string AchievementLinksRow = nameof(AchievementLinksRow);
         private const string UrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
-        private const string UrlDiscord = "https://discord.gg/HTav7ARPs2";
-        private const string UrlAchievementsWiki = "https://cs2.paradoxwikis.com/Achievements";
 
         private static readonly string[] Milestones =
         {
@@ -211,48 +207,6 @@ namespace CityWatchdog
         [SettingsUIMultilineText]
         [SettingsUISection(AchievementsTab, Achievements)]
         public string AchievementNotes => string.Empty;
-
-        [SettingsUIButtonGroup(AchievementLinksRow)]
-        [SettingsUIButton]
-        [SettingsUISection(AchievementsTab, AchievementLinks)]
-        public bool OpenAchievementParadox
-        {
-            set
-            {
-                if (value)
-                {
-                    TryOpenUrl(UrlParadox);
-                }
-            }
-        }
-
-        [SettingsUIButtonGroup(AchievementLinksRow)]
-        [SettingsUIButton]
-        [SettingsUISection(AchievementsTab, AchievementLinks)]
-        public bool OpenAchievementDiscord
-        {
-            set
-            {
-                if (value)
-                {
-                    TryOpenUrl(UrlDiscord);
-                }
-            }
-        }
-
-        [SettingsUIButtonGroup(AchievementLinksRow)]
-        [SettingsUIButton]
-        [SettingsUISection(AchievementsTab, AchievementLinks)]
-        public bool OpenAchievementsWiki
-        {
-            set
-            {
-                if (value)
-                {
-                    TryOpenUrl(UrlAchievementsWiki);
-                }
-            }
-        }
 
         [SettingsUISection(AchievementsTab, AchievementTools)]
         [SettingsUIDropdown(typeof(Setting), nameof(GetAchievementChoices))]

@@ -1,6 +1,6 @@
 .trendText {
-    margin-left: 6rem;
-    width: 112rem;
+    margin-left: 4rem;
+    min-width: 72rem;
     flex: 0 0 auto;
     color: var(--accentColorLight);
     font-size: 14rem;
@@ -14,6 +14,7 @@
 
 .tooltipRows {
     margin-top: 1rem;
+    width: 100%;
 }
 
 .tooltipRow {
@@ -21,7 +22,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: 335rem;
+    width: 100%;
     gap: 16rem;
 }
 
@@ -32,6 +33,8 @@
 
 .tooltipValue {
     flex: 0 0 auto;
+    font-size: 15rem;
+    font-weight: 600;
     text-align: right;
     white-space: nowrap;
 }

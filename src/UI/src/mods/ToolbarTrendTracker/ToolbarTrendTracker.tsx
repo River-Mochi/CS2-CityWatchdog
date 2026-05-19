@@ -105,8 +105,8 @@ const PopulationTrendText = () => {
 
 const TrendText = ({ value, displayMode }: { readonly value: number; readonly displayMode: number }) => {
     const tone = getTrendTone(value);
-    const suffix = displayMode === TREND_DISPLAY_MODE_MONTHLY ? "/mo" : "/h";
-    const text = `${formatTrendValue(value)}\u00A0${suffix}`;
+    const suffix = displayMode === TREND_DISPLAY_MODE_MONTHLY ? "/m" : "/h";
+    const text = `${formatToolbarTrendValue(value)}\u00A0${suffix}`;
 
     return (
         <div className={`${styles.trendText} ${styles[tone]}`}>
@@ -132,15 +132,11 @@ const MoneyTrendTooltipContent = ({ baseContent }: { readonly baseContent: React
         <>
             {baseContent}
             <div className={styles.tooltipRows}>
-                <TrendTooltipRow label="Monthly balance:" value={monthlyBalance} suffix="/mo" />
-                <TrendTooltipRow label="Monthly income:" value={monthlyIncome} suffix="/mo" />
-                <TrendTooltipRow label="Monthly expenses:" value={monthlyExpenses} suffix="/mo" />
-                {trendDisplayMode === TREND_DISPLAY_MODE_MONTHLY && (
-                    <>
-                        <TrendTooltipRow label="Hourly income:" value={hourlyIncome} suffix="/h" />
-                        <TrendTooltipRow label="Hourly expenses:" value={hourlyExpenses} suffix="/h" />
-                    </>
-                )}
+                <TrendTooltipRow label="Monthly income:" value={monthlyIncome} suffix="/m" />
+                <TrendTooltipRow label="Monthly expenses:" value={monthlyExpenses} suffix="/m" />
+                <TrendTooltipRow label="Monthly balance:" value={monthlyBalance} suffix="/m" />
+                <TrendTooltipRow label="Hourly income:" value={hourlyIncome} suffix="/h" />
+                <TrendTooltipRow label="Hourly expenses:" value={hourlyExpenses} suffix="/h" />
             </div>
         </>
     );
@@ -197,4 +193,31 @@ const formatTrendValue = (value: number): string => {
     const roundedValue = Math.round(Math.abs(value));
     const sign = value > 0 ? "+" : value < 0 ? "-" : "";
     return `${sign}${roundedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+};
+
+const formatToolbarTrendValue = (value: number): string => {
+    const roundedValue = Math.round(Math.abs(value));
+    const sign = value > 0 ? "+" : value < 0 ? "-" : "";
+
+    if (roundedValue >= 1_000_000_000) {
+        return `${sign}${formatCompactNumber(roundedValue / 1_000_000_000)}B`;
+    }
+
+    if (roundedValue >= 1_000_000) {
+        return `${sign}${formatCompactNumber(roundedValue / 1_000_000)}M`;
+    }
+
+    return `${sign}${roundedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+};
+
+const formatCompactNumber = (value: number): string => {
+    if (value >= 100) {
+        return Math.round(value).toString();
+    }
+
+    if (value >= 10) {
+        return value.toFixed(1).replace(/\.0$/, "");
+    }
+
+    return value.toFixed(2).replace(/\.?0+$/, "");
 };
