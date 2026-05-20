@@ -1,54 +1,116 @@
-// file: ToolbarTrendTracker.module.scss
+// File: src/UI/src/mods/ToolbarTrendTracker/ToolbarTrendTracker.module.scss
+// Purpose:
+//   Styles [CWD] Trend Tracker text added to the bottom toolbar
+//   and the custom money tooltip rows when hovering over the money field.
+//
+// Notes:
+//   - .trendText is the small value shown directly in the bottom toolbar.
+//   - .tooltipRows and below are only for the hover tooltip panel.
+//   - Positive/negative/neutral colors are shared by toolbar text and tooltip values.
 
+// -----------------------------------------------------------------------------
+// Bottom toolbar trend value.
+// Example in toolbar: +62,636 /h
+// Change this to adjust the number next to vanilla money/population.
+// -----------------------------------------------------------------------------
 .trendText {
     margin-left: 4rem;
+    // Minimum reserved space beside the vanilla toolbar value.
+    // Increase if large values overlap; decrease if toolbar feels too wide.
     min-width: 72rem;
+    // Keeps the trend text from stretching the vanilla toolbar layout.
     flex: 0 0 auto;
+    // Default color before positive/negative/neutral classes override it.
     color: var(--accentColorLight);
-    font-size: 16rem;
-    font-weight: 700;
+    // Font size for the bottom toolbar trend amount only. Does not change tooltip area.
+    font-size: 14rem;
+    font-weight: 600;
     line-height: 1.05;
     text-align: right;
+    // Prevents "/h" or "/mo" from wrapping under the value.
     white-space: nowrap;
+    // This text is display-only; mouse hover should pass through to vanilla tooltip.
     pointer-events: none;
+    // Improves readability over bright map backgrounds.
     text-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.85);
 }
 
+// -----------------------------------------------------------------------------
+// Custom tooltip body shown when hovering over money.
+// Increases width of the tooltip panel to fit 2 columns.
+// -----------------------------------------------------------------------------
 .tooltipRows {
-    width: 240rem;
+    width: 255rem;
 }
 
+// -----------------------------------------------------------------------------
+// Optional tooltip title
+// Example: WATCHDOG
+// To remove the title completely, remove the title row in ToolbarTrendTracker.tsx.
+// -----------------------------------------------------------------------------
 .tooltipTitle {
     margin-bottom: 6rem;
+    color: var(--accentColorLight);
     font-weight: 700;
+    letter-spacing: 1.6rem;
     white-space: nowrap;
 }
 
+// -----------------------------------------------------------------------------
+// One tooltip row group.
+// Example:
+//   Income:      +853,205 /h
+//            +20,476,908 /mo
+//
+// Creates a left Label column and a right Value column.
+// -----------------------------------------------------------------------------
 .tooltipGroup {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
     width: 100%;
-    gap: 16rem;
+    // Space between the label column and the value column.
+    gap: 15rem;
+    // Vertical spacing between Income / Expenses / Net / Total groups.
     margin-top: 5rem;
 }
 
+// -----------------------------------------------------------------------------
+// Left-side label in each tooltip group.
+// Example: Income:, Expenses:, Net:, Total:
+// -----------------------------------------------------------------------------
 .tooltipLabel {
     flex: 0 0 auto;
     font-weight: 700;
     white-space: nowrap;
 }
 
-.tooltipValues {
+// -----------------------------------------------------------------------------
+// Right-side column wrapper that holds the numbers in each tooltip group.
+// wrapper exists because Income/Expenses/Net each show two values:
+// one /h line and one /mo line.
+// -----------------------------------------------------------------------------
+.tooltipValueColumn {
     flex: 0 0 auto;
 }
 
-.tooltipValue {
+// -----------------------------------------------------------------------------
+// Individual value line inside the right-side value column.
+// Example:     +853,205 /h
+//          +20,476,908 /mo
+// -----------------------------------------------------------------------------
+.tooltipValueLine {
     text-align: right;
     white-space: nowrap;
+    font-size: 1.15em;
+    font-weight: 500;
 }
 
+// -----------------------------------------------------------------------------
+// Shared color states.
+// Used by both toolbar trend text and tooltip values.
+// -----------------------------------------------------------------------------
 .positive {
     color: var(--highlightGreen);
 }

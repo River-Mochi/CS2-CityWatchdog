@@ -214,13 +214,13 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Notification panel>\n" +
-                    "1. In-game, click the City Watchdog top-left button to open the panel.\n" +
-                    "2. Use ASC/DESC to sort sections.\n" +
+                    "1. Click the City Watchdog button (Top Left) to open the panel.\n" +
+                    "2. ASC/DESC to sort.\n" +
                     "3. Use Toggle All for quick setup, or expand a section to change individual notification icons.\n" +
                     "4. City Watchdog hides or shows icons only; it does not fix the underlying city problem.\n\n" +
                     "<Money helpers>\n" +
                     "1. Trend Tracker adds numeric /h or /mo values beside the bottom-toolbar money and population trend arrows.\n" +
-                    "2. Add Money and Subtract Money use the Money Hotkey Amount value.\n" +
+                    "2. Add and Subtract Money: use the <Money Hotkey Amount>.\n" +
                     "3. Automatic Add Money watches the city balance while a city is loaded and adds money when below the threshold.\n" +
                     "4. Convert Unlimited Money Save is only for cities that were started with Unlimited Money and is <not reversible> by City Watchdog.\n\n" +
                     "<Custom milestone>\n" +

@@ -126,19 +126,27 @@ const MoneyTrendTooltipContent = ({ baseContent }: { readonly baseContent: React
     const hourlyIncome = monthlyIncome / HOURS_PER_GAME_MONTH;
     const hourlyExpenses = monthlyExpenses / HOURS_PER_GAME_MONTH;
 
+    // Current total city money same as vanilla bottom toolbar.
+    const totalMoney = getNumericValue(useValue(toolbarBottom.money$));
+
     if (!trendTracker) {
         return <>{baseContent}</>;
     }
 
     return (
         <div className={styles.tooltipRows}>
-            <div className={styles.tooltipTitle}>TRENDS</div>
+            <div className={styles.tooltipTitle}>WATCHDOG</div>
             <TrendTooltipGroup label="Income:" hourlyValue={hourlyIncome} monthlyValue={monthlyIncome} />
             <TrendTooltipGroup label="Expenses:" hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} />
             <TrendTooltipGroup label="Net:" hourlyValue={hourlyTrend} monthlyValue={monthlyBalance} />
+            <TrendTooltipSingleValue label="Total:" value={totalMoney} />
         </div>
     );
 };
+
+
+
+
 
 const isMoneyTooltip = (props: any): boolean => {
     return Boolean(props?.content) && containsIcon(props?.children, MONEY_ICON);
@@ -161,7 +169,7 @@ const TrendTooltipGroup = ({ label, hourlyValue, monthlyValue }: { readonly labe
     return (
         <div className={styles.tooltipGroup}>
             <div className={styles.tooltipLabel}>{label}</div>
-            <div className={styles.tooltipValues}>
+            <div className={styles.tooltipValueColumn}>
                 <TrendTooltipValue value={hourlyValue} suffix="/h" />
                 <TrendTooltipValue value={monthlyValue} suffix="/mo" />
             </div>
@@ -169,11 +177,27 @@ const TrendTooltipGroup = ({ label, hourlyValue, monthlyValue }: { readonly labe
     );
 };
 
+
+const TrendTooltipSingleValue = ({ label, value }: { readonly label: string; readonly value: number }) => {
+    const tone = getTrendTone(value);
+    const text = formatTooltipMoneyValue(value);
+
+    return (
+        <div className={styles.tooltipGroup}>
+            <div className={styles.tooltipLabel}>{label}</div>
+            <div className={styles.tooltipValueColumn}>
+                <div className={`${styles.tooltipValueLine} ${styles[tone]}`}>{text}</div>
+            </div>
+        </div>
+    );
+};
+
+
 const TrendTooltipValue = ({ value, suffix }: { readonly value: number; readonly suffix: string }) => {
     const tone = getTrendTone(value);
     const text = `${formatTrendValue(value)}\u00A0${suffix}`;
 
-    return <div className={`${styles.tooltipValue} ${styles[tone]}`}>{text}</div>;
+    return <div className={`${styles.tooltipValueLine} ${styles[tone]}`}>{text}</div>;
 };
 
 const getTrendTone = (value: number): TrendTone => {
@@ -192,9 +216,17 @@ const getNumericValue = (value: number): number => {
     return Number.isFinite(value) ? value : 0;
 };
 
+// thin space after +/- sign for readability only in Tooltip.
 const formatTrendValue = (value: number): string => {
     const roundedValue = Math.round(Math.abs(value));
-    const sign = value > 0 ? "+" : value < 0 ? "-" : "";
+    const sign = value > 0 ? "+\u2009" : value < 0 ? "-\u2009" : "";
+    return `${sign}${roundedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+};
+
+// don't add plus sign for Total money.
+const formatTooltipMoneyValue = (value: number): string => {
+    const roundedValue = Math.round(Math.abs(value));
+    const sign = value < 0 ? "-\u2009" : "";
     return `${sign}${roundedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 };
 
