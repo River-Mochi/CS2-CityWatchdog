@@ -9,16 +9,20 @@ namespace CityWatchdog.Systems
     using Game.Input;
     using Game.SceneFlow;
     using Game.Simulation;
+    using System;
     using System.Reflection;
     using System.Text;
     using Unity.Entities;
 
     public partial class MoneyControllerSystem : GameSystemBaseExtension
     {
+        private const int AutomaticMoneyCheckIntervalUpdates = 128;
+
         private CitySystem citySystem = null!;
         private CityConfigurationSystem cityConfigurationSystem = null!;
         private ProxyAction? addMoneyAction;
         private ProxyAction? subtractMoneyAction;
+        private int automaticMoneyCheckCooldown;
 
         public enum ModifyMoneyType
         {
@@ -49,7 +53,7 @@ namespace CityWatchdog.Systems
             stringBuilder.AppendLine(string.Join(", ", cityConfigurationSystem.usedMods));
             stringBuilder.AppendLine("---End Current City Configuration Information---");
 
-            LogUtils.Info(() => stringBuilder.ToString());
+            CityWatchdog.Mod.DebugLog(() => stringBuilder.ToString());
         }
 
         public void SetUnlimitedMoneyToLimitedMoney()
@@ -72,7 +76,7 @@ namespace CityWatchdog.Systems
             FieldInfo? loadedUnlimitedMoneyField = typeof(CityConfigurationSystem).GetField("m_LoadedUnlimitedMoney", BindingFlags.NonPublic | BindingFlags.Instance);
             if (loadedUnlimitedMoneyField == null)
             {
-                LogUtils.Info(() => "m_LoadedUnlimitedMoney is null");
+                CityWatchdog.Mod.DebugLog(() => "m_LoadedUnlimitedMoney is null");
             }
             else
             {
@@ -122,6 +126,7 @@ namespace CityWatchdog.Systems
 
             citySystem = World.GetOrCreateSystemManaged<CitySystem>();
             cityConfigurationSystem = World.GetOrCreateSystemManaged<CityConfigurationSystem>();
+            automaticMoneyCheckCooldown = 0;
 
             addMoneyAction = TryGetAction(Setting.AddMoneyAction);
             if (addMoneyAction != null)
@@ -140,6 +145,8 @@ namespace CityWatchdog.Systems
         {
             base.OnGameLoaded(serializationContext);
 
+            automaticMoneyCheckCooldown = 0;
+
             if ((serializationContext.purpose == Purpose.NewGame || serializationContext.purpose == Purpose.LoadGame) &&
                 Setting.Instance.InitialMoney != 0)
             {
@@ -147,39 +154,110 @@ namespace CityWatchdog.Systems
                 if (!playerMoney.m_Unlimited)
                 {
                     int rawMoney = playerMoney.money;
-                    LogUtils.Info(() => $"Setting initial money, default money: {rawMoney}");
+                    CityWatchdog.Mod.DebugLog(() => $"Setting initial money, default money: {rawMoney}");
 
                     ModifyMoney(ModifyMoneyType.AutoSubtract, rawMoney);
                     ModifyMoney(ModifyMoneyType.AutoAdd, Setting.Instance.InitialMoney);
                     Setting.Instance.ResetInitialMoney();
 
                     PlayerMoney updatedMoney = EntityManager.GetComponentData<PlayerMoney>(citySystem.City);
-                    LogUtils.Info(() => $"Set initial money completed, money: {updatedMoney.money}");
+                    CityWatchdog.Mod.DebugLog(() => $"Set initial money completed, money: {updatedMoney.money}");
                 }
             }
         }
 
         protected override void OnUpdate()
         {
-            if (Setting.Instance.AutomaticAddMoney && InGame)
+            if (!InGame)
             {
-                PlayerMoney playerMoney = EntityManager.GetComponentData<PlayerMoney>(citySystem.City);
-                if (playerMoney.money < Setting.Instance.AutomaticAddMoneyThreshold)
-                {
-                    LogUtils.Info(() => $"{playerMoney.money} < {Setting.Instance.AutomaticAddMoneyThreshold}, automatically add money");
-                    ModifyMoney(ModifyMoneyType.AutoAdd, Setting.Instance.AutomaticAddMoneyAmount);
-                }
+                automaticMoneyCheckCooldown = 0;
+                return;
             }
 
-            if (InGame && addMoneyAction != null && addMoneyAction.WasPerformedThisFrame())
+            UpdateAutomaticAddMoney();
+
+            if (addMoneyAction != null && addMoneyAction.WasPerformedThisFrame())
             {
                 OnAddMoney();
             }
 
-            if (InGame && subtractMoneyAction != null && subtractMoneyAction.WasPerformedThisFrame())
+            if (subtractMoneyAction != null && subtractMoneyAction.WasPerformedThisFrame())
             {
                 OnSubtractMoney();
             }
+        }
+
+        private void UpdateAutomaticAddMoney()
+        {
+            if (!Setting.Instance.AutomaticAddMoney)
+            {
+                automaticMoneyCheckCooldown = 0;
+                return;
+            }
+
+            if (automaticMoneyCheckCooldown > 0)
+            {
+                automaticMoneyCheckCooldown--;
+                return;
+            }
+
+            automaticMoneyCheckCooldown = AutomaticMoneyCheckIntervalUpdates;
+            TryAutomaticAddMoney();
+        }
+
+        private void TryAutomaticAddMoney()
+        {
+            Entity city = citySystem.City;
+            if (city == Entity.Null ||
+                !EntityManager.Exists(city) ||
+                !EntityManager.HasComponent<PlayerMoney>(city))
+            {
+                return;
+            }
+
+            PlayerMoney playerMoney = EntityManager.GetComponentData<PlayerMoney>(city);
+            if (playerMoney.m_Unlimited)
+            {
+                return;
+            }
+
+            int threshold = Setting.Instance.AutomaticAddMoneyThreshold;
+            if (playerMoney.money >= threshold)
+            {
+                return;
+            }
+
+            int amount = GetAutomaticAddMoneyAmount(
+                playerMoney.money,
+                threshold,
+                Setting.Instance.AutomaticAddMoneyAmount);
+
+            if (amount <= 0)
+            {
+                return;
+            }
+
+            CityWatchdog.Mod.DebugLog(() => $"AutoAdd money: balance {playerMoney.money:N0} below threshold {threshold:N0}; adding {amount:N0}.");
+            ModifyMoney(ModifyMoneyType.AutoAdd, amount);
+        }
+
+        private static int GetAutomaticAddMoneyAmount(int currentMoney, int threshold, int selectedAmount)
+        {
+            long deficit = (long)threshold - currentMoney;
+            long requestedAmount = Math.Max(0, selectedAmount);
+            long amount = Math.Max(deficit, requestedAmount);
+
+            if (amount <= 0)
+            {
+                return 0;
+            }
+
+            if (amount > int.MaxValue)
+            {
+                return int.MaxValue;
+            }
+
+            return (int)amount;
         }
 
         private ProxyAction? TryGetAction(string actionName)
@@ -217,7 +295,7 @@ namespace CityWatchdog.Systems
                 playerMoney.Subtract(money);
             }
 
-            LogUtils.Info(() => $"{modifyMoneyType} money {money} to {playerMoney.money} ");
+            CityWatchdog.Mod.DebugLog(() => $"{modifyMoneyType} money {money} to {playerMoney.money} ");
             EntityManager.SetComponentData(citySystem.City, playerMoney);
         }
     }

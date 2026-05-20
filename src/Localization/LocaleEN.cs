@@ -89,12 +89,14 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Automatic Add Money" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
                     "When enabled [ ✓ ], City Watchdog checks the city balance while a city is loaded.\n" +
-                    "If the balance is below the threshold, it adds the selected automatic amount." },
+                    "If the balance is below the threshold, it adds the selected automatic amount.\n" +
+                    "Recommend to use Manual money with hotkey (<[> or <]>) as needed instead of this automated option, but this is here if you want it."
+                },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Automatic Money Threshold" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),
                     "If Automatic Add Money is enabled and the city balance falls below this value,\n" +
-                    "City Watchdog adds the selected automatic amount." },
+                    "Add the selected automatic amount." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Automatic Money Amount" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)),

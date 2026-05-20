@@ -235,6 +235,11 @@ namespace CityWatchdog
                     return;
                 }
 
+                if (ShouldDeferAchievementAction(nameof(UnlockSelectedAchievement)))
+                {
+                    return;
+                }
+
                 if (!TryGetAchievementId(SelectedAchievement, out AchievementId id))
                 {
                     LogUtils.Warn(() => $"Unlock: could not resolve achievement '{SelectedAchievement}'.");
@@ -271,6 +276,11 @@ namespace CityWatchdog
             set
             {
                 if (!value)
+                {
+                    return;
+                }
+
+                if (ShouldDeferAchievementAction(nameof(ClearSelectedAchievement)))
                 {
                     return;
                 }
@@ -320,6 +330,11 @@ namespace CityWatchdog
                     return;
                 }
 
+                if (ShouldDeferAchievementAction(nameof(ResetAllAchievements)))
+                {
+                    return;
+                }
+
                 PlatformManager? platformManager = PlatformManager.instance;
                 if (platformManager == null)
                 {
@@ -337,6 +352,17 @@ namespace CityWatchdog
                     LogUtils.Warn(() => $"ResetAllAchievements failed: {ex.GetType().Name}: {ex.Message}", ex);
                 }
             }
+        }
+
+        private static bool ShouldDeferAchievementAction(string actionName)
+        {
+            if (!ModTools.IsAchievementFixerEnabled())
+            {
+                return false;
+            }
+
+            LogUtils.Info(() => $"Achievement Fixer is enabled; City Watchdog achievement action '{actionName}' was skipped for this session.");
+            return true;
         }
 
         // --------------------------------------------------------------------

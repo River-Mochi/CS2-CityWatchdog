@@ -29,12 +29,12 @@ namespace CityWatchdog.Systems
         {
             base.OnCreate();
             SystemType = GetType();
-            LogUtils.Info(() => $"System created: {SystemName}");
+            CityWatchdog.Mod.DebugLog(() => $"System created: {SystemName}");
         }
 
         protected override void OnDestroy()
         {
-            LogUtils.Info(() => $"System destroyed: {SystemName}");
+            CityWatchdog.Mod.DebugLog(() => $"System destroyed: {SystemName}");
             base.OnDestroy();
         }
 

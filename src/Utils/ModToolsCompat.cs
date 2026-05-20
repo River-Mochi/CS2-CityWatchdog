@@ -9,6 +9,17 @@ namespace CityWatchdog
 
     public static class ModTools
     {
+        private static readonly string[] AchievementFixerNames =
+        {
+            "Achievement Fixer",
+            "AchievementFixer",
+        };
+
+        public static bool IsAchievementFixerEnabled()
+        {
+            return IsAnyModEnabled(AchievementFixerNames);
+        }
+
         public static bool IsAnyModEnabled(params string[] modNames)
         {
             if (modNames == null || modNames.Length == 0)

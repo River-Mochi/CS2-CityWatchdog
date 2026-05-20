@@ -33,19 +33,23 @@ namespace CityWatchdog
 
         private static bool s_BannerLogged;
         private static bool s_ReapplyingLocale;
+        private static bool s_AchievementFixerBannerSkipLogged;
         private static readonly HashSet<string> s_AchievementBannerLocales = new HashSet<string>();
 
 #if DEBUG
         private static string? s_LastLocaleId;
 #endif
 
+        [System.Diagnostics.Conditional("DEBUG")]
         internal static void DebugLog(string message)
         {
-#if DEBUG
             LogUtils.Info(() => message);
-#else
-            _ = message;
-#endif
+        }
+
+        [System.Diagnostics.Conditional("DEBUG")]
+        internal static void DebugLog(Func<string> messageFactory)
+        {
+            LogUtils.Info(messageFactory);
         }
 
         public void OnLoad(UpdateSystem updateSystem)
@@ -123,7 +127,7 @@ namespace CityWatchdog
 
         public void OnDispose()
         {
-            LogUtils.Info(() => "Mod Dispose");
+            DebugLog(() => "Mod Dispose");
 
             LocalizationManager? localizationManager = GameManager.instance?.localizationManager;
             if (localizationManager != null)
@@ -267,6 +271,17 @@ namespace CityWatchdog
                 return;
             }
 
+            if (ModTools.IsAchievementFixerEnabled())
+            {
+                if (!s_AchievementFixerBannerSkipLogged)
+                {
+                    s_AchievementFixerBannerSkipLogged = true;
+                    LogUtils.Info(() => "Achievement Fixer is enabled; City Watchdog achievement banner override is disabled for this session.");
+                }
+
+                return;
+            }
+
             LocalizationManager? localizationManager = GameManager.instance?.localizationManager;
             if (localizationManager == null)
             {
@@ -295,7 +310,7 @@ namespace CityWatchdog
                 s_AchievementBannerLocales.Add(activeLocaleId);
                 if (finalApply)
                 {
-                    LogUtils.Info(() => $"Achievement banner re-applied for locale '{activeLocaleId}'.");
+                    DebugLog(() => $"Achievement banner re-applied for locale '{activeLocaleId}'.");
                 }
             }
         }
