@@ -4,7 +4,7 @@
 	<!--Name of the mod to display to players-->
 	<DisplayName Value="City Watchdog [BETA]" />
 	<!--Short description of the mod-->
-	<ShortDescription Value="Hide notification icons, add/remove money, achievements, track money trends, set milestones." />
+	<ShortDescription Value="Hide notification icons, add/remove money, achievements, track money, set milestones." />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
@@ -16,7 +16,7 @@
 
 - Show or hide notification alert icons.
 - Built-in Achievement Fixer and achievement repair tools.
-- Change the MilesStone you start with (if you want Trains now, you can have it!).
+- Change the Milesstone you start with (if you want Trains now, you can have it!).
 
 #### Money
 

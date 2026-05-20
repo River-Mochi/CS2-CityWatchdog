@@ -108,7 +108,7 @@ const PopulationTrendText = () => {
 
 const TrendText = ({ value, displayMode }: { readonly value: number; readonly displayMode: number }) => {
     const tone = getTrendTone(value);
-    const suffix = displayMode === TREND_DISPLAY_MODE_MONTHLY ? "/m" : "/h";
+    const suffix = displayMode === TREND_DISPLAY_MODE_MONTHLY ? "/mo" : "/h";
     const text = `${formatToolbarTrendValue(value)}\u00A0${suffix}`;
 
     return (

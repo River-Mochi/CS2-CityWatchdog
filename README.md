@@ -21,7 +21,7 @@ City Watchdog hides or shows notification icons. It does not fix the city proble
 
 Make a backup before converting an Unlimited Money save. City Watchdog cannot undo that conversion.
 
-If Achievement Fixer is installed, City Watchdog automatically disables its own achievement feature to avoid conflicts.
+Now includes Achievement Fixer. Running the separate Achievement Fixer mod at the same time is not needed.
 
 ## Credits
 
