@@ -38,7 +38,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "Debug" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "Trend Tracker" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "Trendanzeige" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Geld" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "Benachrichtigungen" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Meilenstein" },
@@ -52,7 +52,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "NUTZUNG" },
 
                 // --- Trend Tracker ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "Trend Tracker" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "Trendanzeige" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
                     "Fügt numerische Trendwerte neben den Vanilla-Pfeilen für Geld und Bevölkerung in der unteren Leiste hinzu.\n" +
                     "Dies ist nur eine leichte Anzeige in der Werkzeugleiste; sie ändert weder Stadtgeld noch Bevölkerung." },
@@ -224,7 +224,7 @@ namespace CityWatchdog
                     "3. Toggle All für schnelles Setup verwenden oder einen Abschnitt öffnen, um einzelne Benachrichtigungssymbole zu ändern.\n" +
                     "4. City Watchdog versteckt oder zeigt nur Symbole; es behebt nicht das eigentliche Stadtproblem.\n\n" +
                     "<Geldhilfen>\n" +
-                    "1. Trend Tracker fügt /h- oder /mo-Werte neben den Trendpfeilen für Geld und Bevölkerung in der unteren Leiste hinzu.\n" +
+                    "1. Trendanzeige fügt /h- oder /mo-Werte neben Geld und Bevölkerung in der unteren Leiste hinzu.\n" +
                     "2. Geld hinzufügen und abziehen: nutzt den <Geld-Hotkey-Betrag>.\n" +
                     "3. Automatisch Geld hinzufügen überwacht den Stadtkontostand während eine Stadt geladen ist und fügt unter dem Schwellenwert Geld hinzu.\n" +
                     "4. Unbegrenztes-Geld-Spielstand konvertieren ist nur für Städte, die mit unbegrenztem Geld gestartet wurden, und City Watchdog kann es <nicht rückgängig machen>.\n\n" +

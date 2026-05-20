@@ -38,7 +38,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "デバッグ" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "Trend Tracker" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "トレンド表示" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "資金" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "通知" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "マイルストーン" },
@@ -52,7 +52,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "使い方" },
 
                 // --- Trend Tracker ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "Trend Tracker" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "トレンド表示" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
                     "下部ツールバーの資金と人口のバニラ矢印の横に、数値の傾向を追加します。\n" +
                     "これは軽量な表示だけで、都市の資金や人口は変更しません。" },
@@ -224,7 +224,7 @@ namespace CityWatchdog
                     "3. Toggle All で素早く設定するか、セクションを展開して個別の通知アイコンを変更します。\n" +
                     "4. City Watchdog はアイコンの表示/非表示だけを行います。都市の問題そのものは修正しません。\n\n" +
                     "<資金ヘルパー>\n" +
-                    "1. Trend Tracker は下部ツールバーの資金/人口トレンド矢印の横に /h または /mo の数値を追加します。\n" +
+                    "1. トレンド表示は下部ツールバーの資金/人口の横に /h または /mo の数値を追加します。\n" +
                     "2. 資金追加と資金減少: <資金ホットキー額>を使います。\n" +
                     "3. 資金自動追加は都市が読み込まれている間に残高を監視し、しきい値未満なら資金を追加します。\n" +
                     "4. 無制限資金セーブ変換は無制限資金で開始した都市専用で、City Watchdog では<元に戻せません>。\n\n" +

@@ -38,7 +38,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "디버그" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "Trend Tracker" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "추세 표시" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "돈" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "알림" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "마일스톤" },
@@ -52,7 +52,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "사용법" },
 
                 // --- Trend Tracker ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "Trend Tracker" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "추세 표시" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
                     "하단 툴바의 바닐라 돈/인구 화살표 옆에 숫자 추세 값을 추가합니다.\n" +
                     "가벼운 툴바 표시 기능일 뿐이며 도시 자금이나 인구를 변경하지 않습니다." },
@@ -224,7 +224,7 @@ namespace CityWatchdog
                     "3. Toggle All로 빠르게 설정하거나, 섹션을 펼쳐 개별 알림 아이콘을 변경합니다.\n" +
                     "4. City Watchdog은 아이콘만 숨기거나 표시합니다. 도시 문제 자체를 해결하지는 않습니다.\n\n" +
                     "<돈 도우미>\n" +
-                    "1. Trend Tracker는 하단 툴바 돈/인구 추세 화살표 옆에 /h 또는 /mo 값을 추가합니다.\n" +
+                    "1. 추세 표시는 하단 툴바의 돈/인구 옆에 /h 또는 /mo 값을 추가합니다.\n" +
                     "2. 돈 추가와 돈 차감: <돈 단축키 금액>을 사용합니다.\n" +
                     "3. 자동 돈 추가는 도시가 로드된 동안 잔액을 확인하고 기준값보다 낮으면 돈을 추가합니다.\n" +
                     "4. 무제한 돈 저장 변환은 무제한 돈으로 시작한 도시만 대상으로 하며, City Watchdog은 <되돌릴 수 없습니다>.\n\n" +

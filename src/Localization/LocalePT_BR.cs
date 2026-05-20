@@ -38,7 +38,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "Depuração" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "Trend Tracker" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "Rastreador de tendências" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Dinheiro" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "Notificações" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Marco" },
@@ -52,7 +52,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "USO" },
 
                 // --- Trend Tracker ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "Trend Tracker" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "Rastreador de tendências" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
                     "Adiciona valores numéricos de tendência ao lado das setas vanilla de dinheiro e população na barra inferior.\n" +
                     "É apenas uma exibição leve da barra; não altera o dinheiro nem a população da cidade." },
@@ -224,7 +224,7 @@ namespace CityWatchdog
                     "3. Use Toggle All para configuração rápida, ou expanda uma seção para mudar ícones individuais.\n" +
                     "4. O City Watchdog só oculta ou mostra ícones; ele não corrige o problema real da cidade.\n\n" +
                     "<Ferramentas de dinheiro>\n" +
-                    "1. Trend Tracker adiciona valores /h ou /mo ao lado das setas de tendência de dinheiro e população na barra inferior.\n" +
+                    "1. Rastreador de tendências adiciona valores /h ou /mo ao lado de dinheiro e população na barra inferior.\n" +
                     "2. Adicionar e Subtrair dinheiro: use o <Valor do atalho de dinheiro>.\n" +
                     "3. Adicionar dinheiro automático observa o saldo da cidade enquanto ela está carregada e adiciona dinheiro abaixo do limite.\n" +
                     "4. Converter save de Dinheiro ilimitado é apenas para cidades iniciadas com Dinheiro ilimitado e <não pode ser revertido> pelo City Watchdog.\n\n" +

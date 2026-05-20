@@ -38,7 +38,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "Débogage" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "Trend Tracker" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "Suivi des tendances" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Argent" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "Notifications" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Jalon" },
@@ -52,7 +52,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "UTILISATION" },
 
                 // --- Trend Tracker ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "Trend Tracker" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "Suivi des tendances" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
                     "Ajoute des valeurs de tendance numériques à côté des flèches vanilla d'argent et de population dans la barre du bas.\n" +
                     "C'est seulement un affichage léger de la barre d'outils ; cela ne change ni l'argent ni la population." },
@@ -224,7 +224,7 @@ namespace CityWatchdog
                     "3. Utilise Toggle All pour un réglage rapide, ou ouvre une section pour changer les icônes une par une.\n" +
                     "4. City Watchdog masque ou affiche seulement les icônes ; il ne corrige pas le problème réel de la ville.\n\n" +
                     "<Aides d'argent>\n" +
-                    "1. Trend Tracker ajoute des valeurs /h ou /mo à côté des flèches de tendance argent et population dans la barre du bas.\n" +
+                    "1. Suivi des tendances ajoute des valeurs /h ou /mo à côté des flèches argent et population dans la barre du bas.\n" +
                     "2. Ajouter et retirer de l'argent : utilise le <Montant des raccourcis d'argent>.\n" +
                     "3. L'ajout d'argent automatique surveille le solde de la ville lorsqu'elle est chargée et ajoute de l'argent sous le seuil.\n" +
                     "4. Convertir une sauvegarde Argent illimité concerne seulement les villes commencées en Argent illimité et City Watchdog <ne peut pas l'annuler>.\n\n" +
