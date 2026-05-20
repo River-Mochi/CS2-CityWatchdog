@@ -56,16 +56,20 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
                     "Fügt numerische Trendwerte neben den Vanilla-Pfeilen für Geld und Bevölkerung in der unteren Leiste hinzu.\n" +
                     "Dies ist nur eine leichte Anzeige in der Werkzeugleiste; sie ändert weder Stadtgeld noch Bevölkerung." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Trend-Häufigkeit" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
                     "Wählt, ob der Trendtext in der unteren Leiste stündliche oder monatliche Werte für Geld und Bevölkerung zeigt.\n" +
                     "Monatlich nutzt Budgeteinnahmen minus Ausgaben für Geld und eine 24-Stunden-Projektion für Bevölkerung." },
+
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "Stündlich (/h)" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "Monatlich (/mo)" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CompactMoneyTooltip)), "Kompakter Geld-Tooltip" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CompactMoneyTooltip)),
                     "Verwendet kürzere Geldwerte wie 21.24M/mo und blendet die Zeile Gesamt aus.\n" +
                     "Ausschalten für den größeren detaillierten Geld-Tooltip." },
+
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Geld-Hotkey-Betrag" },
@@ -74,30 +78,38 @@ namespace CityWatchdog
                     "Standard = 40.000.\n" +
                     "Dies bewirkt nichts, solange der Hotkey in der Stadt nicht genutzt wird.\n" +
                     "Für automatisches Geld die Option Automatisch Geld hinzufügen aktivieren." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Geld hinzufügen" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Hotkey zum Hinzufügen von Geld in der Stadt." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Geld hinzufügen" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Geld abziehen" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Hotkey zum Abziehen von Geld in der Stadt." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "Geld abziehen" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Automatisch Geld hinzufügen" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
                     "Wenn aktiviert [ ✓ ], prüft City Watchdog den Stadtkontostand, während eine Stadt geladen ist.\n" +
                     "Wenn der Kontostand unter dem Schwellenwert liegt, wird der gewählte automatische Betrag hinzugefügt." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Schwellenwert für Auto-Geld" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),
                     "Wenn Automatisch Geld hinzufügen aktiviert ist und der Stadtkontostand unter diesen Wert fällt,\n" +
                     "fügt City Watchdog den gewählten automatischen Betrag hinzu." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Automatischer Betrag" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)),
                     "Betrag, der jedes Mal hinzugefügt wird, wenn Automatisch Geld hinzufügen auslöst.\n" +
                     "Wähle einen Wert, der die Stadt sicher über den Schwellenwert bringt." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Startgeld" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
                     "Legt den Startkontostand für eine neue Stadt mit <begrenztem Geld> oder die zuerst geladene Stadt fest und setzt danach auf Spielstandard zurück.\n" +
                     "Ist ausgegraut, wenn bereits eine Stadt geladen ist.\n" +
                     "Vor dem Starten/Laden einer Stadt einstellen → wird einmal angewendet → danach <Geld-Hotkey-Betrag> oder <Automatisch Geld hinzufügen> verwenden." },
+
                 { m_Settings.GetOptionLocaleID("GameDefault"), "Spielstandard" },
+
 
                 // --- Notifications ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Benachrichtigungssymbole umschalten" },
@@ -106,16 +118,19 @@ namespace CityWatchdog
                     "Zeigt oder versteckt sofort alle aufgeführten Stadt-Benachrichtigungssymbole." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Alle Benachrichtigungssymbole sofort anzeigen/verstecken" },
 
+
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Meilenstein-Auswahl" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
                     "Vor dem Laden oder Starten einer Stadt aktivieren, um den gewählten Meilenstein direkt nach dem Laden freizuschalten.\n" +
                     "Kann nicht eingeschaltet werden, während eine Stadt geladen ist, kann aber ausgeschaltet werden, falls es versehentlich aktiv blieb.\n" +
                     "City Watchdog kann Meilensteinänderungen, die bereits in einer Stadt gespeichert wurden, nicht rückgängig machen; bei Bedarf einen älteren Spielstand verwenden." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Meilenstein" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)),
                     "Wähle den Meilenstein, der beim nächsten Laden einer Stadt freigeschaltet werden soll.\n" +
                     "Nur außerhalb einer geladenen Stadt einstellbar und erst, nachdem [Meilenstein-Auswahl] aktiviert ist [ ✓ ]." },
+
 
                 // --- Save conversion ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "Unbegrenztes-Geld-Konverter" },
@@ -125,16 +140,19 @@ namespace CityWatchdog
                     "Aktivieren entsperrt die Schaltfläche <[Unbegrenztes-Geld-Spielstand konvertieren]>, wenn die geladene Stadt vom Typ <Unbegrenztes Geld> ist.\n" +
                     "City Watchdog kann diese Konvertierung nicht rückgängig machen.\n" +
                     "Bei normalen Städten ist dies nicht nötig." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Unbegrenztes-Geld-Stadt in normale Stadt konvertieren" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
                     "Für Städte, die mit <Unbegrenztem Geld> gestartet wurden.\n" +
                     "Während diese Stadt geladen ist, wird der Spielstand auf normales begrenztes Geldbudget konvertiert, damit Geldherausforderungen wieder gelten.\n" +
                     "Die Schaltfläche ist <deaktiviert/ausgegraut>, außer die geladene Stadt ist vom Typ <Unbegrenztes Geld> und <Unbegrenztes-Geld-Konverter> ist ON [ ✓ ].\n" +
                     "Backup erstellen und auf eigenes Risiko verwenden; City Watchdog kann diese Konvertierung nicht rückgängig machen." },
+
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
                     "Diese Stadt von unbegrenztem Geld zu normalem begrenztem Geld konvertieren?\n" +
                     "ZUERST ein Backup speichern; City Watchdog kann dies nicht rückgängig machen.\n" +
                     "Sicher?" },
+
 
                 // --- Achievements ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "Errungenschaften aktivieren" },
@@ -142,63 +160,74 @@ namespace CityWatchdog
                     "Dies **ON [ ✓ ]** lassen, um Errungenschaften mit Mods zu erlauben.\n" +
                     "Das Spiel zählt Aufgaben aus der Vergangenheit nicht nach,\n" +
                     "also aktiviert lassen und die Aufgaben normal abschließen." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementNotes)),
                     "• <Standardmäßig aktiviert>, ohne die erweiterten Schaltflächen unten zu benutzen.\n" +
                     "• Einfach aktiviert lassen, um Errungenschaften normal freizuschalten :)\n" +
                     "" },
+
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementNotes)), "" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowAdvancedAchievementTools)), "Erweiterte Werkzeuge anzeigen" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowAdvancedAchievementTools)), "**Optional:** zum Testen, Löschen oder Aktivieren einer Errungenschaft." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SelectedAchievement)), "Ausgewählte Errungenschaft" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.SelectedAchievement)),
                     "Eine Errungenschaft zum Ändern auswählen.\n" +
                     "<Nicht für normalen Errungenschaften-Fortschritt nötig.>\n" +
                     "Nur verwenden, wenn Errungenschaften zurückgesetzt/gelöscht oder ohne Aufgaben freigeschaltet werden sollen." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UnlockSelectedAchievement)), "Ausgewählte freischalten" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UnlockSelectedAchievement)), "**Schaltet die ausgewählte Errungenschaft frei und schließt sie ab**." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ClearSelectedAchievement)), "Ausgewählte löschen" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ClearSelectedAchievement)), "Markiert die ausgewählte Errungenschaft als **nicht abgeschlossen**." },
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ClearSelectedAchievement)),
-                    "Diese Errungenschaft LÖSCHEN / ZURÜCKSETZEN.\n" +
-                    "\n" +
+                    "Diese Errungenschaft LÖSCHEN / ZURÜCKSETZEN.\n\n" +
                     "Fortfahren?" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementToolsAdvisory)),
                     "<Erweiterte Werkzeuge sind optional>\n" +
                     "• Für Tests, Reparaturen oder das Zurücksetzen aller Errungenschaften verwenden.\n" +
                     "• Mit der Maus über eine Schaltfläche fahren, um Details rechts zu sehen." },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementToolsAdvisory)), "Test" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ResetAllAchievements)), "ALLE ZURÜCKSETZEN" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ResetAllAchievements)),
                     "Dies löscht alle abgeschlossenen Errungenschaften und lässt dich neu anfangen.\n" +
                     "**VORSICHT** bei **[ALLE ZURÜCKSETZEN]**.\n" +
                     "Wenn es versehentlich genutzt wird, können abgeschlossene Errungenschaften mit [Ausgewählte freischalten] wiederhergestellt werden." },
+
                 // Confirmation modal Yes/No
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ResetAllAchievements)),
                     "WARNUNG: Alle Errungenschaften auf NICHT abgeschlossen ZURÜCKSETZEN/LÖSCHEN.\n" +
                     "Fortfahren?" },
 
+
                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Modname" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.NameText)), "Anzeigename dieses Mods." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.VersionText)), "Version" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "Aktuelle Modversion." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Öffnet die Paradox-Mods-Seite des Autors." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Anleitung anzeigen" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Zeigt oder versteckt die Anleitung unten." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Benachrichtigungspanel>\n" +
                     "1. Den City-Watchdog-Button (oben links) anklicken, um das Panel zu öffnen.\n" +
                     "2. ASC/DESC sortiert.\n" +
                     "3. Toggle All für schnelles Setup verwenden oder einen Abschnitt öffnen, um einzelne Benachrichtigungssymbole zu ändern.\n" +
-                    "4. City Watchdog versteckt oder zeigt nur Symbole; es behebt nicht das eigentliche Stadtproblem.\n" +
-                    "\n" +
+                    "4. City Watchdog versteckt oder zeigt nur Symbole; es behebt nicht das eigentliche Stadtproblem.\n\n" +
                     "<Geldhilfen>\n" +
                     "1. Trend Tracker fügt /h- oder /mo-Werte neben den Trendpfeilen für Geld und Bevölkerung in der unteren Leiste hinzu.\n" +
                     "2. Geld hinzufügen und abziehen: nutzt den <Geld-Hotkey-Betrag>.\n" +
                     "3. Automatisch Geld hinzufügen überwacht den Stadtkontostand während eine Stadt geladen ist und fügt unter dem Schwellenwert Geld hinzu.\n" +
-                    "4. Unbegrenztes-Geld-Spielstand konvertieren ist nur für Städte, die mit unbegrenztem Geld gestartet wurden, und City Watchdog kann es <nicht rückgängig machen>.\n" +
-                    "\n" +
+                    "4. Unbegrenztes-Geld-Spielstand konvertieren ist nur für Städte, die mit unbegrenztem Geld gestartet wurden, und City Watchdog kann es <nicht rückgängig machen>.\n\n" +
                     "<Benutzerdefinierter Meilenstein>\n" +
                     "Startgeld und Meilensteine im Optionsmenü einstellen, bevor eine Stadt geladen oder gestartet wird." },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },

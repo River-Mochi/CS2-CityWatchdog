@@ -103,7 +103,8 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Initial Money" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
-                    "Sets the starting balance for a new <limited money> city or the first loaded city, then resets to Game Default after it applies.\n" +
+                    "Sets the starting balance for a new <limited money> city or the first loaded city,\n" +
+                    "then resets to Game Default after it applies.\n" +
                     "This is grayed out if a city is already loaded.\n" +
                     "Set before starting/loading a city → applies once → then use <Money Hotkey Amount> or <Automatic Add Money> afterward." },
 
@@ -141,7 +142,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
                     "For cities started with <Unlimited Money>.\n" +
                     "While that city is loaded, this converts the save to normal limited-money budgeting so the city has regular money challenges again.\n" +
-                    "Button is <disabled/greyed-out> unless the loaded city is an <Unlimited Money> type and <Unlimited Money Converter> is ON [ ✓ ].\n" +
+                    "Button is <disabled/greyed-out> unless the loaded city is an <Unlimited Money> type\n" +
+                    "and <Unlimited Money Converter> is ON [ ✓ ].\n" +
                     "Make a backup save, and use at your own risk; City Watchdog cannot undo this conversion." },
 
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
