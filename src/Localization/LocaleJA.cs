@@ -172,6 +172,7 @@ namespace CityWatchdog
                     "完了済みの実績をすべて消去し、最初からやり直せるようにします。\n" +
                     "**[すべてリセット]** の使用には**注意**してください。\n" +
                     "誤って使った場合、[選択項目を解除] ボタンで完了済み実績を復元できます。" },
+                // Confirmation modal Yes/No
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ResetAllAchievements)),
                     "警告: すべての実績を未完了状態にリセット/クリアします。\n" +
                     "続行しますか？" },

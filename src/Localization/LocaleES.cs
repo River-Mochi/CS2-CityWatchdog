@@ -172,6 +172,7 @@ namespace CityWatchdog
                     "Esto borra todos tus logros completados y te permite empezar de nuevo.\n" +
                     "**TEN CUIDADO** al usar **[REINICIAR TODO]**.\n" +
                     "Si lo usas por accidente, puedes recuperar logros completados con el botón [Desbloquear seleccionado]." },
+                // Confirmation modal Yes/No
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ResetAllAchievements)),
                     "ADVERTENCIA: RESETEAR/BORRAR todos los logros a estado NO completado.\n" +
                     "¿Continuar?" },

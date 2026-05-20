@@ -172,6 +172,7 @@ namespace CityWatchdog
                     "Dies löscht alle abgeschlossenen Errungenschaften und lässt dich neu anfangen.\n" +
                     "**VORSICHT** bei **[ALLE ZURÜCKSETZEN]**.\n" +
                     "Wenn es versehentlich genutzt wird, können abgeschlossene Errungenschaften mit [Ausgewählte freischalten] wiederhergestellt werden." },
+                // Confirmation modal Yes/No
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ResetAllAchievements)),
                     "WARNUNG: Alle Errungenschaften auf NICHT abgeschlossen ZURÜCKSETZEN/LÖSCHEN.\n" +
                     "Fortfahren?" },

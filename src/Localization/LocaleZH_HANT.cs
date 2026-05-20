@@ -172,6 +172,7 @@ namespace CityWatchdog
                     "這會清除所有已完成成就，讓你重新開始。\n" +
                     "使用 **[全部重設]** 時請**小心**。\n" +
                     "如果誤用了，可用 [解鎖所選] 按鈕恢復已完成成就。" },
+                // Confirmation modal Yes/No
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ResetAllAchievements)),
                     "警告：將所有成就重設/清除為未完成狀態。\n" +
                     "繼續？" },

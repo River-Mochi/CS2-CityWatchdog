@@ -91,7 +91,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Valor automático" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)),
                     "Valor adicionado cada vez que o dinheiro automático é acionado.\n" +
-                    "Escolha um valor alto o bastante para deixar a cidade acima do limite com segurança." },
+                    "Escolha um valor alto o bastante para deixar a cidade acima do limite." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Dinheiro inicial" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
                     "Define o saldo inicial para uma nova cidade com <dinheiro limitado> ou para a primeira cidade carregada, depois volta para o padrão do jogo.\n" +
@@ -133,7 +133,7 @@ namespace CityWatchdog
                     "Faça backup e use por sua conta e risco; o City Watchdog não pode desfazer esta conversão." },
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
                     "Converter esta cidade de Dinheiro ilimitado para dinheiro limitado normal?\n" +
-                    "Salve um backup PRIMEIRO; o City Watchdog não pode desfazer isto.\n" +
+                    "Salve um backup PRIMEIRO; City Watchdog não pode desfazer isto.\n" +
                     "Tem certeza?" },
 
                 // --- Achievements ---
@@ -172,6 +172,7 @@ namespace CityWatchdog
                     "Isto limpa todas as conquistas concluídas e permite começar de novo.\n" +
                     "**TENHA CUIDADO** ao usar **[REDEFINIR TUDO]**.\n" +
                     "Se usar por acidente, você pode recuperar conquistas concluídas com o botão [Desbloquear selecionada]." },
+                // Confirmation modal Yes/No
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ResetAllAchievements)),
                     "AVISO: REDEFINIR/LIMPAR todas as conquistas para status NÃO concluído.\n" +
                     "Continuar?" },

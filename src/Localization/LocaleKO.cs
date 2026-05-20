@@ -172,6 +172,7 @@ namespace CityWatchdog
                     "완료한 모든 도전 과제를 지우고 처음부터 다시 시작할 수 있게 합니다.\n" +
                     "**[모두 초기화]** 사용 시 **주의**하세요.\n" +
                     "실수로 사용했다면 [선택 항목 잠금 해제] 버튼으로 완료한 도전 과제를 복구할 수 있습니다." },
+                // Confirmation modal Yes/No
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ResetAllAchievements)),
                     "경고: 모든 도전 과제를 미완료 상태로 초기화/삭제합니다.\n" +
                     "계속할까요?" },

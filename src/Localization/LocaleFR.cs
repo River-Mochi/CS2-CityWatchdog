@@ -58,7 +58,7 @@ namespace CityWatchdog
                     "C'est seulement un affichage léger de la barre d'outils ; cela ne change ni l'argent ni la population." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Fréquence des tendances" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
-                    "Choisit si le texte de tendance de la barre du bas affiche les valeurs horaires ou mensuelles pour l'argent et la population.\n" +
+                    "Choisis si le texte de tendance de la barre du bas affiche les valeurs horaires ou mensuelles pour l'argent et la population.\n" +
                     "Le mensuel utilise les revenus moins les dépenses du budget pour l'argent, et une projection sur 24 heures pour la population." },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "Horaire (/h)" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "Mensuel (/mo)" },
@@ -172,6 +172,7 @@ namespace CityWatchdog
                     "Cela efface tous tes succès terminés et permet de repartir de zéro.\n" +
                     "**SOIS PRUDENT** avec **[TOUT RÉINITIALISER]**.\n" +
                     "Si tu l'utilises par erreur, tu peux récupérer les succès terminés avec le bouton [Déverrouiller la sélection]." },
+                // Confirmation modal Yes/No
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ResetAllAchievements)),
                     "AVERTISSEMENT : RÉINITIALISER/EFFACER tous les succès en état NON terminé.\n" +
                     "Continuer ?" },
