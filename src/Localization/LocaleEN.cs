@@ -57,12 +57,17 @@ namespace CityWatchdog
                     "Adds numeric trend values beside the vanilla bottom-toolbar money and population arrows.\n" +
                     "This is a lightweight toolbar display only; it does not change city money or population." },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Trend Display Mode" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Trend Frequency" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
                     "Choose whether the bottom-toolbar trend text shows hourly or monthly values for money and population.\n" +
                     "Monthly uses budget income minus expenses for money, and a 24-hour projection for population." },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "Hourly (/h)" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "Monthly (/mo)" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MinimalTrendTooltip)), "Minimal Tooltip" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MinimalTrendTooltip)),
+                    "Use shorter values and hide the extra Total row in the money hover tooltip.\n" +
+                    "Turn this OFF for the larger detailed tooltip." },
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Money Hotkey Amount" },
@@ -107,8 +112,8 @@ namespace CityWatchdog
                 // --- Notifications ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Toggle Notification Icons" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
-                    "Hotkey for the same action as the in-game [Toggle All] notification icon button.\n" +
-                    "It shows or hides all City Watchdog notification icons at once." },
+                    "<Hotkey> for the same action as the in-game <[Toggle All]> icon button.\n" +
+                    "It shows or hides all listed city notification icons instantly." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Toggle Notification Icons" },
 
                 // --- Milestone selector ---

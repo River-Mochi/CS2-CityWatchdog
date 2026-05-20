@@ -2,7 +2,7 @@ import { useValue } from "cs2/api";
 import { economyBudget, toolbarBottom } from "cs2/bindings";
 import type { ModuleRegistryExtend } from "cs2/modding";
 import { Children, cloneElement, isValidElement, type ReactElement, type ReactNode } from "react";
-import { trendDisplayMode$, trendTracker$ } from "../Bindings/Bindings";
+import { minimalTrendTooltip$, trendDisplayMode$, trendTracker$ } from "../Bindings/Bindings";
 import styles from "./ToolbarTrendTracker.module.scss";
 
 const MONEY_ICON = "Media/Game/Icons/Money.svg";
@@ -119,6 +119,7 @@ const TrendText = ({ value, displayMode }: { readonly value: number; readonly di
 
 const MoneyTrendTooltipContent = ({ baseContent }: { readonly baseContent: ReactNode }) => {
     const trendTracker = useValue(trendTracker$);
+    const minimalTrendTooltip = useValue(minimalTrendTooltip$);
     const hourlyTrend = getNumericValue(useValue(toolbarBottom.moneyDelta$));
     const monthlyIncome = getNumericValue(useValue(economyBudget.totalIncome$));
     const monthlyExpenses = -Math.abs(getNumericValue(useValue(economyBudget.totalExpenses$)));
@@ -136,10 +137,10 @@ const MoneyTrendTooltipContent = ({ baseContent }: { readonly baseContent: React
     return (
         <div className={styles.tooltipRows}>
             <div className={styles.tooltipTitle}>WATCHDOG</div>
-            <TrendTooltipGroup label="Income:" hourlyValue={hourlyIncome} monthlyValue={monthlyIncome} />
-            <TrendTooltipGroup label="Expenses:" hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} />
-            <TrendTooltipGroup label="Net:" hourlyValue={hourlyTrend} monthlyValue={monthlyBalance} />
-            <TrendTooltipSingleValue label="Total:" value={totalMoney} />
+            <TrendTooltipGroup label="Income:" hourlyValue={hourlyIncome} monthlyValue={monthlyIncome} compact={minimalTrendTooltip} />
+            <TrendTooltipGroup label="Expenses:" hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} compact={minimalTrendTooltip} />
+            <TrendTooltipGroup label="Net:" hourlyValue={hourlyTrend} monthlyValue={monthlyBalance} compact={minimalTrendTooltip} />
+            {!minimalTrendTooltip && <TrendTooltipSingleValue label="Total:" value={totalMoney} />}
         </div>
     );
 };
@@ -165,13 +166,13 @@ const containsIcon = (node: ReactNode, icon: string): boolean => {
     return Children.toArray(props?.children).some((child) => containsIcon(child, icon));
 };
 
-const TrendTooltipGroup = ({ label, hourlyValue, monthlyValue }: { readonly label: string; readonly hourlyValue: number; readonly monthlyValue: number }) => {
+const TrendTooltipGroup = ({ label, hourlyValue, monthlyValue, compact }: { readonly label: string; readonly hourlyValue: number; readonly monthlyValue: number; readonly compact: boolean }) => {
     return (
         <div className={styles.tooltipGroup}>
             <div className={styles.tooltipLabel}>{label}</div>
             <div className={styles.tooltipValueColumn}>
-                <TrendTooltipValue value={hourlyValue} suffix="/h" />
-                <TrendTooltipValue value={monthlyValue} suffix="/mo" />
+                <TrendTooltipValue value={hourlyValue} suffix="/h" compact={compact} />
+                <TrendTooltipValue value={monthlyValue} suffix="/mo" compact={compact} />
             </div>
         </div>
     );
@@ -193,9 +194,9 @@ const TrendTooltipSingleValue = ({ label, value }: { readonly label: string; rea
 };
 
 
-const TrendTooltipValue = ({ value, suffix }: { readonly value: number; readonly suffix: string }) => {
+const TrendTooltipValue = ({ value, suffix, compact }: { readonly value: number; readonly suffix: string; readonly compact: boolean }) => {
     const tone = getTrendTone(value);
-    const text = `${formatTrendValue(value)}\u00A0${suffix}`;
+    const text = `${formatTooltipTrendValue(value, compact)}\u00A0${suffix}`;
 
     return <div className={`${styles.tooltipValueLine} ${styles[tone]}`}>{text}</div>;
 };
@@ -219,14 +220,18 @@ const getNumericValue = (value: number): number => {
 // thin space after +/- sign for readability only in Tooltip.
 const formatTrendValue = (value: number): string => {
     const roundedValue = Math.round(Math.abs(value));
-    const sign = value > 0 ? "+\u2009" : value < 0 ? "-\u2009" : "";
+    const sign = value > 0 ? "+\u200A" : value < 0 ? "-\u200A" : "";
     return `${sign}${roundedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+};
+
+const formatTooltipTrendValue = (value: number, compact: boolean): string => {
+    return compact ? formatToolbarTrendValue(value) : formatTrendValue(value);
 };
 
 // don't add plus sign for Total money.
 const formatTooltipMoneyValue = (value: number): string => {
     const roundedValue = Math.round(Math.abs(value));
-    const sign = value < 0 ? "-\u2009" : "";
+    const sign = value < 0 ? "-\u200A" : "";
     return `${sign}${roundedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 };
 

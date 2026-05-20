@@ -25,7 +25,7 @@
     // Font size for the bottom toolbar trend amount only. Does not change tooltip area.
     font-size: 14rem;
     font-weight: 600;
-    line-height: 1.08;
+    line-height: 1.1;
     text-align: right;
     // Prevents "/h" or "/mo" from wrapping under the value.
     white-space: nowrap;
@@ -94,6 +94,8 @@
 // -----------------------------------------------------------------------------
 .tooltipValueColumn {
     flex: 0 0 auto;
+    font-size: 1.15em;
+    font-weight: 550;
 }
 
 // -----------------------------------------------------------------------------
@@ -104,8 +106,6 @@
 .tooltipValueLine {
     text-align: right;
     white-space: nowrap;
-    font-size: 1.15em;
-    font-weight: 550;
 }
 
 // -----------------------------------------------------------------------------
