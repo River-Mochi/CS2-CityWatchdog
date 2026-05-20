@@ -203,7 +203,6 @@ namespace CityWatchdog
                       "Continue?"
                 },
 
-
                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Mod name" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.NameText)), "Display name of this mod." },
