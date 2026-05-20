@@ -247,6 +247,10 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("ToggleAllTooltip"),
                     "모든 아이콘을 표시/숨깁니다.\n" +
                     "색상: 초록 = 모두 켜짐, 파랑 = 혼합, 빨강 = 모두 꺼짐." },
+                { m_Settings.GetUILocaleID("TrendTooltipIncome"), "수입:" },
+                { m_Settings.GetUILocaleID("TrendTooltipExpenses"), "지출:" },
+                { m_Settings.GetUILocaleID("TrendTooltipNet"), "순액:" },
+                { m_Settings.GetUILocaleID("TrendTooltipTotal"), "합계:" },
 
                 // --- Electricity notifications ---
                 { m_Settings.GetUILocaleID("Electricity"), "전기" },

@@ -1,5 +1,6 @@
 import { useValue } from "cs2/api";
 import { economyBudget, toolbarBottom } from "cs2/bindings";
+import { useLocalization } from "cs2/l10n";
 import type { ModuleRegistryExtend } from "cs2/modding";
 import { Children, cloneElement, isValidElement, type ReactElement, type ReactNode } from "react";
 import { compactMoneyTooltip$, trendDisplayMode$, trendTracker$ } from "../Bindings/Bindings";
@@ -118,6 +119,8 @@ const TrendText = ({ value, displayMode }: { readonly value: number; readonly di
 };
 
 const MoneyTrendTooltipContent = ({ baseContent }: { readonly baseContent: ReactNode }) => {
+    const { translate } = useLocalization();
+    const localize = (key: string, fallback: string) => translate(`CityWatchdog.UI[${key}]`) ?? fallback;
     const trendTracker = useValue(trendTracker$);
     const compactMoneyTooltip = useValue(compactMoneyTooltip$);
     const hourlyTrend = getNumericValue(useValue(toolbarBottom.moneyDelta$));
@@ -137,10 +140,10 @@ const MoneyTrendTooltipContent = ({ baseContent }: { readonly baseContent: React
     return (
         <div className={styles.tooltipRows}>
             <div className={styles.tooltipTitle}>WATCHDOG</div>
-            <TrendTooltipGroup label="Income:" hourlyValue={hourlyIncome} monthlyValue={monthlyIncome} compact={compactMoneyTooltip} />
-            <TrendTooltipGroup label="Expenses:" hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} compact={compactMoneyTooltip} />
-            <TrendTooltipGroup label="Net:" hourlyValue={hourlyTrend} monthlyValue={monthlyBalance} compact={compactMoneyTooltip} />
-            {!compactMoneyTooltip && <TrendTooltipSingleValue label="Total:" value={totalMoney} />}
+            <TrendTooltipGroup label={localize("TrendTooltipIncome", "Income:")} hourlyValue={hourlyIncome} monthlyValue={monthlyIncome} compact={compactMoneyTooltip} />
+            <TrendTooltipGroup label={localize("TrendTooltipExpenses", "Expenses:")} hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} compact={compactMoneyTooltip} />
+            <TrendTooltipGroup label={localize("TrendTooltipNet", "Net:")} hourlyValue={hourlyTrend} monthlyValue={monthlyBalance} compact={compactMoneyTooltip} />
+            {!compactMoneyTooltip && <TrendTooltipSingleValue label={localize("TrendTooltipTotal", "Total:")} value={totalMoney} />}
         </div>
     );
 };

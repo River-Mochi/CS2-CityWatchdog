@@ -247,6 +247,10 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("ToggleAllTooltip"),
                     "すべてのアイコンを表示/非表示にします。\n" +
                     "色: 緑 = すべてON、青 = 混在、赤 = すべてOFF。" },
+                { m_Settings.GetUILocaleID("TrendTooltipIncome"), "収入：" },
+                { m_Settings.GetUILocaleID("TrendTooltipExpenses"), "支出：" },
+                { m_Settings.GetUILocaleID("TrendTooltipNet"), "純額：" },
+                { m_Settings.GetUILocaleID("TrendTooltipTotal"), "合計：" },
 
                 // --- Electricity notifications ---
                 { m_Settings.GetUILocaleID("Electricity"), "電力" },

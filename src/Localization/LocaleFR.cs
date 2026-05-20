@@ -247,6 +247,10 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("ToggleAllTooltip"),
                     "Affiche/masque toutes les icônes.\n" +
                     "Couleur : vert = tout activé ; bleu = mixte ; rouge = tout désactivé." },
+                { m_Settings.GetUILocaleID("TrendTooltipIncome"), "Revenus :" },
+                { m_Settings.GetUILocaleID("TrendTooltipExpenses"), "Dépenses :" },
+                { m_Settings.GetUILocaleID("TrendTooltipNet"), "Net :" },
+                { m_Settings.GetUILocaleID("TrendTooltipTotal"), "Total :" },
 
                 // --- Electricity notifications ---
                 { m_Settings.GetUILocaleID("Electricity"), "ÉLECTRICITÉ" },

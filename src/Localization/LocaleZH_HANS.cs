@@ -247,6 +247,10 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("ToggleAllTooltip"),
                     "显示/隐藏所有图标。\n" +
                     "颜色：绿色 = 全部开启；蓝色 = 混合；红色 = 全部关闭。" },
+                { m_Settings.GetUILocaleID("TrendTooltipIncome"), "收入：" },
+                { m_Settings.GetUILocaleID("TrendTooltipExpenses"), "支出：" },
+                { m_Settings.GetUILocaleID("TrendTooltipNet"), "净额：" },
+                { m_Settings.GetUILocaleID("TrendTooltipTotal"), "总计：" },
 
                 // --- Electricity notifications ---
                 { m_Settings.GetUILocaleID("Electricity"), "电力" },
