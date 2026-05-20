@@ -25,7 +25,7 @@
     // Font size for the bottom toolbar trend amount only. Does not change tooltip area.
     font-size: 14rem;
     font-weight: 600;
-    line-height: 1.05;
+    line-height: 1.08;
     text-align: right;
     // Prevents "/h" or "/mo" from wrapping under the value.
     white-space: nowrap;
@@ -49,6 +49,7 @@
 // To remove the title completely, remove the title row in ToolbarTrendTracker.tsx.
 // -----------------------------------------------------------------------------
 .tooltipTitle {
+    margin-top: -2rem;
     margin-bottom: 6rem;
     color: var(--accentColorLight);
     font-weight: 700;
@@ -104,7 +105,7 @@
     text-align: right;
     white-space: nowrap;
     font-size: 1.15em;
-    font-weight: 500;
+    font-weight: 550;
 }
 
 // -----------------------------------------------------------------------------
