@@ -21,7 +21,11 @@ City Watchdog hides or shows notification icons. It does not fix the city proble
 
 Make a backup before converting an Unlimited Money save. City Watchdog cannot undo that conversion.
 
-Now includes Achievement Fixer. Running the separate Achievement Fixer mod at the same time is not needed.
+- Includes my Achievement Fixer mod. Running the separate Achievement Fixer is not needed.
+- Trend Tracker is a ground-up rewrite that implements similar trend info to the retired "Show Text Trends". It is different in how it uses vanilla
+CS2 component extensions, custom CWD settings options, localization, and a custom new money tooltip design.
+- City Watchdog is a heavily rewritten, modernized redux/expansion of City Controller. It is not just a copy-paste release. I hope you enjoy the new features and improvements!
+
 
 ## Credits
 
@@ -29,3 +33,4 @@ Now includes Achievement Fixer. Running the separate Achievement Fixer mod at th
 - Mbyron26 - original City Controller mod
 - Dorkington, Flightech, SonNathan - testers
 - Thumbnail photograph by Maryia Shedava at Mont Saint-Michel in Normandy, France https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
+- Trend display inspired by earlier trend-display mods by DanielNZ "Show Text",

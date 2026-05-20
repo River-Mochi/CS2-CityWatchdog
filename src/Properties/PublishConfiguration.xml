@@ -9,49 +9,54 @@
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
 
-- City Watchdog helps reduce city alert icon clutter and adds convenient city setup tools.
-- It is modeled on the original City Controller mod (retired) and has many expanded features.
+        - City Watchdog helps reduce city alert icon clutter and adds convenient city setup tools.
+        - It is modeled on the original City Controller mod (retired) and has many expanded features.
 
-### Features
+        ### Features
 
-- Show or hide notification alert icons.
-- Built-in Achievement Fixer and achievement repair tools.
-- Change the Milesstone you start with (if you want Trains now, you can have it!).
+        - Show or hide notification alert icons.
+        - Built-in Achievement Fixer and achievement repair tools.
+        - Change the Milesstone you start with (if you want Trains now, you can have it!).
 
-#### Money
+        #### Money
 
-- Manual add/subtract money controls using hotkeys.
-- Automatic add money option.
-- Trend Tracker for money/population toolbar values.
-- Convert saves from Unlimited money type to normal Limited money.
+        - Manual add/subtract money controls using hotkeys.
+        - Automatic add money option.
+        - Trend Tracker for money/population toolbar values.
+        - Convert saves from Unlimited money type to normal Limited money.
 
 
-Hotkeys
-- N  = toggle all notification icons on/off.
-- [  = Add Money
-- ]  = Subtract Money
+        Hotkeys
+        - N  = toggle all notification icons on/off.
+        - [  = Add Money
+        - ]  = Subtract Money
 
-### Important Notes
-- City Watchdog hides/shows alert icons; it does not fix the city problem behind the icons. Good for making videos and reducing stress.
-- Make a backup before converting an Unlimited Money save. Mod cannot undo that conversion.
-- You can remove any separate Achievement Fixer mod if you use this mod.
+        ### Important Notes
+        - City Watchdog hides/shows alert icons; it does not fix the city problem behind the icons. Good for making videos and reducing stress.
+        - Make a backup before converting an Unlimited Money save. Mod cannot undo that conversion.
+        - You can remove my Achievement Fixer mod as it's already including in City Watchdog. AF is more robust than the simpler one originally in CC.
+        - City Watchdog itself is a heavily rewritten, modernized redux/expansion of City Controller. It is not just a copy-paste release and nearly a whole rewrite.
+           I hope you enjoy the new features, better performance, and safety guards!
+        - CWD's Trend Tracker is a ground-up code write of similar money trend info to "Show Text Trends" (retired). All new code for how Trends implements vanilla
+        CS2 component extensions, custom CWD settings options, localization, and custom new money tooltip design options.
 
-### Support and feedback
-Feedback is welcome through GitHub or Discord links on the right.
-If you like free mods, give a Like, easy way to show support :)
+        ### Support and feedback
+        Feedback is welcome through GitHub or Discord links on the right.
+        If you like free mods, give a Like, easy way to show support :)
 
-### Future
-- New 9 languages supported, more needed.
-- If anyone can make better Thumbnail and screenshots, please let me know.
+        ### Future
+        - New 9 languages supported, more needed.
+        - If anyone can make better Thumbnail and screenshots, please let me know.
 
-### Credits
-- River Mochi - mod author and maintainer
-- Thanks to Mbyron26 for the original City Controller mod
-- Dorkington - tester/feature suggestion
-- Flightech, SonNathan - testers
-- Thumbnail photograph by Maryia Shedava at Mont Saint-Michel in Normandy, France https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
+        ### Credits
+        - River Mochi - mod author and maintainer
+        - Thanks to Mbyron26 for the original City Controller mod
+        - Thanks to DanielVNZ for Show Text Trends inspiration.
+        - Dorkington - tester/feature suggestion
+        - Flightech, SonNathan - testers
+        - Thumbnail photograph by Maryia Shedava at Mont Saint-Michel in Normandy, France https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
 
-</LongDescription>
+    </LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail-dog-city01.jpg" />
 	<!--Screenshot, can be set multiple times-->
