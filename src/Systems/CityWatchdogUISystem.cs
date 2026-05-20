@@ -19,7 +19,7 @@ namespace CityWatchdog.Systems
         private BoolBinding panelVisibleBinding = null!;
         private ValueBinding<bool>? trendTrackerBinding;
         private ValueBinding<int>? trendDisplayModeBinding;
-        private ValueBinding<bool>? minimalTrendTooltipBinding;
+        private ValueBinding<bool>? compactMoneyTooltipBinding;
 
         private BoolBinding electricityElectricityNotificationBinding = null!;
         private BoolBinding electricityBottleneckNotificationBinding = null!;
@@ -101,7 +101,7 @@ namespace CityWatchdog.Systems
             panelVisibleBinding = AddBoolBindingAndTriggerBinding("ControlPanelEnabled", false, OnControlPanelBindingToggle);
             trendTrackerBinding = AddValueBinding(nameof(Setting.TrendTracker), Setting.Instance.TrendTracker);
             trendDisplayModeBinding = AddValueBinding(nameof(Setting.TrendDisplayMode), Setting.Instance.TrendDisplayMode);
-            minimalTrendTooltipBinding = AddValueBinding(nameof(Setting.MinimalTrendTooltip), Setting.Instance.MinimalTrendTooltip);
+            compactMoneyTooltipBinding = AddValueBinding(nameof(Setting.CompactMoneyTooltip), Setting.Instance.CompactMoneyTooltip);
 
             electricityElectricityNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityElectricityNotification), Setting.Instance.Notification.ElectricityElectricityNotification, OnElectricityElectricityNotificationToggle);
             electricityBottleneckNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityBottleneckNotification), Setting.Instance.Notification.ElectricityBottleneckNotification, OnElectricityBottleneckNotificationToggle);
@@ -609,7 +609,7 @@ namespace CityWatchdog.Systems
 
         public void UpdateTrendDisplayModeBinding(int value) => trendDisplayModeBinding?.Update(value);
 
-        public void UpdateMinimalTrendTooltipBinding(bool value) => minimalTrendTooltipBinding?.Update(value);
+        public void UpdateCompactMoneyTooltipBinding(bool value) => compactMoneyTooltipBinding?.Update(value);
 
     }
 

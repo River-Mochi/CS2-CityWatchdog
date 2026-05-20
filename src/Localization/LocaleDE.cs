@@ -44,6 +44,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Meilenstein" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Speicherstand-Konvertierung" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "Errungenschaften" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AchievementTools), "Erweiterte Werkzeuge" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AchievementDanger), "Errungenschaften zurücksetzen" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "Hotkeys" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
@@ -54,19 +56,24 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
                     "Fügt numerische Trendwerte neben den Vanilla-Pfeilen für Geld und Bevölkerung in der unteren Leiste hinzu.\n" +
                     "Dies ist nur eine leichte Anzeige in der Werkzeugleiste; sie ändert weder Stadtgeld noch Bevölkerung." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Trend-Tracker-Modus" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Trend-Häufigkeit" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
                     "Wählt, ob der Trendtext in der unteren Leiste stündliche oder monatliche Werte für Geld und Bevölkerung zeigt.\n" +
                     "Monatlich nutzt Budgeteinnahmen minus Ausgaben für Geld und eine 24-Stunden-Projektion für Bevölkerung." },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "Stündlich (/h)" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "Monatlich (/mo)" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CompactMoneyTooltip)), "Kompakter Geld-Tooltip" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CompactMoneyTooltip)),
+                    "Verwendet kürzere Geldwerte wie 21.24M/mo und blendet die Zeile Gesamt aus.\n" +
+                    "Ausschalten für den größeren detaillierten Geld-Tooltip." },
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Geld-Hotkey-Betrag" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
                     "Diesen Betrag für die Hotkeys Geld hinzufügen und Geld abziehen verwenden.\n" +
-                    "Standard = 20.000.\n" +
-                    "Dies setzt den aktuellen Kontostand nicht von selbst." },
+                    "Standard = 40.000.\n" +
+                    "Dies bewirkt nichts, solange der Hotkey in der Stadt nicht genutzt wird.\n" +
+                    "Für automatisches Geld die Option Automatisch Geld hinzufügen aktivieren." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Geld hinzufügen" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Hotkey zum Hinzufügen von Geld in der Stadt." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Geld hinzufügen" },
@@ -95,9 +102,9 @@ namespace CityWatchdog
                 // --- Notifications ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Benachrichtigungssymbole umschalten" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
-                    "Hotkey für dieselbe Aktion wie die Schaltfläche [Toggle All] im Benachrichtigungssymbol-Panel im Spiel.\n" +
-                    "Zeigt oder versteckt alle City-Watchdog-Benachrichtigungssymbole auf einmal." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Benachrichtigungssymbole umschalten" },
+                    "<Hotkey> für dieselbe Aktion wie die Symbolschaltfläche <[Toggle All]> im Spielpanel.\n" +
+                    "Zeigt oder versteckt sofort alle aufgeführten Stadt-Benachrichtigungssymbole." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Alle Benachrichtigungssymbole sofort anzeigen/verstecken" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Meilenstein-Auswahl" },
@@ -132,10 +139,42 @@ namespace CityWatchdog
                 // --- Achievements ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "Errungenschaften aktivieren" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)),
-                    "Hält Errungenschaften aktiviert [ ✓ ], wenn dieser Mod geladen ist.\n" +
-                    "Empfohlen wird der Mod <Achievement Fixer (AF)>, da er in diesem Bereich am detailliertesten und robustesten ist.\n" +
-                    "Wenn <Achievement Fixer> installiert ist, überlässt City Watchdog die gesamte Errungenschaften-Verwaltung AF und blendet diese Option aus.\n" +
-                    "ZUKUNFT: AF wird in diesen Mod integriert; vorerst ist AF die beste Option." },
+                    "Dies **ON [ ✓ ]** lassen, um Errungenschaften mit Mods zu erlauben.\n" +
+                    "Das Spiel zählt Aufgaben aus der Vergangenheit nicht nach,\n" +
+                    "also aktiviert lassen und die Aufgaben normal abschließen." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementNotes)),
+                    "• <Standardmäßig aktiviert>, ohne die erweiterten Schaltflächen unten zu benutzen.\n" +
+                    "• Einfach aktiviert lassen, um Errungenschaften normal freizuschalten :)\n" +
+                    "" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementNotes)), "" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowAdvancedAchievementTools)), "Erweiterte Werkzeuge anzeigen" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowAdvancedAchievementTools)), "**Optional:** zum Testen, Löschen oder Aktivieren einer Errungenschaft." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SelectedAchievement)), "Ausgewählte Errungenschaft" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SelectedAchievement)),
+                    "Eine Errungenschaft zum Ändern auswählen.\n" +
+                    "<Nicht für normalen Errungenschaften-Fortschritt nötig.>\n" +
+                    "Nur verwenden, wenn Errungenschaften zurückgesetzt/gelöscht oder ohne Aufgaben freigeschaltet werden sollen." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UnlockSelectedAchievement)), "Ausgewählte freischalten" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.UnlockSelectedAchievement)), "**Schaltet die ausgewählte Errungenschaft frei und schließt sie ab**." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ClearSelectedAchievement)), "Ausgewählte löschen" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ClearSelectedAchievement)), "Markiert die ausgewählte Errungenschaft als **nicht abgeschlossen**." },
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ClearSelectedAchievement)),
+                    "Diese Errungenschaft LÖSCHEN / ZURÜCKSETZEN.\n" +
+                    "\n" +
+                    "Fortfahren?" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementToolsAdvisory)),
+                    "<Erweiterte Werkzeuge sind optional>\n" +
+                    "• Für Tests, Reparaturen oder das Zurücksetzen aller Errungenschaften verwenden.\n" +
+                    "• Mit der Maus über eine Schaltfläche fahren, um Details rechts zu sehen." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementToolsAdvisory)), "Test" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ResetAllAchievements)), "ALLE ZURÜCKSETZEN" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ResetAllAchievements)),
+                    "Dies löscht alle abgeschlossenen Errungenschaften und lässt dich neu anfangen.\n" +
+                    "**VORSICHT** bei **[ALLE ZURÜCKSETZEN]**.\n" +
+                    "Wenn es versehentlich genutzt wird, können abgeschlossene Errungenschaften mit [Ausgewählte freischalten] wiederhergestellt werden." },
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ResetAllAchievements)),
+                    "WARNUNG: Alle Errungenschaften auf NICHT abgeschlossen ZURÜCKSETZEN/LÖSCHEN.\n" +
+                    "Fortfahren?" },
 
                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Modname" },
@@ -148,14 +187,14 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Zeigt oder versteckt die Anleitung unten." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Benachrichtigungspanel>\n" +
-                    "1. Im Spiel den City-Watchdog-Button oben links anklicken, um das Panel zu öffnen.\n" +
-                    "2. ASC/DESC sortiert die Abschnitte.\n" +
+                    "1. Den City-Watchdog-Button (oben links) anklicken, um das Panel zu öffnen.\n" +
+                    "2. ASC/DESC sortiert.\n" +
                     "3. Toggle All für schnelles Setup verwenden oder einen Abschnitt öffnen, um einzelne Benachrichtigungssymbole zu ändern.\n" +
                     "4. City Watchdog versteckt oder zeigt nur Symbole; es behebt nicht das eigentliche Stadtproblem.\n" +
                     "\n" +
                     "<Geldhilfen>\n" +
                     "1. Trend Tracker fügt /h- oder /mo-Werte neben den Trendpfeilen für Geld und Bevölkerung in der unteren Leiste hinzu.\n" +
-                    "2. Geld hinzufügen und Geld abziehen verwenden den Geld-Hotkey-Betrag.\n" +
+                    "2. Geld hinzufügen und abziehen: nutzt den <Geld-Hotkey-Betrag>.\n" +
                     "3. Automatisch Geld hinzufügen überwacht den Stadtkontostand während eine Stadt geladen ist und fügt unter dem Schwellenwert Geld hinzu.\n" +
                     "4. Unbegrenztes-Geld-Spielstand konvertieren ist nur für Städte, die mit unbegrenztem Geld gestartet wurden, und City Watchdog kann es <nicht rückgängig machen>.\n" +
                     "\n" +

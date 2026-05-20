@@ -44,6 +44,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "里程碑" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "存档转换" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "成就" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AchievementTools), "高级工具" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AchievementDanger), "重置成就" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "快捷键" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
@@ -54,19 +56,24 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
                     "在底部工具栏的原版金钱和人口箭头旁显示数字趋势值。\n" +
                     "这只是轻量显示，不会改变城市金钱或人口。" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Trend Tracker 显示模式" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "趋势频率" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
                     "选择底部工具栏的趋势文字显示金钱和人口的每小时值或每月值。\n" +
                     "每月金钱使用预算收入减去支出，人口使用 24 小时预测。" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "每小时 (/h)" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "每月 (/mo)" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CompactMoneyTooltip)), "紧凑金钱提示" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CompactMoneyTooltip)),
+                    "使用 21.24M/mo 这样的较短金钱数值，并隐藏总额行。\n" +
+                    "关闭此项可使用较大的详细金钱提示。" },
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "金钱快捷键金额" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
                     "用于增加金钱和减少金钱快捷键的金额。\n" +
-                    "默认值 = 20,000。\n" +
-                    "此设置本身不会改变当前余额。" },
+                    "默认值 = 40,000。\n" +
+                    "除非在城市中使用快捷键增加/减少金钱，否则此设置不会做任何事。\n" +
+                    "如需自动金钱，请启用自动增加金钱选项。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "增加金钱" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "在城市中增加金钱的快捷键。" },
                 { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "增加金钱" },
@@ -95,9 +102,9 @@ namespace CityWatchdog
                 // --- Notifications ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "切换通知图标" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
-                    "与游戏内通知图标面板的 [Toggle All] 按钮相同功能的快捷键。\n" +
-                    "可一次显示或隐藏所有 City Watchdog 通知图标。" },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "切换通知图标" },
+                    "与游戏内 <[Toggle All]> 图标按钮相同功能的 <快捷键>。\n" +
+                    "可立即显示或隐藏所有列出的城市通知图标。" },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "立即显示/隐藏所有通知图标" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "里程碑选择器" },
@@ -132,10 +139,42 @@ namespace CityWatchdog
                 // --- Achievements ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "启用成就" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)),
-                    "加载此模组时保持成就启用 [ ✓ ]。\n" +
-                    "建议使用 <Achievement Fixer (AF)> 模组，因为它在这方面最详细也最稳定。\n" +
-                    "如果已安装 <Achievement Fixer>，City Watchdog 会把所有成就处理交给 AF，并隐藏此选项。\n" +
-                    "未来：会把 AF 模组整合进本模组；目前添加 AF 是最佳选择。" },
+                    "使用模组时请保持此项 **ON [ ✓ ]** 以允许成就。\n" +
+                    "游戏不会追溯计算过去已经完成的任务，\n" +
+                    "所以保持启用并自然完成任务即可获得成就。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementNotes)),
+                    "• <默认启用>，不需要使用下方高级按钮。\n" +
+                    "• 保持启用，自然完成成就即可 :)\n" +
+                    "" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementNotes)), "" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowAdvancedAchievementTools)), "显示高级工具" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowAdvancedAchievementTools)), "**可选：** 用于测试、清除或激活成就。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SelectedAchievement)), "已选择成就" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SelectedAchievement)),
+                    "选择一个要更改的成就。\n" +
+                    "<普通成就进度不需要使用。>\n" +
+                    "仅在想要重置/清除成就，或不完成任务直接解锁时使用。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UnlockSelectedAchievement)), "解锁所选" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.UnlockSelectedAchievement)), "**解锁并完成**所选成就。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ClearSelectedAchievement)), "清除所选" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ClearSelectedAchievement)), "将所选成就标记为 **未完成**。" },
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ClearSelectedAchievement)),
+                    "清除/重置此成就。\n" +
+                    "\n" +
+                    "继续？" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementToolsAdvisory)),
+                    "<高级工具是可选的>\n" +
+                    "• 用于测试、修复或重置所有成就。\n" +
+                    "• 将鼠标悬停在任意按钮上可在右侧面板查看详情。" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementToolsAdvisory)), "测试" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ResetAllAchievements)), "全部重置" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ResetAllAchievements)),
+                    "这会清除所有已完成成就，让你重新开始。\n" +
+                    "使用 **[全部重置]** 时请**小心**。\n" +
+                    "如果误用了，可用 [解锁所选] 按钮恢复已完成成就。" },
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ResetAllAchievements)),
+                    "警告：将所有成就重置/清除为未完成状态。\n" +
+                    "继续？" },
 
                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "模组名称" },
@@ -148,14 +187,14 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "显示或隐藏下方使用说明。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<通知面板>\n" +
-                    "1. 在游戏中点击左上角的 City Watchdog 按钮打开面板。\n" +
-                    "2. 使用 ASC/DESC 排序分类。\n" +
+                    "1. 点击 City Watchdog 按钮（左上角）打开面板。\n" +
+                    "2. 用 ASC/DESC 排序。\n" +
                     "3. 使用 Toggle All 快速设置，或展开分类逐一调整通知图标。\n" +
                     "4. City Watchdog 只会隐藏或显示图标；不会修复图标背后的城市问题。\n" +
                     "\n" +
                     "<金钱工具>\n" +
                     "1. Trend Tracker 会在底部工具栏的金钱和人口趋势箭头旁显示 /h 或 /mo 数值。\n" +
-                    "2. 增加金钱和减少金钱会使用金钱快捷键金额。\n" +
+                    "2. 增加和减少金钱：使用 <金钱快捷键金额>。\n" +
                     "3. 自动增加金钱会在城市载入期间监看余额，低于阈值时增加金钱。\n" +
                     "4. 转换无限金钱存档只适用于以无限金钱开始的城市，City Watchdog <无法复原>。\n" +
                     "\n" +

@@ -2,7 +2,7 @@ import { useValue } from "cs2/api";
 import { economyBudget, toolbarBottom } from "cs2/bindings";
 import type { ModuleRegistryExtend } from "cs2/modding";
 import { Children, cloneElement, isValidElement, type ReactElement, type ReactNode } from "react";
-import { minimalTrendTooltip$, trendDisplayMode$, trendTracker$ } from "../Bindings/Bindings";
+import { compactMoneyTooltip$, trendDisplayMode$, trendTracker$ } from "../Bindings/Bindings";
 import styles from "./ToolbarTrendTracker.module.scss";
 
 const MONEY_ICON = "Media/Game/Icons/Money.svg";
@@ -119,7 +119,7 @@ const TrendText = ({ value, displayMode }: { readonly value: number; readonly di
 
 const MoneyTrendTooltipContent = ({ baseContent }: { readonly baseContent: ReactNode }) => {
     const trendTracker = useValue(trendTracker$);
-    const minimalTrendTooltip = useValue(minimalTrendTooltip$);
+    const compactMoneyTooltip = useValue(compactMoneyTooltip$);
     const hourlyTrend = getNumericValue(useValue(toolbarBottom.moneyDelta$));
     const monthlyIncome = getNumericValue(useValue(economyBudget.totalIncome$));
     const monthlyExpenses = -Math.abs(getNumericValue(useValue(economyBudget.totalExpenses$)));
@@ -137,17 +137,13 @@ const MoneyTrendTooltipContent = ({ baseContent }: { readonly baseContent: React
     return (
         <div className={styles.tooltipRows}>
             <div className={styles.tooltipTitle}>WATCHDOG</div>
-            <TrendTooltipGroup label="Income:" hourlyValue={hourlyIncome} monthlyValue={monthlyIncome} compact={minimalTrendTooltip} />
-            <TrendTooltipGroup label="Expenses:" hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} compact={minimalTrendTooltip} />
-            <TrendTooltipGroup label="Net:" hourlyValue={hourlyTrend} monthlyValue={monthlyBalance} compact={minimalTrendTooltip} />
-            {!minimalTrendTooltip && <TrendTooltipSingleValue label="Total:" value={totalMoney} />}
+            <TrendTooltipGroup label="Income:" hourlyValue={hourlyIncome} monthlyValue={monthlyIncome} compact={compactMoneyTooltip} />
+            <TrendTooltipGroup label="Expenses:" hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} compact={compactMoneyTooltip} />
+            <TrendTooltipGroup label="Net:" hourlyValue={hourlyTrend} monthlyValue={monthlyBalance} compact={compactMoneyTooltip} />
+            {!compactMoneyTooltip && <TrendTooltipSingleValue label="Total:" value={totalMoney} />}
         </div>
     );
 };
-
-
-
-
 
 const isMoneyTooltip = (props: any): boolean => {
     return Boolean(props?.content) && containsIcon(props?.children, MONEY_ICON);
@@ -225,7 +221,7 @@ const formatTrendValue = (value: number): string => {
 };
 
 const formatTooltipTrendValue = (value: number, compact: boolean): string => {
-    return compact ? formatToolbarTrendValue(value) : formatTrendValue(value);
+    return compact ? formatCompactTooltipValue(value) : formatTrendValue(value);
 };
 
 // don't add plus sign for Total money.
@@ -250,14 +246,33 @@ const formatToolbarTrendValue = (value: number): string => {
     return `${sign}${roundedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 };
 
+const formatCompactTooltipValue = (value: number): string => {
+    const roundedValue = Math.round(Math.abs(value));
+    const sign = value > 0 ? "+\u200A" : value < 0 ? "-\u200A" : "";
+
+    if (roundedValue >= 1_000_000_000) {
+        return `${sign}${formatFixedCompactNumber(roundedValue / 1_000_000_000)}B`;
+    }
+
+    if (roundedValue >= 1_000_000) {
+        return `${sign}${formatFixedCompactNumber(roundedValue / 1_000_000)}M`;
+    }
+
+    return `${sign}${roundedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+};
+
 const formatCompactNumber = (value: number): string => {
     if (value >= 100) {
         return Math.round(value).toString();
     }
 
-    if (value >= 10) {
-        return value.toFixed(1).replace(/\.0$/, "");
+    return value.toFixed(2);
+};
+
+const formatFixedCompactNumber = (value: number): string => {
+    if (value >= 100) {
+        return Math.round(value).toString();
     }
 
-    return value.toFixed(2).replace(/\.?0+$/, "");
+    return value.toFixed(2);
 };

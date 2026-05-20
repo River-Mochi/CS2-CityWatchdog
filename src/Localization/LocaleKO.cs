@@ -44,6 +44,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "마일스톤" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "저장 변환" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "도전 과제" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AchievementTools), "고급 도구" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AchievementDanger), "도전 과제 초기화" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "단축키" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
@@ -54,19 +56,24 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
                     "하단 툴바의 바닐라 돈/인구 화살표 옆에 숫자 추세 값을 추가합니다.\n" +
                     "가벼운 툴바 표시 기능일 뿐이며 도시 자금이나 인구를 변경하지 않습니다." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Trend Tracker 표시 모드" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "추세 표시 주기" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
                     "하단 툴바의 추세 텍스트를 돈과 인구에 대해 시간당 또는 월간 값으로 표시할지 선택합니다.\n" +
                     "월간 돈은 예산 수입에서 지출을 뺀 값이며, 인구는 24시간 예측을 사용합니다." },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "시간당 (/h)" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "월간 (/mo)" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CompactMoneyTooltip)), "간단 돈 툴팁" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CompactMoneyTooltip)),
+                    "21.24M/mo 같은 짧은 돈 값을 사용하고 총액 행을 숨깁니다.\n" +
+                    "더 큰 상세 돈 툴팁을 사용하려면 OFF로 끄세요." },
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "돈 단축키 금액" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
                     "돈 추가와 돈 차감 단축키에 사용할 금액입니다.\n" +
-                    "기본값 = 20,000.\n" +
-                    "이 옵션만으로 현재 잔액이 바뀌지는 않습니다." },
+                    "기본값 = 40,000.\n" +
+                    "도시 안에서 단축키로 돈을 추가/차감하지 않는 한 아무 작업도 하지 않습니다.\n" +
+                    "자동 돈 기능은 자동 돈 추가 옵션을 켜세요." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "돈 추가" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "도시 안에서 돈을 추가하는 단축키입니다." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "돈 추가" },
@@ -95,9 +102,9 @@ namespace CityWatchdog
                 // --- Notifications ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "알림 아이콘 전환" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
-                    "게임 내 [Toggle All] 알림 아이콘 버튼과 같은 기능의 단축키입니다.\n" +
-                    "모든 City Watchdog 알림 아이콘을 한 번에 표시하거나 숨깁니다." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "알림 아이콘 전환" },
+                    "게임 내 <[Toggle All]> 아이콘 버튼과 같은 기능의 <단축키>입니다.\n" +
+                    "목록에 있는 모든 도시 알림 아이콘을 즉시 표시하거나 숨깁니다." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "모든 알림 아이콘 즉시 표시/숨기기" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "마일스톤 선택기" },
@@ -132,10 +139,42 @@ namespace CityWatchdog
                 // --- Achievements ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "도전 과제 켜기" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)),
-                    "이 모드가 로드되어 있을 때 도전 과제를 켜진 상태로 유지합니다 [ ✓ ].\n" +
-                    "<Achievement Fixer (AF)> 모드가 이 부분에서 가장 자세하고 안정적이므로 같이 쓰는 것을 권장합니다.\n" +
-                    "<Achievement Fixer>가 설치되어 있으면 City Watchdog은 도전 과제 처리를 모두 AF에 맡기고 이 옵션을 숨깁니다.\n" +
-                    "향후: AF 모드를 이 모드에 통합할 예정입니다. 지금은 AF 모드를 추가하는 것이 가장 좋은 선택입니다." },
+                    "모드를 사용하는 동안 도전 과제를 허용하려면 **ON [ ✓ ]** 상태로 두세요.\n" +
+                    "게임은 과거에 이미 한 작업을 나중에 계산하지 않습니다.\n" +
+                    "그냥 켜 둔 상태로 조건을 자연스럽게 완료하세요." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementNotes)),
+                    "• 아래 고급 버튼을 사용하지 않아도 <기본으로 켜져 있음>.\n" +
+                    "• 그냥 켜 둔 상태로 자연스럽게 도전 과제를 완료하세요 :)\n" +
+                    "" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementNotes)), "" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowAdvancedAchievementTools)), "고급 도구 표시" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowAdvancedAchievementTools)), "**선택 사항:** 도전 과제 테스트, 초기화, 활성화용입니다." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SelectedAchievement)), "선택한 도전 과제" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SelectedAchievement)),
+                    "변경할 도전 과제를 하나 선택합니다.\n" +
+                    "<일반적인 도전 과제 진행에는 필요하지 않습니다.>\n" +
+                    "도전 과제를 초기화/삭제하거나 조건을 하지 않고 잠금 해제할 때만 사용하세요." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UnlockSelectedAchievement)), "선택 항목 잠금 해제" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.UnlockSelectedAchievement)), "선택한 도전 과제를 **잠금 해제하고 완료**합니다." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ClearSelectedAchievement)), "선택 항목 초기화" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ClearSelectedAchievement)), "선택한 도전 과제를 **미완료**로 표시합니다." },
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ClearSelectedAchievement)),
+                    "이 도전 과제를 삭제/초기화합니다.\n" +
+                    "\n" +
+                    "계속할까요?" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementToolsAdvisory)),
+                    "<고급 도구는 선택 사항입니다>\n" +
+                    "• 테스트, 복구, 모든 도전 과제 초기화에 사용합니다.\n" +
+                    "• 버튼에 마우스를 올리면 오른쪽 패널에 자세한 설명이 표시됩니다." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementToolsAdvisory)), "테스트" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ResetAllAchievements)), "모두 초기화" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ResetAllAchievements)),
+                    "완료한 모든 도전 과제를 지우고 처음부터 다시 시작할 수 있게 합니다.\n" +
+                    "**[모두 초기화]** 사용 시 **주의**하세요.\n" +
+                    "실수로 사용했다면 [선택 항목 잠금 해제] 버튼으로 완료한 도전 과제를 복구할 수 있습니다." },
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ResetAllAchievements)),
+                    "경고: 모든 도전 과제를 미완료 상태로 초기화/삭제합니다.\n" +
+                    "계속할까요?" },
 
                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "모드 이름" },
@@ -148,14 +187,14 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "아래 사용법 설명을 표시하거나 숨깁니다." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<알림 패널>\n" +
-                    "1. 게임 안에서 왼쪽 위 City Watchdog 버튼을 눌러 패널을 엽니다.\n" +
-                    "2. ASC/DESC로 섹션을 정렬합니다.\n" +
+                    "1. City Watchdog 버튼(왼쪽 위)을 눌러 패널을 엽니다.\n" +
+                    "2. ASC/DESC로 정렬합니다.\n" +
                     "3. Toggle All로 빠르게 설정하거나, 섹션을 펼쳐 개별 알림 아이콘을 변경합니다.\n" +
                     "4. City Watchdog은 아이콘만 숨기거나 표시합니다. 도시 문제 자체를 해결하지는 않습니다.\n" +
                     "\n" +
                     "<돈 도우미>\n" +
                     "1. Trend Tracker는 하단 툴바 돈/인구 추세 화살표 옆에 /h 또는 /mo 값을 추가합니다.\n" +
-                    "2. 돈 추가와 돈 차감은 돈 단축키 금액 값을 사용합니다.\n" +
+                    "2. 돈 추가와 돈 차감: <돈 단축키 금액>을 사용합니다.\n" +
                     "3. 자동 돈 추가는 도시가 로드된 동안 잔액을 확인하고 기준값보다 낮으면 돈을 추가합니다.\n" +
                     "4. 무제한 돈 저장 변환은 무제한 돈으로 시작한 도시만 대상으로 하며, City Watchdog은 <되돌릴 수 없습니다>.\n" +
                     "\n" +

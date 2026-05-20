@@ -44,6 +44,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Jalon" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Conversion de sauvegarde" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "Succès" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AchievementTools), "Outils avancés" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AchievementDanger), "Réinitialiser les succès" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "Raccourcis" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
@@ -54,19 +56,24 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
                     "Ajoute des valeurs de tendance numériques à côté des flèches vanilla d'argent et de population dans la barre du bas.\n" +
                     "C'est seulement un affichage léger de la barre d'outils ; cela ne change ni l'argent ni la population." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Mode de Trend Tracker" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Fréquence des tendances" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
                     "Choisit si le texte de tendance de la barre du bas affiche les valeurs horaires ou mensuelles pour l'argent et la population.\n" +
                     "Le mensuel utilise les revenus moins les dépenses du budget pour l'argent, et une projection sur 24 heures pour la population." },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "Horaire (/h)" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "Mensuel (/mo)" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CompactMoneyTooltip)), "Info-bulle d'argent compacte" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CompactMoneyTooltip)),
+                    "Utilise des valeurs d'argent plus courtes comme 21.24M/mo et masque la ligne Total.\n" +
+                    "Désactive cette option pour l'info-bulle d'argent détaillée plus grande." },
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Montant des raccourcis d'argent" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
                     "Utilise ce montant avec les raccourcis Ajouter de l'argent et Retirer de l'argent.\n" +
-                    "Par défaut = 20 000.\n" +
-                    "Cela ne modifie pas le solde actuel tout seul." },
+                    "Par défaut = 40 000.\n" +
+                    "Cela ne fait rien sauf si tu utilises le raccourci en ville pour ajouter/retirer de l'argent.\n" +
+                    "Pour l'argent automatique, active l'option Ajout d'argent automatique." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Ajouter de l'argent" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Raccourci pour ajouter de l'argent dans la ville." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Ajouter de l'argent" },
@@ -87,7 +94,7 @@ namespace CityWatchdog
                     "Choisis une valeur assez élevée pour remettre la ville au-dessus du seuil." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Argent initial" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
-                    "Définit le solde de départ pour une nouvelle ville en <argent limité> ou la première ville chargée, puis revient au paramètre par défaut du jeu.\n" +
+                    "Définit le solde de départ pour une nouvelle ville en <argent limité> ou la première ville chargée, puis revient au paramètre par défaut du jeu après application.\n" +
                     "Grisé si une ville est déjà chargée.\n" +
                     "Règle avant de démarrer/charger une ville → s'applique une fois → utilise ensuite <Montant des raccourcis d'argent> ou <Ajout d'argent automatique>." },
                 { m_Settings.GetOptionLocaleID("GameDefault"), "Par défaut du jeu" },
@@ -95,9 +102,9 @@ namespace CityWatchdog
                 // --- Notifications ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Basculer les icônes de notification" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
-                    "Raccourci pour la même action que le bouton [Toggle All] des icônes de notification dans le panneau du jeu.\n" +
-                    "Affiche ou masque toutes les icônes de notification City Watchdog d'un coup." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Basculer les icônes de notification" },
+                    "<Raccourci> pour la même action que le bouton d'icône <[Toggle All]> dans le panneau du jeu.\n" +
+                    "Affiche ou masque instantanément toutes les icônes de notification listées." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Afficher/masquer instantanément toutes les icônes de notification" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Sélecteur de jalon" },
@@ -132,10 +139,42 @@ namespace CityWatchdog
                 // --- Achievements ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "Activer les succès" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)),
-                    "Garde les succès activés [ ✓ ] quand ce mod est chargé.\n" +
-                    "Il est recommandé d'utiliser le mod <Achievement Fixer (AF)>, car il est le plus complet et robuste dans ce domaine.\n" +
-                    "Si <Achievement Fixer> est installé, City Watchdog laisse toute la gestion des succès à AF et masque cette option.\n" +
-                    "FUTUR : j'intégrerai AF dans ce mod ; pour l'instant, ajouter AF est la meilleure option." },
+                    "Garde ceci **ON [ ✓ ]** pour autoriser les succès avec des mods.\n" +
+                    "Le jeu ne compte pas les tâches déjà faites dans le passé,\n" +
+                    "donc garde-le activé et fais les tâches pour obtenir les succès naturellement." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementNotes)),
+                    "• <Activé par défaut> sans utiliser les boutons avancés ci-dessous.\n" +
+                    "• Garde-le simplement activé pour obtenir les succès naturellement :)\n" +
+                    "" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementNotes)), "" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowAdvancedAchievementTools)), "Afficher les outils avancés" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowAdvancedAchievementTools)), "**Optionnel :** pour tester, effacer ou activer un succès." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SelectedAchievement)), "Succès sélectionné" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SelectedAchievement)),
+                    "Sélectionne un succès à modifier.\n" +
+                    "<Pas nécessaire pour la progression normale des succès.>\n" +
+                    "C'est seulement si tu veux réinitialiser/effacer des succès ou les déverrouiller sans faire les tâches." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UnlockSelectedAchievement)), "Déverrouiller la sélection" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.UnlockSelectedAchievement)), "**Déverrouille et complète** le succès sélectionné." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ClearSelectedAchievement)), "Effacer la sélection" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ClearSelectedAchievement)), "Marque le succès sélectionné comme **non terminé**." },
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ClearSelectedAchievement)),
+                    "EFFACER / RÉINITIALISER ce succès.\n" +
+                    "\n" +
+                    "Continuer ?" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementToolsAdvisory)),
+                    "<Les outils avancés sont optionnels>\n" +
+                    "• À utiliser pour tester, réparer ou réinitialiser tous les succès.\n" +
+                    "• Survole un bouton pour voir les détails dans le panneau de droite." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementToolsAdvisory)), "Test" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ResetAllAchievements)), "TOUT RÉINITIALISER" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ResetAllAchievements)),
+                    "Cela efface tous tes succès terminés et permet de repartir de zéro.\n" +
+                    "**SOIS PRUDENT** avec **[TOUT RÉINITIALISER]**.\n" +
+                    "Si tu l'utilises par erreur, tu peux récupérer les succès terminés avec le bouton [Déverrouiller la sélection]." },
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ResetAllAchievements)),
+                    "AVERTISSEMENT : RÉINITIALISER/EFFACER tous les succès en état NON terminé.\n" +
+                    "Continuer ?" },
 
                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Nom du mod" },
@@ -148,14 +187,14 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Affiche ou masque les instructions ci-dessous." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Panneau de notifications>\n" +
-                    "1. En jeu, clique sur le bouton City Watchdog en haut à gauche pour ouvrir le panneau.\n" +
-                    "2. Utilise ASC/DESC pour trier les sections.\n" +
+                    "1. Clique sur le bouton City Watchdog (en haut à gauche) pour ouvrir le panneau.\n" +
+                    "2. ASC/DESC pour trier.\n" +
                     "3. Utilise Toggle All pour un réglage rapide, ou ouvre une section pour changer les icônes une par une.\n" +
                     "4. City Watchdog masque ou affiche seulement les icônes ; il ne corrige pas le problème réel de la ville.\n" +
                     "\n" +
                     "<Aides d'argent>\n" +
                     "1. Trend Tracker ajoute des valeurs /h ou /mo à côté des flèches de tendance argent et population dans la barre du bas.\n" +
-                    "2. Ajouter de l'argent et Retirer de l'argent utilisent le montant des raccourcis d'argent.\n" +
+                    "2. Ajouter et retirer de l'argent : utilise le <Montant des raccourcis d'argent>.\n" +
                     "3. L'ajout d'argent automatique surveille le solde de la ville lorsqu'elle est chargée et ajoute de l'argent sous le seuil.\n" +
                     "4. Convertir une sauvegarde Argent illimité concerne seulement les villes commencées en Argent illimité et City Watchdog <ne peut pas l'annuler>.\n" +
                     "\n" +

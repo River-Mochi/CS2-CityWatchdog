@@ -113,8 +113,8 @@ namespace CityWatchdog
 
         [SettingsUISection(Actions, Trends)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureTrendTrackerEnabled))]
-        [SettingsUISetter(typeof(Setting), nameof(OnMinimalTrendTooltipChanged))]
-        public bool MinimalTrendTooltip { get; set; }
+        [SettingsUISetter(typeof(Setting), nameof(OnCompactMoneyTooltipChanged))]
+        public bool CompactMoneyTooltip { get; set; }
 
         // --------------------------------------------------------------------
         // Actions tab - Money
@@ -538,7 +538,7 @@ namespace CityWatchdog
 
             TrendTracker = true;
             TrendDisplayMode = TrendDisplayModeHourly;
-            MinimalTrendTooltip = false;
+            CompactMoneyTooltip = false;
 
             ManualMoneyAmount = 40000;
             AutomaticAddMoney = false;
@@ -576,11 +576,11 @@ namespace CityWatchdog
                 .UpdateTrendDisplayModeBinding(value);
         }
 
-        private void OnMinimalTrendTooltipChanged(bool value)
+        private void OnCompactMoneyTooltipChanged(bool value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
-                .UpdateMinimalTrendTooltipBinding(value);
+                .UpdateCompactMoneyTooltipBinding(value);
         }
 
         private bool GetMilestoneLevelStatus()

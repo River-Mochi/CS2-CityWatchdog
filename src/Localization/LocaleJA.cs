@@ -44,6 +44,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "マイルストーン" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "セーブ変換" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "実績" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AchievementTools), "高度なツール" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AchievementDanger), "実績リセット" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "ホットキー" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
@@ -54,19 +56,24 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
                     "下部ツールバーの資金と人口のバニラ矢印の横に、数値の傾向を追加します。\n" +
                     "これは軽量な表示だけで、都市の資金や人口は変更しません。" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Trend Tracker表示モード" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "トレンド頻度" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
                     "下部ツールバーの傾向テキストを、資金と人口について時間あたりまたは月あたりで表示するか選びます。\n" +
                     "月あたりの資金は予算収入から支出を引いた値、人口は24時間予測を使います。" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "毎時 (/h)" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "月間 (/mo)" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CompactMoneyTooltip)), "コンパクト資金ツールチップ" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CompactMoneyTooltip)),
+                    "21.24M/mo のような短い資金表示を使い、合計行を非表示にします。\n" +
+                    "大きい詳細な資金ツールチップを使う場合はOFFにしてください。" },
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "資金ホットキー額" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
                     "資金追加と資金減少のホットキーで使う金額です。\n" +
-                    "既定値 = 20,000。\n" +
-                    "これだけでは現在の残高は変更されません。" },
+                    "既定値 = 40,000。\n" +
+                    "都市内でホットキーを使って資金を追加/減少しない限り、これは何もしません。\n" +
+                    "自動資金には、資金自動追加を有効にしてください。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "資金を追加" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "都市内で資金を追加するホットキーです。" },
                 { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "資金を追加" },
@@ -95,9 +102,9 @@ namespace CityWatchdog
                 // --- Notifications ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "通知アイコン切替" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
-                    "ゲーム内の通知アイコンパネルにある [Toggle All] ボタンと同じ動作のホットキーです。\n" +
-                    "City Watchdog の通知アイコンをまとめて表示/非表示にします。" },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "通知アイコン切替" },
+                    "ゲーム内の <[Toggle All]> アイコンボタンと同じ動作の<ホットキー>です。\n" +
+                    "一覧にある都市通知アイコンをすぐに表示/非表示にします。" },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "すべての通知アイコンを即時表示/非表示" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "マイルストーン選択" },
@@ -132,10 +139,42 @@ namespace CityWatchdog
                 // --- Achievements ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "実績を有効化" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)),
-                    "このModが読み込まれている間、実績を有効 [ ✓ ] に保ちます。\n" +
-                    "この分野では <Achievement Fixer (AF)> Mod が最も詳細で安定しているため、使用をおすすめします。\n" +
-                    "<Achievement Fixer> がインストールされている場合、City Watchdog は実績処理をすべて AF に任せ、このオプションを隠します。\n" +
-                    "将来: AF Mod をこのModへ統合予定です。今は AF を追加するのが最善です。" },
+                    "Mod使用中に実績を許可するには、これを **ON [ ✓ ]** のままにしてください。\n" +
+                    "ゲームは過去に完了した作業を後から数えません。\n" +
+                    "有効のまま、普通に条件を達成してください。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementNotes)),
+                    "• 下の高度なボタンを使わなくても<既定で有効>です。\n" +
+                    "• 有効のままにして、自然に実績を達成してください :)\n" +
+                    "" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementNotes)), "" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowAdvancedAchievementTools)), "高度なツールを表示" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowAdvancedAchievementTools)), "**任意:** 実績のテスト、クリア、または有効化用です。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SelectedAchievement)), "選択した実績" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SelectedAchievement)),
+                    "変更する実績を1つ選びます。\n" +
+                    "<通常の実績進行には不要です。>\n" +
+                    "実績をリセット/クリアしたい場合、または条件を行わず解除したい場合だけ使います。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UnlockSelectedAchievement)), "選択項目を解除" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.UnlockSelectedAchievement)), "選択した実績を**解除して完了**します。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ClearSelectedAchievement)), "選択項目をクリア" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ClearSelectedAchievement)), "選択した実績を**未完了**としてマークします。" },
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ClearSelectedAchievement)),
+                    "この実績をクリア/リセットします。\n" +
+                    "\n" +
+                    "続行しますか？" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementToolsAdvisory)),
+                    "<高度なツールは任意です>\n" +
+                    "• テスト、修復、または全実績のリセットに使います。\n" +
+                    "• 詳細は各ボタンにマウスを重ねると右側パネルに表示されます。" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementToolsAdvisory)), "テスト" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ResetAllAchievements)), "すべてリセット" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ResetAllAchievements)),
+                    "完了済みの実績をすべて消去し、最初からやり直せるようにします。\n" +
+                    "**[すべてリセット]** の使用には**注意**してください。\n" +
+                    "誤って使った場合、[選択項目を解除] ボタンで完了済み実績を復元できます。" },
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ResetAllAchievements)),
+                    "警告: すべての実績を未完了状態にリセット/クリアします。\n" +
+                    "続行しますか？" },
 
                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Mod名" },
@@ -148,14 +187,14 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "下の使用説明を表示/非表示にします。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<通知パネル>\n" +
-                    "1. ゲーム内で左上の City Watchdog ボタンをクリックしてパネルを開きます。\n" +
-                    "2. ASC/DESC でセクションを並べ替えます。\n" +
+                    "1. City Watchdog ボタン（左上）をクリックしてパネルを開きます。\n" +
+                    "2. ASC/DESC で並べ替えます。\n" +
                     "3. Toggle All で素早く設定するか、セクションを展開して個別の通知アイコンを変更します。\n" +
                     "4. City Watchdog はアイコンの表示/非表示だけを行います。都市の問題そのものは修正しません。\n" +
                     "\n" +
                     "<資金ヘルパー>\n" +
                     "1. Trend Tracker は下部ツールバーの資金/人口トレンド矢印の横に /h または /mo の数値を追加します。\n" +
-                    "2. 資金追加と資金減少は資金ホットキー額を使います。\n" +
+                    "2. 資金追加と資金減少: <資金ホットキー額>を使います。\n" +
                     "3. 資金自動追加は都市が読み込まれている間に残高を監視し、しきい値未満なら資金を追加します。\n" +
                     "4. 無制限資金セーブ変換は無制限資金で開始した都市専用で、City Watchdog では<元に戻せません>。\n" +
                     "\n" +

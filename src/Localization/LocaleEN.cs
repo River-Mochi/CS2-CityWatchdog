@@ -64,10 +64,10 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "Hourly (/h)" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "Monthly (/mo)" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MinimalTrendTooltip)), "Minimal Tooltip" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MinimalTrendTooltip)),
-                    "Use shorter values and hide the extra Total row in the money hover tooltip.\n" +
-                    "Turn this OFF for the larger detailed tooltip." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CompactMoneyTooltip)), "Compact Money Tooltip" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CompactMoneyTooltip)),
+                     "Use shorter money values like 21.24M/mo and hide the Total row.\n" +
+                     "Turn this OFF for the larger detailed money tooltip." },    
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Money Hotkey Amount" },
@@ -114,7 +114,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
                     "<Hotkey> for the same action as the in-game <[Toggle All]> icon button.\n" +
                     "It shows or hides all listed city notification icons instantly." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Toggle Notification Icons" },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Instant Show/Hide all notification icons" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },
