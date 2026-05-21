@@ -12,7 +12,6 @@ namespace CityWatchdog.Systems
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Text;
     using Unity.Collections;
     using Unity.Entities;
@@ -584,16 +583,75 @@ namespace CityWatchdog.Systems
         private static void SetAllNotificationSettings(bool enabled)
         {
             Setting.NotificationSetting notification = Setting.Instance.Notification;
-            PropertyInfo[] properties = typeof(Setting.NotificationSetting).GetProperties(
-                BindingFlags.Instance | BindingFlags.Public);
 
-            foreach (PropertyInfo property in properties)
-            {
-                if (property.PropertyType == typeof(bool) && property.CanWrite)
-                {
-                    property.SetValue(notification, enabled);
-                }
-            }
+            notification.ElectricityElectricityNotification = enabled;
+            notification.ElectricityBottleneckNotification = enabled;
+            notification.ElectricityBuildingBottleneckNotification = enabled;
+            notification.ElectricityNotEnoughProductionNotification = enabled;
+            notification.ElectricityTransformerNotification = enabled;
+            notification.ElectricityNotEnoughConnectedNotification = enabled;
+            notification.ElectricityBatteryEmptyNotification = enabled;
+            notification.ElectricityLowVoltageNotConnected = enabled;
+            notification.ElectricityHighVoltageNotConnected = enabled;
+
+            notification.WaterPipeWaterNotification = enabled;
+            notification.WaterPipeDirtyWaterNotification = enabled;
+            notification.WaterPipeSewageNotification = enabled;
+            notification.WaterPipeWaterPipeNotConnectedNotification = enabled;
+            notification.WaterPipeSewagePipeNotConnectedNotification = enabled;
+            notification.WaterPipeNotEnoughWaterCapacityNotification = enabled;
+            notification.WaterPipeNotEnoughSewageCapacityNotification = enabled;
+            notification.WaterPipeNotEnoughGroundwaterNotification = enabled;
+            notification.WaterPipeNotEnoughSurfaceWaterNotification = enabled;
+            notification.WaterPipeDirtyWaterPumpNotification = enabled;
+
+            notification.BuildingAbandonedCollapsedNotification = enabled;
+            notification.BuildingAbandonedNotification = enabled;
+            notification.BuildingCondemnedNotification = enabled;
+            notification.BuildingTurnedOffNotification = enabled;
+            notification.BuildingHighRentNotification = enabled;
+
+            notification.TrafficBottleneckNotification = enabled;
+            notification.TrafficDeadEndNotification = enabled;
+            notification.TrafficRoadConnectionNotification = enabled;
+            notification.TrafficTrackConnectionNotification = enabled;
+            notification.TrafficCarConnectionNotification = enabled;
+            notification.TrafficShipConnectionNotification = enabled;
+            notification.TrafficTrainConnectionNotification = enabled;
+            notification.TrafficPedestrianConnectionNotification = enabled;
+
+            notification.CompanyNoInputsNotification = enabled;
+            notification.CompanyNoCustomersNotification = enabled;
+
+            notification.WorkProviderUneducatedNotification = enabled;
+            notification.WorkProviderEducatedNotification = enabled;
+
+            notification.DisasterWeatherDamageNotification = enabled;
+            notification.DisasterWeatherDestroyedNotification = enabled;
+            notification.DisasterWaterDamageNotification = enabled;
+            notification.DisasterWaterDestroyedNotification = enabled;
+            notification.DisasterDestroyedNotification = enabled;
+
+            notification.FireFireNotification = enabled;
+            notification.FireBurnedDownNotification = enabled;
+
+            notification.GarbageGarbageNotification = enabled;
+            notification.GarbageFacilityFullNotification = enabled;
+
+            notification.HealthcareAmbulanceNotification = enabled;
+            notification.HealthcareHearseNotification = enabled;
+            notification.HealthcareFacilityFullNotification = enabled;
+
+            notification.PoliceTrafficAccidentNotification = enabled;
+            notification.PoliceCrimeSceneNotification = enabled;
+
+            notification.PollutionAirPollutionNotification = enabled;
+            notification.PollutionNoisePollutionNotification = enabled;
+            notification.PollutionGroundPollutionNotification = enabled;
+
+            notification.ResourceConsumerNoResourceNotification = enabled;
+            notification.RoutePathfindNotification = enabled;
+            notification.TransportLineVehicleNotification = enabled;
         }
 
 
