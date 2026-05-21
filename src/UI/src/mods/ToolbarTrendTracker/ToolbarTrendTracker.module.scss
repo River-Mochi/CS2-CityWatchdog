@@ -43,6 +43,21 @@
     width: 255rem;
 }
 
+// Full-size and Compact need room for Income / Expenses / Net groups.
+// Adjust these widths if you want those tooltip styles wider or narrower.
+.tooltipRowsFull {
+    width: 255rem;
+}
+
+.tooltipRowsCompact {
+    width: 250rem;
+}
+
+// Mini only shows Net, so it can be narrower without squeezing values.
+.tooltipRowsMini {
+    width: 190rem;
+}
+
 // -----------------------------------------------------------------------------
 // Optional tooltip title
 // Example: WATCHDOG
@@ -104,8 +119,22 @@
 .tooltipValueLine {
     text-align: right;
     white-space: nowrap;
-    font-size: 1.15em;
     font-weight: 550;
+}
+
+// Per-mode value sizes. These affect only the money values inside the hover tooltip,
+// not the bottom toolbar number beside the vanilla money/population fields.
+.tooltipValueLineFull {
+    font-size: 1.15em;
+}
+.tooltipValueLineCompact {
+    font-size: 1.20em;
+}
+
+.tooltipValueLineMini {
+    font-size: 1.30em;
+    font-weight: 600;
+    line-height: 1.08;
 }
 
 // -----------------------------------------------------------------------------

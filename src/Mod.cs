@@ -32,13 +32,8 @@ namespace CityWatchdog
         internal static Setting? Settings { get; private set; }
 
         private static bool s_BannerLogged;
-        private static bool s_ReapplyingLocale;
         private static bool s_AchievementFixerBannerSkipLogged;
         private static readonly HashSet<string> s_AchievementBannerLocales = new HashSet<string>();
-
-#if DEBUG
-        private static string? s_LastLocaleId;
-#endif
 
         [System.Diagnostics.Conditional("DEBUG")]
         internal static void DebugLog(string message)
@@ -115,31 +110,16 @@ namespace CityWatchdog
                 LogUtils.Error(() => $"System scheduling failed: {ex.GetType().Name}: {ex.Message}", ex);
             }
 
-            LocalizationManager? localizationManager = GameManager.instance.localizationManager;
-            if (localizationManager != null)
-            {
-                localizationManager.onActiveDictionaryChanged -= OnLocaleChanged;
-                localizationManager.onActiveDictionaryChanged += OnLocaleChanged;
-            }
-
-            EnsureAchievementBannerForActiveLocale();
+            EnsureAchievementBannerSources();
         }
 
         public void OnDispose()
         {
             DebugLog(() => "Mod Dispose");
 
-            LocalizationManager? localizationManager = GameManager.instance?.localizationManager;
-            if (localizationManager != null)
-            {
-                localizationManager.onActiveDictionaryChanged -= OnLocaleChanged;
-            }
-
             Setting? setting = Settings;
             if (setting != null)
             {
-                DisableMoneyKeybinds(setting);
-
                 try
                 {
                     setting.UnregisterInOptionsUI();
@@ -151,34 +131,6 @@ namespace CityWatchdog
             }
 
             Settings = null;
-        }
-
-        private static void OnLocaleChanged()
-        {
-            if (s_ReapplyingLocale)
-            {
-                return;
-            }
-
-            s_ReapplyingLocale = true;
-            try
-            {
-#if DEBUG
-                LocalizationManager? localizationManager = GameManager.instance?.localizationManager;
-                string activeLocaleId = localizationManager?.activeLocaleId ?? "(unknown)";
-                if (!string.Equals(activeLocaleId, s_LastLocaleId, StringComparison.Ordinal))
-                {
-                    LogUtils.Info(() => $"Active locale = {activeLocaleId}");
-                    s_LastLocaleId = activeLocaleId;
-                }
-#endif
-                Settings?.RegisterInOptionsUI();
-                EnsureAchievementBannerForActiveLocale();
-            }
-            finally
-            {
-                s_ReapplyingLocale = false;
-            }
         }
 
         private static void ScheduleSystems(UpdateSystem updateSystem)
@@ -196,13 +148,7 @@ namespace CityWatchdog
             EnableAction(setting, Setting.AddMoneyAction);
             EnableAction(setting, Setting.SubtractMoneyAction);
             EnableAction(setting, Setting.ToggleNotificationsAction);
-        }
-
-     private static void DisableMoneyKeybinds(Setting setting)
-        {
-            DisableAction(setting, Setting.AddMoneyAction);
-            DisableAction(setting, Setting.SubtractMoneyAction);
-            DisableAction(setting, Setting.ToggleNotificationsAction);
+            EnableAction(setting, Setting.ToggleNotificationPanelAction);
         }
 
 
@@ -222,22 +168,6 @@ namespace CityWatchdog
             }
         }
 
-        private static void DisableAction(Setting setting, string actionName)
-        {
-            try
-            {
-                ProxyAction action = setting.GetAction(actionName);
-                if (action != null)
-                {
-                    action.shouldBeEnabled = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                LogUtils.Warn(() => $"Could not disable action '{actionName}': {ex.GetType().Name}: {ex.Message}", ex);
-            }
-        }
-
         private static void LogStartupBanner()
         {
             if (s_BannerLogged)
@@ -251,20 +181,15 @@ namespace CityWatchdog
 
         internal static void ReapplyAchievementBannerForActiveLocale()
         {
-            AddAchievementBannerForActiveLocale(force: true, finalApply: false);
+            EnsureAchievementBannerSources();
         }
 
         internal static void ReapplyAchievementBannerForActiveLocaleFinal()
         {
-            AddAchievementBannerForActiveLocale(force: true, finalApply: true);
+            EnsureAchievementBannerSources();
         }
 
-        private static void EnsureAchievementBannerForActiveLocale()
-        {
-            AddAchievementBannerForActiveLocale(force: false, finalApply: false);
-        }
-
-        private static void AddAchievementBannerForActiveLocale(bool force, bool finalApply)
+        private static void EnsureAchievementBannerSources()
         {
             if (Settings?.AchievementsEnabled != true)
             {
@@ -282,19 +207,15 @@ namespace CityWatchdog
                 return;
             }
 
-            LocalizationManager? localizationManager = GameManager.instance?.localizationManager;
-            if (localizationManager == null)
+            foreach (string localeId in AchievementBannerText.LocaleIds)
             {
-                return;
+                AddAchievementBannerSource(localeId);
             }
+        }
 
-            string activeLocaleId = localizationManager.activeLocaleId ?? string.Empty;
-            if (string.IsNullOrEmpty(activeLocaleId))
-            {
-                return;
-            }
-
-            if (!force && s_AchievementBannerLocales.Contains(activeLocaleId))
+        private static void AddAchievementBannerSource(string localeId)
+        {
+            if (string.IsNullOrEmpty(localeId) || s_AchievementBannerLocales.Contains(localeId))
             {
                 return;
             }
@@ -302,16 +223,12 @@ namespace CityWatchdog
             const string warningKey = "Menu.ACHIEVEMENTS_WARNING_MODS";
             Dictionary<string, string> entries = new Dictionary<string, string>
             {
-                [warningKey] = AchievementBannerText.For(activeLocaleId)
+                [warningKey] = AchievementBannerText.For(localeId)
             };
 
-            if (AddLocaleSource(activeLocaleId, new LocaleOverrideSource(entries)))
+            if (AddLocaleSource(localeId, new LocaleOverrideSource(entries)))
             {
-                s_AchievementBannerLocales.Add(activeLocaleId);
-                if (finalApply)
-                {
-                    DebugLog(() => $"Achievement banner re-applied for locale '{activeLocaleId}'.");
-                }
+                s_AchievementBannerLocales.Add(localeId);
             }
         }
 

@@ -10,16 +10,16 @@ namespace CityWatchdog.Systems
     using Game.SceneFlow;
     using System;
     using System.Reflection;
-    using UnityEngine.InputSystem;
 
     public partial class CityWatchdogUISystem : UISystemBaseExtension {
 
         private NotificationControllerSystem notificationControllerSystem = null!;
         private ProxyAction? toggleNotificationsAction;
+        private ProxyAction? toggleNotificationPanelAction;
         private BoolBinding panelVisibleBinding = null!;
         private ValueBinding<bool>? trendTrackerBinding;
         private ValueBinding<int>? trendDisplayModeBinding;
-        private ValueBinding<bool>? compactMoneyTooltipBinding;
+        private ValueBinding<int>? moneyTooltipModeBinding;
 
         private BoolBinding electricityElectricityNotificationBinding = null!;
         private BoolBinding electricityBottleneckNotificationBinding = null!;
@@ -96,12 +96,12 @@ namespace CityWatchdog.Systems
             base.OnCreate();
 
             notificationControllerSystem = World.GetOrCreateSystemManaged<NotificationControllerSystem>();
-            InitializeToggleNotificationsAction();
+            InitializeKeybindActions();
 
             panelVisibleBinding = AddBoolBindingAndTriggerBinding("ControlPanelEnabled", false, OnControlPanelBindingToggle);
             trendTrackerBinding = AddValueBinding(nameof(Setting.TrendTracker), Setting.Instance.TrendTracker);
             trendDisplayModeBinding = AddValueBinding(nameof(Setting.TrendDisplayMode), Setting.Instance.TrendDisplayMode);
-            compactMoneyTooltipBinding = AddValueBinding(nameof(Setting.CompactMoneyTooltip), Setting.Instance.CompactMoneyTooltip);
+            moneyTooltipModeBinding = AddValueBinding(nameof(Setting.MoneyTooltipMode), Setting.Instance.MoneyTooltipMode);
 
             electricityElectricityNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityElectricityNotification), Setting.Instance.Notification.ElectricityElectricityNotification, OnElectricityElectricityNotificationToggle);
             electricityBottleneckNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityBottleneckNotification), Setting.Instance.Notification.ElectricityBottleneckNotification, OnElectricityBottleneckNotificationToggle);
@@ -503,27 +503,44 @@ namespace CityWatchdog.Systems
         }
         #endregion
 
-        private void InitializeToggleNotificationsAction()
+        protected override void OnUpdate()
         {
-            toggleNotificationsAction = TryGetAction(Setting.ToggleNotificationsAction);
-            if (toggleNotificationsAction == null)
+            RefreshKeybindActions();
+
+            if (!IsInGame())
             {
                 return;
             }
 
-            toggleNotificationsAction.shouldBeEnabled = true;
-            toggleNotificationsAction.onInteraction -= OnToggleNotificationsHotkey;
-            toggleNotificationsAction.onInteraction += OnToggleNotificationsHotkey;
+            if (toggleNotificationPanelAction?.WasReleasedThisFrame() == true)
+            {
+                ToggleControlPanelFromHotkey();
+                return;
+            }
+
+            if (toggleNotificationsAction?.WasReleasedThisFrame() == true)
+            {
+                ToggleAllNotificationsFromHotkey();
+            }
         }
 
-        private void OnToggleNotificationsHotkey(ProxyAction action, InputActionPhase phase)
+        private void InitializeKeybindActions()
         {
-            if (phase != InputActionPhase.Performed || !IsInGame())
+            toggleNotificationsAction = EnableAction(Setting.ToggleNotificationsAction);
+            toggleNotificationPanelAction = EnableAction(Setting.ToggleNotificationPanelAction);
+        }
+
+        private void RefreshKeybindActions()
+        {
+            if (toggleNotificationsAction == null)
             {
-                return;
+                toggleNotificationsAction = EnableAction(Setting.ToggleNotificationsAction);
             }
 
-            ToggleAllNotificationsFromHotkey();
+            if (toggleNotificationPanelAction == null)
+            {
+                toggleNotificationPanelAction = EnableAction(Setting.ToggleNotificationPanelAction);
+            }
         }
 
         private void ToggleAllNotificationsFromHotkey()
@@ -587,11 +604,17 @@ namespace CityWatchdog.Systems
                    GameManager.instance.gameMode == GameMode.Game;
         }
 
-        private ProxyAction? TryGetAction(string actionName)
+        private ProxyAction? EnableAction(string actionName)
         {
             try
             {
-                return Setting.Instance.GetAction(actionName);
+                ProxyAction? action = Setting.Instance.GetAction(actionName);
+                if (action != null)
+                {
+                    action.shouldBeEnabled = true;
+                }
+
+                return action;
             }
             catch (Exception ex)
             {
@@ -605,11 +628,13 @@ namespace CityWatchdog.Systems
 
         private void OnControlPanelBindingToggle(bool value) => panelVisibleBinding.Update(value);
 
+        private void ToggleControlPanelFromHotkey() => panelVisibleBinding.Update(!panelVisibleBinding.Value);
+
         public void UpdateTrendTrackerBinding(bool value) => trendTrackerBinding?.Update(value);
 
         public void UpdateTrendDisplayModeBinding(int value) => trendDisplayModeBinding?.Update(value);
 
-        public void UpdateCompactMoneyTooltipBinding(bool value) => compactMoneyTooltipBinding?.Update(value);
+        public void UpdateMoneyTooltipModeBinding(int value) => moneyTooltipModeBinding?.Update(value);
 
     }
 

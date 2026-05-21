@@ -65,10 +65,13 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "每小时 (/h)" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "每月 (/mo)" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CompactMoneyTooltip)), "紧凑金钱提示" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CompactMoneyTooltip)),
-                    "使用 21.24M/mo 这样的较短金钱数值，并隐藏总额行。\n" +
-                    "关闭此项可使用较大的详细金钱提示。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "紧凑金钱提示" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
+                    "Choose how much detail appears in the money hover tooltip.\n" +
+                    "Default shows full values and Total, Compact shortens large values, and Mini shows only Net /h and /mo." },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeDefault"), "Default" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compact" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
 
 
                 // --- Money helpers ---
@@ -117,6 +120,12 @@ namespace CityWatchdog
                     "与游戏内 <[Toggle All]> 图标按钮相同功能的 <快捷键>。\n" +
                     "可立即显示或隐藏所有列出的城市通知图标。" },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "立即显示/隐藏所有通知图标" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "Open/Close Notification Panel" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)),
+                    "<Hotkey> for opening or closing the in-game notification panel.\n" +
+                    "This is independent from the Top Left City Watchdog button." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Open/Close notification panel" },
 
 
                 // --- Milestone selector ---

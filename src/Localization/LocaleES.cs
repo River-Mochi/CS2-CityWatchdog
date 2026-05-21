@@ -65,10 +65,13 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "Por hora (/h)" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "Mensual (/mo)" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CompactMoneyTooltip)), "Tooltip de dinero compacto" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CompactMoneyTooltip)),
-                    "Usa valores de dinero más cortos como 21.24M/mo y oculta la fila Total.\n" +
-                    "Desactívalo para usar el tooltip de dinero detallado más grande." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "Tooltip de dinero compacto" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
+                    "Choose how much detail appears in the money hover tooltip.\n" +
+                    "Default shows full values and Total, Compact shortens large values, and Mini shows only Net /h and /mo." },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeDefault"), "Default" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compact" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
 
 
                 // --- Money helpers ---
@@ -117,6 +120,12 @@ namespace CityWatchdog
                     "<Atajo> para la misma acción que el botón de icono <[Toggle All]> del panel del juego.\n" +
                     "Muestra u oculta al instante todos los iconos de notificación listados." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Instantáneamente mostrar/ocultar todos los iconos de notificación" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "Open/Close Notification Panel" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)),
+                    "<Hotkey> for opening or closing the in-game notification panel.\n" +
+                    "This is independent from the Top Left City Watchdog button." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Open/Close notification panel" },
 
 
                 // --- Milestone selector ---

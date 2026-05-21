@@ -65,10 +65,13 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "毎時 (/h)" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "月間 (/mo)" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CompactMoneyTooltip)), "コンパクト資金ツールチップ" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CompactMoneyTooltip)),
-                    "21.24M/mo のような短い資金表示を使い、合計行を非表示にします。\n" +
-                    "大きい詳細な資金ツールチップを使う場合はOFFにしてください。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "コンパクト資金ツールチップ" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
+                    "Choose how much detail appears in the money hover tooltip.\n" +
+                    "Default shows full values and Total, Compact shortens large values, and Mini shows only Net /h and /mo." },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeDefault"), "Default" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compact" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
 
 
                 // --- Money helpers ---
@@ -117,6 +120,12 @@ namespace CityWatchdog
                     "ゲーム内の <[Toggle All]> アイコンボタンと同じ動作の<ホットキー>です。\n" +
                     "一覧にある都市通知アイコンをすぐに表示/非表示にします。" },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "すべての通知アイコンを即時表示/非表示" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "Open/Close Notification Panel" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)),
+                    "<Hotkey> for opening or closing the in-game notification panel.\n" +
+                    "This is independent from the Top Left City Watchdog button." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Open/Close notification panel" },
 
 
                 // --- Milestone selector ---

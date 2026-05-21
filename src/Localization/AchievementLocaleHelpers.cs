@@ -58,6 +58,22 @@ namespace CityWatchdog
 
     internal static class AchievementBannerText
     {
+        public static readonly string[] LocaleIds =
+        {
+            "en-US",
+            "de-DE",
+            "es-ES",
+            "fr-FR",
+            "it-IT",
+            "ja-JP",
+            "ko-KR",
+            "pt-BR",
+            "pl-PL",
+            "vi-VN",
+            "zh-HANS",
+            "zh-HANT",
+        };
+
         private static readonly Dictionary<string, string> TextByLocale = new Dictionary<string, string>
         {
             ["en-US"] = "Achievements enabled by City Watchdog.",

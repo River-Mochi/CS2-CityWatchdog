@@ -45,6 +45,7 @@ namespace CityWatchdog
         public const string AddMoneyAction = nameof(AddMoneyAction);
         public const string SubtractMoneyAction = nameof(SubtractMoneyAction);
         public const string ToggleNotificationsAction = nameof(ToggleNotificationsAction);
+        public const string ToggleNotificationPanelAction = nameof(ToggleNotificationPanelAction);
 
         // Group IDs.
         internal const string Trends = nameof(Trends);
@@ -91,6 +92,9 @@ namespace CityWatchdog
 
         internal const int TrendDisplayModeHourly = 0;
         internal const int TrendDisplayModeMonthly = 1;
+        internal const int MoneyTooltipModeDefault = 0;
+        internal const int MoneyTooltipModeCompact = 1;
+        internal const int MoneyTooltipModeMini = 2;
 
         public Setting(IMod mod) : base(mod)
         {
@@ -111,10 +115,11 @@ namespace CityWatchdog
         [SettingsUISetter(typeof(Setting), nameof(OnTrendDisplayModeChanged))]
         public int TrendDisplayMode { get; set; }
 
+        [SettingsUIDropdown(typeof(Setting), nameof(GetMoneyTooltipModeItems))]
         [SettingsUISection(Actions, Trends)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureTrendTrackerEnabled))]
-        [SettingsUISetter(typeof(Setting), nameof(OnCompactMoneyTooltipChanged))]
-        public bool CompactMoneyTooltip { get; set; }
+        [SettingsUISetter(typeof(Setting), nameof(OnMoneyTooltipModeChanged))]
+        public int MoneyTooltipMode { get; set; }
 
         // --------------------------------------------------------------------
         // Actions tab - Money
@@ -157,6 +162,10 @@ namespace CityWatchdog
         [SettingsUIKeyboardBinding(BindingKeyboard.N, ToggleNotificationsAction)]
         [SettingsUISection(Actions, Notifications)]
         public ProxyBinding ToggleNotificationsKeyboardBinding { get; set; }
+
+        [SettingsUIKeyboardBinding(BindingKeyboard.N, ToggleNotificationPanelAction, shift: true)]
+        [SettingsUISection(Actions, Notifications)]
+        public ProxyBinding ToggleNotificationPanelKeyboardBinding { get; set; }
 
         // --------------------------------------------------------------------
         // Actions tab - Milestone
@@ -530,6 +539,28 @@ namespace CityWatchdog
             };
         }
 
+        public DropdownItem<int>[] GetMoneyTooltipModeItems()
+        {
+            return new[]
+            {
+                new DropdownItem<int>
+                {
+                    value = MoneyTooltipModeDefault,
+                    displayName = GetOptionLocaleID("MoneyTooltipModeDefault"),
+                },
+                new DropdownItem<int>
+                {
+                    value = MoneyTooltipModeCompact,
+                    displayName = GetOptionLocaleID("MoneyTooltipModeCompact"),
+                },
+                new DropdownItem<int>
+                {
+                    value = MoneyTooltipModeMini,
+                    displayName = GetOptionLocaleID("MoneyTooltipModeMini"),
+                },
+            };
+        }
+
         public void ResetInitialMoney()
         {
             InitialMoney = 0;
@@ -564,7 +595,7 @@ namespace CityWatchdog
 
             TrendTracker = true;
             TrendDisplayMode = TrendDisplayModeHourly;
-            CompactMoneyTooltip = false;
+            MoneyTooltipMode = MoneyTooltipModeCompact;
 
             ManualMoneyAmount = 40000;
             AutomaticAddMoney = false;
@@ -602,11 +633,11 @@ namespace CityWatchdog
                 .UpdateTrendDisplayModeBinding(value);
         }
 
-        private void OnCompactMoneyTooltipChanged(bool value)
+        private void OnMoneyTooltipModeChanged(int value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
-                .UpdateCompactMoneyTooltipBinding(value);
+                .UpdateMoneyTooltipModeBinding(value);
         }
 
         private bool GetMilestoneLevelStatus()

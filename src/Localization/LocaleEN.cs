@@ -64,10 +64,15 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "Hourly (/h)" },
                 { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "Monthly (/mo)" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CompactMoneyTooltip)), "Compact Money Tooltip" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CompactMoneyTooltip)),
-                     "Use shorter money values like 21.24M/mo and hide the Total row.\n" +
-                     "Turn this OFF for the larger detailed money tooltip." },    
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "Money Tooltip Style" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
+                    "Choose how much detail appears in the money hover tooltip.\n" +
+                    "<Full size> shows long values and Total fields.\n" +
+                    "<Compact> shortens large values (15.21M instead of 15,212,318)\n" +
+                    "<Mini> shows only 2 Net values for /mo and /h." },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeDefault"), "Full size" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compact" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Money Hotkey Amount" },
@@ -118,6 +123,13 @@ namespace CityWatchdog
                     "<Hotkey> for the same action as the in-game <[Toggle All]> icon button.\n" +
                     "It shows or hides all listed city notification icons instantly." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Instant Show/Hide all notification icons" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "Open/Close Notification Panel" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)),
+                    "<Hotkey> for opening or closing the in-game notification panel.\n" +
+                    "Works the same as clicking Top Left icon to open the full panel."
+                },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Open/Close notification panel" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },
@@ -222,7 +234,7 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Notification panel>\n" +
-                    "1. Click the City Watchdog button (Top Left) to open the panel.\n" +
+                    "1. Click the City Watchdog button (Top Left), or press Shift+N, to open the panel.\n" +
                     "2. ASC/DESC to sort.\n" +
                     "3. Use Toggle All for quick setup, or expand a section to change individual notification icons.\n" +
                     "4. City Watchdog hides or shows icons only; it does not fix the underlying city problem.\n\n" +

@@ -4,7 +4,7 @@ import mod from "../../../mod.json";
 export const controlPanelEnabled$ = bindValue<boolean>(mod.id, "ControlPanelEnabled", false);
 export const trendTracker$ = bindValue<boolean>(mod.id, "TrendTracker", true);
 export const trendDisplayMode$ = bindValue<number>(mod.id, "TrendDisplayMode", 0);
-export const compactMoneyTooltip$ = bindValue<boolean>(mod.id, "CompactMoneyTooltip", false);
+export const moneyTooltipMode$ = bindValue<number>(mod.id, "MoneyTooltipMode", 1);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
 export const ElectricityBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBottleneckNotification");
