@@ -4,7 +4,7 @@
 	<!--Name of the mod to display to players-->
 	<DisplayName Value="City Watchdog [BETA]" />
 	<!--Short description of the mod-->
-	<ShortDescription Value="Hide notification icons, add/remove money, achievements, track money, set milestones." />
+	<ShortDescription Value="Hide alert icons, add/remove money, enable achievements, track money, set milestones." />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
@@ -16,7 +16,7 @@
 
 - Show or hide notification alert icons.
 - Built-in Achievement Fixer and achievement repair tools.
-- Change the Milesstone you start with (if you want Trains now, you can have it!).
+- Change the Milestone you start with (if you want Trains now, you can have it!).
 
 #### Money
 
@@ -34,7 +34,7 @@ Hotkeys
 ### Important Notes
 - City Watchdog hides/shows alert icons; it does not fix the city problem behind the icons. Good for making videos and reducing stress.
 - Make a backup before converting an Unlimited Money save. Mod cannot undo that conversion.
-- You can remove my Achievement Fixer mod as it's already including in City Watchdog. AF is more robust than the simpler one originally in CC.
+- You can remove my Achievement Fixer mod as it's already included in City Watchdog. AF is more robust than the simpler one originally in CC.
 - City Watchdog itself is a heavily rewritten, modernized redux/expansion of City Controller. It is not just a copy-paste release and nearly a whole rewrite.
 I hope you enjoy the new features, better performance, and safety guards!
 - CWD's Trend Tracker is a ground-up code write of similar money trend info to "Show Text Trends" (retired). All new code for how Trends implements vanilla
@@ -45,7 +45,7 @@ Feedback is welcome through GitHub or Discord links on the right.
 If you like free mods, give a Like, easy way to show support :)
 
 ### Future
-- New 9 languages supported, more needed.
+- 9 languages supported, more needed.
 - If anyone can make better Thumbnail and screenshots, please let me know.
 
 ### Credits
