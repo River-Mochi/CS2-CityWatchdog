@@ -73,7 +73,7 @@ namespace CityWatchdog
                     "<Full size>는 긴 값과 총액 항목을 표시합니다." },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "미니" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "간단" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeDefault"), "전체 크기" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "전체 크기" },
 
 
                 // --- Money helpers ---
@@ -95,7 +95,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "자동 돈 추가" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
                     "켜져 있으면 [ ✓ ], City Watchdog이 도시가 로드된 동안 도시 잔액을 확인합니다.\n" +
-                    "잔액이 기준값보다 낮으면 선택한 자동 금액을 추가합니다." },
+                    "잔액이 기준값보다 낮으면 선택한 자동 금액을 추가합니다.\n" +
+                    "이 자동 옵션 대신 필요할 때 단축키(<[> 또는 <]>)로 수동 돈 기능을 사용하는 것을 권장하지만, 원하면 사용할 수 있도록 남겨 두었습니다." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "자동 돈 기준값" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),

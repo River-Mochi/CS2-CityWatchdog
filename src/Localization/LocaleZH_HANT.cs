@@ -73,7 +73,7 @@ namespace CityWatchdog
                     "<Full size> 顯示完整數值和總計欄位。" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "迷你" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "精簡" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeDefault"), "完整大小" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "完整大小" },
 
 
                 // --- Money helpers ---
@@ -95,7 +95,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "自動增加金錢" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
                     "啟用 [ ✓ ] 後，City Watchdog 會在城市載入期間檢查城市餘額。\n" +
-                    "如果餘額低於門檻，就會加入所選的自動金額。" },
+                    "如果餘額低於門檻，就會加入所選的自動金額。\n" +
+                    "建議視需要使用快捷鍵（<[> 或 <]>）手動加錢，而不是使用這個自動選項；不過如果你想用，它仍然保留。" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "自動金錢門檻" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),

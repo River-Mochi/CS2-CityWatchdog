@@ -73,7 +73,7 @@ namespace CityWatchdog
                     "<Full size> muestra valores largos y campos de total." },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compacto" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeDefault"), "Tamaño completo" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "Tamaño completo" },
 
 
                 // --- Money helpers ---
@@ -95,7 +95,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Añadir dinero automático" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
                     "Cuando está activado [ ✓ ], City Watchdog comprueba el saldo de la ciudad mientras hay una ciudad cargada.\n" +
-                    "Si el saldo está por debajo del umbral, añade el importe automático seleccionado." },
+                    "Si el saldo está por debajo del umbral, añade el importe automático seleccionado.\n" +
+                    "Se recomienda usar dinero manual con el atajo (<[> o <]>) cuando haga falta en vez de esta opción automática, pero está aquí si la quieres." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Umbral de dinero automático" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),

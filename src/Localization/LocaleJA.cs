@@ -73,7 +73,7 @@ namespace CityWatchdog
                     "<Full size> は長い数値と合計欄を表示します。" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "ミニ" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "コンパクト" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeDefault"), "フルサイズ" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "フルサイズ" },
 
 
                 // --- Money helpers ---
@@ -95,7 +95,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "資金自動追加" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
                     "有効 [ ✓ ] の場合、都市が読み込まれている間に City Watchdog が都市の残高を確認します。\n" +
-                    "残高がしきい値より低い場合、選択した自動金額を追加します。" },
+                    "残高がしきい値より低い場合、選択した自動金額を追加します。\n" +
+                    "この自動オプションよりも、必要に応じてホットキー（<[> または <]>）で手動資金を使うことをおすすめします。ただし、使いたい場合のために残しています。" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "自動資金しきい値" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),

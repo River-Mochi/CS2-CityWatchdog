@@ -72,7 +72,7 @@ namespace CityWatchdog
                     "<Full size> shows long values and Total fields." },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compact" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeDefault"), "Full size" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "Full size" },
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Money Hotkey Amount" },

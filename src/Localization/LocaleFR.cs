@@ -73,7 +73,7 @@ namespace CityWatchdog
                     "<Full size> affiche les valeurs longues et les champs de total." },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compact" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeDefault"), "Taille réelle" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "Taille réelle" },
 
 
                 // --- Money helpers ---
@@ -95,7 +95,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Ajout d'argent automatique" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
                     "Si activé [ ✓ ], City Watchdog vérifie le solde de la ville lorsqu'une ville est chargée.\n" +
-                    "Si le solde est sous le seuil, il ajoute le montant automatique choisi." },
+                    "Si le solde est sous le seuil, il ajoute le montant automatique choisi.\n" +
+                    "Il est recommandé d'utiliser l'argent manuel avec le raccourci (<[> ou <]>) au besoin plutôt que cette option automatique, mais elle reste disponible si tu la veux." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Seuil d'argent automatique" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),
