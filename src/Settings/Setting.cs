@@ -370,7 +370,15 @@ namespace CityWatchdog
                 return false;
             }
 
-            LogUtils.Info(() => $"Achievement Fixer is enabled; City Watchdog achievement action '{actionName}' was skipped for this session.");
+            string displayName = actionName switch
+            {
+                nameof(UnlockSelectedAchievement) => "UNLOCK",
+                nameof(ClearSelectedAchievement) => "CLEAR",
+                nameof(ResetAllAchievements) => "ResetAll",
+                _ => actionName
+            };
+
+            LogUtils.Info(() => $"City Watchdog achievement action '{displayName}' was cancelled; Achievement Fixer mod detected and enabled.");
             return true;
         }
 

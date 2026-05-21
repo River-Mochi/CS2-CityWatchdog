@@ -122,7 +122,9 @@ namespace CityWatchdog.Systems
             }
 
             achievementFixerDetectedLogged = true;
-            LogUtils.Info(() => "Achievement Fixer is enabled; City Watchdog achievement support is disabled for this session to avoid duplicate achievement handling.");
+            LogUtils.Info(() =>
+                "Achievement Fixer mod detected and enabled; City Watchdog is disabling its version of Achievements.\n" +
+                "You don't need Achievement Fixer if City Watchdog is installed since it already includes the same methods as the original Achievement Fixer mod, and behavior is less confusing if you only have one installed.");
         }
 
         private static bool ForceEnableIfNeeded(string source)
