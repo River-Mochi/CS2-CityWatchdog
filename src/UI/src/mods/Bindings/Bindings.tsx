@@ -2,6 +2,9 @@ import { bindValue, trigger } from "cs2/api";
 import mod from "../../../mod.json";
 
 export const controlPanelEnabled$ = bindValue<boolean>(mod.id, "ControlPanelEnabled", false);
+export const trendTracker$ = bindValue<boolean>(mod.id, "TrendTracker", true);
+export const trendDisplayMode$ = bindValue<number>(mod.id, "TrendDisplayMode", 0);
+export const moneyTooltipMode$ = bindValue<number>(mod.id, "MoneyTooltipMode", 1);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
 export const ElectricityBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBottleneckNotification");
@@ -61,6 +64,7 @@ export const RoutePathfindNotificationBinding$ = bindValue<boolean>(mod.id, "Rou
 export const TransportLineVehicleNotificationBinding$ = bindValue<boolean>(mod.id, "TransportLineVehicleNotification");
 
 export const OnControlPanelBindingToggle = (enable: boolean) => trigger(mod.id, "ControlPanelEnabled", enable);
+export const OnToggleAllNotifications = (enable: boolean) => trigger(mod.id, "ToggleAllNotifications", enable);
 
 export const OnElectricityElectricityNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ElectricityElectricityNotification", enable);
 export const OnElectricityBottleneckNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ElectricityBottleneckNotification", enable);

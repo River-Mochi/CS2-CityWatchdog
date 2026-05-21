@@ -32,45 +32,77 @@ namespace CityWatchdog
 
                 // --- Tabs ---
                 { m_Settings.GetOptionTabLocaleID(Setting.Actions), "Actions" },
+                { m_Settings.GetOptionTabLocaleID(Setting.AchievementsTab), "Achievements" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Hotkeys), "Hotkeys" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "About" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "Debug" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "Achievements" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "Trend Tracker" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Money" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "Notifications" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Milestone" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Save Conversion" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Achievements), "Achievements" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AchievementTools), "Advanced Tools" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AchievementDanger), "Reset Achievements" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "Hotkeys" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "USAGE" },
 
-                // --- Achievements ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "Enable Achievements" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)),
-                    "Keeps achievements enabled [ ✓ ] when this mod is loaded.\n" +
-                    "It's recommended to use <Achievement Fixer (AF)> mod as it is the most detailed and robust in this area.\n" +
-                    "If <Achievement Fixer> is installed, City Watchdog leaves all achievement handling to AF and hides this option.\n" +
-                    "FUTURE: I will merge AF mod into this mod; for now adding AF mod is the best option."
-                 },
+                // --- Trend Tracker ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "Trend Tracker" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
+                    "Adds numeric trend values beside the vanilla bottom-toolbar money and population arrows.\n" +
+                    "This is a lightweight toolbar display only; it does not change city money or population." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Trend Frequency" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
+                    "Choose whether the bottom-toolbar trend text shows hourly or monthly values for money and population.\n" +
+                    "Monthly uses budget income minus expenses for money, and a 24-hour projection for population." },
+                { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "Hourly (/h)" },
+                { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "Monthly (/mo)" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "Money Tooltip Style" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
+                    "Choose how much detail appears in the money hover tooltip.\n" +
+                    "Compact = default on first install.\n"+
+                    "<Mini> shows only 2 Net values for /mo and /h.\n" +
+                    "<Compact> shortens large values (15.21M instead of 15,212,318).\n" +
+                    "<Full size> shows long values and Total fields." },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compact" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "Full size" },
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Money Hotkey Amount" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
                     "Use this amount with the Add Money and Subtract Money hotkeys.\n" +
-                    "Default = 20,000.\n" +
-                    "This does not set the current balance by itself." },
+                    "Default = 40,000.\n" +
+                    "This does nothing unless you use the hotkey in the city to add/subtract money.\n"+
+                    "For automated money, enable the Automatic Add Money option."
+                },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Add Money" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Hotkey for adding money inside the city." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Add Money" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Subtract Money" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Hotkey for subtracting money inside the city." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "Subtract Money" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Automatic Add Money" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
                     "When enabled [ ✓ ], City Watchdog checks the city balance while a city is loaded.\n" +
-                    "If the balance is below the threshold, it adds the selected automatic amount." },
+                    "If the balance is below the threshold, it adds the selected automatic amount.\n" +
+                    "Recommend to use Manual money with hotkey (<[> or <]>) as needed instead of this automated option, but this is here if you want it."
+                },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Automatic Money Threshold" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),
                     "If Automatic Add Money is enabled and the city balance falls below this value,\n" +
-                    "City Watchdog adds the selected automatic amount." },
+                    "Add the selected automatic amount." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Automatic Money Amount" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)),
@@ -79,11 +111,26 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Initial Money" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
-                    "Sets the starting balance for a new <limited money> city or the first loaded city, then resets to Game Default after it applies.\n" +
+                    "Sets the starting balance for a new <limited money> city or the first loaded city,\n" +
+                    "then resets to Game Default after it applies.\n" +
                     "This is grayed out if a city is already loaded.\n" +
                     "Set before starting/loading a city → applies once → then use <Money Hotkey Amount> or <Automatic Add Money> afterward." },
 
                 { m_Settings.GetOptionLocaleID("GameDefault"), "Game Default" },
+
+                // --- Notifications ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Toggle Notification Icons" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
+                    "<Hotkey> for the same action as the in-game <[Toggle All]> icon button.\n" +
+                    "It shows or hides all listed city notification icons instantly." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Instant Show/Hide all notification icons" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "Open/Close Notification Panel" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)),
+                    "<Hotkey> for opening or closing the in-game notification panel.\n" +
+                    "Works the same as clicking Top Left icon to open the full panel."
+                },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Open/Close notification panel" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },
@@ -110,7 +157,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
                     "For cities started with <Unlimited Money>.\n" +
                     "While that city is loaded, this converts the save to normal limited-money budgeting so the city has regular money challenges again.\n" +
-                    "Button is <disabled/greyed-out> unless the loaded city is an <Unlimited Money> type and <Unlimited Money Converter> is ON [ ✓ ].\n" +
+                    "Button is <disabled/greyed-out> unless the loaded city is an <Unlimited Money> type\n" +
+                    "and <Unlimited Money Converter> is ON [ ✓ ].\n" +
                     "Make a backup save, and use at your own risk; City Watchdog cannot undo this conversion." },
 
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
@@ -118,20 +166,59 @@ namespace CityWatchdog
                     "Save a backup FIRST; City Watchdog cannot undo this.\n" +
                     "Are you sure?" },
 
-                // --- Hotkeys ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Toggle Notification Icons" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
-                    "Hotkey for the same action as the in-game [Toggle All] notification icon button.\n" +
-                    "It shows or hides all City Watchdog notification icons at once." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Toggle Notification Icons" },
+                // --- Achievements ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementsEnabled)), "Enable Achievements" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementsEnabled)),
+                    "Keep this **ON [ ✓ ]** to allow achievements while using mods.\n" +
+                    "Game doesn't count tasks done in the past,\n " +
+                    "so just keep it enabled and do the tasks to naturally complete achievements."
+                },
+             
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementNotes)),
+                    "• <Enabled by default> without using the Advanced buttons below.\n" +
+                    "• Just keep it enabled to naturally complete achievements :)\n"
+                },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Add Money" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Hotkey for adding money inside the city." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Add Money" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementNotes)), "" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Subtract Money" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Hotkey for subtracting money inside the city." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "Subtract Money" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowAdvancedAchievementTools)), "Show Advanced Tools" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowAdvancedAchievementTools)),
+                    "**Optional:** for testing, clearing, or activating an achievement."
+                },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SelectedAchievement)), "Selected Achievement" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SelectedAchievement)),
+                    "Select one achievement to change.\n"+
+                    "<Not needed for normal achievement progress.>\n" +
+                    "This is only if you want to reset/clear your achievements or unlock them without doing the tasks."
+                },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UnlockSelectedAchievement)), "Unlock Selected" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.UnlockSelectedAchievement)), "**Unlocks & Completes** the selected achievement." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ClearSelectedAchievement)), "Clear Selected" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ClearSelectedAchievement)), "Marks the selected achievement as **not completed**." },
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ClearSelectedAchievement)), "CLEAR / RESET this achievement.\n\nContinue?" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AchievementToolsAdvisory)),
+                    "<Advanced tools are optional>\n" +
+                    "• Use for testing, repairs, or resetting all achievements.\n" +
+                    "• Hover over any button for details in the right side panel."
+                },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AchievementToolsAdvisory)), "Test" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ResetAllAchievements)), "RESET ALL" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ResetAllAchievements)),
+                    "This clears out all your completed achievements and lets you start fresh.\n" +
+                    "**BE CAREFUL** using **[RESET ALL]**.\n" +
+                    "If you accidentally use it, you can recover completed achievements with the [Unlock Selected] button."
+                },
+
+                // Confirmation modal Yes/No
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ResetAllAchievements)),
+                      "WARNING: RESET/CLEAR all achievements to a NOT complete status.\n" +
+                      "Continue?"
+                },
 
                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Mod name" },
@@ -148,14 +235,15 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Notification panel>\n" +
-                    "1. In-game, click the City Watchdog top-left button to open the panel.\n" +
-                    "2. Use ASC/DESC to sort sections.\n" +
+                    "1. Click the City Watchdog button (Top Left), or press Shift+N, to open the panel.\n" +
+                    "2. ASC/DESC to sort.\n" +
                     "3. Use Toggle All for quick setup, or expand a section to change individual notification icons.\n" +
                     "4. City Watchdog hides or shows icons only; it does not fix the underlying city problem.\n\n" +
                     "<Money helpers>\n" +
-                    "1. Add Money and Subtract Money use the Money Hotkey Amount value.\n" +
-                    "2. Automatic Add Money watches the city balance while a city is loaded and adds money when below the threshold.\n" +
-                    "3. Convert Unlimited Money Save is only for cities that were started with Unlimited Money and is <not reversible> by City Watchdog.\n\n" +
+                    "1. Trend Tracker adds numeric /h or /mo values beside the bottom-toolbar money and population trend arrows.\n" +
+                    "2. Add and Subtract Money: use the <Money Hotkey Amount>.\n" +
+                    "3. Automatic Add Money watches the city balance while a city is loaded and adds money when below the threshold.\n" +
+                    "4. Convert Unlimited Money Save is only for cities that were started with Unlimited Money and is <not reversible> by City Watchdog.\n\n" +
                     "<Custom milestone>\n" +
                     "Set Initial Money and select Milestones from the Options menu before loading or starting a city." },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
@@ -172,7 +260,13 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("SortAscending"), "ASC ↑" },
                 { m_Settings.GetUILocaleID("SortDescending"), "DESC ↓" },
                 { m_Settings.GetUILocaleID("SortOrderTooltip"), "Sort order" },
-                { m_Settings.GetUILocaleID("ToggleAllTooltip"), "Show/hide all icons. Color: green = all on; blue = mixed; red = all off." },
+                { m_Settings.GetUILocaleID("ToggleAllTooltip"),
+                    "Show/hide all icons.\n" +
+                    "Color: green = all on; blue = mixed; red = all off." },
+                { m_Settings.GetUILocaleID("TrendTooltipIncome"), "Income:" },
+                { m_Settings.GetUILocaleID("TrendTooltipExpenses"), "Expenses:" },
+                { m_Settings.GetUILocaleID("TrendTooltipNet"), "Net:" },
+                { m_Settings.GetUILocaleID("TrendTooltipTotal"), "Total:" },
 
                 // --- Electricity notifications ---
                 { m_Settings.GetUILocaleID("Electricity"), "ELECTRICITY" },
@@ -273,12 +367,6 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("TransportLine"), "TRANSPORT LINE" },
                 { m_Settings.GetUILocaleID("TransportLineVehicleNotification"), "No vehicles" },
             };
-
-            // --- Hand-written milestone fallback names ---
-            foreach (string milestone in m_Settings.Milestones)
-            {
-                entries[m_Settings.GetOptionLocaleID(milestone)] = milestone;
-            }
 
             return entries;
         }

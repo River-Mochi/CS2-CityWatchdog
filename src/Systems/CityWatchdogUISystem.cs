@@ -4,18 +4,21 @@
 namespace CityWatchdog.Systems
 {
     using CityWatchdog.Data;
+    using Colossal.UI.Binding;
     using Game;
     using Game.Input;
     using Game.SceneFlow;
     using System;
-    using System.Reflection;
-    using UnityEngine.InputSystem;
 
     public partial class CityWatchdogUISystem : UISystemBaseExtension {
 
         private NotificationControllerSystem notificationControllerSystem = null!;
         private ProxyAction? toggleNotificationsAction;
+        private ProxyAction? toggleNotificationPanelAction;
         private BoolBinding panelVisibleBinding = null!;
+        private ValueBinding<bool>? trendTrackerBinding;
+        private ValueBinding<int>? trendDisplayModeBinding;
+        private ValueBinding<int>? moneyTooltipModeBinding;
 
         private BoolBinding electricityElectricityNotificationBinding = null!;
         private BoolBinding electricityBottleneckNotificationBinding = null!;
@@ -92,9 +95,13 @@ namespace CityWatchdog.Systems
             base.OnCreate();
 
             notificationControllerSystem = World.GetOrCreateSystemManaged<NotificationControllerSystem>();
-            InitializeToggleNotificationsAction();
+            InitializeKeybindActions();
 
             panelVisibleBinding = AddBoolBindingAndTriggerBinding("ControlPanelEnabled", false, OnControlPanelBindingToggle);
+            AddBoolTriggerBinding("ToggleAllNotifications", ApplyAllNotificationToggles);
+            trendTrackerBinding = AddValueBinding(nameof(Setting.TrendTracker), Setting.Instance.TrendTracker);
+            trendDisplayModeBinding = AddValueBinding(nameof(Setting.TrendDisplayMode), Setting.Instance.TrendDisplayMode);
+            moneyTooltipModeBinding = AddValueBinding(nameof(Setting.MoneyTooltipMode), Setting.Instance.MoneyTooltipMode);
 
             electricityElectricityNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityElectricityNotification), Setting.Instance.Notification.ElectricityElectricityNotification, OnElectricityElectricityNotificationToggle);
             electricityBottleneckNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityBottleneckNotification), Setting.Instance.Notification.ElectricityBottleneckNotification, OnElectricityBottleneckNotificationToggle);
@@ -496,82 +503,195 @@ namespace CityWatchdog.Systems
         }
         #endregion
 
-        private void InitializeToggleNotificationsAction()
+        protected override void OnUpdate()
         {
-            toggleNotificationsAction = TryGetAction(Setting.ToggleNotificationsAction);
-            if (toggleNotificationsAction == null)
+            RefreshKeybindActions();
+
+            if (!IsInGame())
             {
                 return;
             }
 
-            toggleNotificationsAction.shouldBeEnabled = true;
-            toggleNotificationsAction.onInteraction -= OnToggleNotificationsHotkey;
-            toggleNotificationsAction.onInteraction += OnToggleNotificationsHotkey;
+            if (toggleNotificationPanelAction?.WasReleasedThisFrame() == true)
+            {
+                ToggleControlPanelFromHotkey();
+                return;
+            }
+
+            if (toggleNotificationsAction?.WasReleasedThisFrame() == true)
+            {
+                ToggleAllNotificationsFromHotkey();
+            }
         }
 
-        private void OnToggleNotificationsHotkey(ProxyAction action, InputActionPhase phase)
+        private void InitializeKeybindActions()
         {
-            if (phase != InputActionPhase.Performed || !IsInGame())
+            toggleNotificationsAction = EnableAction(Setting.ToggleNotificationsAction);
+            toggleNotificationPanelAction = EnableAction(Setting.ToggleNotificationPanelAction);
+        }
+
+        private void RefreshKeybindActions()
+        {
+            if (toggleNotificationsAction == null)
             {
-                return;
+                toggleNotificationsAction = EnableAction(Setting.ToggleNotificationsAction);
             }
 
-            ToggleAllNotificationsFromHotkey();
+            if (toggleNotificationPanelAction == null)
+            {
+                toggleNotificationPanelAction = EnableAction(Setting.ToggleNotificationPanelAction);
+            }
         }
 
         private void ToggleAllNotificationsFromHotkey()
         {
             bool enabled = !AreAllNotificationSettingsEnabled();
 
+            ApplyAllNotificationToggles(enabled);
+        }
+
+        private void ApplyAllNotificationToggles(bool enabled)
+        {
+            // Shared path for the hotkey and panel Toggle All button.
+            // The controller applies icon state in bulk, then bindings update panel state.
             notificationControllerSystem.SetAllNotifications(enabled);
             UpdateAllNotificationBindings(enabled);
         }
 
         private void UpdateAllNotificationBindings(bool enabled)
         {
-            FieldInfo[] fields = typeof(CityWatchdogUISystem).GetFields(
-                BindingFlags.Instance | BindingFlags.NonPublic);
+            // Keep this list aligned with Setting.NotificationSetting and the BoolBinding fields above.
+            electricityElectricityNotificationBinding.Update(enabled);
+            electricityBottleneckNotificationBinding.Update(enabled);
+            electricityBuildingBottleneckNotificationBinding.Update(enabled);
+            electricityNotEnoughProductionNotificationBinding.Update(enabled);
+            electricityTransformerNotificationBinding.Update(enabled);
+            electricityNotEnoughConnectedNotificationBinding.Update(enabled);
+            electricityBatteryEmptyNotificationBinding.Update(enabled);
+            electricityLowVoltageNotConnectedBinding.Update(enabled);
+            electricityHighVoltageNotConnectedBinding.Update(enabled);
 
-            foreach (FieldInfo field in fields)
-            {
-                if (!IsNotificationBindingField(field))
-                {
-                    continue;
-                }
+            waterPipeWaterNotificationBinding.Update(enabled);
+            waterPipeDirtyWaterNotificationBinding.Update(enabled);
+            waterPipeSewageNotificationBinding.Update(enabled);
+            waterPipeWaterPipeNotConnectedNotificationBinding.Update(enabled);
+            waterPipeSewagePipeNotConnectedNotificationBinding.Update(enabled);
+            waterPipeNotEnoughWaterCapacityNotificationBinding.Update(enabled);
+            waterPipeNotEnoughSewageCapacityNotificationBinding.Update(enabled);
+            waterPipeNotEnoughGroundwaterNotificationBinding.Update(enabled);
+            waterPipeNotEnoughSurfaceWaterNotificationBinding.Update(enabled);
+            waterPipeDirtyWaterPumpNotificationBinding.Update(enabled);
 
-                if (field.GetValue(this) is BoolBinding binding)
-                {
-                    binding.Update(enabled);
-                }
-            }
-        }
+            buildingAbandonedCollapsedNotificationBinding.Update(enabled);
+            buildingAbandonedNotificationBinding.Update(enabled);
+            buildingCondemnedNotificationBinding.Update(enabled);
+            buildingTurnedOffNotificationBinding.Update(enabled);
+            buildingHighRentNotificationBinding.Update(enabled);
 
-        private static bool IsNotificationBindingField(FieldInfo field)
-        {
-            return field.FieldType == typeof(BoolBinding) &&
-                   !string.Equals(field.Name, nameof(panelVisibleBinding), StringComparison.Ordinal);
+            trafficBottleneckNotificationBinding.Update(enabled);
+            trafficDeadEndNotificationBinding.Update(enabled);
+            trafficRoadConnectionNotificationBinding.Update(enabled);
+            trafficTrackConnectionNotificationBinding.Update(enabled);
+            trafficCarConnectionNotificationBinding.Update(enabled);
+            trafficShipConnectionNotificationBinding.Update(enabled);
+            trafficTrainConnectionNotificationBinding.Update(enabled);
+            trafficPedestrianConnectionNotificationBinding.Update(enabled);
+
+            companyNoInputsNotificationBinding.Update(enabled);
+            companyNoCustomersNotificationBinding.Update(enabled);
+
+            workProviderUneducatedNotificationBinding.Update(enabled);
+            workProviderEducatedNotificationBinding.Update(enabled);
+
+            disasterWeatherDamageNotificationBinding.Update(enabled);
+            disasterWeatherDestroyedNotificationBinding.Update(enabled);
+            disasterWaterDamageNotificationBinding.Update(enabled);
+            disasterWaterDestroyedNotificationBinding.Update(enabled);
+            disasterDestroyedNotificationBinding.Update(enabled);
+
+            fireFireNotificationBinding.Update(enabled);
+            fireBurnedDownNotificationBinding.Update(enabled);
+
+            garbageGarbageNotificationBinding.Update(enabled);
+            garbageFacilityFullNotificationBinding.Update(enabled);
+
+            healthcareAmbulanceNotificationBinding.Update(enabled);
+            healthcareHearseNotificationBinding.Update(enabled);
+            healthcareFacilityFullNotificationBinding.Update(enabled);
+
+            policeTrafficAccidentNotificationBinding.Update(enabled);
+            policeCrimeSceneNotificationBinding.Update(enabled);
+
+            pollutionAirPollutionNotificationBinding.Update(enabled);
+            pollutionNoisePollutionNotificationBinding.Update(enabled);
+            pollutionGroundPollutionNotificationBinding.Update(enabled);
+
+            resourceConsumerNoResourceNotificationBinding.Update(enabled);
+            routePathfindNotificationBinding.Update(enabled);
+            transportLineVehicleNotificationBinding.Update(enabled);
         }
 
         private static bool AreAllNotificationSettingsEnabled()
         {
+            // Keep this list aligned with Setting.NotificationSetting.
             Setting.NotificationSetting notification = Setting.Instance.Notification;
-            PropertyInfo[] properties = typeof(Setting.NotificationSetting).GetProperties(
-                BindingFlags.Instance | BindingFlags.Public);
 
-            foreach (PropertyInfo property in properties)
-            {
-                if (property.PropertyType != typeof(bool) || !property.CanRead)
-                {
-                    continue;
-                }
-
-                if (property.GetValue(notification) is bool enabled && !enabled)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return notification.ElectricityElectricityNotification &&
+                   notification.ElectricityBottleneckNotification &&
+                   notification.ElectricityBuildingBottleneckNotification &&
+                   notification.ElectricityNotEnoughProductionNotification &&
+                   notification.ElectricityTransformerNotification &&
+                   notification.ElectricityNotEnoughConnectedNotification &&
+                   notification.ElectricityBatteryEmptyNotification &&
+                   notification.ElectricityLowVoltageNotConnected &&
+                   notification.ElectricityHighVoltageNotConnected &&
+                   notification.WaterPipeWaterNotification &&
+                   notification.WaterPipeDirtyWaterNotification &&
+                   notification.WaterPipeSewageNotification &&
+                   notification.WaterPipeWaterPipeNotConnectedNotification &&
+                   notification.WaterPipeSewagePipeNotConnectedNotification &&
+                   notification.WaterPipeNotEnoughWaterCapacityNotification &&
+                   notification.WaterPipeNotEnoughSewageCapacityNotification &&
+                   notification.WaterPipeNotEnoughGroundwaterNotification &&
+                   notification.WaterPipeNotEnoughSurfaceWaterNotification &&
+                   notification.WaterPipeDirtyWaterPumpNotification &&
+                   notification.BuildingAbandonedCollapsedNotification &&
+                   notification.BuildingAbandonedNotification &&
+                   notification.BuildingCondemnedNotification &&
+                   notification.BuildingTurnedOffNotification &&
+                   notification.BuildingHighRentNotification &&
+                   notification.TrafficBottleneckNotification &&
+                   notification.TrafficDeadEndNotification &&
+                   notification.TrafficRoadConnectionNotification &&
+                   notification.TrafficTrackConnectionNotification &&
+                   notification.TrafficCarConnectionNotification &&
+                   notification.TrafficShipConnectionNotification &&
+                   notification.TrafficTrainConnectionNotification &&
+                   notification.TrafficPedestrianConnectionNotification &&
+                   notification.CompanyNoInputsNotification &&
+                   notification.CompanyNoCustomersNotification &&
+                   notification.WorkProviderUneducatedNotification &&
+                   notification.WorkProviderEducatedNotification &&
+                   notification.DisasterWeatherDamageNotification &&
+                   notification.DisasterWeatherDestroyedNotification &&
+                   notification.DisasterWaterDamageNotification &&
+                   notification.DisasterWaterDestroyedNotification &&
+                   notification.DisasterDestroyedNotification &&
+                   notification.FireFireNotification &&
+                   notification.FireBurnedDownNotification &&
+                   notification.GarbageGarbageNotification &&
+                   notification.GarbageFacilityFullNotification &&
+                   notification.HealthcareAmbulanceNotification &&
+                   notification.HealthcareHearseNotification &&
+                   notification.HealthcareFacilityFullNotification &&
+                   notification.PoliceTrafficAccidentNotification &&
+                   notification.PoliceCrimeSceneNotification &&
+                   notification.PollutionAirPollutionNotification &&
+                   notification.PollutionNoisePollutionNotification &&
+                   notification.PollutionGroundPollutionNotification &&
+                   notification.ResourceConsumerNoResourceNotification &&
+                   notification.RoutePathfindNotification &&
+                   notification.TransportLineVehicleNotification;
         }
 
         private static bool IsInGame()
@@ -580,11 +700,17 @@ namespace CityWatchdog.Systems
                    GameManager.instance.gameMode == GameMode.Game;
         }
 
-        private ProxyAction? TryGetAction(string actionName)
+        private ProxyAction? EnableAction(string actionName)
         {
             try
             {
-                return Setting.Instance.GetAction(actionName);
+                ProxyAction? action = Setting.Instance.GetAction(actionName);
+                if (action != null)
+                {
+                    action.shouldBeEnabled = true;
+                }
+
+                return action;
             }
             catch (Exception ex)
             {
@@ -597,6 +723,14 @@ namespace CityWatchdog.Systems
         }
 
         private void OnControlPanelBindingToggle(bool value) => panelVisibleBinding.Update(value);
+
+        private void ToggleControlPanelFromHotkey() => panelVisibleBinding.Update(!panelVisibleBinding.Value);
+
+        public void UpdateTrendTrackerBinding(bool value) => trendTrackerBinding?.Update(value);
+
+        public void UpdateTrendDisplayModeBinding(int value) => trendDisplayModeBinding?.Update(value);
+
+        public void UpdateMoneyTooltipModeBinding(int value) => moneyTooltipModeBinding?.Update(value);
 
     }
 

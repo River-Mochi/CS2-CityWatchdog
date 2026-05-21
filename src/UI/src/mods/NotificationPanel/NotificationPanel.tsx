@@ -51,6 +51,7 @@ import {
     OnTrafficTrackConnectionNotificationBindingToggle,
     OnTrafficTrainConnectionNotificationBindingToggle,
     OnTransportLineVehicleNotificationBindingToggle,
+    OnToggleAllNotifications,
     OnWaterPipeDirtyWaterNotificationBindingToggle,
     OnWaterPipeDirtyWaterPumpNotificationBindingToggle,
     OnWaterPipeNotEnoughGroundwaterNotificationBindingToggle,
@@ -112,6 +113,77 @@ const collapseAllIconSrc = "Media/Tools/Net Tool/ParallelMinus.svg";
 
 const roundButtonHighlightStyle = getModule("game-ui/common/input/button/themes/round-highlight-button.module.scss", "classes");
 const icon = (name: string) => `Media/Game/Notifications/${name}.svg`;
+
+const gameTitleKeys: Record<string, string> = {
+    ElectricityElectricityNotification: "Notifications.TITLE[Electricity Notification]",
+    ElectricityBottleneckNotification: "Notifications.TITLE[Electricity Bottleneck Notification]",
+    ElectricityBuildingBottleneckNotification: "Notifications.TITLE[Electricity Building Bottleneck Notification]",
+    ElectricityNotEnoughProductionNotification: "Notifications.TITLE[Electricity Not Enough Production Notification]",
+    ElectricityTransformerNotification: "Notifications.TITLE[Electricity Transformer Out of Capacity]",
+    ElectricityNotEnoughConnectedNotification: "Notifications.TITLE[Electricity Not Enough Connected Notification]",
+    ElectricityBatteryEmptyNotification: "Notifications.TITLE[Battery Empty]",
+    ElectricityLowVoltageNotConnected: "Notifications.TITLE[Powerline Not Connected - Low]",
+    ElectricityHighVoltageNotConnected: "Notifications.TITLE[Powerline Not Connected]",
+
+    WaterPipeWaterNotification: "Notifications.TITLE[Water Notification]",
+    WaterPipeDirtyWaterNotification: "Notifications.TITLE[Dirty Water]",
+    WaterPipeSewageNotification: "Notifications.TITLE[Sewage Notification]",
+    WaterPipeWaterPipeNotConnectedNotification: "Notifications.TITLE[Pipeline Not Connected]",
+    WaterPipeSewagePipeNotConnectedNotification: "Notifications.TITLE[Pipeline Not Connected - Sewage]",
+    WaterPipeNotEnoughWaterCapacityNotification: "Notifications.TITLE[Water Not Enough Production Notification]",
+    WaterPipeNotEnoughSewageCapacityNotification: "Notifications.TITLE[Sewage Not Enough Production Notification]",
+    WaterPipeNotEnoughGroundwaterNotification: "Notifications.TITLE[Not Enough Groundwater Notification]",
+    WaterPipeNotEnoughSurfaceWaterNotification: "Notifications.TITLE[Not Enough Surface Water Notification]",
+    WaterPipeDirtyWaterPumpNotification: "Notifications.TITLE[Dirty Water Pump Notification]",
+
+    BuildingAbandonedCollapsedNotification: "Notifications.TITLE[Abandoned Collapsed]",
+    BuildingAbandonedNotification: "Notifications.TITLE[Abandoned]",
+    BuildingCondemnedNotification: "Notifications.TITLE[Condemned]",
+    BuildingTurnedOffNotification: "Notifications.TITLE[Turned Off]",
+    BuildingHighRentNotification: "Notifications.TITLE[Rent Too High]",
+
+    TrafficBottleneckNotification: "Notifications.TITLE[Traffic Bottleneck Notification]",
+    TrafficDeadEndNotification: "Notifications.TITLE[Dead End]",
+    TrafficRoadConnectionNotification: "Notifications.TITLE[No Road Access]",
+    TrafficTrackConnectionNotification: "Notifications.TITLE[Track Not Connected]",
+    TrafficCarConnectionNotification: "Notifications.TITLE[No Car Access]",
+    TrafficShipConnectionNotification: "Notifications.TITLE[No Watercraft Access]",
+    TrafficTrainConnectionNotification: "Notifications.TITLE[No Train Access]",
+    TrafficPedestrianConnectionNotification: "Notifications.TITLE[No Pedestrian Access]",
+
+    CompanyNoInputsNotification: "Notifications.TITLE[No Inputs]",
+    CompanyNoCustomersNotification: "Notifications.TITLE[No Customers]",
+
+    WorkProviderUneducatedNotification: "Notifications.TITLE[MissingUneducatedWorkers]",
+    WorkProviderEducatedNotification: "Notifications.TITLE[MissingEducatedWorkers]",
+
+    DisasterWeatherDamageNotification: "Notifications.TITLE[Weather Damage]",
+    DisasterWeatherDestroyedNotification: "Notifications.TITLE[Weather Destroyed]",
+    DisasterWaterDamageNotification: "Notifications.TITLE[Water Damage]",
+    DisasterWaterDestroyedNotification: "Notifications.TITLE[Water Destroyed]",
+    DisasterDestroyedNotification: "Notifications.TITLE[Destroyed]",
+
+    FireFireNotification: "Notifications.TITLE[Fire Notification]",
+    FireBurnedDownNotification: "Notifications.TITLE[Burned Down]",
+
+    GarbageGarbageNotification: "Notifications.TITLE[Garbage Notification]",
+    GarbageFacilityFullNotification: "Notifications.TITLE[Facility Full]",
+
+    HealthcareAmbulanceNotification: "Notifications.TITLE[Ambulance Notification]",
+    HealthcareHearseNotification: "Notifications.TITLE[Hearse Notification]",
+    HealthcareFacilityFullNotification: "Notifications.TITLE[Facility Full]",
+
+    PoliceTrafficAccidentNotification: "Notifications.TITLE[Traffic Accident]",
+    PoliceCrimeSceneNotification: "Notifications.TITLE[Crime Scene]",
+
+    PollutionAirPollutionNotification: "Notifications.TITLE[Air Pollution]",
+    PollutionNoisePollutionNotification: "Notifications.TITLE[Noise Pollution]",
+    PollutionGroundPollutionNotification: "Notifications.TITLE[Ground Pollution]",
+
+    ResourceConsumerNoResourceNotification: "Notifications.TITLE[No Emergency Shelter Supplies]",
+    RoutePathfindNotification: "Notifications.TITLE[Pathfind Failed]",
+    TransportLineVehicleNotification: "Notifications.TITLE[No Vehicles]",
+};
 
 
 type Localize = (localeId: string, fallback?: string, raw?: boolean) => string;
@@ -281,9 +353,7 @@ const sections: NotificationSection[] = [
 const allItems = sections.flatMap((section) => section.items);
 
 const setAllNotifications = (enabled: boolean) => {
-    allItems.forEach((item) => {
-        item.onToggle(enabled);
-    });
+    OnToggleAllNotifications(enabled);
 };
 
 const createExpandedSections = (expanded: boolean | null = null) => {
@@ -334,6 +404,23 @@ const NotificationPanelContent = () => {
         return translate(`CityWatchdog.UI[${localeId}]`) ?? fallback ?? localeId;
     };
 
+    const tooltipContent = (localeId: string, fallback: string) => {
+        const tooltip = localize(localeId, fallback);
+        const lines = tooltip.split("\n");
+
+        if (lines.length <= 1) {
+            return tooltip;
+        }
+
+        return (
+            <div className={styles.tooltipText}>
+                {lines.map((line, index) => (
+                    <div key={`${localeId}-${index}`}>{line}</div>
+                ))}
+            </div>
+        );
+    };
+
     const orderedSections = [...sections].sort((a, b) => {
         const result = localize(a.localeId).localeCompare(localize(b.localeId));
         return sortAscending ? result : -result;
@@ -380,7 +467,7 @@ const NotificationPanelContent = () => {
 
             {/* Keeps the help icon pinned left and the three action buttons grouped right. */}
             <div className={styles.toolbar}>
-                <Tooltip tooltip={localize("NotificationIconShowOrHide", "Expand any section; ☑ check to show, uncheck to hide.")}>
+                <Tooltip tooltip={tooltipContent("NotificationIconShowOrHide", "Expand any row; [✓] check to show, uncheck to hide alerts.\nThis does not fix city problems, it hides icon clutter.")}>
                     <div className={styles.infoButton}>
                         <img src={infoIconSrc} className={styles.infoIcon} />
                     </div>
@@ -413,7 +500,7 @@ const NotificationPanelContent = () => {
                         </Button>
                     </Tooltip>
 
-                    <Tooltip tooltip={localize("ToggleAllTooltip", "Show/hide all icons. Color: green = all on; blue = mixed; red = all off.")}>
+                    <Tooltip tooltip={tooltipContent("ToggleAllTooltip", "Show/hide all icons.\nColor: green = all on; blue = mixed; red = all off.")}>
                         <Button
                             className={`${styles.toolbarButton} ${styles.toggleButton} ${toggleAllStateClass}`}
 
@@ -545,13 +632,14 @@ const NotificationRow = ({
     isChecked: boolean;
     localize: Localize;
 }) => {
-    const gameLabel = item.gameTitleKey
-        ? localize(item.gameTitleKey, undefined, true)
+    const gameTitleKey = item.gameTitleKey ?? gameTitleKeys[item.localeId];
+    const gameLabel = gameTitleKey
+        ? localize(gameTitleKey, undefined, true)
         : undefined;
 
     const label =
         gameLabel &&
-            gameLabel !== item.gameTitleKey &&
+            gameLabel !== gameTitleKey &&
             !gameLabel.includes("NOTIFICATIONS.TITLE") &&
             !gameLabel.includes("Notifications.TITLE")
             ? gameLabel
