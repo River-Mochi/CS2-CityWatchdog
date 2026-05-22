@@ -31,7 +31,6 @@ const register: ModRegistrar = (moduleRegistry) => {
     extendSafe(moduleRegistry, DESCRIPTION_TOOLTIP_MODULE, DESCRIPTION_TOOLTIP_EXPORT, DescriptionTooltipMoneyViewExtension);
     moduleRegistry.append("GameTopLeft", EntryButton);
     moduleRegistry.append("Game", NotificationPanel);
-    console.log(`${mod.id} - UI registration completed`);
 };
 
 export default register;

@@ -38,7 +38,7 @@ Hotkeys
 - City Watchdog is a heavily rewritten redux/expansion of City Controller. It is not just a copy-paste release and nearly a whole rewrite.
 I hope you enjoy the new features, better performance, and safety guards!
 - CWD's Money View is a ground-up code write of similar money info to Show Text Trends (retired).
-Money View uses new methods to implement vanilla CS2 component extensions, customizable new money layouts, settings options, and translations.
+MV uses new methods to implement vanilla CS2 component extensions, customizable new money layouts, settings options, and translations.
 
 ### Support and feedback
 Feedback is welcome through GitHub or Discord links on the right.
