@@ -129,10 +129,10 @@ namespace CityWatchdog
 
         private static void ScheduleSystems(UpdateSystem updateSystem)
         {
-            updateSystem.UpdateAt<MoneyControllerSystem>(SystemUpdatePhase.ModificationEnd);
-            updateSystem.UpdateAt<UnlockMilestonesSystem>(SystemUpdatePhase.ModificationEnd);
+            updateSystem.UpdateAt<CityFinanceSystem>(SystemUpdatePhase.ModificationEnd);
+            updateSystem.UpdateAt<MilestoneSystem>(SystemUpdatePhase.ModificationEnd);
             updateSystem.UpdateAt<CityWatchdogUISystem>(SystemUpdatePhase.UIUpdate);
-            updateSystem.UpdateAt<NotificationControllerSystem>(SystemUpdatePhase.ModificationEnd);
+            updateSystem.UpdateAt<AlertIconSystem>(SystemUpdatePhase.ModificationEnd);
         }
 
 

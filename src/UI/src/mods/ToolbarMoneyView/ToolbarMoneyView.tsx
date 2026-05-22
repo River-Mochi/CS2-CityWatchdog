@@ -3,35 +3,35 @@ import { economyBudget, toolbarBottom } from "cs2/bindings";
 import { useLocalization } from "cs2/l10n";
 import type { ModuleRegistryExtend } from "cs2/modding";
 import { Children, cloneElement, isValidElement, type ReactElement, type ReactNode } from "react";
-import { moneyTooltipMode$, trendDisplayMode$, trendTracker$ } from "../Bindings/Bindings";
-import styles from "./ToolbarTrendTracker.module.scss";
+import { moneyTooltipMode$, moneyViewDisplayMode$, moneyView$ } from "../Bindings/Bindings";
+import styles from "./ToolbarMoneyView.module.scss";
 
 const MONEY_ICON = "Media/Game/Icons/Money.svg";
 const POPULATION_ICON = "Media/Game/Icons/Citizen.svg";
-const TREND_DISPLAY_MODE_MONTHLY = 1;
+const MONEY_VIEW_DISPLAY_MODE_MONTHLY = 1;
 const MONEY_TOOLTIP_MODE_DEFAULT = 0;
 const MONEY_TOOLTIP_MODE_COMPACT = 1;
 const MONEY_TOOLTIP_MODE_MINI = 2;
 const HOURS_PER_GAME_MONTH = 24;
 
-type TrendTone = "positive" | "negative" | "neutral";
+type MoneyViewTone = "positive" | "negative" | "neutral";
 
-export const StatFieldTrendTrackerExtension: ModuleRegistryExtend = (Component: any) => {
+export const StatFieldMoneyViewExtension: ModuleRegistryExtend = (Component: any) => {
     return (props: any) => {
         const result = Component(props);
-        const trendText = getTrendText(props);
+        const moneyViewText = getMoneyViewText(props);
 
-        if (!trendText || !isValidElement(result)) {
+        if (!moneyViewText || !isValidElement(result)) {
             return result;
         }
 
-        return appendTrendText(result, trendText);
+        return appendMoneyViewText(result, moneyViewText);
     };
 };
 
 // MoneyField is already captured by the vanilla toolbar before this mod can reliably wrap it.
 // Hook the shared DescriptionTooltip instead, then filter to the money toolbar child only.
-export const DescriptionTooltipTrendTrackerExtension: ModuleRegistryExtend = (Component: any) => {
+export const DescriptionTooltipMoneyViewExtension: ModuleRegistryExtend = (Component: any) => {
     return (props: any) => {
         if (!isMoneyTooltip(props)) {
             return Component(props);
@@ -41,92 +41,92 @@ export const DescriptionTooltipTrendTrackerExtension: ModuleRegistryExtend = (Co
             ...props,
             title: null,
             description: null,
-            content: <MoneyTrendTooltipContent baseContent={props.content} />,
+            content: <MoneyViewTooltipContent baseContent={props.content} />,
         });
     };
 };
 
-const getTrendText = (props: any): ReactNode | null => {
+const getMoneyViewText = (props: any): ReactNode | null => {
     if (props?.unlimited === true) {
         return null;
     }
 
     if (props?.icon === MONEY_ICON) {
-        return <MoneyTrendText />;
+        return <MoneyViewMoneyText />;
     }
 
     if (props?.icon === POPULATION_ICON) {
-        return <PopulationTrendText />;
+        return <PopulationMoneyViewText />;
     }
 
     return null;
 };
 
-const appendTrendText = (element: ReactElement<any>, trendText: ReactNode): ReactElement<any> => {
+const appendMoneyViewText = (element: ReactElement<any>, moneyViewText: ReactNode): ReactElement<any> => {
     return cloneElement(
         element,
         undefined,
         <>
             {element.props.children}
-            {trendText}
+            {moneyViewText}
         </>
     );
 };
 
-const MoneyTrendText = () => {
-    const trendTracker = useValue(trendTracker$);
-    const trendDisplayMode = useValue(trendDisplayMode$);
+const MoneyViewMoneyText = () => {
+    const moneyViewEnabled = useValue(moneyView$);
+    const moneyViewDisplayMode = useValue(moneyViewDisplayMode$);
     const unlimitedMoney = useValue(toolbarBottom.unlimitedMoney$);
     const moneyDelta = useValue(toolbarBottom.moneyDelta$);
     const totalIncome = useValue(economyBudget.totalIncome$);
     const totalExpenses = useValue(economyBudget.totalExpenses$);
 
-    if (!trendTracker || unlimitedMoney) {
+    if (!moneyViewEnabled || unlimitedMoney) {
         return null;
     }
 
     const monthlyMoney = getNumericValue(totalIncome) - Math.abs(getNumericValue(totalExpenses));
-    const displayedValue = trendDisplayMode === TREND_DISPLAY_MODE_MONTHLY
+    const displayedValue = moneyViewDisplayMode === MONEY_VIEW_DISPLAY_MODE_MONTHLY
         ? monthlyMoney
         : getNumericValue(moneyDelta);
 
-    return <TrendText value={displayedValue} displayMode={trendDisplayMode} />;
+    return <MoneyViewText value={displayedValue} displayMode={moneyViewDisplayMode} />;
 };
 
-const PopulationTrendText = () => {
-    const trendTracker = useValue(trendTracker$);
-    const trendDisplayMode = useValue(trendDisplayMode$);
+const PopulationMoneyViewText = () => {
+    const moneyViewEnabled = useValue(moneyView$);
+    const moneyViewDisplayMode = useValue(moneyViewDisplayMode$);
     const populationDelta = useValue(toolbarBottom.populationDelta$);
 
-    if (!trendTracker) {
+    if (!moneyViewEnabled) {
         return null;
     }
 
-    const displayedValue = trendDisplayMode === TREND_DISPLAY_MODE_MONTHLY
+    const displayedValue = moneyViewDisplayMode === MONEY_VIEW_DISPLAY_MODE_MONTHLY
         ? getNumericValue(populationDelta) * HOURS_PER_GAME_MONTH
         : getNumericValue(populationDelta);
 
-    return <TrendText value={displayedValue} displayMode={trendDisplayMode} />;
+    return <MoneyViewText value={displayedValue} displayMode={moneyViewDisplayMode} />;
 };
 
-const TrendText = ({ value, displayMode }: { readonly value: number; readonly displayMode: number }) => {
-    const tone = getTrendTone(value);
-    const suffix = displayMode === TREND_DISPLAY_MODE_MONTHLY ? "/mo" : "/h";
-    const text = `${formatToolbarTrendValue(value)}\u00A0${suffix}`;
+const MoneyViewText = ({ value, displayMode }: { readonly value: number; readonly displayMode: number }) => {
+    const tone = getMoneyViewTone(value);
+    const suffix = displayMode === MONEY_VIEW_DISPLAY_MODE_MONTHLY ? "/mo" : "/h";
+    const text = `${formatToolbarMoneyViewValue(value)}\u00A0${suffix}`;
 
     return (
-        <div className={`${styles.trendText} ${styles[tone]}`}>
+        <div className={`${styles.moneyViewText} ${styles[tone]}`}>
             {text}
         </div>
     );
 };
 
-const MoneyTrendTooltipContent = ({ baseContent }: { readonly baseContent: ReactNode }) => {
+const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent: ReactNode }) => {
     const { translate } = useLocalization();
     const localize = (key: string, fallback: string) => translate(`CityWatchdog.UI[${key}]`) ?? fallback;
-    const trendTracker = useValue(trendTracker$);
+    const moneyViewEnabled = useValue(moneyView$);
     const moneyTooltipMode = useValue(moneyTooltipMode$);
-    const hourlyTrend = getNumericValue(useValue(toolbarBottom.moneyDelta$));
+    const hourlyNet = getNumericValue(useValue(toolbarBottom.moneyDelta$));
     const monthlyIncome = getNumericValue(useValue(economyBudget.totalIncome$));
     const monthlyExpenses = -Math.abs(getNumericValue(useValue(economyBudget.totalExpenses$)));
     const monthlyBalance = monthlyIncome + monthlyExpenses;
@@ -136,7 +136,7 @@ const MoneyTrendTooltipContent = ({ baseContent }: { readonly baseContent: React
     // Current total city money same as vanilla bottom toolbar.
     const totalMoney = getNumericValue(useValue(toolbarBottom.money$));
 
-    if (!trendTracker) {
+    if (!moneyViewEnabled) {
         return <>{baseContent}</>;
     }
 
@@ -147,10 +147,10 @@ const MoneyTrendTooltipContent = ({ baseContent }: { readonly baseContent: React
     return (
         <div className={tooltipClassName}>
             <div className={styles.tooltipTitle}>WATCHDOG</div>
-            {!mini && <TrendTooltipGroup label={localize("TrendTooltipIncome", "Income:")} hourlyValue={hourlyIncome} monthlyValue={monthlyIncome} compact={compact} mode={moneyTooltipMode} />}
-            {!mini && <TrendTooltipGroup label={localize("TrendTooltipExpenses", "Expenses:")} hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} compact={compact} mode={moneyTooltipMode} />}
-            <TrendTooltipGroup label={localize("TrendTooltipNet", "Net:")} hourlyValue={hourlyTrend} monthlyValue={monthlyBalance} compact={compact} mode={moneyTooltipMode} />
-            {moneyTooltipMode === MONEY_TOOLTIP_MODE_DEFAULT && <TrendTooltipSingleValue label={localize("TrendTooltipTotal", "Total:")} value={totalMoney} mode={moneyTooltipMode} />}
+            {!mini && <MoneyViewTooltipGroup label={localize("MoneyViewTooltipIncome", "Income:")} hourlyValue={hourlyIncome} monthlyValue={monthlyIncome} compact={compact} mode={moneyTooltipMode} />}
+            {!mini && <MoneyViewTooltipGroup label={localize("MoneyViewTooltipExpenses", "Expenses:")} hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} compact={compact} mode={moneyTooltipMode} />}
+            <MoneyViewTooltipGroup label={localize("MoneyViewTooltipNet", "Net:")} hourlyValue={hourlyNet} monthlyValue={monthlyBalance} compact={compact} mode={moneyTooltipMode} />
+            {moneyTooltipMode === MONEY_TOOLTIP_MODE_DEFAULT && <MoneyViewTooltipSingleValue label={localize("MoneyViewTooltipTotal", "Total:")} value={totalMoney} mode={moneyTooltipMode} />}
         </div>
     );
 };
@@ -186,21 +186,21 @@ const containsIcon = (node: ReactNode, icon: string): boolean => {
     return Children.toArray(props?.children).some((child) => containsIcon(child, icon));
 };
 
-const TrendTooltipGroup = ({ label, hourlyValue, monthlyValue, compact, mode }: { readonly label: string; readonly hourlyValue: number; readonly monthlyValue: number; readonly compact: boolean; readonly mode: number }) => {
+const MoneyViewTooltipGroup = ({ label, hourlyValue, monthlyValue, compact, mode }: { readonly label: string; readonly hourlyValue: number; readonly monthlyValue: number; readonly compact: boolean; readonly mode: number }) => {
     return (
         <div className={styles.tooltipGroup}>
             <div className={styles.tooltipLabel}>{label}</div>
             <div className={styles.tooltipValueColumn}>
-                <TrendTooltipValue value={hourlyValue} suffix="/h" compact={compact} mode={mode} />
-                <TrendTooltipValue value={monthlyValue} suffix="/mo" compact={compact} mode={mode} />
+                <MoneyViewTooltipValue value={hourlyValue} suffix="/h" compact={compact} mode={mode} />
+                <MoneyViewTooltipValue value={monthlyValue} suffix="/mo" compact={compact} mode={mode} />
             </div>
         </div>
     );
 };
 
 
-const TrendTooltipSingleValue = ({ label, value, mode }: { readonly label: string; readonly value: number; readonly mode: number }) => {
-    const tone = getTrendTone(value);
+const MoneyViewTooltipSingleValue = ({ label, value, mode }: { readonly label: string; readonly value: number; readonly mode: number }) => {
+    const tone = getMoneyViewTone(value);
     const text = formatTooltipMoneyValue(value);
 
     return (
@@ -214,9 +214,9 @@ const TrendTooltipSingleValue = ({ label, value, mode }: { readonly label: strin
 };
 
 
-const TrendTooltipValue = ({ value, suffix, compact, mode }: { readonly value: number; readonly suffix: string; readonly compact: boolean; readonly mode: number }) => {
-    const tone = getTrendTone(value);
-    const text = `${formatTooltipTrendValue(value, compact)}\u00A0${suffix}`;
+const MoneyViewTooltipValue = ({ value, suffix, compact, mode }: { readonly value: number; readonly suffix: string; readonly compact: boolean; readonly mode: number }) => {
+    const tone = getMoneyViewTone(value);
+    const text = `${formatTooltipMoneyViewValue(value, compact)}\u00A0${suffix}`;
 
     return <div className={`${styles.tooltipValueLine} ${getTooltipValueClassName(mode)} ${styles[tone]}`}>{text}</div>;
 };
@@ -233,7 +233,7 @@ const getTooltipValueClassName = (mode: number): string => {
     return styles.tooltipValueLineFull;
 };
 
-const getTrendTone = (value: number): TrendTone => {
+const getMoneyViewTone = (value: number): MoneyViewTone => {
     if (value > 0) {
         return "positive";
     }
@@ -250,14 +250,14 @@ const getNumericValue = (value: number): number => {
 };
 
 // thin space after +/- sign for readability only in Tooltip.
-const formatTrendValue = (value: number): string => {
+const formatMoneyViewValue = (value: number): string => {
     const roundedValue = Math.round(Math.abs(value));
     const sign = value > 0 ? "+\u200A" : value < 0 ? "-\u200A" : "";
     return `${sign}${roundedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 };
 
-const formatTooltipTrendValue = (value: number, compact: boolean): string => {
-    return compact ? formatCompactTooltipValue(value) : formatTrendValue(value);
+const formatTooltipMoneyViewValue = (value: number, compact: boolean): string => {
+    return compact ? formatCompactTooltipValue(value) : formatMoneyViewValue(value);
 };
 
 // don't add plus sign for Total money.
@@ -267,7 +267,7 @@ const formatTooltipMoneyValue = (value: number): string => {
     return `${sign}${roundedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 };
 
-const formatToolbarTrendValue = (value: number): string => {
+const formatToolbarMoneyViewValue = (value: number): string => {
     const roundedValue = Math.round(Math.abs(value));
     const sign = value > 0 ? "+" : value < 0 ? "-" : "";
 

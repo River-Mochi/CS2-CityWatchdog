@@ -2,8 +2,8 @@ import { bindValue, trigger } from "cs2/api";
 import mod from "../../../mod.json";
 
 export const controlPanelEnabled$ = bindValue<boolean>(mod.id, "ControlPanelEnabled", false);
-export const trendTracker$ = bindValue<boolean>(mod.id, "TrendTracker", true);
-export const trendDisplayMode$ = bindValue<number>(mod.id, "TrendDisplayMode", 0);
+export const moneyView$ = bindValue<boolean>(mod.id, "TrendTracker", true);
+export const moneyViewDisplayMode$ = bindValue<number>(mod.id, "TrendDisplayMode", 0);
 export const moneyTooltipMode$ = bindValue<number>(mod.id, "MoneyTooltipMode", 1);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");

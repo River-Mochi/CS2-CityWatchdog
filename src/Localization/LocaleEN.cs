@@ -37,7 +37,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "Debug" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "Trend Tracker" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "Money View" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Money" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "Notifications" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Milestone" },
@@ -47,18 +47,18 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "USAGE" },
 
-                // --- Trend Tracker ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "Trend Tracker" },
+                // --- Money View ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "Money View" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
                     "Adds numeric trend values beside the vanilla bottom-toolbar money and population arrows.\n" +
                     "This is a lightweight toolbar display only; it does not change city money or population." },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Trend Frequency" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "Money View Frequency" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
                     "Choose whether the bottom-toolbar trend text shows hourly or monthly values for money and population.\n" +
                     "Monthly uses budget income minus expenses for money, and a 24-hour projection for population." },
-                { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "Hourly (/h)" },
-                { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "Monthly (/mo)" },
+                { m_Settings.GetOptionLocaleID("MoneyViewDisplayModeHourly"), "Hourly (/h)" },
+                { m_Settings.GetOptionLocaleID("MoneyViewDisplayModeMonthly"), "Monthly (/mo)" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "Money Tooltip Style" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
@@ -182,7 +182,7 @@ namespace CityWatchdog
                     "3. Use Toggle All for quick setup, or expand a section to change individual notification icons.\n" +
                     "4. City Watchdog hides or shows icons only; it does not fix the underlying city problem.\n\n" +
                     "<Money helpers>\n" +
-                    "1. Trend Tracker adds numeric /h or /mo values beside the bottom-toolbar money and population trend arrows.\n" +
+                    "1. Money View adds numeric /h or /mo values beside the bottom-toolbar money and population trend arrows.\n" +
                     "2. Add and Subtract Money: use the <Money Hotkey Amount>.\n" +
                     "3. Automatic Add Money watches the city balance while a city is loaded and adds money when below the threshold.\n" +
                     "4. Convert Unlimited Money Save is only for cities that were started with Unlimited Money and is <not reversible> by City Watchdog.\n\n" +
@@ -205,10 +205,10 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("ToggleAllTooltip"),
                     "Show/hide all icons.\n" +
                     "Color: green = all on; blue = mixed; red = all off." },
-                { m_Settings.GetUILocaleID("TrendTooltipIncome"), "Income:" },
-                { m_Settings.GetUILocaleID("TrendTooltipExpenses"), "Expenses:" },
-                { m_Settings.GetUILocaleID("TrendTooltipNet"), "Net:" },
-                { m_Settings.GetUILocaleID("TrendTooltipTotal"), "Total:" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipIncome"), "Income:" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipExpenses"), "Expenses:" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipNet"), "Net:" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipTotal"), "Total:" },
 
                 // --- Electricity notifications ---
                 { m_Settings.GetUILocaleID("Electricity"), "ELECTRICITY" },

@@ -4,7 +4,7 @@
 	<!--Name of the mod to display to players-->
 	<DisplayName Value="City Watchdog [BETA]" />
 	<!--Short description of the mod-->
-	<ShortDescription Value="Show/Hide notification alert icons, add/remove Money, track Money, set Milestones." />
+	<ShortDescription Value="Show/Hide notification alert icons, add/remove Money, view Money, set Milestones." />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
@@ -22,7 +22,7 @@
 
 - Manual add/subtract money controls using hotkeys.
 - Automatic add money option.
-- Trend Tracker for money/population toolbar values.
+- Money View for money toolbar values.
 - Convert saves from Unlimited money type to normal Limited money.
 
 
@@ -37,8 +37,8 @@ Hotkeys
 - Make a backup before converting an Unlimited Money save. Mod cannot undo that conversion.
 - City Watchdog is a heavily rewritten redux/expansion of City Controller. It is not just a copy-paste release and nearly a whole rewrite.
 I hope you enjoy the new features, better performance, and safety guards!
-- CWD's Trend Tracker is a ground-up code write of similar money trend info to "Show Text Trends" (retired). Trends uses new methods to implement vanilla
-CS2 component extensions, custom CWD settings options, customizable new money tooltip layouts, and translations.
+- CWD's Money View is a ground-up code write of similar money info to Show Text Trends (retired).
+Money View uses new methods to implement vanilla CS2 component extensions, customizable new money layouts, settings options, and translations.
 
 ### Support and feedback
 Feedback is welcome through GitHub or Discord links on the right.
@@ -49,9 +49,9 @@ If you like free mods, give a Like, easy way to show support :)
 - If anyone can make better Thumbnail and screenshots, please let me know.
 
 ### Credits
-- River Mochi - mod author and maintainer
+- River Mochi - author/maintainer
 - Thanks to Mbyron26 for orig. City Controller mod.
-- Thanks to DanielVNZ for inspiration from Show Text Trends.
+- Money View inspired by earlier mods by DanielNZ Show Text
 - Dorkington - tester/feature suggestion
 - Flightech, SonNathan - testers
 - Thumbnail photograph by Maryia Shedava at Mont Saint-Michel in Normandy, France https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM

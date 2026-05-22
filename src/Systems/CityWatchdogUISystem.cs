@@ -12,12 +12,12 @@ namespace CityWatchdog.Systems
 
     public partial class CityWatchdogUISystem : UISystemBaseExtension {
 
-        private NotificationControllerSystem notificationControllerSystem = null!;
+        private AlertIconSystem alertIconSystem = null!;
         private ProxyAction? toggleNotificationsAction;
         private ProxyAction? toggleNotificationPanelAction;
         private BoolBinding panelVisibleBinding = null!;
-        private ValueBinding<bool>? trendTrackerBinding;
-        private ValueBinding<int>? trendDisplayModeBinding;
+        private ValueBinding<bool>? moneyViewBinding;
+        private ValueBinding<int>? moneyViewDisplayModeBinding;
         private ValueBinding<int>? moneyTooltipModeBinding;
 
         private BoolBinding electricityElectricityNotificationBinding = null!;
@@ -94,13 +94,13 @@ namespace CityWatchdog.Systems
         protected override void OnCreate() {
             base.OnCreate();
 
-            notificationControllerSystem = World.GetOrCreateSystemManaged<NotificationControllerSystem>();
+            alertIconSystem = World.GetOrCreateSystemManaged<AlertIconSystem>();
             InitializeKeybindActions();
 
             panelVisibleBinding = AddBoolBindingAndTriggerBinding("ControlPanelEnabled", false, OnControlPanelBindingToggle);
             AddBoolTriggerBinding("ToggleAllNotifications", ApplyAllNotificationToggles);
-            trendTrackerBinding = AddValueBinding(nameof(Setting.TrendTracker), Setting.Instance.TrendTracker);
-            trendDisplayModeBinding = AddValueBinding(nameof(Setting.TrendDisplayMode), Setting.Instance.TrendDisplayMode);
+            moneyViewBinding = AddValueBinding(nameof(Setting.TrendTracker), Setting.Instance.TrendTracker);
+            moneyViewDisplayModeBinding = AddValueBinding(nameof(Setting.TrendDisplayMode), Setting.Instance.TrendDisplayMode);
             moneyTooltipModeBinding = AddValueBinding(nameof(Setting.MoneyTooltipMode), Setting.Instance.MoneyTooltipMode);
 
             electricityElectricityNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityElectricityNotification), Setting.Instance.Notification.ElectricityElectricityNotification, OnElectricityElectricityNotificationToggle);
@@ -181,47 +181,47 @@ namespace CityWatchdog.Systems
         private void OnElectricityElectricityNotificationToggle(bool value) {
             electricityElectricityNotificationBinding.Update(value);
             Setting.Instance.Notification.ElectricityElectricityNotification = value;
-            notificationControllerSystem.EnableElectricityNotification(ElectricityNotificationIcon.ElectricityNotification, value, true);
+            alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.ElectricityNotification, value, true);
         }
         private void OnElectricityBottleneckNotificationToggle(bool value) {
             electricityBottleneckNotificationBinding.Update(value);
             Setting.Instance.Notification.ElectricityBottleneckNotification = value;
-            notificationControllerSystem.EnableElectricityNotification(ElectricityNotificationIcon.BottleneckNotification, value, true);
+            alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.BottleneckNotification, value, true);
         }
         private void OnElectricityBuildingBottleneckNotificationToggle(bool value) {
             electricityBuildingBottleneckNotificationBinding.Update(value);
             Setting.Instance.Notification.ElectricityBuildingBottleneckNotification = value;
-            notificationControllerSystem.EnableElectricityNotification(ElectricityNotificationIcon.BuildingBottleneckNotification, value, true);
+            alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.BuildingBottleneckNotification, value, true);
         }
         private void OnElectricityNotEnoughProductionNotificationToggle(bool value) {
             electricityNotEnoughProductionNotificationBinding.Update(value);
             Setting.Instance.Notification.ElectricityNotEnoughProductionNotification = value;
-            notificationControllerSystem.EnableElectricityNotification(ElectricityNotificationIcon.NotEnoughProductionNotification, value, true);
+            alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.NotEnoughProductionNotification, value, true);
         }
         private void OnElectricityTransformerNotificationToggle(bool value) {
             electricityTransformerNotificationBinding.Update(value);
             Setting.Instance.Notification.ElectricityTransformerNotification = value;
-            notificationControllerSystem.EnableElectricityNotification(ElectricityNotificationIcon.TransformerNotification, value, true);
+            alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.TransformerNotification, value, true);
         }
         private void OnElectricityNotEnoughConnectedNotificationToggle(bool value) {
             electricityNotEnoughConnectedNotificationBinding.Update(value);
             Setting.Instance.Notification.ElectricityNotEnoughConnectedNotification = value;
-            notificationControllerSystem.EnableElectricityNotification(ElectricityNotificationIcon.NotEnoughConnectedNotification, value, true);
+            alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.NotEnoughConnectedNotification, value, true);
         }
         private void OnElectricityBatteryEmptyNotificationToggle(bool value) {
             electricityBatteryEmptyNotificationBinding.Update(value);
             Setting.Instance.Notification.ElectricityBatteryEmptyNotification = value;
-            notificationControllerSystem.EnableElectricityNotification(ElectricityNotificationIcon.BatteryEmptyNotification, value, true);
+            alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.BatteryEmptyNotification, value, true);
         }
         private void OnElectricityLowVoltageNotConnectedToggle(bool value) {
             electricityLowVoltageNotConnectedBinding.Update(value);
             Setting.Instance.Notification.ElectricityLowVoltageNotConnected = value;
-            notificationControllerSystem.EnableElectricityNotification(ElectricityNotificationIcon.LowVoltageNotConnected, value, true);
+            alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.LowVoltageNotConnected, value, true);
         }
         private void OnElectricityHighVoltageNotConnectedToggle(bool value) {
             electricityHighVoltageNotConnectedBinding.Update(value);
             Setting.Instance.Notification.ElectricityHighVoltageNotConnected = value;
-            notificationControllerSystem.EnableElectricityNotification(ElectricityNotificationIcon.HighVoltageNotConnected, value, true);
+            alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.HighVoltageNotConnected, value, true);
         }
 
         #endregion
@@ -230,52 +230,52 @@ namespace CityWatchdog.Systems
         private void OnWaterPipeWaterNotificationToggle(bool value) {
             waterPipeWaterNotificationBinding.Update(value);
             Setting.Instance.Notification.WaterPipeWaterNotification = value;
-            notificationControllerSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.WaterNotification, value, true);
+            alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.WaterNotification, value, true);
         }
         private void OnWaterPipeDirtyWaterNotificationToggle(bool value) {
             waterPipeDirtyWaterNotificationBinding.Update(value);
             Setting.Instance.Notification.WaterPipeDirtyWaterNotification = value;
-            notificationControllerSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.DirtyWaterNotification, value, true);
+            alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.DirtyWaterNotification, value, true);
         }
         private void OnWaterPipeSewageNotificationToggle(bool value) {
             waterPipeSewageNotificationBinding.Update(value);
             Setting.Instance.Notification.WaterPipeSewageNotification = value;
-            notificationControllerSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.SewageNotification, value, true);
+            alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.SewageNotification, value, true);
         }
         private void OnWaterPipeWaterPipeNotConnectedNotificationToggle(bool value) {
             waterPipeWaterPipeNotConnectedNotificationBinding.Update(value);
             Setting.Instance.Notification.WaterPipeWaterPipeNotConnectedNotification = value;
-            notificationControllerSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.WaterPipeNotConnectedNotification, value, true);
+            alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.WaterPipeNotConnectedNotification, value, true);
         }
         private void OnWaterPipeSewagePipeNotConnectedNotificationToggle(bool value) {
             waterPipeSewagePipeNotConnectedNotificationBinding.Update(value);
             Setting.Instance.Notification.WaterPipeSewagePipeNotConnectedNotification = value;
-            notificationControllerSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.SewagePipeNotConnectedNotification, value, true);
+            alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.SewagePipeNotConnectedNotification, value, true);
         }
         private void OnWaterPipeNotEnoughWaterCapacityNotificationToggle(bool value) {
             waterPipeNotEnoughWaterCapacityNotificationBinding.Update(value);
             Setting.Instance.Notification.WaterPipeNotEnoughWaterCapacityNotification = value;
-            notificationControllerSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughWaterCapacityNotification, value, true);
+            alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughWaterCapacityNotification, value, true);
         }
         private void OnWaterPipeNotEnoughSewageCapacityNotificationToggle(bool value) {
             waterPipeNotEnoughSewageCapacityNotificationBinding.Update(value);
             Setting.Instance.Notification.WaterPipeNotEnoughSewageCapacityNotification = value;
-            notificationControllerSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughSewageCapacityNotification, value, true);
+            alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughSewageCapacityNotification, value, true);
         }
         private void OnWaterPipeNotEnoughGroundwaterNotificationToggle(bool value) {
             waterPipeNotEnoughGroundwaterNotificationBinding.Update(value);
             Setting.Instance.Notification.WaterPipeNotEnoughGroundwaterNotification = value;
-            notificationControllerSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughGroundwaterNotification, value, true);
+            alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughGroundwaterNotification, value, true);
         }
         private void OnWaterPipeNotEnoughSurfaceWaterNotificationToggle(bool value) {
             waterPipeNotEnoughSurfaceWaterNotificationBinding.Update(value);
             Setting.Instance.Notification.WaterPipeNotEnoughSurfaceWaterNotification = value;
-            notificationControllerSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughSurfaceWaterNotification, value, true);
+            alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughSurfaceWaterNotification, value, true);
         }
         private void OnWaterPipeDirtyWaterPumpNotificationToggle(bool value) {
             waterPipeDirtyWaterPumpNotificationBinding.Update(value);
             Setting.Instance.Notification.WaterPipeDirtyWaterPumpNotification = value;
-            notificationControllerSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.DirtyWaterPumpNotification, value, true);
+            alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.DirtyWaterPumpNotification, value, true);
         }
         #endregion
 
@@ -283,27 +283,27 @@ namespace CityWatchdog.Systems
         private void OnBuildingAbandonedCollapsedNotificationToggle(bool value) {
             buildingAbandonedCollapsedNotificationBinding.Update(value);
             Setting.Instance.Notification.BuildingAbandonedCollapsedNotification = value;
-            notificationControllerSystem.EnableBuildingNotification(BuildingNotificationIcon.AbandonedCollapsedNotification, value, true);
+            alertIconSystem.EnableBuildingNotification(BuildingNotificationIcon.AbandonedCollapsedNotification, value, true);
         }
         private void OnBuildingAbandonedNotificationToggle(bool value) {
             buildingAbandonedNotificationBinding.Update(value);
             Setting.Instance.Notification.BuildingAbandonedNotification = value;
-            notificationControllerSystem.EnableBuildingNotification(BuildingNotificationIcon.AbandonedNotification, value, true);
+            alertIconSystem.EnableBuildingNotification(BuildingNotificationIcon.AbandonedNotification, value, true);
         }
         private void OnBuildingCondemnedNotificationToggle(bool value) {
             buildingCondemnedNotificationBinding.Update(value);
             Setting.Instance.Notification.BuildingCondemnedNotification = value;
-            notificationControllerSystem.EnableBuildingNotification(BuildingNotificationIcon.CondemnedNotification, value, true);
+            alertIconSystem.EnableBuildingNotification(BuildingNotificationIcon.CondemnedNotification, value, true);
         }
         private void OnBuildingTurnedOffNotificationToggle(bool value) {
             buildingTurnedOffNotificationBinding.Update(value);
             Setting.Instance.Notification.BuildingTurnedOffNotification = value;
-            notificationControllerSystem.EnableBuildingNotification(BuildingNotificationIcon.TurnedOffNotification, value, true);
+            alertIconSystem.EnableBuildingNotification(BuildingNotificationIcon.TurnedOffNotification, value, true);
         }
         private void OnBuildingHighRentNotificationToggle(bool value) {
             buildingHighRentNotificationBinding.Update(value);
             Setting.Instance.Notification.BuildingHighRentNotification = value;
-            notificationControllerSystem.EnableBuildingNotification(BuildingNotificationIcon.HighRentNotification, value, true);
+            alertIconSystem.EnableBuildingNotification(BuildingNotificationIcon.HighRentNotification, value, true);
         }
         #endregion
 
@@ -311,42 +311,42 @@ namespace CityWatchdog.Systems
         private void OnTrafficBottleneckNotificationToggle(bool value) {
             trafficBottleneckNotificationBinding.Update(value);
             Setting.Instance.Notification.TrafficBottleneckNotification = value;
-            notificationControllerSystem.EnableTrafficNotification(TrafficNotificationIcon.BottleneckNotification, value, true);
+            alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.BottleneckNotification, value, true);
         }
         private void OnTrafficDeadEndNotificationToggle(bool value) {
             trafficDeadEndNotificationBinding.Update(value);
             Setting.Instance.Notification.TrafficDeadEndNotification = value;
-            notificationControllerSystem.EnableTrafficNotification(TrafficNotificationIcon.DeadEndNotification, value, true);
+            alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.DeadEndNotification, value, true);
         }
         private void OnTrafficRoadConnectionNotificationToggle(bool value) {
             trafficRoadConnectionNotificationBinding.Update(value);
             Setting.Instance.Notification.TrafficRoadConnectionNotification = value;
-            notificationControllerSystem.EnableTrafficNotification(TrafficNotificationIcon.RoadConnectionNotification, value, true);
+            alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.RoadConnectionNotification, value, true);
         }
         private void OnTrafficTrackConnectionNotificationToggle(bool value) {
             trafficTrackConnectionNotificationBinding.Update(value);
             Setting.Instance.Notification.TrafficTrackConnectionNotification = value;
-            notificationControllerSystem.EnableTrafficNotification(TrafficNotificationIcon.TrackConnectionNotification, value, true);
+            alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.TrackConnectionNotification, value, true);
         }
         private void OnTrafficCarConnectionNotificationToggle(bool value) {
             trafficCarConnectionNotificationBinding.Update(value);
             Setting.Instance.Notification.TrafficCarConnectionNotification = value;
-            notificationControllerSystem.EnableTrafficNotification(TrafficNotificationIcon.CarConnectionNotification, value, true);
+            alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.CarConnectionNotification, value, true);
         }
         private void OnTrafficShipConnectionNotificationToggle(bool value) {
             trafficShipConnectionNotificationBinding.Update(value);
             Setting.Instance.Notification.TrafficShipConnectionNotification = value;
-            notificationControllerSystem.EnableTrafficNotification(TrafficNotificationIcon.ShipConnectionNotification, value, true);
+            alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.ShipConnectionNotification, value, true);
         }
         private void OnTrafficTrainConnectionNotificationToggle(bool value) {
             trafficTrainConnectionNotificationBinding.Update(value);
             Setting.Instance.Notification.TrafficTrainConnectionNotification = value;
-            notificationControllerSystem.EnableTrafficNotification(TrafficNotificationIcon.TrainConnectionNotification, value, true);
+            alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.TrainConnectionNotification, value, true);
         }
         private void OnTrafficPedestrianConnectionNotificationToggle(bool value) {
             trafficPedestrianConnectionNotificationBinding.Update(value);
             Setting.Instance.Notification.TrafficPedestrianConnectionNotification = value;
-            notificationControllerSystem.EnableTrafficNotification(TrafficNotificationIcon.PedestrianConnectionNotification, value, true);
+            alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.PedestrianConnectionNotification, value, true);
         }
         #endregion
 
@@ -354,12 +354,12 @@ namespace CityWatchdog.Systems
         private void OnCompanyNoInputsNotificationToggle(bool value) {
             companyNoInputsNotificationBinding.Update(value);
             Setting.Instance.Notification.CompanyNoInputsNotification = value;
-            notificationControllerSystem.EnableCompanyNotification(CompanyNotificationIcon.NoInputsNotification, value, true);
+            alertIconSystem.EnableCompanyNotification(CompanyNotificationIcon.NoInputsNotification, value, true);
         }
         private void OnCompanyNoCustomersNotificationToggle(bool value) {
             companyNoCustomersNotificationBinding.Update(value);
             Setting.Instance.Notification.CompanyNoCustomersNotification = value;
-            notificationControllerSystem.EnableCompanyNotification(CompanyNotificationIcon.NoCustomersNotification, value, true);
+            alertIconSystem.EnableCompanyNotification(CompanyNotificationIcon.NoCustomersNotification, value, true);
         }
         #endregion
 
@@ -367,12 +367,12 @@ namespace CityWatchdog.Systems
         private void OnWorkProviderUneducatedNotificationToggle(bool value) {
             workProviderUneducatedNotificationBinding.Update(value);
             Setting.Instance.Notification.WorkProviderUneducatedNotification = value;
-            notificationControllerSystem.EnableWorkProviderNotification(WorkProviderNotificationIcon.UneducatedNotification, value, true);
+            alertIconSystem.EnableWorkProviderNotification(WorkProviderNotificationIcon.UneducatedNotification, value, true);
         }
         private void OnWorkProviderEducatedNotificationToggle(bool value) {
             workProviderEducatedNotificationBinding.Update(value);
             Setting.Instance.Notification.WorkProviderEducatedNotification = value;
-            notificationControllerSystem.EnableWorkProviderNotification(WorkProviderNotificationIcon.EducatedNotification, value, true);
+            alertIconSystem.EnableWorkProviderNotification(WorkProviderNotificationIcon.EducatedNotification, value, true);
         }
         #endregion
 
@@ -380,27 +380,27 @@ namespace CityWatchdog.Systems
         private void OnDisasterWeatherDamageNotificationToggle(bool value) {
             disasterWeatherDamageNotificationBinding.Update(value);
             Setting.Instance.Notification.DisasterWeatherDamageNotification = value;
-            notificationControllerSystem.EnableDisasterNotification(DisasterNotificationIcon.WeatherDamageNotification, value, true);
+            alertIconSystem.EnableDisasterNotification(DisasterNotificationIcon.WeatherDamageNotification, value, true);
         }
         private void OnDisasterWeatherDestroyedNotificationToggle(bool value) {
             disasterWeatherDestroyedNotificationBinding.Update(value);
             Setting.Instance.Notification.DisasterWeatherDestroyedNotification = value;
-            notificationControllerSystem.EnableDisasterNotification(DisasterNotificationIcon.WeatherDestroyedNotification, value, true);
+            alertIconSystem.EnableDisasterNotification(DisasterNotificationIcon.WeatherDestroyedNotification, value, true);
         }
         private void OnDisasterWaterDamageNotificationToggle(bool value) {
             disasterWaterDamageNotificationBinding.Update(value);
             Setting.Instance.Notification.DisasterWaterDamageNotification = value;
-            notificationControllerSystem.EnableDisasterNotification(DisasterNotificationIcon.WaterDamageNotification, value, true);
+            alertIconSystem.EnableDisasterNotification(DisasterNotificationIcon.WaterDamageNotification, value, true);
         }
         private void OnDisasterWaterDestroyedNotificationToggle(bool value) {
             disasterWaterDestroyedNotificationBinding.Update(value);
             Setting.Instance.Notification.DisasterWaterDestroyedNotification = value;
-            notificationControllerSystem.EnableDisasterNotification(DisasterNotificationIcon.WaterDestroyedNotification, value, true);
+            alertIconSystem.EnableDisasterNotification(DisasterNotificationIcon.WaterDestroyedNotification, value, true);
         }
         private void OnDisasterDestroyedNotificationToggle(bool value) {
             disasterDestroyedNotificationBinding.Update(value);
             Setting.Instance.Notification.DisasterDestroyedNotification = value;
-            notificationControllerSystem.EnableDisasterNotification(DisasterNotificationIcon.DestroyedNotification, value, true);
+            alertIconSystem.EnableDisasterNotification(DisasterNotificationIcon.DestroyedNotification, value, true);
         }
         #endregion
 
@@ -408,12 +408,12 @@ namespace CityWatchdog.Systems
         private void OnFireFireNotificationToggle(bool value) {
             fireFireNotificationBinding.Update(value);
             Setting.Instance.Notification.FireFireNotification = value;
-            notificationControllerSystem.EnableFireNotification(FireNotificationIcon.FireNotification, value, true);
+            alertIconSystem.EnableFireNotification(FireNotificationIcon.FireNotification, value, true);
         }
         private void OnFireBurnedDownNotificationToggle(bool value) {
             fireBurnedDownNotificationBinding.Update(value);
             Setting.Instance.Notification.FireBurnedDownNotification = value;
-            notificationControllerSystem.EnableFireNotification(FireNotificationIcon.BurnedDownNotification, value, true);
+            alertIconSystem.EnableFireNotification(FireNotificationIcon.BurnedDownNotification, value, true);
         }
         #endregion
 
@@ -421,12 +421,12 @@ namespace CityWatchdog.Systems
         private void OnGarbageGarbageNotificationToggle(bool value) {
             garbageGarbageNotificationBinding.Update(value);
             Setting.Instance.Notification.GarbageGarbageNotification = value;
-            notificationControllerSystem.EnableGarbageNotification(GarbageNotificationIcon.GarbageNotification, value, true);
+            alertIconSystem.EnableGarbageNotification(GarbageNotificationIcon.GarbageNotification, value, true);
         }
         private void OnGarbageFacilityFullNotificationToggle(bool value) {
             garbageFacilityFullNotificationBinding.Update(value);
             Setting.Instance.Notification.GarbageFacilityFullNotification = value;
-            notificationControllerSystem.EnableGarbageNotification(GarbageNotificationIcon.FacilityFullNotification, value, true);
+            alertIconSystem.EnableGarbageNotification(GarbageNotificationIcon.FacilityFullNotification, value, true);
         }
         #endregion
 
@@ -434,17 +434,17 @@ namespace CityWatchdog.Systems
         private void OnHealthcareAmbulanceNotificationToggle(bool value) {
             healthcareAmbulanceNotificationBinding.Update(value);
             Setting.Instance.Notification.HealthcareAmbulanceNotification = value;
-            notificationControllerSystem.EnableHealthcareNotification(HealthcareNotificationIcon.AmbulanceNotification, value, true);
+            alertIconSystem.EnableHealthcareNotification(HealthcareNotificationIcon.AmbulanceNotification, value, true);
         }
         private void OnHealthcareHearseNotificationToggle(bool value) {
             healthcareHearseNotificationBinding.Update(value);
             Setting.Instance.Notification.HealthcareHearseNotification = value;
-            notificationControllerSystem.EnableHealthcareNotification(HealthcareNotificationIcon.HearseNotification, value, true);
+            alertIconSystem.EnableHealthcareNotification(HealthcareNotificationIcon.HearseNotification, value, true);
         }
         private void OnHealthcareFacilityFullNotificationToggle(bool value) {
             healthcareFacilityFullNotificationBinding.Update(value);
             Setting.Instance.Notification.HealthcareFacilityFullNotification = value;
-            notificationControllerSystem.EnableHealthcareNotification(HealthcareNotificationIcon.FacilityFullNotification, value, true);
+            alertIconSystem.EnableHealthcareNotification(HealthcareNotificationIcon.FacilityFullNotification, value, true);
         }
         #endregion
 
@@ -452,12 +452,12 @@ namespace CityWatchdog.Systems
         private void OnPoliceTrafficAccidentNotificationToggle(bool value) {
             policeTrafficAccidentNotificationBinding.Update(value);
             Setting.Instance.Notification.PoliceTrafficAccidentNotification = value;
-            notificationControllerSystem.EnablePoliceNotification(PoliceNotificationIcon.TrafficAccidentNotification, value, true);
+            alertIconSystem.EnablePoliceNotification(PoliceNotificationIcon.TrafficAccidentNotification, value, true);
         }
         private void OnPoliceCrimeSceneNotificationToggle(bool value) {
             policeCrimeSceneNotificationBinding.Update(value);
             Setting.Instance.Notification.PoliceCrimeSceneNotification = value;
-            notificationControllerSystem.EnablePoliceNotification(PoliceNotificationIcon.CrimeSceneNotification, value, true);
+            alertIconSystem.EnablePoliceNotification(PoliceNotificationIcon.CrimeSceneNotification, value, true);
         }
         #endregion
 
@@ -465,17 +465,17 @@ namespace CityWatchdog.Systems
         private void OnPollutionAirPollutionNotificationToggle(bool value) {
             pollutionAirPollutionNotificationBinding.Update(value);
             Setting.Instance.Notification.PollutionAirPollutionNotification = value;
-            notificationControllerSystem.EnablePollutionNotification(PollutionNotificationIcon.AirPollutionNotification, value, true);
+            alertIconSystem.EnablePollutionNotification(PollutionNotificationIcon.AirPollutionNotification, value, true);
         }
         private void OnPollutionNoisePollutionNotificationToggle(bool value) {
             pollutionNoisePollutionNotificationBinding.Update(value);
             Setting.Instance.Notification.PollutionNoisePollutionNotification = value;
-            notificationControllerSystem.EnablePollutionNotification(PollutionNotificationIcon.NoisePollutionNotification, value, true);
+            alertIconSystem.EnablePollutionNotification(PollutionNotificationIcon.NoisePollutionNotification, value, true);
         }
         private void OnPollutionGroundPollutionNotificationToggle(bool value) {
             pollutionGroundPollutionNotificationBinding.Update(value);
             Setting.Instance.Notification.PollutionGroundPollutionNotification = value;
-            notificationControllerSystem.EnablePollutionNotification(PollutionNotificationIcon.GroundPollutionNotification, value, true);
+            alertIconSystem.EnablePollutionNotification(PollutionNotificationIcon.GroundPollutionNotification, value, true);
         }
         #endregion
 
@@ -483,7 +483,7 @@ namespace CityWatchdog.Systems
         private void OnResourceConsumerNoResourceNotificationToggle(bool value) {
             resourceConsumerNoResourceNotificationBinding.Update(value);
             Setting.Instance.Notification.ResourceConsumerNoResourceNotification = value;
-            notificationControllerSystem.EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoResourceNotification, value, true);
+            alertIconSystem.EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoResourceNotification, value, true);
         }
         #endregion
 
@@ -491,7 +491,7 @@ namespace CityWatchdog.Systems
         private void OnRoutePathfindNotificationToggle(bool value) {
             routePathfindNotificationBinding.Update(value);
             Setting.Instance.Notification.RoutePathfindNotification = value;
-            notificationControllerSystem.EnableRouteNotification(RouteNotificationIcon.PathfindNotification, value, true);
+            alertIconSystem.EnableRouteNotification(RouteNotificationIcon.PathfindNotification, value, true);
         }
         #endregion
 
@@ -499,7 +499,7 @@ namespace CityWatchdog.Systems
         private void OnTransportLineVehicleNotificationToggle(bool value) {
             transportLineVehicleNotificationBinding.Update(value);
             Setting.Instance.Notification.TransportLineVehicleNotification = value;
-            notificationControllerSystem.EnableTransportLineNotification(TransportLineNotificationIcon.VehicleNotification, value, true);
+            alertIconSystem.EnableTransportLineNotification(TransportLineNotificationIcon.VehicleNotification, value, true);
         }
         #endregion
 
@@ -554,7 +554,7 @@ namespace CityWatchdog.Systems
         {
             // Shared path for the hotkey and panel Toggle All button.
             // The controller applies icon state in bulk, then bindings update panel state.
-            notificationControllerSystem.SetAllNotifications(enabled);
+            alertIconSystem.SetAllNotifications(enabled);
             UpdateAllNotificationBindings(enabled);
         }
 
@@ -726,9 +726,9 @@ namespace CityWatchdog.Systems
 
         private void ToggleControlPanelFromHotkey() => panelVisibleBinding.Update(!panelVisibleBinding.Value);
 
-        public void UpdateTrendTrackerBinding(bool value) => trendTrackerBinding?.Update(value);
+        public void UpdateMoneyViewBinding(bool value) => moneyViewBinding?.Update(value);
 
-        public void UpdateTrendDisplayModeBinding(int value) => trendDisplayModeBinding?.Update(value);
+        public void UpdateMoneyViewDisplayModeBinding(int value) => moneyViewDisplayModeBinding?.Update(value);
 
         public void UpdateMoneyTooltipModeBinding(int value) => moneyTooltipModeBinding?.Update(value);
 

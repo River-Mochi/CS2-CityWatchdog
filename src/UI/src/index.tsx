@@ -2,13 +2,13 @@ import { ModRegistrar, type ModuleRegistry, type ModuleRegistryExtend } from "cs
 import mod from "../mod.json";
 import { NotificationPanel } from "./mods/NotificationPanel/NotificationPanel";
 import { EntryButton } from "./mods/EntryButton/EntryButton";
-import { DescriptionTooltipTrendTrackerExtension, StatFieldTrendTrackerExtension } from "./mods/ToolbarTrendTracker/ToolbarTrendTracker";
+import { DescriptionTooltipMoneyViewExtension, StatFieldMoneyViewExtension } from "./mods/ToolbarMoneyView/ToolbarMoneyView";
 import { VanillaComponentResolver } from "./mods/VanillaComponentResolver/VanillaComponentResolver";
 import "../images/NotificationIcon_TitleBar.svg";
 import "../images/CWDNotificationIcon_white02.svg";
 
 const STAT_FIELD_MODULE = "game-ui/game/components/toolbar/components/stat-field/stat-field.tsx";
-const STAT_FIELD_TREND_EXPORT = "StatFieldTrend";
+const STAT_FIELD_MONEY_VIEW_EXPORT = "StatFieldTrend";
 const DESCRIPTION_TOOLTIP_MODULE = "game-ui/common/tooltip/description-tooltip/description-tooltip.tsx";
 const DESCRIPTION_TOOLTIP_EXPORT = "DescriptionTooltip";
 
@@ -27,8 +27,8 @@ const extendSafe = (
 
 const register: ModRegistrar = (moduleRegistry) => {
     VanillaComponentResolver.setRegistry(moduleRegistry);
-    extendSafe(moduleRegistry, STAT_FIELD_MODULE, STAT_FIELD_TREND_EXPORT, StatFieldTrendTrackerExtension);
-    extendSafe(moduleRegistry, DESCRIPTION_TOOLTIP_MODULE, DESCRIPTION_TOOLTIP_EXPORT, DescriptionTooltipTrendTrackerExtension);
+    extendSafe(moduleRegistry, STAT_FIELD_MODULE, STAT_FIELD_MONEY_VIEW_EXPORT, StatFieldMoneyViewExtension);
+    extendSafe(moduleRegistry, DESCRIPTION_TOOLTIP_MODULE, DESCRIPTION_TOOLTIP_EXPORT, DescriptionTooltipMoneyViewExtension);
     moduleRegistry.append("GameTopLeft", EntryButton);
     moduleRegistry.append("Game", NotificationPanel);
     console.log(`${mod.id} - UI registration completed`);

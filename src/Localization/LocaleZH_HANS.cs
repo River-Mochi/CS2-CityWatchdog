@@ -37,7 +37,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "调试" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "趋势追踪" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "金钱视图" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "金钱" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "通知" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "里程碑" },
@@ -47,19 +47,19 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "使用说明" },
 
-                // --- Trend Tracker ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "趋势追踪" },
+                // --- Money View ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "金钱视图" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
                     "在底部工具栏的原版金钱和人口箭头旁显示数字趋势值。\n" +
                     "这只是轻量显示，不会改变城市金钱或人口。" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "趋势频率" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "金钱视图频率" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
                     "选择底部工具栏的趋势文字显示金钱和人口的每小时值或每月值。\n" +
                     "每月金钱使用预算收入减去支出，人口使用 24 小时预测。" },
 
-                { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "每小时 (/h)" },
-                { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "每月 (/mo)" },
+                { m_Settings.GetOptionLocaleID("MoneyViewDisplayModeHourly"), "每小时 (/h)" },
+                { m_Settings.GetOptionLocaleID("MoneyViewDisplayModeMonthly"), "每月 (/mo)" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "金钱提示样式" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
@@ -181,7 +181,7 @@ namespace CityWatchdog
                     "3. 使用 Toggle All 快速设置，或展开分类逐一调整通知图标。\n" +
                     "4. City Watchdog 只会隐藏或显示图标；不会修复图标背后的城市问题。\n\n" +
                     "<金钱工具>\n" +
-                    "1. 趋势追踪 会在底部工具栏的金钱和人口趋势箭头旁显示 /h 或 /mo 数值。\n" +
+                    "1. 金钱视图 会在底部工具栏的金钱和人口趋势箭头旁显示 /h 或 /mo 数值。\n" +
                     "2. 增加和减少金钱：使用 <金钱快捷键金额>。\n" +
                     "3. 自动增加金钱会在城市载入期间监看余额，低于阈值时增加金钱。\n" +
                     "4. 转换无限金钱存档只适用于以无限金钱开始的城市，City Watchdog <无法复原>。\n\n" +
@@ -204,10 +204,10 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("ToggleAllTooltip"),
                     "显示/隐藏所有图标。\n" +
                     "颜色：绿色 = 全部开启；蓝色 = 混合；红色 = 全部关闭。" },
-                { m_Settings.GetUILocaleID("TrendTooltipIncome"), "收入：" },
-                { m_Settings.GetUILocaleID("TrendTooltipExpenses"), "支出：" },
-                { m_Settings.GetUILocaleID("TrendTooltipNet"), "净额：" },
-                { m_Settings.GetUILocaleID("TrendTooltipTotal"), "总计：" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipIncome"), "收入：" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipExpenses"), "支出：" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipNet"), "净额：" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipTotal"), "总计：" },
 
                 // --- Electricity notifications ---
                 { m_Settings.GetUILocaleID("Electricity"), "电力" },

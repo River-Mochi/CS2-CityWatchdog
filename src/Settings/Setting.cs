@@ -20,12 +20,12 @@ namespace CityWatchdog
     [FileLocation("ModsSettings/CityWatchdog/CityWatchdog")]
 #if DEBUG
     [SettingsUITabOrder(Actions, About, Debug)]
-    [SettingsUIGroupOrder(Notifications, Money, Trends, Milestone, SaveConversion, AboutInfo, AboutLinks, AboutUsage, Serialize)]
-    [SettingsUIShowGroupName(Notifications, Money, Trends, Milestone, SaveConversion, AboutUsage, Serialize)]
+    [SettingsUIGroupOrder(Notifications, Money, MoneyViewGroup, Milestone, SaveConversion, AboutInfo, AboutLinks, AboutUsage, Serialize)]
+    [SettingsUIShowGroupName(Notifications, Money, MoneyViewGroup, Milestone, SaveConversion, AboutUsage, Serialize)]
 #else
     [SettingsUITabOrder(Actions, About)]
-    [SettingsUIGroupOrder(Notifications, Money, Trends, Milestone, SaveConversion, AboutInfo, AboutLinks, AboutUsage)]
-    [SettingsUIShowGroupName(Notifications, Money, Trends, Milestone, SaveConversion, AboutUsage)]
+    [SettingsUIGroupOrder(Notifications, Money, MoneyViewGroup, Milestone, SaveConversion, AboutInfo, AboutLinks, AboutUsage)]
+    [SettingsUIShowGroupName(Notifications, Money, MoneyViewGroup, Milestone, SaveConversion, AboutUsage)]
 #endif
     public partial class Setting : ModSetting
     {
@@ -45,7 +45,7 @@ namespace CityWatchdog
         public const string ToggleNotificationPanelAction = nameof(ToggleNotificationPanelAction);
 
         // Group IDs.
-        internal const string Trends = nameof(Trends);
+        internal const string MoneyViewGroup = nameof(MoneyViewGroup);
         internal const string Money = nameof(Money);
         internal const string Notifications = nameof(Notifications);
         internal const string Milestone = nameof(Milestone);
@@ -96,22 +96,22 @@ namespace CityWatchdog
         }
 
         // --------------------------------------------------------------------
-        // Actions tab - Trend Tracker
+        // Actions tab - Money View
         // --------------------------------------------------------------------
 
-        [SettingsUISection(Actions, Trends)]
-        [SettingsUISetter(typeof(Setting), nameof(OnTrendTrackerChanged))]
+        [SettingsUISection(Actions, MoneyViewGroup)]
+        [SettingsUISetter(typeof(Setting), nameof(OnMoneyViewChanged))]
         public bool TrendTracker { get; set; }
 
-        [SettingsUIDropdown(typeof(Setting), nameof(GetTrendDisplayModeItems))]
-        [SettingsUISection(Actions, Trends)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureTrendTrackerEnabled))]
-        [SettingsUISetter(typeof(Setting), nameof(OnTrendDisplayModeChanged))]
+        [SettingsUIDropdown(typeof(Setting), nameof(GetMoneyViewDisplayModeItems))]
+        [SettingsUISection(Actions, MoneyViewGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMoneyViewEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMoneyViewDisplayModeChanged))]
         public int TrendDisplayMode { get; set; }
 
         [SettingsUIDropdown(typeof(Setting), nameof(GetMoneyTooltipModeItems))]
-        [SettingsUISection(Actions, Trends)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureTrendTrackerEnabled))]
+        [SettingsUISection(Actions, MoneyViewGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMoneyViewEnabled))]
         [SettingsUISetter(typeof(Setting), nameof(OnMoneyTooltipModeChanged))]
         public int MoneyTooltipMode { get; set; }
 
@@ -197,10 +197,10 @@ namespace CityWatchdog
                     return;
                 }
 
-                MoneyControllerSystem? moneyControllerSystem = GetMoneyControllerSystem();
-                if (moneyControllerSystem?.CanConvertUnlimitedMoneySave() == true)
+                CityFinanceSystem? cityFinanceSystem = GetCityFinanceSystem();
+                if (cityFinanceSystem?.CanConvertUnlimitedMoneySave() == true)
                 {
-                    moneyControllerSystem.SetUnlimitedMoneyToLimitedMoney();
+                    cityFinanceSystem.SetUnlimitedMoneyToLimitedMoney();
                 }
             }
         }
@@ -267,7 +267,7 @@ namespace CityWatchdog
             return !AutomaticAddMoney;
         }
 
-        public bool EnsureTrendTrackerEnabled()
+        public bool EnsureMoneyViewEnabled()
         {
             return !TrendTracker;
         }
@@ -280,13 +280,13 @@ namespace CityWatchdog
         private bool CannotConvertUnlimitedMoneySave()
         {
             return !ConfirmUnlimitedMoneySaveConversion ||
-                   GetMoneyControllerSystem()?.CanConvertUnlimitedMoneySave() != true;
+                   GetCityFinanceSystem()?.CanConvertUnlimitedMoneySave() != true;
         }
 
-        private static MoneyControllerSystem? GetMoneyControllerSystem()
+        private static CityFinanceSystem? GetCityFinanceSystem()
         {
             return World.DefaultGameObjectInjectionWorld?
-                .GetExistingSystemManaged<MoneyControllerSystem>();
+                .GetExistingSystemManaged<CityFinanceSystem>();
         }
 
         private static void TryOpenUrl(string url)
@@ -348,19 +348,19 @@ namespace CityWatchdog
             };
         }
 
-        public DropdownItem<int>[] GetTrendDisplayModeItems()
+        public DropdownItem<int>[] GetMoneyViewDisplayModeItems()
         {
             return new[]
             {
                 new DropdownItem<int>
                 {
                     value = TrendDisplayModeHourly,
-                    displayName = GetOptionLocaleID("TrendDisplayModeHourly"),
+                    displayName = GetOptionLocaleID("MoneyViewDisplayModeHourly"),
                 },
                 new DropdownItem<int>
                 {
                     value = TrendDisplayModeMonthly,
-                    displayName = GetOptionLocaleID("TrendDisplayModeMonthly"),
+                    displayName = GetOptionLocaleID("MoneyViewDisplayModeMonthly"),
                 },
             };
         }
@@ -413,18 +413,18 @@ namespace CityWatchdog
             Notification.SetDefaults();
         }
 
-        private void OnTrendTrackerChanged(bool value)
+        private void OnMoneyViewChanged(bool value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
-                .UpdateTrendTrackerBinding(value);
+                .UpdateMoneyViewBinding(value);
         }
 
-        private void OnTrendDisplayModeChanged(int value)
+        private void OnMoneyViewDisplayModeChanged(int value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
-                .UpdateTrendDisplayModeBinding(value);
+                .UpdateMoneyViewDisplayModeBinding(value);
         }
 
         private void OnMoneyTooltipModeChanged(int value)
