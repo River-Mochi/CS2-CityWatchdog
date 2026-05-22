@@ -12,9 +12,14 @@ const MONEY_VIEW_DISPLAY_MODE_MONTHLY = 1;
 const MONEY_TOOLTIP_MODE_DEFAULT = 0;
 const MONEY_TOOLTIP_MODE_COMPACT = 1;
 const MONEY_TOOLTIP_MODE_MINI = 2;
+// CS2 budget totals are monthly, while the vanilla toolbar trend is hourly.
 const HOURS_PER_GAME_MONTH = 24;
 
-type MoneyViewTone = "positive" | "negative" | "neutral";
+type SignedAmountTone = "positive" | "negative" | "neutral";
+
+const wholeNumberFormatter = new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: 0,
+});
 
 export const StatFieldMoneyViewExtension: ModuleRegistryExtend = (Component: any) => {
     return (props: any) => {
@@ -52,11 +57,11 @@ const getMoneyViewText = (props: any): ReactNode | null => {
     }
 
     if (props?.icon === MONEY_ICON) {
-        return <MoneyViewMoneyText />;
+        return <ToolbarMoneyDelta />;
     }
 
     if (props?.icon === POPULATION_ICON) {
-        return <PopulationMoneyViewText />;
+        return <ToolbarPopulationDelta />;
     }
 
     return null;
@@ -73,7 +78,7 @@ const appendMoneyViewText = (element: ReactElement<any>, moneyViewText: ReactNod
     );
 };
 
-const MoneyViewMoneyText = () => {
+const ToolbarMoneyDelta = () => {
     const moneyViewEnabled = useValue(moneyView$);
     const moneyViewDisplayMode = useValue(moneyViewDisplayMode$);
     const unlimitedMoney = useValue(toolbarBottom.unlimitedMoney$);
@@ -85,15 +90,17 @@ const MoneyViewMoneyText = () => {
         return null;
     }
 
-    const monthlyMoney = getNumericValue(totalIncome) - Math.abs(getNumericValue(totalExpenses));
+    // Normalize Budget expenses before net monthly income is calculated.
+    const normalizedMonthlyExpenses = -Math.abs(getNumericValue(totalExpenses));
+    const monthlyMoney = getNumericValue(totalIncome) + normalizedMonthlyExpenses;
     const displayedValue = moneyViewDisplayMode === MONEY_VIEW_DISPLAY_MODE_MONTHLY
         ? monthlyMoney
         : getNumericValue(moneyDelta);
 
-    return <MoneyViewText value={displayedValue} displayMode={moneyViewDisplayMode} />;
+    return <ToolbarTrendAmount value={displayedValue} displayMode={moneyViewDisplayMode} />;
 };
 
-const PopulationMoneyViewText = () => {
+const ToolbarPopulationDelta = () => {
     const moneyViewEnabled = useValue(moneyView$);
     const moneyViewDisplayMode = useValue(moneyViewDisplayMode$);
     const populationDelta = useValue(toolbarBottom.populationDelta$);
@@ -106,11 +113,11 @@ const PopulationMoneyViewText = () => {
         ? getNumericValue(populationDelta) * HOURS_PER_GAME_MONTH
         : getNumericValue(populationDelta);
 
-    return <MoneyViewText value={displayedValue} displayMode={moneyViewDisplayMode} />;
+    return <ToolbarTrendAmount value={displayedValue} displayMode={moneyViewDisplayMode} />;
 };
 
-const MoneyViewText = ({ value, displayMode }: { readonly value: number; readonly displayMode: number }) => {
-    const tone = getMoneyViewTone(value);
+const ToolbarTrendAmount = ({ value, displayMode }: { readonly value: number; readonly displayMode: number }) => {
+    const tone = getSignedAmountTone(value);
     const suffix = displayMode === MONEY_VIEW_DISPLAY_MODE_MONTHLY ? "/mo" : "/h";
     const text = `${formatToolbarMoneyViewValue(value)}\u00A0${suffix}`;
 
@@ -128,6 +135,7 @@ const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent: ReactN
     const moneyTooltipMode = useValue(moneyTooltipMode$);
     const hourlyNet = getNumericValue(useValue(toolbarBottom.moneyDelta$));
     const monthlyIncome = getNumericValue(useValue(economyBudget.totalIncome$));
+    // Normalize Budget expenses before net monthly income is calculated.
     const monthlyExpenses = -Math.abs(getNumericValue(useValue(economyBudget.totalExpenses$)));
     const monthlyBalance = monthlyIncome + monthlyExpenses;
     const hourlyIncome = monthlyIncome / HOURS_PER_GAME_MONTH;
@@ -173,6 +181,7 @@ const isMoneyTooltip = (props: any): boolean => {
     return Boolean(props?.content) && containsIcon(props?.children, MONEY_ICON);
 };
 
+// Walk the vanilla tooltip tree instead of querying generated CSS class names.
 const containsIcon = (node: ReactNode, icon: string): boolean => {
     if (!isValidElement(node)) {
         return false;
@@ -200,7 +209,7 @@ const MoneyViewTooltipGroup = ({ label, hourlyValue, monthlyValue, compact, mode
 
 
 const MoneyViewTooltipSingleValue = ({ label, value, mode }: { readonly label: string; readonly value: number; readonly mode: number }) => {
-    const tone = getMoneyViewTone(value);
+    const tone = getSignedAmountTone(value);
     const text = formatTooltipMoneyValue(value);
 
     return (
@@ -215,7 +224,7 @@ const MoneyViewTooltipSingleValue = ({ label, value, mode }: { readonly label: s
 
 
 const MoneyViewTooltipValue = ({ value, suffix, compact, mode }: { readonly value: number; readonly suffix: string; readonly compact: boolean; readonly mode: number }) => {
-    const tone = getMoneyViewTone(value);
+    const tone = getSignedAmountTone(value);
     const text = `${formatTooltipMoneyViewValue(value, compact)}\u00A0${suffix}`;
 
     return <div className={`${styles.tooltipValueLine} ${getTooltipValueClassName(mode)} ${styles[tone]}`}>{text}</div>;
@@ -233,7 +242,7 @@ const getTooltipValueClassName = (mode: number): string => {
     return styles.tooltipValueLineFull;
 };
 
-const getMoneyViewTone = (value: number): MoneyViewTone => {
+const getSignedAmountTone = (value: number): SignedAmountTone => {
     if (value > 0) {
         return "positive";
     }
@@ -249,22 +258,32 @@ const getNumericValue = (value: number): number => {
     return Number.isFinite(value) ? value : 0;
 };
 
-// thin space after +/- sign for readability only in Tooltip.
-const formatMoneyViewValue = (value: number): string => {
-    const roundedValue = Math.round(Math.abs(value));
-    const sign = value > 0 ? "+\u200A" : value < 0 ? "-\u200A" : "";
-    return `${sign}${roundedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+const formatSignedWholeNumber = (
+    value: number,
+    includePositiveSign: boolean,
+    useThinSpace: boolean
+): string => {
+    const magnitude = wholeNumberFormatter.format(Math.round(Math.abs(value)));
+    const spacer = useThinSpace ? "\u200A" : "";
+
+    if (value > 0 && includePositiveSign) {
+        return `+${spacer}${magnitude}`;
+    }
+
+    if (value < 0) {
+        return `-${spacer}${magnitude}`;
+    }
+
+    return magnitude;
 };
 
 const formatTooltipMoneyViewValue = (value: number, compact: boolean): string => {
-    return compact ? formatCompactTooltipValue(value) : formatMoneyViewValue(value);
+    return compact ? formatCompactTooltipValue(value) : formatSignedWholeNumber(value, true, true);
 };
 
 // don't add plus sign for Total money.
 const formatTooltipMoneyValue = (value: number): string => {
-    const roundedValue = Math.round(Math.abs(value));
-    const sign = value < 0 ? "-\u200A" : "";
-    return `${sign}${roundedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+    return formatSignedWholeNumber(value, false, true);
 };
 
 const formatToolbarMoneyViewValue = (value: number): string => {
@@ -279,7 +298,7 @@ const formatToolbarMoneyViewValue = (value: number): string => {
         return `${sign}${formatCompactNumber(roundedValue / 1_000_000)}M`;
     }
 
-    return `${sign}${roundedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+    return formatSignedWholeNumber(value, true, false);
 };
 
 const formatCompactTooltipValue = (value: number): string => {
@@ -294,7 +313,7 @@ const formatCompactTooltipValue = (value: number): string => {
         return `${sign}${formatFixedCompactNumber(roundedValue / 1_000_000)}M`;
     }
 
-    return `${sign}${roundedValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+    return formatSignedWholeNumber(value, true, true);
 };
 
 const formatCompactNumber = (value: number): string => {

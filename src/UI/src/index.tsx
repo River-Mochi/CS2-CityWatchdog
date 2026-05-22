@@ -8,7 +8,8 @@ import "../images/NotificationIcon_TitleBar.svg";
 import "../images/CWDNotificationIcon_white02.svg";
 
 const STAT_FIELD_MODULE = "game-ui/game/components/toolbar/components/stat-field/stat-field.tsx";
-const STAT_FIELD_MONEY_VIEW_EXPORT = "StatFieldTrend";
+// Vanilla export name. Keep this value aligned with the game module export.
+const STAT_FIELD_VANILLA_TREND_EXPORT = "StatFieldTrend";
 const DESCRIPTION_TOOLTIP_MODULE = "game-ui/common/tooltip/description-tooltip/description-tooltip.tsx";
 const DESCRIPTION_TOOLTIP_EXPORT = "DescriptionTooltip";
 
@@ -27,7 +28,7 @@ const extendSafe = (
 
 const register: ModRegistrar = (moduleRegistry) => {
     VanillaComponentResolver.setRegistry(moduleRegistry);
-    extendSafe(moduleRegistry, STAT_FIELD_MODULE, STAT_FIELD_MONEY_VIEW_EXPORT, StatFieldMoneyViewExtension);
+    extendSafe(moduleRegistry, STAT_FIELD_MODULE, STAT_FIELD_VANILLA_TREND_EXPORT, StatFieldMoneyViewExtension);
     extendSafe(moduleRegistry, DESCRIPTION_TOOLTIP_MODULE, DESCRIPTION_TOOLTIP_EXPORT, DescriptionTooltipMoneyViewExtension);
     moduleRegistry.append("GameTopLeft", EntryButton);
     moduleRegistry.append("Game", NotificationPanel);

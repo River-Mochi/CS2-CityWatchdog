@@ -9,52 +9,52 @@
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
 
-        - City Watchdog helps reduce city alert icon clutter and adds convenient city setup tools.
-        - It's modeled on the original City Controller mod (retired)
-        - Many expanded features and future plans.
+- City Watchdog helps reduce city alert icon clutter and adds convenient city setup tools.
+- It's modeled on the original City Controller mod (retired)
+- Many expanded features and future plans.
 
-        ### Features
+### Features
 
-        - Show or hide notification alert icons.
-        - Change the milestone you start with (Trains now! Yes you can!).
+- Show or hide notification alert icons.
+- Change the milestone you start with (Trains now! Yes you can!).
 
-        #### Money
-        - Manual add/subtract money with hotkeys ([ or ]).
-        - Automatic add money option (manual is recommended over auto).
-        - Money view for toolbar values.
-       -  Convert saves from Unlimited money type to normal Limited money.
+#### Money
+- Manual add/subtract money with hotkeys ([ or ]).
+- Automatic add money option (manual is recommended over auto).
+- Money view for toolbar values.
+-  Convert saves from Unlimited money type to normal Limited money.
 
-        Hotkeys
-        - Shift+N = open/close panel (same as clicking on Top Left icon).
-        - N    = toggle all notification icons on/off (same as clicking on Toggle All * star button)
-        - [    = Add Money
-        - ]    = Subtract Money
+Hotkeys
+- Shift+N = open/close panel (same as clicking on Top Left icon).
+- N    = toggle all notification icons on/off (same as clicking on Toggle All * star button)
+- [    = Add Money
+- ]    = Subtract Money
 
-        ### Important Notes
-        - City Watchdog hides/shows alert icons; it does not fix the problem behind the icons. Good for reducing stress or screenshots.
-        - Make a backup before converting an Unlimited Money save. Mod cannot undo that conversion.
-        - City Watchdog is a heavily rewritten redux/expansion of City Controller. It is not just a copy-paste release and nearly a whole rewrite.
-        I hope you enjoy the new features, better performance, and safety guards!
-        - CWD's Money View is a ground-up code write of similar money info to Show Text Trends (retired).
-        MV uses new methods to implement vanilla CS2 component extensions, customizable new money layouts, settings options, and translations.
+### Important Notes
+- City Watchdog hides/shows alert icons; it does not fix the problem behind the icons. Good for reducing stress or screenshots.
+- Make a backup before converting an Unlimited Money save. Mod cannot undo that conversion.
+- City Watchdog is a heavily rewritten redux/expansion of City Controller. It is not just a copy-paste release and nearly a whole rewrite.
+I hope you enjoy the new features, better performance, and safety guards!
+- CWD's Money View is a ground-up code write of similar money info to Show Text Trends (retired).
+MV uses new methods to implement vanilla CS2 component extensions, customizable new money layouts, settings options, and translations.
 
-        ### Support and feedback
-        Feedback is welcome through GitHub or Discord links on the right.
-        If you like free mods, give a Like, easy way to show support :)
+### Support and feedback
+Feedback is welcome through GitHub or Discord links on the right.
+If you like free mods, give a Like, easy way to show support :)
 
-        ### Future
-        - 9 languages supported now, more needed!
-        - If anyone can make better Thumbnail and screenshots, please let me know.
+### Future
+- 9 languages supported now, more needed!
+- If anyone can make better Thumbnail and screenshots, please let me know.
 
-        ### Credits
-        - River Mochi - author/maintainer
-        - Thanks to Mbyron26 for orig. City Controller mod.
-        - Money View inspired by earlier mods by DanielNZ Show Text
-        - Dorkington - tester/feature suggestion
-        - Flightech, SonNathan - testers
-        - Thumbnail photograph by Maryia Shedava at Mont Saint-Michel in Normandy, France https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
+### Credits
+- River Mochi - author/maintainer
+- Thanks to Mbyron26 for orig. City Controller mod.
+- Money View inspired by earlier mods by DanielNZ Show Text
+- Dorkington - tester/feature suggestion
+- Flightech, SonNathan - testers
+- Thumbnail photograph by Maryia Shedava at Mont Saint-Michel in Normandy, France https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
 
-    </LongDescription>
+</LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail-dog-city01.jpg" />
 	<!--Screenshot, can be set multiple times-->
