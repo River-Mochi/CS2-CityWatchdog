@@ -2,16 +2,14 @@ import { useValue } from "cs2/api";
 import { economyBudget, toolbarBottom } from "cs2/bindings";
 import { Unit, useLocalization, type Localization } from "cs2/l10n";
 import { Children, isValidElement, type ReactNode } from "react";
-import { activeLocale$, moneyTooltipMode$, moneyView$ } from "../Bindings/Bindings";
+import { moneyTooltipMode$, moneyView$ } from "../Bindings/Bindings";
 import styles from "./ToolbarMoneyView.module.scss";
 import {
     formatTooltipMoneyValue,
     formatTooltipMoneyViewValue,
     getNumericValue,
     getSignedAmountTone,
-    getMoneyViewLocaleProbeLines,
     HOURS_PER_GAME_MONTH,
-    isMoneyViewLocaleProbeEnabled,
     MONEY_ICON,
     MONEY_TOOLTIP_MODE_COMPACT,
     MONEY_TOOLTIP_MODE_DEFAULT,
@@ -25,7 +23,6 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
     const localize = (key: string, fallback: string) => translate(`CityWatchdog.UI[${key}]`) ?? fallback;
     const moneyViewEnabled = useValue(moneyView$);
     const moneyTooltipMode = useValue(moneyTooltipMode$);
-    const activeLocale = useValue(activeLocale$);
     const hourlyNet = getNumericValue(useValue(toolbarBottom.moneyDelta$));
     const monthlyIncome = getNumericValue(useValue(economyBudget.totalIncome$));
     // Normalize Budget expenses before net monthly income is calculated.
@@ -44,9 +41,6 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
     const compact = moneyTooltipMode !== MONEY_TOOLTIP_MODE_DEFAULT;
     const mini = moneyTooltipMode === MONEY_TOOLTIP_MODE_MINI;
     const tooltipClassName = getTooltipRowsClassName(moneyTooltipMode);
-    const localeProbeLines = isMoneyViewLocaleProbeEnabled()
-        ? getMoneyViewLocaleProbeLines(activeLocale)
-        : null;
 
     return (
         <div className={tooltipClassName}>
@@ -55,7 +49,6 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
             {!mini && <MoneyViewTooltipGroup localization={localization} label={localize("MoneyViewTooltipExpenses", "Expenses:")} hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} compact={compact} mode={moneyTooltipMode} />}
             <MoneyViewTooltipGroup localization={localization} label={localize("MoneyViewTooltipNet", "Net:")} hourlyValue={hourlyNet} monthlyValue={monthlyBalance} compact={compact} mode={moneyTooltipMode} />
             {moneyTooltipMode === MONEY_TOOLTIP_MODE_DEFAULT && <MoneyViewTooltipSingleValue localization={localization} label={localize("MoneyViewTooltipTotal", "Total:")} value={totalMoney} mode={moneyTooltipMode} />}
-            {localeProbeLines && <pre className={styles.localeProbe}>{localeProbeLines.join("\n")}</pre>}
         </div>
     );
 };
@@ -97,8 +90,8 @@ const MoneyViewTooltipGroup = ({ localization, label, hourlyValue, monthlyValue,
         <div className={styles.tooltipGroup}>
             <div className={styles.tooltipLabel}>{label}</div>
             <div className={styles.tooltipValueColumn}>
-                <MoneyViewTooltipValue localization={localization} value={hourlyValue} unit={Unit.MoneyPerHour} compact={compact} mode={mode} />
-                <MoneyViewTooltipValue localization={localization} value={monthlyValue} unit={Unit.MoneyPerMonth} compact={compact} mode={mode} />
+                <MoneyViewTooltipValue localization={localization} value={hourlyValue} unit={Unit.IntegerPerHour} compact={compact} mode={mode} />
+                <MoneyViewTooltipValue localization={localization} value={monthlyValue} unit={Unit.IntegerPerMonth} compact={compact} mode={mode} />
             </div>
         </div>
     );

@@ -30,10 +30,10 @@ export const ToolbarMoneyDelta = () => {
     const displayedValue = moneyViewMode === MONEY_VIEW_MODE_MONTHLY
         ? monthlyMoney
         : getNumericValue(moneyDelta);
-    // Use vanilla units so number separators and /h or /mo labels follow the active game language.
+    // Use vanilla integer units so Money View gets localized /h or /mo labels without repeating the money symbol.
     const unit = moneyViewMode === MONEY_VIEW_MODE_MONTHLY
-        ? Unit.MoneyPerMonth
-        : Unit.MoneyPerHour;
+        ? Unit.IntegerPerMonth
+        : Unit.IntegerPerHour;
 
     return <ToolbarTrendAmount localization={localization} value={displayedValue} unit={unit} />;
 };

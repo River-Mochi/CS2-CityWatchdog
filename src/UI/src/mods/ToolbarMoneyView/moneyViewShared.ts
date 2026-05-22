@@ -12,91 +12,6 @@ export const HOURS_PER_GAME_MONTH = 24;
 
 export type SignedAmountTone = "positive" | "negative" | "neutral";
 
-type NumberFormatter = {
-    format(value: number): string;
-};
-
-const numberFormatterCache = new Map<string, NumberFormatter | null>();
-
-const normalizeLocale = (locale?: string | null): string | undefined => {
-    const trimmedLocale = locale?.trim();
-    if (!trimmedLocale || trimmedLocale.toLowerCase() === "os") {
-        return undefined;
-    }
-
-    return trimmedLocale.replace(/_/g, "-");
-};
-
-const getNumberFormatter = (
-    locale: string | null | undefined,
-    cacheName: string,
-    options: Intl.NumberFormatOptions
-): NumberFormatter | null => {
-    const normalizedLocale = normalizeLocale(locale);
-    const cacheKey = `${normalizedLocale ?? "runtime"}:${cacheName}`;
-
-    if (numberFormatterCache.has(cacheKey)) {
-        return numberFormatterCache.get(cacheKey) ?? null;
-    }
-
-    const formatter = createNumberFormatter(normalizedLocale, options);
-    numberFormatterCache.set(cacheKey, formatter);
-    return formatter;
-};
-
-const createNumberFormatter = (locale: string | undefined, options: Intl.NumberFormatOptions): NumberFormatter | null => {
-    try {
-        // Coherent may run without Intl support; only use it when the game runtime exposes it safely.
-        if (typeof Intl === "undefined" || typeof Intl.NumberFormat !== "function") {
-            return null;
-        }
-
-        return new Intl.NumberFormat(locale, options);
-    } catch {
-        return null;
-    }
-};
-
-export const isMoneyViewLocaleProbeEnabled = (): boolean => {
-    try {
-        // Temp locale probe. Enable in Coherent console:
-        // localStorage.setItem("CWDMoneyViewLocaleProbe", "1"); location.reload();
-        // Disable:
-        // localStorage.removeItem("CWDMoneyViewLocaleProbe"); location.reload();
-        return typeof localStorage !== "undefined" && localStorage.getItem("CWDMoneyViewLocaleProbe") === "1";
-    } catch {
-        return false;
-    }
-};
-
-export const getMoneyViewLocaleProbeLines = (activeLocale?: string | null): string[] => {
-    try {
-        const hasIntl = typeof Intl !== "undefined" && typeof Intl.NumberFormat === "function";
-        const normalizedLocale = normalizeLocale(activeLocale) ?? "(runtime)";
-
-        if (!hasIntl) {
-            return [
-                `activeLocale: ${activeLocale ?? "(empty)"}`,
-                "hasIntl: false",
-            ];
-        }
-
-        return [
-            `activeLocale: ${activeLocale ?? "(empty)"}`,
-            `normalizedLocale: ${normalizedLocale}`,
-            `runtimeLocale: ${new Intl.NumberFormat(undefined).resolvedOptions().locale}`,
-            `activeExample: ${new Intl.NumberFormat(normalizeLocale(activeLocale)).format(1234567.89)}`,
-            `de-DE example: ${new Intl.NumberFormat("de-DE").format(1234567.89)}`,
-            `fr-FR example: ${new Intl.NumberFormat("fr-FR").format(1234567.89)}`,
-        ];
-    } catch (error) {
-        return [
-            `activeLocale: ${activeLocale ?? "(empty)"}`,
-            `probeError: ${String(error)}`,
-        ];
-    }
-};
-
 export const getSignedAmountTone = (value: number): SignedAmountTone => {
     if (value > 0) {
         return "positive";
@@ -116,24 +31,24 @@ export const getNumericValue = (value: number): number => {
 const formatLocalizedValue = (
     localization: Localization,
     value: number,
-    unit: Unit,
-    signed: boolean
+    unit: Unit
 ): string => {
     try {
-        // Prefer the CS2 localization API for game numbers; Coherent Intl does not reliably follow the selected game language.
-        return LocalizedNumber.renderString(localization, { value, unit, signed });
+        // Prefer the CS2 localization API for game numbers; browser-style number formatting does not reliably follow the selected game language.
+        return LocalizedNumber.renderString(localization, { value, unit, signed: false });
     } catch {
-        return formatSignedWholeNumber(value, signed, true);
+        return formatWholeNumberMagnitude(value);
     }
 };
 
-const formatSignedWholeNumber = (
+const formatSignedLocalizedValue = (
+    localization: Localization,
     value: number,
+    unit: Unit,
     includePositiveSign: boolean,
-    useThinSpace: boolean,
-    locale?: string | null
+    useThinSpace: boolean
 ): string => {
-    const magnitude = formatWholeNumberMagnitude(value, locale);
+    const magnitude = formatLocalizedValue(localization, Math.abs(value), unit);
     const spacer = useThinSpace ? "\u200A" : "";
 
     if (value > 0 && includePositiveSign) {
@@ -147,16 +62,8 @@ const formatSignedWholeNumber = (
     return magnitude;
 };
 
-const formatWholeNumberMagnitude = (value: number, locale?: string | null): string => {
+const formatWholeNumberMagnitude = (value: number): string => {
     const roundedValue = Math.round(Math.abs(value));
-    const wholeNumberFormatter = getNumberFormatter(locale, "whole", {
-        maximumFractionDigits: 0,
-    });
-
-    if (wholeNumberFormatter) {
-        return wholeNumberFormatter.format(roundedValue);
-    }
-
     return formatFallbackGroupedWholeNumber(roundedValue);
 };
 
@@ -185,12 +92,12 @@ export const formatTooltipMoneyViewValue = (
 ): string => {
     return compact
         ? formatCompactTooltipValue(localization, value, unit)
-        : formatLocalizedValue(localization, value, unit, true);
+        : formatSignedLocalizedValue(localization, value, unit, true, true);
 };
 
 // Total city money is a balance, so do not add a plus sign for positive values.
 export const formatTooltipMoneyValue = (localization: Localization, value: number): string => {
-    return formatLocalizedValue(localization, value, Unit.Money, false);
+    return formatSignedLocalizedValue(localization, value, Unit.Integer, false, true);
 };
 
 export const formatToolbarMoneyViewValue = (
@@ -199,17 +106,17 @@ export const formatToolbarMoneyViewValue = (
     unit: Unit
 ): string => {
     const roundedValue = Math.round(Math.abs(value));
-    const sign = value > 0 ? "+" : value < 0 ? "-" : "";
+    const sign = value > 0 ? "+\u200A" : value < 0 ? "-\u200A" : "";
 
     if (roundedValue >= 1_000_000_000) {
-        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000_000)}B`;
+        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000_000)}B${formatLocalizedUnitSuffix(localization, unit)}`;
     }
 
     if (roundedValue >= 1_000_000) {
-        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000)}M`;
+        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000)}M${formatLocalizedUnitSuffix(localization, unit)}`;
     }
 
-    return formatLocalizedValue(localization, value, unit, true);
+    return formatSignedLocalizedValue(localization, value, unit, true, true);
 };
 
 const formatCompactTooltipValue = (
@@ -221,39 +128,34 @@ const formatCompactTooltipValue = (
     const sign = value > 0 ? "+\u200A" : value < 0 ? "-\u200A" : "";
 
     if (roundedValue >= 1_000_000_000) {
-        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000_000)}B`;
+        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000_000)}B${formatLocalizedUnitSuffix(localization, unit)}`;
     }
 
     if (roundedValue >= 1_000_000) {
-        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000)}M`;
+        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000)}M${formatLocalizedUnitSuffix(localization, unit)}`;
     }
 
-    return formatLocalizedValue(localization, value, unit, true);
+    return formatSignedLocalizedValue(localization, value, unit, true, true);
 };
 
 const formatLocalizedCompactMagnitude = (localization: Localization, value: number): string => {
     const unit = value >= 100 ? Unit.Integer : Unit.FloatTwoFractions;
-    return formatLocalizedValue(localization, value, unit, false);
+    return formatLocalizedValue(localization, value, unit);
 };
 
-const formatCompactNumber = (value: number, locale?: string | null): string => {
-    if (value >= 100) {
-        return formatWholeNumberMagnitude(value, locale);
+const formatLocalizedUnitSuffix = (localization: Localization, unit: Unit): string => {
+    if (unit === Unit.Integer || unit === Unit.FloatTwoFractions) {
+        return "";
     }
 
-    return getNumberFormatter(locale, "compact-decimal", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-    })?.format(value) ?? value.toFixed(2);
-};
+    try {
+        const zeroWithUnit = LocalizedNumber.renderString(localization, { value: 0, unit, signed: false });
+        const zeroPlain = LocalizedNumber.renderString(localization, { value: 0, unit: Unit.Integer, signed: false });
 
-const formatFixedCompactNumber = (value: number, locale?: string | null): string => {
-    if (value >= 100) {
-        return formatWholeNumberMagnitude(value, locale);
+        return zeroWithUnit.startsWith(zeroPlain)
+            ? zeroWithUnit.slice(zeroPlain.length)
+            : "";
+    } catch {
+        return unit === Unit.IntegerPerMonth ? " /mo" : unit === Unit.IntegerPerHour ? " /h" : "";
     }
-
-    return getNumberFormatter(locale, "compact-decimal", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-    })?.format(value) ?? value.toFixed(2);
 };
