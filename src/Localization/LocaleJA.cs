@@ -37,7 +37,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "デバッグ" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.Trends), "トレンド表示" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "マネービュー" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "資金" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "通知" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "マイルストーン" },
@@ -47,19 +47,19 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "使い方" },
 
-                // --- Trend Tracker ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "トレンド表示" },
+                // --- Money View ---
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendTracker)), "マネービュー" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendTracker)),
                     "下部ツールバーの資金と人口のバニラ矢印の横に、数値の傾向を追加します。\n" +
                     "これは軽量な表示だけで、都市の資金や人口は変更しません。" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "トレンド頻度" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.TrendDisplayMode)), "マネービュー頻度" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.TrendDisplayMode)),
                     "下部ツールバーの傾向テキストを、資金と人口について時間あたりまたは月あたりで表示するか選びます。\n" +
                     "月あたりの資金は予算収入から支出を引いた値、人口は24時間予測を使います。" },
 
-                { m_Settings.GetOptionLocaleID("TrendDisplayModeHourly"), "毎時 (/h)" },
-                { m_Settings.GetOptionLocaleID("TrendDisplayModeMonthly"), "月間 (/mo)" },
+                { m_Settings.GetOptionLocaleID("MoneyViewDisplayModeHourly"), "毎時 (/h)" },
+                { m_Settings.GetOptionLocaleID("MoneyViewDisplayModeMonthly"), "月間 (/mo)" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "資金ツールチップのスタイル" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
@@ -181,7 +181,7 @@ namespace CityWatchdog
                     "3. Toggle All で素早く設定するか、セクションを展開して個別の通知アイコンを変更します。\n" +
                     "4. City Watchdog はアイコンの表示/非表示だけを行います。都市の問題そのものは修正しません。\n\n" +
                     "<資金ヘルパー>\n" +
-                    "1. トレンド表示は下部ツールバーの資金/人口の横に /h または /mo の数値を追加します。\n" +
+                    "1. マネービューは下部ツールバーの資金/人口の横に /h または /mo の数値を追加します。\n" +
                     "2. 資金追加と資金減少: <資金ホットキー額>を使います。\n" +
                     "3. 資金自動追加は都市が読み込まれている間に残高を監視し、しきい値未満なら資金を追加します。\n" +
                     "4. 無制限資金セーブ変換は無制限資金で開始した都市専用で、City Watchdog では<元に戻せません>。\n\n" +
@@ -204,10 +204,10 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("ToggleAllTooltip"),
                     "すべてのアイコンを表示/非表示にします。\n" +
                     "色: 緑 = すべてON、青 = 混在、赤 = すべてOFF。" },
-                { m_Settings.GetUILocaleID("TrendTooltipIncome"), "収入：" },
-                { m_Settings.GetUILocaleID("TrendTooltipExpenses"), "支出：" },
-                { m_Settings.GetUILocaleID("TrendTooltipNet"), "純額：" },
-                { m_Settings.GetUILocaleID("TrendTooltipTotal"), "合計：" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipIncome"), "収入：" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipExpenses"), "支出：" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipNet"), "純額：" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipTotal"), "合計：" },
 
                 // --- Electricity notifications ---
                 { m_Settings.GetUILocaleID("Electricity"), "電力" },

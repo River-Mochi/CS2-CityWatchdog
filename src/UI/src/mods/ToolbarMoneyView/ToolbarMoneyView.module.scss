@@ -1,24 +1,24 @@
-// File: src/UI/src/mods/ToolbarTrendTracker/ToolbarTrendTracker.module.scss
+// File: src/UI/src/mods/ToolbarMoneyView/ToolbarMoneyView.module.scss
 // Purpose:
-//   Styles [CWD] Trend Tracker text added to the bottom toolbar
+//   Styles [CWD] Money View text added to the bottom toolbar
 //   and the custom money tooltip rows when hovering over the money field.
 //
 // Notes:
-//   - .trendText is the small value shown directly in the bottom toolbar.
+//   - .moneyViewText is the small value shown directly in the bottom toolbar.
 //   - .tooltipRows and below are only for the hover tooltip panel.
 //   - Positive/negative/neutral colors are shared by toolbar text and tooltip values.
 
 // -----------------------------------------------------------------------------
-// Bottom toolbar trend value.
+// Bottom toolbar Money View value.
 // Example in toolbar: +62,636 /h
 // Change this to adjust the number next to vanilla money/population.
 // -----------------------------------------------------------------------------
-.trendText {
+.moneyViewText {
     margin-left: 4rem;
     // Minimum reserved space beside the vanilla toolbar value.
     // Increase if large values overlap; decrease if toolbar feels too wide.
     min-width: 72rem;
-    // Keeps the trend text from stretching the vanilla toolbar layout.
+    // Keeps the Money View text from stretching the vanilla toolbar layout.
     flex: 0 0 auto;
     // Default color before positive/negative/neutral classes override it.
     color: var(--accentColorLight);
@@ -61,7 +61,7 @@
 // -----------------------------------------------------------------------------
 // Optional tooltip title
 // Example: WATCHDOG
-// To remove the title completely, remove the title row in ToolbarTrendTracker.tsx.
+// To remove the title completely, remove the title row in ToolbarMoneyView.tsx.
 // -----------------------------------------------------------------------------
 .tooltipTitle {
     margin-top: -2rem;

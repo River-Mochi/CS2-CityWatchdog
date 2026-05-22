@@ -38,12 +38,6 @@ export const EntryButton = () => {
 
     const handleSelect = () => {
         OnControlPanelBindingToggle(!showPanel);
-
-        // Devtools trace only. This does not write to the game log.
-        try {
-            console.log("[CWD][UI] GameTopLeft button toggled notification panel");
-        } catch {
-        }
     };
 
     // Color SVG path:

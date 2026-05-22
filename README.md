@@ -1,8 +1,9 @@
 # City Watchdog
 
-City Watchdog helps reduce notification icon clutter in Cities: Skylines II.
+City Watchdog helps reduce notification icon clutter in Cities Skylines II.
 
-Open the in-game City Watchdog panel to show or hide notification icons by category, or change individual alerts one by one. The mod also includes simple money tools and milestone setup.
+Open the in-game City Watchdog panel to show or hide notification icons by category, or change individual alerts one by one.
+The mod also includes simple money tools and milestone setup.
 
 ## Main features
 
@@ -20,7 +21,7 @@ City Watchdog hides or shows notification icons. It does not fix the city proble
 
 Make a backup before converting an Unlimited Money save. City Watchdog cannot undo that conversion.
 
-- Trend Tracker is a ground-up rewrite that implements similar trend info to the retired "Show Text Trends". It is different in how it uses vanilla
+- Money View is a ground-up rewrite that implements similar trend info to the retired "Show Text Trends". It is different in how it uses vanilla
 CS2 component extensions, custom CWD settings options, localization, and a custom new money tooltip design.
 - City Watchdog is a heavily rewritten, modernized redux/expansion of City Controller. It is not just a copy-paste release. I hope you enjoy the new features and improvements!
 
@@ -31,7 +32,7 @@ CS2 component extensions, custom CWD settings options, localization, and a custo
 - Mbyron26 - original City Controller mod
 - Dorkington, Flightech, SonNathan - testers
 - Thumbnail photograph by Maryia Shedava at Mont Saint-Michel in Normandy, France https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
-- Trend money display inspired by earlier trend mods by DanielNZ "Show Text"
+- Money View inspired by earlier mods by DanielNZ "Show Text"
 
 ## Links
 

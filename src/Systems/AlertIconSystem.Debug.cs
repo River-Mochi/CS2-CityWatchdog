@@ -1,5 +1,5 @@
-// File: src/Systems/NotificationControllerSystem.Debug.cs
-// Purpose: Keeps NotificationControllerSystem debug-only prefab/icon inspection helpers out of the release-facing system file.
+// File: src/Systems/AlertIconSystem.Debug.cs
+// Purpose: Keeps AlertIconSystem debug-only prefab/icon inspection helpers out of the release-facing system file.
 
 namespace CityWatchdog.Systems
 {
@@ -10,7 +10,7 @@ namespace CityWatchdog.Systems
     using System.Collections.Generic;
     using System.Linq;
 
-    public partial class NotificationControllerSystem
+    public partial class AlertIconSystem
     {
     #if DEBUG
         public void Debug() => new List<Func<string>> {

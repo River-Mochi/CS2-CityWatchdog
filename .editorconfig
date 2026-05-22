@@ -3,7 +3,7 @@
 #   - Consistent whitespace + line endings across the repo.
 #   - C# style preferences (explicit types, naming scheme).
 #   - Disable analyzer warnings that conflict with the project
-#     (notably: flat namespaces that do NOT match folder structure).
+#     (flat namespaces that do NOT match folder structure).
 
 root = true
 

@@ -1,4 +1,4 @@
-// File: src/Systems/UnlockMilestonesSystem.cs
+// File: src/Systems/MilestoneSystem.cs
 // Purpose: Applies the custom milestone setting to new or loaded cities.
 
 namespace CityWatchdog.Systems
@@ -13,7 +13,7 @@ namespace CityWatchdog.Systems
     using Unity.Entities;
     using Unity.Mathematics;
 
-    public partial class UnlockMilestonesSystem : GameSystemBaseExtension
+    public partial class MilestoneSystem : GameSystemBaseExtension
     {
         private EntityArchetype unlockEventArchetype;
         private EntityQuery milestoneLevelGroup;
@@ -52,11 +52,11 @@ namespace CityWatchdog.Systems
 
             if (InGame)
             {
-                UnlockMilestone();
+                ApplyConfiguredMilestone();
             }
         }
 
-        private void UnlockMilestone()
+        private void ApplyConfiguredMilestone()
         {
             if (!Setting.Instance.CustomMilestone)
             {
@@ -69,9 +69,7 @@ namespace CityWatchdog.Systems
             try
             {
                 MilestoneLevel milestoneLevel = milestoneLevelGroup.GetSingleton<MilestoneLevel>();
-                int targetMilestone = math.min(Setting.Instance.MilestoneLevel + 1, milestoneEntities.Length);
-
-                if (milestoneLevel.m_AchievedMilestone >= targetMilestone)
+                if (!TryGetTargetMilestone(milestoneEntities, milestoneLevel, out int targetMilestone))
                 {
                     return;
                 }
@@ -83,14 +81,9 @@ namespace CityWatchdog.Systems
 
                 for (int i = milestoneLevel.m_AchievedMilestone; i < targetMilestone; i++)
                 {
-                    Entity entity = EntityManager.CreateEntity(unlockEventArchetype);
-                    EntityManager.SetComponentData(entity, new Unlock(milestoneEntities[i]));
-
+                    QueueMilestoneUnlock(milestoneEntities[i]);
                     milestoneLevel.m_AchievedMilestone = math.max(milestoneLevel.m_AchievedMilestone, milestoneData[i].m_Index);
-                    playerMoney.Add(milestoneData[i].m_Reward);
-                    creditworthiness.m_Amount += milestoneData[i].m_LoanLimit;
-                    devTreePoints.m_Points += milestoneData[i].m_DevTreePoints;
-                    xp.m_XP = milestoneData[i].m_XpRequried;
+                    ApplyMilestoneRewards(milestoneData[i], ref playerMoney, ref creditworthiness, ref devTreePoints, ref xp);
                 }
 
                 milestoneLevelGroup.SetSingleton(milestoneLevel);
@@ -113,6 +106,34 @@ namespace CityWatchdog.Systems
                     milestoneData.Dispose();
                 }
             }
+        }
+
+        private static bool TryGetTargetMilestone(
+            NativeArray<Entity> milestoneEntities,
+            MilestoneLevel currentMilestone,
+            out int targetMilestone)
+        {
+            targetMilestone = math.min(Setting.Instance.MilestoneLevel + 1, milestoneEntities.Length);
+            return currentMilestone.m_AchievedMilestone < targetMilestone;
+        }
+
+        private void QueueMilestoneUnlock(Entity milestoneEntity)
+        {
+            Entity entity = EntityManager.CreateEntity(unlockEventArchetype);
+            EntityManager.SetComponentData(entity, new Unlock(milestoneEntity));
+        }
+
+        private static void ApplyMilestoneRewards(
+            MilestoneData milestoneData,
+            ref PlayerMoney playerMoney,
+            ref Creditworthiness creditworthiness,
+            ref DevTreePoints devTreePoints,
+            ref XP xp)
+        {
+            playerMoney.Add(milestoneData.m_Reward);
+            creditworthiness.m_Amount += milestoneData.m_LoanLimit;
+            devTreePoints.m_Points += milestoneData.m_DevTreePoints;
+            xp.m_XP = milestoneData.m_XpRequried;
         }
     }
 }
