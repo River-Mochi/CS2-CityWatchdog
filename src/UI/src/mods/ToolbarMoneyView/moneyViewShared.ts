@@ -1,3 +1,5 @@
+import { LocalizedNumber, Unit, type Localization } from "cs2/l10n";
+
 export const MONEY_ICON = "Media/Game/Icons/Money.svg";
 export const POPULATION_ICON = "Media/Game/Icons/Citizen.svg";
 export const MONEY_VIEW_MODE_MONTHLY = 1;
@@ -111,6 +113,20 @@ export const getNumericValue = (value: number): number => {
     return Number.isFinite(value) ? value : 0;
 };
 
+const formatLocalizedValue = (
+    localization: Localization,
+    value: number,
+    unit: Unit,
+    signed: boolean
+): string => {
+    try {
+        // Prefer the CS2 localization API for game numbers; Coherent Intl does not reliably follow the selected game language.
+        return LocalizedNumber.renderString(localization, { value, unit, signed });
+    } catch {
+        return formatSignedWholeNumber(value, signed, true);
+    }
+};
+
 const formatSignedWholeNumber = (
     value: number,
     includePositiveSign: boolean,
@@ -161,43 +177,63 @@ const formatFallbackGroupedWholeNumber = (value: number): string => {
     return formatted;
 };
 
-export const formatTooltipMoneyViewValue = (value: number, compact: boolean, locale?: string | null): string => {
-    return compact ? formatCompactTooltipValue(value, locale) : formatSignedWholeNumber(value, true, true, locale);
+export const formatTooltipMoneyViewValue = (
+    localization: Localization,
+    value: number,
+    compact: boolean,
+    unit: Unit
+): string => {
+    return compact
+        ? formatCompactTooltipValue(localization, value, unit)
+        : formatLocalizedValue(localization, value, unit, true);
 };
 
 // Total city money is a balance, so do not add a plus sign for positive values.
-export const formatTooltipMoneyValue = (value: number, locale?: string | null): string => {
-    return formatSignedWholeNumber(value, false, true, locale);
+export const formatTooltipMoneyValue = (localization: Localization, value: number): string => {
+    return formatLocalizedValue(localization, value, Unit.Money, false);
 };
 
-export const formatToolbarMoneyViewValue = (value: number, locale?: string | null): string => {
+export const formatToolbarMoneyViewValue = (
+    localization: Localization,
+    value: number,
+    unit: Unit
+): string => {
     const roundedValue = Math.round(Math.abs(value));
     const sign = value > 0 ? "+" : value < 0 ? "-" : "";
 
     if (roundedValue >= 1_000_000_000) {
-        return `${sign}${formatCompactNumber(roundedValue / 1_000_000_000, locale)}B`;
+        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000_000)}B`;
     }
 
     if (roundedValue >= 1_000_000) {
-        return `${sign}${formatCompactNumber(roundedValue / 1_000_000, locale)}M`;
+        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000)}M`;
     }
 
-    return formatSignedWholeNumber(value, true, false, locale);
+    return formatLocalizedValue(localization, value, unit, true);
 };
 
-const formatCompactTooltipValue = (value: number, locale?: string | null): string => {
+const formatCompactTooltipValue = (
+    localization: Localization,
+    value: number,
+    unit: Unit
+): string => {
     const roundedValue = Math.round(Math.abs(value));
     const sign = value > 0 ? "+\u200A" : value < 0 ? "-\u200A" : "";
 
     if (roundedValue >= 1_000_000_000) {
-        return `${sign}${formatFixedCompactNumber(roundedValue / 1_000_000_000, locale)}B`;
+        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000_000)}B`;
     }
 
     if (roundedValue >= 1_000_000) {
-        return `${sign}${formatFixedCompactNumber(roundedValue / 1_000_000, locale)}M`;
+        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000)}M`;
     }
 
-    return formatSignedWholeNumber(value, true, true, locale);
+    return formatLocalizedValue(localization, value, unit, true);
+};
+
+const formatLocalizedCompactMagnitude = (localization: Localization, value: number): string => {
+    const unit = value >= 100 ? Unit.Integer : Unit.FloatTwoFractions;
+    return formatLocalizedValue(localization, value, unit, false);
 };
 
 const formatCompactNumber = (value: number, locale?: string | null): string => {

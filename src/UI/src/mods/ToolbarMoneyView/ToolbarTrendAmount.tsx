@@ -1,6 +1,7 @@
 import { useValue } from "cs2/api";
 import { economyBudget, toolbarBottom } from "cs2/bindings";
-import { activeLocale$, moneyViewMode$, moneyView$ } from "../Bindings/Bindings";
+import { Unit, useLocalization, type Localization } from "cs2/l10n";
+import { moneyViewMode$, moneyView$ } from "../Bindings/Bindings";
 import styles from "./ToolbarMoneyView.module.scss";
 import {
     formatToolbarMoneyViewValue,
@@ -11,9 +12,9 @@ import {
 } from "./moneyViewShared";
 
 export const ToolbarMoneyDelta = () => {
+    const localization = useLocalization();
     const moneyViewEnabled = useValue(moneyView$);
     const moneyViewMode = useValue(moneyViewMode$);
-    const activeLocale = useValue(activeLocale$);
     const unlimitedMoney = useValue(toolbarBottom.unlimitedMoney$);
     const moneyDelta = useValue(toolbarBottom.moneyDelta$);
     const totalIncome = useValue(economyBudget.totalIncome$);
@@ -29,14 +30,18 @@ export const ToolbarMoneyDelta = () => {
     const displayedValue = moneyViewMode === MONEY_VIEW_MODE_MONTHLY
         ? monthlyMoney
         : getNumericValue(moneyDelta);
+    // Use vanilla units so number separators and /h or /mo labels follow the active game language.
+    const unit = moneyViewMode === MONEY_VIEW_MODE_MONTHLY
+        ? Unit.MoneyPerMonth
+        : Unit.MoneyPerHour;
 
-    return <ToolbarTrendAmount value={displayedValue} displayMode={moneyViewMode} locale={activeLocale} />;
+    return <ToolbarTrendAmount localization={localization} value={displayedValue} unit={unit} />;
 };
 
 export const ToolbarPopulationDelta = () => {
+    const localization = useLocalization();
     const moneyViewEnabled = useValue(moneyView$);
     const moneyViewMode = useValue(moneyViewMode$);
-    const activeLocale = useValue(activeLocale$);
     const populationDelta = useValue(toolbarBottom.populationDelta$);
 
     if (!moneyViewEnabled) {
@@ -46,14 +51,17 @@ export const ToolbarPopulationDelta = () => {
     const displayedValue = moneyViewMode === MONEY_VIEW_MODE_MONTHLY
         ? getNumericValue(populationDelta) * HOURS_PER_GAME_MONTH
         : getNumericValue(populationDelta);
+    // Population uses the same localized unit path as money, just without the money symbol.
+    const unit = moneyViewMode === MONEY_VIEW_MODE_MONTHLY
+        ? Unit.IntegerPerMonth
+        : Unit.IntegerPerHour;
 
-    return <ToolbarTrendAmount value={displayedValue} displayMode={moneyViewMode} locale={activeLocale} />;
+    return <ToolbarTrendAmount localization={localization} value={displayedValue} unit={unit} />;
 };
 
-const ToolbarTrendAmount = ({ value, displayMode, locale }: { readonly value: number; readonly displayMode: number; readonly locale: string }) => {
+const ToolbarTrendAmount = ({ localization, value, unit }: { readonly localization: Localization; readonly value: number; readonly unit: Unit }) => {
     const tone = getSignedAmountTone(value);
-    const suffix = displayMode === MONEY_VIEW_MODE_MONTHLY ? "/mo" : "/h";
-    const text = `${formatToolbarMoneyViewValue(value, locale)}\u00A0${suffix}`;
+    const text = formatToolbarMoneyViewValue(localization, value, unit);
 
     return (
         <div className={`${styles.moneyViewText} ${styles[tone]}`}>

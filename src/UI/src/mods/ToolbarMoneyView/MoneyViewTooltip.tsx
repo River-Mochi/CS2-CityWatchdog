@@ -1,6 +1,6 @@
 import { useValue } from "cs2/api";
 import { economyBudget, toolbarBottom } from "cs2/bindings";
-import { useLocalization } from "cs2/l10n";
+import { Unit, useLocalization, type Localization } from "cs2/l10n";
 import { Children, isValidElement, type ReactNode } from "react";
 import { activeLocale$, moneyTooltipMode$, moneyView$ } from "../Bindings/Bindings";
 import styles from "./ToolbarMoneyView.module.scss";
@@ -19,7 +19,9 @@ import {
 } from "./moneyViewShared";
 
 export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent: ReactNode }) => {
-    const { translate } = useLocalization();
+    const localization = useLocalization();
+    // Text uses translate(); numbers below reuse this object with LocalizedNumber so both match the game locale.
+    const { translate } = localization;
     const localize = (key: string, fallback: string) => translate(`CityWatchdog.UI[${key}]`) ?? fallback;
     const moneyViewEnabled = useValue(moneyView$);
     const moneyTooltipMode = useValue(moneyTooltipMode$);
@@ -49,10 +51,10 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
     return (
         <div className={tooltipClassName}>
             <div className={styles.tooltipTitle}>WATCHDOG</div>
-            {!mini && <MoneyViewTooltipGroup label={localize("MoneyViewTooltipIncome", "Income:")} hourlyValue={hourlyIncome} monthlyValue={monthlyIncome} compact={compact} mode={moneyTooltipMode} locale={activeLocale} />}
-            {!mini && <MoneyViewTooltipGroup label={localize("MoneyViewTooltipExpenses", "Expenses:")} hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} compact={compact} mode={moneyTooltipMode} locale={activeLocale} />}
-            <MoneyViewTooltipGroup label={localize("MoneyViewTooltipNet", "Net:")} hourlyValue={hourlyNet} monthlyValue={monthlyBalance} compact={compact} mode={moneyTooltipMode} locale={activeLocale} />
-            {moneyTooltipMode === MONEY_TOOLTIP_MODE_DEFAULT && <MoneyViewTooltipSingleValue label={localize("MoneyViewTooltipTotal", "Total:")} value={totalMoney} mode={moneyTooltipMode} locale={activeLocale} />}
+            {!mini && <MoneyViewTooltipGroup localization={localization} label={localize("MoneyViewTooltipIncome", "Income:")} hourlyValue={hourlyIncome} monthlyValue={monthlyIncome} compact={compact} mode={moneyTooltipMode} />}
+            {!mini && <MoneyViewTooltipGroup localization={localization} label={localize("MoneyViewTooltipExpenses", "Expenses:")} hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} compact={compact} mode={moneyTooltipMode} />}
+            <MoneyViewTooltipGroup localization={localization} label={localize("MoneyViewTooltipNet", "Net:")} hourlyValue={hourlyNet} monthlyValue={monthlyBalance} compact={compact} mode={moneyTooltipMode} />
+            {moneyTooltipMode === MONEY_TOOLTIP_MODE_DEFAULT && <MoneyViewTooltipSingleValue localization={localization} label={localize("MoneyViewTooltipTotal", "Total:")} value={totalMoney} mode={moneyTooltipMode} />}
             {localeProbeLines && <pre className={styles.localeProbe}>{localeProbeLines.join("\n")}</pre>}
         </div>
     );
@@ -90,21 +92,21 @@ const containsIcon = (node: ReactNode, icon: string): boolean => {
     return Children.toArray(props?.children).some((child) => containsIcon(child, icon));
 };
 
-const MoneyViewTooltipGroup = ({ label, hourlyValue, monthlyValue, compact, mode, locale }: { readonly label: string; readonly hourlyValue: number; readonly monthlyValue: number; readonly compact: boolean; readonly mode: number; readonly locale: string }) => {
+const MoneyViewTooltipGroup = ({ localization, label, hourlyValue, monthlyValue, compact, mode }: { readonly localization: Localization; readonly label: string; readonly hourlyValue: number; readonly monthlyValue: number; readonly compact: boolean; readonly mode: number }) => {
     return (
         <div className={styles.tooltipGroup}>
             <div className={styles.tooltipLabel}>{label}</div>
             <div className={styles.tooltipValueColumn}>
-                <MoneyViewTooltipValue value={hourlyValue} suffix="/h" compact={compact} mode={mode} locale={locale} />
-                <MoneyViewTooltipValue value={monthlyValue} suffix="/mo" compact={compact} mode={mode} locale={locale} />
+                <MoneyViewTooltipValue localization={localization} value={hourlyValue} unit={Unit.MoneyPerHour} compact={compact} mode={mode} />
+                <MoneyViewTooltipValue localization={localization} value={monthlyValue} unit={Unit.MoneyPerMonth} compact={compact} mode={mode} />
             </div>
         </div>
     );
 };
 
-const MoneyViewTooltipSingleValue = ({ label, value, mode, locale }: { readonly label: string; readonly value: number; readonly mode: number; readonly locale: string }) => {
+const MoneyViewTooltipSingleValue = ({ localization, label, value, mode }: { readonly localization: Localization; readonly label: string; readonly value: number; readonly mode: number }) => {
     const tone = getSignedAmountTone(value);
-    const text = formatTooltipMoneyValue(value, locale);
+    const text = formatTooltipMoneyValue(localization, value);
 
     return (
         <div className={styles.tooltipGroup}>
@@ -116,9 +118,9 @@ const MoneyViewTooltipSingleValue = ({ label, value, mode, locale }: { readonly 
     );
 };
 
-const MoneyViewTooltipValue = ({ value, suffix, compact, mode, locale }: { readonly value: number; readonly suffix: string; readonly compact: boolean; readonly mode: number; readonly locale: string }) => {
+const MoneyViewTooltipValue = ({ localization, value, unit, compact, mode }: { readonly localization: Localization; readonly value: number; readonly unit: Unit; readonly compact: boolean; readonly mode: number }) => {
     const tone = getSignedAmountTone(value);
-    const text = `${formatTooltipMoneyViewValue(value, compact, locale)}\u00A0${suffix}`;
+    const text = formatTooltipMoneyViewValue(localization, value, compact, unit);
 
     return <div className={`${styles.tooltipValueLine} ${getTooltipValueClassName(mode)} ${styles[tone]}`}>{text}</div>;
 };
