@@ -36,32 +36,31 @@ export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseCon
             <div className={styles.tooltipTitle}>WATCHDOG</div>
             <PopulationTooltipCurrentTrend
                 localization={localization}
-                label={localize("PopulationTooltipCurrentTrend", "Current trend")}
+                label={localize("PopulationTooltipCurrentTrend", "Current trend:")}
                 value={currentTrend}
             />
             <div className={styles.populationTooltipExtra}>
-
                 <PopulationTooltipFlow
                     localization={localization}
-                    label={localize("PopulationTooltipBirths", "Births")}
+                    label={localize("PopulationTooltipBirths", "Births:")}
                     value={births}
                     direction={1}
                 />
                 <PopulationTooltipFlow
                     localization={localization}
-                    label={localize("PopulationTooltipDeaths", "Deaths")}
+                    label={localize("PopulationTooltipDeaths", "Deaths:")}
                     value={deaths}
                     direction={-1}
                 />
                 <PopulationTooltipFlow
                     localization={localization}
-                    label={localize("PopulationTooltipMovedIn", "Moved in")}
+                    label={localize("PopulationTooltipMovedIn", "Moved in:")}
                     value={movedIn}
                     direction={1}
                 />
                 <PopulationTooltipFlow
                     localization={localization}
-                    label={localize("PopulationTooltipMovedOut", "Moved out")}
+                    label={localize("PopulationTooltipMovedOut", "Moved out:")}
                     value={movedAway}
                     direction={-1}
                 />
@@ -100,6 +99,8 @@ const PopulationTooltipFlow = ({
     readonly direction: 1 | -1;
 }) => {
     const displayValue = getDisplayWholeValue(value);
+
+    // Births/moved-in are positive flows; deaths/moved-out are shown as outgoing flows.
     const signedValue = displayValue === 0 ? 0 : displayValue * direction;
 
     return (
@@ -112,7 +113,15 @@ const PopulationTooltipFlow = ({
     );
 };
 
-const PopulationTooltipCurrentTrend = ({ localization, label, value }: { readonly localization: Localization; readonly label: string; readonly value: number }) => {
+const PopulationTooltipCurrentTrend = ({
+    localization,
+    label,
+    value,
+}: {
+    readonly localization: Localization;
+    readonly label: string;
+    readonly value: number;
+}) => {
     const displayValue = getDisplayWholeValue(value);
 
     return (
@@ -126,7 +135,19 @@ const PopulationTooltipCurrentTrend = ({ localization, label, value }: { readonl
     );
 };
 
-const PopulationTooltipRate = ({ localization, label, value, unit, topRow = false }: { readonly localization: Localization; readonly label: string; readonly value: number; readonly unit: Unit; readonly topRow?: boolean }) => {
+const PopulationTooltipRate = ({
+    localization,
+    label,
+    value,
+    unit,
+    topRow = false,
+}: {
+    readonly localization: Localization;
+    readonly label: string;
+    readonly value: number;
+    readonly unit: Unit;
+    readonly topRow?: boolean;
+}) => {
     const tone = getSignedAmountTone(value);
     const text = formatPopulationRateValue(localization, value, unit);
 
@@ -155,6 +176,7 @@ const formatPopulationRateValue = (localization: Localization, value: number, un
 
 const formatLocalizedIntegerRate = (localization: Localization, value: number, unit: Unit): string => {
     try {
+        // Vanilla formatter keeps separators and /h or /mo aligned with selected game language.
         return LocalizedNumber.renderString(localization, {
             value,
             unit,
