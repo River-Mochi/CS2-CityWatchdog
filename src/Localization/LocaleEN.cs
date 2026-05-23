@@ -228,16 +228,16 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("ToggleAllTooltip"),
                     "Show/hide all icons.\n" +
                     "Color: green = all on; blue = mixed; red = all off." },
-                { m_Settings.GetUILocaleID("MoneyViewTooltipIncome"), "Income" },
-                { m_Settings.GetUILocaleID("MoneyViewTooltipExpenses"), "Expenses" },
-                { m_Settings.GetUILocaleID("MoneyViewTooltipNet"), "Net" },
-                { m_Settings.GetUILocaleID("MoneyViewTooltipTotal"), "Total" },
-                { m_Settings.GetUILocaleID("MoneyViewTooltipCurrentTrend"), "Net" },
-                { m_Settings.GetUILocaleID("PopulationTooltipCurrentTrend"), "Current trend" },
-                { m_Settings.GetUILocaleID("PopulationTooltipBirths"), "Births" },
-                { m_Settings.GetUILocaleID("PopulationTooltipDeaths"), "Deaths" },
-                { m_Settings.GetUILocaleID("PopulationTooltipMovedIn"), "Moved in" },
-                { m_Settings.GetUILocaleID("PopulationTooltipMovedOut"), "Moved out" },
+
+                { m_Settings.GetUILocaleID("MoneyViewTooltipIncome"), "Income:" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipExpenses"), "Expenses:" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipNet"), "Net:" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipTotal"), "Total:" },
+                { m_Settings.GetUILocaleID("PopulationTooltipCurrentTrend"), "Current trend:" },
+                { m_Settings.GetUILocaleID("PopulationTooltipBirths"), "Births:" },
+                { m_Settings.GetUILocaleID("PopulationTooltipDeaths"), "Deaths:" },
+                { m_Settings.GetUILocaleID("PopulationTooltipMovedIn"), "Moved in:" },
+                { m_Settings.GetUILocaleID("PopulationTooltipMovedOut"), "Moved out:" },
 
                 // --- Electricity notifications ---
                 { m_Settings.GetUILocaleID("Electricity"), "ELECTRICITY" },
