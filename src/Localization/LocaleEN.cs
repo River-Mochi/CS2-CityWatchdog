@@ -71,22 +71,29 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compact" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "Full size" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Money Tooltip Size" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Money font size" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
                     "Adjusts <font size> of Money View tooltip numbers.\n" +
-                    "Default = 100%."
+                    "Game default = 100%\n" +
+                    "<Mod default = 120%>\n" +
+                    "Hover over Money at bottom of the screen.\n"+
+                    "Requested by players who have hard time seeing smaller tooltips in the game."
+
                 },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Population Tooltip Size" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Population font size" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)),
-                    "Adjusts <font size> of added population tooltip numbers.\n" +
-                    "Default = 100%." },
+                    "Adjusts <font size> of population tooltip numbers.\n" +
+                    "Game default = 100%\n" +
+                    "<Mod default = 120%>\n" +
+                    "Hover over Population at bottom of the screen."   
+                },
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Money Hotkey Amount" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
                     "Use this amount with the Add Money and Subtract Money hotkeys.\n" +
-                    "Default = 40,000.\n" +
+                    "<Mod default = 40,000>\n" +
                     "This does nothing unless you use the hotkey to add/subtract money (in the city).\n"+
                     "For automated money, enable the Automatic Add Money option."
                 },

@@ -10,7 +10,7 @@
 	<LongDescription>
 
 - City Watchdog helps reduce city alert icon clutter and adds convenient city setup tools.
-- It's modeled on the original City Controller mod (retired)
+- It's modeled on the original City Controller mod.
 - Many expanded features and future plans.
 
 ### Features
@@ -48,7 +48,7 @@ If you like free mods, give a Like, easy way to show support :)
 
 ### Credits
 - River Mochi - author/maintainer
-- Thanks to Mbyron26 for orig. City Controller mod.
+- Thanks to Mbyron26 for orig. City Controller mod (retired).
 - Money View inspired by earlier mods by DanielNZ Show Text
 - Dorkington - tester/feature suggestion
 - Flightech, SonNathan - testers
@@ -75,12 +75,13 @@ If you like free mods, give a Like, easy way to show support :)
 	<Dependency Id="74417" DisplayName="Unified Icon Library" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Add/subtract hotkey, can now hold down to change amounts instead of many clicks.
-- Population tooltip shows births, deaths, moving in, and moving out.
-- fix international format money
+- added: Add/subtract hotkey, can now hold down to change amounts instead of many clicks.
+- added: Population tooltip shows births, deaths, moving in, and moving out.
+- added: better formatting of tooltip for visibility and localization for translated
+- added: sliders for population and money 90% - 130% font size in tooltip. Fills request by player with visibility challenges.
+- fix: international format money
 - update images, instructions
 - internal: simplify, clean, organize.
-- better localized tooltips
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
 	<ExternalLink Type="github" Url="https://github.com/River-Mochi/CityWatchdog" />
