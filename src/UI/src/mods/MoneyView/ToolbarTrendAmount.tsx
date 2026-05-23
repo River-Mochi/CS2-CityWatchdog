@@ -7,7 +7,7 @@ import { Unit, useLocalization, type Localization } from "cs2/l10n";
 import { moneyViewMode$, moneyView$ } from "../Bindings/Bindings";
 import styles from "./MoneyView.module.scss";
 import {
-    formatMoneyViewValue,
+    formatToolbarTrendValue,
     getDisplayWholeValue,
     getNumericValue,
     getSignedAmountTone,
@@ -66,7 +66,7 @@ export const ToolbarPopulationDelta = () => {
 const ToolbarTrendAmount = ({ localization, value, unit }: { readonly localization: Localization; readonly value: number; readonly unit: Unit }) => {
     const displayValue = getDisplayWholeValue(value);
     const tone = getSignedAmountTone(displayValue);
-    const text = formatMoneyViewValue(localization, displayValue, unit);
+    const text = formatToolbarTrendValue(localization, displayValue, unit);
 
     return (
         <div className={`${styles.moneyViewText} ${styles[tone]}`}>

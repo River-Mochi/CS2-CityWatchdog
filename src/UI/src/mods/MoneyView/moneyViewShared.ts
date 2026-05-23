@@ -108,7 +108,7 @@ export const formatTooltipMoneyValue = (localization: Localization, value: numbe
     return formatSignedLocalizedValue(localization, value, Unit.Integer, false, true);
 };
 
-export const formatMoneyViewValue = (
+export const formatToolbarTrendValue = (
     localization: Localization,
     value: number,
     unit: Unit
