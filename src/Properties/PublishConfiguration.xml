@@ -76,7 +76,7 @@ If you like free mods, give a Like, easy way to show support :)
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - added: Add/subtract hotkey, can now hold down to change amounts instead of many clicks.
-- added: Population tooltip shows births, deaths, moving in, and moving out.
+- added: Population tooltip now shows births, deaths, moving in, and moving out.
 - added: better formatting of tooltip for visibility and localization for translated
 - added: sliders for population and money 90% - 130% font size in tooltip. Fills request by player with visibility challenges.
 - fix: international format money

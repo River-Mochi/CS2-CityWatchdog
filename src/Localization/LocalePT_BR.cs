@@ -66,10 +66,10 @@ namespace CityWatchdog
                     "Escolha quantos detalhes aparecem no tooltip de dinheiro ao passar o cursor.\n" +
                     "<Mini> mostra apenas os dois valores líquidos de /mo e /h.\n" +
                     "<Compact> encurta valores grandes (15.21M em vez de 15,212,318).\n" +
-                    "<Full size> mostra valores longos e campos de total." },
+                    "<Full data> mostra valores longos e campos de total." },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compacto" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "Tamanho completo" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "Tamanho completo" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Tamanho do tooltip de dinheiro" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),

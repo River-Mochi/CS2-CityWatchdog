@@ -66,10 +66,10 @@ namespace CityWatchdog
                     "Choisis le niveau de détail affiché dans l'info-bulle d'argent au survol.\n" +
                     "<Mini> affiche seulement les deux valeurs nettes /mo et /h.\n" +
                     "<Compact> raccourcit les grandes valeurs (15.21M au lieu de 15,212,318).\n" +
-                    "<Full size> affiche les valeurs longues et les champs de total." },
+                    "<Full data> affiche les valeurs longues et les champs de total." },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compact" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "Taille réelle" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "Taille réelle" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Taille de l'info-bulle argent" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),

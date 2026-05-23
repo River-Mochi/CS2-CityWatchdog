@@ -66,10 +66,10 @@ namespace CityWatchdog
                     "Compact = default on first install.\n"+
                     "<Mini> shows only 2 Net values for /mo and /h.\n" +
                     "<Compact> shortens large values (15.21M instead of 15,212,318).\n" +
-                    "<Full size> shows long values and Total fields." },
+                    "<Full data> shows long values and Total fields." },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compact" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "Full size" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "Full data" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Money font size" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),

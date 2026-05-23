@@ -66,10 +66,10 @@ namespace CityWatchdog
                     "选择鼠标悬停在金钱栏时提示中显示的详细程度。\n" +
                     "<Mini> 只显示 /mo 和 /h 的两个净值。\n" +
                     "<Compact> 缩短大数字（例如用 15.21M 代替 15,212,318）。\n" +
-                    "<Full size> 显示完整数值和总计字段。" },
+                    "<Full data> 显示完整数值和总计字段。" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "迷你" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "紧凑" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "完整大小" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "完整大小" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "金钱提示大小" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),

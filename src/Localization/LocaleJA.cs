@@ -66,10 +66,10 @@ namespace CityWatchdog
                     "資金ツールチップに表示する詳細量を選びます。\n" +
                     "<Mini> は /mo と /h の純額2つだけを表示します。\n" +
                     "<Compact> は大きな数値を短く表示します（15,212,318 ではなく 15.21M）。\n" +
-                    "<Full size> は長い数値と合計欄を表示します。" },
+                    "<Full data> は長い数値と合計欄を表示します。" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "ミニ" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "コンパクト" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "フルサイズ" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "フルサイズ" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "資金ツールチップのサイズ" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),

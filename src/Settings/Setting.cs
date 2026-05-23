@@ -86,7 +86,7 @@ namespace CityWatchdog
 
         internal const int MoneyViewModeHourly = 0;
         internal const int MoneyViewModeMonthly = 1;
-        internal const int MoneyTooltipModeFullSize = 0;
+        internal const int MoneyTooltipModeFullData = 0;
         internal const int MoneyTooltipModeCompact = 1;
         internal const int MoneyTooltipModeMini = 2;
 
@@ -394,8 +394,8 @@ namespace CityWatchdog
                 },
                 new DropdownItem<int>
                 {
-                    value = MoneyTooltipModeFullSize,
-                    displayName = GetOptionLocaleID("MoneyTooltipModeFullSize"),
+                    value = MoneyTooltipModeFullData,
+                    displayName = GetOptionLocaleID("MoneyTooltipModeFullData"),
                 },
             };
         }
