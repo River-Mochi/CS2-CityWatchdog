@@ -31,7 +31,8 @@ Hotkeys
 - ]    = Subtract Money
 
 ### Important Notes
-- City Watchdog hides/shows alert icons; it does not fix the problem behind the icons. Good for reducing stress or screenshots.
+- Show Instructions on About tab.
+- City Watchdog hides/shows alert icons; it does not fix the problem. Good for reducing stress or videos.
 - Make a backup before converting an Unlimited Money save. Mod cannot undo that conversion.
 - City Watchdog is a heavily rewritten redux/expansion of City Controller. It is not just a copy-paste release and nearly a whole rewrite.
 I hope you enjoy the new features, better performance, and safety guards!
@@ -43,7 +44,7 @@ Feedback is welcome through GitHub or Discord links on the right.
 If you like free mods, give a Like, easy way to show support :)
 
 ### Future
-- 9 languages supported now, more needed!
+- 10 languages supported now, more needed!
 - If anyone can make better Thumbnail and screenshots, please let me know.
 
 ### Credits
@@ -76,10 +77,11 @@ If you like free mods, give a Like, easy way to show support :)
 	<Dependency Id="74417" DisplayName="Unified Icon Library" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
+- added: Italian
 - added: Add/subtract hotkey, can now hold down to change amounts instead of many clicks.
 - added: Population tooltip now shows births, deaths, moving in, and moving out.
 - added: better formatting of tooltip for visibility and localization for translated
-- added: sliders for population and money 90% - 130% font size in tooltip. Fills request by player with visibility challenges.
+- added: sliders 90% - 130% font size tooltip (population + money). Fills request by player with visibility challenges.
 - fix: international format money
 - update images, instructions
 - internal: simplify, clean, organize.

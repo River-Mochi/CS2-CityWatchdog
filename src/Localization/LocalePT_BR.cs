@@ -213,6 +213,8 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("ToggleAllTooltip"),
                     "Mostra/oculta todos os ícones.\n" +
                     "Cor: verde = tudo ligado; azul = misto; vermelho = tudo desligado." },
+
+                // --- Tooltip labels
                 { m_Settings.GetUILocaleID("MoneyViewTooltipIncome"), "Receita:" },
                 { m_Settings.GetUILocaleID("MoneyViewTooltipExpenses"), "Despesas:" },
                 { m_Settings.GetUILocaleID("MoneyViewTooltipNet"), "Líquido:" },
