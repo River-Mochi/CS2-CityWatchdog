@@ -6,7 +6,7 @@ import { LocalizedNumber, Unit, type Localization } from "cs2/l10n";
 export const MONEY_ICON = "Media/Game/Icons/Money.svg";
 export const POPULATION_ICON = "Media/Game/Icons/Citizen.svg";
 export const MONEY_VIEW_MODE_MONTHLY = 1;
-export const MONEY_TOOLTIP_MODE_DEFAULT = 0;
+export const MONEY_TOOLTIP_MODE_FULL_DATA = 0;
 export const MONEY_TOOLTIP_MODE_COMPACT = 1;
 export const MONEY_TOOLTIP_MODE_MINI = 2;
 

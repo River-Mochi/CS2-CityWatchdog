@@ -16,7 +16,7 @@ import {
     HOURS_PER_GAME_MONTH,
     MONEY_ICON,
     MONEY_TOOLTIP_MODE_COMPACT,
-    MONEY_TOOLTIP_MODE_DEFAULT,
+    MONEY_TOOLTIP_MODE_FULL_DATA,
     MONEY_TOOLTIP_MODE_MINI,
 } from "./moneyViewShared";
 
@@ -43,7 +43,7 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
         return <>{baseContent}</>;
     }
 
-    const compact = moneyTooltipMode !== MONEY_TOOLTIP_MODE_DEFAULT;
+    const compact = moneyTooltipMode !== MONEY_TOOLTIP_MODE_FULL_DATA;
     const mini = moneyTooltipMode === MONEY_TOOLTIP_MODE_MINI;
     const tooltipClassName = getTooltipRowsClassName(moneyTooltipMode);
     const tooltipValueSize = getTooltipValueSize(moneyTooltipFontScale);
@@ -71,7 +71,7 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
             {!mini && <MoneyViewTooltipGroup localization={localization} label={localize("MoneyViewTooltipIncome", "Income:")} hourlyValue={hourlyIncome} monthlyValue={monthlyIncome} compact={compact} mode={moneyTooltipMode} />}
             {!mini && <MoneyViewTooltipGroup localization={localization} label={localize("MoneyViewTooltipExpenses", "Expenses:")} hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} compact={compact} mode={moneyTooltipMode} />}
             {!mini && <MoneyViewTooltipGroup localization={localization} label={localize("MoneyViewTooltipNet", "Net:")} hourlyValue={hourlyNet} monthlyValue={monthlyBalance} compact={compact} mode={moneyTooltipMode} />}
-            {moneyTooltipMode === MONEY_TOOLTIP_MODE_DEFAULT && <MoneyViewTooltipSingleValue localization={localization} label={localize("MoneyViewTooltipTotal", "Total:")} value={totalMoney} mode={moneyTooltipMode} />}
+            {moneyTooltipMode === MONEY_TOOLTIP_MODE_FULL_DATA && <MoneyViewTooltipSingleValue localization={localization} label={localize("MoneyViewTooltipTotal", "Total:")} value={totalMoney} mode={moneyTooltipMode} />}
         </div>
     );
 };
