@@ -51,35 +51,42 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "マネービュー" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
                     "下部ツールバーの資金と人口のバニラ矢印の横に、数値の傾向を追加します。\n" +
-                    "これは軽量な表示だけで、都市の資金や人口は変更しません。" },
+                    "これは軽量なツールバー表示だけで、都市の資金や人口は変更しません。" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyViewMode)), "マネービュー頻度" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)),
-                    "下部ツールバーの傾向テキストを、資金と人口について時間あたりまたは月あたりで表示するか選びます。\n" +
-                    "月あたりの資金は予算収入から支出を引いた値、人口は24時間予測を使います。" },
-
+                    "下部ツールバーの傾向テキストを、資金と人口について毎時または月間の値で表示するか選びます。\n" +
+                    "月間では、資金は予算収入から支出を引いた値を使い、人口は24時間予測を使います。" },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeHourly"), "毎時 (/h)" },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeMonthly"), "月間 (/mo)" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "資金ツールチップのスタイル" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
-                    "資金ツールチップに表示する詳細量を選びます。\n" +
-                    "<Mini> は /mo と /h の純額2つだけを表示します。\n" +
-                    "<Compact> は大きな数値を短く表示します（15,212,318 ではなく 15.21M）。\n" +
-                    "<Full data> は長い数値と合計欄を表示します。" },
+                    "資金のホバーツールチップに表示する詳細量を選びます。\n" +
+                    "コンパクト = 初回インストール時の既定値。\n" +
+                    "<ミニ> は /mo と /h の純額2つだけを表示します。\n" +
+                    "<コンパクト> は大きな数値を短く表示します（15,212,318 ではなく 15.21M）。\n" +
+                    "<フルデータ> は長い数値と合計欄を表示します。" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "ミニ" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "コンパクト" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "フルサイズ" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "フルデータ" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "資金ツールチップのサイズ" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "資金の文字サイズ" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
-                    "マネービューのツールチップの数値サイズを調整します。\n" +
-                    "既定 = 100%。" },
+                    "Money View ツールチップの数値の<文字サイズ>を調整します。\n" +
+                    "ゲーム既定値 = 100%\n" +
+                    "<Mod既定値 = 120%>\n" +
+                    "画面下部の資金にマウスを合わせてください。\n" +
+                    "ゲーム内の小さいツールチップが見えにくいプレイヤー向けです。"
+                },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "人口ツールチップのサイズ" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "人口の文字サイズ" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)),
-                    "人口ツールチップに追加される数値のサイズを調整します。\n" +
-                    "既定 = 100%。" },
+                    "人口ツールチップの数値の<文字サイズ>を調整します。\n" +
+                    "ゲーム既定値 = 100%\n" +
+                    "<Mod既定値 = 120%>\n" +
+                    "画面下部の人口にマウスを合わせてください。"
+                },          
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "資金ホットキー額" },
@@ -213,6 +220,8 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("ToggleAllTooltip"),
                     "すべてのアイコンを表示/非表示にします。\n" +
                     "色: 緑 = すべてON、青 = 混在、赤 = すべてOFF。" },
+
+                // --- Tooltip labels ---
                 { m_Settings.GetUILocaleID("MoneyViewTooltipIncome"), "収入：" },
                 { m_Settings.GetUILocaleID("MoneyViewTooltipExpenses"), "支出：" },
                 { m_Settings.GetUILocaleID("MoneyViewTooltipNet"), "純額：" },
