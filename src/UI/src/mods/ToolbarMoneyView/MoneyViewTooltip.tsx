@@ -7,6 +7,7 @@ import styles from "./ToolbarMoneyView.module.scss";
 import {
     formatTooltipMoneyValue,
     formatTooltipMoneyViewValue,
+    getDisplayWholeValue,
     getNumericValue,
     getSignedAmountTone,
     HOURS_PER_GAME_MONTH,
@@ -98,8 +99,9 @@ const MoneyViewTooltipGroup = ({ localization, label, hourlyValue, monthlyValue,
 };
 
 const MoneyViewTooltipSingleValue = ({ localization, label, value, mode }: { readonly localization: Localization; readonly label: string; readonly value: number; readonly mode: number }) => {
-    const tone = getSignedAmountTone(value);
-    const text = formatTooltipMoneyValue(localization, value);
+    const displayValue = getDisplayWholeValue(value);
+    const tone = getSignedAmountTone(displayValue);
+    const text = formatTooltipMoneyValue(localization, displayValue);
 
     return (
         <div className={styles.tooltipGroup}>
@@ -112,8 +114,9 @@ const MoneyViewTooltipSingleValue = ({ localization, label, value, mode }: { rea
 };
 
 const MoneyViewTooltipValue = ({ localization, value, unit, compact, mode }: { readonly localization: Localization; readonly value: number; readonly unit: Unit; readonly compact: boolean; readonly mode: number }) => {
-    const tone = getSignedAmountTone(value);
-    const text = formatTooltipMoneyViewValue(localization, value, compact, unit);
+    const displayValue = getDisplayWholeValue(value);
+    const tone = getSignedAmountTone(displayValue);
+    const text = formatTooltipMoneyViewValue(localization, displayValue, compact, unit);
 
     return <div className={`${styles.tooltipValueLine} ${getTooltipValueClassName(mode)} ${styles[tone]}`}>{text}</div>;
 };

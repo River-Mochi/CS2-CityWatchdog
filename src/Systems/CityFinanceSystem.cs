@@ -16,12 +16,16 @@ namespace CityWatchdog.Systems
     public partial class CityFinanceSystem : GameSystemBaseExtension
     {
         private const int AutomaticMoneyCheckIntervalUpdates = 128;
+        private const int ManualMoneyRepeatInitialDelayUpdates = 20;
+        private const int ManualMoneyRepeatIntervalUpdates = 10;
 
         private CitySystem citySystem = null!;
         private CityConfigurationSystem cityConfigurationSystem = null!;
         private ProxyAction? addMoneyAction;
         private ProxyAction? subtractMoneyAction;
         private int automaticMoneyCheckCooldown;
+        private int addMoneyRepeatCooldown;
+        private int subtractMoneyRepeatCooldown;
 
         public enum FinanceActionKind
         {
@@ -115,6 +119,7 @@ namespace CityWatchdog.Systems
             citySystem = World.GetOrCreateSystemManaged<CitySystem>();
             cityConfigurationSystem = World.GetOrCreateSystemManaged<CityConfigurationSystem>();
             automaticMoneyCheckCooldown = 0;
+            ResetManualMoneyRepeat();
 
             addMoneyAction = TryGetAction(Setting.AddMoneyAction);
             if (addMoneyAction != null)
@@ -165,20 +170,55 @@ namespace CityWatchdog.Systems
             if (!InGame)
             {
                 automaticMoneyCheckCooldown = 0;
+                ResetManualMoneyRepeat();
                 return;
             }
 
             UpdateAutomaticAddMoney();
+            UpdateManualMoneyHotkeys();
+        }
 
-            if (addMoneyAction != null && addMoneyAction.WasPerformedThisFrame())
+        private void UpdateManualMoneyHotkeys()
+        {
+            UpdateManualMoneyHotkey(addMoneyAction, FinanceActionKind.ManualAdd, ref addMoneyRepeatCooldown);
+            UpdateManualMoneyHotkey(subtractMoneyAction, FinanceActionKind.ManualSubtract, ref subtractMoneyRepeatCooldown);
+        }
+
+        private void UpdateManualMoneyHotkey(ProxyAction? action, FinanceActionKind financeActionKind, ref int repeatCooldown)
+        {
+            if (action == null)
             {
-                OnAddMoney();
+                repeatCooldown = 0;
+                return;
             }
 
-            if (subtractMoneyAction != null && subtractMoneyAction.WasPerformedThisFrame())
+            if (action.WasPressedThisFrame())
             {
-                OnSubtractMoney();
+                ApplyMoneyChange(financeActionKind, Setting.Instance.ManualMoneyAmount);
+                repeatCooldown = ManualMoneyRepeatInitialDelayUpdates;
+                return;
             }
+
+            if (!action.IsPressed())
+            {
+                repeatCooldown = 0;
+                return;
+            }
+
+            if (repeatCooldown > 0)
+            {
+                repeatCooldown--;
+                return;
+            }
+
+            ApplyMoneyChange(financeActionKind, Setting.Instance.ManualMoneyAmount);
+            repeatCooldown = ManualMoneyRepeatIntervalUpdates;
+        }
+
+        private void ResetManualMoneyRepeat()
+        {
+            addMoneyRepeatCooldown = 0;
+            subtractMoneyRepeatCooldown = 0;
         }
 
         private void UpdateAutomaticAddMoney()

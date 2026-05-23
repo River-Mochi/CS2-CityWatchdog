@@ -5,6 +5,7 @@ import { moneyViewMode$, moneyView$ } from "../Bindings/Bindings";
 import styles from "./ToolbarMoneyView.module.scss";
 import {
     formatToolbarMoneyViewValue,
+    getDisplayWholeValue,
     getNumericValue,
     getSignedAmountTone,
     HOURS_PER_GAME_MONTH,
@@ -60,8 +61,9 @@ export const ToolbarPopulationDelta = () => {
 };
 
 const ToolbarTrendAmount = ({ localization, value, unit }: { readonly localization: Localization; readonly value: number; readonly unit: Unit }) => {
-    const tone = getSignedAmountTone(value);
-    const text = formatToolbarMoneyViewValue(localization, value, unit);
+    const displayValue = getDisplayWholeValue(value);
+    const tone = getSignedAmountTone(displayValue);
+    const text = formatToolbarMoneyViewValue(localization, displayValue, unit);
 
     return (
         <div className={`${styles.moneyViewText} ${styles[tone]}`}>

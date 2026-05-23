@@ -12,6 +12,10 @@ export const HOURS_PER_GAME_MONTH = 24;
 
 export type SignedAmountTone = "positive" | "negative" | "neutral";
 
+export const getDisplayWholeValue = (value: number): number => {
+    return Math.round(getNumericValue(value));
+};
+
 export const getSignedAmountTone = (value: number): SignedAmountTone => {
     if (value > 0) {
         return "positive";
@@ -109,11 +113,11 @@ export const formatToolbarMoneyViewValue = (
     const sign = value > 0 ? "+\u200A" : value < 0 ? "-\u200A" : "";
 
     if (roundedValue >= 1_000_000_000) {
-        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000_000)}B${formatLocalizedUnitSuffix(localization, unit)}`;
+        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000_000)}B${extractLocalizedRateSuffix(localization, unit)}`;
     }
 
     if (roundedValue >= 1_000_000) {
-        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000)}M${formatLocalizedUnitSuffix(localization, unit)}`;
+        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000)}M${extractLocalizedRateSuffix(localization, unit)}`;
     }
 
     return formatSignedLocalizedValue(localization, value, unit, true, true);
@@ -128,11 +132,11 @@ const formatCompactTooltipValue = (
     const sign = value > 0 ? "+\u200A" : value < 0 ? "-\u200A" : "";
 
     if (roundedValue >= 1_000_000_000) {
-        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000_000)}B${formatLocalizedUnitSuffix(localization, unit)}`;
+        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000_000)}B${extractLocalizedRateSuffix(localization, unit)}`;
     }
 
     if (roundedValue >= 1_000_000) {
-        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000)}M${formatLocalizedUnitSuffix(localization, unit)}`;
+        return `${sign}${formatLocalizedCompactMagnitude(localization, roundedValue / 1_000_000)}M${extractLocalizedRateSuffix(localization, unit)}`;
     }
 
     return formatSignedLocalizedValue(localization, value, unit, true, true);
@@ -143,12 +147,14 @@ const formatLocalizedCompactMagnitude = (localization: Localization, value: numb
     return formatLocalizedValue(localization, value, unit);
 };
 
-const formatLocalizedUnitSuffix = (localization: Localization, unit: Unit): string => {
+const extractLocalizedRateSuffix = (localization: Localization, unit: Unit): string => {
     if (unit === Unit.Integer || unit === Unit.FloatTwoFractions) {
         return "";
     }
 
     try {
+        // Compact M/B values still need vanilla's localized rate suffix.
+        // Format "0 /h" or "0 /mo", then remove the plain "0" and keep the suffix.
         const zeroWithUnit = LocalizedNumber.renderString(localization, { value: 0, unit, signed: false });
         const zeroPlain = LocalizedNumber.renderString(localization, { value: 0, unit: Unit.Integer, signed: false });
 
