@@ -60,7 +60,7 @@
 
 // Mini only shows Net, so it can be narrower without squeezing values.
 .tooltipRowsMini {
-    width: 225em;
+    width: 205rem;
 }
 
 // -----------------------------------------------------------------------------
@@ -121,8 +121,12 @@
 // -----------------------------------------------------------------------------
 .tooltipLabel {
     flex: 0 0 auto;
-    font-weight: 700;
+    font-weight: 500;
     white-space: nowrap;
+}
+
+.tooltipTopTrend .tooltipLabel {
+    font-weight: 700;
 }
 
 // -----------------------------------------------------------------------------
