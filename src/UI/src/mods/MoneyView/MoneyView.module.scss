@@ -72,7 +72,8 @@
 // -----------------------------------------------------------------------------
 // Optional tooltip title
 // Example: WATCHDOG
-// To remove the title completely, remove the title row in MoneyView.tsx.
+// To remove the title completely, remove title row in MoneyViewTooltip.tsx
+// and PopulationViewTooltip.tsx.
 // -----------------------------------------------------------------------------
 .tooltipTitle {
     margin-top: -2rem;
