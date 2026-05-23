@@ -57,29 +57,36 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)),
                     "Choisis si le texte de tendance de la barre du bas affiche les valeurs horaires ou mensuelles pour l'argent et la population.\n" +
                     "Le mensuel utilise les revenus moins les dépenses du budget pour l'argent, et une projection sur 24 heures pour la population." },
-
                 { m_Settings.GetOptionLocaleID("MoneyViewModeHourly"), "Horaire (/h)" },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeMonthly"), "Mensuel (/mo)" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "Style d'info-bulle d'argent" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "Style d'info-bulle argent" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
-                    "Choisis le niveau de détail affiché dans l'info-bulle d'argent au survol.\n" +
-                    "<Mini> affiche seulement les deux valeurs nettes /mo et /h.\n" +
+                    "Choisis le niveau de détail affiché dans l'info-bulle argent au survol.\n" +
+                    "Compact = valeur par défaut à la première installation.\n" +
+                    "<Mini> affiche seulement deux valeurs nettes pour /mo et /h.\n" +
                     "<Compact> raccourcit les grandes valeurs (15.21M au lieu de 15,212,318).\n" +
-                    "<Full data> affiche les valeurs longues et les champs de total." },
+                    "<Données complètes> affiche les valeurs longues et les champs de total." },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compact" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "Taille réelle" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "Données complètes" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Taille de l'info-bulle argent" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Taille du texte argent" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
-                    "Ajuste les chiffres de l'info-bulle Money View.\n" +
-                    "Par défaut = 100%." },
+                    "Ajuste la <taille du texte> des nombres dans l'info-bulle Money View.\n" +
+                    "Valeur du jeu = 100%\n" +
+                    "<Valeur du mod = 120%>\n" +
+                    "Survole l'argent en bas de l'écran.\n" +
+                    "Demandé par des joueurs qui ont du mal à lire les petites info-bulles du jeu."
+                },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Taille de l'info-bulle population" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Taille du texte population" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)),
-                    "Ajuste les chiffres en plus dans l'info-bulle population.\n" +
-                    "Par défaut = 100%." },
+                    "Ajuste la <taille du texte> des nombres de l'info-bulle population.\n" +
+                    "Valeur du jeu = 100%\n" +
+                    "<Valeur du mod = 120%>\n" +
+                    "Survole la population en bas de l'écran."
+                },
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Montant des raccourcis d'argent" },
@@ -213,6 +220,8 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("ToggleAllTooltip"),
                     "Affiche/masque toutes les icônes.\n" +
                     "Couleur : vert = tout activé ; bleu = mixte ; rouge = tout désactivé." },
+
+                // --- Tooltip labels ---
                 { m_Settings.GetUILocaleID("MoneyViewTooltipIncome"), "Revenus :" },
                 { m_Settings.GetUILocaleID("MoneyViewTooltipExpenses"), "Dépenses :" },
                 { m_Settings.GetUILocaleID("MoneyViewTooltipNet"), "Net :" },
