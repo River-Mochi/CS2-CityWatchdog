@@ -126,7 +126,8 @@ export const isMoneyTooltip = (props: any): boolean => {
     return Boolean(props?.content) && containsIcon(props?.children, MONEY_ICON);
 };
 
-// Walk the vanilla tooltip tree instead of querying generated CSS class names.
+// Walk vanilla tooltip tree instead of querying generated CSS class names which might change.
+// Prevents patch issues - ID's money/population tooltip by the actual vanilla icon path.
 const containsIcon = (node: ReactNode, icon: string): boolean => {
     if (!isValidElement(node)) {
         return false;
