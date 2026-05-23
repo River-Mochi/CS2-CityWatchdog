@@ -1,3 +1,6 @@
+// File: src/UI/src/mods/ToolbarMoneyView/ToolbarMoneyView.tsx
+// Purpose: Hooks vanilla toolbar/tooltip exports to inject City Watchdog Money View UI.
+
 import type { ModuleRegistryExtend } from "cs2/modding";
 import { cloneElement, isValidElement, type ReactElement, type ReactNode } from "react";
 import { MoneyViewTooltipContent, isMoneyTooltip } from "./MoneyViewTooltip";

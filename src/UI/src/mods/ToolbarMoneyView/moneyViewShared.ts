@@ -1,3 +1,6 @@
+// File: src/UI/src/mods/ToolbarMoneyView/moneyViewShared.ts
+// Purpose: Shared Money View constants, number formatting, and sign/color helpers.
+
 import { LocalizedNumber, Unit, type Localization } from "cs2/l10n";
 
 export const MONEY_ICON = "Media/Game/Icons/Money.svg";

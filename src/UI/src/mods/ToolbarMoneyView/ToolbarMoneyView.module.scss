@@ -60,7 +60,7 @@
 
 // Mini only shows Net, so it can be narrower without squeezing values.
 .tooltipRowsMini {
-    width: 220rem;
+    width: 225em;
 }
 
 // -----------------------------------------------------------------------------
@@ -75,6 +75,24 @@
     font-weight: 700;
     letter-spacing: 1.6rem;
     white-space: nowrap;
+}
+
+// Experimental money "Current trend" section.
+// If you like this top block, Net can later be removed from the main body.
+.tooltipTopTrend {
+    margin-bottom: 4rem;
+}
+
+.tooltipTopTrend .tooltipGroup {
+    margin-top: 0;
+}
+
+.tooltipDivider {
+    width: 100%;
+    height: 1rem;
+    margin-top: 6rem;
+    margin-bottom: 6rem;
+    background-color: rgba(255, 255, 255, 0.18);
 }
 
 // -----------------------------------------------------------------------------
@@ -148,6 +166,7 @@
 // -----------------------------------------------------------------------------
 .populationTooltipWrapper {
     width: 255rem;
+    // Width knob for the population tooltip. Lower = narrower, higher = more room for KO/CN suffixes.
     // Separate Options slider from Money View so KO/CN can be tuned without changing money.
     --populationTooltipValueSize: 1em;
 }

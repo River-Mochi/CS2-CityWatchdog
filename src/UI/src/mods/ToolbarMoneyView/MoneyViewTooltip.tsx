@@ -1,3 +1,6 @@
+// File: src/UI/src/mods/ToolbarMoneyView/MoneyViewTooltip.tsx
+// Purpose: Custom hover tooltip for the bottom-toolbar money field.
+
 import { useValue } from "cs2/api";
 import { economyBudget, toolbarBottom } from "cs2/bindings";
 import { Unit, useLocalization, type Localization } from "cs2/l10n";
@@ -53,6 +56,14 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
     return (
         <div className={tooltipClassName} style={tooltipStyle}>
             <div className={styles.tooltipTitle}>WATCHDOG</div>
+            <MoneyViewTooltipCurrentTrend
+                localization={localization}
+                label={localize("MoneyViewTooltipCurrentTrend", "Current trend:")}
+                hourlyValue={hourlyNet}
+                monthlyValue={monthlyBalance}
+                compact={compact}
+                mode={moneyTooltipMode}
+            />
             {!mini && <MoneyViewTooltipGroup localization={localization} label={localize("MoneyViewTooltipIncome", "Income:")} hourlyValue={hourlyIncome} monthlyValue={monthlyIncome} compact={compact} mode={moneyTooltipMode} />}
             {!mini && <MoneyViewTooltipGroup localization={localization} label={localize("MoneyViewTooltipExpenses", "Expenses:")} hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} compact={compact} mode={moneyTooltipMode} />}
             <MoneyViewTooltipGroup localization={localization} label={localize("MoneyViewTooltipNet", "Net:")} hourlyValue={hourlyNet} monthlyValue={monthlyBalance} compact={compact} mode={moneyTooltipMode} />
@@ -106,6 +117,36 @@ const MoneyViewTooltipGroup = ({ localization, label, hourlyValue, monthlyValue,
                 <MoneyViewTooltipValue localization={localization} value={hourlyValue} unit={Unit.IntegerPerHour} compact={compact} mode={mode} />
                 <MoneyViewTooltipValue localization={localization} value={monthlyValue} unit={Unit.IntegerPerMonth} compact={compact} mode={mode} />
             </div>
+        </div>
+    );
+};
+
+const MoneyViewTooltipCurrentTrend = ({
+    localization,
+    label,
+    hourlyValue,
+    monthlyValue,
+    compact,
+    mode,
+}: {
+    readonly localization: Localization;
+    readonly label: string;
+    readonly hourlyValue: number;
+    readonly monthlyValue: number;
+    readonly compact: boolean;
+    readonly mode: number;
+}) => {
+    return (
+        <div className={styles.tooltipTopTrend}>
+            <MoneyViewTooltipGroup
+                localization={localization}
+                label={label}
+                hourlyValue={hourlyValue}
+                monthlyValue={monthlyValue}
+                compact={compact}
+                mode={mode}
+            />
+            <div className={styles.tooltipDivider} />
         </div>
     );
 };

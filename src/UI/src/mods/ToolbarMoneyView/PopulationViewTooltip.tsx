@@ -1,3 +1,6 @@
+// File: src/UI/src/mods/ToolbarMoneyView/PopulationViewTooltip.tsx
+// Purpose: Adds CWD population flow rows to the vanilla population tooltip.
+
 import { useValue } from "cs2/api";
 import { infoview } from "cs2/bindings";
 import { LocalizedNumber, Unit, useLocalization, type Localization } from "cs2/l10n";

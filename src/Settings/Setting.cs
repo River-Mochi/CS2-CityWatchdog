@@ -410,8 +410,9 @@ namespace CityWatchdog
             MoneyView = true;
             MoneyViewMode = MoneyViewModeHourly;
             MoneyTooltipMode = MoneyTooltipModeCompact;
-            MoneyTooltipFontScale = 100;
-            PopulationTooltipFontScale = 100;
+            // If defaults change, also update bindValue fallbacks /UI/src/mods/Bindings/Bindings.tsx
+            MoneyTooltipFontScale = 120;
+            PopulationTooltipFontScale = 120;
 
             ManualMoneyAmount = 40000;
             AutomaticAddMoney = false;

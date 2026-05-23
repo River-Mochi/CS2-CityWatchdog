@@ -1,3 +1,6 @@
+// File: src/UI/src/index.tsx
+// Purpose: Registers City Watchdog UI modules and vanilla UI extensions.
+
 import { ModRegistrar, type ModuleRegistry, type ModuleRegistryExtend } from "cs2/modding";
 import mod from "../mod.json";
 import { NotificationPanel } from "./mods/NotificationPanel/NotificationPanel";

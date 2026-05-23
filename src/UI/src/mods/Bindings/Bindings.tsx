@@ -1,3 +1,6 @@
+// File: src/UI/src/mods/Bindings/Bindings.tsx
+// Purpose: UI bindings and triggers shared between C# systems and React components.
+
 import { bindValue, trigger } from "cs2/api";
 import mod from "../../../mod.json";
 
@@ -5,8 +8,8 @@ export const controlPanelEnabled$ = bindValue<boolean>(mod.id, "ControlPanelEnab
 export const moneyView$ = bindValue<boolean>(mod.id, "MoneyView", true);
 export const moneyViewMode$ = bindValue<number>(mod.id, "MoneyViewMode", 0);
 export const moneyTooltipMode$ = bindValue<number>(mod.id, "MoneyTooltipMode", 1);
-export const moneyTooltipFontScale$ = bindValue<number>(mod.id, "MoneyTooltipFontScale", 100);
-export const populationTooltipFontScale$ = bindValue<number>(mod.id, "PopulationTooltipFontScale", 100);
+export const moneyTooltipFontScale$ = bindValue<number>(mod.id, "MoneyTooltipFontScale", 120);
+export const populationTooltipFontScale$ = bindValue<number>(mod.id, "PopulationTooltipFontScale", 120);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
 export const ElectricityBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBottleneckNotification");
