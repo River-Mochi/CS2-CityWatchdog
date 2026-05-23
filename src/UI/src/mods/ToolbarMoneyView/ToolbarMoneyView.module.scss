@@ -51,16 +51,16 @@
 // Full-size and Compact need room for Income / Expenses / Net groups.
 // Adjust these widths if you want those tooltip styles wider or narrower.
 .tooltipRowsFull {
-    width: 285rem;
+    width: 275rem;
 }
 
 .tooltipRowsCompact {
-    width: 260rem;
+    width: 250rem;
 }
 
 // Mini only shows Net, so it can be narrower without squeezing values.
 .tooltipRowsMini {
-    width: 240rem;
+    width: 220rem;
 }
 
 // -----------------------------------------------------------------------------

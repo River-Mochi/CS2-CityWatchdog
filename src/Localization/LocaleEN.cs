@@ -73,12 +73,13 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Money Tooltip Size" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
-                    "Adjusts Money View tooltip numbers.\n" +
-                    "Default = 100%." },
+                    "Adjusts <font size> of Money View tooltip numbers.\n" +
+                    "Default = 100%."
+                },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Population Tooltip Size" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)),
-                    "Adjusts the extra population tooltip numbers.\n" +
+                    "Adjusts <font size> of added population tooltip numbers.\n" +
                     "Default = 100%." },
 
                 // --- Money helpers ---
