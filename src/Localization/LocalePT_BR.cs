@@ -57,30 +57,37 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)),
                     "Escolha se o texto de tendência da barra inferior mostra valores por hora ou mensais para dinheiro e população.\n" +
                     "Mensal usa receita menos despesas do orçamento para dinheiro, e uma projeção de 24 horas para população." },
-
                 { m_Settings.GetOptionLocaleID("MoneyViewModeHourly"), "Por hora (/h)" },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeMonthly"), "Mensal (/mo)" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "Estilo do tooltip de dinheiro" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
                     "Escolha quantos detalhes aparecem no tooltip de dinheiro ao passar o cursor.\n" +
-                    "<Mini> mostra apenas os dois valores líquidos de /mo e /h.\n" +
-                    "<Compact> encurta valores grandes (15.21M em vez de 15,212,318).\n" +
-                    "<Full data> mostra valores longos e campos de total." },
+                    "Compacto = padrão na primeira instalação.\n" +
+                    "<Mini> mostra só 2 valores líquidos para /mo e /h.\n" +
+                    "<Compacto> encurta valores grandes (15.21M em vez de 15,212,318).\n" +
+                    "<Dados completos> mostra valores longos e campos de Total." },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compacto" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "Tamanho completo" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "Dados completos" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Tamanho do tooltip de dinheiro" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Tamanho do texto de dinheiro" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
-                    "Ajusta os números do tooltip da Visão do dinheiro.\n" +
-                    "Padrão = 100%." },
+                    "Ajusta o <tamanho do texto> dos números no tooltip da Visão do dinheiro.\n" +
+                    "Padrão do jogo = 100%\n" +
+                    "<Padrão do mod = 120%>\n" +
+                    "Passe o mouse sobre Dinheiro na parte inferior da tela.\n" +
+                    "Pedido por jogadores que têm dificuldade para ler tooltips pequenos no jogo."
+                },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Tamanho do tooltip de população" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Tamanho do texto de população" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)),
-                    "Ajusta os números extras do tooltip de população.\n" +
-                    "Padrão = 100%." },
-
+                    "Ajusta o <tamanho do texto> dos números no tooltip de população.\n" +
+                    "Padrão do jogo = 100%\n" +
+                    "<Padrão do mod = 120%>\n" +
+                    "Passe o mouse sobre População na parte inferior da tela."
+                },
+   
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Valor do atalho de dinheiro" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
@@ -202,8 +209,8 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("EntryButtonTitle"), "CITY WATCHDOG" },
                 { m_Settings.GetUILocaleID("EntryButtonDescription"), "Abrir o painel de ícones de notificação." },
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
-                    "Expanda qualquer linha; marque [✓] para mostrar e desmarque para ocultar alertas.\n" +
-                    "Isto não corrige problemas da cidade; apenas oculta a bagunça de ícones." },
+                    "Expanda linhas; [✓] mostra alertas, desmarcado oculta.\n" +
+                    "Não corrige problemas, só limpa os ícones." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Alternar tudo" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Expandir tudo" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Recolher todas as linhas" },

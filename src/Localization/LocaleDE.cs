@@ -209,8 +209,8 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("EntryButtonTitle"), "CITY WATCHDOG" },
                 { m_Settings.GetUILocaleID("EntryButtonDescription"), "Benachrichtigungssymbol-Panel öffnen." },
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
-                    "Eine Zeile öffnen; [✓] aktiviert zeigt Warnungen, deaktiviert versteckt sie.\n" +
-                    "Dies behebt keine Stadtprobleme, sondern versteckt Symbol-Clutter." },
+                    "Zeilen öffnen; [✓] zeigt Warnungen, Haken raus versteckt sie.\n" +
+                    "Löst nichts, räumt nur Icon-Chaos auf." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Alle umschalten" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Alle ausklappen" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Alle Zeilen einklappen" },

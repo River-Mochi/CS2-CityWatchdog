@@ -213,6 +213,8 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("ToggleAllTooltip"),
                     "顯示/隱藏所有圖示。\n" +
                     "顏色：綠色 = 全部開啟；藍色 = 混合；紅色 = 全部關閉。" },
+
+                // --- Tooltip labels
                 { m_Settings.GetUILocaleID("MoneyViewTooltipIncome"), "收入：" },
                 { m_Settings.GetUILocaleID("MoneyViewTooltipExpenses"), "支出：" },
                 { m_Settings.GetUILocaleID("MoneyViewTooltipNet"), "淨額：" },
