@@ -48,8 +48,8 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
     const tooltipClassName = getTooltipRowsClassName(moneyTooltipMode);
     const tooltipValueSize = getTooltipValueSize(moneyTooltipFontScale);
     const topLabel = mini
-        ? localize("MoneyViewTooltipNet", "Net:")
-        : localize("MoneyViewTooltipCurrentTrend", "Current net:");
+        ? localize("MoneyViewTooltipNet", "Net")
+        : localize("MoneyViewTooltipCurrentTrend", "Net");
     const tooltipStyle = {
         "--moneyTooltipValueSizeFull": tooltipValueSize,
         "--moneyTooltipValueSizeCompact": tooltipValueSize,
