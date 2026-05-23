@@ -71,6 +71,10 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "간단" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "전체 크기" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "돈 툴팁 크기" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
+                    "머니 뷰 툴팁의 숫자 크기를 조정합니다.\n" +
+                    "기본값 = 100%." },
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "돈 단축키 금액" },

@@ -71,6 +71,10 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "紧凑" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "完整大小" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "金钱提示大小" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
+                    "调整金钱视图提示里的数字大小。\n" +
+                    "默认 = 100%。" },
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "金钱快捷键金额" },

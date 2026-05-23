@@ -71,6 +71,10 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compacto" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullSize"), "Tamanho completo" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Tamanho do tooltip de dinheiro" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
+                    "Ajusta os números do tooltip da Visão do dinheiro.\n" +
+                    "Padrão = 100%." },
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Valor do atalho de dinheiro" },

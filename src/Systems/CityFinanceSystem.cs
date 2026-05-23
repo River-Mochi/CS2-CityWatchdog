@@ -15,7 +15,7 @@ namespace CityWatchdog.Systems
 
     public partial class CityFinanceSystem : GameSystemBaseExtension
     {
-        // Counts this system's OnUpdate passes, not seconds. Higher = automatic money checks less often.
+        // Counts this system's OnUpdate passes. Higher = automatic money checks less often.
         private const int AutomaticMoneyCheckIntervalUpdates = 128;
         // Hold-to-repeat delay for [ and ]. Higher = easier single-taps before repeat begins.
         private const int ManualMoneyRepeatInitialDelayUpdates = 20;

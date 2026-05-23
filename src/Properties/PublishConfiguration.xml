@@ -62,7 +62,7 @@ If you like free mods, give a Like, easy way to show support :)
     <Screenshot Value="Properties/image20-Hotkeys-Money.jpg" />
     <Screenshot Value="Properties/image40-Languages.jpg" />
     <Screenshot Value="Properties/image50-Options.jpg" />
-    <Screenshot Value="Properties/image60-Instructions.jpg" />
+    <Screenshot Value="Properties/image60-InstructionsEN.jpg" />
 	<!--Tag, can be set multiple times-->
 	<Tag Value="Code Mod" />
 	<!--Link to the forum post where the mod can be discussed-->
@@ -75,10 +75,10 @@ If you like free mods, give a Like, easy way to show support :)
 	<Dependency Id="74417" DisplayName="Unified Icon Library" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Add/subtract hotkey, now can hold down to change instead of many clicks.
+- Add/subtract hotkey, can now hold down to change amounts instead of many clicks.
 - fix international format money
 - update images, instructions
-- internal cleanup: simplify, organize.
+- internal: simplify, clean, organize.
 - better localized tooltips
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->

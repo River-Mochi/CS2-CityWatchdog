@@ -1,8 +1,8 @@
 import { useValue } from "cs2/api";
 import { economyBudget, toolbarBottom } from "cs2/bindings";
 import { Unit, useLocalization, type Localization } from "cs2/l10n";
-import { Children, isValidElement, type ReactNode } from "react";
-import { moneyTooltipMode$, moneyView$ } from "../Bindings/Bindings";
+import { Children, isValidElement, type CSSProperties, type ReactNode } from "react";
+import { moneyTooltipFontScale$, moneyTooltipMode$, moneyView$ } from "../Bindings/Bindings";
 import styles from "./ToolbarMoneyView.module.scss";
 import {
     formatTooltipMoneyValue,
@@ -24,6 +24,7 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
     const localize = (key: string, fallback: string) => translate(`CityWatchdog.UI[${key}]`) ?? fallback;
     const moneyViewEnabled = useValue(moneyView$);
     const moneyTooltipMode = useValue(moneyTooltipMode$);
+    const moneyTooltipFontScale = useValue(moneyTooltipFontScale$);
     const hourlyNet = getNumericValue(useValue(toolbarBottom.moneyDelta$));
     const monthlyIncome = getNumericValue(useValue(economyBudget.totalIncome$));
     // Normalize Budget expenses before net monthly income is calculated.
@@ -42,9 +43,15 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
     const compact = moneyTooltipMode !== MONEY_TOOLTIP_MODE_DEFAULT;
     const mini = moneyTooltipMode === MONEY_TOOLTIP_MODE_MINI;
     const tooltipClassName = getTooltipRowsClassName(moneyTooltipMode);
+    const tooltipValueScale = getMoneyTooltipScale(moneyTooltipFontScale);
+    const tooltipStyle = {
+        "--moneyTooltipValueSizeFull": `${1.15 * tooltipValueScale}em`,
+        "--moneyTooltipValueSizeCompact": `${1.20 * tooltipValueScale}em`,
+        "--moneyTooltipValueSizeMini": `${1.30 * tooltipValueScale}em`,
+    } as CSSProperties;
 
     return (
-        <div className={tooltipClassName}>
+        <div className={tooltipClassName} style={tooltipStyle}>
             <div className={styles.tooltipTitle}>WATCHDOG</div>
             {!mini && <MoneyViewTooltipGroup localization={localization} label={localize("MoneyViewTooltipIncome", "Income:")} hourlyValue={hourlyIncome} monthlyValue={monthlyIncome} compact={compact} mode={moneyTooltipMode} />}
             {!mini && <MoneyViewTooltipGroup localization={localization} label={localize("MoneyViewTooltipExpenses", "Expenses:")} hourlyValue={hourlyExpenses} monthlyValue={monthlyExpenses} compact={compact} mode={moneyTooltipMode} />}
@@ -53,6 +60,8 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
         </div>
     );
 };
+
+const getMoneyTooltipScale = (value: number): number => Math.min(130, Math.max(90, Number(value) || 100)) / 100;
 
 const getTooltipRowsClassName = (mode: number): string => {
     const classes = [styles.tooltipRows];

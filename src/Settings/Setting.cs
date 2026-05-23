@@ -115,6 +115,13 @@ namespace CityWatchdog
         [SettingsUISetter(typeof(Setting), nameof(OnMoneyTooltipModeChanged))]
         public int MoneyTooltipMode { get; set; }
 
+        // Percent scale for Money View tooltip numbers; UI converts 90..130 into 0.90..1.30.
+        [SettingsUISlider(min = 90, max = 130, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISection(Actions, MoneyViewGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMoneyViewEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMoneyTooltipFontScaleChanged))]
+        public int MoneyTooltipFontScale { get; set; }
+
         // --------------------------------------------------------------------
         // Actions tab - Money
         // --------------------------------------------------------------------
@@ -397,6 +404,7 @@ namespace CityWatchdog
             MoneyView = true;
             MoneyViewMode = MoneyViewModeHourly;
             MoneyTooltipMode = MoneyTooltipModeCompact;
+            MoneyTooltipFontScale = 100;
 
             ManualMoneyAmount = 40000;
             AutomaticAddMoney = false;
@@ -432,6 +440,13 @@ namespace CityWatchdog
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
                 .UpdateMoneyTooltipModeBinding(value);
+        }
+
+        private void OnMoneyTooltipFontScaleChanged(int value)
+        {
+            World.DefaultGameObjectInjectionWorld?
+                .GetExistingSystemManaged<CityWatchdogUISystem>()?
+                .UpdateMoneyTooltipFontScaleBinding(value);
         }
 
         private bool GetMilestoneLevelStatus()

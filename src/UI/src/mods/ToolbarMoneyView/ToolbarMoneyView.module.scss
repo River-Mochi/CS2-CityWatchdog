@@ -41,6 +41,11 @@
 // -----------------------------------------------------------------------------
 .tooltipRows {
     width: 255rem;
+    // Options slider writes this custom property through the tooltip root.
+    // Defaults stay here so the tooltip still looks normal if the binding is missing.
+    --moneyTooltipValueSizeFull: 1.15em;
+    --moneyTooltipValueSizeCompact: 1.20em;
+    --moneyTooltipValueSizeMini: 1.30em;
 }
 
 // Full-size and Compact need room for Income / Expenses / Net groups.
@@ -125,14 +130,14 @@
 // Per-mode value sizes. These affect only the money values inside the hover tooltip,
 // not the bottom toolbar number beside the vanilla money/population fields.
 .tooltipValueLineFull {
-    font-size: 1.15em;
+    font-size: var(--moneyTooltipValueSizeFull);
 }
 .tooltipValueLineCompact {
-    font-size: 1.20em;
+    font-size: var(--moneyTooltipValueSizeCompact);
 }
 
 .tooltipValueLineMini {
-    font-size: 1.30em;
+    font-size: var(--moneyTooltipValueSizeMini);
     font-weight: 600;
     line-height: 1.08;
 }
