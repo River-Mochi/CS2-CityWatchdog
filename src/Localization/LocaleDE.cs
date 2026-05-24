@@ -51,7 +51,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Geldansicht" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
                     "Fügt numerische Trendwerte neben den Vanilla-Pfeilen für Geld und Bevölkerung in der unteren Leiste hinzu.\n" +
-                    "Es dient nur als leichte Anzeige in der Werkzeugleiste, Sie ändert weder Stadtgeld noch Bevölkerung." },
+                    "Dies ist nur eine leichte Anzeige in der Werkzeugleiste; sie ändert weder Stadtgeld noch Bevölkerung." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyViewMode)), "Geldansicht-Häufigkeit" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)),
@@ -62,11 +62,11 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "Geld-Tooltip-Stil" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
-                    "Auswahl, wie viel Details im Geld-Tooltip beim darüber hovern angezeigt wird.\n" +
+                    "Auswahl, wie viele Details im Geld-Tooltip beim Darüberfahren angezeigt werden.\n" +
                     "Kompakt = Mod-Standard.\n" +
                     "<Mini> zeigt nur zwei Netto-Werte für /mo und /h an.\n" +
                     "<Kompakt> kürzt große Werte (15.21M statt 15,212,318).\n" +
-                    "<Volle Daten> zeigt die Vollen Werte und Gesamtfelder." },
+                    "<Volle Daten> zeigt volle Werte und Gesamtfelder." },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Kompakt" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "Volle Daten" },
@@ -76,7 +76,7 @@ namespace CityWatchdog
                     "Passt die <Schriftgröße> der Zahlen im Geldansicht-Tooltip an.\n" +
                     "Spielstandard = 100%\n" +
                     "<Mod-Standard = 120%>\n" +
-                    "Mit der Maus über das Geld unten am Bildschirm darüber hovern.\n" +
+                    "Mit der Maus über das Geld unten am Bildschirm fahren.\n" +
                     "Gedacht für Spieler, die kleinere Tooltips im Spiel schwer erkennen können."
                 },
 
@@ -85,19 +85,19 @@ namespace CityWatchdog
                     "Passt die <Schriftgröße> der Bevölkerungs-Tooltip-Zahlen an.\n" +
                     "Spielstandard = 100%\n" +
                     "<Mod-Standard = 120%>\n" +
-                    "Mit der Maus über die Bevölkerung unten am Bildschirm darüber hovern."
+                    "Mit der Maus über die Bevölkerung unten am Bildschirm fahren."
                 },
 
                 // --- Money helpers ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Geld-Hotkey-Betrag" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
-                    "Diesen Betrag für die Hotkey Option <Geld hinzufügen> und <Geld abziehen verwenden>.\n" +
+                    "Diesen Betrag für die Hotkey-Optionen <Geld hinzufügen> und <Geld abziehen> verwenden.\n" +
                     "Standard = 40.000.\n" +
                     "Dies bewirkt nichts, solange der Hotkey in der Stadt nicht genutzt wird.\n" +
-                    "Für automatische Geld vergabe, die Option <Automatisch Geld hinzufügen> aktivieren." },
+                    "Für automatische Geldvergabe die Option <Automatisch Geld hinzufügen> aktivieren." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Geld hinzufügen" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Hotkey zum Hinzufügen von Geld ins Stadtkontostand." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Hotkey zum Hinzufügen von Geld zum Stadtkontostand." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Geld hinzufügen" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Geld abziehen" },
@@ -110,7 +110,7 @@ namespace CityWatchdog
                     "Wenn der Kontostand unter dem gesetzten Schwellenwert liegt, wird automatisch der gewählte Betrag hinzugefügt.\n" +
                     "Empfohlen ist, bei Bedarf manuell Geld per Hotkey (<[> oder <]>) hinzuzufügen, statt diese automatische Option zu verwenden. Diese bleibt aber verfügbar, wenn benötigt." },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Schwellenwert für Automatisches-Geld" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Schwellenwert für automatisches Geld" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),
                     "Wenn <Automatisch Geld hinzufügen> aktiviert ist und der Stadtkontostand unter diesen Wert fällt,\n" +
                     "fügt City Watchdog den gewählten automatischen Betrag hinzu." },
@@ -122,7 +122,7 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Startgeld" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
-                    "Legt den Startkontostand für eine neue Stadt mit <begrenztem Geld> oder die zuerst geladene Stadt fest und setzt danach auf dem Spielstandard zurück.\n" +
+                    "Legt den Startkontostand für eine neue Stadt mit <begrenztem Geld> oder die zuerst geladene Stadt fest und setzt danach auf den Spielstandard zurück.\n" +
                     "Ist deaktiviert, wenn bereits eine Stadt geladen ist.\n" +
                     "Vor dem Starten/Laden einer Stadt einstellen → wird einmal angewendet → danach <Geld-Hotkey-Betrag> oder <Automatisch Geld hinzufügen> verwenden." },
 
@@ -185,7 +185,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "Aktuelle Modversion." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Öffnet die Paradox-Mods Seite des Autors." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Öffnet die Paradox-Mods-Seite des Autors." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Anleitung anzeigen" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Zeigt oder versteckt die Anleitung unten." },
@@ -197,9 +197,9 @@ namespace CityWatchdog
                     "3. Toggle All für schnelles Setup verwenden oder einen Abschnitt öffnen, um einzelne Benachrichtigungssymbole zu ändern.\n" +
                     "4. City Watchdog versteckt oder zeigt nur die Symbole; es behebt nicht das eigentliche Stadtproblem.\n\n" +
                     "<Geldhilfen>\n" +
-                    "1. Geldansicht fügt Pro Stunde(/h- ) oder Pro Monat(/mo- ) Werte neben Geld und Bevölkerung in der unteren Leiste hinzu.\n" +
+                    "1. Geldansicht fügt /h- oder /mo-Werte neben Geld und Bevölkerung in der unteren Leiste hinzu.\n" +
                     "2. Geld hinzufügen und abziehen: nutzt den <Geld-Hotkey-Betrag>.\n" +
-                    "3. "Automatisch Geld hinzufügen" überwacht den Stadtkontostand während eine Stadt geladen ist und fügt unter dem Schwellenwert Geld hinzu.\n" +
+                    "3. <Automatisch Geld hinzufügen> überwacht den Stadtkontostand während eine Stadt geladen ist, und fügt unter dem Schwellenwert Geld hinzu.\n" +
                     "4. Unbegrenztes-Geld-Spielstand konvertieren ist nur für Städte, die mit unbegrenztem Geld gestartet wurden. City Watchdog kann es <nicht rückgängig machen>.\n\n" +
                     "<Benutzerdefinierter Meilenstein>\n" +
                     "Startgeld und Meilensteine im Optionsmenü einstellen, bevor eine Stadt geladen oder gestartet wird." },
@@ -209,7 +209,7 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("EntryButtonTitle"), "CITY WATCHDOG" },
                 { m_Settings.GetUILocaleID("EntryButtonDescription"), "Benachrichtigungssymbol-Panel öffnen." },
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
-                    "Zeilen öffnen; [✓] zeigt Warnungen an, ansonsten versteckt diese.\n" +
+                    "Zeilen öffnen; [✓] zeigt Warnungen, ohne Haken werden sie versteckt.\n" +
                     "Löst nichts, räumt nur Icon-Chaos auf." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Alle umschalten" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Alle ausklappen" },
@@ -229,8 +229,8 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("PopulationTooltipCurrentTrend"), "Aktueller Trend:" },
                 { m_Settings.GetUILocaleID("PopulationTooltipBirths"), "Geburten:" },
                 { m_Settings.GetUILocaleID("PopulationTooltipDeaths"), "Todesfälle:" },
-                { m_Settings.GetUILocaleID("PopulationTooltipMovedIn"), "Zugezogene:" },
-                { m_Settings.GetUILocaleID("PopulationTooltipMovedOut"), "Wegezogene:" },
+                { m_Settings.GetUILocaleID("PopulationTooltipMovedIn"), "Zuzüge:" },
+                { m_Settings.GetUILocaleID("PopulationTooltipMovedOut"), "Wegzüge:" },
 
                 // --- Electricity notifications ---
                 { m_Settings.GetUILocaleID("Electricity"), "STROM" },
