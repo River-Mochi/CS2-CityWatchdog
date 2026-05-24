@@ -50,7 +50,7 @@ namespace CityWatchdog
                 // --- Money View ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Geldansicht" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
-                    "Fügt numerische Trendwerte neben den Vanilla-Pfeilen für Geld und Bevölkerung in der unteren Leiste hinzu.\n" +
+                    "Löst nichts, räumt nur Icon-Chaos auf.\n" +
                     "Dies ist nur eine leichte Anzeige in der Werkzeugleiste; sie ändert weder Stadtgeld noch Bevölkerung." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyViewMode)), "Geldansicht-Häufigkeit" },
@@ -132,7 +132,7 @@ namespace CityWatchdog
                 // --- Notifications ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Benachrichtigungssymbole umschalten" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
-                    "<Hotkey> für dieselbe Aktion wie die Symbolschaltfläche <[Toggle All]> im Spielpanel.\n" +
+                    "<Hotkey> für dieselbe Aktion wie die Symbolschaltfläche <[Alle umschalten]> im Spielpanel.\n" +
                     "Zeigt oder versteckt sofort alle aufgeführten Stadt-Benachrichtigungssymbole." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Alle Benachrichtigungssymbole sofort anzeigen/verstecken" },
 
@@ -169,7 +169,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
                     "Für Städte, die mit <Unbegrenztem Geld> gestartet wurden.\n" +
                     "Während diese Stadt geladen ist, wird der Spielstand auf normales begrenztes Geldbudget konvertiert, damit Geldherausforderungen wieder gelten.\n" +
-                    "Die Schaltfläche ist <deaktiviert/ausgegraut>, außer die geladene Stadt ist vom Typ <Unbegrenztes Geld> und <Unbegrenztes-Geld-Konverter> ist ON [ ✓ ].\n" +
+                    "Die Schaltfläche ist <deaktiviert/ausgegraut>, außer die geladene Stadt ist vom Typ <Unbegrenztes Geld> und <Unbegrenztes-Geld-Konverter> ist AN [ ✓ ].\n" +
                     "Backup erstellen und auf eigenes Risiko verwenden; City Watchdog kann diese Konvertierung nicht rückgängig machen." },
 
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
@@ -192,14 +192,14 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Benachrichtigungspanel>\n" +
-                    "1. Den City-Watchdog-Button (oben links) anklicken, um das Panel zu öffnen.\n" +
-                    "2. ASC/DESC sortiert.\n" +
-                    "3. Toggle All für schnelles Setup verwenden oder einen Abschnitt öffnen, um einzelne Benachrichtigungssymbole zu ändern.\n" +
+                    "1. Den City-Watchdog-Button oben links anklicken oder Shift+N drücken, um das Panel zu öffnen.\n" +
+                    "2. ASC/DESC sortiert die Liste.\n" +
+                    "3. <Alle umschalten> für schnelles Setup verwenden oder einen Abschnitt öffnen, um einzelne Benachrichtigungssymbole zu ändern.\n" +
                     "4. City Watchdog versteckt oder zeigt nur die Symbole; es behebt nicht das eigentliche Stadtproblem.\n\n" +
                     "<Geldhilfen>\n" +
                     "1. Geldansicht fügt /h- oder /mo-Werte neben Geld und Bevölkerung in der unteren Leiste hinzu.\n" +
                     "2. Geld hinzufügen und abziehen: nutzt den <Geld-Hotkey-Betrag>.\n" +
-                    "3. <Automatisch Geld hinzufügen> überwacht den Stadtkontostand während eine Stadt geladen ist, und fügt unter dem Schwellenwert Geld hinzu.\n" +
+                    "3. <Automatisch Geld hinzufügen> überwacht den Stadtkontostand, während eine Stadt geladen ist, und fügt Geld hinzu, wenn er unter dem Schwellenwert liegt.\n" +
                     "4. Unbegrenztes-Geld-Spielstand konvertieren ist nur für Städte, die mit unbegrenztem Geld gestartet wurden. City Watchdog kann es <nicht rückgängig machen>.\n\n" +
                     "<Benutzerdefinierter Meilenstein>\n" +
                     "Startgeld und Meilensteine im Optionsmenü einstellen, bevor eine Stadt geladen oder gestartet wird." },
@@ -222,14 +222,14 @@ namespace CityWatchdog
                     "Farbe: grün = alles an; blau = gemischt; rot = alles aus." },
 
                 // --- Tooltip labels ---
-                                { m_Settings.GetUILocaleID("MoneyViewTooltipIncome"), "Einnahmen:" },
+                { m_Settings.GetUILocaleID("MoneyViewTooltipIncome"), "Einnahmen:" },
                 { m_Settings.GetUILocaleID("MoneyViewTooltipExpenses"), "Ausgaben:" },
                 { m_Settings.GetUILocaleID("MoneyViewTooltipNet"), "Netto:" },
                 { m_Settings.GetUILocaleID("MoneyViewTooltipTotal"), "Gesamt:" },
                 { m_Settings.GetUILocaleID("PopulationTooltipCurrentTrend"), "Aktueller Trend:" },
                 { m_Settings.GetUILocaleID("PopulationTooltipBirths"), "Geburten:" },
                 { m_Settings.GetUILocaleID("PopulationTooltipDeaths"), "Todesfälle:" },
-                { m_Settings.GetUILocaleID("PopulationTooltipHomeless"), "Obdachlos:" },
+                { m_Settings.GetUILocaleID("PopulationTooltipHomeless"), "Obdachlose:" },
                 { m_Settings.GetUILocaleID("PopulationTooltipMovedIn"), "Zuzüge:" },
                 { m_Settings.GetUILocaleID("PopulationTooltipMovedOut"), "Wegzüge:" },
 
