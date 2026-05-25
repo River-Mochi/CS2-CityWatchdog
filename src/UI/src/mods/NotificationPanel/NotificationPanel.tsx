@@ -74,15 +74,9 @@ const NotificationPanelContent = () => {
 
     const allSectionsExpanded = sections.every((section) => expandedSections[section.localeId] === true);
 
-    // sortAscending = current sort state of the list.
-    // button shows the NEXT action, so when list is ascending,
-    // show the descending icon because clicking will switch to descending.
+    // sortAscending is the current list state.
+    // The button shows the next action: descending icon while the list is currently ascending.
     const sortIconSrc = sortAscending ? sortArrowDownSrc : sortArrowUpSrc;
-
-    const sortTooltip = sortAscending
-        ? localize("SortDescending", "↓Sort Descending")
-        : localize("SortAscending", "↑Sort Ascending");
-
 
     const localize: Localize = (localeId, fallback, raw = false) => {
         if (raw) {
@@ -91,6 +85,10 @@ const NotificationPanelContent = () => {
 
         return translate(`CityWatchdog.UI[${localeId}]`) ?? fallback ?? localeId;
     };
+
+    const sortTooltip = sortAscending
+        ? localize("SortDescending", "↓Sort Descending")
+        : localize("SortAscending", "↑Sort Ascending");
 
     const tooltipContent = (localeId: string, fallback: string) => {
         const tooltip = localize(localeId, fallback);
@@ -171,7 +169,6 @@ const NotificationPanelContent = () => {
                             />
                         </Button>
                     </Tooltip>
-                  
                 </div>
 
                 <div className={styles.toolbarButtons}>
