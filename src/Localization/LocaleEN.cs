@@ -201,7 +201,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Notification panel>\n" +
                     "1. Click the City Watchdog button (Top Left), or press Shift+N, to open the panel.\n" +
-                    "2. ASC/DESC to sort.\n" +
+                    "2. Sort ASC/DESC.\n" +
                     "3. Toggle All for quick all Off/On, or expand a section to change specific ones.\n" +
                     "4. Shows or hides icons only; does not fix the underlying city problem.\n\n" +
                     "<Money helpers>\n" +
@@ -223,8 +223,9 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("ToggleAll"), "Toggle All" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Expand All" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Collapse All Rows" },
-                { m_Settings.GetUILocaleID("SortAscending"), "ASC ↑" },
-                { m_Settings.GetUILocaleID("SortDescending"), "DESC ↓" },
+
+                { m_Settings.GetUILocaleID("SortAscending"), "↑Sort Ascending" },
+                { m_Settings.GetUILocaleID("SortDescending"), "↓Sort Descending" },
                 { m_Settings.GetUILocaleID("SortOrderTooltip"), "Sort order" },
                 { m_Settings.GetUILocaleID("ToggleAllTooltip"),
                     "Show/hide all icons.\n" +

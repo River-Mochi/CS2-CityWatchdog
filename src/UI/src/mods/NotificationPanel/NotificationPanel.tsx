@@ -149,7 +149,7 @@ const NotificationPanelContent = () => {
                         </div>
                     </Tooltip>
 
-                    <Tooltip tooltip={localize("SortOrderTooltip", "Sort order")}>
+                    <Tooltip tooltip={sortAscending ? localize("SortAscending", "↑Sort Ascending") : localize("SortDescending", "↓Sort Descending")}>
                         <Button
                             className={`${styles.toolbarButton} ${styles.sortButton}`}
                             onClick={() => { setSortAscending(!sortAscending); }}
@@ -162,6 +162,7 @@ const NotificationPanelContent = () => {
                             />
                         </Button>
                     </Tooltip>
+
                 </div>
 
                 <div className={styles.toolbarButtons}>
