@@ -1,5 +1,5 @@
 // File: src/UI/src/mods/NotificationPanel/NotificationPanel.module.scss
-// Purpose: Styles CWD notification panel.
+// Purpose: Styles CWD notification panel and svg buttons.
 
 .panel {
     position: absolute;
@@ -9,7 +9,7 @@
     width: 380rem;
     max-height: 890rem;
     // Let custom wrapper colors show through instead of stacking extra vanilla fills.
-    // This follows the same idea used by ZoneTools: make the Panel shell transparent,
+    // Follows the same idea used by ZoneTools: make the Panel shell transparent,
     // then style the real vanilla header/content wrappers below.
     --menuPanel1: transparent;
     --menuPanel2: transparent;
@@ -192,9 +192,9 @@
 }
 
 .sortButton {
-    width: 34rem;
-    min-width: 34rem;
-    flex: 0 0 34rem;
+    width: 32rem;
+    min-width: 32rem;
+    flex: 0 0 32rem;
     padding-left: 0;
     padding-right: 0;
 }

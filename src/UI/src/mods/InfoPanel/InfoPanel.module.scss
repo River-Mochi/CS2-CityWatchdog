@@ -15,15 +15,17 @@
 
 .infoPanelHeader {
     width: 100%;
-    min-height: 26rem;
+    min-height: 24rem;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 8rem;
-    padding: 3rem 4rem;
-    margin: 0;
+    // Pull header background across the parent panel's 12rem left/right padding.
+    margin: -3rem -12rem;
+    padding: 6rem 16rem;
+
     border: 0;
-    border-radius: 6rem;
+    border-radius: 4rem;
     background-color: transparent;
     color: rgba(254, 254, 254, 0.9);
     text-align: left;
