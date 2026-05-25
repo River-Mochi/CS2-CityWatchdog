@@ -214,7 +214,7 @@ namespace CityWatchdog
                     "문제 해결은 아니고, 아이콘만 정리합니다." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "모두 전환" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "모두 펼치기" },
-
+                { m_Settings.GetUILocaleID("CollapseAll"), "모든 행 접기" },
                 { m_Settings.GetUILocaleID("SortAscending"), "↑ 정렬 오름차순" },
                 { m_Settings.GetUILocaleID("SortDescending"), "↓ 정렬 내림차순" },
                 { m_Settings.GetUILocaleID("ToggleAllTooltip"),

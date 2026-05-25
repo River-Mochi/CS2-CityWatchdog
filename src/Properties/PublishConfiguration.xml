@@ -85,10 +85,11 @@ https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
 <ChangeLog>
 - add color to the panel number boxes (5/5)
 - added: homeless to population.
+- added: switch ASC/DESC to svg images, tidy button bar.
 - fixed: Spanish and some long sentences covering checkboxes.
-- added: German DE update from UnMaestro.
+- update: German DE from UnMaestro.
 - added: Polish PL added.
-
+- updated: all translations files.
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
 	<ExternalLink Type="github" Url="https://github.com/River-Mochi/CityWatchdog" />

@@ -10,6 +10,7 @@
 .infoPanelTitle {
     font-size: var(--fontSizeS);
     margin-bottom: 10rem;
+    transition: color 120ms ease-out, font-weight 120ms ease-out;
 }
 
 .infoPanelHeader {
@@ -19,17 +20,24 @@
     flex-direction: row;
     align-items: center;
     gap: 8rem;
-    padding: 0;
+    padding: 3rem 4rem;
     margin: 0;
     border: 0;
+    border-radius: 6rem;
     background-color: transparent;
     color: rgba(254, 254, 254, 0.9);
     text-align: left;
     text-transform: none;
+    transition: background-color 120ms ease-out, color 120ms ease-out;
 }
 
     .infoPanelHeader:hover {
         color: white;
+        background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .infoPanelHeader:active {
+        background-color: rgba(255, 255, 255, 0.12);
     }
 
     .infoPanelHeader .infoPanelTitle {
@@ -38,7 +46,11 @@
         text-transform: none;
     }
 
-// Creates space between a section header and the first checkbox row.
+    .infoPanelHeader:hover .infoPanelTitle {
+        color: #ffffff;
+        font-weight: 600;
+    }
+
 .infoPanelBody {
     margin-top: 6rem;
 }
@@ -54,23 +66,21 @@
     color: rgba(254, 254, 254, 0.78);
     font-size: var(--fontSizeXS);
     text-align: center;
+    transition: background-color 120ms ease-out, border-color 120ms ease-out, color 120ms ease-out;
 }
 
-// 0 selected: quiet neutral pill.
 .infoPanelSummaryOff {
     border-color: rgba(255, 255, 255, 0.18);
     background-color: rgba(255, 255, 255, 0.10);
     color: rgba(254, 254, 254, 0.70);
 }
 
-// Some selected: same blue family as Toggle All mixed state.
 .infoPanelSummaryPartial {
     border-color: rgba(84, 215, 255, 0.9);
-    background-color: rgba(36, 88, 112, 0.42);
+    background-color: rgba(36, 88, 112, 0.36);
     color: rgba(210, 245, 255, 0.95);
 }
 
-// All selected: green outline/text, neutral fill to avoid too many bright green pills.
 .infoPanelSummaryOn {
     border-color: rgba(95, 220, 120, 0.9);
     background-color: rgba(255, 255, 255, 0.07);
@@ -89,11 +99,10 @@
     background-color: rgba(255, 255, 255, 0.12);
     font-size: var(--fontSizeS);
     line-height: 1;
+    transition: background-color 120ms ease-out, border-color 120ms ease-out;
 }
 
-// Hover makes the +/- box read more like an interactive control.
 .infoPanelHeader:hover .infoPanelToggle {
-    border-color: rgba(255, 255, 255, 0.48);
-    background-color: rgba(255, 255, 255, 0.26);
+    border-color: rgba(255, 255, 255, 0.52);
+    background-color: rgba(255, 255, 255, 0.18);
 }
-

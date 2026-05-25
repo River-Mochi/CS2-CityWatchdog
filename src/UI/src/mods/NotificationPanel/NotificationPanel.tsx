@@ -73,7 +73,16 @@ const NotificationPanelContent = () => {
             : styles.toggleAllOff;
 
     const allSectionsExpanded = sections.every((section) => expandedSections[section.localeId] === true);
-    const sortIconSrc = sortAscending ? sortArrowUpSrc : sortArrowDownSrc;
+
+    // sortAscending = current sort state of the list.
+    // button shows the NEXT action, so when list is ascending,
+    // show the descending icon because clicking will switch to descending.
+    const sortIconSrc = sortAscending ? sortArrowDownSrc : sortArrowUpSrc;
+
+    const sortTooltip = sortAscending
+        ? localize("SortDescending", "↓Sort Descending")
+        : localize("SortAscending", "↑Sort Ascending");
+
 
     const localize: Localize = (localeId, fallback, raw = false) => {
         if (raw) {
@@ -149,7 +158,7 @@ const NotificationPanelContent = () => {
                         </div>
                     </Tooltip>
 
-                    <Tooltip tooltip={sortAscending ? localize("SortAscending", "↑Sort Ascending") : localize("SortDescending", "↓Sort Descending")}>
+                    <Tooltip tooltip={sortTooltip}>
                         <Button
                             className={`${styles.toolbarButton} ${styles.sortButton}`}
                             onClick={() => { setSortAscending(!sortAscending); }}
@@ -162,7 +171,7 @@ const NotificationPanelContent = () => {
                             />
                         </Button>
                     </Tooltip>
-
+                  
                 </div>
 
                 <div className={styles.toolbarButtons}>

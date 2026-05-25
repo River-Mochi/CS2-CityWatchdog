@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
 <svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M4 16L13 16" stroke="#E5F2F6" stroke-width="1.6" stroke-linecap="round"/>
-    <path opacity="0.72" d="M6 11H13" stroke="#D2E6EC" stroke-width="1.6" stroke-linecap="round"/>
-    <path opacity="0.48" d="M8 6L13 6" stroke="#C2D8DF" stroke-width="1.6" stroke-linecap="round"/>
-    <path d="M17 4L17 20L20 16" stroke="#F3FBFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M4 16H13" stroke="#FFFFFF" stroke-width="2.1" stroke-linecap="round"/>
+    <path d="M6 11H13" stroke="#ebf0f2" stroke-width="2.0" stroke-linecap="round" opacity="0.88"/>
+    <path d="M8 6H13" stroke="#eaeef0" stroke-width="1.95" stroke-linecap="round" opacity="0.76"/>
+    <path d="M17 4V20L20 16" stroke="#FFFFFF" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

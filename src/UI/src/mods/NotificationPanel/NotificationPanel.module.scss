@@ -138,9 +138,12 @@
     border-radius: 4rem;
     border: 1rem solid rgba(255, 255, 255, 0.35);
     background-color: rgba(36, 54, 66, 0.58);
+    transition: background-color 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out;
 
     &:hover {
-        background-color: rgba(55, 78, 94, 0.74);
+        background-color: rgba(108, 136, 150, 0.34);
+        border-color: rgba(255, 255, 255, 0.58);
+        box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.06);
     }
 }
 
@@ -168,12 +171,16 @@
     text-align: center;
     text-transform: none;
     white-space: nowrap;
+    transition: background-color 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out, color 120ms ease-out;
 
     &:hover {
-        background-color: rgba(55, 78, 94, 0.74);
+        background-color: rgba(108, 136, 150, 0.34);
+        border-color: rgba(255, 255, 255, 0.58);
+        box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.06);
         color: #ffffff;
     }
 }
+
 
 .toolbarIcon {
     width: 22rem;
