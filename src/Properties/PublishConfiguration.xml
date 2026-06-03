@@ -63,7 +63,7 @@ https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
 
 </LongDescription>
 	<!--Thumbnail-->
-	<Thumbnail Value="Properties/Thumbnail-dog-city01.jpg" />
+	<Thumbnail Value="Properties/Thumbnail-dog-city02.jpg" />
 	<!--Screenshot, can be set multiple times-->
     <Screenshot Value="Properties/image10-Notifications.jpg" />
     <Screenshot Value="Properties/image20-Hotkeys-Money.jpg" />
