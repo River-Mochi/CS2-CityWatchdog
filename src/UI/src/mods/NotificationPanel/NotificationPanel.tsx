@@ -192,13 +192,12 @@ const NotificationPanelContent = () => {
                             onClick={onToggleAll}
                             focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
                         >
-                            <img
-                                src={toggleAllIconSrc}
-                                className={`${styles.toolbarIcon} ${styles.toggleAllIcon}`}
-                                alt=""
-                            />
+                            <span className={styles.toggleButtonText}>
+                                {localize("ToggleAll", "Toggle All")}
+                            </span>
                         </Button>
                     </Tooltip>
+
                 </div>
             </div>
 

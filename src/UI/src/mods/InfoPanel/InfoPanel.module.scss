@@ -2,8 +2,8 @@
 // Purpose: Styling for collapsible notification section headers and grouped rows.
 
 .infoPanel {
-    // 6rem top/bottom, 12rem left/right.
-    padding: 6rem 12rem;
+    // 5rem top/bottom, 8rem left/right.
+    padding: 5rem 8rem;
     background-color: rgba(0, 0, 0, 0.15);
 }
 
@@ -15,15 +15,14 @@
 
 .infoPanelHeader {
     width: auto;
-    min-height: 24rem;
+    min-height: 22rem;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 8rem;
-    // Slightly widens the hover strip without reaching into the scroll bar area.
-    // This avoids the large right-side gap caused by full negative margins.
-    margin: -2rem -4rem;
-    padding: 5rem 8rem;
+    // Slightly widens the hover strip without reaching into the scrollbar area.
+    margin: -2rem -3rem;
+    padding: 4rem 7rem;
     border: 0;
     border-radius: 4rem;
     background-color: transparent;
@@ -54,19 +53,25 @@
     }
 
 .infoPanelBody {
-    margin-top: 6rem;
+    margin-top: 5rem;
 }
 
 .infoPanelSummary {
     min-width: 34rem;
+    height: 22rem;
     margin-left: auto;
     margin-right: 4rem;
-    padding: 1.5rem 6rem;
+    padding: 0 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
     border-radius: 7rem;
     border: 1rem solid rgba(255, 255, 255, 0.18);
     background-color: rgba(255, 255, 255, 0.10);
     color: rgba(254, 254, 254, 0.78);
     font-size: var(--fontSizeXS);
+    line-height: 1;
     text-align: center;
     transition: background-color 120ms ease-out, border-color 120ms ease-out, color 120ms ease-out;
 }
