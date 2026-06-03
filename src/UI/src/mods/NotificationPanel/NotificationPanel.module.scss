@@ -23,11 +23,11 @@
         height: 30rem !important;
         min-height: 30rem !important;
         max-height: 30rem !important;
+        overflow: visible !important;
         background-color: rgba(36, 54, 66, 0.72) !important;
         background-image: none !important;
         transition: background-color 120ms ease-out;
     }
-
         // Header hover: lighter gray and a little more transparent.
         > div[class*="header_"]:hover {
             background-color: rgba(76, 98, 112, 0.46) !important;
@@ -62,7 +62,10 @@
     align-items: center;
     padding: 0 5rem;
     border-radius: 0;
+    overflow: visible;
     background-color: transparent; // hide the inner title bar on the header
+    // Coherent's font box sits slightly low here; move all header content up.
+    transform: translateY(-2rem);
 }
 
 .headerTitleArea {
@@ -81,25 +84,28 @@
     object-fit: contain;
 }
 
+
 .headerModName {
     display: flex;
     flex: 1 1 auto;
     min-width: 0;
-    height: 100%;
+    height: auto;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    overflow: visible;
     color: #54d7ff;
     font-size: var(--fontSizeS);
     font-weight: 500;
-    line-height: 1;
-    letter-spacing: 1.8rem;
+    line-height: 1.15;
+    letter-spacing: 1.7rem;
 }
 
+
 .headerCloseButton {
-    flex: 0 0 22rem;
-    width: 22rem;
-    height: 22rem;
+    flex: 0 0 20rem;
+    width: 20rem;
+    height: 20rem;
     margin-left: 8rem;
 }
 
