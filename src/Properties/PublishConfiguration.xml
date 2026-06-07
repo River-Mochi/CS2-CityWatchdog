@@ -63,13 +63,15 @@ https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
 
 </LongDescription>
 	<!--Thumbnail-->
-	<Thumbnail Value="Properties/Thumbnail-dog-city02.jpg" />
+	<Thumbnail Value="Properties/Thumbnail-dog-city03.jpg" />
 	<!--Screenshot, can be set multiple times-->
     <Screenshot Value="Properties/image10-Notifications.jpg" />
     <Screenshot Value="Properties/image20-Hotkeys-Money.jpg" />
     <Screenshot Value="Properties/image30-Money.jpg" />
+    <Screenshot Value="Properties/image35-Money.jpg" />
     <Screenshot Value="Properties/image40-Languages.jpg" />
-    <Screenshot Value="Properties/image60-InstructionsEN.jpg" />
+    <Screenshot Value="Properties/image65-InstructionsCN.jpg" />
+    <Screenshot Value="Properties/image80-RainMoney.jpg" />
 	<!--Tag, can be set multiple times-->
 	<Tag Value="Code Mod" />
 	<!--Link to the forum post where the mod can be discussed-->
@@ -82,14 +84,7 @@ https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
 	<Dependency Id="74417" DisplayName="Unified Icon Library" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- add color to the panel number boxes (5/5)
-- added: homeless to population.
-- added: switch ASC/DESC to svg images, tidy button bar.
-- fixed: Spanish and some long sentences covering checkboxes.
-- update: German DE from UnMaestro.
-- added: Polish PL added.
-- updated: all translations files.
-- make whole panel a little smaller
+    - added Turkish, Vietnamese, Thai, European Portuguese translations
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
 	<ExternalLink Type="github" Url="https://github.com/River-Mochi/CityWatchdog" />
