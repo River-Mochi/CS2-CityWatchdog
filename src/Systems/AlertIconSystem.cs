@@ -253,8 +253,10 @@ namespace CityWatchdog.Systems
             notification.PollutionGroundPollutionNotification = enabled;
 
             notification.ResourceConsumerNoResourceNotification = enabled;
+            notification.ResourceConsumerNoFuelNotification = enabled;
             notification.ResourceConnectionWarningNotification = enabled;
             notification.RoutePathfindNotification = enabled;
+            notification.RouteGateBypassNotification = enabled;
             notification.TransportLineVehicleNotification = enabled;
         }
 

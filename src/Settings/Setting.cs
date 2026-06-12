@@ -276,10 +276,11 @@ namespace CityWatchdog
 
                 if (alertIconSystem == null)
                 {
-                    Mod.DebugLog("Notification audit skipped: AlertIconSystem is not available.");
+                    LogUtils.Info(() => "Notification audit skipped: AlertIconSystem is not available.");
                     return;
                 }
 
+                LogUtils.Info(() => "Notification audit requested from Options UI.");
                 alertIconSystem.WriteNotificationAuditLog();
             }
         }

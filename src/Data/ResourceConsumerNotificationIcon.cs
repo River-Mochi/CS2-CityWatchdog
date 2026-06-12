@@ -6,5 +6,6 @@ namespace CityWatchdog.Data
     public enum ResourceConsumerNotificationIcon
     {
         NoResourceNotification,
+        NoFuelNotification,
     }
 }

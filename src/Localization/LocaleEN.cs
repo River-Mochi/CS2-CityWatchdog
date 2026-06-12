@@ -270,7 +270,7 @@ namespace CityWatchdog
                 // --- Water pipe notifications ---
                 { m_Settings.GetUILocaleID("WaterPipe"), "WATER PIPE" },
                 { m_Settings.GetUILocaleID("WaterPipeWaterNotification"), "Not enough water" },
-                { m_Settings.GetUILocaleID("WaterPipeDirtyWaterNotification"), "Water pump polluted" },
+                { m_Settings.GetUILocaleID("WaterPipeDirtyWaterNotification"), "Contaminated water" },
                 { m_Settings.GetUILocaleID("WaterPipeSewageNotification"), "Backed up sewer" },
                 { m_Settings.GetUILocaleID("WaterPipeWaterPipeNotConnectedNotification"), "Water Pipe not connected" },
                 { m_Settings.GetUILocaleID("WaterPipeSewagePipeNotConnectedNotification"), "Sewage Pipe not connected" },
@@ -347,11 +347,13 @@ namespace CityWatchdog
 
                 // --- Resource and route notifications ---
                 { m_Settings.GetUILocaleID("ResourceConsumer"), "RESOURCE CONSUMER" },
-                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "Low resources" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "Low Supplies" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoFuelNotification"), "No fuel" },
                 { m_Settings.GetUILocaleID("ResourceConnection"), "RESOURCE CONNECTION" },
                 { m_Settings.GetUILocaleID("ResourceConnectionWarningNotification"), "Resource line not connected" },
                 { m_Settings.GetUILocaleID("Route"), "ROUTE" },
                 { m_Settings.GetUILocaleID("RoutePathfindNotification"), "Pathfinding failed" },
+                { m_Settings.GetUILocaleID("RouteGateBypassNotification"), "Gate Bypass Exists" },
 
                 // --- Transport line notifications ---
                 { m_Settings.GetUILocaleID("TransportLine"), "TRANSPORT LINE" },

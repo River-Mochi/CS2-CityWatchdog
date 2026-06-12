@@ -1,5 +1,5 @@
 // File: src/Systems/AlertIconSystem.NotificationAudit.cs
-// Purpose: DEBUG-only report for comparing game notification prefabs with City Watchdog coverage.
+// Purpose: One-click report for comparing game notification prefabs with City Watchdog coverage.
 
 namespace CityWatchdog.Systems
 {
@@ -17,7 +17,7 @@ namespace CityWatchdog.Systems
     {
         public void WriteNotificationAuditLog()
         {
-            CityWatchdog.Mod.DebugLog(BuildNotificationAuditReport);
+            LogUtils.Info(BuildNotificationAuditReport);
         }
 
         private string BuildNotificationAuditReport()
@@ -184,6 +184,7 @@ namespace CityWatchdog.Systems
             if (TryGetQuerySingleton(routeNotificationParameterQuery, out RouteConfigurationData route))
             {
                 AddTracked(tracked, route.m_PathfindNotification, "RoutePathfindNotification");
+                AddTracked(tracked, route.m_GateBypassNotification, "RouteGateBypassNotification");
             }
 
             if (TryGetQuerySingleton(transportLineNotificationParameterQuery, out TransportLineData transportLine))
@@ -207,7 +208,8 @@ namespace CityWatchdog.Systems
             {
                 for (int i = 0; i < consumers.Length; i++)
                 {
-                    AddTracked(tracked, consumers[i].m_NoResourceNotificationPrefab, "ResourceConsumerNoResourceNotification");
+                    string trackedBy = GetResourceConsumerTrackedBy(consumers[i].m_NoResourceNotificationPrefab);
+                    AddTracked(tracked, consumers[i].m_NoResourceNotificationPrefab, trackedBy);
                 }
             }
             finally
@@ -293,9 +295,30 @@ namespace CityWatchdog.Systems
             }
             catch (Exception ex)
             {
-                CityWatchdog.Mod.DebugLog(() => $"Notification audit skipped singleton {typeof(T).Name}: {ex.GetType().Name}: {ex.Message}");
+                LogUtils.Warn(() => $"Notification audit skipped singleton {typeof(T).Name}: {ex.GetType().Name}: {ex.Message}", ex);
                 return false;
             }
+        }
+
+        private string GetResourceConsumerTrackedBy(Entity notificationPrefab)
+        {
+            NotificationIconPrefab? prefab = TryGetNotificationIconPrefab(notificationPrefab);
+            string icon = prefab == null ? string.Empty : ImageSystem.GetIcon(prefab) ?? string.Empty;
+            string name = prefab?.name ?? string.Empty;
+
+            if (icon.EndsWith("NoFuel.svg", StringComparison.OrdinalIgnoreCase) ||
+                name.IndexOf("Fuel", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return "ResourceConsumerNoFuelNotification";
+            }
+
+            if (icon.EndsWith("NotEnoughIndustrialGoods.svg", StringComparison.OrdinalIgnoreCase) ||
+                name.IndexOf("Supplies", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return "ResourceConsumerNoResourceNotification";
+            }
+
+            return "ResourceConsumerNoResourceNotification";
         }
 
         private NotificationIconPrefab? TryGetNotificationIconPrefab(Entity entity)

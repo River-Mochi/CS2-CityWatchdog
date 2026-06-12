@@ -6,6 +6,7 @@ namespace CityWatchdog.Systems
     using CityWatchdog.Data;
     using Game.Notifications;
     using Game.Prefabs;
+    using Game.UI;
     using System.Collections.Generic;
     using Unity.Collections;
     using Unity.Entities;
@@ -32,19 +33,26 @@ namespace CityWatchdog.Systems
             if (routeNotificationIcon == RouteNotificationIcon.PathfindNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_PathfindNotification, value);
             }
+            else if (routeNotificationIcon == RouteNotificationIcon.GateBypassNotification) {
+                SetNotificationIconDisplayEnabled(singleton.m_GateBypassNotification, value);
+            }
             if (refresh)
                 RefreshIcon();
         }
 
         public void SetRouteNotifications(bool refresh = true) {
             EnableRouteNotification(RouteNotificationIcon.PathfindNotification, Setting.Instance.Notification.RoutePathfindNotification);
+            EnableRouteNotification(RouteNotificationIcon.GateBypassNotification, Setting.Instance.Notification.RouteGateBypassNotification);
             if (refresh)
                 RefreshIcon();
         }
 
         public void EnableResourceConsumerNotification(ResourceConsumerNotificationIcon resourceConsumerNotificationIcon, bool value, bool refresh = false) {
             if (resourceConsumerNotificationIcon == ResourceConsumerNotificationIcon.NoResourceNotification) {
-                SetAllResourceConsumerNoResourceNotifications(value);
+                SetResourceConsumerNotifications(value, IsLowSuppliesNotificationPrefab);
+            }
+            else if (resourceConsumerNotificationIcon == ResourceConsumerNotificationIcon.NoFuelNotification) {
+                SetResourceConsumerNotifications(value, IsNoFuelNotificationPrefab);
             }
             if (refresh)
                 RefreshIcon();
@@ -52,6 +60,7 @@ namespace CityWatchdog.Systems
 
         public void SetResourceConsumerNotifications(bool refresh = true) {
             EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoResourceNotification, Setting.Instance.Notification.ResourceConsumerNoResourceNotification);
+            EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoFuelNotification, Setting.Instance.Notification.ResourceConsumerNoFuelNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -292,19 +301,58 @@ namespace CityWatchdog.Systems
             }
         }
 
-        private void SetAllResourceConsumerNoResourceNotifications(bool value) {
+        private void SetResourceConsumerNotifications(bool value, System.Func<Entity, bool> predicate) {
             NativeArray<ResourceConsumerData> consumers = resourceConsumerNotificationParameterQuery.ToComponentDataArray<ResourceConsumerData>(Allocator.Temp);
             try {
                 HashSet<Entity> seen = new();
                 for (int i = 0; i < consumers.Length; i++) {
                     Entity notificationPrefab = consumers[i].m_NoResourceNotificationPrefab;
-                    if (seen.Add(notificationPrefab)) {
+                    if (seen.Add(notificationPrefab) && predicate(notificationPrefab)) {
                         SetNotificationIconDisplayEnabled(notificationPrefab, value);
                     }
                 }
             }
             finally {
                 consumers.Dispose();
+            }
+        }
+
+        private bool IsLowSuppliesNotificationPrefab(Entity notificationPrefab) {
+            return IsNotificationIcon(notificationPrefab, "NotEnoughIndustrialGoods.svg") ||
+                   IsNotificationPrefabName(notificationPrefab, "Supplies");
+        }
+
+        private bool IsNoFuelNotificationPrefab(Entity notificationPrefab) {
+            return IsNotificationIcon(notificationPrefab, "NoFuel.svg") ||
+                   IsNotificationPrefabName(notificationPrefab, "Fuel");
+        }
+
+        private bool IsNotificationIcon(Entity notificationPrefab, string iconName) {
+            if (notificationPrefab == Entity.Null) {
+                return false;
+            }
+
+            try {
+                NotificationIconPrefab prefab = prefabSystem.GetPrefab<NotificationIconPrefab>(notificationPrefab);
+                string iconPath = ImageSystem.GetIcon(prefab) ?? string.Empty;
+                return iconPath.EndsWith(iconName, System.StringComparison.OrdinalIgnoreCase);
+            }
+            catch {
+                return false;
+            }
+        }
+
+        private bool IsNotificationPrefabName(Entity notificationPrefab, string text) {
+            if (notificationPrefab == Entity.Null) {
+                return false;
+            }
+
+            try {
+                NotificationIconPrefab prefab = prefabSystem.GetPrefab<NotificationIconPrefab>(notificationPrefab);
+                return (prefab.name ?? string.Empty).IndexOf(text, System.StringComparison.OrdinalIgnoreCase) >= 0;
+            }
+            catch {
+                return false;
             }
         }
 

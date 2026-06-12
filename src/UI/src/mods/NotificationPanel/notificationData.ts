@@ -33,7 +33,9 @@ import {
     OnHealthcareAmbulanceNotificationBindingToggle, OnHealthcareFacilityFullNotificationBindingToggle, OnHealthcareHearseNotificationBindingToggle,
     OnPoliceCrimeSceneNotificationBindingToggle, OnPoliceTrafficAccidentNotificationBindingToggle,
     OnPollutionAirPollutionNotificationBindingToggle, OnPollutionGroundPollutionNotificationBindingToggle, OnPollutionNoisePollutionNotificationBindingToggle,
+    OnResourceConsumerNoFuelNotificationBindingToggle,
     OnResourceConsumerNoResourceNotificationBindingToggle,
+    OnRouteGateBypassNotificationBindingToggle,
     OnRoutePathfindNotificationBindingToggle,
     OnTrafficBottleneckNotificationBindingToggle,
     OnTrafficCarConnectionNotificationBindingToggle,
@@ -59,8 +61,10 @@ import {
     OnWaterPipeWaterPipeNotConnectedNotificationBindingToggle,
     PoliceCrimeSceneNotificationBinding$, PoliceTrafficAccidentNotificationBinding$,
     PollutionAirPollutionNotificationBinding$, PollutionGroundPollutionNotificationBinding$, PollutionNoisePollutionNotificationBinding$,
+    ResourceConsumerNoFuelNotificationBinding$,
     ResourceConsumerNoResourceNotificationBinding$,
     ResourceConnectionWarningNotificationBinding$,
+    RouteGateBypassNotificationBinding$,
     RoutePathfindNotificationBinding$,
     TrafficBicycleConnectionNotificationBinding$,
     TrafficBottleneckNotificationBinding$,
@@ -175,7 +179,11 @@ export const gameTitleKeys: Record<string, string> = {
     PollutionNoisePollutionNotification: "Notifications.TITLE[Noise Pollution]",
     PollutionGroundPollutionNotification: "Notifications.TITLE[Ground Pollution]",
 
+    // Live medical/shelter resource prefabs use this key and display as "Low Supplies".
+    ResourceConsumerNoResourceNotification: "Notifications.TITLE[No Hospital Supplies]",
+    ResourceConsumerNoFuelNotification: "Notifications.TITLE[No Fuel Notification]",
     RoutePathfindNotification: "Notifications.TITLE[Pathfind Failed]",
+    RouteGateBypassNotification: "Notifications.TITLE[Gate Bypass Exists]",
     TransportLineVehicleNotification: "Notifications.TITLE[No Vehicles]",
 };
 
@@ -199,7 +207,7 @@ export const sections: NotificationSection[] = [
         localeId: "WaterPipe",
         items: [
             { icon: icon("NoRunningWater"), localeId: "WaterPipeWaterNotification", binding: WaterPipeWaterNotificationBinding$, onToggle: OnWaterPipeWaterNotificationBindingToggle },
-            { icon: icon("ContaminatedWaterPumped"), localeId: "WaterPipeDirtyWaterNotification", binding: WaterPipeDirtyWaterNotificationBinding$, onToggle: OnWaterPipeDirtyWaterNotificationBindingToggle },
+            { icon: icon("ContaminatedWater"), localeId: "WaterPipeDirtyWaterNotification", binding: WaterPipeDirtyWaterNotificationBinding$, onToggle: OnWaterPipeDirtyWaterNotificationBindingToggle },
             { icon: icon("Sewage"), localeId: "WaterPipeSewageNotification", binding: WaterPipeSewageNotificationBinding$, onToggle: OnWaterPipeSewageNotificationBindingToggle },
             { icon: icon("WaterPipeDisconnected"), localeId: "WaterPipeWaterPipeNotConnectedNotification", binding: WaterPipeWaterPipeNotConnectedNotificationBinding$, onToggle: OnWaterPipeWaterPipeNotConnectedNotificationBindingToggle },
             { icon: icon("SewagePipeDisconnected"), localeId: "WaterPipeSewagePipeNotConnectedNotification", binding: WaterPipeSewagePipeNotConnectedNotificationBinding$, onToggle: OnWaterPipeSewagePipeNotConnectedNotificationBindingToggle },
@@ -299,6 +307,7 @@ export const sections: NotificationSection[] = [
         localeId: "ResourceConsumer",
         items: [
             { icon: icon("NotEnoughIndustrialGoods"), localeId: "ResourceConsumerNoResourceNotification", binding: ResourceConsumerNoResourceNotificationBinding$, onToggle: OnResourceConsumerNoResourceNotificationBindingToggle },
+            { icon: icon("NoFuel"), localeId: "ResourceConsumerNoFuelNotification", binding: ResourceConsumerNoFuelNotificationBinding$, onToggle: OnResourceConsumerNoFuelNotificationBindingToggle },
         ],
     },
     {
@@ -311,6 +320,7 @@ export const sections: NotificationSection[] = [
         localeId: "Route",
         items: [
             { icon: icon("PathfindFailed"), localeId: "RoutePathfindNotification", binding: RoutePathfindNotificationBinding$, onToggle: OnRoutePathfindNotificationBindingToggle },
+            { icon: icon("NoPortAccess"), localeId: "RouteGateBypassNotification", binding: RouteGateBypassNotificationBinding$, onToggle: OnRouteGateBypassNotificationBindingToggle },
         ],
     },
     {

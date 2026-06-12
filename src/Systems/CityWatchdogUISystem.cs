@@ -89,9 +89,11 @@ namespace CityWatchdog.Systems
         private BoolBinding pollutionGroundPollutionNotificationBinding = null!;
 
         private BoolBinding resourceConsumerNoResourceNotificationBinding = null!;
+        private BoolBinding resourceConsumerNoFuelNotificationBinding = null!;
         private BoolBinding resourceConnectionWarningNotificationBinding = null!;
 
         private BoolBinding routePathfindNotificationBinding = null!;
+        private BoolBinding routeGateBypassNotificationBinding = null!;
 
         private BoolBinding transportLineVehicleNotificationBinding = null!;
 
@@ -176,9 +178,11 @@ namespace CityWatchdog.Systems
             pollutionGroundPollutionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.PollutionGroundPollutionNotification), Setting.Instance.Notification.PollutionGroundPollutionNotification, OnPollutionGroundPollutionNotificationToggle);
 
             resourceConsumerNoResourceNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ResourceConsumerNoResourceNotification), Setting.Instance.Notification.ResourceConsumerNoResourceNotification, OnResourceConsumerNoResourceNotificationToggle);
+            resourceConsumerNoFuelNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ResourceConsumerNoFuelNotification), Setting.Instance.Notification.ResourceConsumerNoFuelNotification, OnResourceConsumerNoFuelNotificationToggle);
             resourceConnectionWarningNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ResourceConnectionWarningNotification), Setting.Instance.Notification.ResourceConnectionWarningNotification, OnResourceConnectionWarningNotificationToggle);
 
             routePathfindNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.RoutePathfindNotification), Setting.Instance.Notification.RoutePathfindNotification, OnRoutePathfindNotificationToggle);
+            routeGateBypassNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.RouteGateBypassNotification), Setting.Instance.Notification.RouteGateBypassNotification, OnRouteGateBypassNotificationToggle);
 
             transportLineVehicleNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TransportLineVehicleNotification), Setting.Instance.Notification.TransportLineVehicleNotification, OnTransportLineVehicleNotificationToggle);
         }
@@ -498,6 +502,12 @@ namespace CityWatchdog.Systems
             Setting.Instance.Notification.ResourceConsumerNoResourceNotification = value;
             alertIconSystem.EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoResourceNotification, value, true);
         }
+
+        private void OnResourceConsumerNoFuelNotificationToggle(bool value) {
+            resourceConsumerNoFuelNotificationBinding.Update(value);
+            Setting.Instance.Notification.ResourceConsumerNoFuelNotification = value;
+            alertIconSystem.EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoFuelNotification, value, true);
+        }
         #endregion
 
         #region OnResourceConnectionNotificationToggle
@@ -513,6 +523,12 @@ namespace CityWatchdog.Systems
             routePathfindNotificationBinding.Update(value);
             Setting.Instance.Notification.RoutePathfindNotification = value;
             alertIconSystem.EnableRouteNotification(RouteNotificationIcon.PathfindNotification, value, true);
+        }
+
+        private void OnRouteGateBypassNotificationToggle(bool value) {
+            routeGateBypassNotificationBinding.Update(value);
+            Setting.Instance.Notification.RouteGateBypassNotification = value;
+            alertIconSystem.EnableRouteNotification(RouteNotificationIcon.GateBypassNotification, value, true);
         }
         #endregion
 
@@ -649,8 +665,10 @@ namespace CityWatchdog.Systems
             pollutionGroundPollutionNotificationBinding.Update(enabled);
 
             resourceConsumerNoResourceNotificationBinding.Update(enabled);
+            resourceConsumerNoFuelNotificationBinding.Update(enabled);
             resourceConnectionWarningNotificationBinding.Update(enabled);
             routePathfindNotificationBinding.Update(enabled);
+            routeGateBypassNotificationBinding.Update(enabled);
             transportLineVehicleNotificationBinding.Update(enabled);
         }
 
@@ -714,8 +732,10 @@ namespace CityWatchdog.Systems
                    notification.PollutionNoisePollutionNotification &&
                    notification.PollutionGroundPollutionNotification &&
                    notification.ResourceConsumerNoResourceNotification &&
+                   notification.ResourceConsumerNoFuelNotification &&
                    notification.ResourceConnectionWarningNotification &&
                    notification.RoutePathfindNotification &&
+                   notification.RouteGateBypassNotification &&
                    notification.TransportLineVehicleNotification;
         }
 

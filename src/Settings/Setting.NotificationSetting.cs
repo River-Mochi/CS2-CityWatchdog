@@ -75,10 +75,12 @@ namespace CityWatchdog
             public bool PollutionGroundPollutionNotification { get; set; }
 
             public bool ResourceConsumerNoResourceNotification { get; set; }
+            public bool ResourceConsumerNoFuelNotification { get; set; }
 
             public bool ResourceConnectionWarningNotification { get; set; }
 
             public bool RoutePathfindNotification { get; set; }
+            public bool RouteGateBypassNotification { get; set; }
 
             public bool TransportLineVehicleNotification { get; set; }
 
@@ -150,9 +152,11 @@ namespace CityWatchdog
                 PollutionGroundPollutionNotification = true;
 
                 ResourceConsumerNoResourceNotification = true;
+                ResourceConsumerNoFuelNotification = true;
                 ResourceConnectionWarningNotification = true;
 
                 RoutePathfindNotification = true;
+                RouteGateBypassNotification = true;
 
                 TransportLineVehicleNotification = true;
             }

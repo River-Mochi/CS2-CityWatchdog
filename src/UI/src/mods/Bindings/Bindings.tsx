@@ -66,8 +66,10 @@ export const PollutionAirPollutionNotificationBinding$ = bindValue<boolean>(mod.
 export const PollutionNoisePollutionNotificationBinding$ = bindValue<boolean>(mod.id, "PollutionNoisePollutionNotification");
 export const PollutionGroundPollutionNotificationBinding$ = bindValue<boolean>(mod.id, "PollutionGroundPollutionNotification");
 export const ResourceConsumerNoResourceNotificationBinding$ = bindValue<boolean>(mod.id, "ResourceConsumerNoResourceNotification");
+export const ResourceConsumerNoFuelNotificationBinding$ = bindValue<boolean>(mod.id, "ResourceConsumerNoFuelNotification");
 export const ResourceConnectionWarningNotificationBinding$ = bindValue<boolean>(mod.id, "ResourceConnectionWarningNotification");
 export const RoutePathfindNotificationBinding$ = bindValue<boolean>(mod.id, "RoutePathfindNotification");
+export const RouteGateBypassNotificationBinding$ = bindValue<boolean>(mod.id, "RouteGateBypassNotification");
 export const TransportLineVehicleNotificationBinding$ = bindValue<boolean>(mod.id, "TransportLineVehicleNotification");
 
 export const OnControlPanelBindingToggle = (enable: boolean) => trigger(mod.id, "ControlPanelEnabled", enable);
@@ -128,6 +130,8 @@ export const OnPollutionAirPollutionNotificationBindingToggle = (enable: boolean
 export const OnPollutionNoisePollutionNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "PollutionNoisePollutionNotification", enable);
 export const OnPollutionGroundPollutionNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "PollutionGroundPollutionNotification", enable);
 export const OnResourceConsumerNoResourceNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ResourceConsumerNoResourceNotification", enable);
+export const OnResourceConsumerNoFuelNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ResourceConsumerNoFuelNotification", enable);
 export const OnResourceConnectionWarningNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ResourceConnectionWarningNotification", enable);
 export const OnRoutePathfindNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "RoutePathfindNotification", enable);
+export const OnRouteGateBypassNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "RouteGateBypassNotification", enable);
 export const OnTransportLineVehicleNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "TransportLineVehicleNotification", enable);
