@@ -33,6 +33,7 @@ namespace CityWatchdog.Systems
         private EntityQuery policeNotificationParameterQuery;
         private EntityQuery pollutionNotificationParameterQuery;
         private EntityQuery resourceConsumerNotificationParameterQuery;
+        private EntityQuery resourceConnectionNotificationParameterQuery;
         private EntityQuery routeNotificationParameterQuery;
         private EntityQuery transportLineNotificationParameterQuery;
 
@@ -51,6 +52,7 @@ namespace CityWatchdog.Systems
             SetPoliceNotifications();
             SetPollutionNotifications();
             SetResourceConsumerNotifications();
+            SetResourceConnectionNotifications();
             SetRouteNotifications();
             SetTransportLineNotifications();
     #if DEBUG
@@ -92,6 +94,7 @@ namespace CityWatchdog.Systems
             policeNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<PoliceConfigurationData>());
             pollutionNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<PollutionParameterData>());
             resourceConsumerNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<ResourceConsumerData>());
+            resourceConnectionNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<ResourceConnectionData>());
             routeNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<RouteConfigurationData>());
             transportLineNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<TransportLineData>());
             RequireForUpdate(electricityParameterQuery);
@@ -172,6 +175,7 @@ namespace CityWatchdog.Systems
             SetPoliceNotifications(false);
             SetPollutionNotifications(false);
             SetResourceConsumerNotifications(false);
+            SetResourceConnectionNotifications(false);
             SetRouteNotifications(false);
             SetTransportLineNotifications(false);
 
@@ -217,6 +221,7 @@ namespace CityWatchdog.Systems
             notification.TrafficShipConnectionNotification = enabled;
             notification.TrafficTrainConnectionNotification = enabled;
             notification.TrafficPedestrianConnectionNotification = enabled;
+            notification.TrafficBicycleConnectionNotification = enabled;
 
             notification.CompanyNoInputsNotification = enabled;
             notification.CompanyNoCustomersNotification = enabled;
@@ -248,7 +253,12 @@ namespace CityWatchdog.Systems
             notification.PollutionGroundPollutionNotification = enabled;
 
             notification.ResourceConsumerNoResourceNotification = enabled;
+            notification.ResourceConsumerNoFuelNotification = enabled;
+            notification.ResourceConnectionWarningNotification = enabled;
+            notification.ResourceConnectionOilPipeNotConnectedNotification = enabled;
+            notification.ResourceConnectionFishingPierNotConnectedNotification = enabled;
             notification.RoutePathfindNotification = enabled;
+            notification.RouteGateBypassNotification = enabled;
             notification.TransportLineVehicleNotification = enabled;
         }
 

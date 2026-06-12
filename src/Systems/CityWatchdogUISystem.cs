@@ -4,6 +4,7 @@
 namespace CityWatchdog.Systems
 {
     using CityWatchdog.Data;
+    using CS2Shared.RiverMochi;
     using Colossal.UI.Binding;
     using Game;
     using Game.Input;
@@ -57,6 +58,7 @@ namespace CityWatchdog.Systems
         private BoolBinding trafficShipConnectionNotificationBinding = null!;
         private BoolBinding trafficTrainConnectionNotificationBinding = null!;
         private BoolBinding trafficPedestrianConnectionNotificationBinding = null!;
+        private BoolBinding trafficBicycleConnectionNotificationBinding = null!;
 
         private BoolBinding companyNoInputsNotificationBinding = null!;
         private BoolBinding companyNoCustomersNotificationBinding = null!;
@@ -88,8 +90,13 @@ namespace CityWatchdog.Systems
         private BoolBinding pollutionGroundPollutionNotificationBinding = null!;
 
         private BoolBinding resourceConsumerNoResourceNotificationBinding = null!;
+        private BoolBinding resourceConsumerNoFuelNotificationBinding = null!;
+        private BoolBinding resourceConnectionWarningNotificationBinding = null!;
+        private BoolBinding resourceConnectionOilPipeNotConnectedNotificationBinding = null!;
+        private BoolBinding resourceConnectionFishingPierNotConnectedNotificationBinding = null!;
 
         private BoolBinding routePathfindNotificationBinding = null!;
+        private BoolBinding routeGateBypassNotificationBinding = null!;
 
         private BoolBinding transportLineVehicleNotificationBinding = null!;
 
@@ -142,6 +149,7 @@ namespace CityWatchdog.Systems
             trafficShipConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TrafficShipConnectionNotification), Setting.Instance.Notification.TrafficShipConnectionNotification, OnTrafficShipConnectionNotificationToggle);
             trafficTrainConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TrafficTrainConnectionNotification), Setting.Instance.Notification.TrafficTrainConnectionNotification, OnTrafficTrainConnectionNotificationToggle);
             trafficPedestrianConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TrafficPedestrianConnectionNotification), Setting.Instance.Notification.TrafficPedestrianConnectionNotification, OnTrafficPedestrianConnectionNotificationToggle);
+            trafficBicycleConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TrafficBicycleConnectionNotification), Setting.Instance.Notification.TrafficBicycleConnectionNotification, OnTrafficBicycleConnectionNotificationToggle);
 
             companyNoInputsNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.CompanyNoInputsNotification), Setting.Instance.Notification.CompanyNoInputsNotification, OnCompanyNoInputsNotificationToggle);
             companyNoCustomersNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.CompanyNoCustomersNotification), Setting.Instance.Notification.CompanyNoCustomersNotification, OnCompanyNoCustomersNotificationToggle);
@@ -173,8 +181,13 @@ namespace CityWatchdog.Systems
             pollutionGroundPollutionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.PollutionGroundPollutionNotification), Setting.Instance.Notification.PollutionGroundPollutionNotification, OnPollutionGroundPollutionNotificationToggle);
 
             resourceConsumerNoResourceNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ResourceConsumerNoResourceNotification), Setting.Instance.Notification.ResourceConsumerNoResourceNotification, OnResourceConsumerNoResourceNotificationToggle);
+            resourceConsumerNoFuelNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ResourceConsumerNoFuelNotification), Setting.Instance.Notification.ResourceConsumerNoFuelNotification, OnResourceConsumerNoFuelNotificationToggle);
+            resourceConnectionWarningNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ResourceConnectionWarningNotification), Setting.Instance.Notification.ResourceConnectionWarningNotification, OnResourceConnectionWarningNotificationToggle);
+            resourceConnectionOilPipeNotConnectedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ResourceConnectionOilPipeNotConnectedNotification), Setting.Instance.Notification.ResourceConnectionOilPipeNotConnectedNotification, OnResourceConnectionOilPipeNotConnectedNotificationToggle);
+            resourceConnectionFishingPierNotConnectedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ResourceConnectionFishingPierNotConnectedNotification), Setting.Instance.Notification.ResourceConnectionFishingPierNotConnectedNotification, OnResourceConnectionFishingPierNotConnectedNotificationToggle);
 
             routePathfindNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.RoutePathfindNotification), Setting.Instance.Notification.RoutePathfindNotification, OnRoutePathfindNotificationToggle);
+            routeGateBypassNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.RouteGateBypassNotification), Setting.Instance.Notification.RouteGateBypassNotification, OnRouteGateBypassNotificationToggle);
 
             transportLineVehicleNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TransportLineVehicleNotification), Setting.Instance.Notification.TransportLineVehicleNotification, OnTransportLineVehicleNotificationToggle);
         }
@@ -352,6 +365,11 @@ namespace CityWatchdog.Systems
             Setting.Instance.Notification.TrafficPedestrianConnectionNotification = value;
             alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.PedestrianConnectionNotification, value, true);
         }
+        private void OnTrafficBicycleConnectionNotificationToggle(bool value) {
+            trafficBicycleConnectionNotificationBinding.Update(value);
+            Setting.Instance.Notification.TrafficBicycleConnectionNotification = value;
+            alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.BicycleConnectionNotification, value, true);
+        }
         #endregion
 
         #region OnCompanyNotificationToggle
@@ -489,6 +507,32 @@ namespace CityWatchdog.Systems
             Setting.Instance.Notification.ResourceConsumerNoResourceNotification = value;
             alertIconSystem.EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoResourceNotification, value, true);
         }
+
+        private void OnResourceConsumerNoFuelNotificationToggle(bool value) {
+            resourceConsumerNoFuelNotificationBinding.Update(value);
+            Setting.Instance.Notification.ResourceConsumerNoFuelNotification = value;
+            alertIconSystem.EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoFuelNotification, value, true);
+        }
+        #endregion
+
+        #region OnResourceConnectionNotificationToggle
+        private void OnResourceConnectionWarningNotificationToggle(bool value) {
+            resourceConnectionWarningNotificationBinding.Update(value);
+            Setting.Instance.Notification.ResourceConnectionWarningNotification = value;
+            alertIconSystem.EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.ConnectionWarningNotification, value, true);
+        }
+
+        private void OnResourceConnectionOilPipeNotConnectedNotificationToggle(bool value) {
+            resourceConnectionOilPipeNotConnectedNotificationBinding.Update(value);
+            Setting.Instance.Notification.ResourceConnectionOilPipeNotConnectedNotification = value;
+            alertIconSystem.EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.OilPipeNotConnectedNotification, value, true);
+        }
+
+        private void OnResourceConnectionFishingPierNotConnectedNotificationToggle(bool value) {
+            resourceConnectionFishingPierNotConnectedNotificationBinding.Update(value);
+            Setting.Instance.Notification.ResourceConnectionFishingPierNotConnectedNotification = value;
+            alertIconSystem.EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.FishingPierNotConnectedNotification, value, true);
+        }
         #endregion
 
         #region OnRouteNotificationToggle
@@ -496,6 +540,12 @@ namespace CityWatchdog.Systems
             routePathfindNotificationBinding.Update(value);
             Setting.Instance.Notification.RoutePathfindNotification = value;
             alertIconSystem.EnableRouteNotification(RouteNotificationIcon.PathfindNotification, value, true);
+        }
+
+        private void OnRouteGateBypassNotificationToggle(bool value) {
+            routeGateBypassNotificationBinding.Update(value);
+            Setting.Instance.Notification.RouteGateBypassNotification = value;
+            alertIconSystem.EnableRouteNotification(RouteNotificationIcon.GateBypassNotification, value, true);
         }
         #endregion
 
@@ -600,6 +650,7 @@ namespace CityWatchdog.Systems
             trafficShipConnectionNotificationBinding.Update(enabled);
             trafficTrainConnectionNotificationBinding.Update(enabled);
             trafficPedestrianConnectionNotificationBinding.Update(enabled);
+            trafficBicycleConnectionNotificationBinding.Update(enabled);
 
             companyNoInputsNotificationBinding.Update(enabled);
             companyNoCustomersNotificationBinding.Update(enabled);
@@ -631,7 +682,12 @@ namespace CityWatchdog.Systems
             pollutionGroundPollutionNotificationBinding.Update(enabled);
 
             resourceConsumerNoResourceNotificationBinding.Update(enabled);
+            resourceConsumerNoFuelNotificationBinding.Update(enabled);
+            resourceConnectionWarningNotificationBinding.Update(enabled);
+            resourceConnectionOilPipeNotConnectedNotificationBinding.Update(enabled);
+            resourceConnectionFishingPierNotConnectedNotificationBinding.Update(enabled);
             routePathfindNotificationBinding.Update(enabled);
+            routeGateBypassNotificationBinding.Update(enabled);
             transportLineVehicleNotificationBinding.Update(enabled);
         }
 
@@ -672,6 +728,7 @@ namespace CityWatchdog.Systems
                    notification.TrafficShipConnectionNotification &&
                    notification.TrafficTrainConnectionNotification &&
                    notification.TrafficPedestrianConnectionNotification &&
+                   notification.TrafficBicycleConnectionNotification &&
                    notification.CompanyNoInputsNotification &&
                    notification.CompanyNoCustomersNotification &&
                    notification.WorkProviderUneducatedNotification &&
@@ -694,7 +751,12 @@ namespace CityWatchdog.Systems
                    notification.PollutionNoisePollutionNotification &&
                    notification.PollutionGroundPollutionNotification &&
                    notification.ResourceConsumerNoResourceNotification &&
+                   notification.ResourceConsumerNoFuelNotification &&
+                   notification.ResourceConnectionWarningNotification &&
+                   notification.ResourceConnectionOilPipeNotConnectedNotification &&
+                   notification.ResourceConnectionFishingPierNotConnectedNotification &&
                    notification.RoutePathfindNotification &&
+                   notification.RouteGateBypassNotification &&
                    notification.TransportLineVehicleNotification;
         }
 

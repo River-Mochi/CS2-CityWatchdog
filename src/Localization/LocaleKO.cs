@@ -45,6 +45,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "단축키" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AboutDiagnostics), "DIAGNOSTICS" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "사용법" },
 
                 // --- Money View ---
@@ -187,7 +188,15 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "작성자의 Paradox Mods 페이지를 엽니다." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "Debug Audit to Log" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)),
+                    "Not needed for normal gameplay.\n" +
+                    "For testers and post-patch checks: writes a CityWatchdog.log report comparing live game notification prefabs with the notification icons City Watchdog currently controls." },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Open Log" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "Opens CityWatchdog.log if it exists.\n" +
+                    "If the log file is missing, opens the Logs folder instead." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "사용법 표시" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "아래 사용법 설명을 표시하거나 숨깁니다." },
 
@@ -212,6 +221,9 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
                     "행을 펼치세요. [✓]는 표시, 해제하면 숨깁니다.\n" +
                     "문제 해결은 아니고, 아이콘만 정리합니다." },
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "툴팁이 꺼져 있습니다.\n" +
+                    "다시 켜려면 여기를 클릭하세요." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "모두 전환" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "모두 펼치기" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "모든 행 접기" },
@@ -276,6 +288,7 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("TrafficShipConnectionNotification"), "수로 연결 없음" },
                 { m_Settings.GetUILocaleID("TrafficTrainConnectionNotification"), "철도 연결 없음" },
                 { m_Settings.GetUILocaleID("TrafficPedestrianConnectionNotification"), "보행자 접근 불가" },
+                { m_Settings.GetUILocaleID("TrafficBicycleConnectionNotification"), "자전거 접근 불가" },
 
                 // --- Company notifications ---
                 { m_Settings.GetUILocaleID("Company"), "회사" },
@@ -324,9 +337,15 @@ namespace CityWatchdog
 
                 // --- Resource and route notifications ---
                 { m_Settings.GetUILocaleID("ResourceConsumer"), "자원 소비자" },
-                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "긴급 대피소 물자 없음" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "보급품 부족" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoFuelNotification"), "연료 없음" },
+                { m_Settings.GetUILocaleID("ResourceConnection"), "자원 연결" },
+                { m_Settings.GetUILocaleID("ResourceConnectionOilPipeNotConnectedNotification"), "송유관 연결 안 됨" },
+                { m_Settings.GetUILocaleID("ResourceConnectionFishingPierNotConnectedNotification"), "어업 부두 연결 안 됨" },
+                { m_Settings.GetUILocaleID("ResourceConnectionWarningNotification"), "기타 자원 라인 연결 안 됨" },
                 { m_Settings.GetUILocaleID("Route"), "경로" },
                 { m_Settings.GetUILocaleID("RoutePathfindNotification"), "경로 찾기 실패" },
+                { m_Settings.GetUILocaleID("RouteGateBypassNotification"), "게이트 우회 경로 있음" },
 
                 // --- Transport line notifications ---
                 { m_Settings.GetUILocaleID("TransportLine"), "교통 노선" },

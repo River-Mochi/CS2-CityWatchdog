@@ -4,8 +4,13 @@
 namespace CityWatchdog.Systems
 {
     using CityWatchdog.Data;
+    using Game.Economy;
     using Game.Notifications;
     using Game.Prefabs;
+    using Game.UI;
+    using System.Collections.Generic;
+    using Unity.Collections;
+    using Unity.Entities;
 
     public partial class AlertIconSystem
     {
@@ -29,20 +34,26 @@ namespace CityWatchdog.Systems
             if (routeNotificationIcon == RouteNotificationIcon.PathfindNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_PathfindNotification, value);
             }
+            else if (routeNotificationIcon == RouteNotificationIcon.GateBypassNotification) {
+                SetNotificationIconDisplayEnabled(singleton.m_GateBypassNotification, value);
+            }
             if (refresh)
                 RefreshIcon();
         }
 
         public void SetRouteNotifications(bool refresh = true) {
             EnableRouteNotification(RouteNotificationIcon.PathfindNotification, Setting.Instance.Notification.RoutePathfindNotification);
+            EnableRouteNotification(RouteNotificationIcon.GateBypassNotification, Setting.Instance.Notification.RouteGateBypassNotification);
             if (refresh)
                 RefreshIcon();
         }
 
         public void EnableResourceConsumerNotification(ResourceConsumerNotificationIcon resourceConsumerNotificationIcon, bool value, bool refresh = false) {
-            ResourceConsumerData singleton = resourceConsumerNotificationParameterQuery.GetSingleton<ResourceConsumerData>();
             if (resourceConsumerNotificationIcon == ResourceConsumerNotificationIcon.NoResourceNotification) {
-                EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_NoResourceNotificationPrefab, value);
+                SetResourceConsumerNotifications(value, IsLowSuppliesNotificationPrefab);
+            }
+            else if (resourceConsumerNotificationIcon == ResourceConsumerNotificationIcon.NoFuelNotification) {
+                SetResourceConsumerNotifications(value, IsNoFuelNotificationPrefab);
             }
             if (refresh)
                 RefreshIcon();
@@ -50,6 +61,29 @@ namespace CityWatchdog.Systems
 
         public void SetResourceConsumerNotifications(bool refresh = true) {
             EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoResourceNotification, Setting.Instance.Notification.ResourceConsumerNoResourceNotification);
+            EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoFuelNotification, Setting.Instance.Notification.ResourceConsumerNoFuelNotification);
+            if (refresh)
+                RefreshIcon();
+        }
+
+        public void EnableResourceConnectionNotification(ResourceConnectionNotificationIcon resourceConnectionNotificationIcon, bool value, bool refresh = false) {
+            if (resourceConnectionNotificationIcon == ResourceConnectionNotificationIcon.ConnectionWarningNotification) {
+                SetResourceConnectionNotifications(value, IsOtherResourceConnectionNotification);
+            }
+            else if (resourceConnectionNotificationIcon == ResourceConnectionNotificationIcon.OilPipeNotConnectedNotification) {
+                SetResourceConnectionNotifications(value, IsOilPipeNotConnectedNotification);
+            }
+            else if (resourceConnectionNotificationIcon == ResourceConnectionNotificationIcon.FishingPierNotConnectedNotification) {
+                SetResourceConnectionNotifications(value, IsFishingPierNotConnectedNotification);
+            }
+            if (refresh)
+                RefreshIcon();
+        }
+
+        public void SetResourceConnectionNotifications(bool refresh = true) {
+            EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.ConnectionWarningNotification, Setting.Instance.Notification.ResourceConnectionWarningNotification);
+            EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.OilPipeNotConnectedNotification, Setting.Instance.Notification.ResourceConnectionOilPipeNotConnectedNotification);
+            EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.FishingPierNotConnectedNotification, Setting.Instance.Notification.ResourceConnectionFishingPierNotConnectedNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -236,6 +270,7 @@ namespace CityWatchdog.Systems
             EnableTrafficNotification(TrafficNotificationIcon.ShipConnectionNotification, Setting.Instance.Notification.TrafficShipConnectionNotification);
             EnableTrafficNotification(TrafficNotificationIcon.TrainConnectionNotification, Setting.Instance.Notification.TrafficTrainConnectionNotification);
             EnableTrafficNotification(TrafficNotificationIcon.PedestrianConnectionNotification, Setting.Instance.Notification.TrafficPedestrianConnectionNotification);
+            EnableTrafficNotification(TrafficNotificationIcon.BicycleConnectionNotification, Setting.Instance.Notification.TrafficBicycleConnectionNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -266,10 +301,110 @@ namespace CityWatchdog.Systems
             else if (trafficNotificationIcon == TrafficNotificationIcon.PedestrianConnectionNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_PedestrianConnectionNotification, value);
             }
+            else if (trafficNotificationIcon == TrafficNotificationIcon.BicycleConnectionNotification) {
+                EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_BicycleConnectionNotification, value);
+            }
 
             if (refresh) {
                 RefreshIcon();
             }
+        }
+
+        private void SetResourceConsumerNotifications(bool value, System.Func<Entity, bool> predicate) {
+            NativeArray<ResourceConsumerData> consumers = resourceConsumerNotificationParameterQuery.ToComponentDataArray<ResourceConsumerData>(Allocator.Temp);
+            try {
+                HashSet<Entity> seen = new();
+                for (int i = 0; i < consumers.Length; i++) {
+                    Entity notificationPrefab = consumers[i].m_NoResourceNotificationPrefab;
+                    if (seen.Add(notificationPrefab) && predicate(notificationPrefab)) {
+                        SetNotificationIconDisplayEnabled(notificationPrefab, value);
+                    }
+                }
+            }
+            finally {
+                consumers.Dispose();
+            }
+        }
+
+        private bool IsLowSuppliesNotificationPrefab(Entity notificationPrefab) {
+            return IsNotificationIcon(notificationPrefab, "NotEnoughIndustrialGoods.svg") ||
+                   IsNotificationPrefabName(notificationPrefab, "Supplies");
+        }
+
+        private bool IsNoFuelNotificationPrefab(Entity notificationPrefab) {
+            return IsNotificationIcon(notificationPrefab, "NoFuel.svg") ||
+                   IsNotificationPrefabName(notificationPrefab, "Fuel");
+        }
+
+        private bool IsNotificationIcon(Entity notificationPrefab, string iconName) {
+            if (notificationPrefab == Entity.Null) {
+                return false;
+            }
+
+            try {
+                NotificationIconPrefab prefab = prefabSystem.GetPrefab<NotificationIconPrefab>(notificationPrefab);
+                string iconPath = ImageSystem.GetIcon(prefab) ?? string.Empty;
+                return iconPath.EndsWith(iconName, System.StringComparison.OrdinalIgnoreCase);
+            }
+            catch {
+                return false;
+            }
+        }
+
+        private bool IsNotificationPrefabName(Entity notificationPrefab, string text) {
+            if (notificationPrefab == Entity.Null) {
+                return false;
+            }
+
+            try {
+                NotificationIconPrefab prefab = prefabSystem.GetPrefab<NotificationIconPrefab>(notificationPrefab);
+                return (prefab.name ?? string.Empty).IndexOf(text, System.StringComparison.OrdinalIgnoreCase) >= 0;
+            }
+            catch {
+                return false;
+            }
+        }
+
+        private void SetResourceConnectionNotifications(bool value, System.Func<ResourceConnectionData, bool> predicate) {
+            NativeArray<ResourceConnectionData> connections = resourceConnectionNotificationParameterQuery.ToComponentDataArray<ResourceConnectionData>(Allocator.Temp);
+            try {
+                HashSet<Entity> seen = new();
+                for (int i = 0; i < connections.Length; i++) {
+                    ResourceConnectionData connection = connections[i];
+                    Entity notificationPrefab = connection.m_ConnectionWarningNotification;
+                    if (seen.Add(notificationPrefab) && predicate(connection)) {
+                        SetNotificationIconDisplayEnabled(notificationPrefab, value);
+                    }
+                }
+            }
+            finally {
+                connections.Dispose();
+            }
+        }
+
+        private bool IsOilPipeNotConnectedNotification(ResourceConnectionData connection) {
+            return connection.m_Resource == Resource.Oil ||
+                   IsNotificationIcon(connection.m_ConnectionWarningNotification, "OilPipeNotConnected.svg") ||
+                   IsNotificationPrefabName(connection.m_ConnectionWarningNotification, "Oil");
+        }
+
+        private bool IsFishingPierNotConnectedNotification(ResourceConnectionData connection) {
+            return connection.m_Resource == Resource.Fish ||
+                   IsNotificationIcon(connection.m_ConnectionWarningNotification, "FishingPierNotConnected.svg") ||
+                   IsNotificationPrefabName(connection.m_ConnectionWarningNotification, "Fishing");
+        }
+
+        private bool IsOtherResourceConnectionNotification(ResourceConnectionData connection) {
+            return !IsOilPipeNotConnectedNotification(connection) &&
+                   !IsFishingPierNotConnectedNotification(connection);
+        }
+
+        private void SetNotificationIconDisplayEnabled(Entity notificationPrefab, bool value) {
+            if (notificationPrefab == Entity.Null || !EntityManager.HasComponent<NotificationIconDisplayData>(notificationPrefab)) {
+                return;
+            }
+
+            EntityManager.SetComponentEnabled<NotificationIconDisplayData>(notificationPrefab, value);
         }
 
         public void SetBuildingNotifications(bool refresh = true) {

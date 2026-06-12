@@ -45,6 +45,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "Phím tắt" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AboutDiagnostics), "DIAGNOSTICS" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "CÁCH DÙNG" },
 
                 // --- Money View ---
@@ -194,7 +195,15 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Mở trang Paradox Mods của tác giả." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "Debug Audit to Log" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)),
+                    "Not needed for normal gameplay.\n" +
+                    "For testers and post-patch checks: writes a CityWatchdog.log report comparing live game notification prefabs with the notification icons City Watchdog currently controls." },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Open Log" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "Opens CityWatchdog.log if it exists.\n" +
+                    "If the log file is missing, opens the Logs folder instead." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Hiện hướng dẫn" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Hiện hoặc ẩn hướng dẫn bên dưới." },
 
@@ -223,6 +232,9 @@ namespace CityWatchdog
                     "Phím mặc định: Shift+N bảng, N tất cả, [ thêm tiền, ] trừ tiền.\\n" +
                     "Không sửa vấn đề, chỉ dọn bớt biểu tượng." },
 
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "Chú giải đang tắt.\n" +
+                    "Nhấp vào đây để bật lại." },
 
                 { m_Settings.GetUILocaleID("ToggleAll"), "BẬT/TẮT HẾT" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Mở tất cả" },
@@ -289,6 +301,7 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("TrafficShipConnectionNotification"), "Không có kết nối đường thủy" },
                 { m_Settings.GetUILocaleID("TrafficTrainConnectionNotification"), "Không có kết nối đường ray" },
                 { m_Settings.GetUILocaleID("TrafficPedestrianConnectionNotification"), "Không có lối đi bộ" },
+                { m_Settings.GetUILocaleID("TrafficBicycleConnectionNotification"), "Không có lối xe đạp" },
 
                 // --- Company notifications ---
                 { m_Settings.GetUILocaleID("Company"), "CÔNG TY" },
@@ -337,9 +350,15 @@ namespace CityWatchdog
 
                 // --- Resource and route notifications ---
                 { m_Settings.GetUILocaleID("ResourceConsumer"), "TIÊU THỤ TÀI NGUYÊN" },
-                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "Thiếu đồ cho nơi trú ẩn" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "Thiếu vật tư" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoFuelNotification"), "Không có nhiên liệu" },
+                { m_Settings.GetUILocaleID("ResourceConnection"), "KẾT NỐI TÀI NGUYÊN" },
+                { m_Settings.GetUILocaleID("ResourceConnectionOilPipeNotConnectedNotification"), "Đường ống dầu chưa kết nối" },
+                { m_Settings.GetUILocaleID("ResourceConnectionFishingPierNotConnectedNotification"), "Cầu tàu đánh cá chưa kết nối" },
+                { m_Settings.GetUILocaleID("ResourceConnectionWarningNotification"), "Đường tài nguyên khác chưa kết nối" },
                 { m_Settings.GetUILocaleID("Route"), "TUYẾN" },
                 { m_Settings.GetUILocaleID("RoutePathfindNotification"), "Không tìm được đường" },
+                { m_Settings.GetUILocaleID("RouteGateBypassNotification"), "Có đường tránh cổng" },
 
                 // --- Transport line notifications ---
                 { m_Settings.GetUILocaleID("TransportLine"), "TUYẾN VẬN TẢI" },

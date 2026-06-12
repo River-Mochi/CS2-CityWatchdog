@@ -43,6 +43,7 @@ namespace CityWatchdog
             public bool TrafficShipConnectionNotification { get; set; }
             public bool TrafficTrainConnectionNotification { get; set; }
             public bool TrafficPedestrianConnectionNotification { get; set; }
+            public bool TrafficBicycleConnectionNotification { get; set; }
         
             public bool CompanyNoInputsNotification { get; set; }
             public bool CompanyNoCustomersNotification { get; set; }
@@ -74,8 +75,14 @@ namespace CityWatchdog
             public bool PollutionGroundPollutionNotification { get; set; }
 
             public bool ResourceConsumerNoResourceNotification { get; set; }
+            public bool ResourceConsumerNoFuelNotification { get; set; }
+
+            public bool ResourceConnectionWarningNotification { get; set; }
+            public bool ResourceConnectionOilPipeNotConnectedNotification { get; set; }
+            public bool ResourceConnectionFishingPierNotConnectedNotification { get; set; }
 
             public bool RoutePathfindNotification { get; set; }
+            public bool RouteGateBypassNotification { get; set; }
 
             public bool TransportLineVehicleNotification { get; set; }
 
@@ -115,6 +122,7 @@ namespace CityWatchdog
                 TrafficShipConnectionNotification = true;
                 TrafficTrainConnectionNotification = true;
                 TrafficPedestrianConnectionNotification = true;
+                TrafficBicycleConnectionNotification = true;
             
                 CompanyNoInputsNotification = true;
                 CompanyNoCustomersNotification = true;
@@ -146,8 +154,13 @@ namespace CityWatchdog
                 PollutionGroundPollutionNotification = true;
 
                 ResourceConsumerNoResourceNotification = true;
+                ResourceConsumerNoFuelNotification = true;
+                ResourceConnectionWarningNotification = true;
+                ResourceConnectionOilPipeNotConnectedNotification = true;
+                ResourceConnectionFishingPierNotConnectedNotification = true;
 
                 RoutePathfindNotification = true;
+                RouteGateBypassNotification = true;
 
                 TransportLineVehicleNotification = true;
             }

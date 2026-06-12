@@ -45,6 +45,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "快捷键" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AboutDiagnostics), "DIAGNOSTICS" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "使用说明" },
 
                 // --- Money View ---
@@ -186,7 +187,15 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "打开作者的 Paradox Mods 页面。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "Debug Audit to Log" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)),
+                    "Not needed for normal gameplay.\n" +
+                    "For testers and post-patch checks: writes a CityWatchdog.log report comparing live game notification prefabs with the notification icons City Watchdog currently controls." },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Open Log" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "Opens CityWatchdog.log if it exists.\n" +
+                    "If the log file is missing, opens the Logs folder instead." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "显示说明" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "显示或隐藏下方使用说明。" },
 
@@ -211,6 +220,9 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
                     "展开行；[✓] 显示，取消勾选隐藏警报。\n" +
                     "不修复问题，只整理图标。" },
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "提示已关闭。\n" +
+                    "点击此按钮重新开启提示。" },
                 { m_Settings.GetUILocaleID("ToggleAll"), "全部切换" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "全部展开" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "折叠所有行" },
@@ -275,6 +287,7 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("TrafficShipConnectionNotification"), "无水路连接" },
                 { m_Settings.GetUILocaleID("TrafficTrainConnectionNotification"), "无轨道连接" },
                 { m_Settings.GetUILocaleID("TrafficPedestrianConnectionNotification"), "无行人通行" },
+                { m_Settings.GetUILocaleID("TrafficBicycleConnectionNotification"), "无自行车通行" },
 
                 // --- Company notifications ---
                 { m_Settings.GetUILocaleID("Company"), "公司" },
@@ -323,9 +336,15 @@ namespace CityWatchdog
 
                 // --- Resource and route notifications ---
                 { m_Settings.GetUILocaleID("ResourceConsumer"), "资源消耗者" },
-                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "没有紧急避难所补给" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "补给不足" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoFuelNotification"), "无燃料" },
+                { m_Settings.GetUILocaleID("ResourceConnection"), "资源连接" },
+                { m_Settings.GetUILocaleID("ResourceConnectionOilPipeNotConnectedNotification"), "输油管道未连接" },
+                { m_Settings.GetUILocaleID("ResourceConnectionFishingPierNotConnectedNotification"), "渔业码头未连接" },
+                { m_Settings.GetUILocaleID("ResourceConnectionWarningNotification"), "其他资源线路未连接" },
                 { m_Settings.GetUILocaleID("Route"), "路线" },
                 { m_Settings.GetUILocaleID("RoutePathfindNotification"), "寻路失败" },
+                { m_Settings.GetUILocaleID("RouteGateBypassNotification"), "存在闸门绕行" },
 
                 // --- Transport line notifications ---
                 { m_Settings.GetUILocaleID("TransportLine"), "交通线路" },

@@ -45,6 +45,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "Atalhos" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AboutDiagnostics), "DIAGNOSTICS" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "USO" },
 
                 // --- Money View ---
@@ -186,7 +187,15 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Abre a página do autor no Paradox Mods." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "Debug Audit to Log" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)),
+                    "Not needed for normal gameplay.\n" +
+                    "For testers and post-patch checks: writes a CityWatchdog.log report comparing live game notification prefabs with the notification icons City Watchdog currently controls." },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Open Log" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "Opens CityWatchdog.log if it exists.\n" +
+                    "If the log file is missing, opens the Logs folder instead." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Mostrar instruções" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Mostra ou oculta as instruções abaixo." },
 
@@ -211,6 +220,9 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
                     "Expanda linhas; [✓] mostra alertas, desmarcado oculta.\n" +
                     "Não corrige problemas, só limpa os ícones." },
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "As dicas estão desativadas.\n" +
+                    "Clique aqui para ativá-las novamente." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Alternar tudo" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Expandir tudo" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Recolher todas as linhas" },
@@ -276,6 +288,7 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("TrafficShipConnectionNotification"), "Sem conexão aquaviária" },
                 { m_Settings.GetUILocaleID("TrafficTrainConnectionNotification"), "Sem conexão ferroviária" },
                 { m_Settings.GetUILocaleID("TrafficPedestrianConnectionNotification"), "Sem acesso de pedestres" },
+                { m_Settings.GetUILocaleID("TrafficBicycleConnectionNotification"), "Sem acesso de bicicletas" },
 
                 // --- Company notifications ---
                 { m_Settings.GetUILocaleID("Company"), "EMPRESA" },
@@ -324,9 +337,15 @@ namespace CityWatchdog
 
                 // --- Resource and route notifications ---
                 { m_Settings.GetUILocaleID("ResourceConsumer"), "CONSUMIDOR DE RECURSOS" },
-                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "Sem suprimentos de abrigo de emergência" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "Suprimentos baixos" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoFuelNotification"), "Sem combustível" },
+                { m_Settings.GetUILocaleID("ResourceConnection"), "CONEXÃO DE RECURSOS" },
+                { m_Settings.GetUILocaleID("ResourceConnectionOilPipeNotConnectedNotification"), "Oleoduto não conectado" },
+                { m_Settings.GetUILocaleID("ResourceConnectionFishingPierNotConnectedNotification"), "Píer de pesca não conectado" },
+                { m_Settings.GetUILocaleID("ResourceConnectionWarningNotification"), "Outra linha de recursos não conectada" },
                 { m_Settings.GetUILocaleID("Route"), "ROTA" },
                 { m_Settings.GetUILocaleID("RoutePathfindNotification"), "Falha ao encontrar caminho" },
+                { m_Settings.GetUILocaleID("RouteGateBypassNotification"), "Desvio do portão existe" },
 
                 // --- Transport line notifications ---
                 { m_Settings.GetUILocaleID("TransportLine"), "LINHA DE TRANSPORTE" },
