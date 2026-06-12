@@ -152,12 +152,25 @@
     border: 1rem solid rgba(255, 255, 255, 0.35);
     background-color: rgba(36, 54, 66, 0.58);
     box-sizing: border-box;
-    transition: background-color 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out;
+    cursor: pointer;
+    transition: background-color 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out, opacity 120ms ease-out;
 
     &:hover {
-        background-color: rgba(108, 136, 150, 0.34);
-        border-color: rgba(255, 255, 255, 0.58);
-        box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.06);
+        background-color: rgba(232, 247, 255, 0.34);
+        border-color: rgba(255, 255, 255, 0.86);
+        box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.12), 0 0 8rem rgba(255, 255, 255, 0.14);
+    }
+}
+
+.infoButtonTipsOff {
+    border-color: rgba(84, 215, 255, 0.72);
+    background-color: rgba(30, 131, 170, 0.58);
+    box-shadow: inset 0 0 0 1rem rgba(84, 215, 255, 0.24);
+
+    &:hover {
+        border-color: rgba(255, 255, 255, 0.9);
+        background-color: rgba(84, 215, 255, 0.5);
+        box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.14), 0 0 9rem rgba(84, 215, 255, 0.32);
     }
 }
 
@@ -167,6 +180,12 @@
     display: block;
     object-fit: contain;
     pointer-events: none;
+    transition: filter 120ms ease-out, opacity 120ms ease-out, transform 120ms ease-out;
+}
+
+.infoButton:hover .infoIcon {
+    filter: brightness(1.6);
+    transform: scale(1.08);
 }
 
 .toolbarButton {
@@ -185,12 +204,13 @@
     text-align: center;
     text-transform: none;
     white-space: nowrap;
-    transition: background-color 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out, color 120ms ease-out;
+    cursor: pointer;
+    transition: background-color 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out, color 120ms ease-out, transform 120ms ease-out;
 
     &:hover {
-        background-color: rgba(108, 136, 150, 0.34);
-        border-color: rgba(255, 255, 255, 0.58);
-        box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.06);
+        background-color: rgba(232, 247, 255, 0.34);
+        border-color: rgba(255, 255, 255, 0.86);
+        box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.12), 0 0 8rem rgba(255, 255, 255, 0.14);
         color: #ffffff;
     }
 }
@@ -202,6 +222,11 @@
     object-fit: contain;
     pointer-events: none;
     vertical-align: middle;
+    transition: filter 120ms ease-out, opacity 120ms ease-out, transform 120ms ease-out;
+}
+
+.toolbarButton:hover .toolbarIcon {
+    filter: brightness(1.6);
 }
 
 .sortButton {
@@ -219,9 +244,17 @@
     height: 24rem;
 }
 
+.sortButton:hover .sortIcon {
+    transform: scale(1.08);
+}
+
 .expandCollapseIcon {
     transform: rotate(90deg);
     transform-origin: center;
+}
+
+.expandButton:hover .expandCollapseIcon {
+    transform: rotate(90deg) scale(1.08);
 }
 
 .expandButton {
@@ -248,8 +281,27 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: var(--fontSizeXS);
-    font-weight: 400;
+    font-weight: 700;
     line-height: 1;
+    word-spacing: 3rem;
+    letter-spacing: 0.2rem;
+}
+
+.countButton {
+    width: auto;
+    min-width: 42rem;
+    flex: 0 0 auto;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    box-sizing: border-box;
+}
+
+.countButtonText {
+    white-space: nowrap;
+    font-size: var(--fontSizeXS);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.3rem;
 }
 
 .toggleAllOn {

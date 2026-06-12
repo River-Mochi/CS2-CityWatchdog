@@ -220,6 +220,9 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
                     "Zeilen öffnen; [✓] zeigt Warnungen, ohne Haken werden sie versteckt.\n" +
                     "Löst nichts, räumt nur Icon-Chaos auf." },
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "Tooltips sind aus.\n" +
+                    "Klicke hier, um sie wieder einzuschalten." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Alle umschalten" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Alle ausklappen" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Alle Zeilen einklappen" },

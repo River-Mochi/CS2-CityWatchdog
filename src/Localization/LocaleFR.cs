@@ -220,6 +220,9 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
                     "Ouvre les lignes ; [✓] affiche les alertes, décoché les masque.\n" +
                     "Ne corrige rien, ça range juste les icônes." },
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "Les infobulles sont désactivées.\n" +
+                    "Cliquez ici pour les réactiver." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Tout basculer" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Tout ouvrir" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Tout fermer" },

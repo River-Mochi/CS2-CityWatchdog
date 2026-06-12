@@ -228,6 +228,9 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
                     "Rozwiń wiersze; [✓] zaznacz, aby pokazać, odznacz, aby ukryć alerty.\n" +
                     "To nie naprawia problemów, tylko chowa bałagan z ikon." },
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "Podpowiedzi są wyłączone.\n" +
+                    "Kliknij tutaj, aby je włączyć." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Przełącz wszystko" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Rozwiń wszystko" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Zwiń wszystkie wiersze" },

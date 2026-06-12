@@ -220,6 +220,9 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
                     "展开行；[✓] 显示，取消勾选隐藏警报。\n" +
                     "不修复问题，只整理图标。" },
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "提示已关闭。\n" +
+                    "点击此按钮重新开启提示。" },
                 { m_Settings.GetUILocaleID("ToggleAll"), "全部切换" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "全部展开" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "折叠所有行" },

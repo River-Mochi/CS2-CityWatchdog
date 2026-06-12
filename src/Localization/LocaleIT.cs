@@ -227,6 +227,9 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
                     "Espandi le righe; [✓] mostra gli avvisi, senza spunta li nasconde.\n" +
                     "Non risolve problemi, pulisce solo le icone." },
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "I suggerimenti sono disattivati.\n" +
+                    "Fai clic qui per riattivarli." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Attiva/disattiva tutto" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Espandi tutto" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Comprimi tutte le righe" },

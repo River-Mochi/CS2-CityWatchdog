@@ -220,6 +220,9 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
                     "Expande filas; [✓] muestra alertas, sin marcar las oculta.\n" +
                     "No arregla problemas, solo limpia iconos." },
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "Los consejos están desactivados.\n" +
+                    "Haz clic aquí para volver a activarlos." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Alternar todo" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Expandir todo" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Contraer todas las filas" },

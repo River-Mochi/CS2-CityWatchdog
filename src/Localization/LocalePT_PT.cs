@@ -232,6 +232,9 @@ namespace CityWatchdog
                     "Atalhos padrão: Shift+N painel, N alternar tudo, [ adicionar, ] subtrair.\\n" +
                     "Não corrige problemas; só limpa a confusão de ícones." },
 
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "As dicas estão desativadas.\n" +
+                    "Clica aqui para as voltar a ativar." },
 
                 { m_Settings.GetUILocaleID("ToggleAll"), "ALTERNAR TODOS" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Expandir tudo" },

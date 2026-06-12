@@ -232,6 +232,9 @@ namespace CityWatchdog
                     "ปุ่มลัด: Shift+N แผง, N ทั้งหมด, [ เพิ่มเงิน, ] ลดเงิน\\n" +
                     "ไม่แก้ปัญหา แค่ซ่อนไอคอนรก ๆ" },
 
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "ปิดคำแนะนำแล้ว\n" +
+                    "คลิกที่นี่เพื่อเปิดอีกครั้ง" },
 
                 { m_Settings.GetUILocaleID("ToggleAll"), "สลับทั้งหมด" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "ขยายทั้งหมด" },

@@ -221,6 +221,9 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
                     "행을 펼치세요. [✓]는 표시, 해제하면 숨깁니다.\n" +
                     "문제 해결은 아니고, 아이콘만 정리합니다." },
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "툴팁이 꺼져 있습니다.\n" +
+                    "다시 켜려면 여기를 클릭하세요." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "모두 전환" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "모두 펼치기" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "모든 행 접기" },

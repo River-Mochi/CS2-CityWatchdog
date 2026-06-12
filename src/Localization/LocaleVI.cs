@@ -232,6 +232,9 @@ namespace CityWatchdog
                     "Phím mặc định: Shift+N bảng, N tất cả, [ thêm tiền, ] trừ tiền.\\n" +
                     "Không sửa vấn đề, chỉ dọn bớt biểu tượng." },
 
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "Chú giải đang tắt.\n" +
+                    "Nhấp vào đây để bật lại." },
 
                 { m_Settings.GetUILocaleID("ToggleAll"), "BẬT/TẮT HẾT" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Mở tất cả" },

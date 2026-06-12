@@ -6,7 +6,7 @@ import { game } from "cs2/bindings";
 import { useLocalization } from "cs2/l10n";
 import { getModule } from "cs2/modding";
 import { Button, Panel, Tooltip } from "cs2/ui";
-import { useState } from "react";
+import { useState, type ReactElement, type ReactNode } from "react";
 import { controlPanelEnabled$, OnControlPanelBindingToggle } from "../Bindings/Bindings";
 import { Divider } from "../Divider/Divider";
 import { InfoPanel } from "../InfoPanel/InfoPanel";
@@ -61,11 +61,14 @@ export const NotificationPanel = () => {
 const NotificationPanelContent = () => {
     const { translate } = useLocalization();
     const [sortAscending, setSortAscending] = useState(true);
+    const [tooltipsEnabled, setTooltipsEnabled] = useState(true);
     const [expandedSections, setExpandedSections] = useState(createExpandedSections);
     const allValues = useAllNotificationValues();
 
     const allSelected = allValues.every(Boolean);
     const anySelected = allValues.some(Boolean);
+    const selectedTotalCount = allValues.filter(Boolean).length;
+    const totalNotificationCount = allValues.length;
     const toggleAllStateClass = allSelected
         ? styles.toggleAllOn
         : anySelected
@@ -105,6 +108,18 @@ const NotificationPanelContent = () => {
                 ))}
             </div>
         );
+    };
+
+    const infoTooltip = tooltipsEnabled
+        ? tooltipContent("NotificationIconShowOrHide", "Expand rows; [✓] check to show, uncheck to hide alerts.\nDoes not fix city problems, it hides messy icons.")
+        : tooltipContent("NotificationTooltipsOff", "Tooltips are off.\nClick this button to turn tooltips back on.");
+
+    const optionalTooltip = (tooltip: ReactNode, children: ReactElement) => {
+        if (!tooltipsEnabled) {
+            return <>{children}</>;
+        }
+
+        return <Tooltip tooltip={tooltip}>{children}</Tooltip>;
     };
 
     const orderedSections = [...sections].sort((a, b) => {
@@ -150,13 +165,18 @@ const NotificationPanelContent = () => {
             {/* Left side: help + sort. Right side: mass actions. */}
             <div className={styles.toolbar}>
                 <div className={styles.toolbarLeft}>
-                    <Tooltip tooltip={tooltipContent("NotificationIconShowOrHide", "Expand rows; [✓] check to show, uncheck to hide alerts.\nDoes not fix city problems, it hides messy icons.")}>
-                        <div className={styles.infoButton}>
+                    <Tooltip tooltip={infoTooltip}>
+                        <div
+                            className={`${styles.infoButton} ${tooltipsEnabled ? "" : styles.infoButtonTipsOff}`}
+                            role="button"
+                            aria-pressed={!tooltipsEnabled}
+                            onClick={() => { setTooltipsEnabled((enabled) => !enabled); }}
+                        >
                             <img src={infoIconSrc} className={styles.infoIcon} />
                         </div>
                     </Tooltip>
 
-                    <Tooltip tooltip={sortTooltip}>
+                    {optionalTooltip(sortTooltip,
                         <Button
                             className={`${styles.toolbarButton} ${styles.sortButton}`}
                             onClick={() => { setSortAscending(!sortAscending); }}
@@ -167,12 +187,12 @@ const NotificationPanelContent = () => {
                                 className={`${styles.toolbarIcon} ${styles.sortIcon}`}
                                 alt=""
                             />
-                        </Button>
-                    </Tooltip>
+                        </Button>,
+                    )}
                 </div>
 
                 <div className={styles.toolbarButtons}>
-                    <Tooltip tooltip={allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows")}>
+                    {optionalTooltip(allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows"),
                         <Button
                             className={styles.toolbarButton + " " + styles.expandButton}
                             onClick={onToggleAllSections}
@@ -183,10 +203,22 @@ const NotificationPanelContent = () => {
                                 className={`${styles.toolbarIcon} ${styles.expandCollapseIcon}`}
                                 alt=""
                             />
-                        </Button>
-                    </Tooltip>
+                        </Button>,
+                    )}
 
-                    <Tooltip tooltip={tooltipContent("ToggleAllTooltip", "Show/hide all icons.\nColor: green = all on; blue = mixed; red = all off.")}>
+                    {optionalTooltip(allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows"),
+                        <Button
+                            className={`${styles.toolbarButton} ${styles.countButton} ${toggleAllStateClass}`}
+                            onClick={onToggleAllSections}
+                            focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
+                        >
+                            <span className={styles.countButtonText}>
+                                {selectedTotalCount}/{totalNotificationCount}
+                            </span>
+                        </Button>,
+                    )}
+
+                    {optionalTooltip(tooltipContent("ToggleAllTooltip", "Show/hide all icons.\nColor: green = all on; blue = mixed; red = all off."),
                         <Button
                             className={`${styles.toolbarButton} ${styles.toggleButton} ${toggleAllStateClass}`}
                             onClick={onToggleAll}
@@ -195,8 +227,8 @@ const NotificationPanelContent = () => {
                             <span className={styles.toggleButtonText}>
                                 {localize("ToggleAll", "Toggle All")}
                             </span>
-                        </Button>
-                    </Tooltip>
+                        </Button>,
+                    )}
 
                 </div>
             </div>

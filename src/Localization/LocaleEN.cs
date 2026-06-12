@@ -3,8 +3,8 @@
 
 namespace CityWatchdog
 {
-    using Colossal;                   // IDictionarySource
     using System.Collections.Generic; // Dictionary and KeyValuePair
+    using Colossal;                   // IDictionarySource
 
     public sealed class LocaleEN : IDictionarySource
     {
@@ -195,15 +195,16 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Open the author's Paradox Mods page." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "Debug Audit to Log" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "Debug Report to Log" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)),
-                    "Not needed for normal gameplay.\n" +
-                    "For testers and post-patch checks: writes a CityWatchdog.log report comparing live game notification prefabs with the notification icons City Watchdog currently controls." },
+                    "<Not needed for normal gameplay.>\n" +
+                    "For testers and post game-patch checks: writes a <Logs/CityWatchdog.log> report\n" +
+                    "comparing live game notification prefabs with the notification icons Watchdog currently controls." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Open Log" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
-                    "Opens CityWatchdog.log if it exists.\n" +
-                    "If the log file is missing, opens the Logs folder instead." },
+                    "Opens </Logs/CityWatchdog.log> if it exists.\n" +
+                    "If the log file is missing, opens the Logs/ folder instead." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Show Instructions" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Show or hide the usage instructions below." },
 
@@ -232,6 +233,9 @@ namespace CityWatchdog
                     "Default hotkeys: Shift+N panel, N toggle all, [ add money, ] subtract money.\n" +
                     "This doesn't fix problems, it hides icon clutter." },
 
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "Tooltips are off.\n" +
+                    "Click this button to turn tooltips back on." },
 
                 { m_Settings.GetUILocaleID("ToggleAll"), "TOGGLE ALL" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Expand All" },

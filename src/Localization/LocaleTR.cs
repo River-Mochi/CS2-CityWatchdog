@@ -232,6 +232,9 @@ namespace CityWatchdog
                     "Varsayılan kısayollar: Shift+N panel, N tümü, [ para ekle, ] para çıkar.\\n" +
                     "Sorunları çözmez, simge kalabalığını gizler." },
 
+                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
+                    "İpuçları kapalı.\n" +
+                    "Tekrar açmak için buraya tıkla." },
 
                 { m_Settings.GetUILocaleID("ToggleAll"), "TÜMÜ" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Tümünü Aç" },
