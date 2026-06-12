@@ -347,11 +347,15 @@ namespace CityWatchdog
 
                 // --- Resource and route notifications ---
                 { m_Settings.GetUILocaleID("ResourceConsumer"), "ใช้ทรัพยากร" },
-                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "ทรัพยากรไม่พอ" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "เสบียงเหลือน้อย" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoFuelNotification"), "ไม่มีเชื้อเพลิง" },
                 { m_Settings.GetUILocaleID("ResourceConnection"), "การเชื่อมต่อทรัพยากร" },
-                { m_Settings.GetUILocaleID("ResourceConnectionWarningNotification"), "สายทรัพยากรไม่ได้เชื่อมต่อ" },
+                { m_Settings.GetUILocaleID("ResourceConnectionOilPipeNotConnectedNotification"), "ท่อน้ำมันไม่ได้เชื่อมต่อ" },
+                { m_Settings.GetUILocaleID("ResourceConnectionFishingPierNotConnectedNotification"), "ท่าเรือประมงไม่ได้เชื่อมต่อ" },
+                { m_Settings.GetUILocaleID("ResourceConnectionWarningNotification"), "สายทรัพยากรอื่นไม่ได้เชื่อมต่อ" },
                 { m_Settings.GetUILocaleID("Route"), "เส้นทาง" },
                 { m_Settings.GetUILocaleID("RoutePathfindNotification"), "หาเส้นทางไม่ได้" },
+                { m_Settings.GetUILocaleID("RouteGateBypassNotification"), "มีทางเลี่ยงประตู" },
 
                 // --- Transport line notifications ---
                 { m_Settings.GetUILocaleID("TransportLine"), "สายขนส่ง" },

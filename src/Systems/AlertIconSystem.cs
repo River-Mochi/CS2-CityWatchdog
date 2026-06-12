@@ -255,6 +255,8 @@ namespace CityWatchdog.Systems
             notification.ResourceConsumerNoResourceNotification = enabled;
             notification.ResourceConsumerNoFuelNotification = enabled;
             notification.ResourceConnectionWarningNotification = enabled;
+            notification.ResourceConnectionOilPipeNotConnectedNotification = enabled;
+            notification.ResourceConnectionFishingPierNotConnectedNotification = enabled;
             notification.RoutePathfindNotification = enabled;
             notification.RouteGateBypassNotification = enabled;
             notification.TransportLineVehicleNotification = enabled;

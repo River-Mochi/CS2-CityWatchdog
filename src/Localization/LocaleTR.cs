@@ -347,11 +347,15 @@ namespace CityWatchdog
 
                 // --- Resource and route notifications ---
                 { m_Settings.GetUILocaleID("ResourceConsumer"), "KAYNAK TÜKETİCİ" },
-                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "Yetersiz kaynak" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "Düşük erzak" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoFuelNotification"), "Yakıt yok" },
                 { m_Settings.GetUILocaleID("ResourceConnection"), "KAYNAK BAĞLANTISI" },
-                { m_Settings.GetUILocaleID("ResourceConnectionWarningNotification"), "Kaynak hattı bağlı değil" },
+                { m_Settings.GetUILocaleID("ResourceConnectionOilPipeNotConnectedNotification"), "Petrol boru hattı bağlı değil" },
+                { m_Settings.GetUILocaleID("ResourceConnectionFishingPierNotConnectedNotification"), "Balıkçı iskelesi bağlı değil" },
+                { m_Settings.GetUILocaleID("ResourceConnectionWarningNotification"), "Diğer kaynak hattı bağlı değil" },
                 { m_Settings.GetUILocaleID("Route"), "ROTA" },
                 { m_Settings.GetUILocaleID("RoutePathfindNotification"), "Rota bulunamadı" },
+                { m_Settings.GetUILocaleID("RouteGateBypassNotification"), "Kapı baypası var" },
 
                 // --- Transport line notifications ---
                 { m_Settings.GetUILocaleID("TransportLine"), "ULAŞIM HATTI" },

@@ -4,6 +4,7 @@
 namespace CityWatchdog.Systems
 {
     using CityWatchdog.Data;
+    using Game.Economy;
     using Game.Notifications;
     using Game.Prefabs;
     using Game.UI;
@@ -67,7 +68,13 @@ namespace CityWatchdog.Systems
 
         public void EnableResourceConnectionNotification(ResourceConnectionNotificationIcon resourceConnectionNotificationIcon, bool value, bool refresh = false) {
             if (resourceConnectionNotificationIcon == ResourceConnectionNotificationIcon.ConnectionWarningNotification) {
-                SetAllResourceConnectionWarningNotifications(value);
+                SetResourceConnectionNotifications(value, IsOtherResourceConnectionNotification);
+            }
+            else if (resourceConnectionNotificationIcon == ResourceConnectionNotificationIcon.OilPipeNotConnectedNotification) {
+                SetResourceConnectionNotifications(value, IsOilPipeNotConnectedNotification);
+            }
+            else if (resourceConnectionNotificationIcon == ResourceConnectionNotificationIcon.FishingPierNotConnectedNotification) {
+                SetResourceConnectionNotifications(value, IsFishingPierNotConnectedNotification);
             }
             if (refresh)
                 RefreshIcon();
@@ -75,6 +82,8 @@ namespace CityWatchdog.Systems
 
         public void SetResourceConnectionNotifications(bool refresh = true) {
             EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.ConnectionWarningNotification, Setting.Instance.Notification.ResourceConnectionWarningNotification);
+            EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.OilPipeNotConnectedNotification, Setting.Instance.Notification.ResourceConnectionOilPipeNotConnectedNotification);
+            EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.FishingPierNotConnectedNotification, Setting.Instance.Notification.ResourceConnectionFishingPierNotConnectedNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -356,13 +365,14 @@ namespace CityWatchdog.Systems
             }
         }
 
-        private void SetAllResourceConnectionWarningNotifications(bool value) {
+        private void SetResourceConnectionNotifications(bool value, System.Func<ResourceConnectionData, bool> predicate) {
             NativeArray<ResourceConnectionData> connections = resourceConnectionNotificationParameterQuery.ToComponentDataArray<ResourceConnectionData>(Allocator.Temp);
             try {
                 HashSet<Entity> seen = new();
                 for (int i = 0; i < connections.Length; i++) {
-                    Entity notificationPrefab = connections[i].m_ConnectionWarningNotification;
-                    if (seen.Add(notificationPrefab)) {
+                    ResourceConnectionData connection = connections[i];
+                    Entity notificationPrefab = connection.m_ConnectionWarningNotification;
+                    if (seen.Add(notificationPrefab) && predicate(connection)) {
                         SetNotificationIconDisplayEnabled(notificationPrefab, value);
                     }
                 }
@@ -370,6 +380,23 @@ namespace CityWatchdog.Systems
             finally {
                 connections.Dispose();
             }
+        }
+
+        private bool IsOilPipeNotConnectedNotification(ResourceConnectionData connection) {
+            return connection.m_Resource == Resource.Oil ||
+                   IsNotificationIcon(connection.m_ConnectionWarningNotification, "OilPipeNotConnected.svg") ||
+                   IsNotificationPrefabName(connection.m_ConnectionWarningNotification, "Oil");
+        }
+
+        private bool IsFishingPierNotConnectedNotification(ResourceConnectionData connection) {
+            return connection.m_Resource == Resource.Fish ||
+                   IsNotificationIcon(connection.m_ConnectionWarningNotification, "FishingPierNotConnected.svg") ||
+                   IsNotificationPrefabName(connection.m_ConnectionWarningNotification, "Fishing");
+        }
+
+        private bool IsOtherResourceConnectionNotification(ResourceConnectionData connection) {
+            return !IsOilPipeNotConnectedNotification(connection) &&
+                   !IsFishingPierNotConnectedNotification(connection);
         }
 
         private void SetNotificationIconDisplayEnabled(Entity notificationPrefab, bool value) {

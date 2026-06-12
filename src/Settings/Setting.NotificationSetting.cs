@@ -78,6 +78,8 @@ namespace CityWatchdog
             public bool ResourceConsumerNoFuelNotification { get; set; }
 
             public bool ResourceConnectionWarningNotification { get; set; }
+            public bool ResourceConnectionOilPipeNotConnectedNotification { get; set; }
+            public bool ResourceConnectionFishingPierNotConnectedNotification { get; set; }
 
             public bool RoutePathfindNotification { get; set; }
             public bool RouteGateBypassNotification { get; set; }
@@ -154,6 +156,8 @@ namespace CityWatchdog
                 ResourceConsumerNoResourceNotification = true;
                 ResourceConsumerNoFuelNotification = true;
                 ResourceConnectionWarningNotification = true;
+                ResourceConnectionOilPipeNotConnectedNotification = true;
+                ResourceConnectionFishingPierNotConnectedNotification = true;
 
                 RoutePathfindNotification = true;
                 RouteGateBypassNotification = true;

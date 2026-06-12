@@ -35,6 +35,8 @@ import {
     OnPollutionAirPollutionNotificationBindingToggle, OnPollutionGroundPollutionNotificationBindingToggle, OnPollutionNoisePollutionNotificationBindingToggle,
     OnResourceConsumerNoFuelNotificationBindingToggle,
     OnResourceConsumerNoResourceNotificationBindingToggle,
+    OnResourceConnectionFishingPierNotConnectedNotificationBindingToggle,
+    OnResourceConnectionOilPipeNotConnectedNotificationBindingToggle,
     OnRouteGateBypassNotificationBindingToggle,
     OnRoutePathfindNotificationBindingToggle,
     OnTrafficBottleneckNotificationBindingToggle,
@@ -63,6 +65,8 @@ import {
     PollutionAirPollutionNotificationBinding$, PollutionGroundPollutionNotificationBinding$, PollutionNoisePollutionNotificationBinding$,
     ResourceConsumerNoFuelNotificationBinding$,
     ResourceConsumerNoResourceNotificationBinding$,
+    ResourceConnectionFishingPierNotConnectedNotificationBinding$,
+    ResourceConnectionOilPipeNotConnectedNotificationBinding$,
     ResourceConnectionWarningNotificationBinding$,
     RouteGateBypassNotificationBinding$,
     RoutePathfindNotificationBinding$,
@@ -182,6 +186,8 @@ export const gameTitleKeys: Record<string, string> = {
     // Live medical/shelter resource prefabs use this key and display as "Low Supplies".
     ResourceConsumerNoResourceNotification: "Notifications.TITLE[No Hospital Supplies]",
     ResourceConsumerNoFuelNotification: "Notifications.TITLE[No Fuel Notification]",
+    ResourceConnectionOilPipeNotConnectedNotification: "Notifications.TITLE[Oil Pipe Not Connected]",
+    ResourceConnectionFishingPierNotConnectedNotification: "Notifications.TITLE[Fishing Pier Not Connected]",
     RoutePathfindNotification: "Notifications.TITLE[Pathfind Failed]",
     RouteGateBypassNotification: "Notifications.TITLE[Gate Bypass Exists]",
     TransportLineVehicleNotification: "Notifications.TITLE[No Vehicles]",
@@ -313,6 +319,8 @@ export const sections: NotificationSection[] = [
     {
         localeId: "ResourceConnection",
         items: [
+            { icon: icon("OilPipeNotConnected"), localeId: "ResourceConnectionOilPipeNotConnectedNotification", binding: ResourceConnectionOilPipeNotConnectedNotificationBinding$, onToggle: OnResourceConnectionOilPipeNotConnectedNotificationBindingToggle },
+            { icon: icon("FishingPierNotConnected"), localeId: "ResourceConnectionFishingPierNotConnectedNotification", binding: ResourceConnectionFishingPierNotConnectedNotificationBinding$, onToggle: OnResourceConnectionFishingPierNotConnectedNotificationBindingToggle },
             { icon: icon("OilPipeNotConnected"), localeId: "ResourceConnectionWarningNotification", binding: ResourceConnectionWarningNotificationBinding$, onToggle: OnResourceConnectionWarningNotificationBindingToggle },
         ],
     },

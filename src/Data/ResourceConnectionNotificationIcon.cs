@@ -6,5 +6,7 @@ namespace CityWatchdog.Data
     public enum ResourceConnectionNotificationIcon
     {
         ConnectionWarningNotification,
+        OilPipeNotConnectedNotification,
+        FishingPierNotConnectedNotification,
     }
 }

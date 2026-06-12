@@ -4,6 +4,7 @@
 namespace CityWatchdog.Systems
 {
     using Game.Notifications;
+    using Game.Economy;
     using Game.Prefabs;
     using Game.UI;
     using System;
@@ -231,7 +232,8 @@ namespace CityWatchdog.Systems
             {
                 for (int i = 0; i < connections.Length; i++)
                 {
-                    AddTracked(tracked, connections[i].m_ConnectionWarningNotification, "ResourceConnectionWarningNotification");
+                    string trackedBy = GetResourceConnectionTrackedBy(connections[i]);
+                    AddTracked(tracked, connections[i].m_ConnectionWarningNotification, trackedBy);
                 }
             }
             finally
@@ -319,6 +321,30 @@ namespace CityWatchdog.Systems
             }
 
             return "ResourceConsumerNoResourceNotification";
+        }
+
+        private string GetResourceConnectionTrackedBy(ResourceConnectionData connection)
+        {
+            Entity notificationPrefab = connection.m_ConnectionWarningNotification;
+            NotificationIconPrefab? prefab = TryGetNotificationIconPrefab(notificationPrefab);
+            string icon = prefab == null ? string.Empty : ImageSystem.GetIcon(prefab) ?? string.Empty;
+            string name = prefab?.name ?? string.Empty;
+
+            if (connection.m_Resource == Resource.Oil ||
+                icon.EndsWith("OilPipeNotConnected.svg", StringComparison.OrdinalIgnoreCase) ||
+                name.IndexOf("Oil", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return "ResourceConnectionOilPipeNotConnectedNotification";
+            }
+
+            if (connection.m_Resource == Resource.Fish ||
+                icon.EndsWith("FishingPierNotConnected.svg", StringComparison.OrdinalIgnoreCase) ||
+                name.IndexOf("Fishing", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return "ResourceConnectionFishingPierNotConnectedNotification";
+            }
+
+            return "ResourceConnectionWarningNotification";
         }
 
         private NotificationIconPrefab? TryGetNotificationIconPrefab(Entity entity)

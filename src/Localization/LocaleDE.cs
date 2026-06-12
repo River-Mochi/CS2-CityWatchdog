@@ -334,11 +334,15 @@ namespace CityWatchdog
 
                 // --- Resource and route notifications ---
                 { m_Settings.GetUILocaleID("ResourceConsumer"), "RESSOURCENVERBRAUCHER" },
-                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "Zu wenig Ressourcen" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "Wenig Vorräte" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoFuelNotification"), "Kein Treibstoff" },
                 { m_Settings.GetUILocaleID("ResourceConnection"), "RESSOURCENVERBINDUNG" },
-                { m_Settings.GetUILocaleID("ResourceConnectionWarningNotification"), "Ressourcenleitung nicht verbunden" },
+                { m_Settings.GetUILocaleID("ResourceConnectionOilPipeNotConnectedNotification"), "Ölleitung nicht verbunden" },
+                { m_Settings.GetUILocaleID("ResourceConnectionFishingPierNotConnectedNotification"), "Fischereipier nicht verbunden" },
+                { m_Settings.GetUILocaleID("ResourceConnectionWarningNotification"), "Andere Ressourcenleitung nicht verbunden" },
                 { m_Settings.GetUILocaleID("Route"), "ROUTE" },
                 { m_Settings.GetUILocaleID("RoutePathfindNotification"), "Wegfindung fehlgeschlagen" },
+                { m_Settings.GetUILocaleID("RouteGateBypassNotification"), "Tor-Umfahrung vorhanden" },
 
                 // --- Transport line notifications ---
                 { m_Settings.GetUILocaleID("TransportLine"), "VERKEHRSLINIE" },

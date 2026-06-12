@@ -333,11 +333,15 @@ namespace CityWatchdog
 
                 // --- Resource and route notifications ---
                 { m_Settings.GetUILocaleID("ResourceConsumer"), "资源消耗者" },
-                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "资源不足" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "补给不足" },
+                { m_Settings.GetUILocaleID("ResourceConsumerNoFuelNotification"), "无燃料" },
                 { m_Settings.GetUILocaleID("ResourceConnection"), "资源连接" },
-                { m_Settings.GetUILocaleID("ResourceConnectionWarningNotification"), "资源线路未连接" },
+                { m_Settings.GetUILocaleID("ResourceConnectionOilPipeNotConnectedNotification"), "输油管道未连接" },
+                { m_Settings.GetUILocaleID("ResourceConnectionFishingPierNotConnectedNotification"), "渔业码头未连接" },
+                { m_Settings.GetUILocaleID("ResourceConnectionWarningNotification"), "其他资源线路未连接" },
                 { m_Settings.GetUILocaleID("Route"), "路线" },
                 { m_Settings.GetUILocaleID("RoutePathfindNotification"), "寻路失败" },
+                { m_Settings.GetUILocaleID("RouteGateBypassNotification"), "存在闸门绕行" },
 
                 // --- Transport line notifications ---
                 { m_Settings.GetUILocaleID("TransportLine"), "交通线路" },
