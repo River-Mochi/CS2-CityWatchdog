@@ -129,7 +129,7 @@
 
         <Message Text="$(AssemblyTitle) PublishConfig: syncing ModVersion + normalizing EOL/BOM + left-aligning blocks..." Importance="high" />
 
-        <Exec Command="&quot;$(SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -ExecutionPolicy Bypass -File &quot;$(PublishConfigScript)&quot; -Path &quot;$(MSBuildProjectDirectory)\$(PublishConfigurationPath)&quot; -Version &quot;$(Version)&quot; -Eol crlf -LeftAlignBlocks" />
+        <Exec Command="&quot;$(SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -ExecutionPolicy Bypass -File &quot;$(PublishConfigScript)&quot; -Path &quot;$(MSBuildProjectDirectory)\$(PublishConfigurationPath)&quot; -Version &quot;$(Version)&quot; -Eol lf -LeftAlignBlocks" />
     </Target>
 
     <Target Name="CopySvgFiles" AfterTargets="DeployWIP" Condition="Exists('$(ProjectDir)UI\images')">

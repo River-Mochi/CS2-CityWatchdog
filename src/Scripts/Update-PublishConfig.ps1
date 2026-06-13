@@ -21,7 +21,7 @@ param(
   [Parameter(Mandatory = $true)][string]$Version,
 
   # Enforced line ending style for PublishConfiguration.xml
-  [ValidateSet('crlf','lf')][string]$Eol = 'crlf',
+  [ValidateSet('crlf','lf')][string]$Eol = 'lf',
 
   # Enforced line ending style for mod.json files
   [ValidateSet('crlf','lf')][string]$ModJsonEol = 'lf',
