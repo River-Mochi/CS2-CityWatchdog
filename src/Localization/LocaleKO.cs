@@ -144,6 +144,11 @@ namespace CityWatchdog
                     "왼쪽 상단 아이콘을 클릭해 전체 패널을 여는 것과 같습니다." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "알림 패널 열기/닫기" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "모든 툴팁 비활성화" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
+                    "활성화 [ ✓ ] 시 게임 내 모든 툴팁 — 호버와 UI 팝업 — 을 숨깁니다.\n" +
+                    "도시 내에서 City Watchdog 패널 툴바의 [i] 아이콘 클릭으로도 전환할 수 있습니다." },
+
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "마일스톤 선택기" },
@@ -224,6 +229,14 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
                     "툴팁이 꺼져 있습니다.\n" +
                     "다시 켜려면 여기를 클릭하세요." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleDisable"),
+                    "모든 게임 툴팁 숨기기.\n" +
+                    "다시 클릭할 때까지 모든 툴팁을 비활성화합니다." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleEnable"),
+                    "모든 툴팁이 꺼져 있습니다.\n" +
+                    "다시 켜려면 클릭하세요." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "모두 전환" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "모두 펼치기" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "모든 행 접기" },

@@ -152,6 +152,11 @@ namespace CityWatchdog
                 },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Mở/đóng bảng thông báo" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Tắt tất cả chú giải" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
+                    "Khi bật [ ✓ ], ẩn mọi chú giải trong game — di chuột và popup UI.\n" +
+                    "Có thể bật/tắt trong thành phố bằng cách nhấn biểu tượng [i] trên thanh công cụ của bảng City Watchdog." },
+
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Chọn mốc" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
@@ -235,6 +240,14 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
                     "Chú giải đang tắt.\n" +
                     "Nhấp vào đây để bật lại." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleDisable"),
+                    "Ẩn tất cả chú giải trong game.\n" +
+                    "Nhấn để tắt mọi chú giải cho đến khi nhấn lại." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleEnable"),
+                    "Tất cả chú giải đang tắt.\n" +
+                    "Nhấn để bật lại." },
 
                 { m_Settings.GetUILocaleID("ToggleAll"), "BẬT/TẮT HẾT" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Mở tất cả" },

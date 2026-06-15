@@ -143,6 +143,11 @@ namespace CityWatchdog
                     "Funktioniert wie ein Klick auf das Symbol oben links, um das vollständige Fenster zu öffnen." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Benachrichtigungsfenster öffnen/schließen" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Alle Tooltips deaktivieren" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
+                    "Aktiviert [ ✓ ] blendet jeden Spiel-Tooltip aus — Hover-Tipps und UI-Popups.\n" +
+                    "Kann auch im Spiel über das [i]-Symbol in der City-Watchdog-Panel-Toolbar umgeschaltet werden." },
+
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Meilenstein-Auswahl" },
@@ -223,6 +228,14 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
                     "Tooltips sind aus.\n" +
                     "Klicke hier, um sie wieder einzuschalten." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleDisable"),
+                    "Alle Spiel-Tooltips ausblenden.\n" +
+                    "Klicke, um jeden Tooltip stummzuschalten, bis du erneut klickst." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleEnable"),
+                    "Alle Tooltips sind aus.\n" +
+                    "Klicke, um sie wieder einzuschalten." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Alle umschalten" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Alle ausklappen" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Alle Zeilen einklappen" },

@@ -151,6 +151,11 @@ namespace CityWatchdog
                 },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Otwórz/zamknij panel powiadomień" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Wyłącz wszystkie podpowiedzi" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
+                    "Włączone [ ✓ ] ukrywa wszystkie podpowiedzi w grze — najechania i okienka UI.\n" +
+                    "Można też przełączyć w mieście, klikając ikonę [i] na pasku panelu City Watchdog." },
+
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Wybór kamienia milowego" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
@@ -231,6 +236,14 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
                     "Podpowiedzi są wyłączone.\n" +
                     "Kliknij tutaj, aby je włączyć." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleDisable"),
+                    "Ukryj wszystkie podpowiedzi w grze.\n" +
+                    "Kliknij, aby wyciszyć każdą podpowiedź do następnego kliknięcia." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleEnable"),
+                    "Wszystkie podpowiedzi są wyłączone.\n" +
+                    "Kliknij, aby je włączyć." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Przełącz wszystko" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Rozwiń wszystko" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Zwiń wszystkie wiersze" },

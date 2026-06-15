@@ -152,6 +152,11 @@ namespace CityWatchdog
                 },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Bildirim panelini aç/kapat" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Tüm İpuçlarını Devre Dışı Bırak" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
+                    "Etkin [ ✓ ] olduğunda, oyundaki tüm ipuçları — fare üzerine getirme ve UI açılır pencereleri — gizlenir.\n" +
+                    "Şehirde de City Watchdog panelinin araç çubuğundaki [i] simgesine tıklayarak değiştirilebilir." },
+
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Kilometre Taşı Seçici" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
@@ -235,6 +240,14 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
                     "İpuçları kapalı.\n" +
                     "Tekrar açmak için buraya tıkla." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleDisable"),
+                    "Tüm oyun ipuçlarını gizle.\n" +
+                    "Tekrar tıklayana kadar her ipucunu kapatmak için tıkla." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleEnable"),
+                    "Tüm ipuçları kapalı.\n" +
+                    "Geri açmak için tıkla." },
 
                 { m_Settings.GetUILocaleID("ToggleAll"), "TÜMÜ" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Tümünü Aç" },

@@ -138,6 +138,7 @@ namespace CityWatchdog
             updateSystem.UpdateAt<CityFinanceSystem>(SystemUpdatePhase.ModificationEnd);
             updateSystem.UpdateAt<MilestoneSystem>(SystemUpdatePhase.ModificationEnd);
             updateSystem.UpdateAt<CityWatchdogUISystem>(SystemUpdatePhase.UIUpdate);
+            updateSystem.UpdateAt<TooltipControlSystem>(SystemUpdatePhase.UIUpdate);
             updateSystem.UpdateAt<AlertIconSystem>(SystemUpdatePhase.ModificationEnd);
         }
 

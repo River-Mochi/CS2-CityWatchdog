@@ -152,6 +152,11 @@ namespace CityWatchdog
                 },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Open/Close notification panel" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Disable All Tooltips" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
+                    "When enabled [ ✓ ], hides every in-game tooltip — gameplay hovers and UI popups.\n" +
+                    "Can also be toggled in the city by clicking the [i] icon in the City Watchdog panel toolbar." },
+
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
@@ -236,6 +241,14 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
                     "Tooltips are off.\n" +
                     "Click this button to turn tooltips back on." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleDisable"),
+                    "Hide all game tooltips.\n" +
+                    "Click to silence every tooltip until you click again." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleEnable"),
+                    "All tooltips are off.\n" +
+                    "Click to turn them back on." },
 
                 { m_Settings.GetUILocaleID("ToggleAll"), "TOGGLE ALL" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Expand All" },

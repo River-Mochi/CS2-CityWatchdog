@@ -152,6 +152,11 @@ namespace CityWatchdog
                 },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "เปิด/ปิดแผงแจ้งเตือน" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "ปิดคำแนะนำทั้งหมด" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
+                    "เมื่อเปิดใช้งาน [ ✓ ] จะซ่อนคำแนะนำทั้งหมดในเกม — เมื่อชี้และป๊อปอัพ UI\n" +
+                    "สามารถสลับได้ในเมืองโดยคลิกไอคอน [i] บนแถบเครื่องมือของแผง City Watchdog" },
+
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "เลือกไมล์สโตน" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
@@ -235,6 +240,14 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
                     "ปิดคำแนะนำแล้ว\n" +
                     "คลิกที่นี่เพื่อเปิดอีกครั้ง" },
+
+                { m_Settings.GetUILocaleID("TooltipToggleDisable"),
+                    "ซ่อนคำแนะนำทั้งหมดในเกม\n" +
+                    "คลิกเพื่อปิดคำแนะนำทั้งหมดจนกว่าจะคลิกอีกครั้ง" },
+
+                { m_Settings.GetUILocaleID("TooltipToggleEnable"),
+                    "ปิดคำแนะนำทั้งหมดแล้ว\n" +
+                    "คลิกเพื่อเปิดอีกครั้ง" },
 
                 { m_Settings.GetUILocaleID("ToggleAll"), "สลับทั้งหมด" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "ขยายทั้งหมด" },

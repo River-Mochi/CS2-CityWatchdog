@@ -143,6 +143,11 @@ namespace CityWatchdog
                     "效果与点击左上角图标打开完整面板相同。" },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "打开/关闭通知面板" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "禁用所有提示" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
+                    "启用 [ ✓ ] 时，隐藏所有游戏内提示 — 悬停提示和 UI 弹窗。\n" +
+                    "也可在城市中点击 City Watchdog 面板工具栏的 [i] 图标切换。" },
+
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "里程碑选择器" },
@@ -223,6 +228,14 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
                     "提示已关闭。\n" +
                     "点击此按钮重新开启提示。" },
+
+                { m_Settings.GetUILocaleID("TooltipToggleDisable"),
+                    "隐藏所有游戏提示。\n" +
+                    "点击后将关闭每个提示，直到再次点击。" },
+
+                { m_Settings.GetUILocaleID("TooltipToggleEnable"),
+                    "所有提示已关闭。\n" +
+                    "点击以重新启用。" },
                 { m_Settings.GetUILocaleID("ToggleAll"), "全部切换" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "全部展开" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "折叠所有行" },

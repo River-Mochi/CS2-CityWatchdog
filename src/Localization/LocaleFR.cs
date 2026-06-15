@@ -143,6 +143,11 @@ namespace CityWatchdog
                     "Fonctionne comme un clic sur l'icône en haut à gauche pour ouvrir le panneau complet." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Ouvrir/fermer le panneau des notifications" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Désactiver toutes les info-bulles" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
+                    "Activé [ ✓ ], masque toutes les info-bulles du jeu — survols et popups.\n" +
+                    "Peut aussi être basculé en ville en cliquant sur l'icône [i] dans la barre du panneau City Watchdog." },
+
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Sélecteur de jalon" },
@@ -223,6 +228,14 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
                     "Les infobulles sont désactivées.\n" +
                     "Cliquez ici pour les réactiver." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleDisable"),
+                    "Masquer toutes les info-bulles du jeu.\n" +
+                    "Cliquez pour les désactiver jusqu'au prochain clic." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleEnable"),
+                    "Toutes les info-bulles sont désactivées.\n" +
+                    "Cliquez pour les réactiver." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Tout basculer" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Tout ouvrir" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Tout fermer" },

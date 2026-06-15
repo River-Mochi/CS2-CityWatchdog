@@ -171,6 +171,10 @@ namespace CityWatchdog
         [SettingsUISection(Actions, Notifications)]
         public ProxyBinding ToggleNotificationPanelKeyboardBinding { get; set; }
 
+        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISetter(typeof(Setting), nameof(OnDisableAllTooltipsChanged))]
+        public bool DisableAllTooltips { get; set; }
+
         // --------------------------------------------------------------------
         // Actions tab - Milestone
         // --------------------------------------------------------------------
@@ -473,6 +477,8 @@ namespace CityWatchdog
             ConfirmUnlimitedMoneySaveConversion = false;
             ShowUsage = false;
 
+            DisableAllTooltips = false;
+
             Notification.SetDefaults();
         }
 
@@ -509,6 +515,13 @@ namespace CityWatchdog
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
                 .UpdatePopulationTooltipFontScaleBinding(value);
+        }
+
+        private void OnDisableAllTooltipsChanged(bool value)
+        {
+            World.DefaultGameObjectInjectionWorld?
+                .GetExistingSystemManaged<TooltipControlSystem>()?
+                .SyncFromSettings();
         }
 
         private bool GetMilestoneLevelStatus()

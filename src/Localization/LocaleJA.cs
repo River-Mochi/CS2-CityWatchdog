@@ -143,6 +143,11 @@ namespace CityWatchdog
                     "左上アイコンをクリックして完全なパネルを開くのと同じ動作です。" },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "通知パネルを開く/閉じる" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "すべてのツールチップを無効化" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
+                    "有効 [ ✓ ] のとき、ゲーム内のすべてのツールチップ — ホバー表示と UI ポップアップ — を非表示にします。\n" +
+                    "都市内では City Watchdog パネルの [i] アイコンをクリックして切り替えられます。" },
+
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "マイルストーン選択" },
@@ -223,6 +228,14 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
                     "ツールチップはオフです。\n" +
                     "もう一度オンにするにはここをクリックします。" },
+
+                { m_Settings.GetUILocaleID("TooltipToggleDisable"),
+                    "すべてのゲームツールチップを非表示にします。\n" +
+                    "クリックするとすべてのツールチップを抑制し、もう一度クリックで戻ります。" },
+
+                { m_Settings.GetUILocaleID("TooltipToggleEnable"),
+                    "すべてのツールチップがオフです。\n" +
+                    "クリックで再びオンにします。" },
                 { m_Settings.GetUILocaleID("ToggleAll"), "すべて切替" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "すべて展開" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "すべての行を折りたたむ" },

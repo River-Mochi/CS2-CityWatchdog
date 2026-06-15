@@ -7,7 +7,12 @@ import { useLocalization } from "cs2/l10n";
 import { getModule } from "cs2/modding";
 import { Button, Panel, Tooltip } from "cs2/ui";
 import { useState, type ReactElement, type ReactNode } from "react";
-import { controlPanelEnabled$, OnControlPanelBindingToggle } from "../Bindings/Bindings";
+import {
+    controlPanelEnabled$,
+    disableAllTooltips$,
+    OnControlPanelBindingToggle,
+    OnDisableAllTooltipsToggle,
+} from "../Bindings/Bindings";
 import { Divider } from "../Divider/Divider";
 import { InfoPanel } from "../InfoPanel/InfoPanel";
 import { VanillaComponentResolver } from "../VanillaComponentResolver/VanillaComponentResolver";
@@ -61,7 +66,8 @@ export const NotificationPanel = () => {
 const NotificationPanelContent = () => {
     const { translate } = useLocalization();
     const [sortAscending, setSortAscending] = useState(true);
-    const [tooltipsEnabled, setTooltipsEnabled] = useState(true);
+    const tooltipsDisabled = useValue(disableAllTooltips$);
+    const tooltipsEnabled = !tooltipsDisabled;
     const [expandedSections, setExpandedSections] = useState(createExpandedSections);
     const allValues = useAllNotificationValues();
 
@@ -110,9 +116,14 @@ const NotificationPanelContent = () => {
         );
     };
 
+    const titleBarTooltip = tooltipContent(
+        "NotificationIconShowOrHide",
+        "Expand rows; [✓] check to show, uncheck to hide alerts.\nDoes not fix city problems, it hides messy icons.",
+    );
+
     const infoTooltip = tooltipsEnabled
-        ? tooltipContent("NotificationIconShowOrHide", "Expand rows; [✓] check to show, uncheck to hide alerts.\nDoes not fix city problems, it hides messy icons.")
-        : tooltipContent("NotificationTooltipsOff", "Tooltips are off.\nClick this button to turn tooltips back on.");
+        ? tooltipContent("TooltipToggleDisable", "Hide all game tooltips.\nClick to silence every tooltip until you click again.")
+        : tooltipContent("TooltipToggleEnable", "All tooltips are off.\nClick to turn them back on.");
 
     const optionalTooltip = (tooltip: ReactNode, children: ReactElement) => {
         if (!tooltipsEnabled) {
@@ -148,7 +159,9 @@ const NotificationPanelContent = () => {
             header={
                 <div className={styles.header}>
                     <div className={styles.headerTitleArea}>
-                        <img src={modIconSrc} className={styles.headerModIcon} />
+                        {optionalTooltip(titleBarTooltip,
+                            <img src={modIconSrc} className={styles.headerModIcon} />,
+                        )}
                         <div className={styles.headerModName}>CITY WATCHDOG</div>
                     </div>
                     <Button
@@ -165,16 +178,16 @@ const NotificationPanelContent = () => {
             {/* Left side: help + sort. Right side: mass actions. */}
             <div className={styles.toolbar}>
                 <div className={styles.toolbarLeft}>
-                    <Tooltip tooltip={infoTooltip}>
+                    {optionalTooltip(infoTooltip,
                         <div
                             className={`${styles.infoButton} ${tooltipsEnabled ? "" : styles.infoButtonTipsOff}`}
                             role="button"
-                            aria-pressed={!tooltipsEnabled}
-                            onClick={() => { setTooltipsEnabled((enabled) => !enabled); }}
+                            aria-pressed={tooltipsDisabled}
+                            onClick={() => { OnDisableAllTooltipsToggle(!tooltipsDisabled); }}
                         >
                             <img src={infoIconSrc} className={styles.infoIcon} />
-                        </div>
-                    </Tooltip>
+                        </div>,
+                    )}
 
                     {optionalTooltip(sortTooltip,
                         <Button

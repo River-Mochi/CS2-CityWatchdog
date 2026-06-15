@@ -143,6 +143,11 @@ namespace CityWatchdog
                     "Funciona como clicar no ícone superior esquerdo para abrir o painel completo." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Abrir/fechar painel de notificações" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Desativar todas as dicas" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
+                    "Quando ativado [ ✓ ], oculta todas as dicas do jogo — passar o mouse e popups da UI.\n" +
+                    "Também pode ser alternado na cidade clicando no ícone [i] na barra do painel do City Watchdog." },
+
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Seletor de marco" },
@@ -223,6 +228,14 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
                     "As dicas estão desativadas.\n" +
                     "Clique aqui para ativá-las novamente." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleDisable"),
+                    "Ocultar todas as dicas do jogo.\n" +
+                    "Clique para silenciar cada dica até clicar novamente." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleEnable"),
+                    "Todas as dicas estão desativadas.\n" +
+                    "Clique para ativá-las novamente." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Alternar tudo" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Expandir tudo" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Recolher todas as linhas" },

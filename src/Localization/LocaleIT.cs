@@ -151,6 +151,11 @@ namespace CityWatchdog
                 },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Apri/Chiudi pannello notifiche" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Disabilita tutti i suggerimenti" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
+                    "Quando abilitato [ ✓ ], nasconde ogni suggerimento di gioco — hover e popup UI.\n" +
+                    "Può essere alternato in città cliccando l'icona [i] nella barra del pannello City Watchdog." },
+
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Selettore traguardo" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
@@ -230,6 +235,14 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
                     "I suggerimenti sono disattivati.\n" +
                     "Fai clic qui per riattivarli." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleDisable"),
+                    "Nascondi tutti i suggerimenti del gioco.\n" +
+                    "Clicca per silenziare ogni suggerimento fino al prossimo clic." },
+
+                { m_Settings.GetUILocaleID("TooltipToggleEnable"),
+                    "Tutti i suggerimenti sono disattivati.\n" +
+                    "Clicca per riattivarli." },
                 { m_Settings.GetUILocaleID("ToggleAll"), "Attiva/disattiva tutto" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Espandi tutto" },
                 { m_Settings.GetUILocaleID("CollapseAll"), "Comprimi tutte le righe" },

@@ -6,6 +6,7 @@ import mod from "../mod.json";
 import { NotificationPanel } from "./mods/NotificationPanel/NotificationPanel";
 import { EntryButton } from "./mods/EntryButton/EntryButton";
 import { DescriptionTooltipMoneyViewExtension, StatFieldMoneyViewExtension } from "./mods/MoneyView/MoneyView";
+import { initializeTooltipBlocker } from "./mods/Tooltip/tooltipBlocker";
 import { VanillaComponentResolver } from "./mods/VanillaComponentResolver/VanillaComponentResolver";
 import "../images/NotificationIcon_TitleBar.svg";
 import "../images/CWDNotificationIcon_white02.svg";
@@ -33,6 +34,7 @@ const register: ModRegistrar = (moduleRegistry) => {
     VanillaComponentResolver.setRegistry(moduleRegistry);
     extendSafe(moduleRegistry, STAT_FIELD_MODULE, STAT_FIELD_VANILLA_TREND_EXPORT, StatFieldMoneyViewExtension);
     extendSafe(moduleRegistry, DESCRIPTION_TOOLTIP_MODULE, DESCRIPTION_TOOLTIP_EXPORT, DescriptionTooltipMoneyViewExtension);
+    initializeTooltipBlocker();
     moduleRegistry.append("GameTopLeft", EntryButton);
     moduleRegistry.append("Game", NotificationPanel);
 };
