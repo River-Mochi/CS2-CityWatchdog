@@ -6,7 +6,6 @@ import { infoview, toolbarBottom } from "cs2/bindings";
 import { LocalizedNumber, Unit, useLocalization, type Localization } from "cs2/l10n";
 import { Children, isValidElement, type CSSProperties, type ReactNode } from "react";
 import { moneyView$, populationTooltipFontScale$ } from "../Bindings/Bindings";
-import { KEEP_MARKER_CLASS } from "../Tooltip/tooltipBlocker";
 import styles from "./MoneyView.module.scss";
 import { getDisplayWholeValue, getNumericValue, getSignedAmountTone, POPULATION_ICON } from "./moneyViewShared";
 
@@ -29,7 +28,7 @@ export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseCon
     const movedAway = getNumericValue(useValue(infoview.movedAway$));
 
     if (!moneyViewEnabled) {
-        return baseContent ? <div className={KEEP_MARKER_CLASS}>{baseContent}</div> : null;
+        return baseContent ? <>{baseContent}</> : null;
     }
 
     const tooltipStyle = {
@@ -37,7 +36,7 @@ export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseCon
     } as CSSProperties;
 
     return (
-        <div className={`${styles.populationTooltipWrapper} ${KEEP_MARKER_CLASS}`} style={tooltipStyle}>
+        <div className={styles.populationTooltipWrapper} style={tooltipStyle}>
             <div className={styles.tooltipTitle}>WATCHDOG</div>
             <PopulationTooltipCurrentTrend
                 localization={localization}

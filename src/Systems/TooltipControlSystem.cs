@@ -1,13 +1,10 @@
 // File: src/Systems/TooltipControlSystem.cs
-// Purpose: Global tooltip on/off toggle.
-//   - Mirrors the persisted Setting.DisableAllTooltips into a UI binding.
-//   - Drives vanilla Game.UI.Tooltip.TooltipUISystem.hideTooltips so the game's
-//     world/mouse tooltip pipeline short-circuits when off.
-//   - The DOM-level UI tooltips (balloon popups from cs2/ui Tooltip and vanilla
-//     panels) are hidden on the UI side by a small CSS injector that subscribes
-//     to the same binding. See src/UI/src/mods/Tooltip/tooltipBlocker.ts.
-//   - No Harmony: hideTooltips is a public setter on the vanilla system, so we
-//     just look it up and assign.
+// Purpose: Tooltip on/off toggles.
+//   - Setting.DisableAllTooltips drives vanilla Game.UI.Tooltip.TooltipUISystem.hideTooltips,
+//     which short-circuits the gameplay world/mouse tooltip pipeline at the source.
+//   - Setting.DisableCwdTooltips is a UI-side React gate: the panel and the money/population
+//     extension skip rendering CWD tooltips when it's on. No CSS or DOM tricks.
+//   - No Harmony: hideTooltips is a public setter on the vanilla system, so we just assign.
 
 namespace CityWatchdog.Systems
 {
@@ -130,7 +127,7 @@ namespace CityWatchdog.Systems
             {
                 LogUtils.WarnOnce(
                     "tooltip-save",
-                    () => $"Failed to persist DisableAllTooltips: {ex.GetType().Name}: {ex.Message}",
+                    () => $"Failed to persist tooltip settings: {ex.GetType().Name}: {ex.Message}",
                     ex);
             }
         }

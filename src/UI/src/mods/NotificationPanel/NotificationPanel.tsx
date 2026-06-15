@@ -17,7 +17,6 @@ import {
 } from "../Bindings/Bindings";
 import { Divider } from "../Divider/Divider";
 import { InfoPanel } from "../InfoPanel/InfoPanel";
-import { KEEP_MARKER_CLASS } from "../Tooltip/tooltipBlocker";
 import { VanillaComponentResolver } from "../VanillaComponentResolver/VanillaComponentResolver";
 import { NotificationRow } from "./NotificationRow";
 import styles from "./NotificationPanel.module.scss";
@@ -110,20 +109,16 @@ const NotificationPanelContent = () => {
         ? localize("SortDescending", "↓Sort Descending")
         : localize("SortAscending", "↑Sort Ascending");
 
-    // Wraps tooltip text in a marker-bearing div so the tooltipBlocker CSS keeps the popup
-    // visible even while the global toggle is on. The marker class lands on (a) the rendered
-    // tooltip content's root div, and (b) — for the buttons that pass className to Tooltip —
-    // the balloon itself. Either match is enough.
     const tooltipContent = (localeId: string, fallback: string) => {
         const tooltip = localize(localeId, fallback);
         const lines = tooltip.split("\n");
 
         if (lines.length <= 1) {
-            return <div className={KEEP_MARKER_CLASS}>{tooltip}</div>;
+            return tooltip;
         }
 
         return (
-            <div className={`${styles.tooltipText} ${KEEP_MARKER_CLASS}`}>
+            <div className={styles.tooltipText}>
                 {lines.map((line, index) => (
                     <div key={`${localeId}-${index}`}>{line}</div>
                 ))}
@@ -148,14 +143,13 @@ const NotificationPanelContent = () => {
     );
 
     // CWD-internal tooltips (sort, expand, count, title-bar help) — skip render entirely when
-    // the user turns CWD tooltips off via the People-money button. Cheaper than rendering and
-    // hoping the blocker hits them.
+    // the user turns CWD tooltips off via the People-money button.
     const optionalTooltip = (tooltip: ReactNode, children: ReactElement) => {
         if (cwdTooltipsDisabled) {
             return <>{children}</>;
         }
 
-        return <Tooltip tooltip={tooltip} className={KEEP_MARKER_CLASS}>{children}</Tooltip>;
+        return <Tooltip tooltip={tooltip}>{children}</Tooltip>;
     };
 
     const orderedSections = [...sections].sort((a, b) => {
@@ -203,8 +197,8 @@ const NotificationPanelContent = () => {
             {/* Left side: help + sort. Right side: mass actions. */}
             <div className={styles.toolbar}>
                 <div className={styles.toolbarLeft}>
-                    {/* Info button: toggles all vanilla game tooltips. Its own tooltip stays visible always. */}
-                    <Tooltip tooltip={infoTooltip} className={KEEP_MARKER_CLASS}>
+                    {/* Info button: toggles vanilla game world/mouse tooltips via TooltipUISystem.hideTooltips. */}
+                    <Tooltip tooltip={infoTooltip}>
                         <div
                             className={`${styles.infoButton} ${allTooltipsDisabled ? styles.infoButtonTipsOff : ""}`}
                             role="button"
@@ -215,8 +209,8 @@ const NotificationPanelContent = () => {
                         </div>
                     </Tooltip>
 
-                    {/* People-money button: toggles every CWD tooltip (panel + money/pop). Its own tooltip stays visible. */}
-                    <Tooltip tooltip={moneyToggleTooltip} className={KEEP_MARKER_CLASS}>
+                    {/* People-money button: toggles every CWD tooltip (panel + money/pop) at the React layer. */}
+                    <Tooltip tooltip={moneyToggleTooltip}>
                         <div
                             className={`${styles.infoButton} ${cwdTooltipsDisabled ? styles.infoButtonTipsOff : ""}`}
                             role="button"

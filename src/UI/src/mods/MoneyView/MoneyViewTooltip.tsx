@@ -6,7 +6,6 @@ import { economyBudget, toolbarBottom } from "cs2/bindings";
 import { Unit, useLocalization, type Localization } from "cs2/l10n";
 import { Children, isValidElement, type CSSProperties, type ReactNode } from "react";
 import { moneyTooltipFontScale$, moneyTooltipMode$, moneyView$ } from "../Bindings/Bindings";
-import { KEEP_MARKER_CLASS } from "../Tooltip/tooltipBlocker";
 import styles from "./MoneyView.module.scss";
 import {
     formatTooltipMoneyValue,
@@ -44,7 +43,7 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
     const totalMoney = getNumericValue(useValue(toolbarBottom.money$));
 
     if (!moneyViewEnabled) {
-        return <div className={KEEP_MARKER_CLASS}>{baseContent}</div>;
+        return <>{baseContent}</>;
     }
 
     const compact = moneyTooltipMode !== MONEY_TOOLTIP_MODE_FULL_DATA;
@@ -58,7 +57,7 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
     } as CSSProperties;
 
     return (
-        <div className={`${tooltipClassName} ${KEEP_MARKER_CLASS}`} style={tooltipStyle}>
+        <div className={tooltipClassName} style={tooltipStyle}>
             <div className={styles.tooltipTitle}>WATCHDOG</div>
 
             {!mini && (

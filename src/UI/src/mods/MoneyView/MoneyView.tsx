@@ -5,7 +5,6 @@ import { useValue } from "cs2/api";
 import type { ModuleRegistryExtend } from "cs2/modding";
 import { cloneElement, isValidElement, type ReactElement, type ReactNode } from "react";
 import { disableCwdTooltips$ } from "../Bindings/Bindings";
-import { KEEP_MARKER_CLASS } from "../Tooltip/tooltipBlocker";
 import { MoneyViewTooltipContent, isMoneyTooltip } from "./MoneyViewTooltip";
 import { PopulationViewTooltipContent, isPopulationTooltip } from "./PopulationViewTooltip";
 import { ToolbarMoneyDelta, ToolbarPopulationDelta } from "./ToolbarTrendAmount";
@@ -43,10 +42,9 @@ export const DescriptionTooltipMoneyViewExtension: ModuleRegistryExtend = (Compo
 
 // Inner React component so useValue stays reactive: toggling DisableCwdTooltips from the
 // panel's $ button immediately re-renders this gate.
-// - Disabled: render the toolbar children directly (the visible money/population number stays;
-//   only the hover popup goes away). Returning null would strip the whole toolbar entry.
-// - Enabled: render the vanilla DescriptionTooltip with CWD's enhanced content. The keep marker
-//   class is spread onto the underlying balloon so the global tooltip blocker leaves it visible.
+// - Disabled: render the toolbar children directly. The visible bottom-bar number stays;
+//   only the hover popup goes away. Returning null would strip the whole toolbar entry.
+// - Enabled: render the vanilla DescriptionTooltip with CWD's enhanced content.
 const MoneyTooltipGate = ({
     Component,
     originalProps,
@@ -61,12 +59,9 @@ const MoneyTooltipGate = ({
         return <>{originalProps.children}</>;
     }
 
-    const extraClassName = mergeClassName(originalProps.className, KEEP_MARKER_CLASS);
-
     if (kind === "money") {
         return Component({
             ...originalProps,
-            className: extraClassName,
             title: null,
             description: null,
             content: <MoneyViewTooltipContent baseContent={originalProps.content} />,
@@ -75,15 +70,10 @@ const MoneyTooltipGate = ({
 
     return Component({
         ...originalProps,
-        className: extraClassName,
         title: null,
         description: null,
         content: <PopulationViewTooltipContent baseContent={originalProps.content} />,
     });
-};
-
-const mergeClassName = (existing: string | undefined, extra: string): string => {
-    return existing ? `${existing} ${extra}` : extra;
 };
 
 const getMoneyViewText = (props: any): ReactNode | null => {
