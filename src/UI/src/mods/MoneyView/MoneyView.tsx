@@ -1,8 +1,10 @@
 // File: src/UI/src/mods/MoneyView/MoneyView.tsx
 // Purpose: Hooks vanilla toolbar/tooltip exports to inject City Watchdog Money View UI.
 
+import { useValue } from "cs2/api";
 import type { ModuleRegistryExtend } from "cs2/modding";
 import { cloneElement, isValidElement, type ReactElement, type ReactNode } from "react";
+import { disableMoneyTooltips$ } from "../Bindings/Bindings";
 import { MoneyViewTooltipContent, isMoneyTooltip } from "./MoneyViewTooltip";
 import { PopulationViewTooltipContent, isPopulationTooltip } from "./PopulationViewTooltip";
 import { ToolbarMoneyDelta, ToolbarPopulationDelta } from "./ToolbarTrendAmount";
@@ -27,27 +29,48 @@ export const StatFieldMoneyViewExtension: ModuleRegistryExtend = (Component: any
 export const DescriptionTooltipMoneyViewExtension: ModuleRegistryExtend = (Component: any) => {
     return (props: any) => {
         if (isMoneyTooltip(props)) {
-            return Component({
-                ...props,
-                // Replace the vanilla money tooltip body with CWD's localized money summary.
-                title: null,
-                description: null,
-                content: <MoneyViewTooltipContent baseContent={props.content} />,
-            });
+            return <MoneyTooltipGate Component={Component} originalProps={props} kind="money" />;
         }
 
         if (isPopulationTooltip(props)) {
-            return Component({
-                ...props,
-                // Replace the vanilla population tooltip body with CWD's population flow summary.
-                title: null,
-                description: null,
-                content: <PopulationViewTooltipContent baseContent={props.content} />,
-            });
+            return <MoneyTooltipGate Component={Component} originalProps={props} kind="population" />;
         }
 
         return Component(props);
     };
+};
+
+// Inner React component so useValue stays reactive: toggling DisableMoneyTooltips from the
+// panel's $ button immediately re-renders this gate and either renders the tooltip or null.
+const MoneyTooltipGate = ({
+    Component,
+    originalProps,
+    kind,
+}: {
+    Component: any;
+    originalProps: any;
+    kind: "money" | "population";
+}) => {
+    const disabled = useValue(disableMoneyTooltips$);
+    if (disabled) {
+        return null;
+    }
+
+    if (kind === "money") {
+        return Component({
+            ...originalProps,
+            title: null,
+            description: null,
+            content: <MoneyViewTooltipContent baseContent={originalProps.content} />,
+        });
+    }
+
+    return Component({
+        ...originalProps,
+        title: null,
+        description: null,
+        content: <PopulationViewTooltipContent baseContent={originalProps.content} />,
+    });
 };
 
 const getMoneyViewText = (props: any): ReactNode | null => {

@@ -7,19 +7,24 @@
 // source. This CSS injector handles the rest: DOM tooltips rendered by the
 // vanilla cs2/ui Tooltip component on regular UI panels and buttons.
 //
-// CWD's own panel tooltips are still gated at the React layer via the
-// optionalTooltip helper in NotificationPanel.tsx, so they short-circuit
-// before reaching the DOM. The CSS here is the safety net for everything
-// rendered outside our control.
+// Tooltips that include a <span class="cwd-tooltip-keep" /> marker child
+// are excluded via the :has() selector. This keeps a few CWD-owned
+// tooltips visible even when the global toggle is on:
+//   - The Info button (so users can read how to turn tooltips back on).
+//   - The panel's title-bar icon help.
+//   - CWD's money/population tooltip enhancements.
 
 import { disableAllTooltips$ } from "../Bindings/Bindings";
 
 const STYLE_ELEMENT_ID = "cwd-tooltip-blocker";
 
+export const KEEP_MARKER_CLASS = "cwd-tooltip-keep";
+
+// Marker child uses inline display:none, so this rule only needs the :has() exclusion.
 const BLOCKER_CSS = `
-[class*="balloon_"],
-[class*="tooltip-base_"],
-[class*="tooltip-fade_"] {
+[class*="balloon_"]:not(:has(.${KEEP_MARKER_CLASS})),
+[class*="tooltip-base_"]:not(:has(.${KEEP_MARKER_CLASS})),
+[class*="tooltip-fade_"]:not(:has(.${KEEP_MARKER_CLASS})) {
     display: none !important;
     pointer-events: none !important;
 }

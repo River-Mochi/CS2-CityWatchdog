@@ -19,30 +19,45 @@ namespace CityWatchdog.Systems
     public partial class TooltipControlSystem : UISystemBaseExtension
     {
         private BoolBinding disableAllTooltipsBinding = null!;
+        private BoolBinding disableMoneyTooltipsBinding = null!;
         private TooltipUISystem? cachedTooltipUISystem;
 
         protected override void OnCreate()
         {
             base.OnCreate();
 
-            bool initial = Setting.Instance?.DisableAllTooltips ?? false;
+            Setting? setting = Setting.Instance;
+            bool initialAll = setting?.DisableAllTooltips ?? false;
+            bool initialMoney = setting?.DisableMoneyTooltips ?? false;
 
             disableAllTooltipsBinding = AddBoolBindingAndTriggerBinding(
                 nameof(Setting.DisableAllTooltips),
-                initial,
+                initialAll,
                 OnDisableAllTooltipsToggle);
+
+            disableMoneyTooltipsBinding = AddBoolBindingAndTriggerBinding(
+                nameof(Setting.DisableMoneyTooltips),
+                initialMoney,
+                OnDisableMoneyTooltipsToggle);
         }
 
         public void SyncFromSettings()
         {
-            bool value = Setting.Instance?.DisableAllTooltips ?? false;
+            Setting? setting = Setting.Instance;
+            bool allTooltips = setting?.DisableAllTooltips ?? false;
+            bool moneyTooltips = setting?.DisableMoneyTooltips ?? false;
 
-            if (disableAllTooltipsBinding.Value != value)
+            if (disableAllTooltipsBinding.Value != allTooltips)
             {
-                disableAllTooltipsBinding.Update(value);
+                disableAllTooltipsBinding.Update(allTooltips);
             }
 
-            ApplyToGame(value);
+            if (disableMoneyTooltipsBinding.Value != moneyTooltips)
+            {
+                disableMoneyTooltipsBinding.Update(moneyTooltips);
+            }
+
+            ApplyToGame(allTooltips);
         }
 
         protected override void OnUpdate()
@@ -78,6 +93,18 @@ namespace CityWatchdog.Systems
             }
 
             ApplyToGame(value);
+        }
+
+        private void OnDisableMoneyTooltipsToggle(bool value)
+        {
+            disableMoneyTooltipsBinding.Update(value);
+
+            Setting? setting = Setting.Instance;
+            if (setting != null)
+            {
+                setting.DisableMoneyTooltips = value;
+                TryPersist(setting);
+            }
         }
 
         private void ApplyToGame(bool value)

@@ -6,6 +6,7 @@ import { economyBudget, toolbarBottom } from "cs2/bindings";
 import { Unit, useLocalization, type Localization } from "cs2/l10n";
 import { Children, isValidElement, type CSSProperties, type ReactNode } from "react";
 import { moneyTooltipFontScale$, moneyTooltipMode$, moneyView$ } from "../Bindings/Bindings";
+import { KEEP_MARKER_CLASS } from "../Tooltip/tooltipBlocker";
 import styles from "./MoneyView.module.scss";
 import {
     formatTooltipMoneyValue,
@@ -43,7 +44,7 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
     const totalMoney = getNumericValue(useValue(toolbarBottom.money$));
 
     if (!moneyViewEnabled) {
-        return <>{baseContent}</>;
+        return <>{baseContent}<KeepMarker /></>;
     }
 
     const compact = moneyTooltipMode !== MONEY_TOOLTIP_MODE_FULL_DATA;
@@ -99,9 +100,13 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
                     mode={moneyTooltipMode}
                 />
             )}
+            <KeepMarker />
         </div>
     );
 };
+
+// Marker child that excludes this tooltip from the global tooltip blocker (tooltipBlocker.ts).
+const KeepMarker = () => <span className={KEEP_MARKER_CLASS} aria-hidden="true" style={{ display: "none" }} />;
 
 const getTooltipValueSize = (value: number): string => {
     const percent = Math.min(130, Math.max(90, Number(value) || 100));

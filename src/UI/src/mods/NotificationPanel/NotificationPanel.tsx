@@ -10,11 +10,14 @@ import { useState, type ReactElement, type ReactNode } from "react";
 import {
     controlPanelEnabled$,
     disableAllTooltips$,
+    disableMoneyTooltips$,
     OnControlPanelBindingToggle,
     OnDisableAllTooltipsToggle,
+    OnDisableMoneyTooltipsToggle,
 } from "../Bindings/Bindings";
 import { Divider } from "../Divider/Divider";
 import { InfoPanel } from "../InfoPanel/InfoPanel";
+import { KEEP_MARKER_CLASS } from "../Tooltip/tooltipBlocker";
 import { VanillaComponentResolver } from "../VanillaComponentResolver/VanillaComponentResolver";
 import { NotificationRow } from "./NotificationRow";
 import styles from "./NotificationPanel.module.scss";
@@ -42,6 +45,9 @@ const sortArrowDownSrc = SortArrowDownPath;
 // Info icon uses the built-in game media path.
 const infoIconSrc = "Media/Game/Icons/AdvisorInfoViewWhite.svg";
 
+// Money toggle icon — use a built-in vanilla money icon for now.
+const moneyIconSrc = "Media/Game/Icons/Money.svg";
+
 // Toolbar icons use built-in game media paths.
 // All.svg is the vanilla snap-options "all" icon.
 const toggleAllIconSrc = "Media/Tools/Snap Options/All.svg";
@@ -68,6 +74,7 @@ const NotificationPanelContent = () => {
     const [sortAscending, setSortAscending] = useState(true);
     const tooltipsDisabled = useValue(disableAllTooltips$);
     const tooltipsEnabled = !tooltipsDisabled;
+    const moneyTooltipsDisabled = useValue(disableMoneyTooltips$);
     const [expandedSections, setExpandedSections] = useState(createExpandedSections);
     const allValues = useAllNotificationValues();
 
@@ -99,12 +106,17 @@ const NotificationPanelContent = () => {
         ? localize("SortDescending", "↓Sort Descending")
         : localize("SortAscending", "↑Sort Ascending");
 
-    const tooltipContent = (localeId: string, fallback: string) => {
+    const tooltipContent = (localeId: string, fallback: string, withKeepMarker = false) => {
         const tooltip = localize(localeId, fallback);
         const lines = tooltip.split("\n");
+        const keepMarker = withKeepMarker
+            ? <span className={KEEP_MARKER_CLASS} aria-hidden="true" style={{ display: "none" }} />
+            : null;
 
         if (lines.length <= 1) {
-            return tooltip;
+            return withKeepMarker
+                ? <>{tooltip}{keepMarker}</>
+                : tooltip;
         }
 
         return (
@@ -112,6 +124,7 @@ const NotificationPanelContent = () => {
                 {lines.map((line, index) => (
                     <div key={`${localeId}-${index}`}>{line}</div>
                 ))}
+                {keepMarker}
             </div>
         );
     };
@@ -119,11 +132,21 @@ const NotificationPanelContent = () => {
     const titleBarTooltip = tooltipContent(
         "NotificationIconShowOrHide",
         "Expand rows; [✓] check to show, uncheck to hide alerts.\nDoes not fix city problems, it hides messy icons.",
+        true,
     );
 
-    const infoTooltip = tooltipsEnabled
-        ? tooltipContent("TooltipToggleDisable", "Hide all game tooltips.\nClick to silence every tooltip until you click again.")
-        : tooltipContent("TooltipToggleEnable", "All tooltips are off.\nClick to turn them back on.");
+    // Same text in both states so users always know what the button does, even when tooltips are off.
+    const infoTooltip = tooltipContent(
+        "TooltipToggle",
+        "Show or Hide ALL game tooltips.\nClick to silence every tooltip until you click again.",
+        true,
+    );
+
+    const moneyToggleTooltip = tooltipContent(
+        "MoneyTooltipToggle",
+        "Show or Hide Watchdog money and population tooltips.\nLeaves the rest of the panel alone.",
+        true,
+    );
 
     const optionalTooltip = (tooltip: ReactNode, children: ReactElement) => {
         if (!tooltipsEnabled) {
@@ -178,7 +201,8 @@ const NotificationPanelContent = () => {
             {/* Left side: help + sort. Right side: mass actions. */}
             <div className={styles.toolbar}>
                 <div className={styles.toolbarLeft}>
-                    {optionalTooltip(infoTooltip,
+                    {/* Info button stays visible even while global tooltips are off, via cwd-tooltip-keep marker. */}
+                    <Tooltip tooltip={infoTooltip}>
                         <div
                             className={`${styles.infoButton} ${tooltipsEnabled ? "" : styles.infoButtonTipsOff}`}
                             role="button"
@@ -186,8 +210,20 @@ const NotificationPanelContent = () => {
                             onClick={() => { OnDisableAllTooltipsToggle(!tooltipsDisabled); }}
                         >
                             <img src={infoIconSrc} className={styles.infoIcon} />
-                        </div>,
-                    )}
+                        </div>
+                    </Tooltip>
+
+                    {/* $ button: independent toggle for the CWD money/population tooltips. */}
+                    <Tooltip tooltip={moneyToggleTooltip}>
+                        <div
+                            className={`${styles.infoButton} ${moneyTooltipsDisabled ? styles.infoButtonTipsOff : ""}`}
+                            role="button"
+                            aria-pressed={moneyTooltipsDisabled}
+                            onClick={() => { OnDisableMoneyTooltipsToggle(!moneyTooltipsDisabled); }}
+                        >
+                            <img src={moneyIconSrc} className={styles.infoIcon} />
+                        </div>
+                    </Tooltip>
 
                     {optionalTooltip(sortTooltip,
                         <Button

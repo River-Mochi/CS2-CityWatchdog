@@ -155,7 +155,13 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Disable All Tooltips" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
                     "When enabled [ ✓ ], hides every in-game tooltip — gameplay hovers and UI popups.\n" +
-                    "Can also be toggled in the city by clicking the [i] icon in the City Watchdog panel toolbar." },
+                    "Can also be toggled in the city by clicking the [i] icon in the City Watchdog panel toolbar.\n" +
+                    "City Watchdog's own money/population tooltips stay visible." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableMoneyTooltips)), "Disable Money/Population Tooltips" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableMoneyTooltips)),
+                    "When enabled [ ✓ ], hides the City Watchdog money and population hover tooltips.\n" +
+                    "Independent of the main tooltip toggle. Can also be toggled by the [$] icon in the City Watchdog panel toolbar." },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },
@@ -249,6 +255,14 @@ namespace CityWatchdog
                 { m_Settings.GetUILocaleID("TooltipToggleEnable"),
                     "All tooltips are off.\n" +
                     "Click to turn them back on." },
+
+                { m_Settings.GetUILocaleID("TooltipToggle"),
+                    "Show or Hide ALL game tooltips.\n" +
+                    "Click to silence every tooltip until you click again." },
+
+                { m_Settings.GetUILocaleID("MoneyTooltipToggle"),
+                    "Show or Hide Watchdog money and population tooltips.\n" +
+                    "Leaves the rest of the panel alone." },
 
                 { m_Settings.GetUILocaleID("ToggleAll"), "TOGGLE ALL" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Expand All" },
