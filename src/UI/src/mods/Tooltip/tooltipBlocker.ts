@@ -20,13 +20,28 @@ const STYLE_ELEMENT_ID = "cwd-tooltip-blocker";
 
 export const KEEP_MARKER_CLASS = "cwd-tooltip-keep";
 
-// Marker child uses inline display:none, so this rule only needs the :has() exclusion.
+// Cohtml's CSS engine does NOT support :not() or :has() — both emit warnings and the rule
+// is dropped silently. We have to use only basic CSS3 (attribute, class, descendant) and
+// rely on override-by-specificity:
+//   1. Blanket hide every balloon (low specificity).
+//   2. Higher-specificity override re-shows balloons that carry the keep-marker class
+//      directly OR whose ancestor carries it. Either match wins.
 const BLOCKER_CSS = `
-[class*="balloon_"]:not(:has(.${KEEP_MARKER_CLASS})),
-[class*="tooltip-base_"]:not(:has(.${KEEP_MARKER_CLASS})),
-[class*="tooltip-fade_"]:not(:has(.${KEEP_MARKER_CLASS})) {
+[class*="balloon_"],
+[class*="tooltip-base_"],
+[class*="tooltip-fade_"] {
     display: none !important;
     pointer-events: none !important;
+}
+
+[class*="balloon_"].${KEEP_MARKER_CLASS},
+[class*="tooltip-base_"].${KEEP_MARKER_CLASS},
+[class*="tooltip-fade_"].${KEEP_MARKER_CLASS},
+.${KEEP_MARKER_CLASS} [class*="balloon_"],
+.${KEEP_MARKER_CLASS} [class*="tooltip-base_"],
+.${KEEP_MARKER_CLASS} [class*="tooltip-fade_"] {
+    display: flex !important;
+    pointer-events: auto !important;
 }
 `;
 

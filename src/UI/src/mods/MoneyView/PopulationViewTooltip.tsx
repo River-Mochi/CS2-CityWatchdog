@@ -29,7 +29,7 @@ export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseCon
     const movedAway = getNumericValue(useValue(infoview.movedAway$));
 
     if (!moneyViewEnabled) {
-        return baseContent ? <>{baseContent}<KeepMarker /></> : null;
+        return baseContent ? <div className={KEEP_MARKER_CLASS}>{baseContent}</div> : null;
     }
 
     const tooltipStyle = {
@@ -37,7 +37,7 @@ export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseCon
     } as CSSProperties;
 
     return (
-        <div className={styles.populationTooltipWrapper} style={tooltipStyle}>
+        <div className={`${styles.populationTooltipWrapper} ${KEEP_MARKER_CLASS}`} style={tooltipStyle}>
             <div className={styles.tooltipTitle}>WATCHDOG</div>
             <PopulationTooltipCurrentTrend
                 localization={localization}
@@ -75,13 +75,9 @@ export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseCon
                     value={homeless}
                 />
             </div>
-            <KeepMarker />
         </div>
     );
 };
-
-// Marker child that excludes this tooltip from the global tooltip blocker (tooltipBlocker.ts).
-const KeepMarker = () => <span className={KEEP_MARKER_CLASS} aria-hidden="true" style={{ display: "none" }} />;
 
 export const isPopulationTooltip = (props: any): boolean => {
     return containsIcon(props?.children, POPULATION_ICON);

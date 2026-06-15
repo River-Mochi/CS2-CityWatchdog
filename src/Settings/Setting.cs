@@ -176,8 +176,8 @@ namespace CityWatchdog
         public bool DisableAllTooltips { get; set; }
 
         [SettingsUISection(Actions, Notifications)]
-        [SettingsUISetter(typeof(Setting), nameof(OnDisableMoneyTooltipsChanged))]
-        public bool DisableMoneyTooltips { get; set; }
+        [SettingsUISetter(typeof(Setting), nameof(OnDisableCwdTooltipsChanged))]
+        public bool DisableCwdTooltips { get; set; }
 
         // --------------------------------------------------------------------
         // Actions tab - Milestone
@@ -482,7 +482,7 @@ namespace CityWatchdog
             ShowUsage = false;
 
             DisableAllTooltips = false;
-            DisableMoneyTooltips = false;
+            DisableCwdTooltips = false;
 
             Notification.SetDefaults();
         }
@@ -529,7 +529,7 @@ namespace CityWatchdog
                 .SyncFromSettings();
         }
 
-        private void OnDisableMoneyTooltipsChanged(bool value)
+        private void OnDisableCwdTooltipsChanged(bool value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<TooltipControlSystem>()?

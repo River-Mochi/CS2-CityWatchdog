@@ -158,10 +158,11 @@ namespace CityWatchdog
                     "Can also be toggled in the city by clicking the [i] icon in the City Watchdog panel toolbar.\n" +
                     "City Watchdog's own money/population tooltips stay visible." },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableMoneyTooltips)), "Disable Money/Population Tooltips" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableMoneyTooltips)),
-                    "When enabled [ ✓ ], hides the City Watchdog money and population hover tooltips.\n" +
-                    "Independent of the main tooltip toggle. Can also be toggled by the [$] icon in the City Watchdog panel toolbar." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableCwdTooltips)), "Disable Watchdog Tooltips" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableCwdTooltips)),
+                    "When enabled [ ✓ ], hides every City Watchdog tooltip (panel hovers + money/population hovers).\n" +
+                    "The toolbar money/population display stays visible; only the popup goes away.\n" +
+                    "Independent of [Disable All Tooltips]. Can also be toggled by the People-Money icon in the City Watchdog panel toolbar." },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },
@@ -261,8 +262,9 @@ namespace CityWatchdog
                     "Click to silence every tooltip until you click again." },
 
                 { m_Settings.GetUILocaleID("MoneyTooltipToggle"),
-                    "Show or Hide Watchdog money and population tooltips.\n" +
-                    "Leaves the rest of the panel alone." },
+                    "Show or Hide Watchdog tooltips.\n" +
+                    "Panel hovers + custom money/population tooltips.\n" +
+                    "Toolbar numbers stay visible either way." },
 
                 { m_Settings.GetUILocaleID("ToggleAll"), "TOGGLE ALL" },
                 { m_Settings.GetUILocaleID("ExpandAll"), "Expand All" },

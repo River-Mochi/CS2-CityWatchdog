@@ -44,7 +44,7 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
     const totalMoney = getNumericValue(useValue(toolbarBottom.money$));
 
     if (!moneyViewEnabled) {
-        return <>{baseContent}<KeepMarker /></>;
+        return <div className={KEEP_MARKER_CLASS}>{baseContent}</div>;
     }
 
     const compact = moneyTooltipMode !== MONEY_TOOLTIP_MODE_FULL_DATA;
@@ -58,7 +58,7 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
     } as CSSProperties;
 
     return (
-        <div className={tooltipClassName} style={tooltipStyle}>
+        <div className={`${tooltipClassName} ${KEEP_MARKER_CLASS}`} style={tooltipStyle}>
             <div className={styles.tooltipTitle}>WATCHDOG</div>
 
             {!mini && (
@@ -100,13 +100,9 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
                     mode={moneyTooltipMode}
                 />
             )}
-            <KeepMarker />
         </div>
     );
 };
-
-// Marker child that excludes this tooltip from the global tooltip blocker (tooltipBlocker.ts).
-const KeepMarker = () => <span className={KEEP_MARKER_CLASS} aria-hidden="true" style={{ display: "none" }} />;
 
 const getTooltipValueSize = (value: number): string => {
     const percent = Math.min(130, Math.max(90, Number(value) || 100));
