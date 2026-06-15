@@ -1,10 +1,8 @@
 // File: src/UI/src/mods/MoneyView/MoneyView.tsx
 // Purpose: Hooks vanilla toolbar/tooltip exports to inject City Watchdog Money View UI.
 
-import { useValue } from "cs2/api";
 import type { ModuleRegistryExtend } from "cs2/modding";
 import { cloneElement, isValidElement, type ReactElement, type ReactNode } from "react";
-import { disableCwdTooltips$ } from "../Bindings/Bindings";
 import { MoneyViewTooltipContent, isMoneyTooltip } from "./MoneyViewTooltip";
 import { PopulationViewTooltipContent, isPopulationTooltip } from "./PopulationViewTooltip";
 import { ToolbarMoneyDelta, ToolbarPopulationDelta } from "./ToolbarTrendAmount";
@@ -26,54 +24,31 @@ export const StatFieldMoneyViewExtension: ModuleRegistryExtend = (Component: any
 
 // MoneyField is already captured by the vanilla toolbar before this mod can reliably wrap it.
 // Hook the shared DescriptionTooltip instead, then filter to the money/population toolbar children.
+//
+// Money/population tooltips are controlled exclusively by Setting.MoneyView in the Options UI.
+// They are NOT touched by the People-money button on the in-game panel.
 export const DescriptionTooltipMoneyViewExtension: ModuleRegistryExtend = (Component: any) => {
     return (props: any) => {
         if (isMoneyTooltip(props)) {
-            return <MoneyTooltipGate Component={Component} originalProps={props} kind="money" />;
+            return Component({
+                ...props,
+                title: null,
+                description: null,
+                content: <MoneyViewTooltipContent baseContent={props.content} />,
+            });
         }
 
         if (isPopulationTooltip(props)) {
-            return <MoneyTooltipGate Component={Component} originalProps={props} kind="population" />;
+            return Component({
+                ...props,
+                title: null,
+                description: null,
+                content: <PopulationViewTooltipContent baseContent={props.content} />,
+            });
         }
 
         return Component(props);
     };
-};
-
-// Inner React component so useValue stays reactive: toggling DisableCwdTooltips from the
-// panel's $ button immediately re-renders this gate.
-// - Disabled: render the toolbar children directly. The visible bottom-bar number stays;
-//   only the hover popup goes away. Returning null would strip the whole toolbar entry.
-// - Enabled: render the vanilla DescriptionTooltip with CWD's enhanced content.
-const MoneyTooltipGate = ({
-    Component,
-    originalProps,
-    kind,
-}: {
-    Component: any;
-    originalProps: any;
-    kind: "money" | "population";
-}) => {
-    const disabled = useValue(disableCwdTooltips$);
-    if (disabled) {
-        return <>{originalProps.children}</>;
-    }
-
-    if (kind === "money") {
-        return Component({
-            ...originalProps,
-            title: null,
-            description: null,
-            content: <MoneyViewTooltipContent baseContent={originalProps.content} />,
-        });
-    }
-
-    return Component({
-        ...originalProps,
-        title: null,
-        description: null,
-        content: <PopulationViewTooltipContent baseContent={originalProps.content} />,
-    });
 };
 
 const getMoneyViewText = (props: any): ReactNode | null => {

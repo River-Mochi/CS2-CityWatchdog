@@ -138,8 +138,8 @@ const NotificationPanelContent = () => {
     );
 
     const moneyToggleTooltip = tooltipContent(
-        "MoneyTooltipToggle",
-        "Show or Hide Watchdog money and population tooltips.\nLeaves the rest of the panel alone.",
+        "PanelTooltipToggle",
+        "Show or Hide City Watchdog panel tooltips.\nMoney and population popups stay on — those are controlled by the Money View option in Settings.",
     );
 
     // CWD-internal tooltips (sort, expand, count, title-bar help) — skip render entirely when
