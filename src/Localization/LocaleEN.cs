@@ -152,18 +152,11 @@ namespace CityWatchdog
                 },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Open/Close notification panel" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Disable All Tooltips" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Disable All Mouse-Hover Tooltips" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
-                    "When enabled [ ✓ ], hides every in-game tooltip — gameplay hovers and UI popups.\n" +
-                    "Can also be toggled in the city by clicking the [i] icon in the City Watchdog panel toolbar.\n" +
-                    "City Watchdog's own money/population tooltips stay visible." },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableCwdTooltips)), "Disable Watchdog Panel Tooltips" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableCwdTooltips)),
-                    "When enabled [ ✓ ], hides the hover tooltips inside the City Watchdog notification panel\n" +
-                    "(sort, expand all, toggle all, etc.).\n" +
-                    "Money/population popups are not affected — those are controlled by the Money View option above.\n" +
-                    "Can also be toggled by the People-Money icon in the City Watchdog panel toolbar." },
+                    "Turns off the mouse-hover tooltips that follow your cursor across the city — buildings, citizens, tools, terrain.\n" +
+                    "<UI button tooltips and the bottom-bar money/population popups still work.>\n" +
+                    "Same as clicking the [i] icon on the City Watchdog panel inside the city." },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },
@@ -259,8 +252,8 @@ namespace CityWatchdog
                     "Click to turn them back on." },
 
                 { m_Settings.GetUILocaleID("TooltipToggle"),
-                    "Show or Hide ALL game tooltips.\n" +
-                    "Click to silence every tooltip until you click again." },
+                    "Show/hide ALL mouse-over tooltips.\n" +
+                    "The ones that follow your cursor over buildings, cims, tools." },
 
                 { m_Settings.GetUILocaleID("PanelTooltipToggle"),
                     "Show or Hide City Watchdog panel tooltips.\n" +

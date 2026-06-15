@@ -134,7 +134,7 @@ const NotificationPanelContent = () => {
     // Same text regardless of toggle state — the button itself is always discoverable.
     const infoTooltip = tooltipContent(
         "TooltipToggle",
-        "Show or Hide ALL game tooltips.\nClick to silence every tooltip until you click again.",
+        "Show/hide ALL mouse-over tooltips.\nThe ones that follow your cursor over buildings, cims, tools.",
     );
 
     const moneyToggleTooltip = tooltipContent(

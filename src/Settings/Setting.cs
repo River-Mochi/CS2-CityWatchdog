@@ -175,8 +175,9 @@ namespace CityWatchdog
         [SettingsUISetter(typeof(Setting), nameof(OnDisableAllTooltipsChanged))]
         public bool DisableAllTooltips { get; set; }
 
-        [SettingsUISection(Actions, Notifications)]
-        [SettingsUISetter(typeof(Setting), nameof(OnDisableCwdTooltipsChanged))]
+        // Persisted across sessions but intentionally not exposed in Options UI — controlled only
+        // by the People-Money button on the in-game panel. The in-city button is a quick-access
+        // runtime toggle and the panel is the natural home for it.
         public bool DisableCwdTooltips { get; set; }
 
         // --------------------------------------------------------------------
@@ -523,13 +524,6 @@ namespace CityWatchdog
         }
 
         private void OnDisableAllTooltipsChanged(bool value)
-        {
-            World.DefaultGameObjectInjectionWorld?
-                .GetExistingSystemManaged<TooltipControlSystem>()?
-                .SyncFromSettings();
-        }
-
-        private void OnDisableCwdTooltipsChanged(bool value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<TooltipControlSystem>()?
