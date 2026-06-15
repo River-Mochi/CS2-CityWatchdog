@@ -38,15 +38,16 @@ import TitleBarIconPath from "../../../images/NotificationIcon_TitleBar.svg";
 import SortArrowUpPath from "../../../images/sort-arrow-up.svg";
 import SortArrowDownPath from "../../../images/sort-arrow-down.svg";
 
+// Money toggle icon is a custom mod image emitted by webpack to coui://ui-mods/images/.
+import MoneyToggleIconPath from "../../../images/People-money.svg";
+
 const modIconSrc = TitleBarIconPath;
 const sortArrowUpSrc = SortArrowUpPath;
 const sortArrowDownSrc = SortArrowDownPath;
+const moneyIconSrc = MoneyToggleIconPath;
 
 // Info icon uses the built-in game media path.
 const infoIconSrc = "Media/Game/Icons/AdvisorInfoViewWhite.svg";
-
-// Money toggle icon — use a built-in vanilla money icon for now.
-const moneyIconSrc = "Media/Game/Icons/Money.svg";
 
 // Toolbar icons use built-in game media paths.
 // All.svg is the vanilla snap-options "all" icon.
