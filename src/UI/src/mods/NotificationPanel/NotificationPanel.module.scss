@@ -82,7 +82,6 @@
     width: 28rem;
     height: 22rem;
     margin-right: 10rem;
-    object-fit: contain;
 }
 
 
@@ -100,7 +99,6 @@
     font-weight: 600;
     line-height: 1.15;
     letter-spacing: 1.8rem;
-    word-spacing: 5rem;
 }
 
 .headerCloseButton {
@@ -119,12 +117,13 @@
 // Toolbar layout:
 // left = help + sort
 // right = expand/collapse + toggle all
+// Coherent flex does not support `gap`. We use justify-content: space-between for the outer
+// row (only 2 groups), and the adjacent-sibling combinator below to space buttons within each group.
 .toolbar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 8rem;
     padding: 5rem 10rem;
 }
 
@@ -133,11 +132,16 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 8rem;
 }
 
+.toolbarLeft > * + *,
+.toolbarButtons > * + * {
+    margin-left: 8rem;
+}
+
+// Tooltip content wrapper. JSX renders each line as its own div, so no white-space helper is needed.
 .tooltipText {
-    white-space: pre-line;
+    display: block;
 }
 
 // Gives info icon the same framed button style.
@@ -174,11 +178,28 @@
     }
 }
 
+// Red alert state for the Info button when ALL game tooltips are off — high-visibility reminder
+// so the player notices they've globally suppressed hover tooltips and can find their way back.
+.infoButtonAllOff {
+    border-color: rgba(255, 96, 96, 0.95);
+    background-color: rgba(150, 36, 36, 0.66);
+    box-shadow: inset 0 0 0 1rem rgba(255, 120, 120, 0.32), 0 0 10rem rgba(255, 70, 70, 0.32);
+
+    .infoIcon {
+        filter: brightness(1.4) sepia(1) hue-rotate(-40deg) saturate(6);
+    }
+
+    &:hover {
+        border-color: rgba(255, 255, 255, 0.95);
+        background-color: rgba(245, 96, 96, 0.6);
+        box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.16), 0 0 12rem rgba(255, 96, 96, 0.4);
+    }
+}
+
 .infoIcon {
     width: 28rem;
     height: 28rem;
     display: block;
-    object-fit: contain;
     pointer-events: none;
     transition: filter 120ms ease-out, opacity 120ms ease-out, transform 120ms ease-out;
 }
@@ -219,9 +240,7 @@
     width: 22rem;
     height: 22rem;
     display: block;
-    object-fit: contain;
     pointer-events: none;
-    vertical-align: middle;
     transition: filter 120ms ease-out, opacity 120ms ease-out, transform 120ms ease-out;
 }
 
@@ -283,7 +302,6 @@
     font-size: var(--fontSizeXS);
     font-weight: 700;
     line-height: 1;
-    word-spacing: 3rem;
     letter-spacing: 0.2rem;
 }
 

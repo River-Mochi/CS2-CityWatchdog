@@ -6,7 +6,7 @@ import mod from "../mod.json";
 import { NotificationPanel } from "./mods/NotificationPanel/NotificationPanel";
 import { EntryButton } from "./mods/EntryButton/EntryButton";
 import { DescriptionTooltipMoneyViewExtension, StatFieldMoneyViewExtension } from "./mods/MoneyView/MoneyView";
-import { VanillaComponentResolver } from "./mods/VanillaComponentResolver/VanillaComponentResolver";
+import { VanillaComponentResolver } from "./utils/vanilla";
 import "../images/NotificationIcon_TitleBar.svg";
 import "../images/CWDNotificationIcon_white02.svg";
 

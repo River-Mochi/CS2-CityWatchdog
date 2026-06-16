@@ -51,7 +51,6 @@
     flex: 0 0 24rem;
     margin-right: 0.5em;
     display: block;
-    object-fit: contain;
 }
 
 // Long vanilla labels truncate before they run into the checkbox.
@@ -65,7 +64,3 @@
     color: rgba(254, 254, 254, 0.8);
     font-size: var(--fontSizeS);
 }
-
-    .label:disabled {
-        color: rgba(254, 254, 254, 0.6);
-    }

@@ -107,8 +107,8 @@
     align-items: flex-start;
     justify-content: space-between;
     width: 100%;
-    // Space between the label column and the value column.
-    gap: 15rem;
+    // justify-content: space-between pushes label and value column apart; no `gap` needed
+    // (Coherent flex doesn't support gap).
     // Vertical spacing between Income / Expenses / Net / Total groups.
     margin-top: 5rem;
 }
@@ -180,7 +180,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: 14rem;
+    // justify-content: space-between handles label/value spacing; no `gap` needed (Coherent flex doesn't support it).
     width: 100%;
     margin-top: 4rem;
 }

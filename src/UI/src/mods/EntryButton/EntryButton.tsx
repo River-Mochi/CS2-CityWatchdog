@@ -17,7 +17,7 @@ import {
     OnControlPanelBindingToggle,
     controlPanelEnabled$,
 } from "../Bindings/Bindings";
-import { VanillaComponentResolver } from "../VanillaComponentResolver/VanillaComponentResolver";
+import { VanillaComponentResolver } from "../../utils/vanilla";
 
 // Icon emitted by webpack to coui://ui-mods/images/.
 import ModIconPath from "../../../images/CWDNotificationIcon_white02.svg";

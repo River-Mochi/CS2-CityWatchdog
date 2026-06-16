@@ -19,7 +19,6 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 8rem;
     // Slightly widens the hover strip without reaching into the scrollbar area.
     margin: -2rem -3rem;
     padding: 4rem 7rem;
@@ -30,6 +29,11 @@
     text-align: left;
     text-transform: none;
     transition: background-color 120ms ease-out, color 120ms ease-out;
+}
+
+// Coherent flex does not support `gap`. Use adjacent-sibling combinator instead.
+.infoPanelHeader > * + * {
+    margin-left: 8rem;
 }
 
     .infoPanelHeader:hover {

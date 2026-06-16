@@ -17,7 +17,7 @@ import {
 } from "../Bindings/Bindings";
 import { Divider } from "../Divider/Divider";
 import { InfoPanel } from "../InfoPanel/InfoPanel";
-import { VanillaComponentResolver } from "../VanillaComponentResolver/VanillaComponentResolver";
+import { VanillaComponentResolver } from "../../utils/vanilla";
 import { NotificationRow } from "./NotificationRow";
 import styles from "./NotificationPanel.module.scss";
 import {
@@ -203,10 +203,11 @@ const NotificationPanelContent = () => {
             {/* Left side: Info + People-money toggles. Right side: sort + mass actions. */}
             <div className={styles.toolbar}>
                 <div className={styles.toolbarLeft}>
-                    {/* Info button: toggles vanilla game tooltips (cursor-follow + DescriptionTooltip popups). */}
+                    {/* Info button: toggles vanilla game tooltips (cursor-follow + DescriptionTooltip popups).
+                        When off, the button turns red — a clear reminder the player has globally muted hover tooltips. */}
                     <Tooltip tooltip={infoTooltip}>
                         <div
-                            className={`${styles.infoButton} ${allTooltipsDisabled ? styles.infoButtonTipsOff : ""}`}
+                            className={`${styles.infoButton} ${allTooltipsDisabled ? styles.infoButtonAllOff : ""}`}
                             role="button"
                             aria-pressed={allTooltipsDisabled}
                             onClick={() => { OnDisableAllTooltipsToggle(!allTooltipsDisabled); }}
