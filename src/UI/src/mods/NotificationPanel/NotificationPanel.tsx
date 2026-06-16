@@ -42,7 +42,7 @@ import SortArrowUpPath from "../../../images/sort-arrow-up.svg";
 import SortArrowDownPath from "../../../images/sort-arrow-down.svg";
 
 // Road-name toggle icons.
-import RoadNameOnPath from "../../../images/icon-RoadNameOn.svg";
+import RoadNameOnPath from "../../../images/icon-RoadNameOn-ABC.svg";
 import RoadNameOffPath from "../../../images/icon-RoadNameOff.svg";
 
 const modIconSrc = TitleBarIconPath;
@@ -54,9 +54,10 @@ const roadNameOffSrc = RoadNameOffPath;
 // Info icon uses the built-in game media path.
 const infoIconSrc = "Media/Game/Icons/AdvisorInfoViewWhite.svg";
 
-// Road-arrow icon — vanilla net-tool style icon as a placeholder. Swap to a custom CWD SVG later
-// (e.g. icon-RoadArrowOn.svg / icon-RoadArrowOff.svg) for matching art if desired.
-const roadArrowIconSrc = "Media/Tools/Net Tool/Continuous.svg";
+// Road-arrow icon — vanilla one-way highway icon. Lives at
+//   <CS2 install>/Cities2_Data/Content/Game/UI/Media/Game/Icons/HighwayOneway2lanes.svg
+// We reference it by the same Media/ relative path the game uses internally, so no copy needed.
+const roadArrowIconSrc = "Media/Game/Icons/HighwayOneway2lanes.svg";
 
 // Toolbar icons use built-in game media paths.
 // All.svg is the vanilla snap-options "all" icon.

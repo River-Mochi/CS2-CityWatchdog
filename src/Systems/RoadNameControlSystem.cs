@@ -1,67 +1,55 @@
 // File: src/Systems/RoadNameControlSystem.cs
 // Purpose: Toggle for vanilla aggregate road-name labels.
 //
-// Approach: blank the road-name STRINGS in the active LocalizationDictionary so the vanilla
-// label meshes render but display nothing. No Harmony, no reflection, no GPU-pipeline games.
+// Mechanism: unsubscribe AggregateRenderSystem.Render from RenderPipelineManager.beginContextRendering
+// whenever we want road names to NOT render, and let it stay subscribed when we want names or arrows
+// to render. Done via Delegate.CreateDelegate against the private Render method — no Harmony, no IL
+// patching.
 //
-// Inspired by — not copied from — CS2-RoadNameRemover's idea of intercepting name lookups.
-// That mod uses HarmonyLib to patch LocalizationDictionary.TryGetValue. We do not. Instead
-// we use the public Colossal.Localization API:
+// Why this and not the localization-dictionary overwrite approach we tried first:
+//   - AggregateMeshSystem bakes each road label's TEXT INTO A GPU TEXTURE the first time the label
+//     is created. The localization lookup runs only during that bake. Once a texture exists,
+//     blanking the dictionary entry has zero visible effect on the already-rendered label.
+//   - Existing labels would stay visible until something forced a rebake (a tool click, a hover,
+//     a road edit, a locale reload). Restoring originals on toggle-off had the inverse problem.
+//   - RoadNameRemover gets away with the localization-blank trick because Harmony patches catch
+//     TryGetValue inside every bake. Without Harmony we can't ride that pulse, so we operate at
+//     the only layer we can reach: the render pipeline subscription itself.
 //
-//   * LocalizationManager.activeDictionary               (public getter)
-//   * LocalizationDictionary.entryIDs                    (public IEnumerable)
-//   * LocalizationDictionary.Add(key, value)             (public — overwrites existing)
-//   * LocalizationManager.onActiveDictionaryChanged      (public event)
+// Coordination with RoadArrowControlSystem:
+//   The vanilla Render method draws arrows OR names mutually exclusively. When the active tool's
+//   requireNetArrows is true (either because the player has a road/upgrade/bulldoze tool active,
+//   or because RoadArrowControlSystem flipped DefaultToolSystem.requireNetArrows on), Render
+//   returns before the names loop. So in those states we MUST keep Render subscribed (otherwise
+//   we'd kill the arrows), and the names stay hidden as a free side-effect of the vanilla
+//   mutually-exclusive logic.
 //
-// Why this is better than (a) Harmony-patching TryGetValue, (b) unsubscribing the render
-// callback, or (c) flipping RenderingSystem.hideOverlay:
-//   - No code patching → no conflicts with other Harmony mods.
-//   - Tool direction arrows are completely untouched (the rendering pipeline runs as
-//     normal — only the displayed text changes).
-//   - Locale switches are handled transparently via onActiveDictionaryChanged.
-//   - The vanilla render system never knows anything changed.
-//
-// Categories blanked: STREET, HIGHWAY, ALLEY, BRIDGE (the four road-network types).
-// District names are intentionally left alone — those are city geography, not road names.
+//   Final decision: unsubscribe only when HideRoadNames is on AND neither the arrows-force toggle
+//   nor a net tool is asking for arrows. In every other state, vanilla handles the right thing.
 
 namespace CityWatchdog.Systems
 {
-    using Colossal.Localization;
     using CS2Shared.RiverMochi;
     using Game;
     using Game.Input;
-    using Game.SceneFlow;
+    using Game.Rendering;
+    using Game.Tools;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using System.Reflection;
+    using UnityEngine;
+    using UnityEngine.Rendering;
 
     public partial class RoadNameControlSystem : UISystemBaseExtension
     {
-        // The vanilla label mesh renders the localized string for each road segment. Replacing
-        // those strings with whitespace produces a label that takes layout space but draws no
-        // visible glyphs. 10 spaces is enough for the typical font run.
-        private const string BlankValue = "          ";
-
-        // Keys with these prefixes are road-network names that the AggregateRenderSystem labels.
-        // Discovered via the indexed-locale-IDs naming scheme used by Game.Assets.
-        private static readonly string[] RoadNamePrefixes =
-        {
-            "Assets.STREET_NAME:",
-            "Assets.HIGHWAY_NAME:",
-            "Assets.ALLEY_NAME:",
-            "Assets.BRIDGE_NAME:",
-        };
+        private const string AggregateRenderMethodName = "Render";
 
         private BoolBinding hideRoadNamesBinding = null!;
+        private AggregateRenderSystem? cachedAggregateRenderSystem;
+        private ToolSystem? cachedToolSystem;
+        private Action<ScriptableRenderContext, List<Camera>>? cachedRenderDelegate;
+        private bool currentlyUnsubscribed;
         private ProxyAction? toggleAction;
-
-        // Original strings keyed by entry ID, captured the first time we blank a key. Used to
-        // restore the dictionary when the user toggles names back on (and on mod unload).
-        private readonly Dictionary<string, string> savedOriginals = new Dictionary<string, string>(StringComparer.Ordinal);
-
-        private LocalizationManager? cachedLocalizationManager;
-        private bool dictionaryChangedHooked;
-        private bool currentlyBlanked;
 
         protected override void OnCreate()
         {
@@ -74,19 +62,26 @@ namespace CityWatchdog.Systems
                 OnHideRoadNamesToggle);
 
             toggleAction = EnableHotkey(Setting.ToggleRoadNamesAction);
-            HookDictionaryChanged();
         }
 
         protected override void OnDestroy()
         {
-            UnhookDictionaryChanged();
-
-            // Leave the game in a clean state on mod unload: restore originals if we'd blanked.
-            if (currentlyBlanked)
+            // Restore vanilla rendering on mod unload so the game is clean.
+            if (currentlyUnsubscribed && cachedRenderDelegate != null)
             {
-                RestoreOriginals();
+                try
+                {
+                    RenderPipelineManager.beginContextRendering += cachedRenderDelegate;
+                }
+                catch (Exception ex)
+                {
+                    LogUtils.WarnOnce(
+                        "road-name-restore",
+                        () => $"Failed to re-subscribe AggregateRenderSystem.Render on destroy: {ex.GetType().Name}: {ex.Message}",
+                        ex);
+                }
+                currentlyUnsubscribed = false;
             }
-
             base.OnDestroy();
         }
 
@@ -97,7 +92,7 @@ namespace CityWatchdog.Systems
             {
                 hideRoadNamesBinding.Update(value);
             }
-            ApplyToGame(value);
+            ApplyToGame();
         }
 
         protected override void OnUpdate()
@@ -113,18 +108,10 @@ namespace CityWatchdog.Systems
                 OnHideRoadNamesToggle(!current);
             }
 
-            // Lazy hookup: if the LocalizationManager wasn't ready at OnCreate, try again.
-            if (!dictionaryChangedHooked)
-            {
-                HookDictionaryChanged();
-            }
-
-            // Self-heal on first appearance: when in-game starts and the dictionary becomes
-            // available, apply the user's saved preference.
-            if (Setting.Instance?.HideRoadNames == true && !currentlyBlanked)
-            {
-                ApplyBlanks();
-            }
+            // Re-evaluate every frame because two of the inputs (tool active, arrows-force setting)
+            // can change without us being notified. The subscribe/unsubscribe writes themselves are
+            // idempotent — they only run on transition.
+            ApplyToGame();
         }
 
         private void OnHideRoadNamesToggle(bool value)
@@ -138,131 +125,93 @@ namespace CityWatchdog.Systems
                 TryPersist(setting);
             }
 
-            ApplyToGame(value);
+            ApplyToGame();
         }
 
-        private void ApplyToGame(bool hide)
+        private void ApplyToGame()
         {
-            if (hide && !currentlyBlanked)
+            if (cachedAggregateRenderSystem == null)
             {
-                ApplyBlanks();
-            }
-            else if (!hide && currentlyBlanked)
-            {
-                RestoreOriginals();
-            }
-        }
-
-        private void ApplyBlanks()
-        {
-            LocalizationDictionary? dict = GetActiveDictionary();
-            if (dict == null)
-            {
-                return;
-            }
-
-            // entryIDs is a live enumerable backed by the underlying Dictionary's Keys. We
-            // snapshot before mutating to avoid InvalidOperationException during iteration.
-            string[] roadNameKeys = dict.entryIDs.Where(IsRoadNameKey).ToArray();
-
-            foreach (string key in roadNameKeys)
-            {
-                if (!savedOriginals.ContainsKey(key) && dict.TryGetValue(key, out string original))
+                cachedAggregateRenderSystem = World.GetExistingSystemManaged<AggregateRenderSystem>();
+                if (cachedAggregateRenderSystem == null)
                 {
-                    savedOriginals[key] = original;
+                    return;
                 }
-                dict.Add(key, BlankValue);
             }
 
-            currentlyBlanked = true;
+            if (cachedRenderDelegate == null)
+            {
+                cachedRenderDelegate = BuildRenderDelegate(cachedAggregateRenderSystem);
+                if (cachedRenderDelegate == null)
+                {
+                    LogUtils.WarnOnce(
+                        "road-name-render-delegate",
+                        () => "Could not bind a delegate to AggregateRenderSystem.Render; road-name toggle disabled.");
+                    return;
+                }
+            }
+
+            Setting? setting = Setting.Instance;
+            bool hideRequested = setting?.HideRoadNames ?? false;
+            bool arrowsForced = setting?.ShowRoadArrows ?? false;
+            bool toolWantsArrows = NetToolWantsArrows();
+
+            // Only suppress vanilla Render when the user wants names hidden AND nothing else needs
+            // the arrows path. When arrows are forced or a net tool is active, vanilla naturally
+            // skips the names loop, so we let it run — that gives us arrows + no names for free.
+            bool shouldBeUnsubscribed = hideRequested && !arrowsForced && !toolWantsArrows;
+
+            if (shouldBeUnsubscribed && !currentlyUnsubscribed)
+            {
+                RenderPipelineManager.beginContextRendering -= cachedRenderDelegate;
+                currentlyUnsubscribed = true;
+            }
+            else if (!shouldBeUnsubscribed && currentlyUnsubscribed)
+            {
+                RenderPipelineManager.beginContextRendering += cachedRenderDelegate;
+                currentlyUnsubscribed = false;
+            }
         }
 
-        private void RestoreOriginals()
+        private bool NetToolWantsArrows()
         {
-            LocalizationDictionary? dict = GetActiveDictionary();
-            if (dict == null)
+            if (cachedToolSystem == null)
             {
-                currentlyBlanked = false;
-                savedOriginals.Clear();
-                return;
+                cachedToolSystem = World.GetExistingSystemManaged<ToolSystem>();
+                if (cachedToolSystem == null)
+                {
+                    return false;
+                }
             }
-
-            foreach (KeyValuePair<string, string> entry in savedOriginals)
-            {
-                dict.Add(entry.Key, entry.Value);
-            }
-            savedOriginals.Clear();
-            currentlyBlanked = false;
+            return cachedToolSystem.activeTool != null && cachedToolSystem.activeTool.requireNetArrows;
         }
 
-        private LocalizationDictionary? GetActiveDictionary()
+        private static Action<ScriptableRenderContext, List<Camera>>? BuildRenderDelegate(AggregateRenderSystem system)
         {
-            cachedLocalizationManager ??= GameManager.instance?.localizationManager;
-            return cachedLocalizationManager?.activeDictionary;
-        }
+            MethodInfo? method = typeof(AggregateRenderSystem).GetMethod(
+                AggregateRenderMethodName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
 
-        private void HookDictionaryChanged()
-        {
-            if (dictionaryChangedHooked)
+            if (method == null)
             {
-                return;
-            }
-            cachedLocalizationManager ??= GameManager.instance?.localizationManager;
-            if (cachedLocalizationManager == null)
-            {
-                return;
+                return null;
             }
 
-            cachedLocalizationManager.onActiveDictionaryChanged += OnActiveDictionaryChanged;
-            dictionaryChangedHooked = true;
-        }
-
-        private void UnhookDictionaryChanged()
-        {
-            if (!dictionaryChangedHooked || cachedLocalizationManager == null)
-            {
-                return;
-            }
             try
             {
-                cachedLocalizationManager.onActiveDictionaryChanged -= OnActiveDictionaryChanged;
+                return (Action<ScriptableRenderContext, List<Camera>>)Delegate.CreateDelegate(
+                    typeof(Action<ScriptableRenderContext, List<Camera>>),
+                    system,
+                    method);
             }
             catch (Exception ex)
             {
                 LogUtils.WarnOnce(
-                    "road-name-unhook",
-                    () => $"Failed to detach onActiveDictionaryChanged: {ex.GetType().Name}: {ex.Message}",
+                    "road-name-delegate-create",
+                    () => $"Delegate.CreateDelegate failed for AggregateRenderSystem.Render: {ex.GetType().Name}: {ex.Message}",
                     ex);
+                return null;
             }
-            dictionaryChangedHooked = false;
-        }
-
-        private void OnActiveDictionaryChanged()
-        {
-            // Locale switch or full reload — our saved originals were for the previous dict.
-            // Discard them and re-blank against the new dictionary if the user is in hide mode.
-            savedOriginals.Clear();
-            currentlyBlanked = false;
-            if (Setting.Instance?.HideRoadNames == true)
-            {
-                ApplyBlanks();
-            }
-        }
-
-        private static bool IsRoadNameKey(string entryId)
-        {
-            if (string.IsNullOrEmpty(entryId))
-            {
-                return false;
-            }
-            for (int i = 0; i < RoadNamePrefixes.Length; i++)
-            {
-                if (entryId.StartsWith(RoadNamePrefixes[i], StringComparison.Ordinal))
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
         private ProxyAction? EnableHotkey(string actionName)
