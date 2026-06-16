@@ -19,7 +19,9 @@
     // Increase if large values overlap; decrease if toolbar feels too wide.
     min-width: 72rem;
     // Keeps the Money View text from stretching the vanilla toolbar layout.
-    flex: 0 0 auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
     // Default color before positive/negative/neutral classes override it.
     color: var(--accentColorLight);
     // Font size for the bottom toolbar trend amount only. Does not change tooltip area.
@@ -118,7 +120,9 @@
 // Example: Income:, Expenses:, Net:, Total:
 // -----------------------------------------------------------------------------
 .tooltipLabel {
-    flex: 0 0 auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
     font-weight: 500;
     white-space: nowrap;
 }
@@ -129,7 +133,9 @@
 // one /h line and one /mo line.
 // -----------------------------------------------------------------------------
 .tooltipValueColumn {
-    flex: 0 0 auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
 }
 
 // -----------------------------------------------------------------------------
@@ -172,7 +178,9 @@
 .populationTooltipExtra {
     margin-top: 8rem;
     padding-top: 6rem;
-    border-top: 1rem solid rgba(255, 255, 255, 0.16);
+    border-top-style: solid;
+    border-top-width: 1rem;
+    border-top-color: rgba(255, 255, 255, 0.16);
 }
 
 .populationTooltipGroup {
@@ -190,7 +198,9 @@
 }
 
 .populationTooltipValueLine {
-    flex: 0 0 auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
     font-size: var(--populationTooltipValueSize);
     font-weight: 600;
     text-align: right;

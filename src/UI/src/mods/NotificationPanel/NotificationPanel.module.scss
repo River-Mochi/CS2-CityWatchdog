@@ -1,5 +1,10 @@
 // File: src/UI/src/mods/NotificationPanel/NotificationPanel.module.scss
 // Purpose: Styles CWD notification panel.
+//
+// CSS rules in this file are all in LONGHAND form — no shorthand properties (no `border`,
+// `border-radius`, `padding`, `margin`, `flex`, `transition`, `background`, etc.). Coherent
+// Gameface chokes on var() inside shorthand declarations and the user's standing rule is
+// "use the long version of CSS always" for this codebase.
 
 .panel {
     position: absolute;
@@ -26,7 +31,9 @@
         overflow: visible !important;
         background-color: rgba(36, 54, 66, 0.72) !important;
         background-image: none !important;
-        transition: background-color 120ms ease-out;
+        transition-property: background-color;
+        transition-duration: 120ms;
+        transition-timing-function: ease-out;
     }
         // Header hover: lighter gray and a little more transparent.
         > div[class*="header_"]:hover {
@@ -60,8 +67,14 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0 5rem;
-    border-radius: 0;
+    padding-top: 0;
+    padding-right: 5rem;
+    padding-bottom: 0;
+    padding-left: 5rem;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
     overflow: visible;
     background-color: transparent; // hide the inner title bar on the header
     // Coherent's font box sits slightly low here; move header content up.
@@ -71,7 +84,9 @@
 
 .headerTitleArea {
     display: flex;
-    flex: 1 1 auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
     min-width: 0;
     height: 100%;
     flex-direction: row;
@@ -87,7 +102,9 @@
 
 .headerModName {
     display: flex;
-    flex: 1 1 auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
     min-width: 0;
     height: auto;
     flex-direction: row;
@@ -102,21 +119,26 @@
 }
 
 .headerCloseButton {
-    flex: 0 0 17rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 17rem;
     width: 17rem;
     height: 17rem;
     margin-left: 8rem;
 }
 
 .introText {
-    padding: 10rem;
+    padding-top: 10rem;
+    padding-right: 10rem;
+    padding-bottom: 10rem;
+    padding-left: 10rem;
     font-size: var(--fontSizeS);
     color: rgba(254, 254, 254, 0.9);
 }
 
 // Toolbar layout:
-// left = help + sort
-// right = expand/collapse + toggle all
+// left = Info + People-money toggles
+// right = Sort + Expand/Collapse + Count + Toggle All
 // Coherent flex does not support `gap`. We use justify-content: space-between for the outer
 // row (only 2 groups), and the adjacent-sibling combinator below to space buttons within each group.
 .toolbar {
@@ -124,7 +146,10 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 5rem 10rem;
+    padding-top: 5rem;
+    padding-right: 10rem;
+    padding-bottom: 5rem;
+    padding-left: 10rem;
 }
 
 .toolbarLeft,
@@ -134,9 +159,15 @@
     align-items: center;
 }
 
-.toolbarLeft > * + *,
+// Left side: keep Info + People-money snug together.
+.toolbarLeft > * + * {
+    margin-left: 4rem;
+}
+
+// Right side: 4 mass-action buttons (Sort, Expand, Count, Toggle All) almost touching to
+// leave room for the upcoming road-name toggle in this group.
 .toolbarButtons > * + * {
-    margin-left: 8rem;
+    margin-left: 2rem;
 }
 
 // Tooltip content wrapper. JSX renders each line as its own div, so no white-space helper is needed.
@@ -149,30 +180,57 @@
     width: 32rem;
     height: 32rem;
     display: flex;
-    flex: 0 0 32rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 32rem;
     align-items: center;
     justify-content: center;
-    border-radius: 4rem;
-    border: 1rem solid rgba(255, 255, 255, 0.35);
+    border-top-left-radius: 4rem;
+    border-top-right-radius: 4rem;
+    border-bottom-left-radius: 4rem;
+    border-bottom-right-radius: 4rem;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-top-width: 1rem;
+    border-right-width: 1rem;
+    border-bottom-width: 1rem;
+    border-left-width: 1rem;
+    border-top-color: rgba(255, 255, 255, 0.35);
+    border-right-color: rgba(255, 255, 255, 0.35);
+    border-bottom-color: rgba(255, 255, 255, 0.35);
+    border-left-color: rgba(255, 255, 255, 0.35);
     background-color: rgba(36, 54, 66, 0.58);
     box-sizing: border-box;
     cursor: pointer;
-    transition: background-color 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out, opacity 120ms ease-out;
+    transition-property: background-color, border-color, box-shadow, opacity;
+    transition-duration: 120ms, 120ms, 120ms, 120ms;
+    transition-timing-function: ease-out, ease-out, ease-out, ease-out;
 
     &:hover {
         background-color: rgba(232, 247, 255, 0.34);
-        border-color: rgba(255, 255, 255, 0.86);
+        border-top-color: rgba(255, 255, 255, 0.86);
+        border-right-color: rgba(255, 255, 255, 0.86);
+        border-bottom-color: rgba(255, 255, 255, 0.86);
+        border-left-color: rgba(255, 255, 255, 0.86);
         box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.12), 0 0 8rem rgba(255, 255, 255, 0.14);
     }
 }
 
 .infoButtonTipsOff {
-    border-color: rgba(84, 215, 255, 0.72);
+    border-top-color: rgba(84, 215, 255, 0.72);
+    border-right-color: rgba(84, 215, 255, 0.72);
+    border-bottom-color: rgba(84, 215, 255, 0.72);
+    border-left-color: rgba(84, 215, 255, 0.72);
     background-color: rgba(30, 131, 170, 0.58);
     box-shadow: inset 0 0 0 1rem rgba(84, 215, 255, 0.24);
 
     &:hover {
-        border-color: rgba(255, 255, 255, 0.9);
+        border-top-color: rgba(255, 255, 255, 0.9);
+        border-right-color: rgba(255, 255, 255, 0.9);
+        border-bottom-color: rgba(255, 255, 255, 0.9);
+        border-left-color: rgba(255, 255, 255, 0.9);
         background-color: rgba(84, 215, 255, 0.5);
         box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.14), 0 0 9rem rgba(84, 215, 255, 0.32);
     }
@@ -181,7 +239,10 @@
 // Red alert state for the Info button when ALL game tooltips are off — high-visibility reminder
 // so the player notices they've globally suppressed hover tooltips and can find their way back.
 .infoButtonAllOff {
-    border-color: rgba(255, 96, 96, 0.95);
+    border-top-color: rgba(255, 96, 96, 0.95);
+    border-right-color: rgba(255, 96, 96, 0.95);
+    border-bottom-color: rgba(255, 96, 96, 0.95);
+    border-left-color: rgba(255, 96, 96, 0.95);
     background-color: rgba(150, 36, 36, 0.66);
     box-shadow: inset 0 0 0 1rem rgba(255, 120, 120, 0.32), 0 0 10rem rgba(255, 70, 70, 0.32);
 
@@ -190,7 +251,10 @@
     }
 
     &:hover {
-        border-color: rgba(255, 255, 255, 0.95);
+        border-top-color: rgba(255, 255, 255, 0.95);
+        border-right-color: rgba(255, 255, 255, 0.95);
+        border-bottom-color: rgba(255, 255, 255, 0.95);
+        border-left-color: rgba(255, 255, 255, 0.95);
         background-color: rgba(245, 96, 96, 0.6);
         box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.16), 0 0 12rem rgba(255, 96, 96, 0.4);
     }
@@ -201,7 +265,9 @@
     height: 28rem;
     display: block;
     pointer-events: none;
-    transition: filter 120ms ease-out, opacity 120ms ease-out, transform 120ms ease-out;
+    transition-property: filter, opacity, transform;
+    transition-duration: 120ms, 120ms, 120ms;
+    transition-timing-function: ease-out, ease-out, ease-out;
 }
 
 .infoButton:hover .infoIcon {
@@ -212,12 +278,29 @@
 .toolbarButton {
     height: 32rem;
     min-width: 86rem;
-    padding: 0 5rem;
+    padding-top: 0;
+    padding-right: 5rem;
+    padding-bottom: 0;
+    padding-left: 5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4rem;
-    border: 1rem solid rgba(255, 255, 255, 0.35);
+    border-top-left-radius: 4rem;
+    border-top-right-radius: 4rem;
+    border-bottom-left-radius: 4rem;
+    border-bottom-right-radius: 4rem;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-top-width: 1rem;
+    border-right-width: 1rem;
+    border-bottom-width: 1rem;
+    border-left-width: 1rem;
+    border-top-color: rgba(255, 255, 255, 0.35);
+    border-right-color: rgba(255, 255, 255, 0.35);
+    border-bottom-color: rgba(255, 255, 255, 0.35);
+    border-left-color: rgba(255, 255, 255, 0.35);
     background-color: rgba(36, 54, 66, 0.58);
     color: rgba(255, 255, 255, 0.95);
     font-size: var(--fontSizeS);
@@ -226,11 +309,16 @@
     text-transform: none;
     white-space: nowrap;
     cursor: pointer;
-    transition: background-color 120ms ease-out, border-color 120ms ease-out, box-shadow 120ms ease-out, color 120ms ease-out, transform 120ms ease-out;
+    transition-property: background-color, border-color, box-shadow, color, transform;
+    transition-duration: 120ms, 120ms, 120ms, 120ms, 120ms;
+    transition-timing-function: ease-out, ease-out, ease-out, ease-out, ease-out;
 
     &:hover {
         background-color: rgba(232, 247, 255, 0.34);
-        border-color: rgba(255, 255, 255, 0.86);
+        border-top-color: rgba(255, 255, 255, 0.86);
+        border-right-color: rgba(255, 255, 255, 0.86);
+        border-bottom-color: rgba(255, 255, 255, 0.86);
+        border-left-color: rgba(255, 255, 255, 0.86);
         box-shadow: inset 0 0 0 1rem rgba(255, 255, 255, 0.12), 0 0 8rem rgba(255, 255, 255, 0.14);
         color: #ffffff;
     }
@@ -241,7 +329,9 @@
     height: 22rem;
     display: block;
     pointer-events: none;
-    transition: filter 120ms ease-out, opacity 120ms ease-out, transform 120ms ease-out;
+    transition-property: filter, opacity, transform;
+    transition-duration: 120ms, 120ms, 120ms;
+    transition-timing-function: ease-out, ease-out, ease-out;
 }
 
 .toolbarButton:hover .toolbarIcon {
@@ -252,7 +342,9 @@
     width: 32rem;
     min-width: 32rem;
     max-width: 32rem;
-    flex: 0 0 32rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 32rem;
     padding-left: 0 !important;
     padding-right: 0 !important;
     box-sizing: border-box;
@@ -279,7 +371,9 @@
 .expandButton {
     width: 34rem;
     min-width: 34rem;
-    flex: 0 0 34rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 34rem;
     padding-left: 0;
     padding-right: 0;
 }
@@ -288,7 +382,9 @@
     width: auto;
     min-width: 74rem;
     max-width: 122rem;
-    flex: 0 1 auto;
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: auto;
     padding-left: 4rem;
     padding-right: 4rem;
     box-sizing: border-box;
@@ -308,7 +404,9 @@
 .countButton {
     width: auto;
     min-width: 42rem;
-    flex: 0 0 auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
     padding-left: 4rem;
     padding-right: 4rem;
     box-sizing: border-box;
@@ -323,17 +421,26 @@
 }
 
 .toggleAllOn {
-    border-color: rgba(95, 220, 120, 0.9);
+    border-top-color: rgba(95, 220, 120, 0.9);
+    border-right-color: rgba(95, 220, 120, 0.9);
+    border-bottom-color: rgba(95, 220, 120, 0.9);
+    border-left-color: rgba(95, 220, 120, 0.9);
     background-color: rgba(40, 110, 62, 0.58);
 }
 
 .toggleAllPartial {
-    border-color: rgba(84, 215, 255, 0.9);
+    border-top-color: rgba(84, 215, 255, 0.9);
+    border-right-color: rgba(84, 215, 255, 0.9);
+    border-bottom-color: rgba(84, 215, 255, 0.9);
+    border-left-color: rgba(84, 215, 255, 0.9);
     background-color: rgba(36, 88, 112, 0.58);
 }
 
 .toggleAllOff {
-    border-color: rgba(245, 96, 96, 0.9);
+    border-top-color: rgba(245, 96, 96, 0.9);
+    border-right-color: rgba(245, 96, 96, 0.9);
+    border-bottom-color: rgba(245, 96, 96, 0.9);
+    border-left-color: rgba(245, 96, 96, 0.9);
     background-color: rgba(112, 42, 42, 0.58);
 }
 

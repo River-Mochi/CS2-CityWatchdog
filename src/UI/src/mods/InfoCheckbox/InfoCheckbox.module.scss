@@ -1,11 +1,16 @@
 // File: src/UI/src/mods/InfoCheckbox/InfoCheckbox.module.scss
 // Purpose: Styles one notification row with icon, label, and checkbox.
+//
+// All CSS in longhand form — no shorthand. See feedback_no_css_shorthand.md.
 
 .subPanel {
     display: flex;
     flex-direction: row;
     width: 100%;
-    padding: 5rem 6rem;
+    padding-top: 5rem;
+    padding-right: 6rem;
+    padding-bottom: 5rem;
+    padding-left: 6rem;
     background-color: rgba(255, 255, 255, 0.12);
     border-top-left-radius: var(--panelRadiusInnerSIP);
     border-top-right-radius: var(--panelRadiusInnerSIP);
@@ -29,17 +34,21 @@
     flex-direction: row;
     align-items: center;
     min-width: 0;
-    flex: 1 1 auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
 }
 
 // Right side of the row: checkbox area.
-// flex: 0 0 auto keeps the checkbox from being squeezed by long translated labels.
+// flex-grow:0 / flex-shrink:0 keeps the checkbox from being squeezed by long translated labels.
 .labelCheckboxSection {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
-    flex: 0 0 auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
     margin-left: 4rem;
     font-size: var(--fontSizeXS);
 }
@@ -48,7 +57,9 @@
 .icon {
     width: 24rem;
     height: 24rem;
-    flex: 0 0 24rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 24rem;
     margin-right: 0.5em;
     display: block;
 }
@@ -56,7 +67,9 @@
 // Long vanilla labels truncate before they run into the checkbox.
 .label {
     min-width: 0;
-    flex: 1 1 auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;

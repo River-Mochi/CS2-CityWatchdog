@@ -47,12 +47,14 @@ export const EntryButton = () => {
     //   <Icon tinted={true} src={ModIconPath} /> inside the Button body,
     //   only do this where losing the SVG's own colors is intended.
 
+    // Intentionally omit `selected={showPanel}` so the GTL button never shows the vanilla
+    // white "selected" overlay — the icon stays identical whether the panel is open or not.
+    // Same approach as CS2-RoadRailSpeeds RoadSpeedToolbarButton.
     return (
         <DescriptionTooltip title={title} description={description} direction="right">
             <Button
                 variant="floating"
                 src={ModIconPath}
-                selected={showPanel}
                 onSelect={handleSelect}
             />
         </DescriptionTooltip>
