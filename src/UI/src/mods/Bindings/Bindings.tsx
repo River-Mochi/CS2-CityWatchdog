@@ -12,6 +12,8 @@ export const moneyTooltipFontScale$ = bindValue<number>(mod.id, "MoneyTooltipFon
 export const populationTooltipFontScale$ = bindValue<number>(mod.id, "PopulationTooltipFontScale", 120);
 export const disableAllTooltips$ = bindValue<boolean>(mod.id, "DisableAllTooltips", false);
 export const disableCwdTooltips$ = bindValue<boolean>(mod.id, "DisableCwdTooltips", false);
+export const hideRoadNames$ = bindValue<boolean>(mod.id, "HideRoadNames", false);
+export const showRoadArrows$ = bindValue<boolean>(mod.id, "ShowRoadArrows", false);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
 export const ElectricityBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBottleneckNotification");
@@ -80,6 +82,8 @@ export const OnControlPanelBindingToggle = (enable: boolean) => trigger(mod.id, 
 export const OnToggleAllNotifications = (enable: boolean) => trigger(mod.id, "ToggleAllNotifications", enable);
 export const OnDisableAllTooltipsToggle = (disable: boolean) => trigger(mod.id, "DisableAllTooltips", disable);
 export const OnDisableCwdTooltipsToggle = (disable: boolean) => trigger(mod.id, "DisableCwdTooltips", disable);
+export const OnHideRoadNamesToggle = (hide: boolean) => trigger(mod.id, "HideRoadNames", hide);
+export const OnShowRoadArrowsToggle = (show: boolean) => trigger(mod.id, "ShowRoadArrows", show);
 
 export const OnElectricityElectricityNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ElectricityElectricityNotification", enable);
 export const OnElectricityBottleneckNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ElectricityBottleneckNotification", enable);

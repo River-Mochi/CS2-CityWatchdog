@@ -38,6 +38,7 @@ namespace CityWatchdog
         public const string SubtractMoneyAction = nameof(SubtractMoneyAction);
         public const string ToggleNotificationsAction = nameof(ToggleNotificationsAction);
         public const string ToggleNotificationPanelAction = nameof(ToggleNotificationPanelAction);
+        public const string ToggleRoadNamesAction = nameof(ToggleRoadNamesAction);
 
         // Group IDs.
         internal const string MoneyViewGroup = nameof(MoneyViewGroup);
@@ -170,6 +171,20 @@ namespace CityWatchdog
         [SettingsUIKeyboardBinding(BindingKeyboard.N, ToggleNotificationPanelAction, shift: true)]
         [SettingsUISection(Actions, Notifications)]
         public ProxyBinding ToggleNotificationPanelKeyboardBinding { get; set; }
+
+        [SettingsUIKeyboardBinding(BindingKeyboard.Backslash, ToggleRoadNamesAction)]
+        [SettingsUISection(Actions, Notifications)]
+        public ProxyBinding ToggleRoadNamesKeyboardBinding { get; set; }
+
+        // Persisted across sessions but intentionally hidden from Options UI — controlled only
+        // by the Road-Names button on the in-game panel (or the \ hotkey).
+        [SettingsUIHidden]
+        public bool HideRoadNames { get; set; }
+
+        // Show 1-way road direction arrows while browsing the city (no road tool needed).
+        // Hidden from Options UI; toggled from the in-game panel button.
+        [SettingsUIHidden]
+        public bool ShowRoadArrows { get; set; }
 
         [SettingsUISection(Actions, Notifications)]
         [SettingsUISetter(typeof(Setting), nameof(OnDisableAllTooltipsChanged))]
@@ -485,6 +500,8 @@ namespace CityWatchdog
 
             DisableAllTooltips = false;
             DisableCwdTooltips = false;
+            HideRoadNames = false;
+            ShowRoadArrows = false;
 
             Notification.SetDefaults();
         }

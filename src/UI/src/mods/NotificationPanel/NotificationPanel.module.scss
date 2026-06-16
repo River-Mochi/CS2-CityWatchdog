@@ -93,10 +93,44 @@
     align-items: center;
 }
 
+// Wrapper around the title-bar CWD icon — clickable button surface that toggles panel tooltips.
+.headerModIconButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0;
+    padding-right: 2rem;
+    padding-bottom: 0;
+    padding-left: 0;
+    margin-right: 6rem;
+    border-top-left-radius: 4rem;
+    border-top-right-radius: 4rem;
+    border-bottom-left-radius: 4rem;
+    border-bottom-right-radius: 4rem;
+    cursor: pointer;
+    transition-property: background-color, opacity;
+    transition-duration: 120ms, 120ms;
+    transition-timing-function: ease-out, ease-out;
+
+    &:hover {
+        background-color: rgba(232, 247, 255, 0.18);
+    }
+}
+
+// When the title-bar icon has muted panel tooltips, dim the icon slightly.
+.headerModIconOff {
+    opacity: 0.55;
+
+    &:hover {
+        background-color: rgba(232, 247, 255, 0.12);
+        opacity: 0.8;
+    }
+}
+
 .headerModIcon {
     width: 28rem;
     height: 22rem;
-    margin-right: 10rem;
+    margin-right: 4rem;
 }
 
 
@@ -137,7 +171,7 @@
 }
 
 // Toolbar layout:
-// left = Info + People-money toggles
+// left = Info + Road-Name toggles
 // right = Sort + Expand/Collapse + Count + Toggle All
 // Coherent flex does not support `gap`. We use justify-content: space-between for the outer
 // row (only 2 groups), and the adjacent-sibling combinator below to space buttons within each group.
@@ -159,7 +193,7 @@
     align-items: center;
 }
 
-// Left side: keep Info + People-money snug together.
+// Left side: keep Info + Road-Name toggles snug together.
 .toolbarLeft > * + * {
     margin-left: 4rem;
 }

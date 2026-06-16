@@ -139,6 +139,8 @@ namespace CityWatchdog
             updateSystem.UpdateAt<MilestoneSystem>(SystemUpdatePhase.ModificationEnd);
             updateSystem.UpdateAt<CityWatchdogUISystem>(SystemUpdatePhase.UIUpdate);
             updateSystem.UpdateAt<TooltipControlSystem>(SystemUpdatePhase.UIUpdate);
+            updateSystem.UpdateAt<RoadNameControlSystem>(SystemUpdatePhase.UIUpdate);
+            updateSystem.UpdateAt<RoadArrowControlSystem>(SystemUpdatePhase.UIUpdate);
             updateSystem.UpdateAt<AlertIconSystem>(SystemUpdatePhase.ModificationEnd);
         }
 
@@ -149,6 +151,7 @@ namespace CityWatchdog
             EnableAction(setting, Setting.SubtractMoneyAction);
             EnableAction(setting, Setting.ToggleNotificationsAction);
             EnableAction(setting, Setting.ToggleNotificationPanelAction);
+            EnableAction(setting, Setting.ToggleRoadNamesAction);
         }
 
 

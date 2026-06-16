@@ -11,9 +11,13 @@ import {
     controlPanelEnabled$,
     disableAllTooltips$,
     disableCwdTooltips$,
+    hideRoadNames$,
+    showRoadArrows$,
     OnControlPanelBindingToggle,
     OnDisableAllTooltipsToggle,
     OnDisableCwdTooltipsToggle,
+    OnHideRoadNamesToggle,
+    OnShowRoadArrowsToggle,
 } from "../Bindings/Bindings";
 import { Divider } from "../Divider/Divider";
 import { InfoPanel } from "../InfoPanel/InfoPanel";
@@ -37,16 +41,22 @@ import TitleBarIconPath from "../../../images/NotificationIcon_TitleBar.svg";
 import SortArrowUpPath from "../../../images/sort-arrow-up.svg";
 import SortArrowDownPath from "../../../images/sort-arrow-down.svg";
 
-// Money toggle icon is a custom mod image emitted by webpack to coui://ui-mods/images/.
-import MoneyToggleIconPath from "../../../images/People-money.svg";
+// Road-name toggle icons.
+import RoadNameOnPath from "../../../images/icon-RoadNameOn.svg";
+import RoadNameOffPath from "../../../images/icon-RoadNameOff.svg";
 
 const modIconSrc = TitleBarIconPath;
 const sortArrowUpSrc = SortArrowUpPath;
 const sortArrowDownSrc = SortArrowDownPath;
-const moneyIconSrc = MoneyToggleIconPath;
+const roadNameOnSrc = RoadNameOnPath;
+const roadNameOffSrc = RoadNameOffPath;
 
 // Info icon uses the built-in game media path.
 const infoIconSrc = "Media/Game/Icons/AdvisorInfoViewWhite.svg";
+
+// Road-arrow icon — vanilla net-tool style icon as a placeholder. Swap to a custom CWD SVG later
+// (e.g. icon-RoadArrowOn.svg / icon-RoadArrowOff.svg) for matching art if desired.
+const roadArrowIconSrc = "Media/Tools/Net Tool/Continuous.svg";
 
 // Toolbar icons use built-in game media paths.
 // All.svg is the vanilla snap-options "all" icon.
@@ -72,10 +82,14 @@ export const NotificationPanel = () => {
 const NotificationPanelContent = () => {
     const { translate } = useLocalization();
     const [sortAscending, setSortAscending] = useState(true);
-    // disableAllTooltips$ — Info button: vanilla game tooltips. CWD tooltips are exempt via the keep marker.
+    // disableAllTooltips$ — Info button: vanilla game hover tooltips.
     const allTooltipsDisabled = useValue(disableAllTooltips$);
-    // disableCwdTooltips$ — People-money button: every CWD tooltip (panel + money/population).
+    // disableCwdTooltips$ — controlled by clicking the CWD icon in the title bar.
     const cwdTooltipsDisabled = useValue(disableCwdTooltips$);
+    // hideRoadNames$ — Road-Name toggle (or \ hotkey): vanilla aggregate road name labels.
+    const roadNamesHidden = useValue(hideRoadNames$);
+    // showRoadArrows$ — Road-Arrow toggle: force vanilla 1-way arrows on while browsing.
+    const roadArrowsShown = useValue(showRoadArrows$);
     // Panel-internal helpers gate on the CWD binding so the user can still kill the panel's chatty tooltips.
     const tooltipsEnabled = !cwdTooltipsDisabled;
     const [expandedSections, setExpandedSections] = useState(createExpandedSections);
@@ -126,10 +140,17 @@ const NotificationPanelContent = () => {
         );
     };
 
-    const titleBarTooltip = tooltipContent(
-        "NotificationIconShowOrHide",
-        "Expand rows; [✓] check to show, uncheck to hide alerts.\nDoes not fix city problems, it hides messy icons.",
-    );
+    // Title bar CWD icon is now BOTH a hover-help and a click toggle for panel tooltips.
+    // Tooltip text switches based on the panel-tooltip state.
+    const titleBarTooltip = cwdTooltipsDisabled
+        ? tooltipContent(
+            "TitleBarTooltipPanelOff",
+            "Click to show City Watchdog panel tooltips.",
+        )
+        : tooltipContent(
+            "TitleBarTooltipPanelOn",
+            "Expand rows; [✓] check to show, uncheck to hide alerts.\nClick this icon to hide City Watchdog panel tooltips.",
+        );
 
     // Same text regardless of toggle state — Info button is always discoverable.
     const infoTooltip = tooltipContent(
@@ -137,19 +158,31 @@ const NotificationPanelContent = () => {
         "Show/hide ALL game hover tooltips.\nCursor tooltips over buildings, cims, tools, and the small popups on game UI buttons.",
     );
 
-    // People-money button gets a short message when CWD tooltips are off; full explanation when on.
-    const moneyToggleTooltip = cwdTooltipsDisabled
+    // Road-name toggle: state-aware text.
+    const roadNameTooltip = roadNamesHidden
         ? tooltipContent(
-            "PanelTooltipToggleOff",
-            "Click to show Watchdog tooltips.",
+            "RoadNameToggleOff",
+            "Click to show road names.\nHotkey: \\",
         )
         : tooltipContent(
-            "PanelTooltipToggle",
-            "Show or Hide City Watchdog panel tooltips.\nMoney and population popups stay on — those are controlled by the Money View option in Settings.",
+            "RoadNameToggleOn",
+            "Click to hide road names.\nHotkey: \\",
         );
 
-    // CWD-internal tooltips (sort, expand, count, title-bar help) — skip render entirely when
-    // the user turns CWD tooltips off via the People-money button.
+    // Road-arrow toggle: state-aware text. Default OFF (vanilla behavior — arrows only show
+    // when a road/upgrade/bulldoze tool is active).
+    const roadArrowTooltip = roadArrowsShown
+        ? tooltipContent(
+            "RoadArrowToggleOn",
+            "Click to hide 1-way arrows.\nReturn to vanilla behavior (arrows only when using a road tool).",
+        )
+        : tooltipContent(
+            "RoadArrowToggleOff",
+            "Click to show 1-way road arrows on every road.\nNormally only visible while a road tool is active.",
+        );
+
+    // CWD-internal tooltips (sort, expand, count) — skip render entirely when
+    // the user turns CWD tooltips off via the title-bar CWD icon.
     const optionalTooltip = (tooltip: ReactNode, children: ReactElement) => {
         if (cwdTooltipsDisabled) {
             return <>{children}</>;
@@ -184,9 +217,17 @@ const NotificationPanelContent = () => {
             header={
                 <div className={styles.header}>
                     <div className={styles.headerTitleArea}>
-                        {optionalTooltip(titleBarTooltip,
-                            <img src={modIconSrc} className={styles.headerModIcon} />,
-                        )}
+                        {/* Title-bar CWD icon — now clickable. Toggles panel tooltips (was the People-money button). */}
+                        <Tooltip tooltip={titleBarTooltip}>
+                            <div
+                                className={`${styles.headerModIconButton} ${cwdTooltipsDisabled ? styles.headerModIconOff : ""}`}
+                                role="button"
+                                aria-pressed={cwdTooltipsDisabled}
+                                onClick={() => { OnDisableCwdTooltipsToggle(!cwdTooltipsDisabled); }}
+                            >
+                                <img src={modIconSrc} className={styles.headerModIcon} />
+                            </div>
+                        </Tooltip>
                         <div className={styles.headerModName}>CITY WATCHDOG</div>
                     </div>
                     <Button
@@ -200,7 +241,7 @@ const NotificationPanelContent = () => {
                 </div>
             }
         >
-            {/* Left side: Info + People-money toggles. Right side: sort + mass actions. */}
+            {/* Left side: Info + Road-Name toggles. Right side: sort + mass actions. */}
             <div className={styles.toolbar}>
                 <div className={styles.toolbarLeft}>
                     {/* Info button: toggles vanilla game tooltips (cursor-follow + DescriptionTooltip popups).
@@ -216,15 +257,32 @@ const NotificationPanelContent = () => {
                         </div>
                     </Tooltip>
 
-                    {/* People-money button: toggles CWD panel tooltips. Money/pop popups untouched (Setting.MoneyView controls those). */}
-                    <Tooltip tooltip={moneyToggleTooltip}>
+                    {/* Road Name on/off toggle. Default state shows the "names on" icon; click flips it to "names off".
+                        Backslash (\) hotkey is wired on the C# side. */}
+                    <Tooltip tooltip={roadNameTooltip}>
                         <div
-                            className={`${styles.infoButton} ${cwdTooltipsDisabled ? styles.infoButtonTipsOff : ""}`}
+                            className={`${styles.infoButton} ${roadNamesHidden ? styles.infoButtonTipsOff : ""}`}
                             role="button"
-                            aria-pressed={cwdTooltipsDisabled}
-                            onClick={() => { OnDisableCwdTooltipsToggle(!cwdTooltipsDisabled); }}
+                            aria-pressed={roadNamesHidden}
+                            onClick={() => { OnHideRoadNamesToggle(!roadNamesHidden); }}
                         >
-                            <img src={moneyIconSrc} className={styles.infoIcon} />
+                            <img
+                                src={roadNamesHidden ? roadNameOffSrc : roadNameOnSrc}
+                                className={styles.infoIcon}
+                            />
+                        </div>
+                    </Tooltip>
+
+                    {/* Road Arrow toggle: forces vanilla 1-way arrows on while browsing.
+                        Default OFF (vanilla behavior: arrows only visible with a road tool active). */}
+                    <Tooltip tooltip={roadArrowTooltip}>
+                        <div
+                            className={`${styles.infoButton} ${roadArrowsShown ? styles.infoButtonTipsOff : ""}`}
+                            role="button"
+                            aria-pressed={roadArrowsShown}
+                            onClick={() => { OnShowRoadArrowsToggle(!roadArrowsShown); }}
+                        >
+                            <img src={roadArrowIconSrc} className={styles.infoIcon} />
                         </div>
                     </Tooltip>
                 </div>

@@ -30,7 +30,7 @@ export const StatFieldMoneyViewExtension: ModuleRegistryExtend = (Component: any
 // the Info-button gate so the popup is suppressed when global toggle is on.
 //
 // Money/population popups are controlled exclusively by Setting.MoneyView in the Options UI,
-// NOT by the in-game Info button. They are also NOT touched by the People-money button.
+// NOT by the in-game Info button or the title-bar CWD-icon panel-tooltip toggle.
 export const DescriptionTooltipMoneyViewExtension: ModuleRegistryExtend = (Component: any) => {
     return (props: any) => {
         if (isMoneyTooltip(props)) {
