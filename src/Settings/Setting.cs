@@ -175,9 +175,10 @@ namespace CityWatchdog
         [SettingsUISetter(typeof(Setting), nameof(OnDisableAllTooltipsChanged))]
         public bool DisableAllTooltips { get; set; }
 
-        // Persisted across sessions but intentionally not exposed in Options UI — controlled only
-        // by the People-Money button on the in-game panel. The in-city button is a quick-access
-        // runtime toggle and the panel is the natural home for it.
+        // Persisted across sessions but intentionally hidden from Options UI — controlled only
+        // by the People-Money button on the in-game panel. Without [SettingsUIHidden] the
+        // property still registers and falls into an unnamed default tab.
+        [SettingsUIHidden]
         public bool DisableCwdTooltips { get; set; }
 
         // --------------------------------------------------------------------

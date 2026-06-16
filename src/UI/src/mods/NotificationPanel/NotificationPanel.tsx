@@ -131,16 +131,22 @@ const NotificationPanelContent = () => {
         "Expand rows; [✓] check to show, uncheck to hide alerts.\nDoes not fix city problems, it hides messy icons.",
     );
 
-    // Same text regardless of toggle state — the button itself is always discoverable.
+    // Same text regardless of toggle state — Info button is always discoverable.
     const infoTooltip = tooltipContent(
         "TooltipToggle",
-        "Show/hide ALL mouse-over tooltips.\nThe ones that follow your cursor over buildings, cims, tools.",
+        "Show/hide ALL game hover tooltips.\nCursor tooltips over buildings, cims, tools, and the small popups on game UI buttons.",
     );
 
-    const moneyToggleTooltip = tooltipContent(
-        "PanelTooltipToggle",
-        "Show or Hide City Watchdog panel tooltips.\nMoney and population popups stay on — those are controlled by the Money View option in Settings.",
-    );
+    // People-money button gets a short message when CWD tooltips are off; full explanation when on.
+    const moneyToggleTooltip = cwdTooltipsDisabled
+        ? tooltipContent(
+            "PanelTooltipToggleOff",
+            "Click to show Watchdog tooltips.",
+        )
+        : tooltipContent(
+            "PanelTooltipToggle",
+            "Show or Hide City Watchdog panel tooltips.\nMoney and population popups stay on — those are controlled by the Money View option in Settings.",
+        );
 
     // CWD-internal tooltips (sort, expand, count, title-bar help) — skip render entirely when
     // the user turns CWD tooltips off via the People-money button.
@@ -194,10 +200,10 @@ const NotificationPanelContent = () => {
                 </div>
             }
         >
-            {/* Left side: help + sort. Right side: mass actions. */}
+            {/* Left side: Info + People-money toggles. Right side: sort + mass actions. */}
             <div className={styles.toolbar}>
                 <div className={styles.toolbarLeft}>
-                    {/* Info button: toggles vanilla game world/mouse tooltips via TooltipUISystem.hideTooltips. */}
+                    {/* Info button: toggles vanilla game tooltips (cursor-follow + DescriptionTooltip popups). */}
                     <Tooltip tooltip={infoTooltip}>
                         <div
                             className={`${styles.infoButton} ${allTooltipsDisabled ? styles.infoButtonTipsOff : ""}`}
@@ -209,7 +215,7 @@ const NotificationPanelContent = () => {
                         </div>
                     </Tooltip>
 
-                    {/* People-money button: toggles every CWD tooltip (panel + money/pop) at the React layer. */}
+                    {/* People-money button: toggles CWD panel tooltips. Money/pop popups untouched (Setting.MoneyView controls those). */}
                     <Tooltip tooltip={moneyToggleTooltip}>
                         <div
                             className={`${styles.infoButton} ${cwdTooltipsDisabled ? styles.infoButtonTipsOff : ""}`}
@@ -220,7 +226,9 @@ const NotificationPanelContent = () => {
                             <img src={moneyIconSrc} className={styles.infoIcon} />
                         </div>
                     </Tooltip>
+                </div>
 
+                <div className={styles.toolbarButtons}>
                     {optionalTooltip(sortTooltip,
                         <Button
                             className={`${styles.toolbarButton} ${styles.sortButton}`}
@@ -234,9 +242,7 @@ const NotificationPanelContent = () => {
                             />
                         </Button>,
                     )}
-                </div>
 
-                <div className={styles.toolbarButtons}>
                     {optionalTooltip(allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows"),
                         <Button
                             className={styles.toolbarButton + " " + styles.expandButton}
