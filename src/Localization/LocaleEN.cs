@@ -49,10 +49,11 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "USAGE" },
 
                 // --- Money View ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Money View" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Show Money + Population" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
-                    "Adds numeric trend values beside the vanilla bottom-toolbar money and population arrows.\n" +
-                    "This is a lightweight toolbar display only; it does not change city money or population." },
+                    "Shows numeric trend values beside the vanilla bottom-toolbar <money and population arrows>.\n" +
+                    "This is a lightweight toolbar hover <display only>;\n" +
+                    "it does not change city money or population." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyViewMode)), "Money View Frequency" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)),
@@ -245,28 +246,9 @@ namespace CityWatchdog
                     "Default hotkeys: Shift+N panel, N toggle all, [ add money, ] subtract money.\n" +
                     "This doesn't fix problems, it hides icon clutter." },
 
-                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
-                    "Tooltips are off.\n" +
-                    "Click this button to turn tooltips back on." },
-
-                { m_Settings.GetUILocaleID("TooltipToggleDisable"),
-                    "Hide all game tooltips.\n" +
-                    "Click to silence every tooltip until you click again." },
-
-                { m_Settings.GetUILocaleID("TooltipToggleEnable"),
-                    "All tooltips are off.\n" +
-                    "Click to turn them back on." },
-
                 { m_Settings.GetUILocaleID("TooltipToggle"),
                     "Show/hide ALL game hover tooltips.\n" +
                     "Cursor tooltips over buildings, cims, tools, and the small popups on game UI buttons." },
-
-                { m_Settings.GetUILocaleID("PanelTooltipToggleOff"),
-                    "Click to show Watchdog tooltips." },
-
-                { m_Settings.GetUILocaleID("PanelTooltipToggle"),
-                    "Show or Hide City Watchdog panel tooltips.\n" +
-                    "Money and population popups stay on — those are controlled by the Money View option in Settings." },
 
                 // Title bar CWD icon — clickable to toggle panel tooltips.
                 { m_Settings.GetUILocaleID("TitleBarTooltipPanelOn"),

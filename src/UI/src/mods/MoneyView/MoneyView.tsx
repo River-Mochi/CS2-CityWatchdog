@@ -72,6 +72,29 @@ const DescriptionTooltipGate = ({
     return Component(originalProps);
 };
 
+// Extends the base Tooltip component — the simple hover wrapper used by bottom menu icons,
+// advisor buttons, and most game UI besides DescriptionTooltip. When the global tooltip
+// toggle is on, pass disabled={true} so the popup is suppressed but children still render.
+export const TooltipGateExtension: ModuleRegistryExtend = (Component: any) => {
+    return (props: any) => {
+        return <TooltipGate Component={Component} originalProps={props} />;
+    };
+};
+
+const TooltipGate = ({
+    Component,
+    originalProps,
+}: {
+    Component: any;
+    originalProps: any;
+}) => {
+    const allTooltipsDisabled = useValue(disableAllTooltips$);
+    if (allTooltipsDisabled) {
+        return Component({ ...originalProps, disabled: true });
+    }
+    return Component(originalProps);
+};
+
 const getMoneyViewText = (props: any): ReactNode | null => {
     if (props?.unlimited === true) {
         return null;

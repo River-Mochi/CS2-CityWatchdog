@@ -54,7 +54,7 @@ const infoIconSrc = "Media/Game/Icons/AdvisorInfoViewWhite.svg";
 
 // Road-arrow icon — vanilla one-way highway icon.
 // Reference by the same Media/ relative path the game uses internally, so no copy needed.
-const roadArrowIconSrc = "Media/Game/Icons/HighwayOneway1lanes.svg";
+const roadArrowIconSrc = "Media/Game/Icons/HighwayOneway1lane.svg";
 
 // Toolbar icons use built-in game media paths.
 // All.svg is the vanilla snap-options "all" icon.

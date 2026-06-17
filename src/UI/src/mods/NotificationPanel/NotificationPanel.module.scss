@@ -117,19 +117,19 @@
     }
 }
 
-// When the title-bar icon has muted panel tooltips, give it an amber glow so
-// the player notices CWD tooltips are off.
+// When the title-bar icon has muted panel tooltips, give it a blue/cyan glow
+// so the player notices CWD tooltips are off.
 .headerModIconOff {
-    background-color: rgba(180, 120, 40, 0.42);
-    box-shadow: inset 0 0 0 1rem rgba(255, 180, 60, 0.28), 0 0 6rem rgba(255, 160, 40, 0.22);
+    background-color: rgba(30, 131, 170, 0.50);
+    box-shadow: 0 0 8rem rgba(84, 215, 255, 0.40);
 
     .headerModIcon {
-        filter: sepia(0.7) saturate(2.5) hue-rotate(-10deg) brightness(1.15);
+        filter: brightness(1.4) saturate(1.6);
     }
 
     &:hover {
-        background-color: rgba(200, 150, 50, 0.52);
-        box-shadow: inset 0 0 0 1rem rgba(255, 200, 80, 0.35), 0 0 8rem rgba(255, 180, 60, 0.3);
+        background-color: rgba(50, 160, 200, 0.58);
+        box-shadow: 0 0 12rem rgba(84, 215, 255, 0.55);
     }
 }
 
