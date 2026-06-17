@@ -117,13 +117,19 @@
     }
 }
 
-// When the title-bar icon has muted panel tooltips, dim the icon slightly.
+// When the title-bar icon has muted panel tooltips, give it an amber glow so
+// the player notices CWD tooltips are off.
 .headerModIconOff {
-    opacity: 0.55;
+    background-color: rgba(180, 120, 40, 0.42);
+    box-shadow: inset 0 0 0 1rem rgba(255, 180, 60, 0.28), 0 0 6rem rgba(255, 160, 40, 0.22);
+
+    .headerModIcon {
+        filter: sepia(0.7) saturate(2.5) hue-rotate(-10deg) brightness(1.15);
+    }
 
     &:hover {
-        background-color: rgba(232, 247, 255, 0.12);
-        opacity: 0.8;
+        background-color: rgba(200, 150, 50, 0.52);
+        box-shadow: inset 0 0 0 1rem rgba(255, 200, 80, 0.35), 0 0 8rem rgba(255, 180, 60, 0.3);
     }
 }
 
@@ -193,9 +199,9 @@
     align-items: center;
 }
 
-// Left side: keep Info + Road-Name toggles snug together.
+// Left side: keep Info + Road-Name + Road-Arrow toggles tight.
 .toolbarLeft > * + * {
-    margin-left: 4rem;
+    margin-left: 2rem;
 }
 
 // Right side: 4 mass-action buttons (Sort, Expand, Count, Toggle All) almost touching to
@@ -307,6 +313,18 @@
 .infoButton:hover .infoIcon {
     filter: brightness(1.6);
     transform: scale(1.08);
+}
+
+// Road-arrow icon — rotated clockwise and scaled up to fill the button.
+.roadArrowIcon {
+    width: 30rem;
+    height: 30rem;
+    transform: rotate(22deg);
+    transform-origin: center;
+}
+
+.infoButton:hover .roadArrowIcon {
+    transform: rotate(22deg) scale(1.08);
 }
 
 .toolbarButton {

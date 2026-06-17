@@ -87,10 +87,10 @@ tags: Visual, UI organize icons
 	<Dependency Id="74417" DisplayName="Unified Icon Library" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-*   added 6 notification categories including B+P DLC GateBypass
-*   added \[ i \] info button turns off mod tool tips.
-*   added Totals button at the top 62/62 which also acts as an expand/collapse rows.
-*   added subtle Ui pretty on hovering buttons.
+* added CWD title bar button turns off mod tool tips.
+* added button to show arrows when road tool not open, also hides names when arrows are on.
+* added button to hide names.
+* added Hotkey "\"
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
 	<ExternalLink Type="github" Url="https://github.com/River-Mochi/CityWatchdog" />

@@ -158,7 +158,7 @@ namespace CityWatchdog
                     "Same as clicking the Road-Name icon in the City Watchdog panel toolbar." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "Hide/Show road names" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Disable All Hover Tooltips" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Disable All Mouse over Tooltips" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
                     "Turns off the game's hover tooltips — both the ones that follow your cursor over buildings/citizens/tools and the small popups on game UI buttons (top bar names, vanilla buttons, etc.).\n" +
                     "<City Watchdog's own money/population popups stay on>; those are controlled by the Money View option above.\n" +
@@ -270,11 +270,10 @@ namespace CityWatchdog
 
                 // Title bar CWD icon — clickable to toggle panel tooltips.
                 { m_Settings.GetUILocaleID("TitleBarTooltipPanelOn"),
-                    "Expand rows; [✓] check to show, uncheck to hide alerts.\n" +
-                    "Click this icon to hide City Watchdog panel tooltips." },
+                    "Click to show/hide Tooltips for City Watchdog." },
 
                 { m_Settings.GetUILocaleID("TitleBarTooltipPanelOff"),
-                    "Click to show City Watchdog panel tooltips." },
+                    "Click to show/hide Tooltips for City Watchdog." },
 
                 // Road-Name toggle button + \ hotkey.
                 { m_Settings.GetUILocaleID("RoadNameToggleOn"),
@@ -287,11 +286,13 @@ namespace CityWatchdog
 
                 // Road-Arrow toggle button — forces vanilla 1-way arrows on while browsing.
                 { m_Settings.GetUILocaleID("RoadArrowToggleOn"),
-                    "Click to hide 1-way arrows.\n" +
-                    "Return to vanilla behavior (arrows only when using a road tool)." },
+                    "Click to show/hide 1-way road arrows on every road.\n" +
+                    "This also hides road names as side effect.\n" +
+                    "Normally only visible while a road tool is active." },
 
                 { m_Settings.GetUILocaleID("RoadArrowToggleOff"),
-                    "Click to show 1-way road arrows on every road.\n" +
+                    "Click to show/hide 1-way road arrows on every road.\n" +
+                    "This also hides road names as side effect.\n" +
                     "Normally only visible while a road tool is active." },
 
                 { m_Settings.GetUILocaleID("ToggleAll"), "TOGGLE ALL" },

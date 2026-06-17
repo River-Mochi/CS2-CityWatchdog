@@ -41,23 +41,20 @@ import TitleBarIconPath from "../../../images/NotificationIcon_TitleBar.svg";
 import SortArrowUpPath from "../../../images/sort-arrow-up.svg";
 import SortArrowDownPath from "../../../images/sort-arrow-down.svg";
 
-// Road-name toggle icons.
-import RoadNameOnPath from "../../../images/icon-RoadNameOn-ABC.svg";
-import RoadNameOffPath from "../../../images/icon-RoadNameOff.svg";
+// Road-name toggle icon — single icon, CSS handles the blue "active" state.
+import RoadNameOnPath from "../../../images/icon-RoadNameOn.svg";
 
 const modIconSrc = TitleBarIconPath;
 const sortArrowUpSrc = SortArrowUpPath;
 const sortArrowDownSrc = SortArrowDownPath;
 const roadNameOnSrc = RoadNameOnPath;
-const roadNameOffSrc = RoadNameOffPath;
 
 // Info icon uses the built-in game media path.
 const infoIconSrc = "Media/Game/Icons/AdvisorInfoViewWhite.svg";
 
-// Road-arrow icon — vanilla one-way highway icon. Lives at
-//   <CS2 install>/Cities2_Data/Content/Game/UI/Media/Game/Icons/HighwayOneway2lanes.svg
-// We reference it by the same Media/ relative path the game uses internally, so no copy needed.
-const roadArrowIconSrc = "Media/Game/Icons/HighwayOneway2lanes.svg";
+// Road-arrow icon — vanilla one-way highway icon.
+// Reference by the same Media/ relative path the game uses internally, so no copy needed.
+const roadArrowIconSrc = "Media/Game/Icons/HighwayOneway1lanes.svg";
 
 // Toolbar icons use built-in game media paths.
 // All.svg is the vanilla snap-options "all" icon.
@@ -170,17 +167,10 @@ const NotificationPanelContent = () => {
             "Click to hide road names.\nHotkey: \\",
         );
 
-    // Road-arrow toggle: state-aware text. Default OFF (vanilla behavior — arrows only show
-    // when a road/upgrade/bulldoze tool is active).
-    const roadArrowTooltip = roadArrowsShown
-        ? tooltipContent(
-            "RoadArrowToggleOn",
-            "Click to hide 1-way arrows.\nReturn to vanilla behavior (arrows only when using a road tool).",
-        )
-        : tooltipContent(
-            "RoadArrowToggleOff",
-            "Click to show 1-way road arrows on every road.\nNormally only visible while a road tool is active.",
-        );
+    const roadArrowTooltip = tooltipContent(
+        "RoadArrowToggleOff",
+        "Click to show/hide 1-way road arrows on every road.\nThis also hides road names as side effect.\nNormally only visible while a road tool is active.",
+    );
 
     // CWD-internal tooltips (sort, expand, count) — skip render entirely when
     // the user turns CWD tooltips off via the title-bar CWD icon.
@@ -268,7 +258,7 @@ const NotificationPanelContent = () => {
                             onClick={() => { OnHideRoadNamesToggle(!roadNamesHidden); }}
                         >
                             <img
-                                src={roadNamesHidden ? roadNameOffSrc : roadNameOnSrc}
+                                src={roadNameOnSrc}
                                 className={styles.infoIcon}
                             />
                         </div>
@@ -283,7 +273,7 @@ const NotificationPanelContent = () => {
                             aria-pressed={roadArrowsShown}
                             onClick={() => { OnShowRoadArrowsToggle(!roadArrowsShown); }}
                         >
-                            <img src={roadArrowIconSrc} className={styles.infoIcon} />
+                            <img src={roadArrowIconSrc} className={`${styles.infoIcon} ${styles.roadArrowIcon}`} />
                         </div>
                     </Tooltip>
                 </div>
