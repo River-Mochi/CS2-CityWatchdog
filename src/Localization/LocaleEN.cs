@@ -37,7 +37,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "Debug" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "Money View" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "Info Viewer" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Money" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "Notifications" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Milestone" },
@@ -49,7 +49,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "USAGE" },
 
                 // --- Money View ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Show Money + Population" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Show details on hover" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
                     "Shows numeric trend values beside the vanilla bottom-toolbar <money and population arrows>.\n" +
                     "This is a lightweight toolbar hover <display only>;\n" +
@@ -80,7 +80,6 @@ namespace CityWatchdog
                     "<Mod default = 120%>\n" +
                     "Hover over Money at bottom of the screen.\n"+
                     "Requested by players who have hard time seeing smaller tooltips in the game."
-
                 },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Population font size" },
