@@ -52,7 +52,7 @@ trim_trailing_whitespace = false
 # =========================
 [*.cs]
 dotnet_diagnostic.IDE0073.severity = warning
-file_header_template = <copyright file="{fileName}" company="River-Mochi">\nCopyright (c) 2026 River-Mochi.\nLicensed under the MIT License. See LICENSE file in the project root for info. MIT License must be included if copying from this file.\n</copyright>
+file_header_template = <copyright file="{fileName}" company="River-Mochi">\nCopyright (c) 2026 River-Mochi.\nLicensed under the MIT License. See LICENSE file in the project root for full license information.\n</copyright>
 
 indent_size = 4
 

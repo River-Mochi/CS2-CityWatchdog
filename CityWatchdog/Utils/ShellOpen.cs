@@ -1,3 +1,8 @@
+// <copyright file="ShellOpen.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </copyright>
+
 // File: Utils/ShellOpen.cs
 // Version: 0.3.0
 // Purpose: file/folder opening helpers for CS2 Options UI buttons.

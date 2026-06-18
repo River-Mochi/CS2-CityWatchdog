@@ -1,3 +1,8 @@
+// <copyright file="LocaleZH_HANT.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </copyright>
+
 // File: src/Localization/LocaleZH_HANT.cs
 // Purpose: Traditional Chinese (zh-HANT) strings for City Watchdog Options UI and notification panel text.
 

@@ -1,3 +1,8 @@
+// <copyright file="GameSystemBaseExtension.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </copyright>
+
 // File: src/Systems/GameSystemBaseExtension.cs
 // Purpose: Small local system base helper so CityWatchdog does not depend on Mbyron26 CS2Shared.
 

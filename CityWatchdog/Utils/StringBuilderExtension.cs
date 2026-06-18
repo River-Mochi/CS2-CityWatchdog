@@ -1,3 +1,8 @@
+// <copyright file="StringBuilderExtension.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </copyright>
+
 // File: src/Utils/StringBuilderExtension.cs
 // Purpose: Provides legacy StringBuilder extension methods used by City Watchdog debug logging.
 

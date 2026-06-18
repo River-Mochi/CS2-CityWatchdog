@@ -1,3 +1,8 @@
+// <copyright file="TooltipControlSystem.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </copyright>
+
 // File: src/Systems/TooltipControlSystem.cs
 // Purpose: Tooltip on/off toggles.
 //   - Setting.DisableAllTooltips drives vanilla Game.UI.Tooltip.TooltipUISystem.hideTooltips,

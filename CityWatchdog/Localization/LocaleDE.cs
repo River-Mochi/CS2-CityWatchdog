@@ -1,3 +1,8 @@
+// <copyright file="LocaleDE.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </copyright>
+
 // File: src/Localization/LocaleDE.cs
 // Purpose: German (de-DE) strings for City Watchdog Options UI and notification panel text.
 

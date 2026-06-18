@@ -1,3 +1,8 @@
+// <copyright file="RoadNameControlSystem.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </copyright>
+
 // File: src/Systems/RoadNameControlSystem.cs
 // Purpose: Toggle for vanilla aggregate road-name labels.
 //

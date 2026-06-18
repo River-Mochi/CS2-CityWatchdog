@@ -1,3 +1,8 @@
+// <copyright file="UISystemBaseExtension.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </copyright>
+
 // File: src/Systems/UISystemBaseExtension.cs
 // Purpose: Local UI binding helpers used by the React bridge.
 

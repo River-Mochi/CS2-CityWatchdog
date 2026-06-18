@@ -1,3 +1,8 @@
+// <copyright file="AlertIconSystem.Debug.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </copyright>
+
 // File: src/Systems/AlertIconSystem.Debug.cs
 // Purpose: Keeps AlertIconSystem debug-only prefab/icon inspection helpers out of the release-facing system file.
 

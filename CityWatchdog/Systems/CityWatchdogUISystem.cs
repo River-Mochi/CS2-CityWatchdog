@@ -1,3 +1,8 @@
+// <copyright file="CityWatchdogUISystem.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </copyright>
+
 // File: src/Systems/CityWatchdogUISystem.cs
 // Purpose: Contains a City Watchdog gameplay or UI system.
 

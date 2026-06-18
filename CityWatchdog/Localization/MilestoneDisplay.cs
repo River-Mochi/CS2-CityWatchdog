@@ -1,11 +1,15 @@
-// File: src/Localization/MilestoneDisplay.cs
+// <copyright file="MilestoneDisplay.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </copyright>
+
 // Purpose: Resolves game-localized milestone names for the City Watchdog milestone dropdown.
 
 namespace CityWatchdog
 {
+    using System.Text;
     using Colossal.Localization;
     using Game.SceneFlow;
-    using System.Text;
 
     internal static class MilestoneDisplay
     {
