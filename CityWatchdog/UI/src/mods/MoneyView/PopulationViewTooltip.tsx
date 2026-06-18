@@ -4,6 +4,7 @@
 import { bindValue, useValue } from "cs2/api";
 import { infoview, toolbarBottom } from "cs2/bindings";
 import { LocalizedNumber, Unit, useLocalization, type Localization } from "cs2/l10n";
+import { text } from "../shared/localization";
 import { Children, isValidElement, type CSSProperties, type ReactNode } from "react";
 import { moneyView$, populationTooltipFontScale$ } from "../Bindings/Bindings";
 import styles from "./MoneyView.module.scss";
@@ -14,8 +15,6 @@ const homeless$ = bindValue<number>("populationInfo", "homeless", 0);
 
 export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseContent: ReactNode }) => {
     const localization = useLocalization();
-    const { translate } = localization;
-    const localize = (key: string, fallback: string) => translate(`CityWatchdog.UI[${key}]`) ?? fallback;
     const moneyViewEnabled = useValue(moneyView$);
     const populationTooltipFontScale = useValue(populationTooltipFontScale$);
     const currentTrend = getNumericValue(useValue(toolbarBottom.populationDelta$));
@@ -40,37 +39,37 @@ export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseCon
             <div className={styles.tooltipTitle}>WATCHDOG</div>
             <PopulationTooltipCurrentTrend
                 localization={localization}
-                label={localize("PopulationTooltipCurrentTrend", "Current trend:")}
+                label={text("PopulationTooltipCurrentTrend", "Current trend:")}
                 value={currentTrend}
             />
             <div className={styles.populationTooltipExtra}>
                 <PopulationTooltipFlow
                     localization={localization}
-                    label={localize("PopulationTooltipBirths", "Births:")}
+                    label={text("PopulationTooltipBirths", "Births:")}
                     value={births}
                     direction={1}
                 />
                 <PopulationTooltipFlow
                     localization={localization}
-                    label={localize("PopulationTooltipDeaths", "Deaths:")}
+                    label={text("PopulationTooltipDeaths", "Deaths:")}
                     value={deaths}
                     direction={-1}
                 />
                 <PopulationTooltipFlow
                     localization={localization}
-                    label={localize("PopulationTooltipMovedIn", "Moved in:")}
+                    label={text("PopulationTooltipMovedIn", "Moved in:")}
                     value={movedIn}
                     direction={1}
                 />
                 <PopulationTooltipFlow
                     localization={localization}
-                    label={localize("PopulationTooltipMovedOut", "Moved out:")}
+                    label={text("PopulationTooltipMovedOut", "Moved out:")}
                     value={movedAway}
                     direction={-1}
                 />
                 <PopulationTooltipCount
                     localization={localization}
-                    label={localize("PopulationTooltipHomeless", "Homeless:")}
+                    label={text("PopulationTooltipHomeless", "Homeless:")}
                     value={homeless}
                 />
             </div>

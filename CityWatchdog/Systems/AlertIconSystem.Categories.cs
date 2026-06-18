@@ -8,7 +8,7 @@
 
 namespace CityWatchdog.Systems
 {
-    using CityWatchdog.Data;
+    using CityWatchdog.Alerts;
     using Game.Economy;
     using Game.Notifications;
     using Game.Prefabs;

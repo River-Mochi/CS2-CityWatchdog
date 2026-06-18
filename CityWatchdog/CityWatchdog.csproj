@@ -121,6 +121,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="lang\" />
         <Folder Include="UI\src\mods\InfoPanel\" />
         <Folder Include="UI\src\mods\Divider\" />
         <Folder Include="UI\src\mods\ControlPanelViews\" />
@@ -128,9 +129,7 @@
     </ItemGroup>
 
     <!-- AUTO UPDATE PublishConfiguration ModVersion using CSPROJ as source of truth. -->
-    <Target Name="UpdatePublishConfigVersion"
-            BeforeTargets="Build"
-            Condition="Exists('$(PublishConfigScript)') AND Exists('$(MSBuildProjectDirectory)\$(PublishConfigurationPath)')">
+    <Target Name="UpdatePublishConfigVersion" BeforeTargets="Build" Condition="Exists('$(PublishConfigScript)') AND Exists('$(MSBuildProjectDirectory)\$(PublishConfigurationPath)')">
 
         <Message Text="$(AssemblyTitle) PublishConfig: syncing ModVersion + normalizing EOL/BOM + left-aligning blocks..." Importance="high" />
 
@@ -141,18 +140,13 @@
         <ItemGroup>
             <SvgFiles Include="$(ProjectDir)UI\images\*.*" />
         </ItemGroup>
-        <Copy SourceFiles="@(SvgFiles)"
-              DestinationFiles="@(SvgFiles->'$(DeployDir)\images\%(RecursiveDir)%(Filename)%(Extension)')" />
+        <Copy SourceFiles="@(SvgFiles)" DestinationFiles="@(SvgFiles->'$(DeployDir)\images\%(RecursiveDir)%(Filename)%(Extension)')" />
     </Target>
 
     <!-- Run npm ci AFTER C# build, only when needed:
        - first time (node_modules missing), OR
        - package-lock.json changed since last run (tracked by .stamp). -->
-    <Target Name="NpmInstallIfNeeded"
-            AfterTargets="Build"
-            Condition="Exists('$(ProjectDir)UI\package.json')"
-            Inputs="$(ProjectDir)UI\package-lock.json"
-            Outputs="$(ProjectDir)UI\node_modules\.stamp">
+    <Target Name="NpmInstallIfNeeded" AfterTargets="Build" Condition="Exists('$(ProjectDir)UI\package.json')" Inputs="$(ProjectDir)UI\package-lock.json" Outputs="$(ProjectDir)UI\node_modules\.stamp">
 
         <Message Text="$(AssemblyName) UI: npm ci (first-time or lockfile changed)..." Importance="high" />
 
@@ -160,23 +154,15 @@
             <Output TaskParameter="ExitCode" PropertyName="NpmCiExit" />
         </Exec>
 
-        <Error Condition="'$(Configuration)'=='Release' AND '$(NpmCiExit)'!='0'"
-               Text="$(AssemblyName) UI: 'npm ci' failed (exit $(NpmCiExit)). Release build aborted." />
+        <Error Condition="'$(Configuration)'=='Release' AND '$(NpmCiExit)'!='0'" Text="$(AssemblyName) UI: 'npm ci' failed (exit $(NpmCiExit)). Release build aborted." />
 
-        <Warning Condition="'$(Configuration)'!='Release' AND '$(NpmCiExit)'!='0'"
-                 Text="$(AssemblyName) UI: 'npm ci' failed (exit $(NpmCiExit)). Continuing (non-Release)." />
+        <Warning Condition="'$(Configuration)'!='Release' AND '$(NpmCiExit)'!='0'" Text="$(AssemblyName) UI: 'npm ci' failed (exit $(NpmCiExit)). Continuing (non-Release)." />
 
-        <WriteLinesToFile Condition="'$(NpmCiExit)'=='0'"
-                          File="$(ProjectDir)UI\node_modules\.stamp"
-                          Lines="ok"
-                          Overwrite="true" />
+        <WriteLinesToFile Condition="'$(NpmCiExit)'=='0'" File="$(ProjectDir)UI\node_modules\.stamp" Lines="ok" Overwrite="true" />
     </Target>
 
     <!-- Always run the UI bundle AFTER C# build; ensure it runs after NpmInstallIfNeeded. -->
-    <Target Name="BuildUI"
-            AfterTargets="Build"
-            DependsOnTargets="NpmInstallIfNeeded"
-            Condition="Exists('$(ProjectDir)UI\package.json')">
+    <Target Name="BuildUI" AfterTargets="Build" DependsOnTargets="NpmInstallIfNeeded" Condition="Exists('$(ProjectDir)UI\package.json')">
 
         <Message Text="$(AssemblyName) UI: npm run build ($(Configuration))..." Importance="high" />
 
@@ -184,10 +170,8 @@
             <Output TaskParameter="ExitCode" PropertyName="NpmBuildExit" />
         </Exec>
 
-        <Error Condition="'$(Configuration)'=='Release' AND '$(NpmBuildExit)'!='0'"
-               Text="$(AssemblyName) UI: 'npm run build' failed (exit $(NpmBuildExit)). Release build aborted." />
+        <Error Condition="'$(Configuration)'=='Release' AND '$(NpmBuildExit)'!='0'" Text="$(AssemblyName) UI: 'npm run build' failed (exit $(NpmBuildExit)). Release build aborted." />
 
-        <Warning Condition="'$(Configuration)'!='Release' AND '$(NpmBuildExit)'!='0'"
-                 Text="$(AssemblyName) UI: 'npm run build' failed (exit $(NpmBuildExit)). Continuing (non-Release)." />
+        <Warning Condition="'$(Configuration)'!='Release' AND '$(NpmBuildExit)'!='0'" Text="$(AssemblyName) UI: 'npm run build' failed (exit $(NpmBuildExit)). Continuing (non-Release)." />
     </Target>
 </Project>

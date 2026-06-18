@@ -3,10 +3,10 @@
 // See LICENSE file in the project root for full license info.
 // </copyright>
 
-// File: src/Data/BuildingNotificationIcon.cs
+// File: Alerts/BuildingNotificationIcon.cs
 // Purpose: Defines building notification icon identifiers used by City Watchdog.
 
-namespace CityWatchdog.Data
+namespace CityWatchdog.Alerts
 {
     public enum BuildingNotificationIcon
     {

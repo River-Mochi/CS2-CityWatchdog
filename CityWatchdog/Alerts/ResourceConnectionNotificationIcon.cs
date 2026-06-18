@@ -3,10 +3,10 @@
 // See LICENSE file in the project root for full license info.
 // </copyright>
 
-// File: src/Data/ResourceConnectionNotificationIcon.cs
+// File: Alerts/ResourceConnectionNotificationIcon.cs
 // Purpose: Defines resource-connection notification icon identifiers used by City Watchdog.
 
-namespace CityWatchdog.Data
+namespace CityWatchdog.Alerts
 {
     public enum ResourceConnectionNotificationIcon
     {

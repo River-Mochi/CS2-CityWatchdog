@@ -8,11 +8,11 @@
 //   - Avoids Icon tinted={true}, so the SVG can keep its own colors.
 //   - Uses onSelect because that is the CS2 UI button handler.
 //   - Uses vanilla DescriptionTooltip through VanillaComponentResolver for title + description tooltip styling.
-//   - Tooltip text is localized through CityWatchdog.UI[...] locale keys.
+//   - Tooltip text is localized through lang/en-US.json.
 
 import { useValue } from "cs2/api";
-import { useLocalization } from "cs2/l10n";
 import { Button } from "cs2/ui";
+import { text } from "../shared/localization";
 import {
     OnControlPanelBindingToggle,
     controlPanelEnabled$,
@@ -23,15 +23,10 @@ import { VanillaComponentResolver } from "../../utils/vanilla";
 import ModIconPath from "../../../images/CWDNotificationIcon_white02.svg";
 
 export const EntryButton = () => {
-    const { translate } = useLocalization();
     const showPanel = useValue(controlPanelEnabled$);
 
-    // Tooltip strings live in LocaleEN.cs. Fallbacks keep the button usable if locale loading fails.
-    const title = translate("CityWatchdog.UI[EntryButtonTitle]", "CITY WATCHDOG");
-    const description = translate(
-        "CityWatchdog.UI[EntryButtonDescription]",
-        "Open the notification icon control panel."
-    );
+    const title = text("EntryButtonTitle", "CITY WATCHDOG");
+    const description = text("EntryButtonDescription", "Open the notification icon panel.");
 
     // Vanilla title + description tooltip, matching the style used by EasyZoning.
     const DescriptionTooltip = VanillaComponentResolver.instance.DescriptionTooltip;

@@ -5,6 +5,7 @@ import { useValue } from "cs2/api";
 import { game } from "cs2/bindings";
 import { useLocalization } from "cs2/l10n";
 import { getModule } from "cs2/modding";
+import { text as uiText } from "../shared/localization";
 import { Button, Panel, Tooltip } from "cs2/ui";
 import { useState, type ReactElement, type ReactNode } from "react";
 import {
@@ -114,7 +115,7 @@ const NotificationPanelContent = () => {
             return translate(localeId) ?? fallback ?? localeId;
         }
 
-        return translate(`CityWatchdog.UI[${localeId}]`) ?? fallback ?? localeId;
+        return uiText(localeId, fallback);
     };
 
     const sortTooltip = sortAscending

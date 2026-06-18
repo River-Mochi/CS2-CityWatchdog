@@ -4,6 +4,7 @@
 import { useValue } from "cs2/api";
 import { economyBudget, toolbarBottom } from "cs2/bindings";
 import { Unit, useLocalization, type Localization } from "cs2/l10n";
+import { text } from "../shared/localization";
 import { Children, isValidElement, type CSSProperties, type ReactNode } from "react";
 import { moneyTooltipFontScale$, moneyTooltipMode$, moneyView$ } from "../Bindings/Bindings";
 import styles from "./MoneyView.module.scss";
@@ -22,9 +23,6 @@ import {
 
 export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent: ReactNode }) => {
     const localization = useLocalization();
-    // Text uses translate(); numbers below reuse this object with LocalizedNumber so both match the game locale.
-    const { translate } = localization;
-    const localize = (key: string, fallback: string) => translate(`CityWatchdog.UI[${key}]`) ?? fallback;
 
     const moneyViewEnabled = useValue(moneyView$);
     const moneyTooltipMode = useValue(moneyTooltipMode$);
@@ -64,7 +62,7 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
                 <>
                     <MoneyViewTooltipGroup
                         localization={localization}
-                        label={localize("MoneyViewTooltipIncome", "Income:")}
+                        label={text("MoneyViewTooltipIncome", "Income:")}
                         hourlyValue={hourlyIncome}
                         monthlyValue={monthlyIncome}
                         compact={compact}
@@ -72,7 +70,7 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
                     />
                     <MoneyViewTooltipGroup
                         localization={localization}
-                        label={localize("MoneyViewTooltipExpenses", "Expenses:")}
+                        label={text("MoneyViewTooltipExpenses", "Expenses:")}
                         hourlyValue={hourlyExpenses}
                         monthlyValue={monthlyExpenses}
                         compact={compact}
@@ -84,7 +82,7 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
 
             <MoneyViewTooltipGroup
                 localization={localization}
-                label={localize("MoneyViewTooltipNet", "Net:")}
+                label={text("MoneyViewTooltipNet", "Net:")}
                 hourlyValue={hourlyNet}
                 monthlyValue={monthlyBalance}
                 compact={compact}
@@ -94,7 +92,7 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
             {moneyTooltipMode === MONEY_TOOLTIP_MODE_FULL_DATA && (
                 <MoneyViewTooltipSingleValue
                     localization={localization}
-                    label={localize("MoneyViewTooltipTotal", "Total:")}
+                    label={text("MoneyViewTooltipTotal", "Total:")}
                     value={totalMoney}
                     mode={moneyTooltipMode}
                 />

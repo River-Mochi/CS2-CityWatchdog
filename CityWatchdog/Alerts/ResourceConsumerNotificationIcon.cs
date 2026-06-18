@@ -3,10 +3,10 @@
 // See LICENSE file in the project root for full license info.
 // </copyright>
 
-// File: src/Data/ResourceConsumerNotificationIcon.cs
+// File: Alerts/ResourceConsumerNotificationIcon.cs
 // Purpose: Defines resource-consumer notification icon identifiers used by City Watchdog.
 
-namespace CityWatchdog.Data
+namespace CityWatchdog.Alerts
 {
     public enum ResourceConsumerNotificationIcon
     {

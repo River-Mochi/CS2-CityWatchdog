@@ -8,7 +8,7 @@
 
 namespace CityWatchdog.Systems
 {
-    using CityWatchdog.Data;
+    using CityWatchdog.Alerts;
     using CS2Shared.RiverMochi;
     using Colossal.UI.Binding;
     using Game;
