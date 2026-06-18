@@ -1,4 +1,4 @@
-# File: .gitattributes version 0.6.0
+# File: .gitattributes version 0.6.1
 # Controls line endings and binary handling
 #
 # Policy:
@@ -11,6 +11,7 @@
 
 # Visual Studio / C# files
 *.sln      text eol=lf
+*.slnx     text eol=lf
 *.csproj   text eol=lf
 *.props    text eol=lf
 *.targets  text eol=lf
@@ -50,6 +51,7 @@
 *.sh      text eol=lf
 *.bash    text eol=lf
 *.ps1     text eol=lf
+*.py      text eol=lf
 
 # Windows batch scripts: safest as CRLF
 *.bat     text eol=crlf
