@@ -2,7 +2,7 @@
 // Copyright (c) 2026 River-Mochi, MIT License.
 // See LICENSE file in the project root for full license info.
 // </copyright>
-
+//
 // File: src/Localization/LocaleEN.cs
 // Purpose: English (en-US) strings for City Watchdog Options UI (settings menu).
 
