@@ -1,3 +1,8 @@
+# <copyright file="check_locales.py" company="River-Mochi">
+# Copyright (c) 2026 River-Mochi, MIT License.
+# See LICENSE file in the project root for full license info.
+# </copyright>
+
 # File: src/Scripts/check_locales.py
 # Purpose:
 #   Generic checker for C# Locale*.cs dictionary files.

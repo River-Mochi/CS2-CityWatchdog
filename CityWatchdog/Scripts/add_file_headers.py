@@ -1,5 +1,10 @@
-﻿"""
-Add standard River-Mochi MIT file headers to C# files.
+# <copyright file="add_file_headers.py" company="River-Mochi">
+# Copyright (c) 2026 River-Mochi, MIT License.
+# See LICENSE file in the project root for full license info.
+# </copyright>
+
+"""
+Add standard River-Mochi MIT file headers to source files.
 
 Dry run by default.
 
@@ -8,29 +13,15 @@ Common use:
   py -3 CityWatchdog/Scripts/add_file_headers.py --apply
   py -3 CityWatchdog/Scripts/add_file_headers.py --apply --replace-existing
   py -3 CityWatchdog/Scripts/add_file_headers.py --check
-
-Behavior:
-  - Adds the header to .cs files that do not have one.
-  - Skips files that already have a <copyright file= header.
-  - Replaces existing top-of-file copyright headers only when --replace-existing is used.
-  - Does not remove old "// File: ..." lines.
-  - Does not try to manage repo-wide encoding or line-ending policy.
+  py -3 CityWatchdog/Scripts/add_file_headers.py --check --replace-existing
 """
 
 from __future__ import annotations
 
 import argparse
-import re
 import sys
 from pathlib import Path
 
-
-HEADER_TEMPLATE = """// <copyright file="{file_name}" company="River-Mochi">
-// Copyright (c) {year} River-Mochi.
-// Licensed under the MIT License. See LICENSE file in the project root for full license information.
-// </copyright>
-
-"""
 
 SKIP_DIRS = {
     ".git",
@@ -42,10 +33,10 @@ SKIP_DIRS = {
     "packages",
 }
 
-COPYRIGHT_BLOCK_RE = re.compile(
-    r"^\s*//\s*<copyright file=.*?//\s*</copyright>\s*\n*",
-    re.DOTALL,
-)
+SUPPORTED_SUFFIXES = {
+    ".cs": "//",
+    ".py": "#",
+}
 
 
 def find_repo_root(script_path: Path) -> Path:
@@ -66,20 +57,70 @@ def should_skip(path: Path) -> bool:
     return any(skip_dir in parts for skip_dir in SKIP_DIRS)
 
 
+def normalize_lf(text: str) -> str:
+    """Normalize line endings in files the script writes."""
+    return text.replace("\r\n", "\n").replace("\r", "\n")
+
+
 def has_copyright_header(text: str) -> bool:
     """Return true if a copyright header appears near the top of the file."""
     return "<copyright file=" in text[:1000]
 
 
+def is_header_start(line: str) -> bool:
+    """Return true for a copyright header opening line."""
+    stripped = line.strip()
+    return stripped.startswith("// <copyright file=") or stripped.startswith("# <copyright file=")
+
+
+def is_header_end(line: str) -> bool:
+    """Return true for a copyright header closing line."""
+    stripped = line.strip()
+    return stripped == "// </copyright>" or stripped == "# </copyright>"
+
+
 def remove_existing_header(text: str) -> str:
-    """Remove a top-of-file copyright block if present."""
-    return COPYRIGHT_BLOCK_RE.sub("", text, count=1)
+    """Remove an existing top-of-file copyright block, including bad blank-line versions."""
+    lines = text.split("\n")
+
+    start = 0
+    while start < len(lines) and lines[start].strip() == "":
+        start += 1
+
+    if start >= len(lines) or not is_header_start(lines[start]):
+        return text
+
+    end = start
+    while end < len(lines):
+        if is_header_end(lines[end]):
+            end += 1
+            break
+
+        end += 1
+
+    while end < len(lines) and lines[end].strip() == "":
+        end += 1
+
+    return "\n".join(lines[end:])
+
+
+def make_header(path: Path, year: int) -> str:
+    """Create the exact header for this source file."""
+    prefix = SUPPORTED_SUFFIXES[path.suffix.lower()]
+
+    return (
+        f'{prefix} <copyright file="{path.name}" company="River-Mochi">\n'
+        f"{prefix} Copyright (c) {year} River-Mochi, MIT License.\n"
+        f"{prefix} See LICENSE file in the project root for full license info.\n"
+        f"{prefix} </copyright>\n"
+        "\n"
+    )
 
 
 def process_file(path: Path, year: int, replace_existing: bool) -> tuple[bool, str]:
     """Return whether the file would change and the new file text."""
-    original = path.read_text(encoding="utf-8")
-    text = original
+    original = path.read_text(encoding="utf-8-sig")
+    text = normalize_lf(original)
 
     header_exists = has_copyright_header(text)
 
@@ -89,16 +130,14 @@ def process_file(path: Path, year: int, replace_existing: bool) -> tuple[bool, s
     if header_exists and replace_existing:
         text = remove_existing_header(text)
 
-    # Make sure the copyright header starts on line 1.
     text = text.lstrip("\n")
-
-    header = HEADER_TEMPLATE.format(file_name=path.name, year=year)
-    new_text = header + text
+    new_text = make_header(path, year) + text
 
     return new_text != original, new_text
 
 
 def main() -> int:
+    """Run the file header tool."""
     default_root = find_repo_root(Path(__file__).resolve())
 
     parser = argparse.ArgumentParser()
@@ -124,7 +163,13 @@ def main() -> int:
     root = Path(args.root).resolve()
     changed_count = 0
 
-    for path in sorted(root.rglob("*.cs")):
+    for path in sorted(root.rglob("*")):
+        if not path.is_file():
+            continue
+
+        if path.suffix.lower() not in SUPPORTED_SUFFIXES:
+            continue
+
         rel = path.relative_to(root)
 
         if should_skip(rel):
@@ -142,7 +187,7 @@ def main() -> int:
         changed_count += 1
 
         if args.apply:
-            path.write_text(new_text, encoding="utf-8", newline="")
+            path.write_text(new_text, encoding="utf-8", newline="\n")
             print(f"Updated: {rel}")
         else:
             print(f"Would update: {rel}")

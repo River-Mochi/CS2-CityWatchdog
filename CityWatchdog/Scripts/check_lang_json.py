@@ -1,3 +1,8 @@
+# <copyright file="check_lang_json.py" company="River-Mochi">
+# Copyright (c) 2026 River-Mochi, MIT License.
+# See LICENSE file in the project root for full license info.
+# </copyright>
+
 # File: src/Scripts/check_lang_json.py
 # Purpose:
 #   Check JSON translation files in /lang or /src/lang.

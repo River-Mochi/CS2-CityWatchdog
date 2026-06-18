@@ -1,10 +1,6 @@
-// <copyright file="LogUtils.cs" company="River-Mochi">
-// Copyright (c) 2026 River-Mochi.
-// Licensed under the MIT License. See LICENSE file in the project root for full license information.
-// </copyright>
-
-// Copyright (c) River Mochi. See LICENSE file in the project root for full license information.
-// <copyright file="LogUtils.cs" company="River-Mochi. MIT License">
+﻿// <copyright file="LogUtils.cs" company="River-Mochi">
+// Copyright (c) 2026 River-Mochi, MIT License.
+// See LICENSE file in the project root for full license info.
 // </copyright>
 
 // File: Utils/LogUtils.cs
