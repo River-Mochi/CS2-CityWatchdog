@@ -4,12 +4,13 @@
 // </copyright>
 //
 // File: src/Localization/LocaleTR.cs
-// Purpose: Turkish (tr-TR) strings for City Watchdog Options UI (settings menu).
+// Purpose: Turkish (tr-TR) for City Watchdog Options UI menu.
 
 namespace CityWatchdog
 {
     using System.Collections.Generic; // Dictionary and KeyValuePair
     using Colossal;                   // IDictionarySource
+    using Game.UI.Editor;
 
     public sealed class LocaleTR : IDictionarySource
     {
@@ -24,11 +25,7 @@ namespace CityWatchdog
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-            string title = Mod.ModName;
-            if (!string.IsNullOrEmpty(Mod.ModVersion))
-            {
-                title += " (" + Mod.ModVersion + ")";
-            }
+            string title = Mod.ModName + " (Bekçi)";
 
             Dictionary<string, string> entries = new Dictionary<string, string>
             {
@@ -39,7 +36,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionTabLocaleID(Setting.Actions), "Eylemler" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Hotkeys), "Kısayollar" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "Hakkında" },
-                { m_Settings.GetOptionTabLocaleID(Setting.Debug), "Hata ayıklama" },
+                { m_Settings.GetOptionTabLocaleID(Setting.Debug), "Hata ayıkla" },
 
                 // --- Groups ---
                 { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "Bilgi görüntüleyici" },
@@ -50,86 +47,201 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "Kısayollar" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.AboutDiagnostics), "TANILAMA" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.AboutDiagnostics), "TANI" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "KULLANIM" },
 
                 // --- Money View ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Üzerine gelince ayrıntıları göster" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)), "Alt araç çubuğundaki vanilla para ve nüfus oklarının yanında sayısal eğilim değerleri gösterir.\nBu hafif bir araç çubuğu üzerine gelme <yalnızca görüntüleme> özelliğidir;\nşehir parasını veya nüfusunu değiştirmez." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
+                    "Alt araç çubuğundaki vanilla <para ve nüfus okları> yanında sayısal eğilim değerleri gösterir.\n" +
+                    "Bu hafif bir araç çubuğu hover <yalnızca görüntüleme> özelliğidir;\n" +
+                    "şehir parasını veya nüfusunu değiştirmez." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyViewMode)), "Money View sıklığı" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)), "Alt araç çubuğu eğilim metninin para ve nüfus için saatlik mi aylık mı değerler göstereceğini seçin.\nAylık para için bütçe geliri eksi giderler, nüfus için 24 saatlik projeksiyon kullanılır." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)),
+                    "Alt araç çubuğu eğilim metninin para ve nüfus için saatlik mi aylık mı değer göstereceğini seçin.\n" +
+                    "Aylık para, bütçe gelirinden giderleri çıkarır; nüfus için 24 saatlik projeksiyon kullanır." },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeHourly"), "Saatlik (/h)" },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeMonthly"), "Aylık (/mo)" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "Para ipucu stili" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)), "Para üzerine gelme ipucunda ne kadar ayrıntı görüneceğini seçin.\nKompakt = ilk kurulumda varsayılan.\n<Mini> /mo ve /h için yalnızca 2 Net değer gösterir.\n<Kompakt> büyük değerleri kısaltır (15,212,318 yerine 15.21M).\n<Tam veri> uzun değerleri ve Toplam alanlarını gösterir." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "Para tooltip stili" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
+                    "Para üzerine gelince tooltip içinde ne kadar ayrıntı görüneceğini seçin.\n" +
+                    "Kompakt = ilk kurulumdaki varsayılan.\n" +
+                    "<Mini> /mo ve /h için sadece 2 Net değer gösterir.\n" +
+                    "<Kompakt> büyük değerleri kısaltır (15,212,318 yerine 15.21M).\n" +
+                    "<Tam veri> uzun değerleri ve Toplam alanlarını gösterir." },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Kompakt" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "Tam veri" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Para yazı tipi boyutu" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Money View ipucu sayılarının <yazı tipi boyutunu> ayarlar.\nOyun varsayılanı = 100%\n<Mod varsayılanı = 120%>\nEkranın altındaki Para üzerine gelin.\nOyundaki küçük ipuçlarını görmekte zorlanan oyuncular için istenmiştir." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Nüfus yazı tipi boyutu" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Nüfus ipucu sayılarının <yazı tipi boyutunu> ayarlar.\nOyun varsayılanı = 100%\n<Mod varsayılanı = 120%>\nEkranın altındaki Nüfus üzerine gelin." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Para yazı boyutu" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
+                    "Money View tooltip sayılarının <yazı boyutunu> ayarlar.\n" +
+                    "Oyun varsayılanı = 100%\n" +
+                    "<Mod varsayılanı = 120%>\n" +
+                    "Ekranın altındaki Para üzerine gelin.\n" +
+                    "Oyundaki küçük tooltipleri görmekte zorlanan oyuncuların isteğiyle eklendi." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Nüfus yazı boyutu" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)),
+                    "Nüfus tooltip sayılarının <yazı boyutunu> ayarlar.\n" +
+                    "Oyun varsayılanı = 100%\n" +
+                    "<Mod varsayılanı = 120%>\n" +
+                    "Ekranın altındaki Nüfus üzerine gelin." },
 
                 // --- Money helpers ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Para kısayol tutarı" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)), "Bu tutarı Para ekle ve Para çıkar kısayollarıyla kullanın.\n<Mod varsayılanı = 40,000>\nKısayolu kullanarak para eklemez/çıkarmazsanız (şehirde) hiçbir şey yapmaz.\nOtomatik para için Otomatik Para Ekle seçeneğini etkinleştirin." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Para kısayolu miktarı" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
+                    "Bu miktarı Para ekle ve Para çıkar kısayollarıyla kullanın.\n" +
+                    "<Mod varsayılanı = 40,000>\n" +
+                    "Şehirde para ekleme/çıkarma kısayolunu kullanmadığınız sürece hiçbir şey yapmaz.\n" +
+                    "Otomatik para için Otomatik para ekle seçeneğini etkinleştirin." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Para ekle" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Şehir içinde <Para ekle> kısayolu." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Şehir içinde <Para ekle> için kısayol." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Para ekle" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Para çıkar" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Şehir içinde <Para çıkar> kısayolu." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Şehir içinde <Para çıkar> için kısayol." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "Para çıkar" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Otomatik Para Ekle" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)), "Etkin olduğunda [ ✓ ], City Watchdog bir şehir yüklüyken şehir bakiyesini kontrol eder.\n- Bakiye <eşik değerinin altındaysa>, \n  seçilen otomatik tutarı ekler.\n- Bu otomatik seçenek yerine gerektiğinde kısayolla (<[> veya <]>) manuel para kullanmanız önerilir, ancak isterseniz bu seçenek de burada." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Otomatik Para Eşiği" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Otomatik Para Ekle etkinse ve şehir bakiyesi bu değerin altına düşerse,\nseçilen otomatik tutar eklenir." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Otomatik Para Tutarı" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Otomatik Para Ekle her tetiklendiğinde eklenen tutar.\nŞehri güvenle eşik değerinin üstüne çıkaracak kadar yüksek bir değer seçin." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Otomatik para ekle" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
+                    "Etkinse [ ✓ ], City Watchdog şehir yüklüyken şehir bakiyesini kontrol eder.\n" +
+                    "- Bakiye <eşik değerinin altındaysa>, \n" +
+                    "  seçilen otomatik miktarı ekler.\n" +
+                    "- Gerektiğinde kısayolla (<[> veya <]>) manuel para kullanmanız önerilir  ama isterseniz bu otomatik seçenek de burada." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Otomatik para eşiği" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),
+                    "Otomatik para ekle etkinse ve şehir bakiyesi bu değerin altına düşerse,\n" +
+                    "seçilen otomatik miktarı ekler." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Otomatik para miktarı" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)),
+                    "Otomatik para ekle her tetiklendiğinde eklenecek miktar.\n" +
+                    "Şehri güvenli biçimde eşik üstüne çıkaracak kadar yüksek bir değer seçin." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Başlangıç parası" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)), "Yeni bir <sınırlı para> şehri veya ilk yüklenen şehir için başlangıç bakiyesini ayarlar,\nuygulandıktan sonra Oyun Varsayılanı’na döner.\nBir şehir zaten yüklüyse gri görünür.\nŞehri başlatmadan/yüklemeden önce ayarlayın → bir kez uygulanır → sonra <Para kısayol tutarı> veya <Otomatik Para Ekle> kullanın." },
-                { m_Settings.GetOptionLocaleID("GameDefault"), "Oyun Varsayılanı" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
+                    "Yeni bir <sınırlı para> şehri veya ilk yüklenen şehir için başlangıç bakiyesini ayarlar,\n" +
+                    "uygulandıktan sonra Oyun varsayılanına döner.\n" +
+                    "Bir şehir zaten yüklüyse gri görünür.\n" +
+                    "Şehri başlatmadan/yüklemeden önce ayarlayın → bir kez uygulanır → sonra <Para kısayolu miktarı> veya <Otomatik para ekle> kullanın." },
+
+                { m_Settings.GetOptionLocaleID("GameDefault"), "Oyun varsayılanı" },
 
                 // --- Notifications ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Bildirim simgelerini aç/kapat" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "<Kısayol>, oyun içi <[TOGGLE ALL]> simge düğmesiyle aynı işlemi yapar.\nListelenen tüm şehir bildirim simgelerini anında gösterir veya gizler." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Tüm bildirim simgelerini anında göster/gizle" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Bildirim ikonlarını aç/kapat" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
+                    "Oyun içi <[TOGGLE ALL]> ikon düğmesiyle aynı eylem için <kısayol>.\n" +
+                    "Listelenen tüm şehir bildirim ikonlarını anında gösterir veya gizler." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Tüm bildirim ikonlarını anında göster/gizle" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "Bildirim panelini aç/kapat" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "<Kısayol>, şehirde\n<bildirim panelini> açar veya kapatır.\nTam paneli açmak için sol üst simgeye tıklamakla aynıdır." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)),
+                    "Şehirde <bildirim panelini>\n" +
+                    "açmak veya kapatmak için <kısayol>.\n" +
+                    "Tam paneli açmak için sol üstteki ikona tıklamakla aynı çalışır." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Bildirim panelini aç/kapat" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)), "Yol adlarını gizle/göster" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)), "<Kısayol>, şehirdeki vanilla yol adı etiketlerini anında gizler veya gösterir.\nCity Watchdog panel araç çubuğundaki Yol adı simgesine tıklamakla aynıdır." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)),
+                    "Şehirdeki vanilla yol adı etiketlerini anında gizlemek veya göstermek için <kısayol>.\n" +
+                    "City Watchdog panel araç çubuğundaki Yol adı ikonuna tıklamakla aynıdır." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "Yol adlarını gizle/göster" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Tüm fareyle üzerine gelme ipuçlarını devre dışı bırak" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)), "Oyunun üzerine gelme ipuçlarını kapatır — binalar/cim’ler/araçlar üzerinde imleci takip edenler ve oyun UI düğmelerindeki küçük açılır pencereler (üst çubuk adları, vanilla düğmeler vb.) dahil.\n<City Watchdog’un kendi para/nüfus açılır pencereleri açık kalır>; bunlar yukarıdaki Money View seçeneğiyle kontrol edilir.\nŞehir içindeki City Watchdog panelinde [i] simgesine tıklamakla aynıdır." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Tüm fare üstü tooltipleri kapat" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
+                    "Oyunun hover tooltiplerini kapatır — imleci binalar/vatandaşlar/araçlar üzerinde takip edenler\n" +
+                    " ve oyun UI düğmelerindeki küçük popuplar (üst çubuk adları, vanilla düğmeler, vb.).\n" +
+                    "<City Watchdog’un kendi para/nüfus popupları açık kalır>; bunlar yukarıdaki Money View seçeneğiyle kontrol edilir.\n" +
+                    "Şehir içinde City Watchdog panelindeki [i] ikonuna tıklamakla aynıdır." },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Kilometre taşı seçici" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)), "Bir şehri yüklemeden veya başlatmadan önce etkinleştirerek seçilen kilometre taşını şehir yüklendikten hemen sonra açın.\nBir şehir yüklüyken AÇILAMAZ, ancak yanlışlıkla açık bırakıldıysa KAPATILABİLİR.\nCity Watchdog, bir şehre kaydedilmiş kilometre taşı değişikliklerini geri alamaz; gerekirse daha eski bir kayıt kullanın." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
+                    "Şehir yüklenir yüklenmez seçilen kilometre taşını açmak için şehir yüklemeden veya başlatmadan önce etkinleştirin.\n" +
+                    "Bir şehir yüklüyken AÇILAMAZ, ama yanlışlıkla açık kaldıysa KAPATILABİLİR.\n" +
+                    "City Watchdog, şehre kaydedilmiş kilometre taşı değişikliklerini geri alamaz; gerekiyorsa eski bir kayıt kullanın." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Kilometre taşı" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)), "Sonraki şehir yüklemesinde açılacak kilometre taşı seviyesini seçin.\nYalnızca yüklü şehir dışında ve yalnızca [Kilometre taşı seçici] etkin [ ✓ ] olduktan sonra ayarlanabilir." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)),
+                    "Sonraki şehir yüklemesinde açılacak kilometre taşı seviyesini seçin.\n" +
+                    "Yalnızca yüklü bir şehir yokken ve ancak [Kilometre taşı seçici] etkin [ ✓ ] olduktan sonra ayarlanabilir." },
 
                 // --- Save conversion ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "Sınırsız Para Dönüştürücü" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "<ÖNCE şehrin yedeğini alın>.\nSınırsız Para ile başlamış bir şehri, normal para mücadeleleri olan normal bir şehre dönüştürür.\nYüklü şehir <Sınırsız Para> türündeyken bu seçeneği etkinleştirmek <[Sınırsız Para Kaydını Dönüştür]> düğmesini açar.\nCity Watchdog bu dönüştürmeyi geri alamaz.\nNormal şehirleriniz varsa endişelenmeyin; buna gerek yok." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Sınırsız Para kayıt şehrini normale dönüştür" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "<Sınırsız Para> ile başlayan şehirler için.\nBu şehir yüklüyken kayıt normal sınırlı para bütçesine dönüştürülür, böylece şehir tekrar normal para mücadelelerine sahip olur.\nYüklü şehir <Sınırsız Para> türünde olmadıkça\nve <Sınırsız Para Dönüştürücü> ON [ ✓ ] olmadıkça düğme <devre dışı/gri> kalır.\nYedek kayıt alın ve riski size ait olmak üzere kullanın; City Watchdog bu dönüştürmeyi geri alamaz." },
-                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Bu şehri Sınırsız Para’dan normal sınırlı paraya dönüştürmek istiyor musunuz?\nÖNCE bir yedek kaydedin; City Watchdog bunu geri alamaz.\nEmin misiniz?" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "Sınırsız para dönüştürücü" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)),
+                    "<ÖNCE şehrin yedeğini alın>.\n" +
+                    "Sınırsız para ile başlatılmış bir şehri normal para mücadeleleri olan normal bir şehre dönüştürür.\n" +
+                    "Bunu etkinleştirmek, yüklü şehir <Sınırsız para> türündeyken <[Sınırsız para kaydını dönüştür]> düğmesini açar.\n" +
+                    "City Watchdog bu dönüşümü geri alamaz.\n" +
+                    "Normal şehirleriniz varsa endişelenmeyin; buna gerek yok." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Sınırsız para şehrini normale dönüştür" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
+                    "<Sınırsız para> ile başlatılmış şehirler içindir.\n" +
+                    "O şehir yüklüyken kaydı normal sınırlı para bütçesine dönüştürür, böylece şehir tekrar normal para mücadelesine sahip olur.\n" +
+                    "Yüklü şehir <Sınırsız para> türünde değilse\n" +
+                    "ve <Sınırsız para dönüştürücü> ON [ ✓ ] değilse düğme <devre dışı/gri> olur.\n" +
+                    "Yedek kayıt alın ve riski size ait olmak üzere kullanın; City Watchdog bu dönüşümü geri alamaz." },
+
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
+                    "Bu şehir Sınırsız paradan normal sınırlı paraya dönüştürülsün mü?\n" +
+                    "ÖNCE yedek alın; City Watchdog bunu geri alamaz.\n" +
+                    "Emin misiniz?" },
 
                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Mod adı" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.NameText)), "Bu modun görünen adı." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.VersionText)), "Sürüm" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "Geçerli mod sürümü." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Yazarın Paradox Mods sayfasını aç." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "Hata ayıklama raporunu günlüğe yaz" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)), "<Normal oyun için gerekli değildir.>\nTest edenler ve oyun yaması sonrası kontroller için: <Logs/CityWatchdog.log> raporu yazar\nve canlı oyun bildirim prefab’larını Watchdog’un şu anda kontrol ettiği bildirim simgeleriyle karşılaştırır." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Günlüğü aç" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "Varsa </Logs/CityWatchdog.log> dosyasını açar.\nGünlük dosyası yoksa bunun yerine Logs/ klasörünü açar." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Yazarın Paradox Mods sayfasını açar." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "Debug raporunu loga yaz" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)),
+                    "<Normal oynanış için gerekmez.>\n" +
+                    "Testçiler ve oyun yaması sonrası kontroller için: canlı oyun bildirim prefablarını\n" +
+                    "Watchdog’un şu anda kontrol ettiği bildirim ikonlarıyla karşılaştıran <Logs/CityWatchdog.log> raporu yazar." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Logu aç" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "Varsa </Logs/CityWatchdog.log> dosyasını açar.\n" +
+                    "Log dosyası yoksa bunun yerine Logs/ klasörünü açar." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Talimatları göster" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Aşağıdaki kullanım talimatlarını göster veya gizle." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)), "<Bildirim paneli>\n1. Paneli açmak için City Watchdog düğmesine (sol üst) tıklayın veya Shift+N tuşuna basın.\n2. ASC/DESC sıralayın.\n3. Hızlı tümü Kapalı/Açık için Toggle All kullanın veya belirli simgeleri değiştirmek için bir bölümü genişletin.\n4. Yalnızca simgeleri gösterir veya gizler; alttaki şehir sorununu çözmez.\n\n<Para yardımcıları>\n1. Para ekle veya çıkar: varsayılan <Para kısayol tutarı> için [ veya ] kullanın.\n2. Otomatik para ekleme, şehir yüklüyken bütçeyi izler ve eşik altındaysa para ekler.\n3. Money View para ve nüfus araç çubuğuna ve fare üzerine gelme ipuçlarına sayısal değerler ekler.\n4. Sınırsız Para Kaydını Dönüştür yalnızca Sınırsız Para ile başlatılmış şehirler içindir ve <geri alınamaz>.\n\n<Özel kilometre taşı>\nBir şehri yüklemeden veya başlatmadan önce Seçenekler menüsünden Başlangıç Parası ayarlayın ve Kilometre Taşlarını seçin." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Aşağıdaki kullanım talimatlarını gösterir veya gizler." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
+                    "<Görünüm anahtarları>\n" +
+                    "1. [i] düğmesi: TÜM oyun hover tooltiplerini gizle/göster (binalar, cims, araçlar).\n" +
+                    "2. Yol adı düğmesi: yol adı etiketlerini gizle/göster. Kısayol: \\.\n" +
+                    "3. Yol oku düğmesi: tek yön yol oklarını aç/kapatmaya zorlar (yol adlarını da gizler).\n" +
+                    "4. CWD başlık çubuğu ikonu: City Watchdog panel tooltiplerini göster/gizle.\n" +
+                    "\n" +
+                    "<Bildirim uyarıları>\n" +
+                    "1. Paneli açmak için City Watchdog düğmesine (sol üst) tıklayın veya Shift+N basın.\n" +
+                    "2. Artan/azalan sıralama için sıralama düğmesi.\n" +
+                    "3. Toggle All ile hızlıca tümünü Off/On yapın veya belirli ikonları değiştirmek için bir bölümü açın.\n" +
+                    "4. Sadece ikonları gösterir veya gizler; şehirdeki asıl sorunu çözmez.\n" +
+                    "\n" +
+                    "<Para yardımcıları>\n" +
+                    "1. Para ekle veya çıkar: <Para kısayolu miktarı> varsayılan tuşları [ ve ] kullanın.\n" +
+                    "2. Otomatik para ekle, şehir belirlediğiniz limitin altına düşünce para ekler.\n" +
+                    "3. Sınırsız para kaydı dönüştürme yalnızca Sınırsız para ile başlatılmış şehirler içindir ve <geri alınamaz>.\n" +
+                    "\n" +
+                    "<Alt menü tooltipleri>\n" +
+                    "Money View, para ve nüfus araç çubuğuna eğilim değerleri ve hover sırasında ek ayrıntılar ekler.\n" +
+                    "\n" +
+                    "<Özel kilometre taşı>\n" +
+                    "Şehir yüklemeden veya başlatmadan önce Seçenekler menüsünden Başlangıç parası ayarlayın ve Kilometre taşlarını seçin." },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
+
             };
 
             return entries;

@@ -1,8 +1,8 @@
-// <copyright file="BuildingNotificationIcon.cs" company="River-Mochi">
+﻿// <copyright file="BuildingNotificationIcon.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi, MIT License.
 // See LICENSE file in the project root for full license info.
 // </copyright>
-
+//
 // File: Alerts/BuildingNotificationIcon.cs
 // Purpose: Defines building notification icon identifiers used by City Watchdog.
 

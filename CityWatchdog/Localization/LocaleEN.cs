@@ -1,15 +1,16 @@
-// <copyright file="LocaleEN.cs" company="River-Mochi">
+﻿// <copyright file="LocaleEN.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi, MIT License.
 // See LICENSE file in the project root for full license info.
 // </copyright>
-//
+
 // File: src/Localization/LocaleEN.cs
-// Purpose: English (en-US) strings for City Watchdog Options UI (settings menu).
+// Purpose: English (en-US) for City Watchdog Options UI menu.
 
 namespace CityWatchdog
 {
     using System.Collections.Generic; // Dictionary and KeyValuePair
     using Colossal;                   // IDictionarySource
+    using Game.UI.Editor;
 
     public sealed class LocaleEN : IDictionarySource
     {
@@ -165,7 +166,8 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Disable All Mouse over Tooltips" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
-                    "Turns off the game's hover tooltips — both the ones that follow your cursor over buildings/citizens/tools and the small popups on game UI buttons (top bar names, vanilla buttons, etc.).\n" +
+                    "Turns off the game's hover tooltips — both the ones that follow your cursor over buildings/citizens/tools\n" +
+                    " and the small popups on game UI buttons (top bar names, vanilla buttons, etc.).\n" +
                     "<City Watchdog's own money/population popups stay on>; those are controlled by the Money View option above.\n" +
                     "Same as clicking the [i] icon on the City Watchdog panel inside the city." },
 
@@ -226,16 +228,22 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Show or hide the usage instructions below." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
-                    "<Notification panel>\n" +
+                    "<Display toggles>\n" +
+                    "1. [i] button: hide/show ALL game hover tooltips (buildings, cims, tools).\n" +
+                    "2. Road Name button: hide/show road name labels. Hotkey: \\.\n" +
+                    "3. Road Arrow button: force 1-way road arrows on/off (also hides road names).\n" +
+                    "4. CWD Title bar icon: show/hide City Watchdog panel tooltips.\n\n" +
+                    "<Notification alerts>\n" +
                     "1. Click the City Watchdog button (Top Left), or press Shift+N, to open the panel.\n" +
-                    "2. Sort ASC/DESC.\n" +
+                    "2. Sort button for ascending/descending.\n" +
                     "3. Toggle All for quick all Off/On, or expand a section to change specific ones.\n" +
                     "4. Shows or hides icons only; does not fix the underlying city problem.\n\n" +
                     "<Money helpers>\n" +
-                    "1. Add or Subtract Money: use the <Money Hotkey Amount> default [ or ].\n" +
-                    "2. Automatic add money watches the budget while a city is loaded and adds money when below the threshold.\n" +
-                    "3. Money View adds numeric values to the money and population toolbar and tool tips on mouse hover.\n" +
-                    "4. Convert Unlimited Money Save is only for cities that were started with Unlimited Money and is <not reversible>.\n\n" +
+                    "1. Add or Subtract Money: use the <Money Hotkey Amount> default keys [ and ].\n" +
+                    "2. Automatic add money adds money when a city goes lower than the limit you set.\n" +
+                    "3. Convert Unlimited Money Save is only for cities that were started with Unlimited Money and is <not reversible>.\n\n" +
+                    "<Bottom menu tooltips>\n"+
+                    "Money View adds trend values to money and population toolbar and extra details on mouse hover.\n\n" +
                     "<Custom milestone>\n" +
                     "Set Initial Money and select Milestones from the Options menu before loading or starting a city."
                 },
