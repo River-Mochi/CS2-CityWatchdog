@@ -2,14 +2,14 @@
 // Copyright (c) 2026 River-Mochi, MIT License.
 // See LICENSE file in the project root for full license info.
 // </copyright>
-
+//
 // File: src/Localization/LocaleFR.cs
-// Purpose: French (fr-FR) strings for City Watchdog Options UI and notification panel text.
+// Purpose: French (fr-FR) strings for City Watchdog Options UI (settings menu).
 
 namespace CityWatchdog
 {
-    using Colossal;                   // IDictionarySource
     using System.Collections.Generic; // Dictionary and KeyValuePair
+    using Colossal;                   // IDictionarySource
 
     public sealed class LocaleFR : IDictionarySource
     {
@@ -42,7 +42,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "Débogage" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "Vue argent" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "Visionneuse d’infos" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Argent" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "Notifications" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Jalon" },
@@ -54,320 +54,82 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "UTILISATION" },
 
                 // --- Money View ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Vue argent" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
-                    "Ajoute des valeurs de tendance numériques à côté des flèches vanilla d'argent et de population dans la barre du bas.\n" +
-                    "C'est seulement un affichage léger de la barre d'outils ; cela ne change ni l'argent ni la population." },
-
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Afficher les détails au survol" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)), "Affiche des valeurs numériques de tendance à côté des flèches vanilla d’argent et de population dans la barre du bas.\nC’est un affichage léger au survol de la barre d’outils, <affichage seulement> ;\nil ne change ni l’argent ni la population de la ville." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyViewMode)), "Fréquence de la vue argent" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)),
-                    "Choisis si le texte de tendance de la barre du bas affiche les valeurs horaires ou mensuelles pour l'argent et la population.\n" +
-                    "Le mensuel utilise les revenus moins les dépenses du budget pour l'argent, et une projection sur 24 heures pour la population." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)), "Choisissez si le texte de tendance de la barre du bas affiche des valeurs horaires ou mensuelles pour l’argent et la population.\nLe mensuel utilise les revenus du budget moins les dépenses pour l’argent, et une projection sur 24 heures pour la population." },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeHourly"), "Horaire (/h)" },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeMonthly"), "Mensuel (/mo)" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "Style d'info-bulle argent" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
-                    "Choisis le niveau de détail affiché dans l'info-bulle argent au survol.\n" +
-                    "Compact = valeur par défaut à la première installation.\n" +
-                    "<Mini> affiche seulement deux valeurs nettes pour /mo et /h.\n" +
-                    "<Compact> raccourcit les grandes valeurs (15.21M au lieu de 15,212,318).\n" +
-                    "<Données complètes> affiche les valeurs longues et les champs de total." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "Style de l’info-bulle argent" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)), "Choisissez le niveau de détail affiché dans l’info-bulle d’argent au survol.\nCompact = valeur par défaut à la première installation.\n<Mini> affiche seulement 2 valeurs nettes pour /mo et /h.\n<Compact> raccourcit les grandes valeurs (15.21M au lieu de 15,212,318).\n<Données complètes> affiche les valeurs longues et les champs Total." },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compact" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "Données complètes" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Taille du texte argent" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
-                    "Ajuste la <taille du texte> des nombres dans l'info-bulle Money View.\n" +
-                    "Valeur du jeu = 100%\n" +
-                    "<Valeur du mod = 120%>\n" +
-                    "Survole l'argent en bas de l'écran.\n" +
-                    "Demandé par des joueurs qui ont du mal à lire les petites info-bulles du jeu."
-                },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Taille du texte population" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)),
-                    "Ajuste la <taille du texte> des nombres de l'info-bulle population.\n" +
-                    "Valeur du jeu = 100%\n" +
-                    "<Valeur du mod = 120%>\n" +
-                    "Survole la population en bas de l'écran."
-                },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Taille de police de l’argent" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Ajuste la <taille de police> des nombres de l’info-bulle Money View.\nValeur du jeu = 100%\n<Valeur du mod = 120%>\nSurvolez l’argent en bas de l’écran.\nDemandé par des joueurs qui ont du mal à lire les petites info-bulles du jeu." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Taille de police de la population" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Ajuste la <taille de police> des nombres de l’info-bulle de population.\nValeur du jeu = 100%\n<Valeur du mod = 120%>\nSurvolez la population en bas de l’écran." },
 
                 // --- Money helpers ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Montant des raccourcis d'argent" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
-                    "Utilise ce montant avec les raccourcis Ajouter de l'argent et Retirer de l'argent.\n" +
-                    "Par défaut = 40 000.\n" +
-                    "Cela ne fait rien sauf si tu utilises le raccourci en ville pour ajouter/retirer de l'argent.\n" +
-                    "Pour l'argent automatique, active l'option Ajout d'argent automatique." },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Ajouter de l'argent" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Raccourci pour ajouter de l'argent dans la ville." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Ajouter de l'argent" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Retirer de l'argent" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Raccourci pour retirer de l'argent dans la ville." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "Retirer de l'argent" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Ajout d'argent automatique" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
-                    "Si activé [ ✓ ], City Watchdog vérifie le solde de la ville lorsqu'une ville est chargée.\n" +
-                    "Si le solde est sous le seuil, il ajoute le montant automatique choisi.\n" +
-                    "Il est recommandé d'utiliser l'argent manuel avec le raccourci (<[> ou <]>) au besoin plutôt que cette option automatique, mais elle reste disponible si tu la veux." },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Seuil d'argent automatique" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),
-                    "Si l'ajout d'argent automatique est activé et que le solde de la ville passe sous cette valeur,\n" +
-                    "City Watchdog ajoute le montant automatique choisi." },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Montant automatique" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)),
-                    "Montant ajouté chaque fois que l'ajout d'argent automatique se déclenche.\n" +
-                    "Choisis une valeur assez élevée pour remettre la ville au-dessus du seuil." },
-
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Montant du raccourci argent" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)), "Utilisez ce montant avec les raccourcis Ajouter de l’argent et Retirer de l’argent.\n<Valeur du mod = 40 000>\nCela ne fait rien sauf si vous utilisez le raccourci pour ajouter/retirer de l’argent (dans la ville).\nPour l’argent automatique, activez l’option Ajout d’argent automatique." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Ajouter de l’argent" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Raccourci pour <Ajouter de l’argent> dans la ville." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Ajouter de l’argent" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Retirer de l’argent" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Raccourci pour <Retirer de l’argent> dans la ville." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "Retirer de l’argent" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Ajout d’argent automatique" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)), "Quand activé [ ✓ ], City Watchdog vérifie le solde de la ville pendant qu’une ville est chargée.\n- Si le solde est <sous le seuil>, \n  il ajoute le montant automatique choisi.\n- Il est recommandé d’utiliser l’argent manuel avec le raccourci (<[> ou <]>) au besoin plutôt que cette option automatique, mais elle est disponible si vous la voulez." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Seuil d’argent automatique" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Si l’ajout d’argent automatique est activé et que le solde de la ville tombe sous cette valeur,\najoute le montant automatique choisi." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Montant d’argent automatique" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Montant ajouté chaque fois que l’ajout d’argent automatique se déclenche.\nChoisissez une valeur assez élevée pour remettre la ville au-dessus du seuil en toute sécurité." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Argent initial" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
-                    "Définit le solde de départ pour une nouvelle ville en <argent limité> ou la première ville chargée, puis revient au paramètre par défaut du jeu après application.\n" +
-                    "Grisé si une ville est déjà chargée.\n" +
-                    "Règle avant de démarrer/charger une ville → s'applique une fois → utilise ensuite <Montant des raccourcis d'argent> ou <Ajout d'argent automatique>." },
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)), "Définit le solde de départ pour une nouvelle ville à <argent limité> ou pour la première ville chargée,\npuis revient à la valeur par défaut du jeu après application.\nCette option est grisée si une ville est déjà chargée.\nRéglez avant de démarrer/charger une ville → s’applique une fois → puis utilisez <Montant du raccourci argent> ou <Ajout d’argent automatique> ensuite." },
                 { m_Settings.GetOptionLocaleID("GameDefault"), "Par défaut du jeu" },
-
 
                 // --- Notifications ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Basculer les icônes de notification" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
-                    "<Raccourci> pour la même action que le bouton d'icône <[Toggle All]> dans le panneau du jeu.\n" +
-                    "Affiche ou masque instantanément toutes les icônes de notification listées." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "<Raccourci> pour la même action que le bouton <[TOGGLE ALL]> du panneau en jeu.\nAffiche ou masque instantanément toutes les icônes de notification de la ville listées." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Afficher/masquer instantanément toutes les icônes de notification" },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "Ouvrir/fermer le panneau des notifications" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)),
-                    "<Raccourci> pour ouvrir ou fermer le panneau de notifications en jeu.\n" +
-                    "Fonctionne comme un clic sur l'icône en haut à gauche pour ouvrir le panneau complet." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "<Raccourci> pour ouvrir ou fermer le\n<panneau des notifications> dans la ville.\nFonctionne comme un clic sur l’icône en haut à gauche pour ouvrir le panneau complet." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Ouvrir/fermer le panneau des notifications" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Désactiver toutes les info-bulles" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
-                    "Activé [ ✓ ], masque toutes les info-bulles du jeu — survols et popups.\n" +
-                    "Peut aussi être basculé en ville en cliquant sur l'icône [i] dans la barre du panneau City Watchdog." },
-
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)), "Masquer/afficher les noms de routes" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)), "<Raccourci> pour masquer ou afficher instantanément les étiquettes vanilla des noms de routes dans la ville.\nIdentique au clic sur l’icône Nom de route dans la barre du panneau City Watchdog." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "Masquer/afficher les noms de routes" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Désactiver toutes les info-bulles au survol" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)), "Désactive les info-bulles de survol du jeu — celles qui suivent le curseur sur les bâtiments/citoyens/outils et les petites fenêtres sur les boutons de l’interface du jeu (noms de la barre supérieure, boutons vanilla, etc.).\n<Les popups argent/population de City Watchdog restent activés> ; ils sont contrôlés par l’option Money View ci-dessus.\nIdentique au clic sur l’icône [i] dans le panneau City Watchdog en ville." },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Sélecteur de jalon" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
-                    "Active-le avant de charger ou démarrer une ville pour débloquer le jalon choisi juste après le chargement.\n" +
-                    "Impossible de l'activer pendant qu'une ville est chargée, mais il peut être désactivé s'il a été laissé actif par erreur.\n" +
-                    "City Watchdog ne peut pas annuler les changements de jalon déjà sauvegardés dans une ville ; utilise une sauvegarde plus ancienne si besoin." },
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)), "Activez avant de charger ou de démarrer une ville pour débloquer le jalon choisi immédiatement après le chargement.\nCette option ne peut pas être activée pendant qu’une ville est chargée, mais elle peut être désactivée si elle a été laissée activée par erreur.\nCity Watchdog ne peut pas annuler les changements de jalon déjà sauvegardés dans une ville ; utilisez une sauvegarde plus ancienne si nécessaire." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Jalon" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)),
-                    "Choisis le niveau de jalon à débloquer au prochain chargement de ville.\n" +
-                    "Réglable seulement hors ville chargée, et seulement après activation de [Sélecteur de jalon] [ ✓ ]." },
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)), "Choisissez le niveau de jalon à débloquer au prochain chargement de ville.\nRéglable seulement en dehors d’une ville chargée, et seulement après activation de [Sélecteur de jalon] [ ✓ ]." },
 
                 // --- Save conversion ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "Convertisseur d'argent illimité" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)),
-                    "<Fais d'abord une sauvegarde de la ville>.\n" +
-                    "Convertit une ville commencée en Argent illimité en ville normale avec les défis d'argent habituels.\n" +
-                    "Activer ceci déverrouille le bouton <[Convertir une sauvegarde Argent illimité]> si la ville chargée est de type <Argent illimité>.\n" +
-                    "City Watchdog ne peut pas annuler cette conversion.\n" +
-                    "Si tes villes sont normales, ne t'en fais pas ; ce n'est pas nécessaire." },
-
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "Convertisseur d’argent illimité" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "<Faites d’abord une sauvegarde de la ville>.\nConvertit une ville commencée en Argent illimité en ville normale avec des défis d’argent réguliers.\nL’activation déverrouille le bouton <[Convertir la sauvegarde Argent illimité]> quand la ville chargée est de type <Argent illimité>.\nCity Watchdog ne peut pas annuler cette conversion.\nSi vous avez des villes normales, ne vous inquiétez pas ; ce n’est pas nécessaire." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Convertir une ville Argent illimité en ville normale" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
-                    "Pour les villes commencées avec <Argent illimité>.\n" +
-                    "Pendant que cette ville est chargée, convertit la sauvegarde en budget normal à argent limité pour retrouver les défis d'argent.\n" +
-                    "Le bouton est <désactivé/grisé> sauf si la ville chargée est de type <Argent illimité> et que <Convertisseur d'argent illimité> est ON [ ✓ ].\n" +
-                    "Fais une sauvegarde et utilise à tes risques ; City Watchdog ne peut pas annuler cette conversion." },
-
-                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
-                    "Convertir cette ville de l'Argent illimité vers l'argent limité normal ?\n" +
-                    "Sauvegarde d'abord une copie ; City Watchdog ne peut pas annuler cela.\n" +
-                    "Confirmer ?" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Pour les villes commencées avec <Argent illimité>.\nPendant que cette ville est chargée, cela convertit la sauvegarde en budget normal à argent limité afin que la ville ait de nouveau des défis d’argent réguliers.\nLe bouton est <désactivé/grisé> sauf si la ville chargée est de type <Argent illimité>\net si <Convertisseur d’argent illimité> est ON [ ✓ ].\nFaites une sauvegarde et utilisez à vos risques ; City Watchdog ne peut pas annuler cette conversion." },
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Convertir cette ville d’Argent illimité vers de l’argent limité normal ?\nSauvegardez d’abord une copie ; City Watchdog ne peut pas annuler cela.\nConfirmer ?" },
 
                 // --- About tab ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Nom du mod" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.NameText)), "Nom affiché de ce mod." },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.VersionText)), "Version" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "Version actuelle du mod." },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Ouvre la page de l'auteur sur Paradox Mods." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "Debug Audit to Log" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)),
-                    "Not needed for normal gameplay.\n" +
-                    "For testers and post-patch checks: writes a CityWatchdog.log report comparing live game notification prefabs with the notification icons City Watchdog currently controls." },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Open Log" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
-                    "Opens CityWatchdog.log if it exists.\n" +
-                    "If the log file is missing, opens the Logs folder instead." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Ouvre la page Paradox Mods de l’auteur." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "Rapport de débogage vers le journal" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)), "<Pas nécessaire pour le jeu normal.>\nPour les testeurs et les vérifications après patch du jeu : écrit un rapport <Logs/CityWatchdog.log>\ncomparant les prefabs de notification du jeu en direct avec les icônes de notification actuellement contrôlées par Watchdog." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Ouvrir le journal" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "Ouvre </Logs/CityWatchdog.log> s’il existe.\nSi le fichier journal est absent, ouvre le dossier Logs/ à la place." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Afficher les instructions" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Affiche ou masque les instructions ci-dessous." },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
-                    "<Panneau de notifications>\n" +
-                    "1. Clique sur le bouton City Watchdog (en haut à gauche) pour ouvrir le panneau.\n" +
-                    "2. ASC/DESC pour trier.\n" +
-                    "3. Utilise Toggle All pour un réglage rapide, ou ouvre une section pour changer les icônes une par une.\n" +
-                    "4. City Watchdog masque ou affiche seulement les icônes ; il ne corrige pas le problème réel de la ville.\n\n" +
-                    "<Aides d'argent>\n" +
-                    "1. Vue argent ajoute des valeurs /h ou /mo à côté des flèches argent et population dans la barre du bas.\n" +
-                    "2. Ajouter et retirer de l'argent : utilise le <Montant des raccourcis d'argent>.\n" +
-                    "3. L'ajout d'argent automatique surveille le solde de la ville lorsqu'elle est chargée et ajoute de l'argent sous le seuil.\n" +
-                    "4. Convertir une sauvegarde Argent illimité concerne seulement les villes commencées en Argent illimité et City Watchdog <ne peut pas l'annuler>.\n\n" +
-                    "<Jalon personnalisé>\n" +
-                    "Définis l'argent initial et choisis les jalons dans le menu Options avant de charger ou démarrer une ville." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Affiche ou masque les instructions d’utilisation ci-dessous." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)), "<Panneau des notifications>\n1. Cliquez sur le bouton City Watchdog (en haut à gauche), ou appuyez sur Shift+N, pour ouvrir le panneau.\n2. Triez ASC/DESC.\n3. Toggle All pour tout activer/désactiver rapidement, ou développez une section pour modifier des icônes précises.\n4. Affiche ou masque seulement les icônes ; ne corrige pas le problème de la ville.\n\n<Aides d’argent>\n1. Ajouter ou retirer de l’argent : utilisez le <Montant du raccourci argent> par défaut [ ou ].\n2. L’ajout automatique d’argent surveille le budget pendant qu’une ville est chargée et ajoute de l’argent si le solde est sous le seuil.\n3. Money View ajoute des valeurs numériques à la barre argent/population et aux info-bulles au survol.\n4. Convertir une sauvegarde Argent illimité est seulement pour les villes commencées avec Argent illimité et est <irréversible>.\n\n<Jalon personnalisé>\nRéglez l’argent initial et choisissez les jalons dans le menu Options avant de charger ou de démarrer une ville." },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
-
-                // --- Notification panel common text ---
-                { m_Settings.GetUILocaleID("EntryButtonTitle"), "CITY WATCHDOG" },
-                { m_Settings.GetUILocaleID("EntryButtonDescription"), "Ouvrir le panneau des icônes de notification." },
-                { m_Settings.GetUILocaleID("NotificationIconShowOrHide"),
-                    "Ouvre les lignes ; [✓] affiche les alertes, décoché les masque.\n" +
-                    "Ne corrige rien, ça range juste les icônes." },
-                { m_Settings.GetUILocaleID("NotificationTooltipsOff"),
-                    "Les infobulles sont désactivées.\n" +
-                    "Cliquez ici pour les réactiver." },
-
-                { m_Settings.GetUILocaleID("TooltipToggleDisable"),
-                    "Masquer toutes les info-bulles du jeu.\n" +
-                    "Cliquez pour les désactiver jusqu'au prochain clic." },
-
-                { m_Settings.GetUILocaleID("TooltipToggleEnable"),
-                    "Toutes les info-bulles sont désactivées.\n" +
-                    "Cliquez pour les réactiver." },
-                { m_Settings.GetUILocaleID("ToggleAll"), "Tout basculer" },
-                { m_Settings.GetUILocaleID("ExpandAll"), "Tout ouvrir" },
-                { m_Settings.GetUILocaleID("CollapseAll"), "Tout fermer" },
-                { m_Settings.GetUILocaleID("SortAscending"), "↑Trier Croissant" },
-                { m_Settings.GetUILocaleID("SortDescending"), "↓Trier Décroissant" },
-                { m_Settings.GetUILocaleID("ToggleAllTooltip"),
-                    "Affiche/masque toutes les icônes.\n" +
-                    "Couleur : vert = tout activé ; bleu = mixte ; rouge = tout désactivé." },
-
-                // --- Tooltip labels ---
-                { m_Settings.GetUILocaleID("MoneyViewTooltipIncome"), "Revenus :" },
-                { m_Settings.GetUILocaleID("MoneyViewTooltipExpenses"), "Dépenses :" },
-                { m_Settings.GetUILocaleID("MoneyViewTooltipNet"), "Net :" },
-                { m_Settings.GetUILocaleID("MoneyViewTooltipTotal"), "Total :" },
-                { m_Settings.GetUILocaleID("PopulationTooltipCurrentTrend"), "Tendance actuelle :" },
-                { m_Settings.GetUILocaleID("PopulationTooltipBirths"), "Naissances :" },
-                { m_Settings.GetUILocaleID("PopulationTooltipDeaths"), "Décès :" },
-                { m_Settings.GetUILocaleID("PopulationTooltipHomeless"), "Sans-abri :" },
-                { m_Settings.GetUILocaleID("PopulationTooltipMovedIn"), "Arrivées :" },
-                { m_Settings.GetUILocaleID("PopulationTooltipMovedOut"), "Départs :" },
-
-                // --- Electricity notifications ---
-                { m_Settings.GetUILocaleID("Electricity"), "ÉLECTRICITÉ" },
-                { m_Settings.GetUILocaleID("ElectricityElectricityNotification"), "Pas assez d'électricité" },
-                { m_Settings.GetUILocaleID("ElectricityBottleneckNotification"), "Goulot d'étranglement électrique" },
-                { m_Settings.GetUILocaleID("ElectricityBuildingBottleneckNotification"), "Mauvais flux électrique" },
-                { m_Settings.GetUILocaleID("ElectricityNotEnoughProductionNotification"), "Centrale surchargée" },
-                { m_Settings.GetUILocaleID("ElectricityTransformerNotification"), "Transformateur surchargé" },
-                { m_Settings.GetUILocaleID("ElectricityNotEnoughConnectedNotification"), "Pas assez de lignes de sortie connectées" },
-                { m_Settings.GetUILocaleID("ElectricityBatteryEmptyNotification"), "Batterie vide" },
-                { m_Settings.GetUILocaleID("ElectricityLowVoltageNotConnected"), "Câble électrique non connecté" },
-                { m_Settings.GetUILocaleID("ElectricityHighVoltageNotConnected"), "Ligne électrique non connectée" },
-
-                // --- Water pipe notifications ---
-                { m_Settings.GetUILocaleID("WaterPipe"), "EAU / ÉGOUTS" },
-                { m_Settings.GetUILocaleID("WaterPipeWaterNotification"), "Pas assez d'eau" },
-                { m_Settings.GetUILocaleID("WaterPipeDirtyWaterNotification"), "Pompe à eau polluée" },
-                { m_Settings.GetUILocaleID("WaterPipeSewageNotification"), "Égouts refoulés" },
-                { m_Settings.GetUILocaleID("WaterPipeWaterPipeNotConnectedNotification"), "Conduite d'eau non connectée" },
-                { m_Settings.GetUILocaleID("WaterPipeSewagePipeNotConnectedNotification"), "Conduite d'égout non connectée" },
-                { m_Settings.GetUILocaleID("WaterPipeNotEnoughWaterCapacityNotification"), "Installation d'eau surchargée" },
-                { m_Settings.GetUILocaleID("WaterPipeNotEnoughSewageCapacityNotification"), "Installation d'égout surchargée" },
-                { m_Settings.GetUILocaleID("WaterPipeNotEnoughGroundwaterNotification"), "Niveau des eaux souterraines trop bas" },
-                { m_Settings.GetUILocaleID("WaterPipeNotEnoughSurfaceWaterNotification"), "Niveau d'eau trop bas" },
-                { m_Settings.GetUILocaleID("WaterPipeDirtyWaterPumpNotification"), "Pompe à eau polluée" },
-
-                // --- Building notifications ---
-                { m_Settings.GetUILocaleID("Building"), "BÂTIMENT" },
-                { m_Settings.GetUILocaleID("BuildingAbandonedCollapsedNotification"), "Effondré" },
-                { m_Settings.GetUILocaleID("BuildingAbandonedNotification"), "Abandonné" },
-                { m_Settings.GetUILocaleID("BuildingCondemnedNotification"), "Condamné" },
-                { m_Settings.GetUILocaleID("BuildingTurnedOffNotification"), "Désactivé" },
-                { m_Settings.GetUILocaleID("BuildingHighRentNotification"), "Loyer élevé" },
-
-                // --- Traffic notifications ---
-                { m_Settings.GetUILocaleID("Traffic"), "TRAFIC" },
-                { m_Settings.GetUILocaleID("TrafficBottleneckNotification"), "Embouteillage" },
-                { m_Settings.GetUILocaleID("TrafficDeadEndNotification"), "Impasse" },
-                { m_Settings.GetUILocaleID("TrafficRoadConnectionNotification"), "Route requise" },
-                { m_Settings.GetUILocaleID("TrafficTrackConnectionNotification"), "Voie non connectée" },
-                { m_Settings.GetUILocaleID("TrafficCarConnectionNotification"), "Pas d'accès voiture" },
-                { m_Settings.GetUILocaleID("TrafficShipConnectionNotification"), "Pas de connexion maritime" },
-                { m_Settings.GetUILocaleID("TrafficTrainConnectionNotification"), "Pas de connexion ferroviaire" },
-                { m_Settings.GetUILocaleID("TrafficPedestrianConnectionNotification"), "Pas d'accès piéton" },
-                { m_Settings.GetUILocaleID("TrafficBicycleConnectionNotification"), "Pas d'accès vélo" },
-
-                // --- Company notifications ---
-                { m_Settings.GetUILocaleID("Company"), "ENTREPRISE" },
-                { m_Settings.GetUILocaleID("CompanyNoInputsNotification"), "Coûts de ressources élevés" },
-                { m_Settings.GetUILocaleID("CompanyNoCustomersNotification"), "Pas assez de clients" },
-
-                // --- Work provider notifications ---
-                { m_Settings.GetUILocaleID("WorkProvider"), "EMPLOIS" },
-                { m_Settings.GetUILocaleID("WorkProviderUneducatedNotification"), "Manque de main-d'œuvre" },
-                { m_Settings.GetUILocaleID("WorkProviderEducatedNotification"), "Manque de main-d'œuvre qualifiée" },
-
-                // --- Disaster notifications ---
-                { m_Settings.GetUILocaleID("Disaster"), "CATASTROPHE" },
-                { m_Settings.GetUILocaleID("DisasterWeatherDamageNotification"), "Dégâts météo" },
-                { m_Settings.GetUILocaleID("DisasterWeatherDestroyedNotification"), "Détruit par la météo" },
-                { m_Settings.GetUILocaleID("DisasterWaterDamageNotification"), "Dégâts des eaux" },
-                { m_Settings.GetUILocaleID("DisasterWaterDestroyedNotification"), "Détruit par inondation" },
-                { m_Settings.GetUILocaleID("DisasterDestroyedNotification"), "Ce bâtiment a été détruit" },
-
-                // --- Fire notifications ---
-                { m_Settings.GetUILocaleID("Fire"), "INCENDIE" },
-                { m_Settings.GetUILocaleID("FireFireNotification"), "En feu" },
-                { m_Settings.GetUILocaleID("FireBurnedDownNotification"), "Brûlé" },
-
-                // --- Garbage notifications ---
-                { m_Settings.GetUILocaleID("Garbage"), "DÉCHETS" },
-                { m_Settings.GetUILocaleID("GarbageGarbageNotification"), "Déchets qui s'accumulent" },
-                { m_Settings.GetUILocaleID("GarbageFacilityFullNotification"), "Installation pleine" },
-
-                // --- Healthcare notifications ---
-                { m_Settings.GetUILocaleID("Healthcare"), "SANTÉ" },
-                { m_Settings.GetUILocaleID("HealthcareAmbulanceNotification"), "En attente d'ambulance" },
-                { m_Settings.GetUILocaleID("HealthcareHearseNotification"), "En attente d'un corbillard" },
-                { m_Settings.GetUILocaleID("HealthcareFacilityFullNotification"), "Installation pleine" },
-
-                // --- Police notifications ---
-                { m_Settings.GetUILocaleID("Police"), "POLICE" },
-                { m_Settings.GetUILocaleID("PoliceTrafficAccidentNotification"), "Accident de la route" },
-                { m_Settings.GetUILocaleID("PoliceCrimeSceneNotification"), "Scène de crime" },
-
-                // --- Pollution notifications ---
-                { m_Settings.GetUILocaleID("Pollution"), "POLLUTION" },
-                { m_Settings.GetUILocaleID("PollutionAirPollutionNotification"), "Pollution de l'air" },
-                { m_Settings.GetUILocaleID("PollutionNoisePollutionNotification"), "Pollution sonore" },
-                { m_Settings.GetUILocaleID("PollutionGroundPollutionNotification"), "Pollution du sol" },
-
-                // --- Resource and route notifications ---
-                { m_Settings.GetUILocaleID("ResourceConsumer"), "CONSOMMATEUR DE RESSOURCES" },
-                { m_Settings.GetUILocaleID("ResourceConsumerNoResourceNotification"), "Stocks faibles" },
-                { m_Settings.GetUILocaleID("ResourceConsumerNoFuelNotification"), "Pas de carburant" },
-                { m_Settings.GetUILocaleID("ResourceConnection"), "CONNEXION DE RESSOURCES" },
-                { m_Settings.GetUILocaleID("ResourceConnectionOilPipeNotConnectedNotification"), "Oléoduc non connecté" },
-                { m_Settings.GetUILocaleID("ResourceConnectionFishingPierNotConnectedNotification"), "Quai de pêche non connecté" },
-                { m_Settings.GetUILocaleID("ResourceConnectionWarningNotification"), "Autre ligne de ressources non connectée" },
-                { m_Settings.GetUILocaleID("Route"), "ITINÉRAIRE" },
-                { m_Settings.GetUILocaleID("RoutePathfindNotification"), "Calcul d'itinéraire échoué" },
-                { m_Settings.GetUILocaleID("RouteGateBypassNotification"), "Contournement de porte existant" },
-
-                // --- Transport line notifications ---
-                { m_Settings.GetUILocaleID("TransportLine"), "LIGNE DE TRANSPORT" },
-                { m_Settings.GetUILocaleID("TransportLineVehicleNotification"), "Aucun véhicule" },
-
             };
 
             return entries;
