@@ -22,8 +22,13 @@
 
         <Nullable>enable</Nullable>
 
+		<!-- Code quality: enable modern analyzer checks without requiring XML docs. -->
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisMode>Recommended</AnalysisMode>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
         <!-- Versioning: single source of truth -->
-        <Version>0.9.5</Version>
+        <Version>1.0.1</Version>
         <AssemblyVersion>$(Version).0</AssemblyVersion>
         <FileVersion>$(Version).0</FileVersion>
 
