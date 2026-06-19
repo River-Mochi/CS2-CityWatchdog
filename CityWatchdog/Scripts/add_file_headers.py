@@ -1,4 +1,4 @@
-﻿# <copyright file="add_file_headers.py" company="River-Mochi">
+# <copyright file="add_file_headers.py" company="River-Mochi">
 # Copyright (c) 2026 River-Mochi, MIT License.
 # See LICENSE file in the project root for full license info.
 # This copyright notice and the MIT License notice must be kept
@@ -21,14 +21,23 @@ Supported source files:
   .cs
   .py
   .ps1
+
+Scan behavior:
+  Uses git ls-files when available, so ignored folders such as bin, obj,
+  node_modules, .git, and .vs are not scanned.
 """
 
 from __future__ import annotations
 
 import argparse
+import os
+import subprocess
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 
+
+UTF8_BOM = b"\xef\xbb\xbf"
 
 SKIP_DIRS = {
     ".git",
@@ -45,6 +54,36 @@ SUPPORTED_SUFFIXES = {
     ".py": "#",
     ".ps1": "#",
 }
+
+
+@dataclass
+class FileResult:
+    """Result from processing one file."""
+
+    changed: bool
+    new_text: str
+    had_header: bool
+    header_replaced: bool
+    header_added: bool
+    had_bom: bool
+    had_crlf: bool
+    utf8_error: bool
+
+
+@dataclass
+class RunStats:
+    """Summary counters for one run."""
+
+    candidate_files: int = 0
+    supported_files: int = 0
+    skipped_files: int = 0
+    updated_files: int = 0
+    unchanged_files: int = 0
+    header_added: int = 0
+    header_replaced: int = 0
+    bom_found: int = 0
+    crlf_found: int = 0
+    utf8_errors: int = 0
 
 
 def find_repo_root(script_path: Path) -> Path:
@@ -65,67 +104,134 @@ def should_skip(path: Path) -> bool:
     return any(skip_dir in parts for skip_dir in SKIP_DIRS)
 
 
+def is_supported_source_file(path: Path) -> bool:
+    """Return true if the file extension is supported."""
+    return path.suffix.lower() in SUPPORTED_SUFFIXES
+
+
 def normalize_lf(text: str) -> str:
     """Normalize line endings in files the script writes."""
     return text.replace("\r\n", "\n").replace("\r", "\n")
 
 
+def read_utf8_text(path: Path) -> tuple[str, bool, bool, bool]:
+    """Read UTF-8 text and report BOM, CRLF, and UTF-8 errors."""
+    raw = path.read_bytes()
+    had_bom = raw.startswith(UTF8_BOM)
+    had_crlf = b"\r\n" in raw
+
+    if had_bom:
+        raw = raw[len(UTF8_BOM):]
+
+    try:
+        return raw.decode("utf-8"), had_bom, had_crlf, False
+    except UnicodeDecodeError:
+        return "", had_bom, had_crlf, True
+
+
+def get_comment_prefix(path: Path) -> str:
+    """Return the comment prefix for this source file."""
+    return SUPPORTED_SUFFIXES[path.suffix.lower()]
+
+
 def has_copyright_header(text: str) -> bool:
     """Return true if a copyright header appears near the top of the file."""
-    return "<copyright file=" in text[:1000]
+    top = text[:1500].lower()
+    return "copyright" in top and "river-mochi" in top
 
 
-def is_header_start(line: str) -> bool:
-    """Return true for a copyright header opening line."""
-    stripped = line.strip()
-    return stripped.startswith("// <copyright file=") or stripped.startswith("# <copyright file=")
+def is_comment_line(line: str, prefix: str) -> bool:
+    """Return true if the line is a comment line for this source type."""
+    return line.lstrip().startswith(prefix)
 
 
-def is_header_end(line: str) -> bool:
-    """Return true for a copyright header closing line.
+def is_copyright_block_line(line: str) -> bool:
+    """Return true if the line looks like part of a copyright/license block."""
+    lower = line.lower()
 
-    Supports both:
-      // </copyright>
-      // ================= </copyright> ======================
-      # </copyright>
-      # ================= </copyright> ======================
+    return (
+        "copyright" in lower
+        or "license" in lower
+        or "river-mochi" in lower
+        or "<copyright" in lower
+        or "</copyright>" in lower
+        or "all copies" in lower
+        or "substantial portions" in lower
+        or "project root" in lower
+        or "full license info" in lower
+    )
+
+
+def find_existing_header_range(text: str, prefix: str) -> tuple[int, int] | None:
+    """Find a top-of-file copyright block to remove.
+
+    This supports both the current XML-style block and older comment-only blocks.
+    It only removes a top comment block if that block contains copyright/license text.
     """
-    stripped = line.strip()
-
-    if not (stripped.startswith("//") or stripped.startswith("#")):
-        return False
-
-    return "</copyright>" in stripped
-
-
-def remove_existing_header(text: str) -> str:
-    """Remove an existing top-of-file copyright block, including bad blank-line versions."""
     lines = text.split("\n")
 
     start = 0
     while start < len(lines) and lines[start].strip() == "":
         start += 1
 
-    if start >= len(lines) or not is_header_start(lines[start]):
-        return text
+    if start >= len(lines):
+        return None
+
+    if not is_comment_line(lines[start], prefix):
+        return None
 
     end = start
+    saw_copyright_text = False
+    saw_explicit_end = False
+
     while end < len(lines):
-        if is_header_end(lines[end]):
+        line = lines[end]
+
+        if not is_comment_line(line, prefix):
+            break
+
+        if is_copyright_block_line(line):
+            saw_copyright_text = True
+
+        if "</copyright>" in line.lower():
+            saw_explicit_end = True
             end += 1
             break
 
         end += 1
 
+    if not saw_copyright_text:
+        return None
+
+    # If there was no explicit </copyright>, keep the removal conservative:
+    # remove only the leading comment block that contains copyright/license text.
+    if not saw_explicit_end:
+        while end > start and not is_copyright_block_line(lines[end - 1]):
+            end -= 1
+
     while end < len(lines) and lines[end].strip() == "":
         end += 1
 
-    return "\n".join(lines[end:])
+    return start, end
+
+
+def remove_existing_header(text: str, prefix: str) -> tuple[str, bool]:
+    """Remove an existing top-of-file copyright block."""
+    header_range = find_existing_header_range(text, prefix)
+
+    if header_range is None:
+        return text, False
+
+    start, end = header_range
+    lines = text.split("\n")
+    new_text = "\n".join(lines[:start] + lines[end:])
+
+    return new_text, True
 
 
 def make_header(path: Path, year: int) -> str:
     """Create the exact header for this source file."""
-    prefix = SUPPORTED_SUFFIXES[path.suffix.lower()]
+    prefix = get_comment_prefix(path)
 
     return (
         f'{prefix} <copyright file="{path.name}" company="River-Mochi">\n'
@@ -138,23 +244,154 @@ def make_header(path: Path, year: int) -> str:
     )
 
 
-def process_file(path: Path, year: int, replace_existing: bool) -> tuple[bool, str]:
+def process_file(path: Path, year: int, replace_existing: bool) -> FileResult:
     """Return whether the file would change and the new file text."""
-    original = path.read_text(encoding="utf-8-sig")
-    text = normalize_lf(original)
+    original_text, had_bom, had_crlf, utf8_error = read_utf8_text(path)
 
-    header_exists = has_copyright_header(text)
+    if utf8_error:
+        return FileResult(
+            changed=False,
+            new_text="",
+            had_header=False,
+            header_replaced=False,
+            header_added=False,
+            had_bom=had_bom,
+            had_crlf=had_crlf,
+            utf8_error=True,
+        )
 
-    if header_exists and not replace_existing:
-        return False, original
+    text = normalize_lf(original_text)
+    prefix = get_comment_prefix(path)
 
-    if header_exists and replace_existing:
-        text = remove_existing_header(text)
+    had_header = has_copyright_header(text)
+    header_replaced = False
+    header_added = False
+
+    if replace_existing:
+        text, header_replaced = remove_existing_header(text, prefix)
+
+        if not header_replaced:
+            header_added = True
+
+        text = text.lstrip("\n")
+        new_text = make_header(path, year) + text
+
+        return FileResult(
+            changed=had_bom or had_crlf or new_text != original_text,
+            new_text=new_text,
+            had_header=had_header,
+            header_replaced=header_replaced,
+            header_added=header_added,
+            had_bom=had_bom,
+            had_crlf=had_crlf,
+            utf8_error=False,
+        )
+
+    if had_header:
+        # Rewrites only when needed for UTF-8 no BOM or LF normalization.
+        return FileResult(
+            changed=had_bom or had_crlf or text != original_text,
+            new_text=text,
+            had_header=True,
+            header_replaced=False,
+            header_added=False,
+            had_bom=had_bom,
+            had_crlf=had_crlf,
+            utf8_error=False,
+        )
 
     text = text.lstrip("\n")
     new_text = make_header(path, year) + text
 
-    return new_text != original, new_text
+    return FileResult(
+        changed=True,
+        new_text=new_text,
+        had_header=False,
+        header_replaced=False,
+        header_added=True,
+        had_bom=had_bom,
+        had_crlf=had_crlf,
+        utf8_error=False,
+    )
+
+
+def try_git_ls_files(root: Path) -> list[Path] | None:
+    """Return tracked and untracked non-ignored files using git, or None on failure."""
+    try:
+        completed = subprocess.run(
+            ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],
+            cwd=root,
+            check=True,
+            capture_output=True,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        return None
+
+    raw_paths = completed.stdout.split(b"\0")
+    paths: list[Path] = []
+
+    for raw_path in raw_paths:
+        if not raw_path:
+            continue
+
+        try:
+            relative_text = raw_path.decode("utf-8")
+        except UnicodeDecodeError:
+            relative_text = raw_path.decode(sys.getfilesystemencoding(), errors="replace")
+
+        paths.append(root / relative_text)
+
+    return paths
+
+
+def walk_source_files(root: Path) -> list[Path]:
+    """Fallback scanner that prunes skipped directories before entering them."""
+    paths: list[Path] = []
+
+    for current_root, dirnames, filenames in os.walk(root):
+        current_path = Path(current_root)
+
+        dirnames[:] = [
+            dirname
+            for dirname in dirnames
+            if dirname.lower() not in SKIP_DIRS
+        ]
+
+        for filename in filenames:
+            paths.append(current_path / filename)
+
+    return paths
+
+
+def iter_candidate_files(root: Path, use_git: bool) -> tuple[list[Path], str]:
+    """Return candidate files and the scan method used."""
+    if use_git:
+        git_paths = try_git_ls_files(root)
+
+        if git_paths is not None:
+            return git_paths, "git ls-files"
+
+    return walk_source_files(root), "os.walk fallback"
+
+
+def print_summary(stats: RunStats, apply: bool) -> None:
+    """Print a scan summary."""
+    action_word = "Fixed" if apply else "Would fix"
+
+    print()
+    print("Summary")
+    print("-------")
+    print(f"Candidate files:      {stats.candidate_files}")
+    print(f"Supported files:      {stats.supported_files}")
+    print(f"Skipped files:        {stats.skipped_files}")
+    print(f"Updated files:        {stats.updated_files}")
+    print(f"Unchanged files:      {stats.unchanged_files}")
+    print(f"Header added:         {stats.header_added}")
+    print(f"Header replaced:      {stats.header_replaced}")
+    print(f"UTF-8 BOM {action_word}:    {stats.bom_found}")
+    print(f"CRLF {action_word}:         {stats.crlf_found}")
+    print(f"UTF-8 decode errors:  {stats.utf8_errors}")
+    print(f"Valid UTF-8:          {stats.utf8_errors == 0}")
 
 
 def main() -> int:
@@ -175,6 +412,11 @@ def main() -> int:
         help="Repo root. Default: auto-detected from this script.",
     )
     parser.add_argument("--year", type=int, default=2026)
+    parser.add_argument(
+        "--no-git",
+        action="store_true",
+        help="Do not use git ls-files; use directory walk fallback instead.",
+    )
     args = parser.parse_args()
 
     if args.apply and args.check:
@@ -182,52 +424,87 @@ def main() -> int:
         return 2
 
     root = Path(args.root).resolve()
-    changed_count = 0
+    stats = RunStats()
 
-    for path in sorted(root.rglob("*")):
+    candidate_files, scan_method = iter_candidate_files(
+        root=root,
+        use_git=not args.no_git,
+    )
+
+    print(f"Scan root: {root}")
+    print(f"Scan method: {scan_method}")
+
+    for path in sorted(candidate_files):
+        stats.candidate_files += 1
+
         if not path.is_file():
             continue
 
-        if path.suffix.lower() not in SUPPORTED_SUFFIXES:
+        try:
+            rel = path.relative_to(root)
+        except ValueError:
+            stats.skipped_files += 1
             continue
 
-        rel = path.relative_to(root)
+        if not is_supported_source_file(path):
+            continue
 
         if should_skip(rel):
+            stats.skipped_files += 1
             continue
 
-        changed, new_text = process_file(
+        stats.supported_files += 1
+
+        result = process_file(
             path=path,
             year=args.year,
             replace_existing=args.replace_existing,
         )
 
-        if not changed:
+        if result.utf8_error:
+            stats.utf8_errors += 1
+            print(f"ERROR: Invalid UTF-8: {rel}")
             continue
 
-        changed_count += 1
+        if result.header_added:
+            stats.header_added += 1
+
+        if result.header_replaced:
+            stats.header_replaced += 1
+
+        if result.had_bom:
+            stats.bom_found += 1
+
+        if result.had_crlf:
+            stats.crlf_found += 1
+
+        if not result.changed:
+            stats.unchanged_files += 1
+            continue
+
+        stats.updated_files += 1
 
         if args.apply:
-            path.write_text(new_text, encoding="utf-8", newline="\n")
+            path.write_text(result.new_text, encoding="utf-8", newline="\n")
             print(f"Updated: {rel}")
         else:
             print(f"Would update: {rel}")
 
-    print()
+    print_summary(stats, apply=args.apply)
 
     if args.check:
-        if changed_count:
-            print(f"Header check failed. {changed_count} file(s) need header updates.")
+        if stats.updated_files or stats.utf8_errors:
+            print()
+            print(f"Header check failed. {stats.updated_files} file(s) need updates.")
             return 1
 
+        print()
         print("Header check passed.")
         return 0
 
-    if args.apply:
-        print(f"Updated {changed_count} file(s).")
-    else:
-        print(f"Dry run only. {changed_count} file(s) would be updated.")
-        print("Re-run with --apply to write changes.")
+    if not args.apply:
+        print()
+        print("Dry run only. Re-run with --apply to write changes.")
 
     return 0
 
