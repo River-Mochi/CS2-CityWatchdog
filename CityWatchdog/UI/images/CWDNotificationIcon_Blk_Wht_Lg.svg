@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="40"
+     height="40"
+     viewBox="16 11 72 73"
+     role="img"
+     aria-label="Notification icon">
+
+  <!-- Main notification bubble: outer black outline -->
+  <g fill="none"
+     stroke="#111111"
+     stroke-width="9.4"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+    <path d="M36 22 H66" stroke-linecap="butt"/>
+    <path d="M82 42 V61 Q82 72 71 72 H63 L56 80 Q52 84 48 80 L41 72 H33 Q22 72 22 61 V36 Q22 22 36 22"/>
+  </g>
+
+  <!-- Main notification bubble: inner white outline -->
+  <g fill="none"
+     stroke="#ffffff"
+     stroke-width="5.8"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+    <path d="M36 22 H66" stroke-linecap="butt"/>
+    <path d="M82 42 V61 Q82 72 71 72 H63 L56 80 Q52 84 48 80 L41 72 H33 Q22 72 22 61 V36 Q22 22 36 22"/>
+  </g>
+
+  <!-- Top-right badge -->
+  <circle cx="76"
+          cy="24"
+          r="11.4"
+          fill="#f97316"
+          stroke="#111111"
+          stroke-width="2.4"/>
+
+  <!-- Bigger three message dots -->
+  <circle cx="39.5" cy="54" r="5.8" fill="#ff4d5a"/>
+  <circle cx="52"   cy="54" r="5.8" fill="#facc15"/>
+  <circle cx="64.5" cy="54" r="5.8" fill="#38bdf8"/>
+</svg>
