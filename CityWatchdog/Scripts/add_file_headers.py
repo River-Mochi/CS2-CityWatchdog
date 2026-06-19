@@ -1,4 +1,4 @@
-﻿# <copyright file="add_file_headers.py" company="River-Mochi">
+# <copyright file="add_file_headers.py" company="River-Mochi">
 # Copyright (c) 2026 River-Mochi. All rights reserved.
 # Licensed under the MIT License; you may not use this file except in compliance with this License.
 # See LICENSE file in the project root for full license information.
@@ -11,16 +11,15 @@ Add standard River-Mochi MIT file headers to source files.
 
 Dry run by default.
 
-Common use from repo root:
-  py -3 Scripts/add_file_headers.py
-  py -3 Scripts/add_file_headers.py --apply
-  py -3 Scripts/add_file_headers.py --apply --replace-existing
-  py -3 Scripts/add_file_headers.py --check
-  py -3 Scripts/add_file_headers.py --check --replace-existing
-
-Also works when Scripts/ is under a project folder, for example:
+Common use:
+  py -3 CityWatchdog/Scripts/add_file_headers.py
+  py -3 CityWatchdog/Scripts/add_file_headers.py --apply
   py -3 CityWatchdog/Scripts/add_file_headers.py --apply --replace-existing
-  py -3 SomeMod/SomeMod/Scripts/add_file_headers.py --apply --replace-existing
+  py -3 CityWatchdog/Scripts/add_file_headers.py --check
+  py -3 CityWatchdog/Scripts/add_file_headers.py --check --replace-existing
+
+If this script is placed at repo root:
+  py -3 Scripts/add_file_headers.py --apply --replace-existing
 
 Supported source files:
   .cs
@@ -37,6 +36,10 @@ Repo-root behavior:
     /Scripts
     /Project/Scripts
     /Project/Project/Scripts
+
+Important:
+  Python must still be given the real path to this script. Repo-root detection
+  cannot run until Python has opened this file.
 """
 
 from __future__ import annotations
@@ -168,7 +171,6 @@ def is_copyright_block_line(line: str) -> bool:
     return (
         "copyright" in lower
         or "license" in lower
-        or "licence" in lower
         or "river-mochi" in lower
         or "<copyright" in lower
         or "</copyright>" in lower
@@ -177,9 +179,7 @@ def is_copyright_block_line(line: str) -> bool:
         or "substantial portions" in lower
         or "project root" in lower
         or "license file" in lower
-        or "licence file" in lower
         or "license notice" in lower
-        or "licence notice" in lower
         or "full license information" in lower
         or "full license info" in lower
     )
@@ -251,6 +251,7 @@ def remove_existing_header(text: str, prefix: str) -> tuple[str, bool]:
 
     return new_text, True
 
+
 def make_header(path: Path, year: int) -> str:
     """Create the exact header for this source file."""
     prefix = get_comment_prefix(path)
@@ -265,6 +266,7 @@ def make_header(path: Path, year: int) -> str:
         f"{prefix} ================= </copyright> ======================\n"
         "\n"
     )
+
 
 def process_file(path: Path, year: int, replace_existing: bool) -> FileResult:
     """Return whether the file would change and the new file text."""
