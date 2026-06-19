@@ -1,7 +1,9 @@
-﻿# <copyright file="add_file_headers.py" company="River-Mochi">
-# Copyright (c) 2026 River-Mochi. Licensed under the MIT License.
-# See LICENSE file in the project root for full license information.
-# </copyright>
+# <copyright file="Update-PublishConfig.ps1" company="River-Mochi">
+# Copyright (c) 2026 River-Mochi, MIT License.
+# See LICENSE file in the project root for full license info.
+# This copyright notice and the MIT License notice must be kept
+# with all copies or substantial portions of this code.
+# ================= </copyright> ======================
 
 # File: Update-PublishConfig.ps1
 # Version: 0.5.0

@@ -1,7 +1,9 @@
 // <copyright file="ShellOpen.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi, MIT License.
 // See LICENSE file in the project root for full license info.
-// </copyright>
+// This copyright notice and the MIT License notice must be kept
+// with all copies or substantial portions of this code.
+// ================= </copyright> ======================
 
 // File: Utils/ShellOpen.cs
 // Version: 0.3.0

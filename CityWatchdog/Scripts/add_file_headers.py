@@ -1,7 +1,9 @@
-# <copyright file="add_file_headers.py" company="River-Mochi">
+﻿# <copyright file="add_file_headers.py" company="River-Mochi">
 # Copyright (c) 2026 River-Mochi, MIT License.
 # See LICENSE file in the project root for full license info.
-# </copyright>
+# This copyright notice and the MIT License notice must be kept
+# with all copies or substantial portions of this code.
+# ================= </copyright> ======================
 
 """
 Add standard River-Mochi MIT file headers to source files.
@@ -14,6 +16,11 @@ Common use:
   py -3 CityWatchdog/Scripts/add_file_headers.py --apply --replace-existing
   py -3 CityWatchdog/Scripts/add_file_headers.py --check
   py -3 CityWatchdog/Scripts/add_file_headers.py --check --replace-existing
+
+Supported source files:
+  .cs
+  .py
+  .ps1
 """
 
 from __future__ import annotations
@@ -36,6 +43,7 @@ SKIP_DIRS = {
 SUPPORTED_SUFFIXES = {
     ".cs": "//",
     ".py": "#",
+    ".ps1": "#",
 }
 
 
@@ -74,9 +82,20 @@ def is_header_start(line: str) -> bool:
 
 
 def is_header_end(line: str) -> bool:
-    """Return true for a copyright header closing line."""
+    """Return true for a copyright header closing line.
+
+    Supports both:
+      // </copyright>
+      // ================= </copyright> ======================
+      # </copyright>
+      # ================= </copyright> ======================
+    """
     stripped = line.strip()
-    return stripped == "// </copyright>" or stripped == "# </copyright>"
+
+    if not (stripped.startswith("//") or stripped.startswith("#")):
+        return False
+
+    return "</copyright>" in stripped
 
 
 def remove_existing_header(text: str) -> str:
@@ -112,7 +131,9 @@ def make_header(path: Path, year: int) -> str:
         f'{prefix} <copyright file="{path.name}" company="River-Mochi">\n'
         f"{prefix} Copyright (c) {year} River-Mochi, MIT License.\n"
         f"{prefix} See LICENSE file in the project root for full license info.\n"
-        f"{prefix} </copyright>\n"
+        f"{prefix} This copyright notice and the MIT License notice must be kept\n"
+        f"{prefix} with all copies or substantial portions of this code.\n"
+        f"{prefix} ================= </copyright> ======================\n"
         "\n"
     )
 
