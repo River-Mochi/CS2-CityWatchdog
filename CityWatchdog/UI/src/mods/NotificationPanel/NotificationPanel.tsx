@@ -45,17 +45,17 @@ import SortArrowDownPath from "../../../images/sort-arrow-down.svg";
 // Road-name toggle icon — single icon, CSS handles the blue "active" state.
 import RoadNameOnPath from "../../../images/icon-RoadNameOn.svg";
 
+// Road-arrow toggle icon — custom mod SVG emitted by webpack to coui://ui-mods/images/.
+import RoadArrowIconPath from "../../../images/icon-1-wayArrows.svg";
+
 const modIconSrc = TitleBarIconPath;
 const sortArrowUpSrc = SortArrowUpPath;
 const sortArrowDownSrc = SortArrowDownPath;
 const roadNameOnSrc = RoadNameOnPath;
+const roadArrowIconSrc = RoadArrowIconPath;
 
 // Info icon uses the built-in game media path.
 const infoIconSrc = "Media/Game/Icons/AdvisorInfoViewWhite.svg";
-
-// Road-arrow icon — vanilla one-way highway icon.
-// Reference by the same Media/ relative path the game uses internally, so no copy needed.
-const roadArrowIconSrc = "Media/Game/Icons/HighwayOneway1lane.svg";
 
 // Toolbar icons use built-in game media paths.
 // All.svg is the vanilla snap-options "all" icon.

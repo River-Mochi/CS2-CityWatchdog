@@ -31,11 +31,11 @@
         d="m19.451 19.826 3.657 3.065-.895.517-3.647-3.071.885-.511Zm5.486 4.598 3.656 3.064-.909.525-3.647-3.07.9-.519Zm5.484 4.597 3.636 3.047-.924.533-3.625-3.053.913-.527Zm5.464 4.58 3.576 2.997-.937.541-3.567-3.003.928-.535Zm5.405 4.53 3.758 3.149-.952.55-3.748-3.156.942-.543Z"/>
     </g>
 
-    <!-- A: slightly right, lower, and wider -->
-    <g transform="translate(32.7 35.2) scale(1.18 1) translate(-32.7 -35.2)">
+    <!-- A: nudged right, lower, wider, with thicker outline -->
+    <g transform="translate(32.7 36.4) scale(1.18 1) translate(-32.7 -36.4)">
       <text
         x="32.7"
-        y="35.2"
+        y="36.4"
         text-anchor="middle"
         dominant-baseline="middle"
         font-family="Arial, Helvetica, sans-serif"
@@ -43,7 +43,7 @@
         font-weight="700"
         fill="#FFFFFF"
         stroke="#222222"
-        stroke-width="1.8"
+        stroke-width="2.4"
         paint-order="stroke fill">A</text>
     </g>
   </g>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 64 64"
+     width="100%"
+     height="100%">
+
+  <!-- More clockwise and larger overall -->
+  <g transform="translate(32 32) rotate(15) scale(1.18) translate(-32 -32)">
+
+    <!-- Road / base shapes -->
+    <g id="road-base">
+      <path
+        fill="#C4C4C4"
+        d="M733.426-302.733l29.61 25.369 23.135-14.243v-1.623l-52.745-11.55Z"
+        transform="translate(-728.04 330.13)"/>
+
+      <path
+        fill="#D4D4D4"
+        d="M735.865-304.107l34.087 22.391 13.869-8.215-28.775-25.8Z"
+        transform="translate(-729.951 329.31)"/>
+
+      <path
+        fill="#949494"
+        d="M1224.4-1129.661l29.871 25.1 10.9-6.448-30.016-25.114Z"
+        transform="translate(-1219.047 1155.002)"/>
+
+      <path
+        fill="#949494"
+        d="M1224.4-1129.661l29.871 25.1 10.9-6.448-30.016-25.114Z"
+        transform="translate(-1206.995 1147.886)"/>
+    </g>
+
+    <!-- White arrows enlarged more -->
+    <g id="arrows" transform="translate(32 32) scale(1.32) translate(-32 -32)">
+      <path
+        fill="#FFFFFF"
+        d="M15735.836 2434.139l.937 6.54 1.877-1.049 6.6 6.079 3.01-1.765-6.471-5.883 2.157-1.245Z"
+        transform="translate(-15715.158 -2406.452)"/>
+
+      <path
+        fill="#FFFFFF"
+        d="M15735.836 2434.139l.937 6.54 1.877-1.049 6.6 6.079 3.01-1.765-6.471-5.883 2.157-1.245Z"
+        transform="translate(-15706.158 -2411.452)"/>
+    </g>
+
+  </g>
+</svg>
