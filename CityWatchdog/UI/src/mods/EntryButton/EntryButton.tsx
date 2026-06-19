@@ -21,7 +21,7 @@ import { VanillaComponentResolver } from "../../utils/vanilla";
 
 // Icon emitted by webpack to coui://ui-mods/images/.
 // Same SVG as the panel title-bar icon so the GTL launcher and the open panel match visually.
-import ModIconPath from "../../../images/NotificationIcon_GTL.svg";
+import ModIconPath from "../../../images/NotificationIcon_GTL3.svg";
 
 export const EntryButton = () => {
     const showPanel = useValue(controlPanelEnabled$);

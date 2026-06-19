@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     version="1.1"
+     viewBox="0 0 100 100"
+     width="100%"
+     height="100%"
+     role="img"
+     aria-label="Notification icon">
+
+  <!-- Shift whole icon a tiny bit right and up -->
+  <g transform="translate(1 -2)">
+    <!-- Centered and made a little wider -->
+    <g transform="translate(50 50) scale(1.18 1.16) translate(-50 -50)">
+
+      <!-- Outer white outline -->
+      <g fill="none"
+         stroke="#FFFFFF"
+         stroke-width="6.5"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+        <path d="M31 22H68Q82 22 82 36V61Q82 72 71 72H63L56 80Q52 84 48 80L41 72H28Q17 72 17 61V36Q17 22 31 22Z"/>
+      </g>
+
+      <!-- Inner white outline -->
+      <g fill="none"
+         stroke="#FFFFFF"
+         stroke-width="5.9"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+        <path d="M31 22H68Q82 22 82 36V61Q82 72 71 72H63L56 80Q52 84 48 80L41 72H28Q17 72 17 61V36Q17 22 31 22Z"/>
+      </g>
+
+      <!-- Four grey dots -->
+      <ellipse cx="33"   cy="53.5" rx="4.8" ry="5.9" fill="#D9D9D9"/>
+      <ellipse cx="42.5" cy="41.1" rx="5.4" ry="6.6" fill="#D9D9D9"/>
+      <ellipse cx="57"   cy="41.1" rx="5.4" ry="6.6" fill="#D9D9D9"/>
+      <ellipse cx="66"   cy="53.5" rx="4.8" ry="5.9" fill="#D9D9D9"/>
+
+    </g>
+  </g>
+</svg>

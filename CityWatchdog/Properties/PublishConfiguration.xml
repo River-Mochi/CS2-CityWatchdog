@@ -1,4 +1,4 @@
-<Publish>
+﻿<Publish>
 	<!--Id must be set in order to update existing mod. Leave blank for first publish.-->
 	<ModId Value="144908" />
 	<!--Name of the mod to display to players-->
@@ -97,6 +97,7 @@ tags: Visual, UI organize icons
 * added button to hide road names.
 * added Hotkey "\"
 * Updaed Options menu usage instructions, and all translation files.
+* added new logo icon paw.
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
 	<ExternalLink Type="github" Url="https://github.com/River-Mochi/CityWatchdog" />
