@@ -1,6 +1,6 @@
 # <copyright file="add_file_headers.py" company="River-Mochi">
 # Copyright (c) 2026 River-Mochi. All rights reserved.
-# Licensed under the MIT License; you may not use this file except in compliance with this License.
+# Licensed under the MIT License. You may not use this file except in compliance with this License.
 # See LICENSE file in the project root for full license information.
 # This notice and the MIT License notice must be kept with
 # all copies or substantial portions of this code.
@@ -259,7 +259,7 @@ def make_header(path: Path, year: int) -> str:
     return (
         f'{prefix} <copyright file="{path.name}" company="River-Mochi">\n'
         f"{prefix} Copyright (c) {year} River-Mochi. All rights reserved.\n"
-        f"{prefix} Licensed under the MIT License; you may not use this file except in compliance with this License.\n"
+        f"{prefix} Licensed under the MIT License. You may not use this file except in compliance with this License.\n"
         f"{prefix} See LICENSE file in the project root for full license information.\n"
         f"{prefix} This notice and the MIT License notice must be kept with\n"
         f"{prefix} all copies or substantial portions of this code.\n"

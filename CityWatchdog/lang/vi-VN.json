@@ -1,13 +1,11 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "Mở bảng biểu tượng thông báo.",
-  "NotificationIconShowOrHide": "Mở rộng các hàng; cảnh báo được chọn sẽ hiện, bỏ chọn sẽ ẩn.\nPhím tắt mặc định: Shift+N mở bảng, N chuyển tất cả, [ thêm tiền, ] trừ tiền.\nTính năng này không sửa vấn đề, chỉ ẩn sự lộn xộn của biểu tượng.",
   "TooltipToggle": "Hiện/ẩn TẤT CẢ tooltip khi rê chuột trong game.\nTooltip con trỏ trên công trình, cư dân, công cụ và các popup nhỏ trên nút UI của game.",
   "TitleBarTooltipPanelOn": "Bấm để hiện/ẩn tooltip của City Watchdog.",
   "TitleBarTooltipPanelOff": "Bấm để hiện/ẩn tooltip của City Watchdog.",
   "RoadNameToggleOn": "Bấm để ẩn tên đường.\nPhím tắt: \\",
   "RoadNameToggleOff": "Bấm để hiện tên đường.\nPhím tắt: \\",
-  "RoadArrowToggleOn": "Bấm để hiện/ẩn mũi tên đường một chiều trên mọi tuyến đường.\nĐiều này cũng ẩn tên đường như một hiệu ứng phụ.\nThông thường chỉ thấy khi công cụ đường đang hoạt động.",
   "RoadArrowToggleOff": "Bấm để hiện/ẩn mũi tên đường một chiều trên mọi tuyến đường.\nĐiều này cũng ẩn tên đường như một hiệu ứng phụ.\nThông thường chỉ thấy khi công cụ đường đang hoạt động.",
   "ToggleAll": "CHUYỂN TẤT CẢ",
   "ExpandAll": "Mở rộng tất cả",

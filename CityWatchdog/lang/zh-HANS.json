@@ -1,13 +1,11 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "打开通知图标面板。",
-  "NotificationIconShowOrHide": "展开行；勾选会显示警报，取消勾选会隐藏。\n默认快捷键：Shift+N 打开面板，N 全部切换，[ 添加金钱，] 减少金钱。\n这不会修复问题，只会隐藏杂乱的图标。",
   "TooltipToggle": "显示/隐藏游戏中所有悬停提示。\n包括建筑、市民、工具上的鼠标提示，以及游戏界面按钮上的小弹窗。",
   "TitleBarTooltipPanelOn": "点击显示/隐藏 City Watchdog 的提示。",
   "TitleBarTooltipPanelOff": "点击显示/隐藏 City Watchdog 的提示。",
   "RoadNameToggleOn": "点击隐藏道路名称。\n快捷键：\\",
   "RoadNameToggleOff": "点击显示道路名称。\n快捷键：\\",
-  "RoadArrowToggleOn": "点击显示/隐藏每条道路上的单行道箭头。\n这也会顺带隐藏道路名称。\n通常只有道路工具处于活动状态时才可见。",
   "RoadArrowToggleOff": "点击显示/隐藏每条道路上的单行道箭头。\n这也会顺带隐藏道路名称。\n通常只有道路工具处于活动状态时才可见。",
   "ToggleAll": "全部切换",
   "ExpandAll": "全部展开",

@@ -1,13 +1,11 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "Öffnet das Panel für Benachrichtigungssymbole.",
-  "NotificationIconShowOrHide": "Zeilen aufklappen; markierte Warnungen werden angezeigt, nicht markierte ausgeblendet.\nStandard-Hotkeys: Shift+N Panel, N alles umschalten, [ Geld hinzufügen, ] Geld abziehen.\nDas behebt keine Probleme, sondern versteckt Symbolchaos.",
   "TooltipToggle": "ALLE Hover-Tooltips des Spiels anzeigen/ausblenden.\nCursor-Tooltips über Gebäuden, Cims, Werkzeugen und kleine Popups auf UI-Schaltflächen.",
   "TitleBarTooltipPanelOn": "Klicken, um Tooltips für City Watchdog ein-/auszublenden.",
   "TitleBarTooltipPanelOff": "Klicken, um Tooltips für City Watchdog ein-/auszublenden.",
   "RoadNameToggleOn": "Klicken, um Straßennamen auszublenden.\nHotkey: \\",
   "RoadNameToggleOff": "Klicken, um Straßennamen anzuzeigen.\nHotkey: \\",
-  "RoadArrowToggleOn": "Klicken, um Einbahnstraßenpfeile auf allen Straßen ein-/auszublenden.\nDadurch werden auch Straßennamen als Nebeneffekt ausgeblendet.\nNormalerweise nur sichtbar, wenn ein Straßenwerkzeug aktiv ist.",
   "RoadArrowToggleOff": "Klicken, um Einbahnstraßenpfeile auf allen Straßen ein-/auszublenden.\nDadurch werden auch Straßennamen als Nebeneffekt ausgeblendet.\nNormalerweise nur sichtbar, wenn ein Straßenwerkzeug aktiv ist.",
   "ToggleAll": "ALLE UMSCHALTEN",
   "ExpandAll": "Alle aufklappen",

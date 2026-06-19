@@ -1,13 +1,11 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "Apri il pannello delle icone di notifica.",
-  "NotificationIconShowOrHide": "Espandi le righe; le allerte selezionate vengono mostrate, quelle non selezionate nascoste.\nTasti rapidi predefiniti: Shift+N pannello, N alterna tutto, [ aggiungi denaro, ] sottrai denaro.\nNon risolve i problemi, nasconde il disordine delle icone.",
   "TooltipToggle": "Mostra/nasconde TUTTI i tooltip del gioco al passaggio del mouse.\nTooltip del cursore su edifici, cittadini, strumenti e piccoli popup sui pulsanti dell’interfaccia.",
   "TitleBarTooltipPanelOn": "Fai clic per mostrare/nascondere i tooltip di City Watchdog.",
   "TitleBarTooltipPanelOff": "Fai clic per mostrare/nascondere i tooltip di City Watchdog.",
   "RoadNameToggleOn": "Fai clic per nascondere i nomi delle strade.\nTasto rapido: \\",
   "RoadNameToggleOff": "Fai clic per mostrare i nomi delle strade.\nTasto rapido: \\",
-  "RoadArrowToggleOn": "Fai clic per mostrare/nascondere le frecce di senso unico su ogni strada.\nQuesto nasconde anche i nomi delle strade come effetto secondario.\nDi norma sono visibili solo quando è attivo uno strumento stradale.",
   "RoadArrowToggleOff": "Fai clic per mostrare/nascondere le frecce di senso unico su ogni strada.\nQuesto nasconde anche i nomi delle strade come effetto secondario.\nDi norma sono visibili solo quando è attivo uno strumento stradale.",
   "ToggleAll": "ALTERNA TUTTO",
   "ExpandAll": "Espandi tutto",

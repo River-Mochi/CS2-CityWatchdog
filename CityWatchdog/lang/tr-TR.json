@@ -1,13 +1,11 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "Bildirim simgesi panelini aç.",
-  "NotificationIconShowOrHide": "Satırları genişlet; işaretli uyarılar gösterilir, işaretsizler gizlenir.\nVarsayılan kısayollar: Shift+N panel, N tümünü değiştir, [ para ekle, ] para çıkar.\nBu sorunları çözmez, sadece simge kalabalığını gizler.",
   "TooltipToggle": "Oyundaki TÜM fareyle üzerine gelme ipuçlarını göster/gizle.\nBinalar, cimler, araçlar üzerindeki imleç ipuçları ve oyun UI düğmelerindeki küçük açılır pencereler.",
   "TitleBarTooltipPanelOn": "City Watchdog ipuçlarını göstermek/gizlemek için tıkla.",
   "TitleBarTooltipPanelOff": "City Watchdog ipuçlarını göstermek/gizlemek için tıkla.",
   "RoadNameToggleOn": "Yol adlarını gizlemek için tıkla.\nKısayol: \\",
   "RoadNameToggleOff": "Yol adlarını göstermek için tıkla.\nKısayol: \\",
-  "RoadArrowToggleOn": "Her yoldaki tek yön oklarını göstermek/gizlemek için tıkla.\nBu, yan etki olarak yol adlarını da gizler.\nNormalde yalnızca bir yol aracı etkinken görünür.",
   "RoadArrowToggleOff": "Her yoldaki tek yön oklarını göstermek/gizlemek için tıkla.\nBu, yan etki olarak yol adlarını da gizler.\nNormalde yalnızca bir yol aracı etkinken görünür.",
   "ToggleAll": "TÜMÜNÜ DEĞİŞTİR",
   "ExpandAll": "Tümünü Genişlet",

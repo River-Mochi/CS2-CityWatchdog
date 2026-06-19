@@ -1,13 +1,11 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "알림 아이콘 패널을 엽니다.",
-  "NotificationIconShowOrHide": "행을 펼치세요. 체크된 알림은 표시되고, 체크 해제된 알림은 숨겨집니다.\n기본 단축키: Shift+N 패널, N 전체 전환, [ 돈 추가, ] 돈 차감.\n문제를 해결하지는 않고, 아이콘 clutter를 숨깁니다.",
   "TooltipToggle": "게임의 모든 마우스 오버 툴팁을 표시/숨깁니다.\n건물, 시민, 도구 위의 커서 툴팁과 게임 UI 버튼의 작은 팝업이 포함됩니다.",
   "TitleBarTooltipPanelOn": "클릭하여 City Watchdog 툴팁을 표시/숨깁니다.",
   "TitleBarTooltipPanelOff": "클릭하여 City Watchdog 툴팁을 표시/숨깁니다.",
   "RoadNameToggleOn": "클릭하여 도로 이름을 숨깁니다.\n단축키: \\",
   "RoadNameToggleOff": "클릭하여 도로 이름을 표시합니다.\n단축키: \\",
-  "RoadArrowToggleOn": "클릭하여 모든 도로의 일방통행 화살표를 표시/숨깁니다.\n부작용으로 도로 이름도 숨겨집니다.\n일반적으로 도로 도구가 활성화된 동안에만 보입니다.",
   "RoadArrowToggleOff": "클릭하여 모든 도로의 일방통행 화살표를 표시/숨깁니다.\n부작용으로 도로 이름도 숨겨집니다.\n일반적으로 도로 도구가 활성화된 동안에만 보입니다.",
   "ToggleAll": "전체 전환",
   "ExpandAll": "모두 펼치기",

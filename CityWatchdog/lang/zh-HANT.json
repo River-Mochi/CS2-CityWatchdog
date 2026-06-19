@@ -1,13 +1,11 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "開啟通知圖示面板。",
-  "NotificationIconShowOrHide": "展開列；勾選會顯示警報，取消勾選會隱藏。\n預設快捷鍵：Shift+N 面板，N 全部切換，[ 增加金錢，] 減少金錢。\n這不會修復問題，只會隱藏雜亂的圖示。",
   "TooltipToggle": "顯示/隱藏遊戲中所有懸停提示。\n包括建築、市民、工具上的游標提示，以及遊戲介面按鈕上的小彈窗。",
   "TitleBarTooltipPanelOn": "點擊以顯示/隱藏 City Watchdog 的提示。",
   "TitleBarTooltipPanelOff": "點擊以顯示/隱藏 City Watchdog 的提示。",
   "RoadNameToggleOn": "點擊以隱藏道路名稱。\n快捷鍵：\\",
   "RoadNameToggleOff": "點擊以顯示道路名稱。\n快捷鍵：\\",
-  "RoadArrowToggleOn": "點擊以顯示/隱藏每條道路上的單行道箭頭。\n這也會順帶隱藏道路名稱。\n通常只有道路工具啟用時才會顯示。",
   "RoadArrowToggleOff": "點擊以顯示/隱藏每條道路上的單行道箭頭。\n這也會順帶隱藏道路名稱。\n通常只有道路工具啟用時才會顯示。",
   "ToggleAll": "全部切換",
   "ExpandAll": "全部展開",

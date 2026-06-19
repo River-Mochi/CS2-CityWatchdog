@@ -1,13 +1,11 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "Otwórz panel ikon powiadomień.",
-  "NotificationIconShowOrHide": "Rozwiń wiersze; zaznaczone alerty są widoczne, odznaczone są ukryte.\nDomyślne skróty: Shift+N panel, N przełącz wszystko, [ dodaj pieniądze, ] odejmij pieniądze.\nTo nie naprawia problemów, tylko ukrywa bałagan ikon.",
   "TooltipToggle": "Pokaż/ukryj WSZYSTKIE podpowiedzi po najechaniu w grze.\nPodpowiedzi kursora nad budynkami, mieszkańcami, narzędziami oraz małe wyskakujące okna na przyciskach UI gry.",
   "TitleBarTooltipPanelOn": "Kliknij, aby pokazać/ukryć podpowiedzi City Watchdog.",
   "TitleBarTooltipPanelOff": "Kliknij, aby pokazać/ukryć podpowiedzi City Watchdog.",
   "RoadNameToggleOn": "Kliknij, aby ukryć nazwy dróg.\nSkrót: \\",
   "RoadNameToggleOff": "Kliknij, aby pokazać nazwy dróg.\nSkrót: \\",
-  "RoadArrowToggleOn": "Kliknij, aby pokazać/ukryć strzałki dróg jednokierunkowych na każdej drodze.\nJako efekt uboczny ukrywa to też nazwy dróg.\nZwykle są widoczne tylko wtedy, gdy aktywne jest narzędzie drogi.",
   "RoadArrowToggleOff": "Kliknij, aby pokazać/ukryć strzałki dróg jednokierunkowych na każdej drodze.\nJako efekt uboczny ukrywa to też nazwy dróg.\nZwykle są widoczne tylko wtedy, gdy aktywne jest narzędzie drogi.",
   "ToggleAll": "PRZEŁĄCZ WSZYSTKO",
   "ExpandAll": "Rozwiń wszystko",

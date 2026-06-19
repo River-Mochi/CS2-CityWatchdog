@@ -1,13 +1,11 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "Ouvrir le panneau des icônes de notification.",
-  "NotificationIconShowOrHide": "Dépliez les lignes ; les alertes cochées s’affichent, les décocher les masque.\nRaccourcis par défaut : Shift+N panneau, N tout basculer, [ ajouter de l’argent, ] retirer de l’argent.\nCela ne corrige pas les problèmes, cela masque l’encombrement des icônes.",
   "TooltipToggle": "Afficher/masquer TOUTES les info-bulles de survol du jeu.\nInfo-bulles du curseur sur les bâtiments, citoyens, outils, et petites fenêtres sur les boutons de l’interface du jeu.",
   "TitleBarTooltipPanelOn": "Cliquer pour afficher/masquer les info-bulles de City Watchdog.",
   "TitleBarTooltipPanelOff": "Cliquer pour afficher/masquer les info-bulles de City Watchdog.",
   "RoadNameToggleOn": "Cliquer pour masquer les noms de routes.\nRaccourci : \\",
   "RoadNameToggleOff": "Cliquer pour afficher les noms de routes.\nRaccourci : \\",
-  "RoadArrowToggleOn": "Cliquer pour afficher/masquer les flèches de sens unique sur toutes les routes.\nCela masque aussi les noms de routes comme effet secondaire.\nNormalement visible seulement lorsqu’un outil de route est actif.",
   "RoadArrowToggleOff": "Cliquer pour afficher/masquer les flèches de sens unique sur toutes les routes.\nCela masque aussi les noms de routes comme effet secondaire.\nNormalement visible seulement lorsqu’un outil de route est actif.",
   "ToggleAll": "TOUT BASCULER",
   "ExpandAll": "Tout développer",

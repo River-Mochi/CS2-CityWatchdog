@@ -1,13 +1,11 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "Abrir o painel de ícones de notificação.",
-  "NotificationIconShowOrHide": "Expanda as linhas; os alertas assinalados aparecem, os não assinalados ficam ocultos.\nAtalhos predefinidos: Shift+N painel, N alternar tudo, [ adicionar dinheiro, ] subtrair dinheiro.\nIsto não corrige problemas, apenas esconde a confusão de ícones.",
   "TooltipToggle": "Mostrar/ocultar TODOS os balões de ajuda do jogo ao passar o rato.\nBalões do cursor sobre edifícios, cidadãos, ferramentas e pequenos pop-ups nos botões da interface do jogo.",
   "TitleBarTooltipPanelOn": "Clique para mostrar/ocultar os balões de ajuda do City Watchdog.",
   "TitleBarTooltipPanelOff": "Clique para mostrar/ocultar os balões de ajuda do City Watchdog.",
   "RoadNameToggleOn": "Clique para ocultar nomes das ruas.\nAtalho: \\",
   "RoadNameToggleOff": "Clique para mostrar nomes das ruas.\nAtalho: \\",
-  "RoadArrowToggleOn": "Clique para mostrar/ocultar setas de sentido único em todas as ruas.\nIsto também oculta os nomes das ruas como efeito secundário.\nNormalmente só estão visíveis quando uma ferramenta de estrada está ativa.",
   "RoadArrowToggleOff": "Clique para mostrar/ocultar setas de sentido único em todas as ruas.\nIsto também oculta os nomes das ruas como efeito secundário.\nNormalmente só estão visíveis quando uma ferramenta de estrada está ativa.",
   "ToggleAll": "ALTERNAR TUDO",
   "ExpandAll": "Expandir tudo",

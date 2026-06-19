@@ -1,13 +1,11 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "通知アイコンパネルを開きます。",
-  "NotificationIconShowOrHide": "行を展開します。チェック済みの警告は表示され、未チェックは非表示になります。\n既定のホットキー: Shift+N パネル、N すべて切替、[ 資金追加、] 資金減少。\n問題は解決しません。アイコンの散らかりを隠すだけです。",
   "TooltipToggle": "ゲーム内のホバー ツールチップをすべて表示/非表示にします。\n建物、市民、ツール上のカーソル ツールチップと、ゲームUIボタンの小さなポップアップが対象です。",
   "TitleBarTooltipPanelOn": "クリックして City Watchdog のツールチップを表示/非表示にします。",
   "TitleBarTooltipPanelOff": "クリックして City Watchdog のツールチップを表示/非表示にします。",
   "RoadNameToggleOn": "クリックして道路名を非表示にします。\nホットキー: \\",
   "RoadNameToggleOff": "クリックして道路名を表示します。\nホットキー: \\",
-  "RoadArrowToggleOn": "クリックして、すべての道路の一方通行矢印を表示/非表示にします。\n副作用として道路名も非表示になります。\n通常は道路ツールが有効なときだけ表示されます。",
   "RoadArrowToggleOff": "クリックして、すべての道路の一方通行矢印を表示/非表示にします。\n副作用として道路名も非表示になります。\n通常は道路ツールが有効なときだけ表示されます。",
   "ToggleAll": "すべて切替",
   "ExpandAll": "すべて展開",
