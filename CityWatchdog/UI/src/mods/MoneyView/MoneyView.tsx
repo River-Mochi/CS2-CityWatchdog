@@ -34,21 +34,11 @@ export const StatFieldMoneyViewExtension: ModuleRegistryExtend = (Component: any
 export const DescriptionTooltipMoneyViewExtension: ModuleRegistryExtend = (Component: any) => {
     return (props: any) => {
         if (isMoneyTooltip(props)) {
-            return Component({
-                ...props,
-                title: null,
-                description: null,
-                content: <MoneyViewTooltipContent baseContent={props.content} />,
-            });
+            return <Component {...props} title={null} description={null} content={<MoneyViewTooltipContent baseContent={props.content} />} />;
         }
 
         if (isPopulationTooltip(props)) {
-            return Component({
-                ...props,
-                title: null,
-                description: null,
-                content: <PopulationViewTooltipContent baseContent={props.content} />,
-            });
+            return <Component {...props} title={null} description={null} content={<PopulationViewTooltipContent baseContent={props.content} />} />;
         }
 
         return <DescriptionTooltipGate Component={Component} originalProps={props} />;
@@ -69,14 +59,21 @@ const DescriptionTooltipGate = ({
     if (allTooltipsDisabled) {
         return <>{originalProps.children}</>;
     }
-    return Component(originalProps);
+    return <Component {...originalProps} />;
 };
 
 // Extends the base Tooltip component — the simple hover wrapper used by bottom menu icons,
 // advisor buttons, and most game UI besides DescriptionTooltip. When the global tooltip
 // toggle is on, pass disabled={true} so the popup is suppressed but children still render.
+//
+// Tooltips marked with `cwdBypass` (the mod's own panel tooltips) opt out of this gate so
+// the Info button only mutes vanilla game tooltips. They're controlled by the CWD title-bar
+// icon (disableCwdTooltips$) inside CwdTooltip itself.
 export const TooltipGateExtension: ModuleRegistryExtend = (Component: any) => {
     return (props: any) => {
+        if (props.cwdBypass === true) {
+            return <Component {...props} />;
+        }
         return <TooltipGate Component={Component} originalProps={props} />;
     };
 };
@@ -90,9 +87,9 @@ const TooltipGate = ({
 }) => {
     const allTooltipsDisabled = useValue(disableAllTooltips$);
     if (allTooltipsDisabled) {
-        return Component({ ...originalProps, disabled: true });
+        return <Component {...originalProps} disabled={true} />;
     }
-    return Component(originalProps);
+    return <Component {...originalProps} />;
 };
 
 const getMoneyViewText = (props: any): ReactNode | null => {

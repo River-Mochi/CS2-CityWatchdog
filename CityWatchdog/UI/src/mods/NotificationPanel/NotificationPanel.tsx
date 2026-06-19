@@ -67,6 +67,28 @@ const collapseAllIconSrc = "Media/Tools/Net Tool/ParallelMinus.svg";
 
 const roundButtonHighlightStyle = getModule("game-ui/common/input/button/themes/round-highlight-button.module.scss", "classes");
 
+// Panel-internal Tooltip wrapper. Two jobs:
+//   1. Passes a `cwdBypass` flag the global TooltipGate extension reads, so panel tooltips stay
+//      visible when the Info button mutes vanilla game tooltips (disableAllTooltips$).
+//   2. Reads disableCwdTooltips$ itself — the CWD title-bar icon mutes panel tooltips by
+//      returning just the children. `alwaysVisible` is for the Info button and the CWD icon
+//      themselves so users can always discover how to turn each toggle back on.
+const CwdTooltip = ({
+    tooltip,
+    alwaysVisible,
+    children,
+}: {
+    tooltip: ReactNode;
+    alwaysVisible?: boolean;
+    children: ReactElement;
+}) => {
+    const cwdTooltipsDisabled = useValue(disableCwdTooltips$);
+    if (cwdTooltipsDisabled && !alwaysVisible) {
+        return <>{children}</>;
+    }
+    return <Tooltip {...{ cwdBypass: true }} tooltip={tooltip}>{children}</Tooltip>;
+};
+
 export const NotificationPanel = () => {
     const showPanel = useValue(controlPanelEnabled$);
     const isPhotoMode = useValue(game.activeGamePanel$)?.__Type == game.GamePanelType.PhotoMode;
@@ -84,13 +106,13 @@ const NotificationPanelContent = () => {
     // disableAllTooltips$ — Info button: vanilla game hover tooltips.
     const allTooltipsDisabled = useValue(disableAllTooltips$);
     // disableCwdTooltips$ — controlled by clicking the CWD icon in the title bar.
+    // Read here only to drive the title-bar icon's own state class + tooltip text; the actual
+    // gating of panel tooltips lives inside CwdTooltip.
     const cwdTooltipsDisabled = useValue(disableCwdTooltips$);
     // hideRoadNames$ — Road-Name toggle (or \ hotkey): vanilla aggregate road name labels.
     const roadNamesHidden = useValue(hideRoadNames$);
     // showRoadArrows$ — Road-Arrow toggle: force vanilla 1-way arrows on while browsing.
     const roadArrowsShown = useValue(showRoadArrows$);
-    // Panel-internal helpers gate on the CWD binding so the user can still kill the panel's chatty tooltips.
-    const tooltipsEnabled = !cwdTooltipsDisabled;
     const [expandedSections, setExpandedSections] = useState(createExpandedSections);
     const allValues = useAllNotificationValues();
 
@@ -173,16 +195,6 @@ const NotificationPanelContent = () => {
         "Click to show/hide 1-way road arrows on every road.\nThis also hides road names as side effect.\nNormally only visible while a road tool is active.",
     );
 
-    // CWD-internal tooltips (sort, expand, count) — skip render entirely when
-    // the user turns CWD tooltips off via the title-bar CWD icon.
-    const optionalTooltip = (tooltip: ReactNode, children: ReactElement) => {
-        if (cwdTooltipsDisabled) {
-            return <>{children}</>;
-        }
-
-        return <Tooltip tooltip={tooltip}>{children}</Tooltip>;
-    };
-
     const orderedSections = [...sections].sort((a, b) => {
         const result = localize(a.localeId).localeCompare(localize(b.localeId));
         return sortAscending ? result : -result;
@@ -209,8 +221,9 @@ const NotificationPanelContent = () => {
             header={
                 <div className={styles.header}>
                     <div className={styles.headerTitleArea}>
-                        {/* Title-bar CWD icon — now clickable. Toggles panel tooltips (was the People-money button). */}
-                        <Tooltip tooltip={titleBarTooltip}>
+                        {/* Title-bar CWD icon — clickable. Toggles panel tooltips. alwaysVisible so the
+                            user can always discover how to turn panel tooltips back on. */}
+                        <CwdTooltip tooltip={titleBarTooltip} alwaysVisible>
                             <div
                                 className={`${styles.headerModIconButton} ${cwdTooltipsDisabled ? styles.headerModIconOff : ""}`}
                                 role="button"
@@ -219,7 +232,7 @@ const NotificationPanelContent = () => {
                             >
                                 <img src={modIconSrc} className={styles.headerModIcon} />
                             </div>
-                        </Tooltip>
+                        </CwdTooltip>
                         <div className={styles.headerModName}>CITY WATCHDOG</div>
                     </div>
                     <Button
@@ -228,7 +241,7 @@ const NotificationPanelContent = () => {
                         onClick={() => { OnControlPanelBindingToggle(false); }}
                         focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
                     >
-                        <img src="coui://uil/Standard/XClose.svg"></img>
+                        <img src="Media/Glyphs/Close.svg" className={styles.headerCloseIcon} />
                     </Button>
                 </div>
             }
@@ -237,8 +250,9 @@ const NotificationPanelContent = () => {
             <div className={styles.toolbar}>
                 <div className={styles.toolbarLeft}>
                     {/* Info button: toggles vanilla game tooltips (cursor-follow + DescriptionTooltip popups).
-                        When off, the button turns red — a clear reminder the player has globally muted hover tooltips. */}
-                    <Tooltip tooltip={infoTooltip}>
+                        When off, the button turns red — a clear reminder the player has globally muted hover tooltips.
+                        alwaysVisible so the user can always discover how to turn vanilla tooltips back on. */}
+                    <CwdTooltip tooltip={infoTooltip} alwaysVisible>
                         <div
                             className={`${styles.infoButton} ${allTooltipsDisabled ? styles.infoButtonAllOff : ""}`}
                             role="button"
@@ -247,11 +261,11 @@ const NotificationPanelContent = () => {
                         >
                             <img src={infoIconSrc} className={styles.infoIcon} />
                         </div>
-                    </Tooltip>
+                    </CwdTooltip>
 
                     {/* Road Name on/off toggle. Default state shows the "names on" icon; click flips it to "names off".
                         Backslash (\) hotkey is wired on the C# side. */}
-                    <Tooltip tooltip={roadNameTooltip}>
+                    <CwdTooltip tooltip={roadNameTooltip}>
                         <div
                             className={`${styles.infoButton} ${roadNamesHidden ? styles.infoButtonTipsOff : ""}`}
                             role="button"
@@ -263,11 +277,11 @@ const NotificationPanelContent = () => {
                                 className={styles.infoIcon}
                             />
                         </div>
-                    </Tooltip>
+                    </CwdTooltip>
 
                     {/* Road Arrow toggle: forces vanilla 1-way arrows on while browsing.
                         Default OFF (vanilla behavior: arrows only visible with a road tool active). */}
-                    <Tooltip tooltip={roadArrowTooltip}>
+                    <CwdTooltip tooltip={roadArrowTooltip}>
                         <div
                             className={`${styles.infoButton} ${roadArrowsShown ? styles.infoButtonTipsOff : ""}`}
                             role="button"
@@ -276,11 +290,11 @@ const NotificationPanelContent = () => {
                         >
                             <img src={roadArrowIconSrc} className={`${styles.infoIcon} ${styles.roadArrowIcon}`} />
                         </div>
-                    </Tooltip>
+                    </CwdTooltip>
                 </div>
 
                 <div className={styles.toolbarButtons}>
-                    {optionalTooltip(sortTooltip,
+                    <CwdTooltip tooltip={sortTooltip}>
                         <Button
                             className={`${styles.toolbarButton} ${styles.sortButton}`}
                             onClick={() => { setSortAscending(!sortAscending); }}
@@ -291,10 +305,10 @@ const NotificationPanelContent = () => {
                                 className={`${styles.toolbarIcon} ${styles.sortIcon}`}
                                 alt=""
                             />
-                        </Button>,
-                    )}
+                        </Button>
+                    </CwdTooltip>
 
-                    {optionalTooltip(allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows"),
+                    <CwdTooltip tooltip={allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows")}>
                         <Button
                             className={styles.toolbarButton + " " + styles.expandButton}
                             onClick={onToggleAllSections}
@@ -305,10 +319,10 @@ const NotificationPanelContent = () => {
                                 className={`${styles.toolbarIcon} ${styles.expandCollapseIcon}`}
                                 alt=""
                             />
-                        </Button>,
-                    )}
+                        </Button>
+                    </CwdTooltip>
 
-                    {optionalTooltip(allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows"),
+                    <CwdTooltip tooltip={allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows")}>
                         <Button
                             className={`${styles.toolbarButton} ${styles.countButton} ${toggleAllStateClass}`}
                             onClick={onToggleAllSections}
@@ -317,10 +331,10 @@ const NotificationPanelContent = () => {
                             <span className={styles.countButtonText}>
                                 {selectedTotalCount}/{totalNotificationCount}
                             </span>
-                        </Button>,
-                    )}
+                        </Button>
+                    </CwdTooltip>
 
-                    {optionalTooltip(tooltipContent("ToggleAllTooltip", "Show/hide all icons.\nColor: green = all on; blue = mixed; red = all off."),
+                    <CwdTooltip tooltip={tooltipContent("ToggleAllTooltip", "Show/hide all icons.\nColor: green = all on; blue = mixed; red = all off.")}>
                         <Button
                             className={`${styles.toolbarButton} ${styles.toggleButton} ${toggleAllStateClass}`}
                             onClick={onToggleAll}
@@ -329,8 +343,8 @@ const NotificationPanelContent = () => {
                             <span className={styles.toggleButtonText}>
                                 {localize("ToggleAll", "Toggle All")}
                             </span>
-                        </Button>,
-                    )}
+                        </Button>
+                    </CwdTooltip>
 
                 </div>
             </div>

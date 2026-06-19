@@ -9,16 +9,21 @@
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
 
-- Instant on/off toggle for all city alert icons.
-- Great for reducing visual stress or just a cleaner UI.
-- Modeled on the original City Controller mod.
+#### Features
+- Notifications:
+- Instant on/off toggle for city alert icons (ones over buildings).
+- Reducing visual stress while building. Does not fix city problems for you.
+- Open full panel from the top-left button or hotkey.
+- Start city with any Milestone. Trains now! Yes you can! Set Initial money if you want less for a challenge or more.
+- Modeled on original City Controller mod.
 - Many new features and future plans.
 
-### Features
 
-- Show or hide notification alert icons.
-- Open the notification panel from the top-left button or hotkey.
-- Start with a custom Milestone. Trains now! Yes you can!.
+#### Display toggles
+- [i] button - Instant Hide/show all vanilla mouse-over tooltips.
+- 1-click - Show/hide 1-way road arrows.
+- 1-click - Hide/show road name labels, (\) hotkey.
+- Road arrows also hide road names while arrows are shown, side-effect of vanilla road-label system.
 
 #### Money tools
 - Quick handy info: hover over bottom menu money/population tooltips for instant info chart (faster than opening Info view).
@@ -46,19 +51,19 @@ I hope you enjoy the new features, better performance, and safety checks!
 
 ### Support and feedback
 Feedback is welcome through GitHub or Discord links on the right.
-If you like effort put into free mods, give a Like :)
+If you like effort put into free mods, please give a Like :)
 
 ### Future
 - 15 languages supported now, more in the future.
-- If anyone can make better thumbnail or  screenshots, please let me know.
+- If anyone can make better thumbnail or screenshots, please let me know.
 
 ### Credits
 - River Mochi - author/maintainer
-- Thanks to Mbyron26 for orig. City Controller mod (retired).
+- Thanks to Mbyron26 for orig. City Controller mod.
 - Money View inspired by earlier mods by DanielNZ Show Text.
 - Dorkington - tester/feature suggestion
 - Flightech, SonNathan - testers
-- UnMaestro - German translation editing
+- UnMaestro - testing, German translation editing
 - Thumbnail photograph by Maryia Shedava at Mont Saint-Michel in Normandy, France:
 https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
 
@@ -84,13 +89,14 @@ tags: Visual, UI organize icons
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.5.*" />
 	<!--Dependency for the mod, can be set multiple times-->
-	<Dependency Id="74417" DisplayName="Unified Icon Library" />
+	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* added CWD title bar button turns off mod tool tips.
-* added button to show arrows when road tool not open, also hides names when arrows are on.
-* added button to hide names.
+* added [i] button toggles on/off all game hover tool-tips
+* added button to show arrows when road tool not open.
+* added button to hide road names.
 * added Hotkey "\"
+* Updaed Options menu usage instructions, and all translation files.
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
 	<ExternalLink Type="github" Url="https://github.com/River-Mochi/CityWatchdog" />

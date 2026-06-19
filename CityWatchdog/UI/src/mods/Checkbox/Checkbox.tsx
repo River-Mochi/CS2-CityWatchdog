@@ -10,7 +10,6 @@ interface CheckboxProps {
 }
 
 export const Checkbox = ({ isChecked, onValueToggle }: CheckboxProps) => {
-    //const checkmarkScr = "coui://uil/Standard/Checkmark.svg";
     const checkmarkScr = "Media/Glyphs/Checkmark.svg"
     return (
         <div className={styles.checkboxContainer} onClick={() => onValueToggle(!isChecked)}>

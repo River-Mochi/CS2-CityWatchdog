@@ -1,4 +1,4 @@
-{
+﻿{
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "Open the notification icon panel.",
   "NotificationIconShowOrHide": "Expand rows; show alerts, unchecked hides them.\nDefault hotkeys: Shift+N panel, N toggle all, [ add money, ] subtract money.\nThis doesn't fix problems, it hides icon clutter.",
@@ -7,8 +7,8 @@
   "TitleBarTooltipPanelOff": "Click to show/hide Tooltips for City Watchdog.",
   "RoadNameToggleOn": "Click to hide road names.\nHotkey: \\",
   "RoadNameToggleOff": "Click to show road names.\nHotkey: \\",
-  "RoadArrowToggleOn": "Click to show/hide 1-way road arrows on every road.\nThis also hides road names as side effect.\nNormally only visible while a road tool is active.",
-  "RoadArrowToggleOff": "Click to show/hide 1-way road arrows on every road.\nThis also hides road names as side effect.\nNormally only visible while a road tool is active.",
+  "RoadArrowToggleOn": "Click to show/hide 1-way road arrows on every road.\nThis also hides road names as side effect.",
+  "RoadArrowToggleOff": "Click to show/hide 1-way road arrows on every road.\nThis also hides road names as side effect.",
   "ToggleAll": "TOGGLE ALL",
   "ExpandAll": "Expand All",
   "CollapseAll": "Collapse All Rows",
