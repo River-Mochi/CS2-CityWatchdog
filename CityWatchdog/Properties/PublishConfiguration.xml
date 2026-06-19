@@ -84,7 +84,7 @@ tags: Visual, UI organize icons
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/city-watchdog.1924169/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.0.1" />
+	<ModVersion Value="1.0.2" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.5.10*" />
 	<!--Dependency for the mod, can be set multiple times-->
