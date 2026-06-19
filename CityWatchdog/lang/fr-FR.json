@@ -1,7 +1,7 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "Ouvrir le panneau des icônes de notification.",
-  "TooltipToggle": "Afficher/masquer TOUTES les info-bulles de survol du jeu.\nInfo-bulles du curseur sur les bâtiments, citoyens, outils, et petites fenêtres sur les boutons de l’interface du jeu.",
+  "TooltipToggle": "Masquer/afficher TOUTES les infobulles du jeu.\nDéfinissez un raccourci dans le menu Options.",
   "TitleBarTooltipPanelOn": "Cliquer pour afficher/masquer les info-bulles de City Watchdog.",
   "TitleBarTooltipPanelOff": "Cliquer pour afficher/masquer les info-bulles de City Watchdog.",
   "RoadNameToggleOn": "Cliquer pour masquer les noms de routes.\nRaccourci : \\",

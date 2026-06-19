@@ -155,13 +155,12 @@ namespace CityWatchdog
                     "City Watchdog パネルのツールバーにある道路名アイコンをクリックするのと同じです。"
                 },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "道路名を非表示/表示" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "すべてのマウスオーバー・ツールチップを無効化" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
-                    "ゲームのホバー・ツールチップをオフにします — 建物/市民/ツール上でカーソルについてくるものと、\n" +
-                    "ゲームUIボタン上の小さなポップアップ (上部バーの名前、バニラボタンなど) の両方です。\n" +
-                    "<City Watchdog 独自のお金/人口ポップアップはオンのまま>です。これは上の Money View オプションで制御します。\n" +
-                    "都市内の City Watchdog パネルにある [i] アイコンをクリックするのと同じです。"
-                },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "すべてのマウスオーバー・ツールチップを無効化" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
+                    "<ホットキー>ですべてのゲーム・ホバー・ツールチップを即座に非表示/表示 — 建物、Cim、ツール、下部メニューのアイコン。\n" +
+                    "<City Watchdog 独自のお金/人口ポップアップはオンのまま>。これらは上の Money View オプションで制御されます。\n" +
+                    "街の City Watchdog パネルの [i] アイコンをクリックするのと同じです。" },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "全てのホバー・ツールチップを非表示/表示" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "マイルストーン選択" },

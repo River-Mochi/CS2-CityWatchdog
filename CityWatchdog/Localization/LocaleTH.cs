@@ -156,12 +156,12 @@ namespace CityWatchdog
                     "เหมือนคลิกไอคอนชื่อถนนบนแถบเครื่องมือของแผง City Watchdog" },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "ซ่อน/แสดงชื่อถนน" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "ปิดทูลทิปเมื่อชี้เมาส์ทั้งหมด" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
-                    "ปิดทูลทิปของเกมเมื่อชี้เมาส์ — ทั้งแบบที่ตามเคอร์เซอร์เหนืออาคาร/ประชาชน/เครื่องมือ\n" +
-                    " และป๊อปอัปเล็ก ๆ บนปุ่ม UI ของเกม (ชื่อแถบบน ปุ่ม vanilla ฯลฯ)\n" +
-                    "<ป๊อปอัปเงิน/ประชากรของ City Watchdog ยังเปิดอยู่>; ควบคุมด้วยตัวเลือก Money View ด้านบน\n" +
-                    "เหมือนคลิกไอคอน [i] บนแผง City Watchdog ภายในเมือง" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "ปิดทูลทิปเมื่อชี้เมาส์ทั้งหมด" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
+                    "<ปุ่มลัด> เพื่อซ่อนหรือแสดงทูลทิปทั้งหมดเมื่อชี้เมาส์ในเกมทันที — อาคาร, cims, เครื่องมือ และไอคอนเมนูล่าง\n" +
+                    "<ป๊อปอัปเงิน/ประชากรของ City Watchdog ยังคงเปิดอยู่> ซึ่งควบคุมโดยตัวเลือก Money View ด้านบน\n" +
+                    "เหมือนกับการคลิกไอคอน [i] บนแผง City Watchdog ในเมือง" },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "ซ่อน/แสดงทูลทิปเกมทั้งหมด" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "ตัวเลือกไมล์สโตน" },

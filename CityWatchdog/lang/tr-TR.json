@@ -1,7 +1,7 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "Bildirim simgesi panelini aç.",
-  "TooltipToggle": "Oyundaki TÜM fareyle üzerine gelme ipuçlarını göster/gizle.\nBinalar, cimler, araçlar üzerindeki imleç ipuçları ve oyun UI düğmelerindeki küçük açılır pencereler.",
+  "TooltipToggle": "TÜM oyun hover tooltiplerini gizle/göster.\nKısayolu Seçenekler menüsünden ayarlayın.",
   "TitleBarTooltipPanelOn": "City Watchdog ipuçlarını göstermek/gizlemek için tıkla.",
   "TitleBarTooltipPanelOff": "City Watchdog ipuçlarını göstermek/gizlemek için tıkla.",
   "RoadNameToggleOn": "Yol adlarını gizlemek için tıkla.\nKısayol: \\",

@@ -155,13 +155,12 @@ namespace CityWatchdog
                     "City Watchdog 패널 툴바의 도로 이름 아이콘을 클릭하는 것과 같습니다."
                 },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "도로 이름 숨김/표시" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "모든 마우스 오버 툴팁 끄기" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
-                    "게임의 마우스 오버 툴팁을 끕니다 — 건물/시민/도구 위에서 커서를 따라오는 툴팁과\n" +
-                    "게임 UI 버튼의 작은 팝업(상단 바 이름, 기본 버튼 등)을 모두 포함합니다.\n" +
-                    "<City Watchdog 자체 돈/인구 팝업은 계속 켜져 있습니다>; 위의 Money View 옵션으로 제어합니다.\n" +
-                    "도시 안 City Watchdog 패널의 [i] 아이콘을 클릭하는 것과 같습니다."
-                },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "모든 마우스 오버 툴팁 끄기" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
+                    "<단축키>로 모든 게임 마우스 오버 툴팁을 즉시 숨김/표시 — 건물, 시민, 도구, 하단 메뉴 아이콘.\n" +
+                    "<City Watchdog 자체 돈/인구 팝업은 켜진 상태로 유지>됩니다. 위의 Money View 옵션으로 제어됩니다.\n" +
+                    "도시 내 City Watchdog 패널의 [i] 아이콘을 클릭하는 것과 동일." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "모든 게임 마우스 오버 툴팁 숨김/표시" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "마일스톤 선택기" },

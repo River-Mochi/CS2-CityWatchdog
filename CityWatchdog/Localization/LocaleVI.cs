@@ -156,12 +156,12 @@ namespace CityWatchdog
                     "Giống như bấm biểu tượng Tên đường trên thanh công cụ bảng City Watchdog." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "Ẩn/hiện tên đường" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Tắt mọi tooltip khi rê chuột" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
-                    "Tắt tooltip khi rê chuột của game — cả tooltip đi theo con trỏ trên công trình/công dân/công cụ\n" +
-                    " và các popup nhỏ trên nút UI của game (tên thanh trên, nút vanilla, v.v.).\n" +
-                    "<Popup tiền/dân số riêng của City Watchdog vẫn bật>; chúng được điều khiển bằng tùy chọn Money View ở trên.\n" +
-                    "Giống như bấm biểu tượng [i] trên bảng City Watchdog trong thành phố." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "Tắt mọi tooltip khi rê chuột" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
+                    "<Phím tắt> để ẩn/hiện ngay lập tức TẤT CẢ tooltip khi rê chuột của game — công trình, cims, công cụ và biểu tượng menu dưới.\n" +
+                    "<Popup tiền/dân số riêng của City Watchdog vẫn bật>; được điều khiển bởi tùy chọn Money View ở trên.\n" +
+                    "Giống như nhấn vào biểu tượng [i] trên bảng City Watchdog trong thành phố." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Ẩn/Hiện tất cả tooltip khi rê chuột của game" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Chọn cột mốc" },

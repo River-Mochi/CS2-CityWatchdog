@@ -1,7 +1,7 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "เปิดแผงไอคอนการแจ้งเตือน",
-  "TooltipToggle": "แสดง/ซ่อนทูลทิปเมื่อชี้เมาส์ทั้งหมดของเกม\nรวมทูลทิปบนอาคาร ซิม เครื่องมือ และป๊อปอัปเล็ก ๆ บนปุ่ม UI ของเกม",
+  "TooltipToggle": "ซ่อน/แสดงทูลทิปเกมทั้งหมด\nตั้งค่าปุ่มลัดในเมนูตัวเลือก",
   "TitleBarTooltipPanelOn": "คลิกเพื่อแสดง/ซ่อนทูลทิปของ City Watchdog",
   "TitleBarTooltipPanelOff": "คลิกเพื่อแสดง/ซ่อนทูลทิปของ City Watchdog",
   "RoadNameToggleOn": "คลิกเพื่อซ่อนชื่อถนน\nปุ่มลัด: \\",

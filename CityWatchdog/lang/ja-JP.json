@@ -1,7 +1,7 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "通知アイコンパネルを開きます。",
-  "TooltipToggle": "ゲーム内のホバー ツールチップをすべて表示/非表示にします。\n建物、市民、ツール上のカーソル ツールチップと、ゲームUIボタンの小さなポップアップが対象です。",
+  "TooltipToggle": "ゲームのホバー・ツールチップをすべて非表示/表示。\nオプションメニューでホットキーを設定。",
   "TitleBarTooltipPanelOn": "クリックして City Watchdog のツールチップを表示/非表示にします。",
   "TitleBarTooltipPanelOff": "クリックして City Watchdog のツールチップを表示/非表示にします。",
   "RoadNameToggleOn": "クリックして道路名を非表示にします。\nホットキー: \\",

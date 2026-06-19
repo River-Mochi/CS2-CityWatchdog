@@ -155,13 +155,12 @@ namespace CityWatchdog
                     "È uguale a cliccare l'icona Nome strada nella barra del pannello City Watchdog."
                 },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "Nascondi/Mostra nomi strade" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Disattiva tutti i tooltip al passaggio del mouse" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
-                    "Disattiva i tooltip del gioco al passaggio del mouse — sia quelli che seguono il cursore su edifici/cittadini/strumenti\n" +
-                    " sia i piccoli popup sui pulsanti della UI del gioco (nomi della barra superiore, pulsanti vanilla, ecc.).\n" +
-                    "<I popup denaro/popolazione propri di City Watchdog restano attivi>; sono controllati dall'opzione Money View sopra.\n" +
-                    "È uguale a cliccare l'icona [i] nel pannello City Watchdog dentro la città."
-                },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "Disattiva tutti i tooltip al passaggio del mouse" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
+                    "<Hotkey> per nascondere o mostrare immediatamente TUTTI i tooltip del gioco — edifici, cims, strumenti e icone del menu inferiore.\n" +
+                    "<I popup propri di denaro/popolazione di City Watchdog restano attivi>; sono controllati dall'opzione Money View sopra.\n" +
+                    "Stesso effetto del clic sull'icona [i] del pannello City Watchdog in città." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Nascondi/Mostra tutti i tooltip del gioco" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Selettore traguardo" },

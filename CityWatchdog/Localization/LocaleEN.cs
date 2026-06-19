@@ -167,12 +167,12 @@ namespace CityWatchdog
                     "Same as clicking the Road-Name icon in the City Watchdog panel toolbar." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "Hide/Show road names" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Disable All Mouse over Tooltips" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
-                    "Turns off the game's hover tooltips — both the ones that follow your cursor over buildings/citizens/tools\n" +
-                    " and the small popups on game UI buttons (top bar names, vanilla buttons, etc.).\n" +
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "Disable All Mouse over Tooltips" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
+                    "<Hotkey> to instantly hide or show ALL game hover tooltips — buildings, cims, tools, and bottom menu icons.\n" +
                     "<City Watchdog's own money/population popups stay on>; those are controlled by the Money View option above.\n" +
                     "Same as clicking the [i] icon on the City Watchdog panel inside the city." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Hide/Show all game hover tooltips" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },

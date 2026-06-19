@@ -47,6 +47,7 @@ namespace CityWatchdog
         public const string ToggleNotificationsAction = nameof(ToggleNotificationsAction);
         public const string ToggleNotificationPanelAction = nameof(ToggleNotificationPanelAction);
         public const string ToggleRoadNamesAction = nameof(ToggleRoadNamesAction);
+        public const string ToggleAllTooltipsAction = nameof(ToggleAllTooltipsAction);
 
         // Group IDs.
         internal const string MoneyViewGroup = nameof(MoneyViewGroup);
@@ -194,12 +195,12 @@ namespace CityWatchdog
         [SettingsUIHidden]
         public bool ShowRoadArrows { get; set; }
 
+        [SettingsUIKeyboardBinding(BindingKeyboard.Backslash, ToggleAllTooltipsAction, shift: true)]
         [SettingsUISection(Actions, Notifications)]
-        [SettingsUISetter(typeof(Setting), nameof(OnDisableAllTooltipsChanged))]
-        public bool DisableAllTooltips { get; set; }
+        public ProxyBinding ToggleAllTooltipsKeyboardBinding { get; set; }
 
         // Persisted across sessions but intentionally hidden from Options UI — controlled only
-        // by the People-Money button on the in-game panel. Without [SettingsUIHidden] the
+        // by the CWD title-bar icon on the in-game panel. Without [SettingsUIHidden] the
         // property still registers and falls into an unnamed default tab.
         [SettingsUIHidden]
         public bool DisableCwdTooltips { get; set; }
@@ -506,7 +507,6 @@ namespace CityWatchdog
             ConfirmUnlimitedMoneySaveConversion = false;
             ShowUsage = false;
 
-            DisableAllTooltips = false;
             DisableCwdTooltips = false;
             HideRoadNames = false;
             ShowRoadArrows = false;
@@ -547,13 +547,6 @@ namespace CityWatchdog
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
                 .UpdatePopulationTooltipFontScaleBinding(value);
-        }
-
-        private void OnDisableAllTooltipsChanged(bool value)
-        {
-            World.DefaultGameObjectInjectionWorld?
-                .GetExistingSystemManaged<TooltipControlSystem>()?
-                .SyncFromSettings();
         }
 
         private bool GetMilestoneLevelStatus()

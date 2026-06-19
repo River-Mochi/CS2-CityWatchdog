@@ -91,6 +91,7 @@ tags: Visual, UI organize icons
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
+* by popular demand, new Hotkey for Toggle off all tooltips feature.
 * added [i] button toggles on/off ALL game hover tool-tips
 * added button to Show 1-way Arrows on Roads.
 * added button to Hide Road Names.
@@ -99,6 +100,6 @@ tags: Visual, UI organize icons
 * added new logo icon paw.
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
-	<ExternalLink Type="github" Url="https://github.com/River-Mochi/CityWatchdog" />
+	<ExternalLink Type="github" Url="https://github.com/River-Mochi/CS2-CityWatchdog" />
 	<ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
 </Publish>

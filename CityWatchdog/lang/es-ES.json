@@ -1,7 +1,7 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "Abrir el panel de iconos de notificación.",
-  "TooltipToggle": "Mostrar/ocultar TODAS las descripciones emergentes del juego.\nDescripciones del cursor sobre edificios, ciudadanos, herramientas y pequeños popups en botones de la interfaz.",
+  "TooltipToggle": "Ocultar/mostrar TODOS los tooltips del juego.\nConfigura el atajo en el menú de Opciones.",
   "TitleBarTooltipPanelOn": "Haz clic para mostrar/ocultar las descripciones de City Watchdog.",
   "TitleBarTooltipPanelOff": "Haz clic para mostrar/ocultar las descripciones de City Watchdog.",
   "RoadNameToggleOn": "Haz clic para ocultar nombres de calles.\nAtajo: \\",

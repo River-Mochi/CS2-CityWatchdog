@@ -155,13 +155,12 @@ namespace CityWatchdog
                     "Dasselbe wie ein Klick auf das Straßennamen-Symbol in der City-Watchdog-Panelleiste."
                 },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "Straßennamen aus-/einblenden" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Alle Mouse-over-Tooltips deaktivieren" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
-                    "Schaltet die Hover-Tooltips des Spiels aus — sowohl die, die dem Cursor über Gebäuden/Bürgern/Werkzeugen folgen\n" +
-                    " als auch die kleinen Popups auf UI-Buttons des Spiels (Namen in der oberen Leiste, Vanilla-Buttons usw.).\n" +
-                    "<City Watchdogs eigene Geld-/Bevölkerungs-Popups bleiben an>; sie werden über die Money-View-Option oben gesteuert.\n" +
-                    "Dasselbe wie ein Klick auf das [i]-Symbol im City-Watchdog-Panel in der Stadt."
-                },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "Alle Mouse-over-Tooltips deaktivieren" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
+                    "<Hotkey> zum sofortigen Aus-/Einblenden ALLER Hover-Tooltips des Spiels — Gebäude, Cims, Werkzeuge und Symbole der unteren Menüleiste.\n" +
+                    "<Die eigenen Geld-/Bevölkerungs-Popups von City Watchdog bleiben aktiv>; diese werden über die Money View Option oben gesteuert.\n" +
+                    "Gleicher Effekt wie ein Klick auf das [i]-Symbol im City-Watchdog-Panel in der Stadt." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Hover-Tooltips aus-/einblenden" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Meilenstein-Auswahl" },

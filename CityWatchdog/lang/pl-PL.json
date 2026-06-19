@@ -1,7 +1,7 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "Otwórz panel ikon powiadomień.",
-  "TooltipToggle": "Pokaż/ukryj WSZYSTKIE podpowiedzi po najechaniu w grze.\nPodpowiedzi kursora nad budynkami, mieszkańcami, narzędziami oraz małe wyskakujące okna na przyciskach UI gry.",
+  "TooltipToggle": "Ukryj/pokaż WSZYSTKIE dymki gry po najechaniu.\nUstaw skrót w menu Opcje.",
   "TitleBarTooltipPanelOn": "Kliknij, aby pokazać/ukryć podpowiedzi City Watchdog.",
   "TitleBarTooltipPanelOff": "Kliknij, aby pokazać/ukryć podpowiedzi City Watchdog.",
   "RoadNameToggleOn": "Kliknij, aby ukryć nazwy dróg.\nSkrót: \\",

@@ -8,68 +8,67 @@
 
 // File: src/Systems/TooltipControlSystem.cs
 // Purpose: Tooltip on/off toggles.
-//   - Setting.DisableAllTooltips drives vanilla Game.UI.Tooltip.TooltipUISystem.hideTooltips,
-//     which short-circuits the gameplay world/mouse tooltip pipeline at the source.
+//   - "All vanilla tooltips" toggle drives Game.UI.Tooltip.TooltipUISystem.hideTooltips,
+//     which short-circuits the gameplay world/mouse tooltip pipeline at the source. State is
+//     in-session only: starts off each game launch, flipped via the Info button or Shift+\.
 //   - Setting.DisableCwdTooltips is a UI-side React gate: the panel and the money/population
-//     extension skip rendering CWD tooltips when it's on. No CSS or DOM tricks.
+//     extension skip rendering CWD tooltips when it's on. Persisted across sessions.
 //   - No Harmony: hideTooltips is a public setter on the vanilla system, so we just assign.
 
 namespace CityWatchdog.Systems
 {
     using CS2Shared.RiverMochi;
     using Game;
+    using Game.Input;
     using Game.UI.Tooltip;
     using System;
 
     public partial class TooltipControlSystem : UISystemBaseExtension
     {
+        // Binding identifier strings. Kept as constants — React side reads bindings by name,
+        // so renaming or removing the underlying C# property must NOT cascade into the JS bundle.
+        private const string DisableAllTooltipsBindingName = "DisableAllTooltips";
+
         private BoolBinding disableAllTooltipsBinding = null!;
         private BoolBinding disableCwdTooltipsBinding = null!;
         private TooltipUISystem? cachedTooltipUISystem;
+        private ProxyAction? toggleAllTooltipsAction;
 
         protected override void OnCreate()
         {
             base.OnCreate();
 
-            Setting? setting = Setting.Instance;
-            bool initialAll = setting?.DisableAllTooltips ?? false;
-            bool initialCwd = setting?.DisableCwdTooltips ?? false;
+            bool initialCwd = Setting.Instance?.DisableCwdTooltips ?? false;
 
+            // "Disable all vanilla tooltips" is in-session only — starts off every game launch.
             disableAllTooltipsBinding = AddBoolBindingAndTriggerBinding(
-                nameof(Setting.DisableAllTooltips),
-                initialAll,
+                DisableAllTooltipsBindingName,
+                false,
                 OnDisableAllTooltipsToggle);
 
             disableCwdTooltipsBinding = AddBoolBindingAndTriggerBinding(
                 nameof(Setting.DisableCwdTooltips),
                 initialCwd,
                 OnDisableCwdTooltipsToggle);
-        }
 
-        public void SyncFromSettings()
-        {
-            Setting? setting = Setting.Instance;
-            bool allTooltips = setting?.DisableAllTooltips ?? false;
-            bool cwdTooltips = setting?.DisableCwdTooltips ?? false;
-
-            if (disableAllTooltipsBinding.Value != allTooltips)
-            {
-                disableAllTooltipsBinding.Update(allTooltips);
-            }
-
-            if (disableCwdTooltipsBinding.Value != cwdTooltips)
-            {
-                disableCwdTooltipsBinding.Update(cwdTooltips);
-            }
-
-            ApplyToGame(allTooltips);
+            toggleAllTooltipsAction = EnableHotkey(Setting.ToggleAllTooltipsAction);
         }
 
         protected override void OnUpdate()
         {
+            if (toggleAllTooltipsAction == null)
+            {
+                toggleAllTooltipsAction = EnableHotkey(Setting.ToggleAllTooltipsAction);
+            }
+
+            if (toggleAllTooltipsAction?.WasReleasedThisFrame() == true)
+            {
+                OnDisableAllTooltipsToggle(!disableAllTooltipsBinding.Value);
+            }
+
             // Cheap idempotent re-apply: the vanilla TooltipUISystem is only created
             // in Game/Editor mode, so we cannot grab it during main menu. Keep the
-            // game's hideTooltips field aligned with our setting once it appears.
+            // game's hideTooltips field aligned with our binding once it appears.
             if (cachedTooltipUISystem == null)
             {
                 cachedTooltipUISystem = World.GetExistingSystemManaged<TooltipUISystem>();
@@ -79,7 +78,7 @@ namespace CityWatchdog.Systems
                 }
             }
 
-            bool desired = Setting.Instance?.DisableAllTooltips ?? false;
+            bool desired = disableAllTooltipsBinding.Value;
             if (cachedTooltipUISystem.hideTooltips != desired)
             {
                 cachedTooltipUISystem.hideTooltips = desired;
@@ -89,14 +88,6 @@ namespace CityWatchdog.Systems
         private void OnDisableAllTooltipsToggle(bool value)
         {
             disableAllTooltipsBinding.Update(value);
-
-            Setting? setting = Setting.Instance;
-            if (setting != null)
-            {
-                setting.DisableAllTooltips = value;
-                TryPersist(setting);
-            }
-
             ApplyToGame(value);
         }
 
@@ -137,6 +128,27 @@ namespace CityWatchdog.Systems
                     "tooltip-save",
                     () => $"Failed to persist tooltip settings: {ex.GetType().Name}: {ex.Message}",
                     ex);
+            }
+        }
+
+        private static ProxyAction? EnableHotkey(string actionName)
+        {
+            try
+            {
+                ProxyAction? action = Setting.Instance?.GetAction(actionName);
+                if (action != null)
+                {
+                    action.shouldBeEnabled = true;
+                }
+                return action;
+            }
+            catch (Exception ex)
+            {
+                LogUtils.WarnOnce(
+                    "tooltip-hotkey-" + actionName,
+                    () => $"Keybinding '{actionName}' unavailable: {ex.GetType().Name}: {ex.Message}",
+                    ex);
+                return null;
             }
         }
     }

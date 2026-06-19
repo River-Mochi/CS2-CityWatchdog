@@ -156,12 +156,12 @@ namespace CityWatchdog
                     "City Watchdog panel araç çubuğundaki Yol adı ikonuna tıklamakla aynıdır." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "Yol adlarını gizle/göster" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Tüm fare üstü tooltipleri kapat" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
-                    "Oyunun hover tooltiplerini kapatır — imleci binalar/vatandaşlar/araçlar üzerinde takip edenler\n" +
-                    " ve oyun UI düğmelerindeki küçük popuplar (üst çubuk adları, vanilla düğmeler, vb.).\n" +
-                    "<City Watchdog’un kendi para/nüfus popupları açık kalır>; bunlar yukarıdaki Money View seçeneğiyle kontrol edilir.\n" +
-                    "Şehir içinde City Watchdog panelindeki [i] ikonuna tıklamakla aynıdır." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "Tüm fare üstü tooltipleri kapat" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
+                    "<Kısayol> ile TÜM oyun hover tooltiplerini anında gizle/göster — binalar, cims, araçlar ve alt menü simgeleri.\n" +
+                    "<City Watchdog'un kendi para/nüfus popup'ları açık kalır>; bunlar yukarıdaki Money View seçeneğiyle kontrol edilir.\n" +
+                    "Şehirdeki City Watchdog panelinde [i] simgesine tıklamakla aynı." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Tüm oyun hover tooltiplerini gizle/göster" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Kilometre taşı seçici" },

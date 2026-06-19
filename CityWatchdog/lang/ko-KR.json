@@ -1,7 +1,7 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "알림 아이콘 패널을 엽니다.",
-  "TooltipToggle": "게임의 모든 마우스 오버 툴팁을 표시/숨깁니다.\n건물, 시민, 도구 위의 커서 툴팁과 게임 UI 버튼의 작은 팝업이 포함됩니다.",
+  "TooltipToggle": "모든 게임 마우스 오버 툴팁 숨김/표시.\n옵션 메뉴에서 단축키를 설정하세요.",
   "TitleBarTooltipPanelOn": "클릭하여 City Watchdog 툴팁을 표시/숨깁니다.",
   "TitleBarTooltipPanelOff": "클릭하여 City Watchdog 툴팁을 표시/숨깁니다.",
   "RoadNameToggleOn": "클릭하여 도로 이름을 숨깁니다.\n단축키: \\",

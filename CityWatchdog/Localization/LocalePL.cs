@@ -156,12 +156,12 @@ namespace CityWatchdog
                     "To samo co kliknięcie ikony nazw dróg na pasku panelu City Watchdog." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "Ukryj/pokaż nazwy dróg" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Wyłącz wszystkie dymki po najechaniu" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
-                    "Wyłącza dymki gry po najechaniu — te, które podążają za kursorem nad budynkami/mieszkańcami/narzędziami\n" +
-                    " oraz małe wyskakujące okna na przyciskach UI gry (nazwy górnego paska, przyciski vanilla itd.).\n" +
-                    "<Własne dymki pieniędzy/populacji City Watchdog zostają włączone>; kontroluje je opcja Money View powyżej.\n" +
-                    "To samo co kliknięcie ikony [i] w panelu City Watchdog w mieście." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "Wyłącz wszystkie dymki po najechaniu" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
+                    "<Skrót> do natychmiastowego ukrycia lub pokazania WSZYSTKICH dymków gry po najechaniu — budynki, cimy, narzędzia i ikony dolnego menu.\n" +
+                    "<Własne dymki pieniędzy/populacji City Watchdog pozostają aktywne>; są kontrolowane przez opcję Money View powyżej.\n" +
+                    "Tak samo jak kliknięcie ikony [i] w panelu City Watchdog w mieście." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Ukryj/Pokaż wszystkie dymki gry po najechaniu" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Wybór kamienia milowego" },

@@ -1,7 +1,7 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "開啟通知圖示面板。",
-  "TooltipToggle": "顯示/隱藏遊戲中所有懸停提示。\n包括建築、市民、工具上的游標提示，以及遊戲介面按鈕上的小彈窗。",
+  "TooltipToggle": "隱藏/顯示所有遊戲懸停提示。\n在選項選單中設定快捷鍵。",
   "TitleBarTooltipPanelOn": "點擊以顯示/隱藏 City Watchdog 的提示。",
   "TitleBarTooltipPanelOff": "點擊以顯示/隱藏 City Watchdog 的提示。",
   "RoadNameToggleOn": "點擊以隱藏道路名稱。\n快捷鍵：\\",

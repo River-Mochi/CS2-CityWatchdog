@@ -1,7 +1,7 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "Öffnet das Panel für Benachrichtigungssymbole.",
-  "TooltipToggle": "ALLE Hover-Tooltips des Spiels anzeigen/ausblenden.\nCursor-Tooltips über Gebäuden, Cims, Werkzeugen und kleine Popups auf UI-Schaltflächen.",
+  "TooltipToggle": "ALLE Hover-Tooltips des Spiels aus-/einblenden.\nHotkey im Optionsmenü festlegen.",
   "TitleBarTooltipPanelOn": "Klicken, um Tooltips für City Watchdog ein-/auszublenden.",
   "TitleBarTooltipPanelOff": "Klicken, um Tooltips für City Watchdog ein-/auszublenden.",
   "RoadNameToggleOn": "Klicken, um Straßennamen auszublenden.\nHotkey: \\",

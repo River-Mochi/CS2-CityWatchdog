@@ -155,13 +155,12 @@ namespace CityWatchdog
                     "Même effet qu'un clic sur l'icône Nom de route dans la barre du panneau City Watchdog."
                 },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "Masquer/Afficher les noms de routes" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "Désactiver toutes les infobulles au survol" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
-                    "Désactive les infobulles du jeu au survol — celles qui suivent le curseur sur les bâtiments/citoyens/outils\n" +
-                    " et les petits popups sur les boutons de l'interface du jeu (noms de la barre du haut, boutons vanilla, etc.).\n" +
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "Désactiver toutes les infobulles au survol" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
+                    "<Raccourci> pour masquer ou afficher instantanément TOUTES les infobulles du jeu — bâtiments, cims, outils et icônes du menu inférieur.\n" +
                     "<Les popups argent/population propres à City Watchdog restent actifs>; ils sont contrôlés par l'option Money View ci-dessus.\n" +
-                    "Même effet qu'un clic sur l'icône [i] du panneau City Watchdog dans la ville."
-                },
+                    "Même effet qu'un clic sur l'icône [i] du panneau City Watchdog dans la ville." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Masquer/Afficher toutes les infobulles du jeu" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Sélecteur de palier" },

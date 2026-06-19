@@ -160,6 +160,7 @@ namespace CityWatchdog
             EnableAction(setting, Setting.ToggleNotificationsAction);
             EnableAction(setting, Setting.ToggleNotificationPanelAction);
             EnableAction(setting, Setting.ToggleRoadNamesAction);
+            EnableAction(setting, Setting.ToggleAllTooltipsAction);
         }
 
 

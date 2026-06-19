@@ -1,7 +1,7 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "打开通知图标面板。",
-  "TooltipToggle": "显示/隐藏游戏中所有悬停提示。\n包括建筑、市民、工具上的鼠标提示，以及游戏界面按钮上的小弹窗。",
+  "TooltipToggle": "隐藏/显示所有游戏悬停提示。\n在选项菜单中设置快捷键。",
   "TitleBarTooltipPanelOn": "点击显示/隐藏 City Watchdog 的提示。",
   "TitleBarTooltipPanelOff": "点击显示/隐藏 City Watchdog 的提示。",
   "RoadNameToggleOn": "点击隐藏道路名称。\n快捷键：\\",

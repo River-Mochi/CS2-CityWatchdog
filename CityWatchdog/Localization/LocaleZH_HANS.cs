@@ -156,12 +156,12 @@ namespace CityWatchdog
                     "与点击 City Watchdog 面板工具栏中的道路名称图标相同。" },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "隐藏/显示道路名称" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.DisableAllTooltips)), "禁用所有鼠标悬停提示" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.DisableAllTooltips)),
-                    "关闭游戏的悬停提示 — 包括跟随光标出现在建筑/市民/工具上的提示\n" +
-                    " 以及游戏 UI 按钮上的小弹窗（顶部栏名称、原版按钮等）。\n" +
-                    "<City Watchdog 自己的金钱/人口弹窗会保持开启>；它们由上面的 Money View 选项控制。\n" +
-                    "与在城市中点击 City Watchdog 面板里的 [i] 图标相同。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "禁用所有鼠标悬停提示" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
+                    "<快捷键>立即隐藏/显示所有游戏悬停提示 — 建筑、cims、工具和底部菜单图标。\n" +
+                    "<City Watchdog 自己的金钱/人口弹窗保持开启>；它们由上方的 Money View 选项控制。\n" +
+                    "与点击城市内 City Watchdog 面板上的 [i] 图标效果相同。" },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "隐藏/显示所有游戏悬停提示" },
 
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "里程碑选择器" },

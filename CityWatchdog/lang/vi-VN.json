@@ -1,7 +1,7 @@
 {
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "Mở bảng biểu tượng thông báo.",
-  "TooltipToggle": "Hiện/ẩn TẤT CẢ tooltip khi rê chuột trong game.\nTooltip con trỏ trên công trình, cư dân, công cụ và các popup nhỏ trên nút UI của game.",
+  "TooltipToggle": "Ẩn/hiện TẤT CẢ tooltip khi rê chuột của game.\nĐặt phím tắt trong menu Tùy chọn.",
   "TitleBarTooltipPanelOn": "Bấm để hiện/ẩn tooltip của City Watchdog.",
   "TitleBarTooltipPanelOff": "Bấm để hiện/ẩn tooltip của City Watchdog.",
   "RoadNameToggleOn": "Bấm để ẩn tên đường.\nPhím tắt: \\",
