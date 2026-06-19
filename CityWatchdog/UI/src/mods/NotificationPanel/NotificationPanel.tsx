@@ -57,10 +57,6 @@ const roadArrowIconSrc = RoadArrowIconPath;
 // Info icon uses the built-in game media path.
 const infoIconSrc = "Media/Game/Icons/AdvisorInfoViewWhite.svg";
 
-// Toolbar icons use built-in game media paths.
-// All.svg is the vanilla snap-options "all" icon.
-const toggleAllIconSrc = "Media/Tools/Snap Options/All.svg";
-
 // ParallelPlus / ParallelMinus are used as compact expand/collapse icons.
 const expandAllIconSrc = "Media/Tools/Net Tool/ParallelPlus.svg";
 const collapseAllIconSrc = "Media/Tools/Net Tool/ParallelMinus.svg";

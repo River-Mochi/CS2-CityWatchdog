@@ -3,8 +3,8 @@
      width="100%"
      height="100%">
 
-  <!-- More clockwise and larger overall -->
-  <g transform="translate(32 32) rotate(15) scale(1.18) translate(-32 -32)">
+  <!-- Rotate a bit more clockwise and scale up to fill space more -->
+  <g transform="translate(32 32) rotate(12) scale(1.12) translate(-32 -32)">
 
     <!-- Road / base shapes -->
     <g id="road-base">
@@ -29,8 +29,8 @@
         transform="translate(-1206.995 1147.886)"/>
     </g>
 
-    <!-- White arrows enlarged more -->
-    <g id="arrows" transform="translate(32 32) scale(1.32) translate(-32 -32)">
+    <!-- White arrows enlarged -->
+    <g id="arrows" transform="translate(32 32) scale(1.25) translate(-32 -32)">
       <path
         fill="#FFFFFF"
         d="M15735.836 2434.139l.937 6.54 1.877-1.049 6.6 6.079 3.01-1.765-6.471-5.883 2.157-1.245Z"

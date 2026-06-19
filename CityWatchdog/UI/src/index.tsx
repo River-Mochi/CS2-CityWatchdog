@@ -7,8 +7,9 @@ import { NotificationPanel } from "./mods/NotificationPanel/NotificationPanel";
 import { EntryButton } from "./mods/EntryButton/EntryButton";
 import { DescriptionTooltipMoneyViewExtension, StatFieldMoneyViewExtension, TooltipGateExtension } from "./mods/MoneyView/MoneyView";
 import { VanillaComponentResolver } from "./utils/vanilla";
-import "../images/NotificationIcon_TitleBar.svg";
-import "../images/CWDNotificationIcon_white02.svg";
+// Side-effect import — webpack emits this SVG to coui://ui-mods/images/ so the C# Settings
+// UI can reference it by raw path string (no TS importer for it on the C# side).
+import "../images/NotificationIcon_OrgCir.svg";
 
 const STAT_FIELD_MODULE = "game-ui/game/components/toolbar/components/stat-field/stat-field.tsx";
 // Vanilla export name. Keep this value aligned with the game module export.

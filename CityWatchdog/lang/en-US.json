@@ -1,13 +1,11 @@
 ﻿{
   "EntryButtonTitle": "CITY WATCHDOG",
   "EntryButtonDescription": "Open the notification icon panel.",
-  "NotificationIconShowOrHide": "Expand rows; show alerts, unchecked hides them.\nDefault hotkeys: Shift+N panel, N toggle all, [ add money, ] subtract money.\nThis doesn't fix problems, it hides icon clutter.",
   "TooltipToggle": "Show/hide ALL game hover tooltips.\nCursor tooltips over buildings, cims, tools, and the small popups on game UI buttons.",
   "TitleBarTooltipPanelOn": "Click to show/hide Tooltips for City Watchdog.",
   "TitleBarTooltipPanelOff": "Click to show/hide Tooltips for City Watchdog.",
   "RoadNameToggleOn": "Click to hide road names.\nHotkey: \\",
   "RoadNameToggleOff": "Click to show road names.\nHotkey: \\",
-  "RoadArrowToggleOn": "Click to show/hide 1-way road arrows on every road.\nThis also hides road names as side effect.",
   "RoadArrowToggleOff": "Click to show/hide 1-way road arrows on every road.\nThis also hides road names as side effect.",
   "ToggleAll": "TOGGLE ALL",
   "ExpandAll": "Expand All",

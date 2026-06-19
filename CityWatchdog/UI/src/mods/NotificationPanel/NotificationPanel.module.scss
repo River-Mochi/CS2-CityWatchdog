@@ -343,21 +343,17 @@
     transition-timing-function: ease-out, ease-out, ease-out;
 }
 
+// Hover brightness kept modest (1.2 not 1.6) so the custom pure-white road icons don't
+// blow out. The vanilla Info icon source is softer so the same boost still reads.
 .infoButton:hover .infoIcon {
-    filter: brightness(1.6);
+    filter: brightness(1.2);
     transform: scale(1.08);
 }
 
-// Road-arrow icon — rotated clockwise and scaled up to fill the button.
+// Road-arrow icon — slightly larger than the standard infoIcon to fill the button.
 .roadArrowIcon {
     width: 34rem;
     height: 34rem;
-    transform: rotate(22deg);
-    transform-origin: center;
-}
-
-.infoButton:hover .roadArrowIcon {
-    transform: rotate(22deg) scale(1.08);
 }
 
 .toolbarButton {

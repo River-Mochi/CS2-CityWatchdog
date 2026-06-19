@@ -1,4 +1,4 @@
-// File: src/UI/src/mods/EntryButton/EntryButton.tsx
+﻿// File: src/UI/src/mods/EntryButton/EntryButton.tsx
 // Purpose:
 //   Floating GameTopLeft launcher button for the City Watchdog notification panel.
 //   Clicking toggles the in-game City Watchdog SIP panel.
@@ -20,7 +20,8 @@ import {
 import { VanillaComponentResolver } from "../../utils/vanilla";
 
 // Icon emitted by webpack to coui://ui-mods/images/.
-import ModIconPath from "../../../images/CWDNotificationIcon_white02.svg";
+// Same SVG as the panel title-bar icon so the GTL launcher and the open panel match visually.
+import ModIconPath from "../../../images/NotificationIcon_GTL.svg";
 
 export const EntryButton = () => {
     const showPanel = useValue(controlPanelEnabled$);

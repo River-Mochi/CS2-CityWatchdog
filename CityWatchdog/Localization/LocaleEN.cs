@@ -231,7 +231,7 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Display toggles>\n" +
-                    "1. [i] button: hide/show ALL game hover tooltips (buildings, cims, tools).\n" +
+                    "1. [i] button: hide/show ALL game hover tooltips - buildings, cims, tools, and bottom menu icons.\n" +
                     "2. Road Name button: hide/show road name labels. Hotkey: \\.\n" +
                     "3. Road Arrow button: force 1-way road arrows on/off (also hides road names).\n" +
                     "4. CWD Title bar icon: show/hide City Watchdog panel tooltips.\n\n" +
