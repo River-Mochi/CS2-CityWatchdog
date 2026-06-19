@@ -221,7 +221,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Affiche ou masque les instructions ci-dessous." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Options d'affichage>\n" +
-                    "1. Bouton [i] : masquer/afficher TOUTES les infobulles du jeu (bâtiments, cims, outils).\n" +
+                    "1. Bouton [i] : masquer/afficher TOUTES les infobulles du jeu (bâtiments, cims, outils, icônes du menu inférieur).\n" +
                     "2. Bouton Nom de route : masquer/afficher les noms de routes. Raccourci : \\.\n" +
                     "3. Bouton Flèches routières : forcer les flèches de routes à sens unique ON/OFF (masque aussi les noms de routes).\n" +
                     "4. Icône de barre de titre CWD : afficher/masquer les infobulles du panneau City Watchdog.\n" +

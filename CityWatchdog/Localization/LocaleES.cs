@@ -228,7 +228,7 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Controles de visualización>\n" +
-                    "1. Botón [i]: oculta/muestra TODOS los tooltips del juego (edificios, ciudadanos, herramientas).\n" +
+                    "1. Botón [i]: oculta/muestra TODOS los tooltips del juego (edificios, ciudadanos, herramientas, iconos del menú inferior).\n" +
                     "2. Botón de nombres de calles: oculta/muestra etiquetas de nombres de calles. Atajo: \\.\n" +
                     "3. Botón de flechas de carretera: fuerza flechas de sentido único ON/OFF (también oculta los nombres de calles).\n" +
                     "4. Icono de la barra de título de CWD: muestra/oculta tooltips del panel City Watchdog.\n\n" +

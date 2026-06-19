@@ -221,7 +221,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "下の使用説明を表示または非表示にします。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<表示切り替え>\n" +
-                    "1. [i] ボタン: ゲームのホバー・ツールチップをすべて非表示/表示 (建物、Cim、ツール)。\n" +
+                    "1. [i] ボタン: ゲームのホバー・ツールチップをすべて非表示/表示 (建物、Cim、ツール、下部メニューのアイコン)。\n" +
                     "2. 道路名ボタン: 道路名ラベルを非表示/表示。ホットキー: \\.\n" +
                     "3. 道路矢印ボタン: 一方通行の矢印を強制 ON/OFF (道路名も非表示)。\n" +
                     "4. CWD タイトルバーアイコン: City Watchdog パネルのツールチップを表示/非表示。\n" +

@@ -223,7 +223,7 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Công tắc hiển thị>\n" +
-                    "1. Nút [i]: ẩn/hiện TẤT CẢ tooltip khi rê chuột của game (công trình, cims, công cụ).\n" +
+                    "1. Nút [i]: ẩn/hiện TẤT CẢ tooltip khi rê chuột của game (công trình, cims, công cụ, biểu tượng menu dưới).\n" +
                     "2. Nút Tên đường: ẩn/hiện nhãn tên đường. Phím tắt: \\.\n" +
                     "3. Nút Mũi tên đường: ép bật/tắt mũi tên đường một chiều (cũng ẩn tên đường).\n" +
                     "4. Biểu tượng thanh tiêu đề CWD: hiện/ẩn tooltip bảng City Watchdog.\n" +

@@ -223,7 +223,7 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Alternâncias de exibição>\n" +
-                    "1. Botão [i]: oculta/mostra TODOS os tooltips do jogo ao passar o mouse (prédios, cims, ferramentas).\n" +
+                    "1. Botão [i]: oculta/mostra TODOS os tooltips do jogo ao passar o mouse (prédios, cims, ferramentas, ícones do menu inferior).\n" +
                     "2. Botão de nomes das ruas: oculta/mostra rótulos de nomes das ruas. Atalho: \\.\n" +
                     "3. Botão de setas das ruas: força setas de mão única ligadas/desligadas (também oculta nomes das ruas).\n" +
                     "4. Ícone da barra de título do CWD: mostra/oculta tooltips do painel City Watchdog.\n" +

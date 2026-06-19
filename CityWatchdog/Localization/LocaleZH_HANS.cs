@@ -223,7 +223,7 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<显示开关>\n" +
-                    "1. [i] 按钮：隐藏/显示所有游戏悬停提示（建筑、cims、工具）。\n" +
+                    "1. [i] 按钮：隐藏/显示所有游戏悬停提示（建筑、cims、工具、底部菜单图标）。\n" +
                     "2. 道路名称按钮：隐藏/显示道路名称标签。快捷键：\\。\n" +
                     "3. 道路箭头按钮：强制单行道箭头开/关（也会隐藏道路名称）。\n" +
                     "4. CWD 标题栏图标：显示/隐藏 City Watchdog 面板提示。\n" +

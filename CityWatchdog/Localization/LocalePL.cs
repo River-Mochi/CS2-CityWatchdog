@@ -223,7 +223,7 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Przełączniki widoku>\n" +
-                    "1. Przycisk [i]: ukryj/pokaż WSZYSTKIE dymki gry po najechaniu (budynki, cimy, narzędzia).\n" +
+                    "1. Przycisk [i]: ukryj/pokaż WSZYSTKIE dymki gry po najechaniu (budynki, cimy, narzędzia, ikony dolnego menu).\n" +
                     "2. Przycisk nazw dróg: ukryj/pokaż etykiety nazw dróg. Skrót: \\.\n" +
                     "3. Przycisk strzałek dróg: wymuś strzałki dróg jednokierunkowych wł./wył. (też ukrywa nazwy dróg).\n" +
                     "4. Ikona na pasku tytułu CWD: pokaż/ukryj dymki panelu City Watchdog.\n" +

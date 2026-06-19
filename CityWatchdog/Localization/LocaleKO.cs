@@ -221,7 +221,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "아래 사용법 안내를 표시하거나 숨깁니다." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<표시 전환>\n" +
-                    "1. [i] 버튼: 모든 게임 마우스 오버 툴팁 숨김/표시 (건물, 시민, 도구).\n" +
+                    "1. [i] 버튼: 모든 게임 마우스 오버 툴팁 숨김/표시 (건물, 시민, 도구, 하단 메뉴 아이콘).\n" +
                     "2. 도로 이름 버튼: 도로 이름 라벨 숨김/표시. 단축키: \\.\n" +
                     "3. 도로 화살표 버튼: 일방통행 도로 화살표를 강제로 ON/OFF (도로 이름도 숨김).\n" +
                     "4. CWD 제목 표시줄 아이콘: City Watchdog 패널 툴팁 표시/숨김.\n" +

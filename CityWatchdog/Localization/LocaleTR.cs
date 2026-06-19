@@ -223,7 +223,7 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Görünüm anahtarları>\n" +
-                    "1. [i] düğmesi: TÜM oyun hover tooltiplerini gizle/göster (binalar, cims, araçlar).\n" +
+                    "1. [i] düğmesi: TÜM oyun hover tooltiplerini gizle/göster (binalar, cims, araçlar, alt menü simgeleri).\n" +
                     "2. Yol adı düğmesi: yol adı etiketlerini gizle/göster. Kısayol: \\.\n" +
                     "3. Yol oku düğmesi: tek yön yol oklarını aç/kapatmaya zorlar (yol adlarını da gizler).\n" +
                     "4. CWD başlık çubuğu ikonu: City Watchdog panel tooltiplerini göster/gizle.\n" +

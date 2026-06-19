@@ -221,7 +221,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Mostra o nasconde le istruzioni qui sotto." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Interruttori visuali>\n" +
-                    "1. Pulsante [i]: nasconde/mostra TUTTI i tooltip del gioco al passaggio del mouse (edifici, cims, strumenti).\n" +
+                    "1. Pulsante [i]: nasconde/mostra TUTTI i tooltip del gioco al passaggio del mouse (edifici, cims, strumenti, icone del menu inferiore).\n" +
                     "2. Pulsante Nome strada: nasconde/mostra le etichette dei nomi strade. Tasto rapido: \\.\n" +
                     "3. Pulsante Frecce stradali: forza ON/OFF le frecce delle strade a senso unico (nasconde anche i nomi strade).\n" +
                     "4. Icona nella barra titolo CWD: mostra/nasconde i tooltip del pannello City Watchdog.\n" +

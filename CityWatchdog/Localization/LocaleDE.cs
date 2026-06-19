@@ -221,7 +221,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Zeigt oder versteckt die Anleitung unten." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
                     "<Anzeige-Schalter>\n" +
-                    "1. [i]-Button: ALLE Hover-Tooltips des Spiels aus-/einblenden (Gebäude, Cims, Werkzeuge).\n" +
+                    "1. [i]-Button: ALLE Hover-Tooltips des Spiels aus-/einblenden (Gebäude, Cims, Werkzeuge, Symbole der unteren Menüleiste).\n" +
                     "2. Straßennamen-Button: Straßennamen aus-/einblenden. Hotkey: \\.\n" +
                     "3. Straßenpfeil-Button: Einbahnstraßen-Pfeile erzwingen an/aus (versteckt auch Straßennamen).\n" +
                     "4. CWD-Titelleisten-Symbol: Tooltips des City-Watchdog-Panels zeigen/verstecken.\n" +
