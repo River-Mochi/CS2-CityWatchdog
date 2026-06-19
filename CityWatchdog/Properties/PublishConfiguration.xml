@@ -76,6 +76,7 @@ tags: Visual, UI organize icons
     <Screenshot Value="Properties/image30-Money.jpg" />
     <Screenshot Value="Properties/image35-Money.jpg" />
     <Screenshot Value="Properties/image40-Languages.jpg" />
+    <Screenshot Value="Properties/image50-ToggleOff.jpg" />
     <Screenshot Value="Properties/image65-InstructionsCN.jpg" />
     <Screenshot Value="Properties/image80-RainMoney.jpg" />
 	<!--Tag, can be set multiple times-->
