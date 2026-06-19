@@ -184,14 +184,14 @@ const PopulationTooltipRate = ({
     readonly showSign?: boolean;
 }) => {
     const tone = toneOverride ?? getSignedAmountTone(value);
-    const text = showSign
+    const formattedValue = showSign
         ? formatPopulationRateValue(localization, value, unit)
         : formatLocalizedIntegerValue(localization, value, unit);
 
     return (
         <div className={`${styles.populationTooltipGroup} ${topRow ? styles.populationTooltipTopTrend : ""}`}>
             <div className={styles.tooltipLabel}>{trimLabelPunctuation(label)}</div>
-            <div className={`${styles.populationTooltipValueLine} ${styles[tone]}`}>{text}</div>
+            <div className={`${styles.populationTooltipValueLine} ${styles[tone]}`}>{formattedValue}</div>
         </div>
     );
 };

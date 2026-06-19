@@ -190,14 +190,14 @@ const MoneyViewTooltipSingleValue = ({
 }) => {
     const displayValue = getDisplayWholeValue(value);
     const tone = getSignedAmountTone(displayValue);
-    const text = formatTooltipMoneyValue(localization, displayValue);
+    const formattedValue = formatTooltipMoneyValue(localization, displayValue);
 
     return (
         <div className={styles.tooltipGroup}>
             <div className={styles.tooltipLabel}>{trimLabelPunctuation(label)}</div>
             <div className={styles.tooltipValueColumn}>
                 <div className={`${styles.tooltipValueLine} ${getTooltipValueClassName(mode)} ${styles[tone]}`}>
-                    {text}
+                    {formattedValue}
                 </div>
             </div>
         </div>
@@ -219,9 +219,9 @@ const MoneyViewTooltipValue = ({
 }) => {
     const displayValue = getDisplayWholeValue(value);
     const tone = getSignedAmountTone(displayValue);
-    const text = formatTooltipMoneyViewValue(localization, displayValue, compact, unit);
+    const formattedValue = formatTooltipMoneyViewValue(localization, displayValue, compact, unit);
 
-    return <div className={`${styles.tooltipValueLine} ${getTooltipValueClassName(mode)} ${styles[tone]}`}>{text}</div>;
+    return <div className={`${styles.tooltipValueLine} ${getTooltipValueClassName(mode)} ${styles[tone]}`}>{formattedValue}</div>;
 };
 
 const getTooltipValueClassName = (mode: number): string => {
