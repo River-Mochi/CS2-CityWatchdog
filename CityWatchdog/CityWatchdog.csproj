@@ -73,6 +73,9 @@
         <Reference Include="Colossal.Localization">
             <Private>false</Private>
         </Reference>
+        <Reference Include="Colossal.PSI.Common">
+            <Private>false</Private>
+        </Reference>
         <Reference Include="Colossal.Mathematics">
             <Private>false</Private>
         </Reference>
@@ -143,7 +146,7 @@
         <Copy SourceFiles="@(SvgFiles)" DestinationFiles="@(SvgFiles->'$(DeployDir)\images\%(RecursiveDir)%(Filename)%(Extension)')" />
     </Target>
 
-    <!-- Deploy lang/<locale>.json files so UIStringsJsonSource can load them at runtime.
+    <!-- Deploy lang/<locale>.json files so LoadInCityUITranslations can read them at runtime.
          Canonical CS2 modding pattern per the wiki "Localize your mod" page. -->
     <ItemGroup>
         <Content Include="lang\**">

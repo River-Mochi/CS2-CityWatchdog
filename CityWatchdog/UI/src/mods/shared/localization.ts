@@ -5,8 +5,9 @@
 
 // File: UI/src/mods/shared/localization.ts
 // Purpose:
-//   In-city UI locale lookup. The C# side (UIStringsJsonSource) loads lang/<locale>.json and
-//   registers every entry with the game's LocalizationManager under "CityWatchdog.UI.<Key>".
+//   In-city UI locale lookup. The C# side (Mod.LoadInCityUITranslations) reads lang/<locale>.json
+//   via Colossal.Json.JSON.Load and registers each entry with the game's LocalizationManager
+//   under "CityWatchdog.UI.<Key>" via Colossal.Localization.MemorySource.
 //   useText() is a React hook that returns a text(key, fallback) function bound to the active
 //   game language — when the player switches language, components rerender and pick up the new
 //   translations automatically via useLocalization().

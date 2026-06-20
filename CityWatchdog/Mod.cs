@@ -11,18 +11,21 @@
 
 namespace CityWatchdog
 {
-    using CityWatchdog.Localization;
     using CityWatchdog.Systems;
     using CS2Shared.RiverMochi;
     using Colossal;
     using Colossal.IO.AssetDatabase;
+    using Colossal.Json;
     using Colossal.Localization;
     using Colossal.Logging;
+    using Colossal.PSI.Environment;
     using Game;
     using Game.Input;
     using Game.Modding;
     using Game.SceneFlow;
     using System;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Reflection;
 
     public sealed class Mod : IMod
@@ -85,18 +88,11 @@ namespace CityWatchdog
             AddLocaleSource("tr-TR", new LocaleTR(setting));       // Turkish
             AddLocaleSource("pt-PT", new LocalePT_PT(setting));    // European Portuguese
 
-            // In-city UI strings — loaded from lang/<locale>.json so the translation tool stays
-            // the single source of truth. Registers each entry under "CityWatchdog.UI.<Key>" so
-            // React-side translate() picks it up for the active game language.
-            string[] uiLocaleCodes = new[]
-            {
-                "en-US", "fr-FR", "es-ES", "de-DE", "it-IT", "ja-JP", "ko-KR",
-                "pl-PL", "pt-BR", "zh-HANS", "zh-HANT", "th-TH", "vi-VN", "tr-TR", "pt-PT",
-            };
-            foreach (string code in uiLocaleCodes)
-            {
-                AddLocaleSource(code, new UIStringsJsonSource(code));
-            }
+            // In-city UI strings — loaded from lang/<locale>.json at the deployed mod folder.
+            // Uses CO APIs: Colossal.Json.JSON.Load for parsing, Colossal.Localization.MemorySource
+            // for the IDictionarySource. Each entry is registered under "CityWatchdog.UI.<Key>"
+            // so React-side translate() picks it up for the active game language.
+            LoadInCityUITranslations();
 
             try
             {
@@ -204,6 +200,129 @@ namespace CityWatchdog
 
             s_BannerLogged = true;
             LogUtils.Info(() => $"{ModName} v{ModVersion} {ModTag} loaded");
+        }
+
+        // Scans the deployed lang/ folder for *.json files and registers every one as a
+        // Colossal.Localization.MemorySource with the game's LocalizationManager. Each JSON
+        // key gets the "CityWatchdog.UI." prefix so React-side translate("CityWatchdog.UI.Foo")
+        // resolves through the active game locale. Uses CO APIs throughout per the API priority
+        // rule: Colossal.Json.JSON.Load to parse, MemorySource for the IDictionarySource.
+        //
+        // Locale discovery is filesystem-based (scan *.json) rather than a hardcoded list, so
+        // adding a new lang file to the source tree just works — no Mod.cs edit required.
+        //
+        // DELIBERATELY does NOT filter by localizationManager.GetSupportedLocales(). We support
+        // unofficial locales (vi-VN, tr-TR, th-TH, pt-PT, ...) for players who use a third-party
+        // locale-adder mod (I18N Everywhere, etc.) to put those languages in the game's dropdown.
+        // When that mod adds e.g. vi-VN as active, the game finds our pre-registered MemorySource
+        // and translates correctly. Without the locale-adder the extra sources sit unused —
+        // harmless. Do NOT "helpfully" add a GetSupportedLocales filter; that would silently
+        // break Vietnamese / Thai / Turkish / European-Portuguese players.
+        private void LoadInCityUITranslations()
+        {
+            string langFolderPath = ResolveLangFolderPath();
+            if (string.IsNullOrEmpty(langFolderPath))
+            {
+                LogUtils.Warn(() => "LoadInCityUITranslations: lang folder path empty; in-city UI will use English static fallback.");
+                return;
+            }
+
+            bool langFolderExists;
+            try
+            {
+                langFolderExists = Directory.Exists(langFolderPath);
+            }
+            catch (Exception ex)
+            {
+                LogUtils.Warn(() => $"LoadInCityUITranslations: Directory.Exists threw for '{langFolderPath}': {ex.GetType().Name}: {ex.Message}", ex);
+                return;
+            }
+
+            if (!langFolderExists)
+            {
+                LogUtils.Warn(() => $"LoadInCityUITranslations: lang folder missing at '{langFolderPath}'.");
+                return;
+            }
+
+            LocalizationManager? localizationManager = GameManager.instance?.localizationManager;
+            if (localizationManager == null)
+            {
+                LogUtils.Warn(() => "LoadInCityUITranslations: no LocalizationManager available.");
+                return;
+            }
+
+            string[] jsonFiles;
+            try
+            {
+                jsonFiles = Directory.GetFiles(langFolderPath, "*.json");
+            }
+            catch (Exception ex)
+            {
+                LogUtils.Warn(() => $"LoadInCityUITranslations: Directory.GetFiles threw for '{langFolderPath}': {ex.GetType().Name}: {ex.Message}", ex);
+                return;
+            }
+
+            int registered = 0;
+            foreach (string jsonPath in jsonFiles)
+            {
+                string localeID = Path.GetFileNameWithoutExtension(jsonPath);
+                try
+                {
+                    string raw = File.ReadAllText(jsonPath);
+                    Variant variant = JSON.Load(raw);
+                    Dictionary<string, string> translations = variant.Make<Dictionary<string, string>>();
+                    if (translations == null || translations.Count == 0)
+                    {
+                        LogUtils.Warn(() => $"LoadInCityUITranslations: empty translations in '{jsonPath}'.");
+                        continue;
+                    }
+
+                    Dictionary<string, string> prefixed = new Dictionary<string, string>(translations.Count);
+                    foreach (KeyValuePair<string, string> entry in translations)
+                    {
+                        prefixed[$"CityWatchdog.UI.{entry.Key}"] = entry.Value;
+                    }
+
+                    localizationManager.AddSource(localeID, new MemorySource(prefixed));
+                    registered++;
+                }
+                catch (Exception ex)
+                {
+                    LogUtils.Warn(() => $"LoadInCityUITranslations: failed loading '{jsonPath}': {ex.GetType().Name}: {ex.Message}", ex);
+                }
+            }
+
+            LogUtils.Info(() => $"LoadInCityUITranslations: registered {registered}/{jsonFiles.Length} locale sources from '{langFolderPath}'.");
+        }
+
+        // Resolves the absolute path to the deployed <ModInstallDir>/lang/ folder.
+        // Uses Colossal.PSI.Environment.EnvPath.kUserDataPath — the CO/CS2 API the game itself
+        // uses (see Game.Debug, Game.Modding.Toolchain decompiled). This is the canonical
+        // CS2-modding way to reach the user data root; csproj's <Content Include="lang\**">
+        // deploys our JSONs under <kUserDataPath>\Mods\<ModId>\lang\.
+        //
+        // Never throws — returns empty string if anything fails. LoadInCityUITranslations handles
+        // an empty path by skipping JSON load and letting the static en-US fallback in
+        // localization.ts cover the player's UI.
+        //
+        // IMPORTANT: do NOT use Assembly.Location here. CS2 mod assemblies return a path that
+        // crashes Path.GetDirectoryName with "Invalid path", which aborted OnLoad in v1.0.2.
+        private string ResolveLangFolderPath()
+        {
+            try
+            {
+                string dataRoot = EnvPath.kUserDataPath;
+                if (string.IsNullOrEmpty(dataRoot))
+                {
+                    return string.Empty;
+                }
+                return Path.Combine(dataRoot, "Mods", ModId, "lang");
+            }
+            catch (Exception ex)
+            {
+                LogUtils.Warn(() => $"ResolveLangFolderPath: path build failed: {ex.GetType().Name}: {ex.Message}", ex);
+                return string.Empty;
+            }
         }
 
         private static bool AddLocaleSource(string localeId, IDictionarySource source)
