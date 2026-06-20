@@ -6,6 +6,7 @@
 # all copies or substantial portions of this code.
 # ================= </copyright> ======================
 
+# version 0.5.0
 """
 Add standard River-Mochi MIT file headers to source files.
 
