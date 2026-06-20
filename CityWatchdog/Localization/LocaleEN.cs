@@ -177,8 +177,9 @@ namespace CityWatchdog
                 // --- Milestone selector ---
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
-                    "Enable before loading or starting a city to unlock a chosen milestone immediately after the city loads.\n" +
-                    "This cannot be turned ON while a city is loaded, but it can be turned OFF if it was left enabled by mistake.\n" +
+                    "Enable <before loading or starting a city> to unlock a chosen milestone immediately after the city loads.\n" +
+                    "Cannot be turned ON after a city is loaded, but it can be turned OFF if it was left enabled by mistake.\n" +
+                    "If you forgot and loaded a city, just restart the game, and pick milestone before entering a city.\n" +
                     "City Watchdog cannot undo milestone changes already saved into a city; use an earlier save if needed." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Milestone" },
