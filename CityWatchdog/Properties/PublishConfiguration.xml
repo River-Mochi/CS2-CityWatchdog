@@ -93,6 +93,7 @@ tags: Visual, UI organize icons
 <ChangeLog>
 * by popular demand, new Hotkey for Toggle off all tooltips feature.
 * fix in-city tooltips translated languages not showing.
+* -----
 * added [i] button toggles on/off ALL game hover tool-tips
 * added button to Show 1-way Arrows on Roads.
 * added button to Hide Road Names.
