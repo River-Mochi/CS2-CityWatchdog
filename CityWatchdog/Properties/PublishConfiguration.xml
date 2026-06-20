@@ -72,11 +72,11 @@ tags: Visual, UI organize icons
 	<Thumbnail Value="Properties/Thumbnail-dog-city03.jpg" />
 	<!--Screenshot, can be set multiple times-->
     <Screenshot Value="Properties/image10-Notifications.jpg" />
-    <Screenshot Value="Properties/image20-Hotkeys-Money.jpg" />
-    <Screenshot Value="Properties/image30-Money.jpg" />
-    <Screenshot Value="Properties/image35-Money.jpg" />
-    <Screenshot Value="Properties/image40-Languages.jpg" />
-    <Screenshot Value="Properties/image50-ToggleOff.jpg" />
+    <Screenshot Value="Properties/image15-Money.jpg" />
+    <Screenshot Value="Properties/image20-ToggleOff.jpg" />
+    <Screenshot Value="Properties/image25-Languages.jpg" />
+    <Screenshot Value="Properties/image30-Hotkeys-Money.jpg" />
+    <Screenshot Value="Properties/image40-Money.jpg" />
     <Screenshot Value="Properties/image65-InstructionsCN.jpg" />
     <Screenshot Value="Properties/image80-RainMoney.jpg" />
 	<!--Tag, can be set multiple times-->
