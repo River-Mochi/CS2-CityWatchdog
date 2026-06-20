@@ -168,6 +168,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
                     "Ative antes de carregar ou iniciar uma cidade para desbloquear o marco escolhido logo após a cidade carregar.\n" +
                     "Não pode ser ativado enquanto uma cidade está carregada, mas pode ser desativado se ficou ligado por engano.\n" +
+                    "Se se esqueceu e já carregou uma cidade, é só reiniciar o jogo e escolher o marco antes de entrar numa cidade.\n" +
                     "O City Watchdog não pode desfazer mudanças de marco já salvas em uma cidade; use um save anterior se precisar." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Marco" },

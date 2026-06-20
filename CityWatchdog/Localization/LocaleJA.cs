@@ -113,7 +113,7 @@ namespace CityWatchdog
                     "有効 [ ✓ ] のとき、City Watchdog は都市が読み込まれている間、都市の残高を確認します。\n" +
                     "- 残高が<しきい値を下回る>と、\n" +
                     "  選択した自動金額を追加します。\n" +
-                    "- 必要なときは、この自動オプションより手動のお金ホットキー (<[> または <]>) の使用がおすすめです\n" +
+                    "- 必要なときは、この自動オプションより手動のお金ホットキー (<[> または <]>) の使用がおすすめです" +
                     "  ただし必要ならこの機能も使えます。"
                 },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "自動お金追加のしきい値" },
@@ -167,6 +167,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
                     "都市を読み込む/開始する前に有効にすると、読み込み直後に選んだマイルストーンを解除します。\n" +
                     "都市が読み込まれている間は ON にできませんが、誤って有効のままだった場合は OFF にできます。\n" +
+                    "忘れて都市を読み込んでしまった場合は、ゲームを再起動してから、都市に入る前にマイルストーンを選んでください。\n" +
                     "City Watchdog は、すでに都市に保存されたマイルストーン変更を元に戻せません。必要なら古いセーブを使ってください。"
                 },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "マイルストーン" },

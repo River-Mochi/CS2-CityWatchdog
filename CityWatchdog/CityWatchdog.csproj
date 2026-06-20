@@ -73,9 +73,6 @@
         <Reference Include="Colossal.Localization">
             <Private>false</Private>
         </Reference>
-        <Reference Include="Colossal.PSI.Common">
-            <Private>false</Private>
-        </Reference>
         <Reference Include="Colossal.Mathematics">
             <Private>false</Private>
         </Reference>
@@ -146,9 +143,15 @@
         <Copy SourceFiles="@(SvgFiles)" DestinationFiles="@(SvgFiles->'$(DeployDir)\images\%(RecursiveDir)%(Filename)%(Extension)')" />
     </Target>
 
-    <!-- Deploy lang/<locale>.json files so LoadInCityUITranslations can read them at runtime.
-         Canonical CS2 modding pattern per the wiki "Localize your mod" page. -->
+    <!-- Embed lang/<locale>.json into the DLL so InCityLocalization can load them via
+         Assembly.GetManifestResourceStream regardless of where the mod was installed (local
+         <UserData>/Mods/<ModId>/ OR PDX subscription cache <UserData>/.cache/Mods/pdx_mods/
+         <asset_id>_<version>/). Embedding removes all runtime path-resolution failure modes.
+         Pattern matches RoadRailSpeeds and Algernon's LineTool (which uses embedded CSV).
+         Also keep <Content> so the JSON files remain visible in bin/<config>/net48/lang/
+         for local inspection and debugging — the runtime loader reads from embedded only. -->
     <ItemGroup>
+        <EmbeddedResource Include="lang\*.json" />
         <Content Include="lang\**">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>

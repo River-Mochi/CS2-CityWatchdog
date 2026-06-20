@@ -168,6 +168,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
                     "在載入或開始城市前啟用，可在城市載入後立即解鎖所選里程碑。\n" +
                     "城市已載入時不能開啟，但如果誤開，可以關閉。\n" +
+                    "如果忘了又已載入城市，重啟遊戲，進入城市前選好里程碑即可。\n" +
                     "City Watchdog 無法撤銷已經儲存到城市中的里程碑變更；需要時請使用較早存檔。" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "里程碑" },

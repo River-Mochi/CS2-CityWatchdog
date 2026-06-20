@@ -6,7 +6,7 @@
   "TitleBarTooltipPanelOff": "Cliquer pour afficher/masquer les info-bulles de City Watchdog.",
   "RoadNameToggleOn": "Cliquer pour masquer les noms de routes.\nRaccourci : \\",
   "RoadNameToggleOff": "Cliquer pour afficher les noms de routes.\nRaccourci : \\",
-  "RoadArrowToggleOff": "Cliquer pour afficher/masquer les flèches de sens unique sur toutes les routes.\nCela masque aussi les noms de routes comme effet secondaire.\nNormalement visible seulement lorsqu’un outil de route est actif.",
+  "RoadArrowToggleOff": "Cliquer pour afficher/masquer les flèches de sens unique sur toutes les routes.\nCela masque aussi les noms de routes comme effet secondaire.",
   "ToggleAll": "TOUT BASCULER",
   "ExpandAll": "Tout développer",
   "CollapseAll": "Réduire toutes les lignes",

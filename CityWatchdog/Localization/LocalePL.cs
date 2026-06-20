@@ -168,6 +168,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
                     "Włącz przed wczytaniem lub rozpoczęciem miasta, aby od razu po wczytaniu odblokować wybrany kamień milowy.\n" +
                     "Nie można włączyć tego podczas wczytanego miasta, ale można wyłączyć, jeśli zostało włączone przez pomyłkę.\n" +
+                    "Jeśli zapomniałeś i wczytałeś już miasto, po prostu uruchom grę ponownie i wybierz kamień milowy przed wejściem do miasta.\n" +
                     "City Watchdog nie może cofnąć zmian kamieni milowych zapisanych już w mieście; w razie potrzeby użyj wcześniejszego zapisu." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Kamień milowy" },

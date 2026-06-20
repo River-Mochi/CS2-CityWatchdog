@@ -113,7 +113,7 @@ namespace CityWatchdog
                     "Wenn aktiviert [ ✓ ], prüft City Watchdog den Stadtkontostand, solange eine Stadt geladen ist.\n" +
                     "- Wenn der Kontostand <unter dem Grenzwert> liegt, \n" +
                     "  wird der gewählte automatische Betrag hinzugefügt.\n" +
-                    "- Empfohlen ist eher manuelles Geld per Hotkey (<[> oder <]>) nach Bedarf\n" +
+                    "- Empfohlen ist eher manuelles Geld per Hotkey (<[> oder <]>) nach Bedarf" +
                     "  statt dieser Automatik; sie ist aber da, wenn du sie willst."
                 },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Grenzwert für automatisches Geld" },
@@ -167,6 +167,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
                     "Vor dem Laden oder Starten einer Stadt aktivieren, um den gewählten Meilenstein direkt nach dem Laden freizuschalten.\n" +
                     "Kann nicht eingeschaltet werden, während eine Stadt geladen ist, aber ausgeschaltet werden, falls es versehentlich aktiv blieb.\n" +
+                    "Wenn du es vergessen und schon eine Stadt geladen hast, einfach das Spiel neu starten und vor dem Stadtladen den Meilenstein wählen.\n" +
                     "City Watchdog kann bereits gespeicherte Meilenstein-Änderungen nicht rückgängig machen; nutze bei Bedarf einen älteren Spielstand."
                 },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Meilenstein" },

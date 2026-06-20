@@ -6,7 +6,7 @@
   "TitleBarTooltipPanelOff": "Haz clic para mostrar/ocultar las descripciones de City Watchdog.",
   "RoadNameToggleOn": "Haz clic para ocultar nombres de calles.\nAtajo: \\",
   "RoadNameToggleOff": "Haz clic para mostrar nombres de calles.\nAtajo: \\",
-  "RoadArrowToggleOff": "Haz clic para mostrar/ocultar flechas de sentido único en todas las calles.\nEsto también oculta los nombres de calles como efecto secundario.\nNormalmente solo son visibles cuando una herramienta de carretera está activa.",
+  "RoadArrowToggleOff": "Haz clic para mostrar/ocultar flechas de sentido único en todas las calles.\nEsto también oculta los nombres de calles como efecto secundario.",
   "ToggleAll": "ALTERNAR TODO",
   "ExpandAll": "Expandir todo",
   "CollapseAll": "Contraer todas las filas",

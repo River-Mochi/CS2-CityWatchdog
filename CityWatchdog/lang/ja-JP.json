@@ -6,7 +6,7 @@
   "TitleBarTooltipPanelOff": "クリックして City Watchdog のツールチップを表示/非表示にします。",
   "RoadNameToggleOn": "クリックして道路名を非表示にします。\nホットキー: \\",
   "RoadNameToggleOff": "クリックして道路名を表示します。\nホットキー: \\",
-  "RoadArrowToggleOff": "クリックして、すべての道路の一方通行矢印を表示/非表示にします。\n副作用として道路名も非表示になります。\n通常は道路ツールが有効なときだけ表示されます。",
+  "RoadArrowToggleOff": "クリックして、すべての道路の一方通行矢印を表示/非表示にします。\n副作用として道路名も非表示になります。",
   "ToggleAll": "すべて切替",
   "ExpandAll": "すべて展開",
   "CollapseAll": "すべての行を折りたたむ",

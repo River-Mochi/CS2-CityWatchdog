@@ -6,7 +6,7 @@
   "TitleBarTooltipPanelOff": "点击显示/隐藏 City Watchdog 的提示。",
   "RoadNameToggleOn": "点击隐藏道路名称。\n快捷键：\\",
   "RoadNameToggleOff": "点击显示道路名称。\n快捷键：\\",
-  "RoadArrowToggleOff": "点击显示/隐藏每条道路上的单行道箭头。\n这也会顺带隐藏道路名称。\n通常只有道路工具处于活动状态时才可见。",
+  "RoadArrowToggleOff": "点击显示/隐藏每条道路上的单行道箭头。\n这也会顺带隐藏道路名称。",
   "ToggleAll": "全部切换",
   "ExpandAll": "全部展开",
   "CollapseAll": "折叠所有行",

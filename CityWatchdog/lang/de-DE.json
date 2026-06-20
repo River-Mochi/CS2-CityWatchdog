@@ -6,7 +6,7 @@
   "TitleBarTooltipPanelOff": "Klicken, um Tooltips für City Watchdog ein-/auszublenden.",
   "RoadNameToggleOn": "Klicken, um Straßennamen auszublenden.\nHotkey: \\",
   "RoadNameToggleOff": "Klicken, um Straßennamen anzuzeigen.\nHotkey: \\",
-  "RoadArrowToggleOff": "Klicken, um Einbahnstraßenpfeile auf allen Straßen ein-/auszublenden.\nDadurch werden auch Straßennamen als Nebeneffekt ausgeblendet.\nNormalerweise nur sichtbar, wenn ein Straßenwerkzeug aktiv ist.",
+  "RoadArrowToggleOff": "Klicken, um Einbahnstraßenpfeile auf allen Straßen ein-/auszublenden.\nDadurch werden auch Straßennamen als Nebeneffekt ausgeblendet.",
   "ToggleAll": "ALLE UMSCHALTEN",
   "ExpandAll": "Alle aufklappen",
   "CollapseAll": "Alle Zeilen einklappen",

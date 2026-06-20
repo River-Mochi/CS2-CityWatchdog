@@ -113,7 +113,7 @@ namespace CityWatchdog
                     "Quand l'option est activée [ ✓ ], City Watchdog vérifie le solde de la ville pendant qu'une ville est chargée.\n" +
                     "- Si le solde est <sous le seuil>, \n" +
                     "  il ajoute le montant automatique choisi.\n" +
-                    "- Il est recommandé d'utiliser plutôt l'argent manuel avec le raccourci (<[> ou <]>) au besoin\n" +
+                    "- Il est recommandé d'utiliser plutôt l'argent manuel avec le raccourci (<[> ou <]>) au besoin" +
                     "  au lieu de cette option automatique, mais elle est là si vous la voulez."
                 },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Seuil d'argent automatique" },
@@ -167,6 +167,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
                     "Activez avant de charger ou de démarrer une ville pour débloquer le palier choisi juste après le chargement.\n" +
                     "Impossible de l'activer pendant qu'une ville est chargée, mais vous pouvez le désactiver s'il est resté activé par erreur.\n" +
+                    "Si vous avez oublié et déjà chargé une ville, redémarrez simplement le jeu et choisissez le palier avant d'entrer dans une ville.\n" +
                     "City Watchdog ne peut pas annuler les changements de palier déjà enregistrés dans une ville; utilisez une sauvegarde plus ancienne si besoin."
                 },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Palier" },

@@ -113,7 +113,7 @@ namespace CityWatchdog
                     "켜짐 [ ✓ ] 상태이면, City Watchdog은 도시가 로드된 동안 도시 잔액을 확인합니다.\n" +
                     "- 잔액이 <기준값 아래>로 내려가면, \n" +
                     "  선택한 자동 금액을 추가합니다.\n" +
-                    "- 이 자동 옵션보다는 필요할 때 수동 돈 단축키 (<[> 또는 <]>) 사용을 권장합니다\n" +
+                    "- 이 자동 옵션보다는 필요할 때 수동 돈 단축키 (<[> 또는 <]>) 사용을 권장합니다" +
                     "  그래도 원하면 이 옵션을 사용할 수 있습니다."
                 },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "자동 돈 기준값" },
@@ -167,6 +167,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
                     "도시를 로드하거나 시작하기 전에 켜면, 도시 로드 직후 선택한 마일스톤을 즉시 해제합니다.\n" +
                     "도시가 로드된 동안에는 켤 수 없지만, 실수로 켜 둔 경우에는 끌 수 있습니다.\n" +
+                    "잊고 도시를 불러왔다면, 게임을 다시 시작하고 도시에 들어가기 전에 마일스톤을 선택하세요.\n" +
                     "City Watchdog은 이미 도시 저장 파일에 저장된 마일스톤 변경을 되돌릴 수 없습니다. 필요하면 이전 저장 파일을 사용하세요."
                 },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "마일스톤" },

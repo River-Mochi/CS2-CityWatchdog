@@ -175,6 +175,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
                     "Actívalo antes de cargar o iniciar una ciudad para desbloquear el hito elegido justo después de cargar la ciudad.\n" +
                     "No se puede activar mientras hay una ciudad cargada, pero sí se puede desactivar si quedó activado por error.\n" +
+                    "Si lo olvidaste y ya cargaste una ciudad, solo reinicia el juego y elige el hito antes de entrar a una ciudad.\n" +
                     "City Watchdog no puede deshacer cambios de hitos ya guardados en una ciudad; usa un guardado anterior si hace falta." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Hito" },

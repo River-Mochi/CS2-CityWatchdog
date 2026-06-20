@@ -168,6 +168,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
                     "Bật trước khi tải hoặc bắt đầu thành phố để mở khóa cột mốc đã chọn ngay sau khi thành phố tải xong.\n" +
                     "Không thể bật khi thành phố đang tải, nhưng có thể tắt nếu lỡ để bật.\n" +
+                    "Nếu lỡ quên và đã tải thành phố rồi, chỉ cần khởi động lại trò chơi và chọn mốc trước khi vào thành phố.\n" +
                     "City Watchdog không thể hoàn tác thay đổi cột mốc đã lưu vào thành phố; dùng save cũ hơn nếu cần." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Cột mốc" },

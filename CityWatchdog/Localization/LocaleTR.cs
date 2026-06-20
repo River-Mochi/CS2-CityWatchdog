@@ -168,6 +168,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
                     "Şehir yüklenir yüklenmez seçilen kilometre taşını açmak için şehir yüklemeden veya başlatmadan önce etkinleştirin.\n" +
                     "Bir şehir yüklüyken AÇILAMAZ, ama yanlışlıkla açık kaldıysa KAPATILABİLİR.\n" +
+                    "Unutup şehri yüklediyseniz, oyunu yeniden başlatın ve şehre girmeden önce kilometre taşını seçin.\n" +
                     "City Watchdog, şehre kaydedilmiş kilometre taşı değişikliklerini geri alamaz; gerekiyorsa eski bir kayıt kullanın." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Kilometre taşı" },

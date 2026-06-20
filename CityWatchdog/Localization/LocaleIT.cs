@@ -113,7 +113,7 @@ namespace CityWatchdog
                     "Quando è abilitato [ ✓ ], City Watchdog controlla il saldo della città mentre una città è caricata.\n" +
                     "- Se il saldo è <sotto la soglia>, \n" +
                     "  aggiunge l'importo automatico selezionato.\n" +
-                    "- È consigliato usare il denaro manuale con il tasto rapido (<[> o <]>) quando serve\n" +
+                    "- È consigliato usare il denaro manuale con il tasto rapido (<[> o <]>) quando serve" +
                     "  invece di questa opzione automatica, ma è qui se la vuoi."
                 },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Soglia denaro automatico" },
@@ -167,6 +167,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
                     "Abilita prima di caricare o iniziare una città per sbloccare il traguardo scelto subito dopo il caricamento.\n" +
                     "Non può essere attivato mentre una città è caricata, ma può essere disattivato se è rimasto attivo per errore.\n" +
+                    "Se l'hai dimenticato e hai già caricato una città, riavvia il gioco e scegli il milestone prima di entrare in una città.\n" +
                     "City Watchdog non può annullare modifiche ai traguardi già salvate in una città; usa un salvataggio precedente se necessario."
                 },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Traguardo" },
