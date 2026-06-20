@@ -11,6 +11,7 @@
 
 namespace CityWatchdog
 {
+    using CityWatchdog.Localization;
     using CityWatchdog.Systems;
     using CS2Shared.RiverMochi;
     using Colossal;
@@ -67,6 +68,7 @@ namespace CityWatchdog
             Setting setting = new Setting(this);
             Settings = Setting.Instance = setting;
 
+            // Options UI strings — one IDictionarySource per language (typed Locale*.cs classes).
             AddLocaleSource("en-US", new LocaleEN(setting));
             AddLocaleSource("fr-FR", new LocaleFR(setting));
             AddLocaleSource("es-ES", new LocaleES(setting));
@@ -82,6 +84,19 @@ namespace CityWatchdog
             AddLocaleSource("vi-VN", new LocaleVI(setting));       // Vietnamese
             AddLocaleSource("tr-TR", new LocaleTR(setting));       // Turkish
             AddLocaleSource("pt-PT", new LocalePT_PT(setting));    // European Portuguese
+
+            // In-city UI strings — loaded from lang/<locale>.json so the translation tool stays
+            // the single source of truth. Registers each entry under "CityWatchdog.UI.<Key>" so
+            // React-side translate() picks it up for the active game language.
+            string[] uiLocaleCodes = new[]
+            {
+                "en-US", "fr-FR", "es-ES", "de-DE", "it-IT", "ja-JP", "ko-KR",
+                "pl-PL", "pt-BR", "zh-HANS", "zh-HANT", "th-TH", "vi-VN", "tr-TR", "pt-PT",
+            };
+            foreach (string code in uiLocaleCodes)
+            {
+                AddLocaleSource(code, new UIStringsJsonSource(code));
+            }
 
             try
             {

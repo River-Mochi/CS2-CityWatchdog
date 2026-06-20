@@ -4,7 +4,7 @@
 import { bindValue, useValue } from "cs2/api";
 import { infoview, toolbarBottom } from "cs2/bindings";
 import { LocalizedNumber, Unit, useLocalization, type Localization } from "cs2/l10n";
-import { text } from "../shared/localization";
+import { useText } from "../shared/localization";
 import { Children, isValidElement, type CSSProperties, type ReactNode } from "react";
 import { moneyView$, populationTooltipFontScale$ } from "../Bindings/Bindings";
 import styles from "./MoneyView.module.scss";
@@ -15,6 +15,7 @@ const homeless$ = bindValue<number>("populationInfo", "homeless", 0);
 
 export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseContent: ReactNode }) => {
     const localization = useLocalization();
+    const text = useText();
     const moneyViewEnabled = useValue(moneyView$);
     const populationTooltipFontScale = useValue(populationTooltipFontScale$);
     const currentTrend = getNumericValue(useValue(toolbarBottom.populationDelta$));

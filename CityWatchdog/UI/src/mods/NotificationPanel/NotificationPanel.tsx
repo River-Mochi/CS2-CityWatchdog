@@ -5,7 +5,7 @@ import { useValue } from "cs2/api";
 import { game } from "cs2/bindings";
 import { useLocalization } from "cs2/l10n";
 import { getModule } from "cs2/modding";
-import { text as uiText } from "../shared/localization";
+import { useText } from "../shared/localization";
 import { Button, Panel, Tooltip } from "cs2/ui";
 import { useState, type ReactElement, type ReactNode } from "react";
 import {
@@ -97,7 +97,9 @@ export const NotificationPanel = () => {
 };
 
 const NotificationPanelContent = () => {
-    const { translate } = useLocalization();
+    const localization = useLocalization();
+    const uiText = useText();
+    const { translate } = localization;
     const [sortAscending, setSortAscending] = useState(true);
     // disableAllTooltips$ — Info button: vanilla game hover tooltips.
     const allTooltipsDisabled = useValue(disableAllTooltips$);

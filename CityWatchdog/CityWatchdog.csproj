@@ -143,6 +143,14 @@
         <Copy SourceFiles="@(SvgFiles)" DestinationFiles="@(SvgFiles->'$(DeployDir)\images\%(RecursiveDir)%(Filename)%(Extension)')" />
     </Target>
 
+    <!-- Deploy lang/<locale>.json files so UIStringsJsonSource can load them at runtime.
+         Canonical CS2 modding pattern per the wiki "Localize your mod" page. -->
+    <ItemGroup>
+        <Content Include="lang\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
     <!-- Run npm ci AFTER C# build, only when needed:
        - first time (node_modules missing), OR
        - package-lock.json changed since last run (tracked by .stamp). -->

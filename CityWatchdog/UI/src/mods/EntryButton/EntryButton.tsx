@@ -12,7 +12,7 @@
 
 import { useValue } from "cs2/api";
 import { Button } from "cs2/ui";
-import { text } from "../shared/localization";
+import { useText } from "../shared/localization";
 import {
     OnControlPanelBindingToggle,
     controlPanelEnabled$,
@@ -25,6 +25,7 @@ import ModIconPath from "../../../images/NotificationIcon_GTL3.svg";
 
 export const EntryButton = () => {
     const showPanel = useValue(controlPanelEnabled$);
+    const text = useText();
 
     const title = text("EntryButtonTitle", "CITY WATCHDOG");
     const description = text("EntryButtonDescription", "Open the notification icon panel.");
