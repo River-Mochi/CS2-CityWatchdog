@@ -12,12 +12,22 @@ Add standard River-Mochi MIT file headers to source files.
 
 Dry run by default.
 
-Common use:
+# 1. Preview only. Use this first.
   py -3 CityWatchdog/Scripts/add_file_headers.py
+
+# 2. Add headers to files that do not already have one.
   py -3 CityWatchdog/Scripts/add_file_headers.py --apply
+
+# 3. Replace old headers with this exact current River-Mochi header.
+#    Use this when you intentionally want every supported source file updated.
   py -3 CityWatchdog/Scripts/add_file_headers.py --apply --replace-existing
+
+# 4. CI/check mode. Fails if any supported file still needs a header.
   py -3 CityWatchdog/Scripts/add_file_headers.py --check
+
+# 5. Strict CI/check mode. Also fails if an old header needs replacement.
   py -3 CityWatchdog/Scripts/add_file_headers.py --check --replace-existing
+
 
 If this script is placed at repo root:
   py -3 Scripts/add_file_headers.py --apply --replace-existing
