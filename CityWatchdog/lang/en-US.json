@@ -6,7 +6,7 @@
   "TitleBarTooltipPanelOff": "Click to show/hide Tooltips for City Watchdog.",
   "RoadNameToggleOn": "Click to hide road names.\nHotkey: \\",
   "RoadNameToggleOff": "Click to show road names.\nHotkey: \\",
-  "RoadArrowToggleOff": "Click to show/hide 1-way road arrows on every road.\nThis also hides road names as side effect.",
+  "RoadArrowToggleOff": "Click to show/hide 1-way road arrows on every road.\nSide effect - also hides road names.",
   "ToggleAll": "TOGGLE ALL",
   "ExpandAll": "Expand All",
   "CollapseAll": "Collapse All Rows",
