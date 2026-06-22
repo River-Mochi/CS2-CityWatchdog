@@ -6,7 +6,6 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-//
 // File: src/Localization/LocaleZH_HANT.cs
 // Purpose: Traditional Chinese (zh-HANT) for City Watchdog Options UI menu.
 
@@ -29,7 +28,11 @@ namespace CityWatchdog
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-            string title = Mod.ModName + " (看門狗)";
+            string title = Mod.ModName;
+            if (!string.IsNullOrEmpty(Mod.ModVersion))
+            {
+                title += " (" + Mod.ModVersion + ")";
+            }
 
             Dictionary<string, string> entries = new Dictionary<string, string>
             {
@@ -37,216 +40,244 @@ namespace CityWatchdog
                 { m_Settings.GetSettingsLocaleID(), title },
 
                 // --- Tabs ---
-                { m_Settings.GetOptionTabLocaleID(Setting.Actions), "操作" },
-                { m_Settings.GetOptionTabLocaleID(Setting.Hotkeys), "快速鍵" },
-                { m_Settings.GetOptionTabLocaleID(Setting.About), "關於" },
-                { m_Settings.GetOptionTabLocaleID(Setting.Debug), "除錯" },
+                { m_Settings.GetOptionTabLocaleID(Setting.Actions), "動作"},
+                { m_Settings.GetOptionTabLocaleID(Setting.MoneyTab), "金錢"},
+                { m_Settings.GetOptionTabLocaleID(Setting.Hotkeys), "快捷鍵"},
+                { m_Settings.GetOptionTabLocaleID(Setting.About), "關於"},
+                { m_Settings.GetOptionTabLocaleID(Setting.Debug), "偵錯"},
 
-                // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "資訊檢視器" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.Money), "金錢" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "通知" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "里程碑" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "存檔轉換" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "快速鍵" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.AboutDiagnostics), "診斷" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "使用說明" },
+                // --- Groups, ordered by Options menu location ---
+                { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "使用說明"},
+                { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "通知"},
+                { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "新城市啟動設定"},
+                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "城市內資訊檢視器"},
+                { m_Settings.GetOptionGroupLocaleID(Setting.Money), "金錢"},
+                { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "存檔轉換"},
+                { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), ""},
+                { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), ""},
+                { m_Settings.GetOptionGroupLocaleID(Setting.AboutDiagnostics), "診斷"},
+                { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "快捷鍵"},
 
-                // --- Money View ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "懸停時顯示詳細資料" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
-                    "在底部工具列原版的<金錢和人口箭頭>旁顯示數值趨勢。\n" +
-                    "這是輕量的工具列懸停<僅顯示>功能；\n" +
-                    "不會改變城市金錢或人口。" },
+                // --------------------------------------------------------------------
+                // Actions tab - Usage
+                // --------------------------------------------------------------------
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyViewMode)), "Money View 頻率" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)),
-                    "選擇底部工具列的趨勢文字顯示金錢和人口的每小時值還是每月值。\n" +
-                    "每月金錢使用預算收入減支出，人口使用 24 小時預測。" },
-                { m_Settings.GetOptionLocaleID("MoneyViewModeHourly"), "每小時 (/h)" },
-                { m_Settings.GetOptionLocaleID("MoneyViewModeMonthly"), "每月 (/mo)" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "金錢提示樣式" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
-                    "選擇滑鼠懸停金錢時提示裡顯示多少細節。\n" +
-                    "緊湊 = 首次安裝預設。\n" +
-                    "<迷你> 只顯示 /mo 和 /h 的 2 個淨值。\n" +
-                    "<緊湊> 縮短大數字（15.21M 而不是 15,212,318）。\n" +
-                    "<完整資料> 顯示長數字和總計欄位。" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "迷你" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "緊湊" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "完整資料" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "金錢字體大小" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
-                    "調整 Money View 提示數字的<字體大小>。\n" +
-                    "遊戲預設 = 100%\n" +
-                    "<模組預設 = 120%>\n" +
-                    "將滑鼠懸停在螢幕底部的金錢上。\n" +
-                    "這是為看不清遊戲小提示的玩家加入的。" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "人口字體大小" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)),
-                    "調整人口提示數字的<字體大小>。\n" +
-                    "遊戲預設 = 100%\n" +
-                    "<模組預設 = 120%>\n" +
-                    "將滑鼠懸停在螢幕底部的人口上。" },
-
-                // --- Money helpers ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "金錢快速鍵金額" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
-                    "此金額用於添加金錢和減少金錢快速鍵。\n" +
-                    "<模組預設 = 40,000>\n" +
-                    "除非你在城市中使用快速鍵添加/減少金錢，否則不會生效。\n" +
-                    "如需自動加錢，請啟用自動添加金錢選項。" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "添加金錢" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "在城市中執行<添加金錢>的快速鍵。" },
-                { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "添加金錢" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "減少金錢" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "在城市中執行<減少金錢>的快速鍵。" },
-                { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "減少金錢" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "自動添加金錢" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
-                    "啟用 [ ✓ ] 後，City Watchdog 會在城市載入時檢查城市餘額。\n" +
-                    "- 如果餘額<低於閾值>，\n" +
-                    "  就會添加所選的自動金額。\n" +
-                    "- 建議需要時使用手動金錢快速鍵（<[> 或 <]>）  而不是這個自動選項，但如果你想用，它就在這裡。" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "自動金錢閾值" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),
-                    "如果自動添加金錢已啟用，且城市餘額低於此值，\n" +
-                    "就會添加所選的自動金額。" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "自動金錢金額" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)),
-                    "每次自動添加金錢觸發時添加的金額。\n" +
-                    "請選擇足夠高的數值，讓城市安全回到閾值以上。" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "初始金錢" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
-                    "設定新<有限金錢>城市或首次載入城市的起始餘額，\n" +
-                    "套用後會重設為遊戲預設。\n" +
-                    "如果城市已經載入，此項會變灰。\n" +
-                    "在開始/載入城市前設定 → 套用一次 → 之後使用<金錢快速鍵金額>或<自動添加金錢>。" },
-
-                { m_Settings.GetOptionLocaleID("GameDefault"), "遊戲預設" },
-
-                // --- Notifications ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "切換通知圖示" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
-                    "與遊戲內 <[TOGGLE ALL]> 圖示按鈕相同操作的<快速鍵>。\n" +
-                    "可立即顯示或隱藏所有列出的城市通知圖示。" },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "立即顯示/隱藏所有通知圖示" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "開啟/關閉通知面板" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)),
-                    "用於在城市中開啟或關閉\n" +
-                    "<通知面板>的<快速鍵>。\n" +
-                    "效果與點擊左上角圖示開啟完整面板相同。" },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "開啟/關閉通知面板" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)), "隱藏/顯示道路名稱" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)),
-                    "<快速鍵>可立即隱藏或顯示城市中的原版道路名稱標籤。\n" +
-                    "與點擊 City Watchdog 面板工具列中的道路名稱圖示相同。" },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "隱藏/顯示道路名稱" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "停用所有滑鼠懸停提示" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
-                    "<快捷鍵>立即隱藏/顯示所有遊戲懸停提示 — 建築、cims、工具和底部選單圖示。\n" +
-                    "<City Watchdog 自己的金錢/人口彈窗保持開啟>；它們由上方的 Money View 選項控制。\n" +
-                    "與點擊城市內 City Watchdog 面板上的 [i] 圖示效果相同。" },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "隱藏/顯示所有遊戲懸停提示" },
-
-                // --- Milestone selector ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "里程碑選擇器" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
-                    "在載入或開始城市前啟用，可在城市載入後立即解鎖所選里程碑。\n" +
-                    "城市已載入時不能開啟，但如果誤開，可以關閉。\n" +
-                    "如果忘了又已載入城市，重啟遊戲，進入城市前選好里程碑即可。\n" +
-                    "City Watchdog 無法撤銷已經儲存到城市中的里程碑變更；需要時請使用較早存檔。" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "里程碑" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)),
-                    "選擇下次載入城市時要解鎖的里程碑等級。\n" +
-                    "只能在沒有載入城市時調整，並且必須先啟用 [里程碑選擇器] [ ✓ ]。" },
-
-                // --- Save conversion ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "無限金錢轉換器" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)),
-                    "<請先備份城市>。\n" +
-                    "將以無限金錢開始的城市轉換為有正常金錢挑戰的普通城市。\n" +
-                    "當載入的城市是<無限金錢>類型時，啟用此項會解鎖 <[轉換無限金錢存檔]> 按鈕。\n" +
-                    "City Watchdog 無法撤銷此轉換。\n" +
-                    "如果你的是普通城市，不用擔心；不需要使用它。" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "將無限金錢城市轉換為普通城市" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
-                    "用於以<無限金錢>開始的城市。\n" +
-                    "該城市載入時，此項會將存檔轉換為普通有限金錢預算，讓城市重新擁有正常金錢挑戰。\n" +
-                    "除非載入的城市是<無限金錢>類型\n" +
-                    "且<無限金錢轉換器>為 ON [ ✓ ]，否則按鈕會<停用/變灰>。\n" +
-                    "請先備份存檔並自行承擔風險；City Watchdog 無法撤銷此轉換。" },
-
-                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
-                    "要將此城市從無限金錢轉換為普通有限金錢嗎？\n" +
-                    "請先備份；City Watchdog 無法撤銷此操作。\n" +
-                    "確定嗎？" },
-
-                // --- About tab ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "模組名稱" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.NameText)), "此模組的顯示名稱。" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.VersionText)), "版本" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "目前模組版本。" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "開啟作者的 Paradox Mods 頁面。" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "除錯報告寫入記錄" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)),
-                    "<正常遊戲不需要。>\n" +
-                    "供測試者和遊戲更新後檢查使用：寫入 <Logs/CityWatchdog.log> 報告，\n" +
-                    "比較即時遊戲通知 prefab 與 Watchdog 目前控制的通知圖示。" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "開啟記錄" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
-                    "如果存在，則開啟 </Logs/CityWatchdog.log>。\n" +
-                    "如果記錄檔案缺失，則開啟 Logs/ 資料夾。" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "顯示說明" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "顯示或隱藏下面的使用說明。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "顯示說明"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "顯示或隱藏下方使用說明。"},
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
-                    "<顯示開關>\n" +
-                    "1. [i] 按鈕：隱藏/顯示所有遊戲懸停提示（建築、cims、工具、底部選單圖示）。\n" +
-                    "2. 道路名稱按鈕：隱藏/顯示道路名稱標籤。快速鍵：\\。\n" +
-                    "3. 道路箭頭按鈕：強制單行道箭頭開/關（也會隱藏道路名稱）。\n" +
-                    "4. CWD 標題列圖示：顯示/隱藏 City Watchdog 面板提示。\n" +
+                    "<显示开关>\n" +
+                    "1. [i] 按钮：隐藏/显示游戏所有悬停提示，包括建筑、市民、工具和底部菜单图标。\n" +
+                    "2. 道路名称按钮：隐藏/显示道路名称。快捷键：\\。\n" +
+                    "3. 道路箭头按钮：强制显示/隐藏单行道箭头（也会隐藏道路名称）。\n" +
+                    "4. CWD 标题栏图标：显示/隐藏 City Watchdog 面板提示。\n" +
                     "\n" +
-                    "<通知警報>\n" +
-                    "1. 點擊 City Watchdog 按鈕（左上角），或按 Shift+N，開啟面板。\n" +
-                    "2. 排序按鈕用於升序/降序。\n" +
-                    "3. Toggle All 可快速全部 Off/On，或展開某個分類修改特定圖示。\n" +
-                    "4. 只顯示或隱藏圖示；不會修復城市本身的問題。\n" +
+                    "<通知图标>\n" +
+                    "1. 点击左上角 City Watchdog 按钮，或按 Shift+N 打开面板。\n" +
+                    "2. 排序按钮可切换升序/降序。\n" +
+                    "3. Toggle All 可快速全关/全开，也可以展开分组单独调整。\n" +
+                    "4. 这里只隐藏图标，不会修复城市本身的问题。\n" +
                     "\n" +
-                    "<金錢工具>\n" +
-                    "1. 添加或減少金錢：使用<金錢快速鍵金額>的預設按鍵 [ 和 ]。\n" +
-                    "2. 自動添加金錢會在城市低於你設定的限制時加錢。\n" +
-                    "3. 轉換無限金錢存檔只用於以無限金錢開始的城市，並且<不可逆>。\n" +
+                    "<金钱工具>\n" +
+                    "1. 添加或减少金钱：默认快捷键为 [ 和 ]。\n" +
+                    "2. 自动加钱会在城市余额低于你设定的限制时加钱。\n" +
+                    "3. 无限金钱存档转换只用于以无限金钱开局的城市，且<不可撤销>。\n" +
                     "\n" +
-                    "<底部選單提示>\n" +
-                    "Money View 會在金錢和人口工具列添加趨勢值，並在滑鼠懸停時顯示額外詳細資料。\n" +
+                    "<底部菜单提示>\n" +
+                    "Money View 会给金钱和人口工具栏添加趋势值，并在悬停时显示详情。\n" +
                     "\n" +
-                    "<自訂里程碑>\n" +
-                    "在載入或開始城市前，到選項選單設定初始金錢並選擇里程碑。" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
+                    "<自定义里程碑>\n" +
+                    "加载或开始城市前，在“新城市启动设置”里设置初始金钱和里程碑。"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), ""},
 
+                // --------------------------------------------------------------------
+                // Actions tab - Notifications
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "切换通知图标"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
+                    "<快捷键> 与游戏内 <[TOGGLE ALL]> 按钮相同。\n" +
+                    "立即显示或隐藏所有列出的通知图标。"},
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "立即显示/隐藏所有通知图标"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "打开/关闭通知面板"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)),
+                    "<快捷键> 在城市中打开或关闭\n" +
+                    "<通知面板>。\n" +
+                    "效果与点击左上角按钮相同。"},
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "打开/关闭通知面板"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)), "隐藏/显示道路名称"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)),
+                    "<快捷键> 立即隐藏或显示原版道路名称。\n" +
+                    "与 City Watchdog 面板工具栏中的道路名称图标相同。"},
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "隐藏/显示道路名称"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "禁用所有鼠标悬停提示"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
+                    "<快捷键> 隐藏或显示游戏所有悬停提示：建筑、市民、工具和底部菜单图标。\n" +
+                    "<City Watchdog 自己的金钱/人口弹窗仍会显示>；它们由 Money View 控制。\n" +
+                    "与 City Watchdog 面板中的 [i] 图标相同。"},
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "隐藏/显示所有游戏悬停提示"},
+
+                // --------------------------------------------------------------------
+                // Actions tab - New City Start Settings
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "初始金錢"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
+                    "设置新建<有限金钱>城市或首次加载城市的起始余额，\n" +
+                    "应用后会重置为 Game Default。\n" +
+                    "如果城市已加载，此项会变灰。\n" +
+                    "请在开始/加载城市前设置；之后可用<金钱快捷键金额>或<自动加钱>。"},
+                { m_Settings.GetOptionLocaleID("GameDefault"), "遊戲預設"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "里程碑選擇器"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
+                    "在<加载或开始城市前>启用，可在城市加载后立即解锁所选里程碑。\n" +
+                    "城市已加载时不能开启，但如果误开可以关闭。\n" +
+                    "如果忘记设置，请重启游戏并在进入城市前选择。\n" +
+                    "City Watchdog 不能撤销已保存到城市中的里程碑变化；需要时请使用较早存档。"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "里程碑"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)),
+                    "选择下次加载城市时要解锁的里程碑。\n" +
+                    "只能在未加载城市时，并且启用 [里程碑选择器] [ ✓ ] 后调整。"},
+
+                // --------------------------------------------------------------------
+                // Money tab - In City Info Viewer
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "顯示金錢 + 人口 ToolTips"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
+                    "<建议启用>\n" +
+                    "底部游戏菜单：在金钱和人口箭头旁显示趋势值。\n" +
+                    "这是轻量的工具栏悬停功能，<仅显示>；\n" +
+                    "比打开游戏信息面板更省时间，也可能更流畅。"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyViewMode)), "Money View 频率"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)),
+                    "选择底部工具栏趋势文字显示每小时还是每月的金钱和人口数值。\n" +
+                    "每月模式使用预算收入减支出，并使用 24 小时人口预测。"},
+                { m_Settings.GetOptionLocaleID("MoneyViewModeHourly"), "每小时 (/h)"},
+                { m_Settings.GetOptionLocaleID("MoneyViewModeMonthly"), "每月 (/mo)"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "金钱提示样式"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
+                    "选择金钱悬停提示显示多少详情。\n" +
+                    "Compact = 首次安装默认。\n" +
+                    "<Mini> 只显示 /mo 和 /h 的 2 个净值。\n" +
+                    "<Compact> 会缩短大数字（15.21M 而不是 15,212,318）。\n" +
+                    "<Full data> 显示长数字和 Total 字段。"},
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini"},
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compact"},
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "完整数据"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "金钱字体大小"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
+                    "调整 Money View 提示数字的<字体大小>。\n" +
+                    "游戏默认 = 100%\n" +
+                    "<Mod 默认 = 120%>\n" +
+                    "把鼠标悬停在底部金钱上。\n" +
+                    "适合觉得小提示难以阅读的玩家。"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "人口字体大小"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)),
+                    "调整人口提示数字的<字体大小>。\n" +
+                    "游戏默认 = 100%\n" +
+                    "<Mod 默认 = 120%>\n" +
+                    "把鼠标悬停在底部人口上。"},
+
+                // --------------------------------------------------------------------
+                // Money tab - Money
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "金錢快捷鍵金額"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
+                    "此金额用于添加金钱和减少金钱快捷键。\n" +
+                    "<Mod 默认 = 40,000>\n" +
+                    "除非在城市中使用快捷键，否则不会生效。\n" +
+                    "如需自动金钱，请启用自动加钱。"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "增加金錢"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)),
+                    "在城市中<添加金钱>的快捷键。"},
+                { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "增加金錢"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "減少金錢"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)),
+                    "在城市中<减少金钱>的快捷键。"},
+                { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "減少金錢"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "自動加錢"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
+                    "启用 [ ✓ ] 后，City Watchdog 会在城市加载时检查余额。\n" +
+                    "- 如果余额<低于阈值>，\n" +
+                    "  会添加所选自动金额。\n" +
+                    "- 建议需要时用手动快捷键 (<[> 或 <]>)，但这里也提供自动选项。"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "自動金錢門檻"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),
+                    "如果自动加钱已启用且城市余额低于此值，\n" +
+                    "会添加所选自动金额。"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "自動金錢金額"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)),
+                    "每次自动触发时添加的金额。\n" +
+                    "请选择足够高的值，让城市安全高于阈值。"},
+
+                // --------------------------------------------------------------------
+                // Money tab - Save Conversion
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "無限金錢轉換器"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)),
+                    "<请先备份城市>。\n" +
+                    "将以无限金钱开局的城市转换为正常的有限金钱预算城市。\n" +
+                    "当加载的城市是<无限金钱>类型时，启用此项会解锁 <[转换无限金钱存档]> 按钮。\n" +
+                    "City Watchdog 无法撤销此转换。\n" +
+                    "普通城市不需要此功能。"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "將無限金錢城市轉換為普通城市"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
+                    "用于以<无限金钱>开始的城市。\n" +
+                    "该城市加载时，会把存档转换为正常有限金钱预算。\n" +
+                    "按钮会<禁用/变灰>，除非加载的城市是<无限金钱>类型\n" +
+                    "且<无限金钱转换器>为 ON [ ✓ ]。\n" +
+                    "请先备份并自行承担风险；City Watchdog 无法撤销。"},
+
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
+                    "要把此城市从无限金钱转换为普通有限金钱吗？\n" +
+                    "请先备份；City Watchdog 无法撤销。\n" +
+                    "确定吗？"},
+
+                // --------------------------------------------------------------------
+                // About tab
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Mod 名稱"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.NameText)), "此 mod 的显示名称。"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.VersionText)), "版本"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "当前 mod 版本。"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "打开作者的 Paradox Mods 页面。"},
+
+                // --------------------------------------------------------------------
+                // Debug tab - Diagnostics
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "偵錯報告到日誌"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)),
+                    "<普通游玩不需要。>\n" +
+                    "用于测试和游戏补丁后检查：写入 <Logs/CityWatchdog.log> 报告，\n" +
+                    "比较游戏实时通知 prefab 与 Watchdog 当前控制的通知图标。"},
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "開啟日誌"},
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "如果存在，则打开 </Logs/CityWatchdog.log>。\n" +
+                    "如果日志文件不存在，则打开 Logs/ 文件夹。"},
             };
 
             return entries;
