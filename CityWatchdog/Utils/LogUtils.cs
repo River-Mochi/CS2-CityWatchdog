@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Utils/LogUtils.cs
-// Version: 0.6.5 based on River-Mochi shared CS2 utilities.
+// Version: 0.6.6 based on River-Mochi shared CS2 utilities.
 // Purpose: popup-safe direct-file logging helpers for CS2 mods.
 // Why: routine Info/Warn/Error are written with .NET FileStream/StreamWriter
 //   instead of sending every message through Colossal's logger write path, which
@@ -56,7 +56,7 @@ namespace CS2Shared.RiverMochi
 
         // Optional default logger for short calls such as LogUtils.Info("message").
         // It is remembered when a mod calls Configure("ModId", s_Log) or SetDefaultLog(s_Log).
-        private static ILog? s_DefaultLog;
+        private static ILog? s_DefaultLog = null;
 
         // Optional one-time setup: pass your mod id so fallback writes can still find ModName.log.
         public static void Configure(string fallbackLogName)

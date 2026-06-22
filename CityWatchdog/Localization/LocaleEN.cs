@@ -41,15 +41,16 @@ namespace CityWatchdog
 
                 // --- Tabs ---
                 { m_Settings.GetOptionTabLocaleID(Setting.Actions), "Actions" },
+                { m_Settings.GetOptionTabLocaleID(Setting.MoneyTab), "Money" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Hotkeys), "Hotkeys" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "About" },
                 { m_Settings.GetOptionTabLocaleID(Setting.Debug), "Debug" },
 
                 // --- Groups ---
-                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "Info Viewer" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "In City Info Viewer" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Money" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "Notifications" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "Milestone" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "NEW CITY START SETTINGS" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Save Conversion" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "Hotkeys" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
@@ -58,11 +59,13 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "USAGE" },
 
                 // --- Money View ---
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Show details on hover" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Show Money + Population ToolTips" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
-                    "Shows numeric trend values beside the vanilla bottom-toolbar <money and population arrows>.\n" +
-                    "This is a lightweight toolbar hover <display only>;\n" +
-                    "it does not change city money or population." },
+                "<Recommend Enable>\n" +
+                    "Bottom game menu: Shows trend values with the game's bottom toolbar <money and population arrows>.\n" +
+                    "This is a lightweight hover over toolbar feature <display only>;\n" +
+                    "Saves time and possible better performance than opening game's Info view panel."
+                },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyViewMode)), "Money View Frequency" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)),
@@ -137,12 +140,6 @@ namespace CityWatchdog
                     "Amount added each time Automatic Add Money triggers.\n" +
                     "Choose a value high enough to bring the city safely above the threshold." },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Initial Money" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
-                    "Sets the starting balance for a new <limited money> city or the first loaded city,\n" +
-                    "then resets to Game Default after it applies.\n" +
-                    "This is grayed out if a city is already loaded.\n" +
-                    "Set before starting/loading a city → applies once → then use <Money Hotkey Amount> or <Automatic Add Money> afterward." },
 
                 { m_Settings.GetOptionLocaleID("GameDefault"), "Game Default" },
 
@@ -174,7 +171,15 @@ namespace CityWatchdog
                     "Same as clicking the [i] icon on the City Watchdog panel inside the city." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Hide/Show all game hover tooltips" },
 
-                // --- Milestone selector ---
+                // --- New city start settings ---
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Initial Money" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
+                    "Sets the starting balance for a new <limited money> city or the first loaded city,\n" +
+                    "then resets to Game Default after it applies.\n" +
+                    "This is grayed out if a city is already loaded.\n" +
+                    "Set this before starting/loading a city. It applies once, then use <Money Hotkey Amount> or <Automatic Add Money> afterward." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
                     "Enable <before loading or starting a city> to unlock a chosen milestone immediately after the city loads.\n" +
@@ -249,7 +254,7 @@ namespace CityWatchdog
                     "<Bottom menu tooltips>\n"+
                     "Money View adds trend values to money and population toolbar and extra details on mouse hover.\n\n" +
                     "<Custom milestone>\n" +
-                    "Set Initial Money and select Milestones from the Options menu before loading or starting a city."
+                    "Set Initial Money and select Milestones from NEW CITY START SETTINGS before loading or starting a city."
                 },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
             };

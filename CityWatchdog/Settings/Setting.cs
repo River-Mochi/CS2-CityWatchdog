@@ -27,15 +27,16 @@ namespace CityWatchdog
     using UnityEngine;
 
     [FileLocation("ModsSettings/CityWatchdog/CityWatchdog")]
-    [SettingsUITabOrder(Actions, About, Debug)]
-    [SettingsUIGroupOrder(Notifications, Money, MoneyViewGroup, Milestone, SaveConversion, AboutInfo, AboutLinks, AboutDiagnostics, AboutUsage, Serialize)]
-    [SettingsUIShowGroupName(Notifications, Money, MoneyViewGroup, Milestone, SaveConversion, AboutDiagnostics, AboutUsage, Serialize)]
+    [SettingsUITabOrder(Actions, MoneyTab, About, Debug)]
+    [SettingsUIGroupOrder(AboutUsage, Notifications, Milestone, MoneyViewGroup, Money, SaveConversion, AboutInfo, AboutLinks, AboutDiagnostics, Serialize)]
+    [SettingsUIShowGroupName(AboutUsage, Notifications, Milestone, MoneyViewGroup, Money, SaveConversion, AboutDiagnostics, Serialize)]
     public partial class Setting : ModSetting
     {
         internal static Setting Instance { get; set; } = null!;
 
         // Tab IDs.
         internal const string Actions = nameof(Actions);
+        internal const string MoneyTab = "Money";
         internal const string Hotkeys = nameof(Hotkeys);
         internal const string About = nameof(About);
         internal const string Debug = nameof(Debug);
@@ -63,7 +64,7 @@ namespace CityWatchdog
 
         private const string AboutLinksRow = nameof(AboutLinksRow);
         private const string DebugButtonsRow = nameof(DebugButtonsRow);
-        private const string UsageIconPath = "coui://ui-mods/images/NotificationIcon_OrgCir.svg";
+        private const string UsageIconPath = "coui://ui-mods/images/NotificationIcon_PawOrgCir.svg";
         private const string UrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
 
@@ -103,6 +104,18 @@ namespace CityWatchdog
         }
 
         // --------------------------------------------------------------------
+        // Actions tab - Usage
+        // --------------------------------------------------------------------
+
+        [SettingsUISection(Actions, AboutUsage)]
+        public bool ShowUsage { get; set; }
+
+        [SettingsUIMultilineText(UsageIconPath)]
+        [SettingsUIHideByCondition(typeof(Setting), nameof(HideUsageText))]
+        [SettingsUISection(Actions, AboutUsage)]
+        public string UsageText => string.Empty;
+
+        // --------------------------------------------------------------------
         // Actions tab - Money View
         // --------------------------------------------------------------------
 
@@ -136,38 +149,34 @@ namespace CityWatchdog
         public int PopulationTooltipFontScale { get; set; }
 
         // --------------------------------------------------------------------
-        // Actions tab - Money
+        // Money tab - Money
         // --------------------------------------------------------------------
 
         [SettingsUISlider(min = 20000, max = 2000000, step = 20000, scalarMultiplier = 1, unit = Unit.kInteger)]
-        [SettingsUISection(Actions, Money)]
+        [SettingsUISection(MoneyTab, Money)]
         public int ManualMoneyAmount { get; set; }
 
         [SettingsUIKeyboardBinding(BindingKeyboard.LeftBracket, AddMoneyAction)]
-        [SettingsUISection(Actions, Money)]
+        [SettingsUISection(MoneyTab, Money)]
         public ProxyBinding AddMoneyKeyboardBinding { get; set; }
 
         [SettingsUIKeyboardBinding(BindingKeyboard.RightBracket, SubtractMoneyAction)]
-        [SettingsUISection(Actions, Money)]
+        [SettingsUISection(MoneyTab, Money)]
         public ProxyBinding SubtractMoneyKeyboardBinding { get; set; }
 
-        [SettingsUISection(Actions, Money)]
+        [SettingsUISection(MoneyTab, Money)]
         public bool AutomaticAddMoney { get; set; }
 
         [SettingsUIDropdown(typeof(Setting), nameof(GetAutomaticAddMoneyThresholdItems))]
-        [SettingsUISection(Actions, Money)]
+        [SettingsUISection(MoneyTab, Money)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureAutomaticAddMoneyEnabled))]
         public int AutomaticAddMoneyThreshold { get; set; }
 
         [SettingsUIDropdown(typeof(Setting), nameof(GetAutomaticAddMoneyAmountItems))]
-        [SettingsUISection(Actions, Money)]
+        [SettingsUISection(MoneyTab, Money)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureAutomaticAddMoneyEnabled))]
         public int AutomaticAddMoneyAmount { get; set; }
 
-        [SettingsUIDropdown(typeof(Setting), nameof(GetInitialMoneyItems))]
-        [SettingsUISection(Actions, Money)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(IsInGame))]
-        public int InitialMoney { get; set; }
 
         // --------------------------------------------------------------------
         // Actions tab - Notifications
@@ -206,8 +215,13 @@ namespace CityWatchdog
         public bool DisableCwdTooltips { get; set; }
 
         // --------------------------------------------------------------------
-        // Actions tab - Milestone
+        // Actions tab - New city start settings
         // --------------------------------------------------------------------
+
+        [SettingsUIDropdown(typeof(Setting), nameof(GetInitialMoneyItems))]
+        [SettingsUISection(Actions, Milestone)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(IsInGame))]
+        public int InitialMoney { get; set; }
 
         // Safety rule:
         // - OFF while a city is loaded stays disabled, so milestone injection cannot be enabled mid-city.
@@ -222,15 +236,15 @@ namespace CityWatchdog
         public int MilestoneLevel { get; set; }
 
         // --------------------------------------------------------------------
-        // Actions tab - Save conversion
+        // Money tab - Unlimited Money Converter
         // --------------------------------------------------------------------
 
-        [SettingsUISection(Actions, SaveConversion)]
+        [SettingsUISection(MoneyTab, SaveConversion)]
         public bool ConfirmUnlimitedMoneySaveConversion { get; set; }
 
         [SettingsUIButton]
         [SettingsUIConfirmation]
-        [SettingsUISection(Actions, SaveConversion)]
+        [SettingsUISection(MoneyTab, SaveConversion)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(CannotConvertUnlimitedMoneySave))]
         public bool ConvertUnlimitedMoneySave
         {
@@ -278,17 +292,6 @@ namespace CityWatchdog
             }
         }
 
-        // --------------------------------------------------------------------
-        // Actions tab - Usage
-        // --------------------------------------------------------------------
-
-        [SettingsUISection(Actions, AboutUsage)]
-        public bool ShowUsage { get; set; }
-
-        [SettingsUIMultilineText(UsageIconPath)]
-        [SettingsUIHideByCondition(typeof(Setting), nameof(HideUsageText))]
-        [SettingsUISection(Actions, AboutUsage)]
-        public string UsageText => string.Empty;
 
         // --------------------------------------------------------------------
         // Debug tab
