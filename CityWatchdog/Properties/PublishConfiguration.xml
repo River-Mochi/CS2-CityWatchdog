@@ -37,7 +37,7 @@ Hotkeys
 - Hold the money hotkey to repeat instead of clicking many times.
 
 ### Important Notes
-- Check **Show Instructions** on the About tab.
+- Check **Show Instructions** for more details or hover over each Options menu row > see details in the 3rd panel on the right.
 - City Watchdog hides/shows alert icons and does not fix the underlying problem; get a break until you are ready to fix it.
 - Unlimited Money save: make a backup before converting the save. Mod cannot undo that conversion.
 - This is heavily rewritten and explansion of City Controller, nearly a whole rewrite.
@@ -93,7 +93,7 @@ tags: Visual, UI UX tool tips,UI organize icons
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* Create multiple tabs, reorganize all options menu items.
+* Create multiple tabs sections for different mini-mods; reorganize all options menu items.
 * Move Show Instructions toggle to the top of Options menu.
 * Updates posted yesterday below:
 * By request: new Hotkey for Toggle on/off all game hover tooltips feature. Replaces old "Disable All Tooltips" checkbox in Options.

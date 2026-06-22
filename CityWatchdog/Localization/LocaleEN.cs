@@ -50,7 +50,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "USAGE" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "Notifications" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "NEW CITY START SETTINGS" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "In City Info Viewer" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "In-City Info Viewer" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Money" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Save Conversion" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
@@ -143,7 +143,7 @@ namespace CityWatchdog
                     "This is only adjustable outside a loaded city, and only after [Milestone Selector] is enabled [ ✓ ]." },
 
                 // --------------------------------------------------------------------
-                // Money tab - In City Info Viewer
+                // In City Info Viewer
                 // --------------------------------------------------------------------
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Show Money + Population ToolTips" },
