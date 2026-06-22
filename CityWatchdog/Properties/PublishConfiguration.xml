@@ -9,67 +9,67 @@
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
 
-        #### Display toggles
-        - [i] button - Instant Hide/show **ALL** vanilla mouse-over tooltips.
-        - 1-click - Show/hide 1-way road arrows.
-        - 1-click - Hide/show Road Name labels, (\) hotkey.
-        - Road arrows also hide road names while arrows are shown, side-effect of vanilla road-label system.
+#### Display toggles
+- [i] button - Instant Hide/show **ALL** vanilla mouse-over tooltips.
+- 1-click - Show/hide 1-way road arrows.
+- 1-click - Hide/show Road Name labels, (\) hotkey.
+- Road arrows also hide road names while arrows are shown, side-effect of vanilla road-label system.
 
-        #### Features
-        - Notifications: **Instant on/off** toggle for all city alert icons (ones over buildings).
-        - Reduce visual stress while building (does not fix city problems for you).
-        - Open full panel from the top-left button or hotkey.
-        - Start city with any Milestone. Trains now! Yes you can! Set Initial money if you want less for a challenge or more.
-        - Modeled on original City Controller mod.
-        - Many new features and future plans.
+#### Features
+- Notifications: **Instant on/off** toggle for all city alert icons (ones over buildings).
+- Reduce visual stress while building (does not fix city problems for you).
+- Open full panel from the top-left button or hotkey.
+- Start city with any Milestone. Trains now! Yes you can! Set Initial money if you want less for a challenge or more.
+- Modeled on original City Controller mod.
+- Many new features and future plans.
 
-        #### Money tools
-        - Quick handy info: hover over bottom menu money/population tooltips for instant info chart (faster than opening Info view).
-        - Manual: add/subtract money on the fly with hotkeys ([ or ]).
-        - Optional automatic money refiller. Manual is still recommended.
-        - Convert saves from Unlimited Money type to normal Limited Money.
+#### Money tools
+- Quick handy info: hover over bottom menu money/population tooltips for instant info chart (faster than opening Info view).
+- Manual: add/subtract money on the fly with hotkeys ([ or ]).
+- Optional automatic money refiller. Manual is still recommended.
+- Convert saves from Unlimited Money type to normal Limited Money.
 
-        Hotkeys
-        - Shift+N = open/close panel (same as clicking on Top Left icon).
-        - N    = toggle all notification icons on/off (same as clicking on Toggle All * star button)
-        - [    = Add Money
-        - ]    = Subtract Money
-        - Hold the money hotkey to repeat instead of clicking many times.
+Hotkeys
+- Shift+N = open/close panel (same as clicking on Top Left icon).
+- N    = toggle all notification icons on/off (same as clicking on Toggle All * star button)
+- [    = Add Money
+- ]    = Subtract Money
+- Hold the money hotkey to repeat instead of clicking many times.
 
-        ### Important Notes
-        - Check **Show Instructions** on the About tab.
-        - City Watchdog hides/shows alert icons and does not fix the underlying problem; get a break until you are ready to fix it.
-        - Unlimited Money save: make a backup before converting the save. Mod cannot undo that conversion.
-        - This is heavily rewritten and explansion of City Controller, nearly a whole rewrite.
-        - CWD's Money View is a ground-up code write of similar money info to Show Text Trends (retired).
-        Money viewer uses new designed methods to do customizable money layouts, settings options, and adds translations.
-        - Install Achievement Fixer mod if you want Achievements while using mods, it was removed from this mod.
+### Important Notes
+- Check **Show Instructions** on the About tab.
+- City Watchdog hides/shows alert icons and does not fix the underlying problem; get a break until you are ready to fix it.
+- Unlimited Money save: make a backup before converting the save. Mod cannot undo that conversion.
+- This is heavily rewritten and explansion of City Controller, nearly a whole rewrite.
+- CWD's Money View is a ground-up code write of similar money info to Show Text Trends (retired).
+Money viewer uses new designed methods to do customizable money layouts, settings options, and adds translations.
+- Install Achievement Fixer mod if you want Achievements while using mods, it was removed from this mod.
 
-        I hope you enjoy the new features, better performance, and safety checks!
+I hope you enjoy the new features, better performance, and safety checks!
 
-        ### Support and feedback
-        Feedback is welcome through GitHub or Discord links on the right.
-        If you like effort put into free mods, please give a Like :)
+### Support and feedback
+Feedback is welcome through GitHub or Discord links on the right.
+If you like effort put into free mods, please give a Like :)
 
-        ### Future
-        - 15 languages supported now, more in the future.
-        - If anyone can make better thumbnail or screenshots, please let me know.
+### Future
+- 15 languages supported now, more in the future.
+- If anyone can make better thumbnail or screenshots, please let me know.
 
-        ### Thanks to all supporters and testers
-        - River Mochi - author/maintainer
-        - yenyang - locale tech feedback
-        - Money View inspired by earlier mods by DanielNZ Show Text.
-        - Notices inspired by the orig. City Controller mod by Mbyron26.
-        - Dorkington - tester/feature suggestion
-        - Flightech, SonNathan - testers
-        - UnMaestro - testing, German translation editing
-        - Thumbnail photograph by Maryia Shedava at Mont Saint-Michel in Normandy, France:
-        https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
+### Thanks to all supporters and testers
+- River Mochi - author/maintainer
+- yenyang - locale tech feedback
+- Money View inspired by earlier mods by DanielNZ Show Text.
+- Notices inspired by the orig. City Controller mod by Mbyron26.
+- Dorkington - tester/feature suggestion
+- Flightech, SonNathan - testers
+- UnMaestro - testing, German translation editing
+- Thumbnail photograph by Maryia Shedava at Mont Saint-Michel in Normandy, France:
+https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
 
 
-        tags: Visual, UI UX tool tips,UI organize icons
+tags: Visual, UI UX tool tips,UI organize icons
 
-    </LongDescription>
+</LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail-dog-city03.jpg" />
 	<!--Screenshot, can be set multiple times-->
@@ -86,14 +86,14 @@
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/city-watchdog.1924169/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.0.2" />
+	<ModVersion Value="1.0.3" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.5.10*" />
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* Reorganize mod Options Menu into multiple tabs.
+* Create multiple tabs, reorganize all options menu items.
 * Move Show Instructions toggle to the top of Options menu.
 * Updates posted yesterday below:
 * By request: new Hotkey for Toggle on/off all game hover tooltips feature. Replaces old "Disable All Tooltips" checkbox in Options.
