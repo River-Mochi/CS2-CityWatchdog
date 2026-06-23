@@ -6,36 +6,37 @@
 # all copies or substantial portions of this code.
 # ================= </copyright> ======================
 
-# version 0.5.0
+# version 0.5.1
 """
 Add standard River-Mochi MIT file headers to source files.
 
-Dry run by default.
+Dry run by default. Run commands from the repo root:
 
-# 1. Preview only. Use this first.
+  # 1. Preview only. Use this first.
   py -3 CityWatchdog/Scripts/add_file_headers.py
 
-# 2. Add headers to files that do not already have one.
+  # 2. Add headers to files that do not already have one.
   py -3 CityWatchdog/Scripts/add_file_headers.py --apply
 
-# 3. Replace old headers with this exact current River-Mochi header.
-#    Use this when you intentionally want every supported source file updated.
+  # 3. Replace old headers with this exact current River-Mochi header.
+  #    Use this when you intentionally want every supported source file updated.
   py -3 CityWatchdog/Scripts/add_file_headers.py --apply --replace-existing
 
-# 4. CI/check mode. Fails if any supported file still needs a header.
+  # 4. CI/check mode. Fails if any supported file still needs a header.
   py -3 CityWatchdog/Scripts/add_file_headers.py --check
 
-# 5. Strict CI/check mode. Also fails if an old header needs replacement.
+  # 5. Strict CI/check mode. Also fails if an old header needs replacement.
   py -3 CityWatchdog/Scripts/add_file_headers.py --check --replace-existing
-
-
-If this script is placed at repo root:
-  py -3 Scripts/add_file_headers.py --apply --replace-existing
 
 Supported source files:
   .cs
   .py
   .ps1
+
+Not supported on purpose:
+  .json, .xml, .scss, .css, .ts, .tsx
+  Those file types either cannot safely use this same header style or are
+  bundled into COHTML/UI output where extra comments are not always helpful.
 
 Scan behavior:
   Uses git ls-files when available, so ignored folders such as bin, obj,

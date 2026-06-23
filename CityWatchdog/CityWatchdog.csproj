@@ -16,6 +16,8 @@
 
         <!-- Paradox Mods publish config -->
         <PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
+        <!-- Path to the PowerShell that syncs PublishConfiguration.xml + mod.json with $(Version). -->
+        <PublishConfigScript>$(MSBuildProjectDirectory)\Scripts\Update-PublishConfig.ps1</PublishConfigScript>
 
         <!-- Only set this if overriding the Managed path is required -->
         <CustomManagedPath></CustomManagedPath>
@@ -28,7 +30,8 @@
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
         <!-- Versioning: single source of truth -->
-        <Version>1.0.3</Version>
+        <GameVersion>1.6.*</GameVersion>
+        <Version>1.0.4</Version>
         <AssemblyVersion>$(Version).0</AssemblyVersion>
         <FileVersion>$(Version).0</FileVersion>
 
@@ -128,12 +131,12 @@
         <Folder Include="Utils\" />
     </ItemGroup>
 
-    <!-- AUTO UPDATE PublishConfiguration ModVersion using CSPROJ as source of truth. -->
-    <Target Name="UpdatePublishConfigVersion" BeforeTargets="Build" Condition="Exists('$(PublishConfigScript)') AND Exists('$(MSBuildProjectDirectory)\$(PublishConfigurationPath)')">
+    <!-- AUTO UPDATE PublishConfiguration.xml GameVersion + ModVersion + nested mod.json "version" from $(Version). -->
+    <Target Name="UpdatePublishConfigVersion" BeforeTargets="PrepareForBuild" Condition="Exists('$(PublishConfigScript)') AND Exists('$(MSBuildProjectDirectory)\$(PublishConfigurationPath)')">
 
-        <Message Text="$(AssemblyTitle) PublishConfig: syncing ModVersion + normalizing EOL/BOM + left-aligning blocks..." Importance="high" />
+        <Message Text="$(AssemblyTitle) PublishConfig: syncing ModVersion/GameVersion + normalizing EOL/BOM + left-aligning blocks..." Importance="high" />
 
-        <Exec Command="&quot;$(SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -ExecutionPolicy Bypass -File &quot;$(PublishConfigScript)&quot; -Path &quot;$(MSBuildProjectDirectory)\$(PublishConfigurationPath)&quot; -Version &quot;$(Version)&quot; -Eol lf -LeftAlignBlocks" />
+        <Exec Command="&quot;$(SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -ExecutionPolicy Bypass -File &quot;$(PublishConfigScript)&quot; -Path &quot;$(MSBuildProjectDirectory)\$(PublishConfigurationPath)&quot; -Version &quot;$(Version)&quot; -GameVersion &quot;$(GameVersion)&quot; -Eol lf -LeftAlignBlocks" />
     </Target>
 
     <Target Name="CopySvgFiles" AfterTargets="DeployWIP" Condition="Exists('$(ProjectDir)UI\images')">
@@ -147,9 +150,8 @@
          Assembly.GetManifestResourceStream regardless of where the mod was installed (local
          <UserData>/Mods/<ModId>/ OR PDX subscription cache <UserData>/.cache/Mods/pdx_mods/
          <asset_id>_<version>/). Embedding removes all runtime path-resolution failure modes.
-         Pattern matches RoadRailSpeeds and Algernon's LineTool (which uses embedded CSV).
-         Also keep <Content> so the JSON files remain visible in bin/<config>/net48/lang/
-         for local inspection and debugging — the runtime loader reads from embedded only. -->
+         Pattern matches RoadRailSpeeds. Also keep <Content> so the JSON files remain visible in bin/<config>/net48/lang/
+         for local inspection and debugging — runtime loader reads from embedded only. -->
     <ItemGroup>
         <EmbeddedResource Include="lang\*.json" />
         <Content Include="lang\**">

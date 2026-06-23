@@ -52,7 +52,7 @@ Feedback is welcome through GitHub or Discord links on the right.
 If you like effort put into free mods, please give a Like :)
 
 ### Future
-- 15 languages supported now, more in the future.
+- 15 languages: Hallo, Hola, Bonjour, Ciao, こんにちは, 안녕하세요, Cześć, Olá, Olá, สวัสดี, Merhaba, Xin chào, 你好, 你好
 - If anyone can make better thumbnail or screenshots, please let me know.
 
 ### Thanks to all supporters and testers
@@ -86,25 +86,23 @@ tags: Visual, UI UX tool tips,UI organize icons
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/city-watchdog.1924169/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.0.3" />
+	<ModVersion Value="1.0.4" />
 	<!--Recommended version of the base game to use the mod-->
-	<GameVersion Value="1.5.10*" />
+	<GameVersion Value="1.6.*" />
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
+* Updated to game patch 1.6
+* Updates posted yesterday below:
 * Create multiple tabs sections for different mini-mods; reorganize all options menu items.
 * Move Show Instructions toggle to the top of Options menu.
-* Updates posted yesterday below:
 * By request: new Hotkey for Toggle on/off all game hover tooltips feature. Replaces old "Disable All Tooltips" checkbox in Options.
 * Fix in-city panel/tooltips now show chosen translated language. Previously English only for some players.
 * UX/Ui: bigger panel icons, eg, customized 1-way arrow icon, no longer requires dependency on Unified Icon library (UIL).
 * added [i] button toggles on/off ALL game hover tool-tips
 * added button to Show 1-way Arrows on Roads.
 * added button to Hide Road Names.
-* added Hotkey "\"
-* Updaed Options menu usage instructions, and all translation files.
-* added new logo icon paw.
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
 	<ExternalLink Type="github" Url="https://github.com/River-Mochi/CS2-CityWatchdog" />

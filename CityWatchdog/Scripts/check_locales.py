@@ -7,6 +7,7 @@
 # ================= </copyright> ======================
 
 # File: src/Scripts/check_locales.py
+# Version: 0.2.0
 # Purpose:
 #   Generic checker for C# Locale*.cs dictionary files.
 #

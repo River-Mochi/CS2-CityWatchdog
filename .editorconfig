@@ -1,6 +1,8 @@
-# File: .editorconfig version 0.6.2
+# File: .editorconfig version 0.6.3
 # Purpose:
-#   - Consistent whitespace + LF line endings across the repo.
+#   - Consistent whitespace + LF line endings across normal repo files.
+#   - CRLF for classic Visual Studio .sln files.
+#   - LF for XML .slnx files through the global default.
 #   - C# style preferences: explicit types and CO-style naming.
 #   - Support Visual Studio, Rider/ReSharper, Git Bash, PowerShell
 #   - Allow flat namespaces that do NOT have to match folder structure.
@@ -9,7 +11,7 @@
 root = true
 
 # =========================
-# Global defaults: all files
+# Global defaults: normal files
 # =========================
 [*]
 charset = utf-8
@@ -19,6 +21,15 @@ trim_trailing_whitespace = true
 
 # Use spaces when editors auto-indent.
 indent_style = space
+indent_size = 4
+
+
+# =========================
+# Visual Studio classic solution files
+# Must match .gitattributes CRLF rule.
+# =========================
+[*.sln]
+end_of_line = crlf
 indent_size = 4
 
 
