@@ -63,6 +63,39 @@
     text-align: right;
 }
 
+.favoriteButton {
+    width: 22rem;
+    height: 22rem;
+    margin-right: 4rem;
+    padding-top: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    background-color: transparent;
+    opacity: 0.45;
+    cursor: pointer;
+}
+
+.favoriteButton:hover,
+.favoriteButtonActive {
+    opacity: 1;
+}
+
+.favoriteIcon {
+    width: 18rem;
+    height: 18rem;
+    display: block;
+    filter: brightness(0) invert(1);
+}
+
+.favoriteButtonActive .favoriteIcon {
+    filter: brightness(1.2) sepia(1) saturate(5) hue-rotate(350deg);
+}
+
 // Keep notification SVGs small and pinned to the left of each row.
 .icon {
     width: 24rem;

@@ -13,7 +13,6 @@ namespace CityWatchdog.Systems
 {
     using Game.Economy;
     using Game.Prefabs;
-    using System;
     using System.Collections.Generic;
     using Unity.Collections;
     using Unity.Entities;
@@ -168,7 +167,7 @@ namespace CityWatchdog.Systems
                 index += 2;
             }
 
-            if (pollutionParameterQuery.TryGetSingleton(out PollutionParameterData pollution))
+            if (pollutionNotificationParameterQuery.TryGetSingleton(out PollutionParameterData pollution))
             {
                 counts[index++] = Count(pollution.m_AirPollutionNotification);
                 counts[index++] = Count(pollution.m_NoisePollutionNotification);
@@ -179,11 +178,17 @@ namespace CityWatchdog.Systems
                 index += 3;
             }
 
-            counts[index++] = CountResourceConsumerNotifications(IsLowSuppliesNotificationPrefab);
-            counts[index++] = CountResourceConsumerNotifications(IsNoFuelNotificationPrefab);
-            counts[index++] = CountResourceConnectionNotifications(IsOilPipeNotConnectedNotification);
-            counts[index++] = CountResourceConnectionNotifications(IsFishingPierNotConnectedNotification);
-            counts[index++] = CountResourceConnectionNotifications(IsOtherResourceConnectionNotification);
+            CountResourceConsumerNotifications(out int lowSuppliesCount, out int noFuelCount);
+            counts[index++] = lowSuppliesCount;
+            counts[index++] = noFuelCount;
+
+            CountResourceConnectionNotifications(
+                out int oilPipeCount,
+                out int fishingPierCount,
+                out int otherConnectionCount);
+            counts[index++] = oilPipeCount;
+            counts[index++] = fishingPierCount;
+            counts[index++] = otherConnectionCount;
 
             if (routeNotificationParameterQuery.TryGetSingleton(out RouteConfigurationData route))
             {
@@ -241,9 +246,12 @@ namespace CityWatchdog.Systems
                 : 0;
         }
 
-        private int CountResourceConsumerNotifications(Func<Entity, bool> predicate)
+        private void CountResourceConsumerNotifications(
+            out int lowSuppliesCount,
+            out int noFuelCount)
         {
-            int count = 0;
+            lowSuppliesCount = 0;
+            noFuelCount = 0;
             HashSet<Entity> seen = new();
             using NativeArray<ResourceConsumerData> consumers =
                 resourceConsumerNotificationParameterQuery.ToComponentDataArray<ResourceConsumerData>(Allocator.Temp);
@@ -251,18 +259,31 @@ namespace CityWatchdog.Systems
             for (int i = 0; i < consumers.Length; i++)
             {
                 Entity prefab = consumers[i].m_NoResourceNotificationPrefab;
-                if (seen.Add(prefab) && predicate(prefab))
+                if (!seen.Add(prefab))
                 {
-                    count += Count(prefab);
+                    continue;
+                }
+
+                if (IsLowSuppliesNotificationPrefab(prefab))
+                {
+                    lowSuppliesCount += Count(prefab);
+                }
+
+                if (IsNoFuelNotificationPrefab(prefab))
+                {
+                    noFuelCount += Count(prefab);
                 }
             }
-
-            return count;
         }
 
-        private int CountResourceConnectionNotifications(Func<ResourceConnectionData, bool> predicate)
+        private void CountResourceConnectionNotifications(
+            out int oilPipeCount,
+            out int fishingPierCount,
+            out int otherConnectionCount)
         {
-            int count = 0;
+            oilPipeCount = 0;
+            fishingPierCount = 0;
+            otherConnectionCount = 0;
             HashSet<Entity> seen = new();
             using NativeArray<ResourceConnectionData> connections =
                 resourceConnectionNotificationParameterQuery.ToComponentDataArray<ResourceConnectionData>(Allocator.Temp);
@@ -271,13 +292,28 @@ namespace CityWatchdog.Systems
             {
                 ResourceConnectionData connection = connections[i];
                 Entity prefab = connection.m_ConnectionWarningNotification;
-                if (seen.Add(prefab) && predicate(connection))
+                if (!seen.Add(prefab))
                 {
-                    count += Count(prefab);
+                    continue;
+                }
+
+                bool isOilPipe = IsOilPipeNotConnectedNotification(connection);
+                bool isFishingPier = IsFishingPierNotConnectedNotification(connection);
+                if (isOilPipe)
+                {
+                    oilPipeCount += Count(prefab);
+                }
+
+                if (isFishingPier)
+                {
+                    fishingPierCount += Count(prefab);
+                }
+
+                if (!isOilPipe && !isFishingPier)
+                {
+                    otherConnectionCount += Count(prefab);
                 }
             }
-
-            return count;
         }
     }
 }

@@ -28,8 +28,8 @@ namespace CityWatchdog
 
     [FileLocation("ModsSettings/CityWatchdog/CityWatchdog")]
     [SettingsUITabOrder(Actions, MoneyTab, About, Debug)]
-    [SettingsUIGroupOrder(AboutUsage, Notifications, Milestone, MoneyViewGroup, Money, SaveConversion, AboutInfo, AboutLinks, AboutDiagnostics, Serialize)]
-    [SettingsUIShowGroupName(AboutUsage, Notifications, Milestone, MoneyViewGroup, Money, SaveConversion, AboutDiagnostics, Serialize)]
+    [SettingsUIGroupOrder(AboutUsage, Notifications, MiniHudGroup, Milestone, MoneyViewGroup, Money, SaveConversion, AboutInfo, AboutLinks, AboutDiagnostics, Serialize)]
+    [SettingsUIShowGroupName(AboutUsage, Notifications, MiniHudGroup, Milestone, MoneyViewGroup, Money, SaveConversion, AboutDiagnostics, Serialize)]
     public partial class Setting : ModSetting
     {
         internal static Setting Instance { get; set; } = null!;
@@ -54,6 +54,7 @@ namespace CityWatchdog
         internal const string MoneyViewGroup = nameof(MoneyViewGroup);
         internal const string Money = nameof(Money);
         internal const string Notifications = nameof(Notifications);
+        internal const string MiniHudGroup = nameof(MiniHudGroup);
         internal const string Milestone = nameof(Milestone);
         internal const string SaveConversion = nameof(SaveConversion);
         internal const string HotkeyActions = nameof(HotkeyActions);
@@ -97,6 +98,13 @@ namespace CityWatchdog
         internal const int MoneyTooltipModeFullData = 0;
         internal const int MoneyTooltipModeCompact = 1;
         internal const int MoneyTooltipModeMini = 2;
+        internal const int MiniHudModeTopActive = 0;
+        internal const int MiniHudModeFavorites = 1;
+        internal const int MiniHudOrientationHorizontal = 0;
+        internal const int MiniHudOrientationVertical = 1;
+        internal const int MiniHudPlacementTopCenter = 0;
+        internal const int MiniHudPlacementTopRight = 1;
+        internal const int MiniHudPlacementDraggable = 2;
 
         public Setting(IMod mod) : base(mod)
         {
@@ -217,6 +225,50 @@ namespace CityWatchdog
         // property still registers and falls into an unnamed default tab.
         [SettingsUIHidden]
         public bool DisableCwdTooltips { get; set; }
+
+        // --------------------------------------------------------------------
+        // Actions tab - Notification Mini HUD
+        // --------------------------------------------------------------------
+
+        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudEnabledChanged))]
+        public bool MiniHudEnabled { get; set; }
+
+        [SettingsUIDropdown(typeof(Setting), nameof(GetMiniHudModeItems))]
+        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudModeChanged))]
+        public int MiniHudMode { get; set; }
+
+        [SettingsUIDropdown(typeof(Setting), nameof(GetMiniHudItemCountItems))]
+        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudItemCountChanged))]
+        public int MiniHudItemCount { get; set; }
+
+        [SettingsUIDropdown(typeof(Setting), nameof(GetMiniHudOrientationItems))]
+        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudOrientationChanged))]
+        public int MiniHudOrientation { get; set; }
+
+        [SettingsUIDropdown(typeof(Setting), nameof(GetMiniHudPlacementItems))]
+        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudPlacementChanged))]
+        public int MiniHudPlacement { get; set; }
+
+        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudHideZeroChanged))]
+        public bool MiniHudHideZero { get; set; }
+
+        // Two 31-bit masks persist the 62 row favorites without exposing 62 Options toggles.
+        [SettingsUIHidden]
+        public int MiniHudFavoriteMaskLow { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudFavoriteMaskHigh { get; set; }
 
         // --------------------------------------------------------------------
         // Actions tab - New city start settings
@@ -373,6 +425,11 @@ namespace CityWatchdog
             return !MoneyView;
         }
 
+        public bool EnsureMiniHudEnabled()
+        {
+            return !MiniHudEnabled;
+        }
+
         private bool HideUsageText()
         {
             return !ShowUsage;
@@ -488,6 +545,71 @@ namespace CityWatchdog
             };
         }
 
+        public DropdownItem<int>[] GetMiniHudModeItems()
+        {
+            return new[]
+            {
+                new DropdownItem<int>
+                {
+                    value = MiniHudModeTopActive,
+                    displayName = GetOptionLocaleID("MiniHudModeTopActive"),
+                },
+                new DropdownItem<int>
+                {
+                    value = MiniHudModeFavorites,
+                    displayName = GetOptionLocaleID("MiniHudModeFavorites"),
+                },
+            };
+        }
+
+        public DropdownItem<int>[] GetMiniHudItemCountItems()
+        {
+            return new[]
+            {
+                CreateDropdownItem(5),
+                CreateDropdownItem(10),
+            };
+        }
+
+        public DropdownItem<int>[] GetMiniHudOrientationItems()
+        {
+            return new[]
+            {
+                new DropdownItem<int>
+                {
+                    value = MiniHudOrientationHorizontal,
+                    displayName = GetOptionLocaleID("MiniHudOrientationHorizontal"),
+                },
+                new DropdownItem<int>
+                {
+                    value = MiniHudOrientationVertical,
+                    displayName = GetOptionLocaleID("MiniHudOrientationVertical"),
+                },
+            };
+        }
+
+        public DropdownItem<int>[] GetMiniHudPlacementItems()
+        {
+            return new[]
+            {
+                new DropdownItem<int>
+                {
+                    value = MiniHudPlacementTopCenter,
+                    displayName = GetOptionLocaleID("MiniHudPlacementTopCenter"),
+                },
+                new DropdownItem<int>
+                {
+                    value = MiniHudPlacementTopRight,
+                    displayName = GetOptionLocaleID("MiniHudPlacementTopRight"),
+                },
+                new DropdownItem<int>
+                {
+                    value = MiniHudPlacementDraggable,
+                    displayName = GetOptionLocaleID("MiniHudPlacementDraggable"),
+                },
+            };
+        }
+
         public void ResetInitialMoney()
         {
             InitialMoney = 0;
@@ -518,6 +640,14 @@ namespace CityWatchdog
             HideRoadNames = false;
             HideDistrictNames = false;
             ShowRoadArrows = false;
+            MiniHudEnabled = false;
+            MiniHudMode = MiniHudModeTopActive;
+            MiniHudItemCount = 5;
+            MiniHudOrientation = MiniHudOrientationHorizontal;
+            MiniHudPlacement = MiniHudPlacementTopRight;
+            MiniHudHideZero = true;
+            MiniHudFavoriteMaskLow = 0;
+            MiniHudFavoriteMaskHigh = 0;
 
             Notification.SetDefaults();
         }
@@ -555,6 +685,24 @@ namespace CityWatchdog
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
                 .UpdatePopulationTooltipFontScaleBinding(value);
+        }
+
+        private void OnMiniHudEnabledChanged(bool value) => GetUISystem()?.UpdateMiniHudEnabledBinding(value);
+
+        private void OnMiniHudModeChanged(int value) => GetUISystem()?.UpdateMiniHudModeBinding(value);
+
+        private void OnMiniHudItemCountChanged(int value) => GetUISystem()?.UpdateMiniHudItemCountBinding(value);
+
+        private void OnMiniHudOrientationChanged(int value) => GetUISystem()?.UpdateMiniHudOrientationBinding(value);
+
+        private void OnMiniHudPlacementChanged(int value) => GetUISystem()?.UpdateMiniHudPlacementBinding(value);
+
+        private void OnMiniHudHideZeroChanged(bool value) => GetUISystem()?.UpdateMiniHudHideZeroBinding(value);
+
+        private static CityWatchdogUISystem? GetUISystem()
+        {
+            return World.DefaultGameObjectInjectionWorld?
+                .GetExistingSystemManaged<CityWatchdogUISystem>();
         }
 
         private bool GetMilestoneLevelStatus()

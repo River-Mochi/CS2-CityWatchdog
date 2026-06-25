@@ -83,6 +83,14 @@ namespace CityWatchdog
             AddLocaleSource("vi-VN", new LocaleVI(setting));       // Vietnamese
             AddLocaleSource("tr-TR", new LocaleTR(setting));       // Turkish
             AddLocaleSource("pt-PT", new LocalePT_PT(setting));    // European Portuguese
+            foreach (string localeId in new[]
+            {
+                "en-US", "fr-FR", "es-ES", "de-DE", "it-IT", "ja-JP", "ko-KR", "pl-PL",
+                "pt-BR", "zh-HANS", "zh-HANT", "th-TH", "vi-VN", "tr-TR", "pt-PT",
+            })
+            {
+                AddLocaleSource(localeId, new MiniHudLocale(setting));
+            }
 
             // In-city UI strings — loaded from EMBEDDED lang/*.json resources baked into this DLL.
             // The JSON bytes ride inside CityWatchdog.dll itself, so the loader needs no filesystem

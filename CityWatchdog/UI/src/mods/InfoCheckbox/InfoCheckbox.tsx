@@ -9,6 +9,8 @@ interface InfoCheckboxProps {
     image: string;
     label: string | null;
     count?: number;
+    favorite?: boolean;
+    onFavoriteToggle?: () => void;
     isChecked: boolean;
     onToggle: (newVal: boolean) => void;
     className?: string;
@@ -19,6 +21,8 @@ export const InfoCheckbox = ({
     image,
     label,
     count,
+    favorite,
+    onFavoriteToggle,
     isChecked,
     onToggle,
     className,
@@ -40,6 +44,23 @@ export const InfoCheckbox = ({
 
             {/* Right side: visual checkbox. Row click handles the actual toggle. */}
             <div className={styles.labelCheckboxSection}>
+                {onFavoriteToggle !== undefined && (
+                    <button
+                        type="button"
+                        className={`${styles.favoriteButton} ${favorite ? styles.favoriteButtonActive : ""}`}
+                        onMouseDown={(event) => event.stopPropagation()}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            onFavoriteToggle();
+                        }}
+                    >
+                        <img
+                            src={favorite ? "Media/Glyphs/StarFilled.svg" : "Media/Glyphs/StarOutline.svg"}
+                            className={styles.favoriteIcon}
+                            alt=""
+                        />
+                    </button>
+                )}
                 {count !== undefined && <span className={styles.count}>{count}</span>}
                 <Checkbox isChecked={isChecked} onValueToggle={() => { }} />
             </div>

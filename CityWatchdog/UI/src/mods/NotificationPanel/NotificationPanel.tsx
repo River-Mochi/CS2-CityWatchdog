@@ -14,6 +14,7 @@ import {
     disableCwdTooltips$,
     hideDistrictNames$,
     hideRoadNames$,
+    miniHudFavorites$,
     notificationCounts$,
     showRoadArrows$,
     OnControlPanelBindingToggle,
@@ -22,6 +23,7 @@ import {
     OnHideDistrictNamesToggle,
     OnHideRoadNamesToggle,
     OnShowRoadArrowsToggle,
+    OnToggleMiniHudFavorite,
 } from "../Bindings/Bindings";
 import { Divider } from "../Divider/Divider";
 import { InfoPanel } from "../InfoPanel/InfoPanel";
@@ -121,6 +123,8 @@ const NotificationPanelContent = () => {
     const [expandedSections, setExpandedSections] = useState(createExpandedSections);
     const allValues = useAllNotificationValues();
     const notificationCounts = useValue(notificationCounts$);
+    const miniHudFavorites = useValue(miniHudFavorites$);
+    const favoriteIndexes = new Set(miniHudFavorites);
     const {
         panelOffset,
         panelDragging,
@@ -306,7 +310,7 @@ const NotificationPanelContent = () => {
                         >
                             <img
                                 src={roadNameOnSrc}
-                                className={styles.infoIcon}
+                                className={`${styles.infoIcon} ${styles.mapToggleIcon}`}
                             />
                         </div>
                     </CwdTooltip>
@@ -319,7 +323,7 @@ const NotificationPanelContent = () => {
                             aria-pressed={districtNamesHidden}
                             onClick={() => { OnHideDistrictNamesToggle(!districtNamesHidden); }}
                         >
-                            <img src={districtIconSrc} className={`${styles.infoIcon} ${styles.districtIcon}`} />
+                            <img src={districtIconSrc} className={`${styles.infoIcon} ${styles.mapToggleIcon}`} />
                         </div>
                     </CwdTooltip>
 
@@ -332,7 +336,7 @@ const NotificationPanelContent = () => {
                             aria-pressed={roadArrowsShown}
                             onClick={() => { OnShowRoadArrowsToggle(!roadArrowsShown); }}
                         >
-                            <img src={roadArrowIconSrc} className={`${styles.infoIcon} ${styles.roadArrowIcon}`} />
+                            <img src={roadArrowIconSrc} className={`${styles.infoIcon} ${styles.mapToggleIcon}`} />
                         </div>
                     </CwdTooltip>
                 </div>
@@ -388,6 +392,7 @@ const NotificationPanelContent = () => {
                     expanded={expandedSections[section.localeId] === true}
                     localize={localize}
                     notificationCounts={notificationCounts}
+                    favoriteIndexes={favoriteIndexes}
                     showDivider={index > 0}
                     onExpandedChange={(expanded) => onSectionExpandedChange(section, expanded)}
                 />
@@ -412,6 +417,7 @@ const NotificationSectionView = ({
     expanded,
     localize,
     notificationCounts,
+    favoriteIndexes,
     showDivider,
     onExpandedChange,
 }: {
@@ -419,6 +425,7 @@ const NotificationSectionView = ({
     expanded: boolean;
     localize: Localize;
     notificationCounts: number[];
+    favoriteIndexes: Set<number>;
     showDivider: boolean;
     onExpandedChange: (expanded: boolean) => void;
 }) => {
@@ -442,15 +449,20 @@ const NotificationSectionView = ({
                 onExpandedChange={onExpandedChange}
                 summary={`${selectedCount}/${section.items.length}`}
                 summaryState={summaryState}
-                renderChildren={() => section.items.map((item, itemIndex) => (
-                    <NotificationRow
-                        key={item.localeId}
-                        item={item}
-                        isChecked={values[itemIndex] ?? false}
-                        count={notificationCounts[notificationCountIndexes.get(item.localeId) ?? -1] ?? 0}
-                        localize={localize}
-                    />
-                ))}
+                renderChildren={() => section.items.map((item, itemIndex) => {
+                    const countIndex = notificationCountIndexes.get(item.localeId) ?? -1;
+                    return (
+                        <NotificationRow
+                            key={item.localeId}
+                            item={item}
+                            isChecked={values[itemIndex] ?? false}
+                            count={notificationCounts[countIndex] ?? 0}
+                            favorite={favoriteIndexes.has(countIndex)}
+                            onFavoriteToggle={() => OnToggleMiniHudFavorite(countIndex)}
+                            localize={localize}
+                        />
+                    );
+                })}
             />
         </>
     );
