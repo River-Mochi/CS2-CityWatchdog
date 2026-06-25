@@ -14,6 +14,7 @@ import {
     disableCwdTooltips$,
     hideDistrictNames$,
     hideRoadNames$,
+    notificationCounts$,
     showRoadArrows$,
     OnControlPanelBindingToggle,
     OnDisableAllTooltipsToggle,
@@ -30,12 +31,14 @@ import styles from "./NotificationPanel.module.scss";
 import {
     allIconSources,
     createExpandedSections,
+    notificationCountIndexes,
     sections,
     setAllNotifications,
     type Localize,
     type NotificationSection,
 } from "./notificationData";
 import { useAllNotificationValues, useSectionValues } from "./notificationHooks";
+import { usePanelDrag } from "./usePanelDrag";
 
 // Title icon is a custom mod image emitted by webpack to coui://ui-mods/images/.
 import TitleBarIconPath from "../../../images/NotificationIcon_TitleBar.svg";
@@ -62,10 +65,6 @@ const roadArrowIconSrc = RoadArrowIconPath;
 
 // Info icon uses the built-in game media path.
 const infoIconSrc = "Media/Game/Icons/AdvisorInfoViewWhite.svg";
-
-// ParallelPlus / ParallelMinus are used as compact expand/collapse icons.
-const expandAllIconSrc = "Media/Tools/Net Tool/ParallelPlus.svg";
-const collapseAllIconSrc = "Media/Tools/Net Tool/ParallelMinus.svg";
 
 const roundButtonHighlightStyle = getModule("game-ui/common/input/button/themes/round-highlight-button.module.scss", "classes");
 
@@ -121,6 +120,13 @@ const NotificationPanelContent = () => {
     const roadArrowsShown = useValue(showRoadArrows$);
     const [expandedSections, setExpandedSections] = useState(createExpandedSections);
     const allValues = useAllNotificationValues();
+    const notificationCounts = useValue(notificationCounts$);
+    const {
+        panelOffset,
+        panelDragging,
+        panelElementRef,
+        handlePanelDragStart,
+    } = usePanelDrag();
 
     const allSelected = allValues.every(Boolean);
     const anySelected = allValues.some(Boolean);
@@ -232,6 +238,11 @@ const NotificationPanelContent = () => {
     };
 
     return (
+        <div
+            ref={panelElementRef}
+            className={styles.panelAnchor}
+            style={{ transform: `translate(${panelOffset.x}px, ${panelOffset.y}px)` }}
+        >
         <Panel
             className={styles.panel}
             header={
@@ -249,7 +260,12 @@ const NotificationPanelContent = () => {
                                 <img src={modIconSrc} className={styles.headerModIcon} />
                             </div>
                         </CwdTooltip>
-                        <div className={styles.headerModName}>CITY WATCHDOG</div>
+                        <div
+                            className={`${styles.headerModName} ${panelDragging ? styles.headerModNameDragging : ""}`}
+                            onMouseDown={handlePanelDragStart}
+                        >
+                            CITY WATCHDOG
+                        </div>
                     </div>
                     <Button
                         className={roundButtonHighlightStyle.button + " " + styles.headerCloseButton}
@@ -338,20 +354,6 @@ const NotificationPanelContent = () => {
 
                     <CwdTooltip tooltip={allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows")}>
                         <Button
-                            className={styles.toolbarButton + " " + styles.expandButton}
-                            onClick={onToggleAllSections}
-                            focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
-                        >
-                            <img
-                                src={allSectionsExpanded ? collapseAllIconSrc : expandAllIconSrc}
-                                className={`${styles.toolbarIcon} ${styles.expandCollapseIcon}`}
-                                alt=""
-                            />
-                        </Button>
-                    </CwdTooltip>
-
-                    <CwdTooltip tooltip={allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows")}>
-                        <Button
                             className={`${styles.toolbarButton} ${styles.countButton} ${toggleAllStateClass}`}
                             onClick={onToggleAllSections}
                             focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
@@ -385,11 +387,13 @@ const NotificationPanelContent = () => {
                     section={section}
                     expanded={expandedSections[section.localeId] === true}
                     localize={localize}
+                    notificationCounts={notificationCounts}
                     showDivider={index > 0}
                     onExpandedChange={(expanded) => onSectionExpandedChange(section, expanded)}
                 />
             ))}
         </Panel>
+        </div>
     );
 };
 
@@ -407,12 +411,14 @@ const NotificationSectionView = ({
     section,
     expanded,
     localize,
+    notificationCounts,
     showDivider,
     onExpandedChange,
 }: {
     section: NotificationSection;
     expanded: boolean;
     localize: Localize;
+    notificationCounts: number[];
     showDivider: boolean;
     onExpandedChange: (expanded: boolean) => void;
 }) => {
@@ -441,6 +447,7 @@ const NotificationSectionView = ({
                         key={item.localeId}
                         item={item}
                         isChecked={values[itemIndex] ?? false}
+                        count={notificationCounts[notificationCountIndexes.get(item.localeId) ?? -1] ?? 0}
                         localize={localize}
                     />
                 ))}

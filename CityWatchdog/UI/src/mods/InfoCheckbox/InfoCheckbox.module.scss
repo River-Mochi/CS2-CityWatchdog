@@ -53,6 +53,16 @@
     font-size: var(--fontSizeXS);
 }
 
+.count {
+    min-width: 28rem;
+    margin-right: 6rem;
+    color: rgba(254, 254, 254, 0.82);
+    font-size: var(--fontSizeXS);
+    font-weight: 700;
+    line-height: 1;
+    text-align: right;
+}
+
 // Keep notification SVGs small and pinned to the left of each row.
 .icon {
     width: 24rem;

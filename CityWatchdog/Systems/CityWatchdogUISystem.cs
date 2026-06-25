@@ -17,6 +17,7 @@ namespace CityWatchdog.Systems
     using Game;
     using Game.Input;
     using Game.SceneFlow;
+    using Game.UI;
     using System;
 
     public partial class CityWatchdogUISystem : UISystemBaseExtension {
@@ -25,6 +26,8 @@ namespace CityWatchdog.Systems
         private ProxyAction? toggleNotificationsAction;
         private ProxyAction? toggleNotificationPanelAction;
         private BoolBinding panelVisibleBinding = null!;
+        private UIUpdateState notificationCountUpdateState = null!;
+        private ValueBinding<int[]> notificationCountsBinding = null!;
         private ValueBinding<bool>? moneyViewBinding;
         private ValueBinding<int>? moneyViewModeBinding;
         private ValueBinding<int>? moneyTooltipModeBinding;
@@ -113,9 +116,16 @@ namespace CityWatchdog.Systems
 
             alertIconSystem = World.GetOrCreateSystemManaged<AlertIconSystem>();
             InitializeKeybindActions();
+            notificationCountUpdateState = UIUpdateState.Create(World, 128);
 
             panelVisibleBinding = AddBoolBindingAndTriggerBinding("ControlPanelEnabled", false, OnControlPanelBindingToggle);
             AddBoolTriggerBinding("ToggleAllNotifications", ApplyAllNotificationToggles);
+            notificationCountsBinding = new ValueBinding<int[]>(
+                ModId,
+                "NotificationCounts",
+                new int[AlertIconSystem.NotificationCountLength],
+                new ArrayWriter<int>());
+            AddBinding(notificationCountsBinding);
             moneyViewBinding = AddValueBinding(nameof(Setting.MoneyView), Setting.Instance.MoneyView);
             moneyViewModeBinding = AddValueBinding(nameof(Setting.MoneyViewMode), Setting.Instance.MoneyViewMode);
             moneyTooltipModeBinding = AddValueBinding(nameof(Setting.MoneyTooltipMode), Setting.Instance.MoneyTooltipMode);
@@ -584,6 +594,11 @@ namespace CityWatchdog.Systems
             {
                 ToggleAllNotificationsFromHotkey();
             }
+
+            if (panelVisibleBinding.Value && notificationCountUpdateState.Advance())
+            {
+                notificationCountsBinding.Update(alertIconSystem.GetNotificationCounts());
+            }
         }
 
         private void InitializeKeybindActions()
@@ -796,9 +811,24 @@ namespace CityWatchdog.Systems
             }
         }
 
-        private void OnControlPanelBindingToggle(bool value) => panelVisibleBinding.Update(value);
+        private void OnControlPanelBindingToggle(bool value)
+        {
+            panelVisibleBinding.Update(value);
+            if (value)
+            {
+                notificationCountUpdateState.ForceUpdate();
+            }
+        }
 
-        private void ToggleControlPanelFromHotkey() => panelVisibleBinding.Update(!panelVisibleBinding.Value);
+        private void ToggleControlPanelFromHotkey()
+        {
+            bool visible = !panelVisibleBinding.Value;
+            panelVisibleBinding.Update(visible);
+            if (visible)
+            {
+                notificationCountUpdateState.ForceUpdate();
+            }
+        }
 
         public void UpdateMoneyViewBinding(bool value) => moneyViewBinding?.Update(value);
 

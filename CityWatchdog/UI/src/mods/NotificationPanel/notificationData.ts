@@ -341,6 +341,9 @@ export const sections: NotificationSection[] = [
 
 export const allItems = sections.flatMap((section) => section.items);
 export const allIconSources = Array.from(new Set(allItems.map((item) => item.icon)));
+export const notificationCountIndexes = new Map(
+    allItems.map((item, index) => [item.localeId, index]),
+);
 
 export const setAllNotifications = (enabled: boolean) => {
     OnToggleAllNotifications(enabled);

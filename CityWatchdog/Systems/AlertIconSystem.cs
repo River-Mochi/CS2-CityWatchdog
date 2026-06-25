@@ -74,6 +74,7 @@ namespace CityWatchdog.Systems
             prefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
             iconQuery = GetEntityQuery(new ComponentType[] {
                 ComponentType.ReadOnly<Icon>(),
+                ComponentType.ReadOnly<PrefabRef>(),
                 ComponentType.Exclude<Deleted>()
             });
 

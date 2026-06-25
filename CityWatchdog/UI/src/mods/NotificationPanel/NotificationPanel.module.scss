@@ -6,10 +6,18 @@
 // Gameface chokes on var() inside shorthand declarations and the user's standing rule is
 // "use the long version of CSS always" for this codebase.
 
-.panel {
+.panelAnchor {
     position: absolute;
     top: 60rem;
     left: var(--screenPadding);
+    overflow: visible;
+    width: 360rem;
+}
+
+.panel {
+    position: relative;
+    top: 0;
+    left: 0;
     overflow: visible;
     width: 360rem;
     max-height: 890rem;
@@ -179,6 +187,17 @@
     font-weight: 600;
     line-height: 1.15;
     letter-spacing: 1.8rem;
+    cursor: grab;
+    user-select: none;
+}
+
+.headerModName:hover {
+    color: #a9edff;
+}
+
+.headerModNameDragging {
+    color: #ffffff;
+    cursor: grabbing;
 }
 
 .headerCloseButton {
@@ -211,7 +230,7 @@
 
 // Toolbar layout:
 // left = Info + Road-Name toggles
-// right = Sort + Expand/Collapse + Count + Toggle All
+// right = Sort + Count/Expand + Toggle All
 // Coherent flex does not support `gap`. We use justify-content: space-between for the outer
 // row (only 2 groups), and the adjacent-sibling combinator below to space buttons within each group.
 .toolbar {
@@ -237,8 +256,7 @@
     margin-left: 2rem;
 }
 
-// Right side: 4 mass-action buttons (Sort, Expand, Count, Toggle All) almost touching to
-// leave room for the upcoming road-name toggle in this group.
+// Right side: Sort, Count/Expand, and Toggle All stay almost touching to preserve toolbar room.
 .toolbarButtons > * + * {
     margin-left: 2rem;
 }
@@ -444,25 +462,6 @@
 
 .sortButton:hover .sortIcon {
     transform: scale(1.08);
-}
-
-.expandCollapseIcon {
-    transform: rotate(90deg);
-    transform-origin: center;
-}
-
-.expandButton:hover .expandCollapseIcon {
-    transform: rotate(90deg) scale(1.08);
-}
-
-.expandButton {
-    width: 34rem;
-    min-width: 34rem;
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: 34rem;
-    padding-left: 0;
-    padding-right: 0;
 }
 
 .toggleButton {

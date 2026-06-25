@@ -15,6 +15,7 @@ export const disableCwdTooltips$ = bindValue<boolean>(mod.id, "DisableCwdTooltip
 export const hideRoadNames$ = bindValue<boolean>(mod.id, "HideRoadNames", false);
 export const hideDistrictNames$ = bindValue<boolean>(mod.id, "HideDistrictNames", false);
 export const showRoadArrows$ = bindValue<boolean>(mod.id, "ShowRoadArrows", false);
+export const notificationCounts$ = bindValue<number[]>(mod.id, "NotificationCounts", []);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
 export const ElectricityBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBottleneckNotification");

@@ -7,10 +7,12 @@ import { gameTitleKeys, type Localize, type NotificationItem } from "./notificat
 export const NotificationRow = ({
     item,
     isChecked,
+    count,
     localize,
 }: {
     item: NotificationItem;
     isChecked: boolean;
+    count: number;
     localize: Localize;
 }) => {
     const gameTitleKey = item.gameTitleKey ?? gameTitleKeys[item.localeId];
@@ -30,6 +32,7 @@ export const NotificationRow = ({
         <InfoCheckbox
             image={item.icon}
             label={label}
+            count={count}
             isChecked={isChecked}
             onToggle={item.onToggle}
             style={{ marginBottom: "5rem" }}

@@ -8,6 +8,7 @@ import styles from "./InfoCheckbox.module.scss";
 interface InfoCheckboxProps {
     image: string;
     label: string | null;
+    count?: number;
     isChecked: boolean;
     onToggle: (newVal: boolean) => void;
     className?: string;
@@ -17,6 +18,7 @@ interface InfoCheckboxProps {
 export const InfoCheckbox = ({
     image,
     label,
+    count,
     isChecked,
     onToggle,
     className,
@@ -38,6 +40,7 @@ export const InfoCheckbox = ({
 
             {/* Right side: visual checkbox. Row click handles the actual toggle. */}
             <div className={styles.labelCheckboxSection}>
+                {count !== undefined && <span className={styles.count}>{count}</span>}
                 <Checkbox isChecked={isChecked} onValueToggle={() => { }} />
             </div>
         </div>
