@@ -12,7 +12,7 @@
 #### Display toggles
 - [i] button - Instant Hide/show **ALL** vanilla mouse-over tooltips.
 - 1-click - Show/hide 1-way road arrows.
-- 1-click - Hide/show Road Name labels, (\) hotkey.
+- 1-click - Hide/show road name or district
 - Road arrows also hide road names while arrows are shown, side-effect of vanilla road-label system.
 
 #### Features
@@ -52,7 +52,7 @@ I hope you enjoy the new features, better performance, and safety checks!
 - If you like effort put into free mods, please give a Like :)
 - 15 languages: Hello, Hallo, Hola, Bonjour, Ciao, こんにちは, 안녕하세요, Cześć, Olá, Olá, สวัสดี, Merhaba, Xin chào, 你好, 你好
 - If anyone can make better thumbnail or screenshots, please let me know.
-- Mod is save safe and safe to remove.
+- Mod is save safe and safe to remove. Does not use Harmony patch, safer/more compatible. Good Performance: effectively no loss.
 
 ### Thanks to all supporters and testers
 - River Mochi - author/maintainer

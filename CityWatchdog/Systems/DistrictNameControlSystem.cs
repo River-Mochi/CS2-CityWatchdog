@@ -157,11 +157,13 @@ namespace CityWatchdog.Systems
                     "m_HasNameMesh",
                     BindingFlags.Instance | BindingFlags.Public);
 
-                if (arrayField == null || hasNameMeshField == null)
+                if (arrayField == null ||
+                    hasNameMeshField == null ||
+                    hasNameMeshField.FieldType != typeof(bool))
                 {
                     LogUtils.WarnOnce(
                         "district-name-reflect",
-                        () => "Cannot find m_AreaTypeData or m_HasNameMesh; district-name toggle disabled.");
+                        () => "District-name toggle disabled because CS2 area rendering internals changed.");
                     reflectionFailed = true;
                     return;
                 }
@@ -188,7 +190,10 @@ namespace CityWatchdog.Systems
                 }
 
                 reflectionReady = true;
-                LogUtils.Info(() => "District-name control initialized.");
+#if DEBUG
+                CityWatchdog.Mod.DebugLog(
+                    () => $"District reflection OK: AreaTypeData found, District index={districtIndex}, m_HasNameMesh bool field found.");
+#endif
             }
             catch (Exception ex)
             {
