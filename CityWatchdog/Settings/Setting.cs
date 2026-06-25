@@ -199,6 +199,10 @@ namespace CityWatchdog
         [SettingsUIHidden]
         public bool HideRoadNames { get; set; }
 
+        // Persisted across sessions and controlled by the in-game District Names button.
+        [SettingsUIHidden]
+        public bool HideDistrictNames { get; set; }
+
         // Show 1-way road direction arrows while browsing the city (no road tool needed).
         // Hidden from Options UI; toggled from the in-game panel button.
         [SettingsUIHidden]
@@ -512,6 +516,7 @@ namespace CityWatchdog
 
             DisableCwdTooltips = false;
             HideRoadNames = false;
+            HideDistrictNames = false;
             ShowRoadArrows = false;
 
             Notification.SetDefaults();

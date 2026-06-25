@@ -232,7 +232,7 @@
     align-items: center;
 }
 
-// Left side: keep Info + Road-Name + Road-Arrow toggles tight.
+// Left side: keep Info + Road-Name + District-Name + Road-Arrow toggles tight.
 .toolbarLeft > * + * {
     margin-left: 2rem;
 }
@@ -354,6 +354,12 @@
 .roadArrowIcon {
     width: 34rem;
     height: 34rem;
+}
+
+// District icon is authored at 40x40 and needs a small inset beside the fuller 64x64 road icons.
+.districtIcon {
+    width: 30rem;
+    height: 30rem;
 }
 
 .toolbarButton {

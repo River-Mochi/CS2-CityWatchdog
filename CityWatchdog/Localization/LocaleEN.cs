@@ -69,8 +69,9 @@ namespace CityWatchdog
                     "<Display toggles>\n" +
                     "1. [i] button: hide/show ALL game hover tooltips - buildings, cims, tools, bottom menu icons.\n" +
                     "2. Road Name button: hide/show road name labels. Hotkey: \\.\n" +
-                    "3. Road Arrow button: force 1-way road arrows on/off (also hides road names).\n" +
-                    "4. CWD Title bar icon: show/hide City Watchdog panel tooltips.\n\n" +
+                    "3. District Name button: hide/show district name labels without changing district boundaries.\n" +
+                    "4. Road Arrow button: force 1-way road arrows on/off (also hides road names).\n" +
+                    "5. CWD Title bar icon: show/hide City Watchdog panel tooltips.\n\n" +
                     "<Notification alerts>\n" +
                     "1. Click the City Watchdog button (Top Left), or press Shift+N, to open the panel.\n" +
                     "2. Sort button for ascending/descending.\n" +

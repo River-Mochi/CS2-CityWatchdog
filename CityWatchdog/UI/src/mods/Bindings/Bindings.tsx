@@ -13,6 +13,7 @@ export const populationTooltipFontScale$ = bindValue<number>(mod.id, "Population
 export const disableAllTooltips$ = bindValue<boolean>(mod.id, "DisableAllTooltips", false);
 export const disableCwdTooltips$ = bindValue<boolean>(mod.id, "DisableCwdTooltips", false);
 export const hideRoadNames$ = bindValue<boolean>(mod.id, "HideRoadNames", false);
+export const hideDistrictNames$ = bindValue<boolean>(mod.id, "HideDistrictNames", false);
 export const showRoadArrows$ = bindValue<boolean>(mod.id, "ShowRoadArrows", false);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
@@ -83,6 +84,7 @@ export const OnToggleAllNotifications = (enable: boolean) => trigger(mod.id, "To
 export const OnDisableAllTooltipsToggle = (disable: boolean) => trigger(mod.id, "DisableAllTooltips", disable);
 export const OnDisableCwdTooltipsToggle = (disable: boolean) => trigger(mod.id, "DisableCwdTooltips", disable);
 export const OnHideRoadNamesToggle = (hide: boolean) => trigger(mod.id, "HideRoadNames", hide);
+export const OnHideDistrictNamesToggle = (hide: boolean) => trigger(mod.id, "HideDistrictNames", hide);
 export const OnShowRoadArrowsToggle = (show: boolean) => trigger(mod.id, "ShowRoadArrows", show);
 
 export const OnElectricityElectricityNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ElectricityElectricityNotification", enable);

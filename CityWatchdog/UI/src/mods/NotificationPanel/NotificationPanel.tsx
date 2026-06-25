@@ -12,11 +12,13 @@ import {
     controlPanelEnabled$,
     disableAllTooltips$,
     disableCwdTooltips$,
+    hideDistrictNames$,
     hideRoadNames$,
     showRoadArrows$,
     OnControlPanelBindingToggle,
     OnDisableAllTooltipsToggle,
     OnDisableCwdTooltipsToggle,
+    OnHideDistrictNamesToggle,
     OnHideRoadNamesToggle,
     OnShowRoadArrowsToggle,
 } from "../Bindings/Bindings";
@@ -45,6 +47,9 @@ import SortArrowDownPath from "../../../images/sort-arrow-down.svg";
 // Road-name toggle icon — single icon, CSS handles the blue "active" state.
 import RoadNameOnPath from "../../../images/icon-RoadNameOn.svg";
 
+// District-name toggle icon — local monochrome adaptation of the vanilla Districts icon.
+import DistrictIconPath from "../../../images/Districts.svg";
+
 // Road-arrow toggle icon — custom mod SVG emitted by webpack to coui://ui-mods/images/.
 import RoadArrowIconPath from "../../../images/icon-1-wayArrows.svg";
 
@@ -52,6 +57,7 @@ const modIconSrc = TitleBarIconPath;
 const sortArrowUpSrc = SortArrowUpPath;
 const sortArrowDownSrc = SortArrowDownPath;
 const roadNameOnSrc = RoadNameOnPath;
+const districtIconSrc = DistrictIconPath;
 const roadArrowIconSrc = RoadArrowIconPath;
 
 // Info icon uses the built-in game media path.
@@ -109,6 +115,8 @@ const NotificationPanelContent = () => {
     const cwdTooltipsDisabled = useValue(disableCwdTooltips$);
     // hideRoadNames$ — Road-Name toggle (or \ hotkey): vanilla aggregate road name labels.
     const roadNamesHidden = useValue(hideRoadNames$);
+    // hideDistrictNames$ — District toggle: vanilla district labels only.
+    const districtNamesHidden = useValue(hideDistrictNames$);
     // showRoadArrows$ — Road-Arrow toggle: force vanilla 1-way arrows on while browsing.
     const roadArrowsShown = useValue(showRoadArrows$);
     const [expandedSections, setExpandedSections] = useState(createExpandedSections);
@@ -193,6 +201,16 @@ const NotificationPanelContent = () => {
         "Click to show/hide 1-way road arrows on every road.\nThis also hides road names as side effect.\nNormally only visible while a road tool is active.",
     );
 
+    const districtNameTooltip = districtNamesHidden
+        ? tooltipContent(
+            "DistrictNameToggleOff",
+            "Click to show district names.",
+        )
+        : tooltipContent(
+            "DistrictNameToggleOn",
+            "Click to hide district names.",
+        );
+
     const orderedSections = [...sections].sort((a, b) => {
         const result = localize(a.localeId).localeCompare(localize(b.localeId));
         return sortAscending ? result : -result;
@@ -274,6 +292,18 @@ const NotificationPanelContent = () => {
                                 src={roadNameOnSrc}
                                 className={styles.infoIcon}
                             />
+                        </div>
+                    </CwdTooltip>
+
+                    {/* District Name toggle: hides labels without affecting boundaries or area overlays. */}
+                    <CwdTooltip tooltip={districtNameTooltip}>
+                        <div
+                            className={`${styles.infoButton} ${districtNamesHidden ? styles.infoButtonTipsOff : ""}`}
+                            role="button"
+                            aria-pressed={districtNamesHidden}
+                            onClick={() => { OnHideDistrictNamesToggle(!districtNamesHidden); }}
+                        >
+                            <img src={districtIconSrc} className={`${styles.infoIcon} ${styles.districtIcon}`} />
                         </div>
                     </CwdTooltip>
 

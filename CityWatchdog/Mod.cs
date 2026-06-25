@@ -156,6 +156,7 @@ namespace CityWatchdog
             updateSystem.UpdateAt<CityWatchdogUISystem>(SystemUpdatePhase.UIUpdate);
             updateSystem.UpdateAt<TooltipControlSystem>(SystemUpdatePhase.UIUpdate);
             updateSystem.UpdateAt<RoadNameControlSystem>(SystemUpdatePhase.UIUpdate);
+            updateSystem.UpdateAt<DistrictNameControlSystem>(SystemUpdatePhase.Rendering);
             updateSystem.UpdateAt<RoadArrowControlSystem>(SystemUpdatePhase.UIUpdate);
             updateSystem.UpdateAt<AlertIconSystem>(SystemUpdatePhase.ModificationEnd);
         }
