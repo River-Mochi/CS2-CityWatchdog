@@ -9,9 +9,11 @@
 // File: src/Systems/DistrictNameControlSystem.cs
 // Purpose: Toggle for vanilla district-name labels while preserving district overlays.
 //
-// AreaRenderSystem draws more than names, so its render callback cannot simply be removed.
-// Instead, a pre-render callback consumes the pending district name mesh and clears the
-// district AreaTypeData.m_HasNameMesh flag before vanilla AreaRenderSystem.Render runs.
+// AreaBufferSystem prepares area-name meshes during PreCulling. This system runs later in
+// SystemUpdatePhase.Rendering, consumes any pending district name mesh through the public
+// GetNameMesh API, then clears only the private district m_HasNameMesh flag. The subsequent
+// vanilla AreaRenderSystem callback skips district names while leaving boundaries, overlays,
+// other area labels, and render-callback ordering untouched.
 
 namespace CityWatchdog.Systems
 {
@@ -20,10 +22,7 @@ namespace CityWatchdog.Systems
     using Game.Areas;
     using Game.Rendering;
     using System;
-    using System.Collections.Generic;
     using System.Reflection;
-    using UnityEngine;
-    using UnityEngine.Rendering;
 
     public partial class DistrictNameControlSystem : UISystemBaseExtension
     {
@@ -32,8 +31,6 @@ namespace CityWatchdog.Systems
         private object? districtAreaTypeData;
         private bool reflectionReady;
         private bool reflectionFailed;
-        private Action<ScriptableRenderContext, List<Camera>>? vanillaRenderDelegate;
-        private Action<ScriptableRenderContext, List<Camera>>? preFilterDelegate;
         private BoolBinding hideDistrictNamesBinding = null!;
         private bool currentlyHiding;
 
@@ -50,21 +47,6 @@ namespace CityWatchdog.Systems
 
         protected override void OnDestroy()
         {
-            if (preFilterDelegate != null)
-            {
-                try
-                {
-                    RenderPipelineManager.beginContextRendering -= preFilterDelegate;
-                }
-                catch (Exception ex)
-                {
-                    LogUtils.WarnOnce(
-                        "district-name-destroy-unsub",
-                        () => $"Failed to unsubscribe district-name pre-filter on destroy: {ex.GetType().Name}: {ex.Message}",
-                        ex);
-                }
-            }
-
             if (currentlyHiding)
             {
                 SetHasNameMesh(true);
@@ -101,6 +83,11 @@ namespace CityWatchdog.Systems
 
                 ApplySetting(settingValue);
             }
+
+            if (currentlyHiding && reflectionReady)
+            {
+                SuppressDistrictNameMesh();
+            }
         }
 
         private void OnHideDistrictNamesToggle(bool value)
@@ -126,13 +113,8 @@ namespace CityWatchdog.Systems
             }
         }
 
-        private void PreRenderFilter(ScriptableRenderContext context, List<Camera> cameras)
+        private void SuppressDistrictNameMesh()
         {
-            if (!currentlyHiding || !reflectionReady)
-            {
-                return;
-            }
-
             try
             {
                 cachedAreaBufferSystem?.GetNameMesh(AreaType.District, out _, out _);
@@ -141,8 +123,8 @@ namespace CityWatchdog.Systems
             catch (Exception ex)
             {
                 LogUtils.WarnOnce(
-                    "district-name-prerender",
-                    () => $"District-name pre-render filter failed: {ex.GetType().Name}: {ex.Message}",
+                    "district-name-render-filter",
+                    () => $"District-name rendering filter failed: {ex.GetType().Name}: {ex.Message}",
                     ex);
             }
         }
@@ -152,9 +134,7 @@ namespace CityWatchdog.Systems
             try
             {
                 cachedAreaBufferSystem = World.GetExistingSystemManaged<AreaBufferSystem>();
-                AreaRenderSystem? areaRenderSystem = World.GetExistingSystemManaged<AreaRenderSystem>();
-
-                if (cachedAreaBufferSystem == null || areaRenderSystem == null)
+                if (cachedAreaBufferSystem == null)
                 {
                     return;
                 }
@@ -187,39 +167,26 @@ namespace CityWatchdog.Systems
                 }
 
                 Array? array = arrayField.GetValue(cachedAreaBufferSystem) as Array;
-                if (array == null || array.Length < 2)
+                int districtIndex = (int)AreaType.District;
+                if (array == null || districtIndex < 0 || districtIndex >= array.Length)
                 {
                     LogUtils.WarnOnce(
                         "district-name-reflect",
-                        () => "m_AreaTypeData array is null or too short; district-name toggle disabled.");
+                        () => "m_AreaTypeData does not contain a District entry; district-name toggle disabled.");
                     reflectionFailed = true;
                     return;
                 }
 
-                districtAreaTypeData = array.GetValue(1);
+                districtAreaTypeData = array.GetValue(districtIndex);
                 if (districtAreaTypeData == null)
                 {
                     LogUtils.WarnOnce(
                         "district-name-reflect",
-                        () => "m_AreaTypeData[1] (District) is null; district-name toggle disabled.");
+                        () => "The District AreaTypeData entry is null; district-name toggle disabled.");
                     reflectionFailed = true;
                     return;
                 }
 
-                vanillaRenderDelegate = BuildRenderDelegate(areaRenderSystem);
-                if (vanillaRenderDelegate == null)
-                {
-                    LogUtils.WarnOnce(
-                        "district-name-reflect",
-                        () => "Could not bind AreaRenderSystem.Render delegate; district-name toggle disabled.");
-                    reflectionFailed = true;
-                    return;
-                }
-
-                preFilterDelegate = PreRenderFilter;
-                RenderPipelineManager.beginContextRendering -= vanillaRenderDelegate;
-                RenderPipelineManager.beginContextRendering += preFilterDelegate;
-                RenderPipelineManager.beginContextRendering += vanillaRenderDelegate;
                 reflectionReady = true;
                 LogUtils.Info(() => "District-name control initialized.");
             }
@@ -250,34 +217,6 @@ namespace CityWatchdog.Systems
                     "district-name-set-mesh",
                     () => $"Setting district m_HasNameMesh failed: {ex.GetType().Name}: {ex.Message}",
                     ex);
-            }
-        }
-
-        private static Action<ScriptableRenderContext, List<Camera>>? BuildRenderDelegate(AreaRenderSystem system)
-        {
-            MethodInfo? method = typeof(AreaRenderSystem).GetMethod(
-                "Render",
-                BindingFlags.Instance | BindingFlags.NonPublic);
-
-            if (method == null)
-            {
-                return null;
-            }
-
-            try
-            {
-                return (Action<ScriptableRenderContext, List<Camera>>)Delegate.CreateDelegate(
-                    typeof(Action<ScriptableRenderContext, List<Camera>>),
-                    system,
-                    method);
-            }
-            catch (Exception ex)
-            {
-                LogUtils.WarnOnce(
-                    "district-name-delegate-create",
-                    () => $"Delegate.CreateDelegate failed for AreaRenderSystem.Render: {ex.GetType().Name}: {ex.Message}",
-                    ex);
-                return null;
             }
         }
 
