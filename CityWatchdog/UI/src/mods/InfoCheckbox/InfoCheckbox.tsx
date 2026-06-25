@@ -3,6 +3,7 @@
 
 import type { CSSProperties } from "react";
 import { Checkbox } from "../Checkbox/Checkbox";
+import { formatPanelNotificationCount } from "../shared/formatNotificationCount";
 import styles from "./InfoCheckbox.module.scss";
 
 interface InfoCheckboxProps {
@@ -44,6 +45,7 @@ export const InfoCheckbox = ({
 
             {/* Right side: visual checkbox. Row click handles the actual toggle. */}
             <div className={styles.labelCheckboxSection}>
+                {count !== undefined && <span className={styles.count}>{formatPanelNotificationCount(count)}</span>}
                 {onFavoriteToggle !== undefined && (
                     <button
                         type="button"
@@ -54,14 +56,9 @@ export const InfoCheckbox = ({
                             onFavoriteToggle();
                         }}
                     >
-                        <img
-                            src={favorite ? "Media/Glyphs/StarFilled.svg" : "Media/Glyphs/StarOutline.svg"}
-                            className={styles.favoriteIcon}
-                            alt=""
-                        />
+                        <span className={styles.favoriteIcon}>{favorite ? "★" : "☆"}</span>
                     </button>
                 )}
-                {count !== undefined && <span className={styles.count}>{count}</span>}
                 <Checkbox isChecked={isChecked} onValueToggle={() => { }} />
             </div>
         </div>

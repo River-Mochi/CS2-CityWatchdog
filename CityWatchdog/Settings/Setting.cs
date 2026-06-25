@@ -11,9 +11,11 @@
 
 namespace CityWatchdog
 {
+    using System;
+    using System.Collections.Generic;
     using CityWatchdog.Systems;
-    using CS2Shared.RiverMochi;
     using Colossal.IO.AssetDatabase;
+    using CS2Shared.RiverMochi;
     using Game;
     using Game.Input;
     using Game.Modding;
@@ -21,8 +23,6 @@ namespace CityWatchdog
     using Game.Settings;
     using Game.UI;
     using Game.UI.Widgets;
-    using System;
-    using System.Collections.Generic;
     using Unity.Entities;
     using UnityEngine;
 
@@ -227,7 +227,7 @@ namespace CityWatchdog
         public bool DisableCwdTooltips { get; set; }
 
         // --------------------------------------------------------------------
-        // Actions tab - Notification Mini HUD
+        // Actions tab - Mini HUD Notifications
         // --------------------------------------------------------------------
 
         [SettingsUISection(Actions, MiniHudGroup)]

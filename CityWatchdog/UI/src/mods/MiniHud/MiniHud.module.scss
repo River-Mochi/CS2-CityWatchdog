@@ -5,6 +5,7 @@
     position: absolute;
     z-index: 20;
     display: flex;
+    flex-direction: column;
     align-items: center;
     padding-top: 4rem;
     padding-right: 4rem;
@@ -26,15 +27,20 @@
     border-right-color: rgba(255, 255, 255, 0.28);
     border-bottom-color: rgba(255, 255, 255, 0.28);
     border-left-color: rgba(255, 255, 255, 0.28);
-    background-color: rgba(30, 45, 58, 0.82);
-    box-shadow: 0 2rem 10rem rgba(0, 0, 0, 0.35);
+    background-color: rgba(42, 61, 74, 0.64);
+    box-shadow: 0 2rem 8rem rgba(0, 0, 0, 0.25);
 }
 
-.horizontal {
+.items {
+    display: flex;
+    align-items: center;
+}
+
+.horizontal .items {
     flex-direction: row;
 }
 
-.vertical {
+.vertical .items {
     flex-direction: column;
 }
 
@@ -59,11 +65,11 @@
     flex-direction: row;
     align-items: center;
     height: 30rem;
-    min-width: 42rem;
+    min-width: 38rem;
     padding-top: 2rem;
-    padding-right: 5rem;
+    padding-right: 3rem;
     padding-bottom: 2rem;
-    padding-left: 4rem;
+    padding-left: 3rem;
     border-top-style: none;
     border-right-style: none;
     border-bottom-style: none;
@@ -72,63 +78,75 @@
     border-top-right-radius: 4rem;
     border-bottom-left-radius: 4rem;
     border-bottom-right-radius: 4rem;
-    background-color: rgba(255, 255, 255, 0.08);
+    // Previous tile background: rgba(255, 255, 255, 0.08).
+    // Keep the method visually plain for now; the shared HUD panel is the only resting surface.
+    background-color: transparent;
     color: rgba(255, 255, 255, 0.95);
     cursor: pointer;
 }
 
-.horizontal .item + .item {
+.horizontal .items .item + .item {
     margin-left: 3rem;
 }
 
-.vertical .item + .item {
-    margin-top: 3rem;
+.vertical .items .item + .item {
+    margin-top: 1rem;
 }
 
 .item:hover {
-    background-color: rgba(84, 215, 255, 0.28);
+    background-color: rgba(84, 215, 255, 0.16);
 }
 
 .icon {
     width: 22rem;
     height: 22rem;
     display: block;
-    margin-right: 3rem;
+    margin-left: 3rem;
 }
 
 .count {
-    min-width: 12rem;
+    min-width: 16rem;
     font-size: var(--fontSizeXS);
     font-weight: 700;
     line-height: 1;
     text-align: right;
+    white-space: nowrap;
+}
+
+.horizontal .item {
+    flex-direction: row-reverse;
+}
+
+.horizontal .icon {
+    margin-left: 0;
+    margin-right: 3rem;
 }
 
 .dragGrip {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 12rem;
-    height: 26rem;
-    color: rgba(255, 255, 255, 0.45);
-    font-size: var(--fontSizeS);
+    width: auto;
+    min-width: 42rem;
+    height: 18rem;
+    align-self: stretch;
+    margin-bottom: 2rem;
+    border-top-left-radius: 4rem;
+    border-top-right-radius: 4rem;
+    border-bottom-left-radius: 4rem;
+    border-bottom-right-radius: 4rem;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.58);
+    font-size: var(--fontSizeXS);
+    letter-spacing: 2rem;
     line-height: 1;
     cursor: grab;
     user-select: none;
 }
 
-.horizontal .dragGrip {
-    margin-right: 3rem;
-}
-
-.vertical .dragGrip {
-    width: 100%;
-    height: 12rem;
-    margin-bottom: 3rem;
-}
-
 .dragGrip:hover,
 .dragGripActive {
+    background-color: rgba(84, 215, 255, 0.16);
     color: #54d7ff;
     cursor: grabbing;
 }

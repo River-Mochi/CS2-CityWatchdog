@@ -17,6 +17,7 @@ import {
     OnControlPanelBindingToggle,
 } from "../Bindings/Bindings";
 import { allItems } from "../NotificationPanel/notificationData";
+import { formatMiniNotificationCount } from "../shared/formatNotificationCount";
 import styles from "./MiniHud.module.scss";
 import EmptyIconPath from "../../../images/NotificationIcon_TitleBar.svg";
 
@@ -180,6 +181,11 @@ export const MiniHud = () => {
             : placement === PLACEMENT_TOP_RIGHT
                 ? styles.topRight
                 : styles.draggable;
+    const openPanel = (event: ReactMouseEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        OnControlPanelBindingToggle(true);
+    };
 
     return (
         <div
@@ -194,30 +200,32 @@ export const MiniHud = () => {
                     className={`${styles.dragGrip} ${dragging ? styles.dragGripActive : ""}`}
                     onMouseDown={startDragging}
                 >
-                    ⋮
+                    •••
                 </div>
             )}
 
-            {candidates.length === 0 ? (
-                <button
-                    type="button"
-                    className={styles.item}
-                    onClick={() => OnControlPanelBindingToggle(true)}
-                >
-                    <img src={EmptyIconPath} className={styles.icon} alt="" />
-                    <span className={styles.count}>0</span>
-                </button>
-            ) : candidates.map(({ item, index, count }) => (
-                <button
-                    type="button"
-                    key={index}
-                    className={styles.item}
-                    onClick={() => OnControlPanelBindingToggle(true)}
-                >
-                    <img src={item.icon} className={styles.icon} alt="" />
-                    <span className={styles.count}>{count}</span>
-                </button>
-            ))}
+            <div className={styles.items}>
+                {candidates.length === 0 ? (
+                    <div
+                        className={styles.item}
+                        role="button"
+                        onMouseDown={openPanel}
+                    >
+                        <span className={styles.count}>0</span>
+                        <img src={EmptyIconPath} className={styles.icon} alt="" />
+                    </div>
+                ) : candidates.map(({ item, index, count }) => (
+                    <div
+                        key={index}
+                        className={styles.item}
+                        role="button"
+                        onMouseDown={openPanel}
+                    >
+                        <span className={styles.count}>{formatMiniNotificationCount(count)}</span>
+                        <img src={item.icon} className={styles.icon} alt="" />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
