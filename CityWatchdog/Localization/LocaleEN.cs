@@ -51,7 +51,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.MiniHudGroup), "Mini HUD Notifications" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "NEW CITY START SETTINGS" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Money" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Save Conversion" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Convert Unlimited Save" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutDiagnostics), "DIAGNOSTICS" },

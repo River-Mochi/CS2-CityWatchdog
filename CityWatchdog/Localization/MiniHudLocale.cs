@@ -11,9 +11,9 @@
 
 namespace CityWatchdog
 {
+    using System.Collections.Generic;
     using Colossal;
     using Game.UI.Editor;
-    using System.Collections.Generic;
 
     internal sealed class MiniHudLocale : IDictionarySource
     {
@@ -30,7 +30,7 @@ namespace CityWatchdog
         {
             return new Dictionary<string, string>
             {
-                { settings.GetOptionGroupLocaleID(Setting.MiniHudGroup), "Notification Mini HUD" },
+                { settings.GetOptionGroupLocaleID(Setting.MiniHudGroup), "Mini HUD Notifications" },
                 { settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudEnabled)), "Show Mini HUD" },
                 { settings.GetOptionDescLocaleID(nameof(Setting.MiniHudEnabled)), "Show a compact bar with notification icons and current city totals." },
                 { settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini HUD Content" },
