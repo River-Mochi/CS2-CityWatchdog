@@ -32,7 +32,7 @@ export const InfoCheckbox = ({
     style,
 }: InfoCheckboxProps) => {
     const text = useText();
-    const favoriteTooltip = text("MiniHudFavoriteTooltip", "Select favorite for mini-HUD");
+    const favoriteTooltip = text("MiniHudFavoriteTooltip", "Blue Star = favorite saved for mini-HUD");
     const DescriptionTooltip = VanillaComponentResolver.instance.DescriptionTooltip;
     const rowClassName = `${styles.subPanel} ${className ?? ""}`;
 
@@ -52,7 +52,7 @@ export const InfoCheckbox = ({
             <div className={styles.labelCheckboxSection}>
                 {count !== undefined && <span className={styles.count}>{formatPanelNotificationCount(count)}</span>}
                 {onFavoriteToggle !== undefined && (
-                    <DescriptionTooltip title={favoriteTooltip} description={null} direction="right">
+                    <DescriptionTooltip title={null} description={favoriteTooltip} direction="right">
                         <button
                             type="button"
                             className={`${styles.favoriteButton} ${favorite ? styles.favoriteButtonActive : ""}`}

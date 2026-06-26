@@ -176,13 +176,37 @@
     cursor: pointer;
 }
 
+.openHandleDots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.openHandleDot {
+    width: 3rem;
+    height: 3rem;
+    display: block;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background-color: currentColor;
+}
+
 .openHandle:hover {
     color: rgba(255, 255, 255, 0.92);
 }
 
 .vertical .openHandle {
     margin-top: 2rem;
-    letter-spacing: 1rem;
+}
+
+.vertical .openHandleDots {
+    flex-direction: row;
+}
+
+.vertical .openHandleDot + .openHandleDot {
+    margin-left: 2rem;
 }
 
 .horizontal .openHandle {
@@ -190,7 +214,12 @@
     margin-left: 2rem;
     padding-right: 1rem;
     padding-left: 1rem;
-    font-size: 14rem;
-    line-height: 0.82;
-    letter-spacing: 0;
+}
+
+.horizontal .openHandleDots {
+    flex-direction: column;
+}
+
+.horizontal .openHandleDot + .openHandleDot {
+    margin-top: 2rem;
 }

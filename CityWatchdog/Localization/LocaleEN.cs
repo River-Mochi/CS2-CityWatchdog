@@ -187,8 +187,10 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini HUD Mode" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
                     "Choose which notification rows the Mini HUD uses.\n" +
-                    "Top active alerts shows the highest current counts.\n" +
-                    "Favorites shows only rows you marked as favorites in the City Watchdog panel." },
+                    "**Top active** alerts shows the highest current counts.\n" +
+                    "**Favorites** includes all rows marked with **Blue Star** in the main City Watchdog panel.\n" +
+                    "You can pick as many favorites as you want,\n" +
+                    "but Mini HUD still shows only the top 5 or top 10 current counts from that **favorites blue-star** list." },
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Top active alerts" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Favorites" },
 

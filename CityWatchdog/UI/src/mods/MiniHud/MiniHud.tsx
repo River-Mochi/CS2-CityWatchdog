@@ -206,8 +206,7 @@ export const MiniHud = () => {
     const dragTransform = orientation === ORIENTATION_VERTICAL
         ? `translate(${position.x}px, ${position.y}px)`
         : `translate(-50%, 0) translate(${position.x}px, ${position.y}px)`;
-    const openHandleTooltip = text("MiniHudOpenPanel", "Click dots opens main panel; Options menu to remove");
-    const openHandleGlyph = orientation === ORIENTATION_VERTICAL ? "•••" : "⋮";
+    const openHandleTooltip = text("MiniHudOpenPanel", "Click dots opens main panel.\nOptions menu can remove this button.");
 
     return (
         <div
@@ -251,7 +250,11 @@ export const MiniHud = () => {
                             onClick={onOpenMiniHud}
                             aria-label={openHandleTooltip}
                         >
-                            {openHandleGlyph}
+                            <span className={styles.openHandleDots} aria-hidden="true">
+                                <span className={styles.openHandleDot}></span>
+                                <span className={styles.openHandleDot}></span>
+                                <span className={styles.openHandleDot}></span>
+                            </span>
                         </button>
                     </Tooltip>
                 )}
