@@ -11,14 +11,14 @@
 
 namespace CityWatchdog.Systems
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
     using Colossal.Serialization.Entities;
     using Game.Common;
     using Game.Notifications;
     using Game.Prefabs;
     using Game.UI;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using Unity.Collections;
     using Unity.Entities;
 
@@ -142,9 +142,6 @@ namespace CityWatchdog.Systems
             }
 
             nativeArray.Dispose();
-        }
-
-        public void DebugNotificationIconPrefab() {
         }
 
         public void EnableNotification(Entity entity, bool enabled) {

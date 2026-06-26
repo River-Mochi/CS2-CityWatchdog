@@ -37,7 +37,6 @@ namespace CityWatchdog.Systems
         {
             base.OnCreate();
             SystemType = GetType();
-
         }
 
         protected override void OnDestroy()
@@ -48,7 +47,6 @@ namespace CityWatchdog.Systems
         protected override void OnUpdate()
         {
         }
-
         protected override void OnGamePreload(Purpose purpose, GameMode mode)
         {
             base.OnGamePreload(purpose, mode);
