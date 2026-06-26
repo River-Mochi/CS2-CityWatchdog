@@ -35,7 +35,6 @@ namespace CityWatchdog.Systems
             stringBuilder.AppendLine(string.Join(", ", cityConfigurationSystem.usedMods));
             stringBuilder.AppendLine("---End Current City Configuration Information---");
 
-            CityWatchdog.Mod.DebugLog(() => stringBuilder.ToString());
         }
     }
 }

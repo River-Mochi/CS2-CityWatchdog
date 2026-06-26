@@ -11,9 +11,9 @@
 
 namespace CityWatchdog.Systems
 {
+    using System;
     using Colossal.Serialization.Entities;
     using Game;
-    using System;
 
     public abstract partial class GameSystemBaseExtension : GameSystemBase
     {
@@ -37,12 +37,11 @@ namespace CityWatchdog.Systems
         {
             base.OnCreate();
             SystemType = GetType();
-            CityWatchdog.Mod.DebugLog(() => $"System created: {SystemName}");
+
         }
 
         protected override void OnDestroy()
         {
-            CityWatchdog.Mod.DebugLog(() => $"System destroyed: {SystemName}");
             base.OnDestroy();
         }
 
