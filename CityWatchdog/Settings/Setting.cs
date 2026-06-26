@@ -263,6 +263,11 @@ namespace CityWatchdog
         [SettingsUISetter(typeof(Setting), nameof(OnMiniHudHideZeroChanged))]
         public bool MiniHudHideZero { get; set; }
 
+        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudGlassStyleChanged))]
+        public bool MiniHudGlassStyle { get; set; }
+
         // Two 31-bit masks persist the 62 row favorites without exposing 62 Options toggles.
         [SettingsUIHidden]
         public int MiniHudFavoriteMaskLow { get; set; }
@@ -646,6 +651,7 @@ namespace CityWatchdog
             MiniHudOrientation = MiniHudOrientationHorizontal;
             MiniHudPlacement = MiniHudPlacementTopRight;
             MiniHudHideZero = true;
+            MiniHudGlassStyle = true;
             MiniHudFavoriteMaskLow = 0;
             MiniHudFavoriteMaskHigh = 0;
 
@@ -698,6 +704,8 @@ namespace CityWatchdog
         private void OnMiniHudPlacementChanged(int value) => GetUISystem()?.UpdateMiniHudPlacementBinding(value);
 
         private void OnMiniHudHideZeroChanged(bool value) => GetUISystem()?.UpdateMiniHudHideZeroBinding(value);
+
+        private void OnMiniHudGlassStyleChanged(bool value) => GetUISystem()?.UpdateMiniHudGlassStyleBinding(value);
 
         private static CityWatchdogUISystem? GetUISystem()
         {

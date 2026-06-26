@@ -8,6 +8,7 @@ import {
     controlPanelEnabled$,
     miniHudEnabled$,
     miniHudFavorites$,
+    miniHudGlassStyle$,
     miniHudHideZero$,
     miniHudItemCount$,
     miniHudMode$,
@@ -43,6 +44,8 @@ type DragState = {
     originHeight: number;
 };
 
+const DRAG_THRESHOLD = 4;
+
 let sessionPosition: Position = { x: 0, y: 0 };
 
 export const MiniHud = () => {
@@ -55,14 +58,22 @@ export const MiniHud = () => {
     const orientation = useValue(miniHudOrientation$);
     const placement = useValue(miniHudPlacement$);
     const hideZero = useValue(miniHudHideZero$);
+    const glassStyle = useValue(miniHudGlassStyle$);
     const activeGamePanel = useValue(game.activeGamePanel$);
     const isPhotoMode = activeGamePanel?.__Type == game.GamePanelType.PhotoMode;
     const [position, setPosition] = useState<Position>(sessionPosition);
     const [dragging, setDragging] = useState(false);
     const hudRef = useRef<HTMLDivElement | null>(null);
     const dragRef = useRef<DragState | null>(null);
+    const dragMovedRef = useRef(false);
     const pendingPositionRef = useRef(position);
     const animationFrameRef = useRef<number | null>(null);
+
+    useEffect(() => {
+        sessionPosition = { x: 0, y: 0 };
+        pendingPositionRef.current = sessionPosition;
+        setPosition(sessionPosition);
+    }, [orientation, placement]);
 
     useEffect(() => {
         if (!dragging) {
@@ -77,6 +88,10 @@ export const MiniHud = () => {
 
             const deltaX = event.clientX - drag.pointerX;
             const deltaY = event.clientY - drag.pointerY;
+            if (Math.abs(deltaX) >= DRAG_THRESHOLD || Math.abs(deltaY) >= DRAG_THRESHOLD) {
+                dragMovedRef.current = true;
+            }
+
             let nextX = drag.originX + deltaX;
             let nextY = drag.originY + deltaY;
             const nextLeft = drag.originLeft + deltaX;
@@ -117,6 +132,10 @@ export const MiniHud = () => {
             setDragging(false);
             sessionPosition = pendingPositionRef.current;
             setPosition(pendingPositionRef.current);
+
+            if (!dragMovedRef.current) {
+                OnControlPanelBindingToggle(true);
+            }
         };
 
         window.addEventListener("mousemove", onMouseMove);
@@ -149,18 +168,21 @@ export const MiniHud = () => {
         .sort((a, b) => b.count - a.count || a.index - b.index)
         .slice(0, itemCount === 10 ? 10 : 5);
 
-    const startDragging = (event: ReactMouseEvent<HTMLDivElement>) => {
+    const onHudMouseDown = (event: ReactMouseEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+
         if (placement !== PLACEMENT_DRAGGABLE) {
+            OnControlPanelBindingToggle(true);
             return;
         }
 
-        event.preventDefault();
-        event.stopPropagation();
         const rect = hudRef.current?.getBoundingClientRect();
         if (rect === undefined) {
             return;
         }
 
+        dragMovedRef.current = false;
         pendingPositionRef.current = position;
         dragRef.current = {
             pointerX: event.clientX,
@@ -180,36 +202,27 @@ export const MiniHud = () => {
             ? styles.topCenter
             : placement === PLACEMENT_TOP_RIGHT
                 ? styles.topRight
-                : styles.draggable;
-    const openPanel = (event: ReactMouseEvent<HTMLDivElement>) => {
-        event.preventDefault();
-        event.stopPropagation();
-        OnControlPanelBindingToggle(true);
-    };
+                : orientation === ORIENTATION_VERTICAL
+                    ? styles.draggableVertical
+                    : styles.draggableHorizontal;
+    const dragTransform = orientation === ORIENTATION_VERTICAL
+        ? `translate(${position.x}px, ${position.y}px)`
+        : `translate(-50%, 0) translate(${position.x}px, ${position.y}px)`;
 
     return (
         <div
             ref={hudRef}
-            className={`${styles.hud} ${orientation === ORIENTATION_VERTICAL ? styles.vertical : styles.horizontal} ${placementClass}`}
+            className={`${styles.hud} ${glassStyle ? styles.glass : styles.gray} ${orientation === ORIENTATION_VERTICAL ? styles.vertical : styles.horizontal} ${placement === PLACEMENT_DRAGGABLE ? styles.draggable : ""} ${placementClass}`}
             style={placement === PLACEMENT_DRAGGABLE
-                ? { transform: `translate(${position.x}px, ${position.y}px)` }
+                ? { transform: dragTransform }
                 : undefined}
+            onMouseDown={onHudMouseDown}
         >
-            {placement === PLACEMENT_DRAGGABLE && (
-                <div
-                    className={`${styles.dragGrip} ${dragging ? styles.dragGripActive : ""}`}
-                    onMouseDown={startDragging}
-                >
-                    •••
-                </div>
-            )}
-
             <div className={styles.items}>
                 {candidates.length === 0 ? (
                     <div
                         className={styles.item}
                         role="button"
-                        onMouseDown={openPanel}
                     >
                         <span className={styles.count}>0</span>
                         <img src={EmptyIconPath} className={styles.icon} alt="" />
@@ -219,7 +232,6 @@ export const MiniHud = () => {
                         key={index}
                         className={styles.item}
                         role="button"
-                        onMouseDown={openPanel}
                     >
                         <span className={styles.count}>{formatMiniNotificationCount(count)}</span>
                         <img src={item.icon} className={styles.icon} alt="" />

@@ -40,6 +40,7 @@ namespace CityWatchdog.Systems
         private ValueBinding<int> miniHudOrientationBinding = null!;
         private ValueBinding<int> miniHudPlacementBinding = null!;
         private ValueBinding<bool> miniHudHideZeroBinding = null!;
+        private ValueBinding<bool> miniHudGlassStyleBinding = null!;
         private ValueBinding<bool>? moneyViewBinding;
         private ValueBinding<int>? moneyViewModeBinding;
         private ValueBinding<int>? moneyTooltipModeBinding;
@@ -152,6 +153,7 @@ namespace CityWatchdog.Systems
             miniHudOrientationBinding = AddValueBinding(nameof(Setting.MiniHudOrientation), Setting.Instance.MiniHudOrientation);
             miniHudPlacementBinding = AddValueBinding(nameof(Setting.MiniHudPlacement), Setting.Instance.MiniHudPlacement);
             miniHudHideZeroBinding = AddValueBinding(nameof(Setting.MiniHudHideZero), Setting.Instance.MiniHudHideZero);
+            miniHudGlassStyleBinding = AddValueBinding(nameof(Setting.MiniHudGlassStyle), Setting.Instance.MiniHudGlassStyle);
             moneyViewBinding = AddValueBinding(nameof(Setting.MoneyView), Setting.Instance.MoneyView);
             moneyViewModeBinding = AddValueBinding(nameof(Setting.MoneyViewMode), Setting.Instance.MoneyViewMode);
             moneyTooltipModeBinding = AddValueBinding(nameof(Setting.MoneyTooltipMode), Setting.Instance.MoneyTooltipMode);
@@ -938,6 +940,8 @@ namespace CityWatchdog.Systems
         public void UpdateMiniHudPlacementBinding(int value) => miniHudPlacementBinding?.Update(value);
 
         public void UpdateMiniHudHideZeroBinding(bool value) => miniHudHideZeroBinding?.Update(value);
+
+        public void UpdateMiniHudGlassStyleBinding(bool value) => miniHudGlassStyleBinding?.Update(value);
 
     }
 

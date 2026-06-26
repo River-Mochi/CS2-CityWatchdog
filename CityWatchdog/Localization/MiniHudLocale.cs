@@ -43,6 +43,8 @@ namespace CityWatchdog
                 { settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPlacement)), "Use a fixed screen position or choose Draggable and move the grip." },
                 { settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudHideZero)), "Hide Zero Totals" },
                 { settings.GetOptionDescLocaleID(nameof(Setting.MiniHudHideZero)), "Hide notification types whose current city total is zero." },
+                { settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudGlassStyle)), "Glass Style" },
+                { settings.GetOptionDescLocaleID(nameof(Setting.MiniHudGlassStyle)), "Use a lighter glass-like mini HUD background instead of the darker gray panel." },
                 { settings.GetOptionLocaleID("MiniHudModeTopActive"), "Top Active" },
                 { settings.GetOptionLocaleID("MiniHudModeFavorites"), "Favorites" },
                 { settings.GetOptionLocaleID("MiniHudOrientationHorizontal"), "Horizontal" },
