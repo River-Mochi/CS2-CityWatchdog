@@ -15,18 +15,14 @@
     border-top-right-radius: 6rem;
     border-bottom-left-radius: 6rem;
     border-bottom-right-radius: 6rem;
-    border-top-style: solid;
-    border-right-style: solid;
-    border-bottom-style: solid;
-    border-left-style: solid;
-    border-top-width: 1rem;
-    border-right-width: 1rem;
-    border-bottom-width: 1rem;
-    border-left-width: 1rem;
-    border-top-color: rgba(255, 255, 255, 0.28);
-    border-right-color: rgba(255, 255, 255, 0.28);
-    border-bottom-color: rgba(255, 255, 255, 0.28);
-    border-left-color: rgba(255, 255, 255, 0.28);
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
     box-shadow: 0 2rem 8rem rgba(0, 0, 0, 0.25);
 }
 
@@ -60,7 +56,7 @@
 }
 
 .topCenter {
-    top: 8rem;
+    top: 4rem;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -71,7 +67,7 @@
 }
 
 .draggableHorizontal {
-    top: 52rem;
+    top: 4rem;
     left: 50%;
 }
 
@@ -131,4 +127,9 @@
     line-height: 1;
     text-align: right;
     white-space: nowrap;
+}
+
+.hud:hover .count {
+    font-size: var(--fontSizeS);
+    font-weight: 800;
 }

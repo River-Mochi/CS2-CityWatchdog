@@ -56,7 +56,7 @@ export const InfoCheckbox = ({
                             onFavoriteToggle();
                         }}
                     >
-                        <span className={styles.favoriteIcon}>{favorite ? "★" : "☆"}</span>
+                        <span className={styles.favoriteIcon}>☆</span>
                     </button>
                 )}
                 <Checkbox isChecked={isChecked} onValueToggle={() => { }} />
