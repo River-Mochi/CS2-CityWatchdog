@@ -43,6 +43,10 @@
     cursor: grabbing;
 }
 
+.draggable .item {
+    cursor: inherit;
+}
+
 .items {
     display: flex;
     align-items: center;
@@ -122,7 +126,9 @@
 }
 
 .count {
-    min-width: 16rem;
+    display: block;
+    width: 18rem;
+    flex: 0 0 18rem;
     font-size: var(--fontSizeXS);
     font-weight: 700;
     line-height: 1;
@@ -130,7 +136,39 @@
     white-space: nowrap;
 }
 
+.vertical .count {
+    width: 20rem;
+    flex-basis: 20rem;
+}
+
 .hud:hover .count {
     font-size: 15rem;
     font-weight: 800;
+}
+
+.openHandle {
+    margin-top: 1rem;
+    padding-top: 0;
+    padding-right: 2rem;
+    padding-bottom: 0;
+    padding-left: 2rem;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 9rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 1rem;
+    cursor: pointer;
+}
+
+.openHandle:hover {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.vertical .openHandle {
+    margin-top: 2rem;
 }

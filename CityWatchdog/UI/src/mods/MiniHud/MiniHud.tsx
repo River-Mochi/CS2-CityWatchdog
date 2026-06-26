@@ -44,8 +44,6 @@ type DragState = {
     originHeight: number;
 };
 
-const DRAG_THRESHOLD = 4;
-
 let sessionPosition: Position = { x: 0, y: 0 };
 
 export const MiniHud = () => {
@@ -65,7 +63,6 @@ export const MiniHud = () => {
     const [dragging, setDragging] = useState(false);
     const hudRef = useRef<HTMLDivElement | null>(null);
     const dragRef = useRef<DragState | null>(null);
-    const dragMovedRef = useRef(false);
     const pendingPositionRef = useRef(position);
     const animationFrameRef = useRef<number | null>(null);
 
@@ -88,9 +85,6 @@ export const MiniHud = () => {
 
             const deltaX = event.clientX - drag.pointerX;
             const deltaY = event.clientY - drag.pointerY;
-            if (Math.abs(deltaX) >= DRAG_THRESHOLD || Math.abs(deltaY) >= DRAG_THRESHOLD) {
-                dragMovedRef.current = true;
-            }
 
             let nextX = drag.originX + deltaX;
             let nextY = drag.originY + deltaY;
@@ -132,10 +126,6 @@ export const MiniHud = () => {
             setDragging(false);
             sessionPosition = pendingPositionRef.current;
             setPosition(pendingPositionRef.current);
-
-            if (!dragMovedRef.current) {
-                OnControlPanelBindingToggle(true);
-            }
         };
 
         document.addEventListener("mousemove", onMouseMove);
@@ -182,7 +172,6 @@ export const MiniHud = () => {
             return;
         }
 
-        dragMovedRef.current = false;
         pendingPositionRef.current = position;
         dragRef.current = {
             pointerX: event.clientX,
@@ -195,6 +184,12 @@ export const MiniHud = () => {
             originHeight: rect.height,
         };
         setDragging(true);
+    };
+
+    const onOpenMiniHud = (event: ReactMouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        OnControlPanelBindingToggle(true);
     };
 
     const placementClass =
@@ -216,7 +211,7 @@ export const MiniHud = () => {
             style={placement === PLACEMENT_DRAGGABLE
                 ? { transform: dragTransform }
                 : undefined}
-            onMouseDownCapture={onHudMouseDown}
+            onMouseDown={onHudMouseDown}
         >
             <div className={styles.items}>
                 {candidates.length === 0 ? (
@@ -238,6 +233,20 @@ export const MiniHud = () => {
                     </div>
                 ))}
             </div>
+            {placement === PLACEMENT_DRAGGABLE && (
+                <button
+                    type="button"
+                    className={styles.openHandle}
+                    onMouseDown={(event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }}
+                    onClick={onOpenMiniHud}
+                    aria-label="Open City Watchdog panel"
+                >
+                    •••
+                </button>
+            )}
         </div>
     );
 };

@@ -232,6 +232,12 @@ const NotificationPanelContent = () => {
     };
 
     const onToggleAllSections = () => {
+        if (panelCollapsed) {
+            setPanelCollapsed(false);
+            setExpandedSections(createExpandedSections(true));
+            return;
+        }
+
         setExpandedSections(createExpandedSections(!allSectionsExpanded));
     };
 
