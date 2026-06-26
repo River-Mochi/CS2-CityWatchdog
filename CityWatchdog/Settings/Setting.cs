@@ -27,9 +27,9 @@ namespace CityWatchdog
     using UnityEngine;
 
     [FileLocation("ModsSettings/CityWatchdog/CityWatchdog")]
-    [SettingsUITabOrder(Actions, MoneyTab, About, Debug)]
-    [SettingsUIGroupOrder(AboutUsage, Notifications, MiniHudGroup, Milestone, MoneyViewGroup, Money, SaveConversion, AboutInfo, AboutLinks, AboutDiagnostics, Serialize)]
-    [SettingsUIShowGroupName(AboutUsage, Notifications, MiniHudGroup, Milestone, MoneyViewGroup, Money, SaveConversion, AboutDiagnostics, Serialize)]
+    [SettingsUITabOrder(Actions, MoneyTab, About)]
+    [SettingsUIGroupOrder(AboutUsage, Notifications, MoneyViewGroup, MiniHudGroup, Milestone, Money, SaveConversion, AboutInfo, AboutLinks, AboutDiagnostics, Serialize)]
+    [SettingsUIShowGroupName(AboutUsage, Notifications, MoneyViewGroup, MiniHudGroup, Milestone, Money, SaveConversion, AboutDiagnostics, Serialize)]
     public partial class Setting : ModSetting
     {
         internal static Setting Instance { get; set; } = null!;
@@ -157,7 +157,7 @@ namespace CityWatchdog
         public int PopulationTooltipFontScale { get; set; }
 
         // --------------------------------------------------------------------
-        // Money tab - Money
+        // Money-Milestones tab - Money
         // --------------------------------------------------------------------
 
         [SettingsUISlider(min = 20000, max = 2000000, step = 20000, scalarMultiplier = 1, unit = Unit.kInteger)]
@@ -276,28 +276,28 @@ namespace CityWatchdog
         public int MiniHudFavoriteMaskHigh { get; set; }
 
         // --------------------------------------------------------------------
-        // Actions tab - New city start settings
+        // Money-Milestones tab - New city start settings
         // --------------------------------------------------------------------
 
         [SettingsUIDropdown(typeof(Setting), nameof(GetInitialMoneyItems))]
-        [SettingsUISection(Actions, Milestone)]
+        [SettingsUISection(MoneyTab, Milestone)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(IsInGame))]
         public int InitialMoney { get; set; }
 
         // Safety rule:
         // - OFF while a city is loaded stays disabled, so milestone injection cannot be enabled mid-city.
         // - ON while a city is loaded stays enabled, so it can be turned OFF without rebooting.
-        [SettingsUISection(Actions, Milestone)]
+        [SettingsUISection(MoneyTab, Milestone)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(CannotEnableCustomMilestoneInGame))]
         public bool CustomMilestone { get; set; }
 
         [SettingsUIDropdown(typeof(Setting), nameof(GetMilestoneLevelItems))]
-        [SettingsUISection(Actions, Milestone)]
+        [SettingsUISection(MoneyTab, Milestone)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(GetMilestoneLevelStatus))]
         public int MilestoneLevel { get; set; }
 
         // --------------------------------------------------------------------
-        // Money tab - Unlimited Money Converter
+        // Money-Milestones tab - Unlimited Money Converter
         // --------------------------------------------------------------------
 
         [SettingsUISection(MoneyTab, SaveConversion)]
@@ -355,12 +355,12 @@ namespace CityWatchdog
 
 
         // --------------------------------------------------------------------
-        // Debug tab
+        // About tab - Diagnostics
         // --------------------------------------------------------------------
 
         [SettingsUIButtonGroup(DebugButtonsRow)]
         [SettingsUIButton]
-        [SettingsUISection(Debug, AboutDiagnostics)]
+        [SettingsUISection(About, AboutDiagnostics)]
         public bool WriteNotificationAuditLog
         {
             set
@@ -386,7 +386,7 @@ namespace CityWatchdog
 
         [SettingsUIButtonGroup(DebugButtonsRow)]
         [SettingsUIButton]
-        [SettingsUISection(Debug, AboutDiagnostics)]
+        [SettingsUISection(About, AboutDiagnostics)]
         public bool OpenLog
         {
             set

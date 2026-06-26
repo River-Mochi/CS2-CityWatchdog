@@ -138,11 +138,11 @@ export const MiniHud = () => {
             }
         };
 
-        window.addEventListener("mousemove", onMouseMove);
-        window.addEventListener("mouseup", onMouseUp);
+        document.addEventListener("mousemove", onMouseMove);
+        document.addEventListener("mouseup", onMouseUp);
         return () => {
-            window.removeEventListener("mousemove", onMouseMove);
-            window.removeEventListener("mouseup", onMouseUp);
+            document.removeEventListener("mousemove", onMouseMove);
+            document.removeEventListener("mouseup", onMouseUp);
         };
     }, [dragging]);
 
@@ -216,7 +216,7 @@ export const MiniHud = () => {
             style={placement === PLACEMENT_DRAGGABLE
                 ? { transform: dragTransform }
                 : undefined}
-            onMouseDown={onHudMouseDown}
+            onMouseDownCapture={onHudMouseDown}
         >
             <div className={styles.items}>
                 {candidates.length === 0 ? (

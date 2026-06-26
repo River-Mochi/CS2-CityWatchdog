@@ -24,7 +24,7 @@ namespace CityWatchdog.Systems
         // The compact HUD can tolerate slightly older totals; keeping its scan cadence lower
         // avoids making an always-visible convenience feature expensive on low-end systems.
         private const int kPanelCountUpdateInterval = 128;
-        private const int kMiniHudCountUpdateInterval = 512;
+        private const int kMiniHudCountUpdateInterval = 1024;
 
         private AlertIconSystem alertIconSystem = null!;
         private ProxyAction? toggleNotificationsAction;

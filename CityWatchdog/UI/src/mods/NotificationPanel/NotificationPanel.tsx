@@ -108,6 +108,7 @@ const NotificationPanelContent = () => {
     const uiText = useText();
     const { translate } = localization;
     const [sortAscending, setSortAscending] = useState(true);
+    const [panelCollapsed, setPanelCollapsed] = useState(false);
     // disableAllTooltips$ — Info button: vanilla game hover tooltips.
     const allTooltipsDisabled = useValue(disableAllTooltips$);
     // disableCwdTooltips$ — controlled by clicking the CWD icon in the title bar.
@@ -272,6 +273,17 @@ const NotificationPanelContent = () => {
                         </div>
                     </div>
                     <Button
+                        className={roundButtonHighlightStyle.button + " " + styles.headerCollapseButton}
+                        variant="icon"
+                        onClick={() => { setPanelCollapsed(!panelCollapsed); }}
+                        focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
+                    >
+                        <img
+                            src={panelCollapsed ? "Media/Glyphs/ThickStrokeArrowRight.svg" : "Media/Glyphs/ThickStrokeArrowDown.svg"}
+                            className={styles.headerCollapseIcon}
+                        />
+                    </Button>
+                    <Button
                         className={roundButtonHighlightStyle.button + " " + styles.headerCloseButton}
                         variant="icon"
                         onClick={() => { OnControlPanelBindingToggle(false); }}
@@ -385,18 +397,18 @@ const NotificationPanelContent = () => {
 
             <IconPreloader />
 
-            {orderedSections.map((section, index) => (
-                <NotificationSectionView
-                    key={section.localeId}
-                    section={section}
-                    expanded={expandedSections[section.localeId] === true}
-                    localize={localize}
-                    notificationCounts={notificationCounts}
-                    favoriteIndexes={favoriteIndexes}
-                    showDivider={index > 0}
-                    onExpandedChange={(expanded) => onSectionExpandedChange(section, expanded)}
-                />
-            ))}
+            {!panelCollapsed && orderedSections.map((section, index) => (
+                    <NotificationSectionView
+                        key={section.localeId}
+                        section={section}
+                        expanded={expandedSections[section.localeId] === true}
+                        localize={localize}
+                        notificationCounts={notificationCounts}
+                        favoriteIndexes={favoriteIndexes}
+                        showDivider={index > 0}
+                        onExpandedChange={(expanded) => onSectionExpandedChange(section, expanded)}
+                    />
+                ))}
         </Panel>
         </div>
     );

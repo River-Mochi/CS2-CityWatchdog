@@ -41,22 +41,20 @@ namespace CityWatchdog
 
                 // --- Tabs ---
                 { m_Settings.GetOptionTabLocaleID(Setting.Actions), "Actions" },
-                { m_Settings.GetOptionTabLocaleID(Setting.MoneyTab), "Money" },
-                { m_Settings.GetOptionTabLocaleID(Setting.Hotkeys), "Hotkeys" },
+                { m_Settings.GetOptionTabLocaleID(Setting.MoneyTab), "Money-Milestones" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "About" },
-                { m_Settings.GetOptionTabLocaleID(Setting.Debug), "Debug" },
 
                 // --- Groups, ordered by Options menu location ---
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "USAGE" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "Notifications" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "NEW CITY START SETTINGS" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "In-City Info Viewer" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.MiniHudGroup), "Mini HUD Notifications" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "NEW CITY START SETTINGS" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Money" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Save Conversion" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutDiagnostics), "DIAGNOSTICS" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.HotkeyActions), "Hotkeys" },
 
                 // --------------------------------------------------------------------
                 // Actions tab - Usage
@@ -84,7 +82,7 @@ namespace CityWatchdog
                     "<Bottom menu tooltips>\n" +
                     "Money View adds trend values to money and population toolbar and extra details on mouse hover.\n\n" +
                     "<Custom milestone>\n" +
-                    "Set Initial Money and select Milestones from NEW CITY START SETTINGS before loading or starting a city."
+                    "Set Initial Money and select Milestones from Money-Milestones > NEW CITY START SETTINGS before loading or starting a city."
                 },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
 
@@ -120,31 +118,7 @@ namespace CityWatchdog
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Hide/Show all game hover tooltips" },
 
                 // --------------------------------------------------------------------
-                // Actions tab - New City Start Settings
-                // --------------------------------------------------------------------
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Initial Money" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
-                    "Sets the starting balance for a new <limited money> city or the first loaded city,\n" +
-                    "then resets to Game Default after it applies.\n" +
-                    "This is grayed out if a city is already loaded.\n" +
-                    "Set this before starting/loading a city. It applies once, then use <Money Hotkey Amount> or <Automatic Add Money> afterward." },
-                { m_Settings.GetOptionLocaleID("GameDefault"), "Game Default" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
-                    "Enable <before loading or starting a city> to unlock a chosen milestone immediately after the city loads.\n" +
-                    "Cannot be turned ON after a city is loaded, but it can be turned OFF if it was left enabled by mistake.\n" +
-                    "If you forgot and loaded a city, just restart the game, and pick milestone before entering a city.\n" +
-                    "City Watchdog cannot undo milestone changes already saved into a city; use an earlier save if needed." },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Milestone" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)),
-                    "Pick the milestone level to unlock on the next city load.\n" +
-                    "This is only adjustable outside a loaded city, and only after [Milestone Selector] is enabled [ ✓ ]." },
-
-                // --------------------------------------------------------------------
-                // In City Info Viewer
+                // Actions tab - In-City Info Viewer
                 // --------------------------------------------------------------------
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Show Money + Population ToolTips" },
@@ -191,7 +165,74 @@ namespace CityWatchdog
                 },
 
                 // --------------------------------------------------------------------
-                // Money tab - Money
+                // Actions tab - Mini HUD Notifications
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudEnabled)), "Mini HUD Notifications" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudEnabled)),
+                    "Shows a small in-city HUD with the most important notification counts.\n" +
+                    "Use it as a quick alert strip without opening the full City Watchdog panel." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini HUD Mode" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
+                    "Choose which notification rows the Mini HUD uses.\n" +
+                    "Top active alerts shows the highest current counts.\n" +
+                    "Favorites shows only rows you marked as favorites in the City Watchdog panel." },
+                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Top active alerts" },
+                { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Favorites" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Mini HUD icon count" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudItemCount)),
+                    "Choose how many notification icons the Mini HUD can show at once." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudOrientation)), "Mini HUD orientation" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudOrientation)),
+                    "Choose whether Mini HUD icons are arranged in a row or a column." },
+                { m_Settings.GetOptionLocaleID("MiniHudOrientationHorizontal"), "Horizontal" },
+                { m_Settings.GetOptionLocaleID("MiniHudOrientationVertical"), "Vertical" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPlacement)), "Mini HUD placement" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPlacement)),
+                    "Choose where the Mini HUD appears.\n" +
+                    "Draggable lets you move it in the city UI." },
+                { m_Settings.GetOptionLocaleID("MiniHudPlacementTopCenter"), "Top center" },
+                { m_Settings.GetOptionLocaleID("MiniHudPlacementTopRight"), "Top right" },
+                { m_Settings.GetOptionLocaleID("MiniHudPlacementDraggable"), "Draggable" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudHideZero)), "Hide zero alerts" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudHideZero)),
+                    "When enabled [ ✓ ], the Mini HUD hides notification rows with a count of 0." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudGlassStyle)), "Glass style" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudGlassStyle)),
+                    "Adds a soft glass-style background behind the Mini HUD for readability." },
+
+                // --------------------------------------------------------------------
+                // Money-Milestones tab - New City Start Settings
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Initial Money" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
+                    "Sets the starting balance for a new <limited money> city or the first loaded city,\n" +
+                    "then resets to Game Default after it applies.\n" +
+                    "This is grayed out if a city is already loaded.\n" +
+                    "Set this before starting/loading a city. It applies once, then use <Money Hotkey Amount> or <Automatic Add Money> afterward." },
+                { m_Settings.GetOptionLocaleID("GameDefault"), "Game Default" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
+                    "Enable <before loading or starting a city> to unlock a chosen milestone immediately after the city loads.\n" +
+                    "Cannot be turned ON after a city is loaded, but it can be turned OFF if it was left enabled by mistake.\n" +
+                    "If you forgot and loaded a city, just restart the game, and pick milestone before entering a city.\n" +
+                    "City Watchdog cannot undo milestone changes already saved into a city; use an earlier save if needed." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Milestone" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)),
+                    "Pick the milestone level to unlock on the next city load.\n" +
+                    "This is only adjustable outside a loaded city, and only after [Milestone Selector] is enabled [ ✓ ]." },
+
+                // --------------------------------------------------------------------
+                // Money-Milestones tab - Money
                 // --------------------------------------------------------------------
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Money Hotkey Amount" },
@@ -232,7 +273,7 @@ namespace CityWatchdog
                     "Choose a value high enough to bring the city safely above the threshold." },
 
                 // --------------------------------------------------------------------
-                // Money tab - Save Conversion
+                // Money-Milestones tab - Save Conversion
                 // --------------------------------------------------------------------
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "Unlimited Money Converter" },
@@ -270,7 +311,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Open the author's Paradox Mods page." },
 
                 // --------------------------------------------------------------------
-                // Debug tab - Diagnostics
+                // About tab - Diagnostics
                 // --------------------------------------------------------------------
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "Debug Report to Log" },
