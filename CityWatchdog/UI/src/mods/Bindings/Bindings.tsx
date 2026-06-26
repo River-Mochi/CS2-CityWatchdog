@@ -24,6 +24,7 @@ export const miniHudOrientation$ = bindValue<number>(mod.id, "MiniHudOrientation
 export const miniHudPlacement$ = bindValue<number>(mod.id, "MiniHudPlacement", 1);
 export const miniHudHideZero$ = bindValue<boolean>(mod.id, "MiniHudHideZero", true);
 export const miniHudGlassStyle$ = bindValue<boolean>(mod.id, "MiniHudGlassStyle", true);
+export const panelButtonsOnlyStart$ = bindValue<boolean>(mod.id, "PanelButtonsOnlyStart", false);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
 export const ElectricityBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBottleneckNotification");

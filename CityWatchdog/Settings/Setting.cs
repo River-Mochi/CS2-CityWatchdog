@@ -198,6 +198,10 @@ namespace CityWatchdog
         [SettingsUISection(Actions, Notifications)]
         public ProxyBinding ToggleNotificationPanelKeyboardBinding { get; set; }
 
+        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISetter(typeof(Setting), nameof(OnPanelButtonsOnlyStartChanged))]
+        public bool PanelButtonsOnlyStart { get; set; }
+
         [SettingsUIKeyboardBinding(BindingKeyboard.Backslash, ToggleRoadNamesAction)]
         [SettingsUISection(Actions, Notifications)]
         public ProxyBinding ToggleRoadNamesKeyboardBinding { get; set; }
@@ -687,6 +691,7 @@ namespace CityWatchdog
             HideRoadNames = false;
             HideDistrictNames = false;
             ShowRoadArrows = false;
+            PanelButtonsOnlyStart = false;
             MiniHudEnabled = false;
             MiniHudMode = MiniHudModeTopActive;
             MiniHudItemCount = 5;
@@ -748,6 +753,8 @@ namespace CityWatchdog
         private void OnMiniHudHideZeroChanged(bool value) => GetUISystem()?.UpdateMiniHudHideZeroBinding(value);
 
         private void OnMiniHudGlassStyleChanged(bool value) => GetUISystem()?.UpdateMiniHudGlassStyleBinding(value);
+
+        private void OnPanelButtonsOnlyStartChanged(bool value) => GetUISystem()?.UpdatePanelButtonsOnlyStartBinding(value);
 
         private static CityWatchdogUISystem? GetUISystem()
         {

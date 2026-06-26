@@ -16,6 +16,7 @@ import {
     hideRoadNames$,
     miniHudFavorites$,
     notificationCounts$,
+    panelButtonsOnlyStart$,
     showRoadArrows$,
     OnControlPanelBindingToggle,
     OnDisableAllTooltipsToggle,
@@ -108,7 +109,8 @@ const NotificationPanelContent = () => {
     const uiText = useText();
     const { translate } = localization;
     const [sortAscending, setSortAscending] = useState(true);
-    const [panelCollapsed, setPanelCollapsed] = useState(false);
+    const panelButtonsOnlyStart = useValue(panelButtonsOnlyStart$);
+    const [panelCollapsed, setPanelCollapsed] = useState(() => panelButtonsOnlyStart);
     // disableAllTooltips$ — Info button: vanilla game hover tooltips.
     const allTooltipsDisabled = useValue(disableAllTooltips$);
     // disableCwdTooltips$ — controlled by clicking the CWD icon in the title bar.

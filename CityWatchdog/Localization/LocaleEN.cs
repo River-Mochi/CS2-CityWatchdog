@@ -104,6 +104,11 @@ namespace CityWatchdog
                 },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Open/Close notification panel" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PanelButtonsOnlyStart)), "Panel buttons-only start" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PanelButtonsOnlyStart)),
+                    "When enabled [ ✓ ], opening City Watchdog from the top-left button starts in the smaller buttons-only view.\n" +
+                    "Use the title-bar arrow or the row-count button to expand the full panel." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)), "Hide/Show Road Names" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)),
                     "<Hotkey> to instantly hide or show the vanilla road name labels in the city.\n" +

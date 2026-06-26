@@ -41,6 +41,7 @@ namespace CityWatchdog.Systems
         private ValueBinding<int> miniHudPlacementBinding = null!;
         private ValueBinding<bool> miniHudHideZeroBinding = null!;
         private ValueBinding<bool> miniHudGlassStyleBinding = null!;
+        private ValueBinding<bool> panelButtonsOnlyStartBinding = null!;
         private ValueBinding<bool>? moneyViewBinding;
         private ValueBinding<int>? moneyViewModeBinding;
         private ValueBinding<int>? moneyTooltipModeBinding;
@@ -154,6 +155,7 @@ namespace CityWatchdog.Systems
             miniHudPlacementBinding = AddValueBinding(nameof(Setting.MiniHudPlacement), Setting.Instance.MiniHudPlacement);
             miniHudHideZeroBinding = AddValueBinding(nameof(Setting.MiniHudHideZero), Setting.Instance.MiniHudHideZero);
             miniHudGlassStyleBinding = AddValueBinding(nameof(Setting.MiniHudGlassStyle), Setting.Instance.MiniHudGlassStyle);
+            panelButtonsOnlyStartBinding = AddValueBinding(nameof(Setting.PanelButtonsOnlyStart), Setting.Instance.PanelButtonsOnlyStart);
             moneyViewBinding = AddValueBinding(nameof(Setting.MoneyView), Setting.Instance.MoneyView);
             moneyViewModeBinding = AddValueBinding(nameof(Setting.MoneyViewMode), Setting.Instance.MoneyViewMode);
             moneyTooltipModeBinding = AddValueBinding(nameof(Setting.MoneyTooltipMode), Setting.Instance.MoneyTooltipMode);
@@ -942,6 +944,8 @@ namespace CityWatchdog.Systems
         public void UpdateMiniHudHideZeroBinding(bool value) => miniHudHideZeroBinding?.Update(value);
 
         public void UpdateMiniHudGlassStyleBinding(bool value) => miniHudGlassStyleBinding?.Update(value);
+
+        public void UpdatePanelButtonsOnlyStartBinding(bool value) => panelButtonsOnlyStartBinding?.Update(value);
 
     }
 
