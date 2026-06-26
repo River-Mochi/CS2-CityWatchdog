@@ -3,6 +3,7 @@
 
 import { useValue } from "cs2/api";
 import { game } from "cs2/bindings";
+import { Tooltip } from "cs2/ui";
 import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import {
     controlPanelEnabled$,
@@ -18,6 +19,7 @@ import {
     OnControlPanelBindingToggle,
 } from "../Bindings/Bindings";
 import { allItems } from "../NotificationPanel/notificationData";
+import { useText } from "../shared/localization";
 import { formatMiniNotificationCount } from "../shared/formatNotificationCount";
 import styles from "./MiniHud.module.scss";
 import EmptyIconPath from "../../../images/NotificationIcon_TitleBar.svg";
@@ -47,6 +49,7 @@ type DragState = {
 let sessionPosition: Position = { x: 0, y: 0 };
 
 export const MiniHud = () => {
+    const text = useText();
     const enabled = useValue(miniHudEnabled$);
     const fullPanelVisible = useValue(controlPanelEnabled$);
     const counts = useValue(notificationCounts$);
@@ -203,6 +206,8 @@ export const MiniHud = () => {
     const dragTransform = orientation === ORIENTATION_VERTICAL
         ? `translate(${position.x}px, ${position.y}px)`
         : `translate(-50%, 0) translate(${position.x}px, ${position.y}px)`;
+    const openHandleTooltip = text("MiniHudOpenPanel", "Click dots opens main panel; Options menu to remove");
+    const openHandleGlyph = orientation === ORIENTATION_VERTICAL ? "•••" : "⋮";
 
     return (
         <div
@@ -213,40 +218,44 @@ export const MiniHud = () => {
                 : undefined}
             onMouseDown={onHudMouseDown}
         >
-            <div className={styles.items}>
-                {candidates.length === 0 ? (
-                    <div
-                        className={styles.item}
-                        role="button"
-                    >
-                        <span className={styles.count}>0</span>
-                        <img src={EmptyIconPath} className={styles.icon} alt="" />
-                    </div>
-                ) : candidates.map(({ item, index, count }) => (
-                    <div
-                        key={index}
-                        className={styles.item}
-                        role="button"
-                    >
-                        <span className={styles.count}>{formatMiniNotificationCount(count)}</span>
-                        <img src={item.icon} className={styles.icon} alt="" />
-                    </div>
-                ))}
+            <div className={styles.content}>
+                <div className={styles.items}>
+                    {candidates.length === 0 ? (
+                        <div
+                            className={styles.item}
+                            role="button"
+                        >
+                            <span className={styles.count}>0</span>
+                            <img src={EmptyIconPath} className={styles.icon} alt="" />
+                        </div>
+                    ) : candidates.map(({ item, index, count }) => (
+                        <div
+                            key={index}
+                            className={styles.item}
+                            role="button"
+                        >
+                            <span className={styles.count}>{formatMiniNotificationCount(count)}</span>
+                            <img src={item.icon} className={styles.icon} alt="" />
+                        </div>
+                    ))}
+                </div>
+                {placement === PLACEMENT_DRAGGABLE && (
+                    <Tooltip {...{ cwdBypass: true }} tooltip={openHandleTooltip}>
+                        <button
+                            type="button"
+                            className={styles.openHandle}
+                            onMouseDown={(event) => {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }}
+                            onClick={onOpenMiniHud}
+                            aria-label={openHandleTooltip}
+                        >
+                            {openHandleGlyph}
+                        </button>
+                    </Tooltip>
+                )}
             </div>
-            {placement === PLACEMENT_DRAGGABLE && (
-                <button
-                    type="button"
-                    className={styles.openHandle}
-                    onMouseDown={(event) => {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }}
-                    onClick={onOpenMiniHud}
-                    aria-label="Open City Watchdog panel"
-                >
-                    •••
-                </button>
-            )}
         </div>
     );
 };

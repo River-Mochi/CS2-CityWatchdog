@@ -83,7 +83,7 @@
 
 .favoriteButton:hover,
 .favoriteButtonActive {
-    color: #f1c84b;
+    color: #5fb8ff;
 }
 
 .favoriteIcon {
@@ -94,14 +94,15 @@
     justify-content: center;
     color: inherit;
     font-size: 20rem;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1;
+    text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.45);
 }
 
 .favoriteButtonActive .favoriteIcon {
-    font-size: 22rem;
-    font-weight: 900;
-    text-shadow: 0 0 1rem rgba(0, 0, 0, 0.75), 0 0 2rem rgba(241, 200, 75, 0.35);
+    font-size: 20rem;
+    font-weight: 700;
+    text-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.65), 0 0 1.5rem rgba(95, 184, 255, 0.35);
 }
 
 // Keep notification SVGs small and pinned to the left of each row.

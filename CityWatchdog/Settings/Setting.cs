@@ -234,6 +234,48 @@ namespace CityWatchdog
         [SettingsUISetter(typeof(Setting), nameof(OnMiniHudEnabledChanged))]
         public bool MiniHudEnabled { get; set; }
 
+        [SettingsUIButton]
+        [SettingsUISection(Actions, MiniHudGroup)]
+        public bool ApplyMiniHudRecommendedPreset
+        {
+            set
+            {
+                if (!value)
+                {
+                    return;
+                }
+
+                MiniHudEnabled = true;
+                MiniHudMode = MiniHudModeTopActive;
+                MiniHudItemCount = 5;
+                MiniHudOrientation = MiniHudOrientationVertical;
+                MiniHudPlacement = MiniHudPlacementDraggable;
+                MiniHudHideZero = true;
+                MiniHudGlassStyle = true;
+
+                CityWatchdogUISystem? uiSystem = GetUISystem();
+                uiSystem?.UpdateMiniHudEnabledBinding(MiniHudEnabled);
+                uiSystem?.UpdateMiniHudModeBinding(MiniHudMode);
+                uiSystem?.UpdateMiniHudItemCountBinding(MiniHudItemCount);
+                uiSystem?.UpdateMiniHudOrientationBinding(MiniHudOrientation);
+                uiSystem?.UpdateMiniHudPlacementBinding(MiniHudPlacement);
+                uiSystem?.UpdateMiniHudHideZeroBinding(MiniHudHideZero);
+                uiSystem?.UpdateMiniHudGlassStyleBinding(MiniHudGlassStyle);
+
+                try
+                {
+                    ApplyAndSave();
+                }
+                catch (Exception ex)
+                {
+                    LogUtils.WarnOnce(
+                        "mini-hud-recommended-preset-save",
+                        () => $"Failed to save Mini HUD recommended preset: {ex.GetType().Name}: {ex.Message}",
+                        ex);
+                }
+            }
+        }
+
         [SettingsUIDropdown(typeof(Setting), nameof(GetMiniHudModeItems))]
         [SettingsUISection(Actions, MiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]

@@ -132,7 +132,6 @@ namespace CityWatchdog
 
         public void OnDispose()
         {
-            DebugLog(() => "Mod Dispose");
 
             Setting? setting = Settings;
             if (setting != null)
