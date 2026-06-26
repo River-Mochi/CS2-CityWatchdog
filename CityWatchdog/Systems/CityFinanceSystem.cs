@@ -98,12 +98,10 @@ namespace CityWatchdog.Systems
                 BindingFlags.NonPublic | BindingFlags.Instance);
             if (loadedUnlimitedMoneyField == null)
             {
-                CityWatchdog.Mod.DebugLog(() => "m_LoadedUnlimitedMoney is null");
+                return;
             }
-            else
-            {
-                loadedUnlimitedMoneyField.SetValue(cityConfigurationSystem, false);
-            }
+
+            loadedUnlimitedMoneyField.SetValue(cityConfigurationSystem, false);
         }
 
         public bool CanConvertUnlimitedMoneySave()
@@ -174,17 +172,9 @@ namespace CityWatchdog.Systems
 
                 if (!playerMoney.m_Unlimited)
                 {
-                    int rawMoney = playerMoney.money;
-                    CityWatchdog.Mod.DebugLog(() => $"Setting initial money, default money: {rawMoney}");
-
-                    ApplyMoneyChange(FinanceActionKind.AutoSubtract, rawMoney);
+                    ApplyMoneyChange(FinanceActionKind.AutoSubtract, playerMoney.money);
                     ApplyMoneyChange(FinanceActionKind.AutoAdd, Setting.Instance.InitialMoney);
                     Setting.Instance.ResetInitialMoney();
-
-                    if (TryGetPlayerMoney(out PlayerMoney updatedMoney))
-                    {
-                        CityWatchdog.Mod.DebugLog(() => $"Set initial money completed, money: {updatedMoney.money}");
-                    }
                 }
             }
         }
@@ -292,7 +282,6 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            CityWatchdog.Mod.DebugLog(() => $"AutoAdd money: balance {playerMoney.money:N0} below threshold {threshold:N0}; adding {amount:N0}.");
             ApplyMoneyChange(FinanceActionKind.AutoAdd, amount);
         }
 
@@ -370,7 +359,6 @@ namespace CityWatchdog.Systems
                 playerMoney.Subtract(money);
             }
 
-            CityWatchdog.Mod.DebugLog(() => $"{financeActionKind} money {money} to {playerMoney.money} ");
             EntityManager.SetComponentData(citySystem.City, playerMoney);
         }
     }
