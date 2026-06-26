@@ -17,12 +17,12 @@
 
 namespace CityWatchdog.Systems
 {
+    using System;
+    using System.Reflection;
     using CS2Shared.RiverMochi;
     using Game;
     using Game.Areas;
     using Game.Rendering;
-    using System;
-    using System.Reflection;
 
     public partial class DistrictNameControlSystem : UISystemBaseExtension
     {
@@ -191,8 +191,7 @@ namespace CityWatchdog.Systems
 
                 reflectionReady = true;
 #if DEBUG
-                CityWatchdog.Mod.DebugLog(
-                    () => $"District reflection OK: AreaTypeData found, District index={districtIndex}, m_HasNameMesh bool field found.");
+                LogUtils.Debug(() => $"District reflection OK: AreaTypeData found, District index={districtIndex}, m_HasNameMesh bool field found.");
 #endif
             }
             catch (Exception ex)

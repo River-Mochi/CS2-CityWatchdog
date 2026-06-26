@@ -11,9 +11,10 @@
 
 namespace CityWatchdog.Systems
 {
+    using System.Collections.Generic;
+    using CS2Shared.RiverMochi;
     using Game.Economy;
     using Game.Prefabs;
-    using System.Collections.Generic;
     using Unity.Collections;
     using Unity.Entities;
 
@@ -212,8 +213,7 @@ namespace CityWatchdog.Systems
 #if DEBUG
             if (index != NotificationCountLength)
             {
-                CityWatchdog.Mod.DebugLog(
-                    () => $"Notification count mapping length mismatch: expected={NotificationCountLength}, actual={index}.");
+                LogUtils.Debug(() => $"Notification count mapping length mismatch: expected={NotificationCountLength}, actual={index}.");
             }
 #endif
 
