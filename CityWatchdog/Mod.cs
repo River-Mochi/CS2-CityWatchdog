@@ -83,18 +83,11 @@ namespace CityWatchdog
             AddLocaleSource("vi-VN", new LocaleVI(setting));       // Vietnamese
             AddLocaleSource("tr-TR", new LocaleTR(setting));       // Turkish
             AddLocaleSource("pt-PT", new LocalePT_PT(setting));    // European Portuguese
-            foreach (string localeId in new[]
-            {
-                "en-US", "fr-FR", "es-ES", "de-DE", "it-IT", "ja-JP", "ko-KR", "pl-PL",
-                "pt-BR", "zh-HANS", "zh-HANT", "th-TH", "vi-VN", "tr-TR", "pt-PT",
-            })
-            {
-                AddLocaleSource(localeId, new MiniHudLocale(setting));
-            }
+    
 
             // In-city UI strings — loaded from EMBEDDED lang/*.json resources baked into this DLL.
-            // The JSON bytes ride inside CityWatchdog.dll itself, so the loader needs no filesystem
-            // path resolution — works identically for local-dev installs and PDX-subscribed installs.
+            // JSON bytes ride inside CityWatchdog.dll, so the loader needs no filesystem
+            // path resolution — works same for local-dev installs and PDX-subscribed installs.
             // Each entry is registered under "CityWatchdog.UI.<Key>" so React-side translate() picks
             // it up for the active game language. See Localization/InCityLocalization.cs.
             InCityLocalization.LoadEmbeddedJsonTranslations(ModId, ModTag, s_Log);

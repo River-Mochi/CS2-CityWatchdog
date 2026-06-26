@@ -50,7 +50,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "In-City Info Viewer" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.MiniHudGroup), "Mini HUD Notifications" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "NEW CITY START SETTINGS" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Extra Money" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Money" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Convert Unlimited Save" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
@@ -82,7 +82,7 @@ namespace CityWatchdog
                     "<Bottom menu tooltips>\n" +
                     "Money View adds trend values to money and population toolbar and extra details on mouse hover.\n\n" +
                     "<Custom milestone>\n" +
-                    "Set Initial Money and select Milestones from Money-Milestones > NEW CITY before loading or starting a city."
+                    "Set Initial Money and select Milestones from Money-Milestones > NEW CITY START SETTINGS before loading or starting a city."
                 },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
 
@@ -213,11 +213,10 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Initial Money" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
-                    "Sets the starting balance for a <limited money> city or the first loaded city,\n" +
-                    "- Grayed out if a city is already loaded - safer for game mechanics.\n" +
-                    "- Set this before starting or loading a city.\n" +
-                    "If you forgot, restart the game and set this First before loading a city.\n"+
-                    "It applies once. Later, if you need money, use the hotkey for <Money Hotkey Amount>." },
+                    "Sets the starting balance for a new <limited money> city or the first loaded city,\n" +
+                    "then resets to Game Default after it applies.\n" +
+                    "This is grayed out if a city is already loaded.\n" +
+                    "Set this before starting/loading a city. It applies once, then use <Money Hotkey Amount> or <Automatic Add Money> afterward." },
                 { m_Settings.GetOptionLocaleID("GameDefault"), "Game Default" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },
@@ -229,11 +228,8 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Milestone" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)),
-                    "Pick the milestone level to unlock on the next city loaded.\n" +
-                    "- <only> adjustable outside a loaded city\n" +
-                    "- and only after <Milestone Selector> is enabled [ ✓ ].\n" +
-                    "- If this is gray, and you forgot to do this first, just restart the game."
-                },
+                    "Pick the milestone level to unlock on the next city load.\n" +
+                    "This is only adjustable outside a loaded city, and only after [Milestone Selector] is enabled [ ✓ ]." },
 
                 // --------------------------------------------------------------------
                 // Money-Milestones tab - Money
