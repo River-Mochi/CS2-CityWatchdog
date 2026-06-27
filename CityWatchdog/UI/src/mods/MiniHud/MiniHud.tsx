@@ -252,7 +252,11 @@ export const MiniHud = () => {
                             onClick={onOpenHandleClick}
                             aria-label={openHandleTooltip}
                         >
-                            <span className={styles.openHandleMark} aria-hidden="true"></span>
+                            <span className={styles.openHandleMark} aria-hidden="true">
+                                <span className={styles.openHandleDot}></span>
+                                <span className={styles.openHandleDot}></span>
+                                <span className={styles.openHandleDot}></span>
+                            </span>
                         </button>
                     </Tooltip>
                 )}

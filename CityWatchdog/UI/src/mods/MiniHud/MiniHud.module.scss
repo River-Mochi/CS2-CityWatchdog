@@ -140,8 +140,8 @@
 
 .count {
     display: block;
-    width: 22rem;
-    flex: 0 0 22rem;
+    min-width: 26rem;
+    flex: 0 0 auto;
     font-size: 12rem;
     font-weight: 700;
     line-height: 1;
@@ -150,13 +150,12 @@
 }
 
 .vertical .count {
-    width: 22rem;
-    flex-basis: 22rem;
+    min-width: 26rem;
 }
 
 .hud:hover .count,
 .item:hover .count {
-    font-size: 16rem;
+    font-size: 15rem;
     font-weight: 800;
 }
 
@@ -191,18 +190,30 @@
 }
 
 .openHandleMark {
-    width: 14rem;
-    height: 3rem;
-    display: block;
-    border-top-left-radius: 2rem;
-    border-top-right-radius: 2rem;
-    border-bottom-left-radius: 2rem;
-    border-bottom-right-radius: 2rem;
-    background-color: currentColor;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
-.openHandle:hover {
-    color: rgba(255, 255, 255, 0.72);
+.openHandleDot {
+    width: 3rem;
+    height: 3rem;
+    display: block;
+    margin-right: 2rem;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background-color: rgba(245, 248, 250, 0.54);
+}
+
+.openHandleDot:last-child {
+    margin-right: 0;
+}
+
+.openHandle:hover .openHandleDot {
+    background-color: rgba(245, 248, 250, 0.70);
 }
 
 .vertical .openHandle {
@@ -223,6 +234,14 @@
 }
 
 .horizontal .openHandleMark {
-    width: 3rem;
-    height: 14rem;
+    flex-direction: column;
+}
+
+.horizontal .openHandleDot {
+    margin-right: 0;
+    margin-bottom: 2rem;
+}
+
+.horizontal .openHandleDot:last-child {
+    margin-bottom: 0;
 }

@@ -175,14 +175,17 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudEnabled)), "Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudEnabled)),
-                    "Shows a small in-city HUD with the most important notification counts.\n" +
-                    "Use it as a quick alert strip without opening the full City Watchdog panel." },
+                    "Shows a small city HUD with the most important notification counts.\n" +
+                    "Use it as a quick alert strip without opening the full City Watchdog panel.\n" +
+                    "Click on icons jumps to the building. Example, if you have 3, just keep clicking." +
+                    "Clicks on icon rotate the jump to each of the 3 buildings, then back to the first one."
+                },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Recommended preset" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
                     "Applies a recommended Mini HUD setup:\n" +
-                    "Top active alerts, 5 icons, vertical, draggable, hide zero alerts, and glass style.\n" +
-                    "The draggable vertical preset starts near the top-right side." },
+                    "Top active alerts, 5 icons, vertical, draggable, hide zero alerts, add glass style.\n" +
+                    "Draggable vertical preset starts near the top-right side." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini HUD Mode" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
