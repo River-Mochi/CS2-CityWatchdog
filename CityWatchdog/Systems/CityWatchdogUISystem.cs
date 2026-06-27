@@ -871,7 +871,7 @@ namespace CityWatchdog.Systems
 
         private void JumpToMiniHudNotification(int index)
         {
-            if (!alertIconSystem.TryGetFirstNotificationEntity(index, out Entity entity) ||
+            if (!alertIconSystem.TryGetNextNotificationEntity(index, out Entity entity) ||
                 !EntityManager.Exists(entity))
             {
                 return;

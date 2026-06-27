@@ -22,6 +22,7 @@ namespace CityWatchdog.Systems
     public partial class AlertIconSystem
     {
         public const int NotificationCountLength = 62;
+        private readonly Dictionary<int, int> nextNotificationEntityOffsets = new();
 
         public int[] GetNotificationCounts()
         {
@@ -247,7 +248,7 @@ namespace CityWatchdog.Systems
                 : 0;
         }
 
-        public bool TryGetFirstNotificationEntity(int index, out Entity entity)
+        public bool TryGetNextNotificationEntity(int index, out Entity entity)
         {
             entity = Entity.Null;
 
@@ -256,6 +257,9 @@ namespace CityWatchdog.Systems
                 return false;
             }
 
+            nextNotificationEntityOffsets.TryGetValue(index, out int nextOffset);
+            Entity firstMatch = Entity.Null;
+            int matchIndex = 0;
             ComponentTypeHandle<PrefabRef> prefabRefTypeHandle = GetComponentTypeHandle<PrefabRef>(true);
             EntityTypeHandle entityTypeHandle = GetEntityTypeHandle();
             using NativeArray<ArchetypeChunk> chunks = iconQuery.ToArchetypeChunkArray(Allocator.TempJob);
@@ -266,15 +270,37 @@ namespace CityWatchdog.Systems
                 NativeArray<Entity> entities = chunks[i].GetNativeArray(entityTypeHandle);
                 for (int j = 0; j < prefabRefs.Length; j++)
                 {
-                    if (matcher(prefabRefs[j].m_Prefab))
+                    if (!matcher(prefabRefs[j].m_Prefab))
                     {
-                        entity = entities[j];
+                        continue;
+                    }
+
+                    Entity candidate = entities[j];
+                    if (firstMatch == Entity.Null)
+                    {
+                        firstMatch = candidate;
+                    }
+
+                    if (matchIndex == nextOffset)
+                    {
+                        entity = candidate;
+                        nextNotificationEntityOffsets[index] = nextOffset + 1;
                         return true;
                     }
+
+                    matchIndex++;
                 }
             }
 
-            return false;
+            if (firstMatch == Entity.Null)
+            {
+                nextNotificationEntityOffsets.Remove(index);
+                return false;
+            }
+
+            entity = firstMatch;
+            nextNotificationEntityOffsets[index] = 1;
+            return true;
         }
 
         private bool TryGetNotificationPrefabMatcher(int index, out Func<Entity, bool> matcher)
