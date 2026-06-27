@@ -50,14 +50,14 @@ import TitleBarIconPath from "../../../images/NotificationIcon_TitleBar.svg";
 import SortArrowUpPath from "../../../images/sort-arrow-up.svg";
 import SortArrowDownPath from "../../../images/sort-arrow-down.svg";
 
-// Road-name toggle icon — single icon, CSS handles the blue "active" state.
-import RoadNameOnPath from "../../../images/icon-RoadNameOn.svg";
+// Road-name toggle icon — cleaner max variant, CSS handles the blue "active" state.
+import RoadNameOnPath from "../../../images/icon-Roadname-max.svg";
 
-// District-name toggle icon — local monochrome adaptation of the vanilla Districts icon.
-import DistrictIconPath from "../../../images/Districts.svg";
+// District-name toggle icon — cleaner max variant tuned for small toolbar rendering.
+import DistrictIconPath from "../../../images/icon-Districts-max.svg";
 
-// Road-arrow toggle icon — custom mod SVG emitted by webpack to coui://ui-mods/images/.
-import RoadArrowIconPath from "../../../images/icon-1-wayArrows.svg";
+// Road-arrow toggle icon — cleaner max variant tuned for small toolbar rendering.
+import RoadArrowIconPath from "../../../images/icon-RoadArrows-max.svg";
 
 const modIconSrc = TitleBarIconPath;
 const sortArrowUpSrc = SortArrowUpPath;
