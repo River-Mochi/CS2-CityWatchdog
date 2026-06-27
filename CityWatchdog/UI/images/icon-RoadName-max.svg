@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 64 64"
+     viewBox="0.5 3.5 64 56"
      width="100%"
      height="100%"
      fill-rule="evenodd"
@@ -7,36 +7,46 @@
      stroke-linejoin="round"
      stroke-miterlimit="2">
 
-  <!-- Clean overall scale for small CS2 toolbar use -->
-  <g transform="translate(32 32) scale(1.16) translate(-32 -32)">
-
-    <!-- Road -->
-    <g id="road" transform="translate(32 32) rotate(14) translate(-32 -32)">
-      <!-- Road sides / outer border -->
-      <path
-        fill="#B8BCC2"
-        d="M6.698 27.512 35.662 51.816 57.334 39.303v-2.588L35.9 49.09 6.666 24.56l.032 2.952Z"/>
-
-      <!-- Road surface -->
-      <path
-        fill="#929191"
-        d="M6.666 24.56 35.9 49.09l21.434-12.375L28.1 12.185 6.666 24.56Z"/>
-
-      <!-- Lane markers -->
-      <path
-        fill="#D4D4D4"
-        d="m19.451 19.826 3.657 3.065-.895.517-3.647-3.071.885-.511Zm5.486 4.598 3.656 3.064-.909.525-3.647-3.07.9-.519Zm5.484 4.597 3.636 3.047-.924.533-3.625-3.053.913-.527Zm5.464 4.58 3.576 2.997-.937.541-3.567-3.003.928-.535Zm5.405 4.53 3.758 3.149-.952.55-3.748-3.156.942-.543Z"/>
-    </g>
-
-    <!-- A converted to path: much wider, lower, thicker outline -->
+  <!-- Road only: wider and rotated clockwise -->
+  <g id="road" transform="translate(32 32) rotate(20) translate(-32 -32)">
+    <!-- Road sides / outer border -->
     <path
-      id="road-name-a"
-      fill="#FFFFFF"
-      stroke="#222222"
-      stroke-width="2.4"
-      stroke-linejoin="round"
-      paint-order="stroke fill"
-      d="M40.703 49.944L38.169 45.373H27.296L24.763 49.944H18.789L29.201 32.056H36.244L46.611 49.944H40.703ZM36.834 42.554L34.015 37.415L32.719 34.811Q32.395 35.546 32.11 36.131Q31.831 36.716 28.631 42.554H36.834Z"/>
+      fill="#B8BCC2"
+      d="M1.2 27.512 36.6 51.816 62.8 39.303v-2.588L36.8 49.09 1.16 24.56l.04 2.952Z"/>
 
+    <!-- Road surface -->
+    <path
+      fill="#929191"
+      d="M1.16 24.56 36.8 49.09 62.8 36.715 27.2 12.185 1.16 24.56Z"/>
+
+    <!-- Lane markers -->
+    <path
+      fill="#F4F4F4"
+      stroke="#F4F4F4"
+      stroke-width="0.45"
+      d="m19.451 19.826 3.657 3.065-.895.517-3.647-3.071.885-.511Zm5.486 4.598 3.656 3.064-.909.525-3.647-3.07.9-.519Zm5.484 4.597 3.636 3.047-.924.533-3.625-3.053.913-.527Zm5.464 4.58 3.576 2.997-.937.541-3.567-3.003.928-.535Zm5.405 4.53 3.758 3.149-.952.55-3.748-3.156.942-.543Z"/>
   </g>
+
+  <!-- A: made wider -->
+  <path
+    id="road-name-a"
+    fill="#FFFFFF"
+    stroke="#222222"
+    stroke-width="2.35"
+    paint-order="stroke fill"
+    fill-rule="evenodd"
+    d="M21.4 46.8
+       L28.9 25.7
+       H36.6
+       L44.1 46.8
+       H38.6
+       L36.7 41.5
+       H28.8
+       L26.9 46.8
+       Z
+
+       M32.7 30.7
+       L30.0 38.2
+       H35.8
+       Z"/>
 </svg>
