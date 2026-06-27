@@ -104,18 +104,14 @@
     border-top-right-radius: 7rem;
     border-bottom-left-radius: 7rem;
     border-bottom-right-radius: 7rem;
-    border-top-style: solid;
-    border-right-style: solid;
-    border-bottom-style: solid;
-    border-left-style: solid;
-    border-top-width: 1rem;
-    border-right-width: 1rem;
-    border-bottom-width: 1rem;
-    border-left-width: 1rem;
-    border-top-color: rgba(255, 255, 255, 0.18);
-    border-right-color: rgba(255, 255, 255, 0.18);
-    border-bottom-color: rgba(255, 255, 255, 0.18);
-    border-left-color: rgba(255, 255, 255, 0.18);
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
     background-color: rgba(255, 255, 255, 0.10);
     color: rgba(254, 254, 254, 0.78);
     font-size: var(--fontSizeXS);
@@ -127,30 +123,18 @@
 }
 
 .infoPanelSummaryOff {
-    border-top-color: rgba(255, 255, 255, 0.18);
-    border-right-color: rgba(255, 255, 255, 0.18);
-    border-bottom-color: rgba(255, 255, 255, 0.18);
-    border-left-color: rgba(255, 255, 255, 0.18);
     background-color: rgba(255, 255, 255, 0.10);
     color: rgba(254, 254, 254, 0.70);
 }
 
 .infoPanelSummaryPartial {
-    border-top-color: rgba(84, 215, 255, 0.9);
-    border-right-color: rgba(84, 215, 255, 0.9);
-    border-bottom-color: rgba(84, 215, 255, 0.9);
-    border-left-color: rgba(84, 215, 255, 0.9);
-    background-color: rgba(36, 88, 112, 0.36);
-    color: rgba(210, 245, 255, 0.95);
+    background-color: rgba(84, 215, 255, 0.22);
+    color: rgba(238, 251, 255, 0.98);
 }
 
 .infoPanelSummaryOn {
-    border-top-color: rgba(95, 220, 120, 0.9);
-    border-right-color: rgba(95, 220, 120, 0.9);
-    border-bottom-color: rgba(95, 220, 120, 0.9);
-    border-left-color: rgba(95, 220, 120, 0.9);
-    background-color: rgba(255, 255, 255, 0.07);
-    color: rgba(215, 255, 220, 0.95);
+    background-color: rgba(95, 220, 120, 0.22);
+    color: rgba(244, 255, 246, 0.98);
 }
 
 .infoPanelToggle {

@@ -9,6 +9,8 @@
   "DistrictNameToggleOn": "Click to hide district names.",
   "DistrictNameToggleOff": "Click to show district names.",
   "RoadArrowToggleOff": "Click to show/hide 1-way road arrows on every road.\nSide effect - also hides road names.",
+  "MiniHudOpenPanel": "Click dots opens main panel.\nOptions menu can remove this button.",
+  "MiniHudFavoriteTooltip": "Blue Star = favorite saved for mini-HUD",
   "ToggleAll": "TOGGLE ALL",
   "ExpandAll": "Expand All",
   "CollapseAll": "Collapse All Rows",

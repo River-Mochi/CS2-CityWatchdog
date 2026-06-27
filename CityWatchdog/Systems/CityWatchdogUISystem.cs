@@ -16,18 +16,35 @@ namespace CityWatchdog.Systems
     using Colossal.UI.Binding;
     using Game;
     using Game.Input;
+    using Game.Rendering;
     using Game.SceneFlow;
+    using Game.Tools;
     using Game.UI;
     using System;
+    using Unity.Entities;
 
     public partial class CityWatchdogUISystem : UISystemBaseExtension {
+        // The compact HUD can tolerate slightly older totals; keeping its scan cadence lower
+        // avoids making an always-visible convenience feature expensive on low-end systems.
+        private const int kPanelCountUpdateInterval = 128;
+        private const int kMiniHudCountUpdateInterval = 1024;
 
         private AlertIconSystem alertIconSystem = null!;
         private ProxyAction? toggleNotificationsAction;
         private ProxyAction? toggleNotificationPanelAction;
         private BoolBinding panelVisibleBinding = null!;
         private UIUpdateState notificationCountUpdateState = null!;
+        private UIUpdateState miniHudCountUpdateState = null!;
         private ValueBinding<int[]> notificationCountsBinding = null!;
+        private ValueBinding<int[]> miniHudFavoritesBinding = null!;
+        private ValueBinding<bool> miniHudEnabledBinding = null!;
+        private ValueBinding<int> miniHudModeBinding = null!;
+        private ValueBinding<int> miniHudItemCountBinding = null!;
+        private ValueBinding<int> miniHudOrientationBinding = null!;
+        private ValueBinding<int> miniHudPlacementBinding = null!;
+        private ValueBinding<bool> miniHudHideZeroBinding = null!;
+        private ValueBinding<bool> miniHudGlassStyleBinding = null!;
+        private ValueBinding<bool> panelButtonsOnlyStartBinding = null!;
         private ValueBinding<bool>? moneyViewBinding;
         private ValueBinding<int>? moneyViewModeBinding;
         private ValueBinding<int>? moneyTooltipModeBinding;
@@ -116,7 +133,8 @@ namespace CityWatchdog.Systems
 
             alertIconSystem = World.GetOrCreateSystemManaged<AlertIconSystem>();
             InitializeKeybindActions();
-            notificationCountUpdateState = UIUpdateState.Create(World, 128);
+            notificationCountUpdateState = UIUpdateState.Create(World, kPanelCountUpdateInterval);
+            miniHudCountUpdateState = UIUpdateState.Create(World, kMiniHudCountUpdateInterval);
 
             panelVisibleBinding = AddBoolBindingAndTriggerBinding("ControlPanelEnabled", false, OnControlPanelBindingToggle);
             AddBoolTriggerBinding("ToggleAllNotifications", ApplyAllNotificationToggles);
@@ -126,6 +144,22 @@ namespace CityWatchdog.Systems
                 new int[AlertIconSystem.NotificationCountLength],
                 new ArrayWriter<int>());
             AddBinding(notificationCountsBinding);
+            miniHudFavoritesBinding = new ValueBinding<int[]>(
+                ModId,
+                "MiniHudFavorites",
+                GetMiniHudFavoriteIndexes(),
+                new ArrayWriter<int>());
+            AddBinding(miniHudFavoritesBinding);
+            AddTriggerBinding<int>("ToggleMiniHudFavorite", ToggleMiniHudFavorite);
+            AddTriggerBinding<int>("MiniHudNotificationClicked", JumpToMiniHudNotification);
+            miniHudEnabledBinding = AddValueBinding(nameof(Setting.MiniHudEnabled), Setting.Instance.MiniHudEnabled);
+            miniHudModeBinding = AddValueBinding(nameof(Setting.MiniHudMode), Setting.Instance.MiniHudMode);
+            miniHudItemCountBinding = AddValueBinding(nameof(Setting.MiniHudItemCount), Setting.Instance.MiniHudItemCount);
+            miniHudOrientationBinding = AddValueBinding(nameof(Setting.MiniHudOrientation), Setting.Instance.MiniHudOrientation);
+            miniHudPlacementBinding = AddValueBinding(nameof(Setting.MiniHudPlacement), Setting.Instance.MiniHudPlacement);
+            miniHudHideZeroBinding = AddValueBinding(nameof(Setting.MiniHudHideZero), Setting.Instance.MiniHudHideZero);
+            miniHudGlassStyleBinding = AddValueBinding(nameof(Setting.MiniHudGlassStyle), Setting.Instance.MiniHudGlassStyle);
+            panelButtonsOnlyStartBinding = AddValueBinding(nameof(Setting.PanelButtonsOnlyStart), Setting.Instance.PanelButtonsOnlyStart);
             moneyViewBinding = AddValueBinding(nameof(Setting.MoneyView), Setting.Instance.MoneyView);
             moneyViewModeBinding = AddValueBinding(nameof(Setting.MoneyViewMode), Setting.Instance.MoneyViewMode);
             moneyTooltipModeBinding = AddValueBinding(nameof(Setting.MoneyTooltipMode), Setting.Instance.MoneyTooltipMode);
@@ -595,7 +629,12 @@ namespace CityWatchdog.Systems
                 ToggleAllNotificationsFromHotkey();
             }
 
-            if (panelVisibleBinding.Value && notificationCountUpdateState.Advance())
+            bool shouldUpdateCounts =
+                panelVisibleBinding.Value
+                    ? notificationCountUpdateState.Advance()
+                    : miniHudEnabledBinding.value && miniHudCountUpdateState.Advance();
+
+            if (shouldUpdateCounts)
             {
                 notificationCountsBinding.Update(alertIconSystem.GetNotificationCounts());
             }
@@ -830,6 +869,72 @@ namespace CityWatchdog.Systems
             }
         }
 
+        private void JumpToMiniHudNotification(int index)
+        {
+            if (!alertIconSystem.TryGetNextNotificationEntity(index, out Entity entity) ||
+                !EntityManager.Exists(entity))
+            {
+                return;
+            }
+
+            ToolSystem toolSystem = World.GetOrCreateSystemManaged<ToolSystem>();
+            CameraUpdateSystem cameraSystem = World.GetOrCreateSystemManaged<CameraUpdateSystem>();
+
+            toolSystem.selected = entity;
+            cameraSystem.orbitCameraController.followedEntity = entity;
+            cameraSystem.orbitCameraController.TryMatchPosition(cameraSystem.activeCameraController);
+            cameraSystem.activeCameraController = cameraSystem.orbitCameraController;
+        }
+
+        private void ToggleMiniHudFavorite(int index)
+        {
+            if (index < 0 || index >= AlertIconSystem.NotificationCountLength)
+            {
+                return;
+            }
+
+            if (index < 31)
+            {
+                Setting.Instance.MiniHudFavoriteMaskLow ^= 1 << index;
+            }
+            else
+            {
+                Setting.Instance.MiniHudFavoriteMaskHigh ^= 1 << (index - 31);
+            }
+
+            try
+            {
+                Setting.Instance.ApplyAndSave();
+            }
+            catch (Exception ex)
+            {
+                LogUtils.WarnOnce(
+                    "mini-hud-favorites-save",
+                    () => $"Failed to save mini HUD favorites: {ex.GetType().Name}: {ex.Message}",
+                    ex);
+            }
+
+            miniHudFavoritesBinding.Update(GetMiniHudFavoriteIndexes());
+        }
+
+        private static int[] GetMiniHudFavoriteIndexes()
+        {
+            System.Collections.Generic.List<int> favorites = new();
+            for (int index = 0; index < AlertIconSystem.NotificationCountLength; index++)
+            {
+                int mask = index < 31
+                    ? Setting.Instance.MiniHudFavoriteMaskLow
+                    : Setting.Instance.MiniHudFavoriteMaskHigh;
+                int bit = index < 31 ? index : index - 31;
+                if ((mask & (1 << bit)) != 0)
+                {
+                    favorites.Add(index);
+                }
+            }
+
+            return favorites.ToArray();
+        }
+
         public void UpdateMoneyViewBinding(bool value) => moneyViewBinding?.Update(value);
 
         public void UpdateMoneyViewModeBinding(int value) => moneyViewModeBinding?.Update(value);
@@ -839,6 +944,29 @@ namespace CityWatchdog.Systems
         public void UpdateMoneyTooltipFontScaleBinding(int value) => moneyTooltipFontScaleBinding?.Update(value);
 
         public void UpdatePopulationTooltipFontScaleBinding(int value) => populationTooltipFontScaleBinding?.Update(value);
+
+        public void UpdateMiniHudEnabledBinding(bool value)
+        {
+            miniHudEnabledBinding?.Update(value);
+            if (value)
+            {
+                miniHudCountUpdateState?.ForceUpdate();
+            }
+        }
+
+        public void UpdateMiniHudModeBinding(int value) => miniHudModeBinding?.Update(value);
+
+        public void UpdateMiniHudItemCountBinding(int value) => miniHudItemCountBinding?.Update(value);
+
+        public void UpdateMiniHudOrientationBinding(int value) => miniHudOrientationBinding?.Update(value);
+
+        public void UpdateMiniHudPlacementBinding(int value) => miniHudPlacementBinding?.Update(value);
+
+        public void UpdateMiniHudHideZeroBinding(bool value) => miniHudHideZeroBinding?.Update(value);
+
+        public void UpdateMiniHudGlassStyleBinding(bool value) => miniHudGlassStyleBinding?.Update(value);
+
+        public void UpdatePanelButtonsOnlyStartBinding(bool value) => panelButtonsOnlyStartBinding?.Update(value);
 
     }
 

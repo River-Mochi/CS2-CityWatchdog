@@ -11,16 +11,18 @@
 
 namespace CityWatchdog.Systems
 {
-    using Game.Economy;
-    using Game.Prefabs;
     using System;
     using System.Collections.Generic;
+    using CS2Shared.RiverMochi;
+    using Game.Economy;
+    using Game.Prefabs;
     using Unity.Collections;
     using Unity.Entities;
 
     public partial class AlertIconSystem
     {
         public const int NotificationCountLength = 62;
+        private readonly Dictionary<int, int> nextNotificationEntityOffsets = new();
 
         public int[] GetNotificationCounts()
         {
@@ -168,7 +170,7 @@ namespace CityWatchdog.Systems
                 index += 2;
             }
 
-            if (pollutionParameterQuery.TryGetSingleton(out PollutionParameterData pollution))
+            if (pollutionNotificationParameterQuery.TryGetSingleton(out PollutionParameterData pollution))
             {
                 counts[index++] = Count(pollution.m_AirPollutionNotification);
                 counts[index++] = Count(pollution.m_NoisePollutionNotification);
@@ -179,11 +181,17 @@ namespace CityWatchdog.Systems
                 index += 3;
             }
 
-            counts[index++] = CountResourceConsumerNotifications(IsLowSuppliesNotificationPrefab);
-            counts[index++] = CountResourceConsumerNotifications(IsNoFuelNotificationPrefab);
-            counts[index++] = CountResourceConnectionNotifications(IsOilPipeNotConnectedNotification);
-            counts[index++] = CountResourceConnectionNotifications(IsFishingPierNotConnectedNotification);
-            counts[index++] = CountResourceConnectionNotifications(IsOtherResourceConnectionNotification);
+            CountResourceConsumerNotifications(out int lowSuppliesCount, out int noFuelCount);
+            counts[index++] = lowSuppliesCount;
+            counts[index++] = noFuelCount;
+
+            CountResourceConnectionNotifications(
+                out int oilPipeCount,
+                out int fishingPierCount,
+                out int otherConnectionCount);
+            counts[index++] = oilPipeCount;
+            counts[index++] = fishingPierCount;
+            counts[index++] = otherConnectionCount;
 
             if (routeNotificationParameterQuery.TryGetSingleton(out RouteConfigurationData route))
             {
@@ -207,8 +215,7 @@ namespace CityWatchdog.Systems
 #if DEBUG
             if (index != NotificationCountLength)
             {
-                CityWatchdog.Mod.DebugLog(
-                    () => $"Notification count mapping length mismatch: expected={NotificationCountLength}, actual={index}.");
+                LogUtils.Debug(() => $"Notification count mapping length mismatch: expected={NotificationCountLength}, actual={index}.");
             }
 #endif
 
@@ -241,9 +248,282 @@ namespace CityWatchdog.Systems
                 : 0;
         }
 
-        private int CountResourceConsumerNotifications(Func<Entity, bool> predicate)
+        public bool TryGetNextNotificationEntity(int index, out Entity entity)
         {
-            int count = 0;
+            entity = Entity.Null;
+
+            if (!TryGetNotificationPrefabMatcher(index, out Func<Entity, bool> matcher))
+            {
+                return false;
+            }
+
+            nextNotificationEntityOffsets.TryGetValue(index, out int nextOffset);
+            Entity firstMatch = Entity.Null;
+            int matchIndex = 0;
+            ComponentTypeHandle<PrefabRef> prefabRefTypeHandle = GetComponentTypeHandle<PrefabRef>(true);
+            EntityTypeHandle entityTypeHandle = GetEntityTypeHandle();
+            using NativeArray<ArchetypeChunk> chunks = iconQuery.ToArchetypeChunkArray(Allocator.TempJob);
+
+            for (int i = 0; i < chunks.Length; i++)
+            {
+                NativeArray<PrefabRef> prefabRefs = chunks[i].GetNativeArray(ref prefabRefTypeHandle);
+                NativeArray<Entity> entities = chunks[i].GetNativeArray(entityTypeHandle);
+                for (int j = 0; j < prefabRefs.Length; j++)
+                {
+                    if (!matcher(prefabRefs[j].m_Prefab))
+                    {
+                        continue;
+                    }
+
+                    Entity candidate = entities[j];
+                    if (firstMatch == Entity.Null)
+                    {
+                        firstMatch = candidate;
+                    }
+
+                    if (matchIndex == nextOffset)
+                    {
+                        entity = candidate;
+                        nextNotificationEntityOffsets[index] = nextOffset + 1;
+                        return true;
+                    }
+
+                    matchIndex++;
+                }
+            }
+
+            if (firstMatch == Entity.Null)
+            {
+                nextNotificationEntityOffsets.Remove(index);
+                return false;
+            }
+
+            entity = firstMatch;
+            nextNotificationEntityOffsets[index] = 1;
+            return true;
+        }
+
+        private bool TryGetNotificationPrefabMatcher(int index, out Func<Entity, bool> matcher)
+        {
+            matcher = _ => false;
+
+            if (index >= 0 && index <= 8 && electricityParameterQuery.TryGetSingleton(out ElectricityParameterData electricity))
+            {
+                Entity prefab = index switch
+                {
+                    0 => electricity.m_ElectricityNotificationPrefab,
+                    1 => electricity.m_BottleneckNotificationPrefab,
+                    2 => electricity.m_BuildingBottleneckNotificationPrefab,
+                    3 => electricity.m_NotEnoughProductionNotificationPrefab,
+                    4 => electricity.m_TransformerNotificationPrefab,
+                    5 => electricity.m_NotEnoughConnectedNotificationPrefab,
+                    6 => electricity.m_BatteryEmptyNotificationPrefab,
+                    7 => electricity.m_LowVoltageNotConnectedPrefab,
+                    _ => electricity.m_HighVoltageNotConnectedPrefab,
+                };
+                matcher = PrefabMatcher(prefab);
+                return true;
+            }
+
+            if (index >= 9 && index <= 18 && waterPipeParameterQuery.TryGetSingleton(out WaterPipeParameterData water))
+            {
+                Entity prefab = index switch
+                {
+                    9 => water.m_WaterNotification,
+                    10 => water.m_DirtyWaterNotification,
+                    11 => water.m_SewageNotification,
+                    12 => water.m_WaterPipeNotConnectedNotification,
+                    13 => water.m_SewagePipeNotConnectedNotification,
+                    14 => water.m_NotEnoughWaterCapacityNotification,
+                    15 => water.m_NotEnoughSewageCapacityNotification,
+                    16 => water.m_NotEnoughGroundwaterNotification,
+                    17 => water.m_NotEnoughSurfaceWaterNotification,
+                    _ => water.m_DirtyWaterPumpNotification,
+                };
+                matcher = PrefabMatcher(prefab);
+                return true;
+            }
+
+            if (index >= 19 && index <= 23 && buildingConfigurationDataQuery.TryGetSingleton(out BuildingConfigurationData building))
+            {
+                Entity prefab = index switch
+                {
+                    19 => building.m_AbandonedCollapsedNotification,
+                    20 => building.m_AbandonedNotification,
+                    21 => building.m_CondemnedNotification,
+                    22 => building.m_TurnedOffNotification,
+                    _ => building.m_HighRentNotification,
+                };
+                matcher = PrefabMatcher(prefab);
+                return true;
+            }
+
+            if (index >= 24 && index <= 32 && trafficConfigurationDataQuery.TryGetSingleton(out TrafficConfigurationData traffic))
+            {
+                Entity prefab = index switch
+                {
+                    24 => traffic.m_BottleneckNotification,
+                    25 => traffic.m_DeadEndNotification,
+                    26 => traffic.m_RoadConnectionNotification,
+                    27 => traffic.m_TrackConnectionNotification,
+                    28 => traffic.m_CarConnectionNotification,
+                    29 => traffic.m_ShipConnectionNotification,
+                    30 => traffic.m_TrainConnectionNotification,
+                    31 => traffic.m_PedestrianConnectionNotification,
+                    _ => traffic.m_BicycleConnectionNotification,
+                };
+                matcher = PrefabMatcher(prefab);
+                return true;
+            }
+
+            if (index >= 33 && index <= 34 && companyNotificationParameterQuery.TryGetSingleton(out CompanyNotificationParameterData company))
+            {
+                matcher = PrefabMatcher(index == 33
+                    ? company.m_NoInputsNotificationPrefab
+                    : company.m_NoCustomersNotificationPrefab);
+                return true;
+            }
+
+            if (index >= 35 && index <= 36 && workProviderNotificationParameterQuery.TryGetSingleton(out WorkProviderParameterData workProvider))
+            {
+                matcher = PrefabMatcher(index == 35
+                    ? workProvider.m_UneducatedNotificationPrefab
+                    : workProvider.m_EducatedNotificationPrefab);
+                return true;
+            }
+
+            if (index >= 37 && index <= 41 && disasterNotificationParameterQuery.TryGetSingleton(out DisasterConfigurationData disaster))
+            {
+                Entity prefab = index switch
+                {
+                    37 => disaster.m_WeatherDamageNotificationPrefab,
+                    38 => disaster.m_WeatherDestroyedNotificationPrefab,
+                    39 => disaster.m_WaterDamageNotificationPrefab,
+                    40 => disaster.m_WaterDestroyedNotificationPrefab,
+                    _ => disaster.m_DestroyedNotificationPrefab,
+                };
+                matcher = PrefabMatcher(prefab);
+                return true;
+            }
+
+            if (index >= 42 && index <= 43 && fireNotificationParameterQuery.TryGetSingleton(out FireConfigurationData fire))
+            {
+                matcher = PrefabMatcher(index == 42
+                    ? fire.m_FireNotificationPrefab
+                    : fire.m_BurnedDownNotificationPrefab);
+                return true;
+            }
+
+            if (index >= 44 && index <= 45 && garbageNotificationParameterQuery.TryGetSingleton(out GarbageParameterData garbage))
+            {
+                matcher = PrefabMatcher(index == 44
+                    ? garbage.m_GarbageNotificationPrefab
+                    : garbage.m_FacilityFullNotificationPrefab);
+                return true;
+            }
+
+            if (index >= 46 && index <= 48 && healthcareNotificationParameterQuery.TryGetSingleton(out HealthcareParameterData healthcare))
+            {
+                Entity prefab = index switch
+                {
+                    46 => healthcare.m_AmbulanceNotificationPrefab,
+                    47 => healthcare.m_HearseNotificationPrefab,
+                    _ => healthcare.m_FacilityFullNotificationPrefab,
+                };
+                matcher = PrefabMatcher(prefab);
+                return true;
+            }
+
+            if (index >= 49 && index <= 50 && policeNotificationParameterQuery.TryGetSingleton(out PoliceConfigurationData police))
+            {
+                matcher = PrefabMatcher(index == 49
+                    ? police.m_TrafficAccidentNotificationPrefab
+                    : police.m_CrimeSceneNotificationPrefab);
+                return true;
+            }
+
+            if (index >= 51 && index <= 53 && pollutionNotificationParameterQuery.TryGetSingleton(out PollutionParameterData pollution))
+            {
+                Entity prefab = index switch
+                {
+                    51 => pollution.m_AirPollutionNotification,
+                    52 => pollution.m_NoisePollutionNotification,
+                    _ => pollution.m_GroundPollutionNotification,
+                };
+                matcher = PrefabMatcher(prefab);
+                return true;
+            }
+
+            if (index == 54)
+            {
+                matcher = IsLowSuppliesNotificationPrefab;
+                return true;
+            }
+
+            if (index == 55)
+            {
+                matcher = IsNoFuelNotificationPrefab;
+                return true;
+            }
+
+            if (index >= 56 && index <= 58)
+            {
+                matcher = index switch
+                {
+                    57 => ResourceConnectionPrefabMatcher(IsOilPipeNotConnectedNotification),
+                    58 => ResourceConnectionPrefabMatcher(IsFishingPierNotConnectedNotification),
+                    _ => ResourceConnectionPrefabMatcher(IsOtherResourceConnectionNotification),
+                };
+                return true;
+            }
+
+            if (index >= 59 && index <= 60 && routeNotificationParameterQuery.TryGetSingleton(out RouteConfigurationData route))
+            {
+                matcher = PrefabMatcher(index == 59
+                    ? route.m_PathfindNotification
+                    : route.m_GateBypassNotification);
+                return true;
+            }
+
+            if (index == 61 && transportLineNotificationParameterQuery.TryGetSingleton(out TransportLineData transport))
+            {
+                matcher = PrefabMatcher(transport.m_VehicleNotification);
+                return true;
+            }
+
+            return false;
+        }
+
+        private static Func<Entity, bool> PrefabMatcher(Entity prefab)
+        {
+            return candidate => prefab != Entity.Null && candidate == prefab;
+        }
+
+        private Func<Entity, bool> ResourceConnectionPrefabMatcher(Func<ResourceConnectionData, bool> predicate)
+        {
+            HashSet<Entity> prefabs = new();
+            using NativeArray<ResourceConnectionData> connections =
+                resourceConnectionNotificationParameterQuery.ToComponentDataArray<ResourceConnectionData>(Allocator.Temp);
+
+            for (int i = 0; i < connections.Length; i++)
+            {
+                ResourceConnectionData connection = connections[i];
+                Entity notificationPrefab = connection.m_ConnectionWarningNotification;
+                if (notificationPrefab != Entity.Null && predicate(connection))
+                {
+                    prefabs.Add(notificationPrefab);
+                }
+            }
+
+            return candidate => candidate != Entity.Null && prefabs.Contains(candidate);
+        }
+
+        private void CountResourceConsumerNotifications(
+            out int lowSuppliesCount,
+            out int noFuelCount)
+        {
+            lowSuppliesCount = 0;
+            noFuelCount = 0;
             HashSet<Entity> seen = new();
             using NativeArray<ResourceConsumerData> consumers =
                 resourceConsumerNotificationParameterQuery.ToComponentDataArray<ResourceConsumerData>(Allocator.Temp);
@@ -251,18 +531,31 @@ namespace CityWatchdog.Systems
             for (int i = 0; i < consumers.Length; i++)
             {
                 Entity prefab = consumers[i].m_NoResourceNotificationPrefab;
-                if (seen.Add(prefab) && predicate(prefab))
+                if (!seen.Add(prefab))
                 {
-                    count += Count(prefab);
+                    continue;
+                }
+
+                if (IsLowSuppliesNotificationPrefab(prefab))
+                {
+                    lowSuppliesCount += Count(prefab);
+                }
+
+                if (IsNoFuelNotificationPrefab(prefab))
+                {
+                    noFuelCount += Count(prefab);
                 }
             }
-
-            return count;
         }
 
-        private int CountResourceConnectionNotifications(Func<ResourceConnectionData, bool> predicate)
+        private void CountResourceConnectionNotifications(
+            out int oilPipeCount,
+            out int fishingPierCount,
+            out int otherConnectionCount)
         {
-            int count = 0;
+            oilPipeCount = 0;
+            fishingPierCount = 0;
+            otherConnectionCount = 0;
             HashSet<Entity> seen = new();
             using NativeArray<ResourceConnectionData> connections =
                 resourceConnectionNotificationParameterQuery.ToComponentDataArray<ResourceConnectionData>(Allocator.Temp);
@@ -271,13 +564,28 @@ namespace CityWatchdog.Systems
             {
                 ResourceConnectionData connection = connections[i];
                 Entity prefab = connection.m_ConnectionWarningNotification;
-                if (seen.Add(prefab) && predicate(connection))
+                if (!seen.Add(prefab))
                 {
-                    count += Count(prefab);
+                    continue;
+                }
+
+                bool isOilPipe = IsOilPipeNotConnectedNotification(connection);
+                bool isFishingPier = IsFishingPierNotConnectedNotification(connection);
+                if (isOilPipe)
+                {
+                    oilPipeCount += Count(prefab);
+                }
+
+                if (isFishingPier)
+                {
+                    fishingPierCount += Count(prefab);
+                }
+
+                if (!isOilPipe && !isFishingPier)
+                {
+                    otherConnectionCount += Count(prefab);
                 }
             }
-
-            return count;
         }
     }
 }

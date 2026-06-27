@@ -14,7 +14,9 @@ import {
     disableCwdTooltips$,
     hideDistrictNames$,
     hideRoadNames$,
+    miniHudFavorites$,
     notificationCounts$,
+    panelButtonsOnlyStart$,
     showRoadArrows$,
     OnControlPanelBindingToggle,
     OnDisableAllTooltipsToggle,
@@ -22,6 +24,7 @@ import {
     OnHideDistrictNamesToggle,
     OnHideRoadNamesToggle,
     OnShowRoadArrowsToggle,
+    OnToggleMiniHudFavorite,
 } from "../Bindings/Bindings";
 import { Divider } from "../Divider/Divider";
 import { InfoPanel } from "../InfoPanel/InfoPanel";
@@ -47,14 +50,14 @@ import TitleBarIconPath from "../../../images/NotificationIcon_TitleBar.svg";
 import SortArrowUpPath from "../../../images/sort-arrow-up.svg";
 import SortArrowDownPath from "../../../images/sort-arrow-down.svg";
 
-// Road-name toggle icon — single icon, CSS handles the blue "active" state.
-import RoadNameOnPath from "../../../images/icon-RoadNameOn.svg";
+// Road-name toggle icon — user-provided max variant, CSS handles the blue "active" state.
+import RoadNameOnPath from "../../../images/icon-RoadName-max.svg";
 
-// District-name toggle icon — local monochrome adaptation of the vanilla Districts icon.
-import DistrictIconPath from "../../../images/Districts.svg";
+// District-name toggle icon — user-provided max variant tuned for small toolbar rendering.
+import DistrictIconPath from "../../../images/Districts-max.svg";
 
-// Road-arrow toggle icon — custom mod SVG emitted by webpack to coui://ui-mods/images/.
-import RoadArrowIconPath from "../../../images/icon-1-wayArrows.svg";
+// Road-arrow toggle icon — user-provided max variant tuned for small toolbar rendering.
+import RoadArrowIconPath from "../../../images/icon-RoadArrows-max.svg";
 
 const modIconSrc = TitleBarIconPath;
 const sortArrowUpSrc = SortArrowUpPath;
@@ -106,6 +109,8 @@ const NotificationPanelContent = () => {
     const uiText = useText();
     const { translate } = localization;
     const [sortAscending, setSortAscending] = useState(true);
+    const panelButtonsOnlyStart = useValue(panelButtonsOnlyStart$);
+    const [panelCollapsed, setPanelCollapsed] = useState(() => panelButtonsOnlyStart);
     // disableAllTooltips$ — Info button: vanilla game hover tooltips.
     const allTooltipsDisabled = useValue(disableAllTooltips$);
     // disableCwdTooltips$ — controlled by clicking the CWD icon in the title bar.
@@ -121,6 +126,8 @@ const NotificationPanelContent = () => {
     const [expandedSections, setExpandedSections] = useState(createExpandedSections);
     const allValues = useAllNotificationValues();
     const notificationCounts = useValue(notificationCounts$);
+    const miniHudFavorites = useValue(miniHudFavorites$);
+    const favoriteIndexes = new Set(miniHudFavorites);
     const {
         panelOffset,
         panelDragging,
@@ -227,6 +234,12 @@ const NotificationPanelContent = () => {
     };
 
     const onToggleAllSections = () => {
+        if (panelCollapsed) {
+            setPanelCollapsed(false);
+            setExpandedSections(createExpandedSections(true));
+            return;
+        }
+
         setExpandedSections(createExpandedSections(!allSectionsExpanded));
     };
 
@@ -268,6 +281,17 @@ const NotificationPanelContent = () => {
                         </div>
                     </div>
                     <Button
+                        className={roundButtonHighlightStyle.button + " " + styles.headerCollapseButton}
+                        variant="icon"
+                        onClick={() => { setPanelCollapsed(!panelCollapsed); }}
+                        focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
+                    >
+                        <img
+                            src={panelCollapsed ? "Media/Glyphs/ThickStrokeArrowRight.svg" : "Media/Glyphs/ThickStrokeArrowDown.svg"}
+                            className={styles.headerCollapseIcon}
+                        />
+                    </Button>
+                    <Button
                         className={roundButtonHighlightStyle.button + " " + styles.headerCloseButton}
                         variant="icon"
                         onClick={() => { OnControlPanelBindingToggle(false); }}
@@ -278,7 +302,7 @@ const NotificationPanelContent = () => {
                 </div>
             }
         >
-            {/* Left side: Info + Road-Name toggles. Right side: sort + mass actions. */}
+            {/* Left side: Info + Road Name + Road Arrows + District. Right side: sort + mass actions. */}
             <div className={styles.toolbar}>
                 <div className={styles.toolbarLeft}>
                     {/* Info button: toggles vanilla game tooltips (cursor-follow + DescriptionTooltip popups).
@@ -306,20 +330,8 @@ const NotificationPanelContent = () => {
                         >
                             <img
                                 src={roadNameOnSrc}
-                                className={styles.infoIcon}
+                                className={`${styles.infoIcon} ${styles.mapToggleIcon}`}
                             />
-                        </div>
-                    </CwdTooltip>
-
-                    {/* District Name toggle: hides labels without affecting boundaries or area overlays. */}
-                    <CwdTooltip tooltip={districtNameTooltip}>
-                        <div
-                            className={`${styles.infoButton} ${districtNamesHidden ? styles.infoButtonTipsOff : ""}`}
-                            role="button"
-                            aria-pressed={districtNamesHidden}
-                            onClick={() => { OnHideDistrictNamesToggle(!districtNamesHidden); }}
-                        >
-                            <img src={districtIconSrc} className={`${styles.infoIcon} ${styles.districtIcon}`} />
                         </div>
                     </CwdTooltip>
 
@@ -332,7 +344,19 @@ const NotificationPanelContent = () => {
                             aria-pressed={roadArrowsShown}
                             onClick={() => { OnShowRoadArrowsToggle(!roadArrowsShown); }}
                         >
-                            <img src={roadArrowIconSrc} className={`${styles.infoIcon} ${styles.roadArrowIcon}`} />
+                            <img src={roadArrowIconSrc} className={`${styles.infoIcon} ${styles.mapToggleIcon}`} />
+                        </div>
+                    </CwdTooltip>
+
+                    {/* District Name toggle: hides labels without affecting boundaries or area overlays. */}
+                    <CwdTooltip tooltip={districtNameTooltip}>
+                        <div
+                            className={`${styles.infoButton} ${districtNamesHidden ? styles.infoButtonTipsOff : ""}`}
+                            role="button"
+                            aria-pressed={districtNamesHidden}
+                            onClick={() => { OnHideDistrictNamesToggle(!districtNamesHidden); }}
+                        >
+                            <img src={districtIconSrc} className={`${styles.infoIcon} ${styles.mapToggleIcon}`} />
                         </div>
                     </CwdTooltip>
                 </div>
@@ -381,17 +405,18 @@ const NotificationPanelContent = () => {
 
             <IconPreloader />
 
-            {orderedSections.map((section, index) => (
-                <NotificationSectionView
-                    key={section.localeId}
-                    section={section}
-                    expanded={expandedSections[section.localeId] === true}
-                    localize={localize}
-                    notificationCounts={notificationCounts}
-                    showDivider={index > 0}
-                    onExpandedChange={(expanded) => onSectionExpandedChange(section, expanded)}
-                />
-            ))}
+            {!panelCollapsed && orderedSections.map((section, index) => (
+                    <NotificationSectionView
+                        key={section.localeId}
+                        section={section}
+                        expanded={expandedSections[section.localeId] === true}
+                        localize={localize}
+                        notificationCounts={notificationCounts}
+                        favoriteIndexes={favoriteIndexes}
+                        showDivider={index > 0}
+                        onExpandedChange={(expanded) => onSectionExpandedChange(section, expanded)}
+                    />
+                ))}
         </Panel>
         </div>
     );
@@ -412,6 +437,7 @@ const NotificationSectionView = ({
     expanded,
     localize,
     notificationCounts,
+    favoriteIndexes,
     showDivider,
     onExpandedChange,
 }: {
@@ -419,6 +445,7 @@ const NotificationSectionView = ({
     expanded: boolean;
     localize: Localize;
     notificationCounts: number[];
+    favoriteIndexes: Set<number>;
     showDivider: boolean;
     onExpandedChange: (expanded: boolean) => void;
 }) => {
@@ -442,15 +469,20 @@ const NotificationSectionView = ({
                 onExpandedChange={onExpandedChange}
                 summary={`${selectedCount}/${section.items.length}`}
                 summaryState={summaryState}
-                renderChildren={() => section.items.map((item, itemIndex) => (
-                    <NotificationRow
-                        key={item.localeId}
-                        item={item}
-                        isChecked={values[itemIndex] ?? false}
-                        count={notificationCounts[notificationCountIndexes.get(item.localeId) ?? -1] ?? 0}
-                        localize={localize}
-                    />
-                ))}
+                renderChildren={() => section.items.map((item, itemIndex) => {
+                    const countIndex = notificationCountIndexes.get(item.localeId) ?? -1;
+                    return (
+                        <NotificationRow
+                            key={item.localeId}
+                            item={item}
+                            isChecked={values[itemIndex] ?? false}
+                            count={notificationCounts[countIndex] ?? 0}
+                            favorite={favoriteIndexes.has(countIndex)}
+                            onFavoriteToggle={() => OnToggleMiniHudFavorite(countIndex)}
+                            localize={localize}
+                        />
+                    );
+                })}
             />
         </>
     );

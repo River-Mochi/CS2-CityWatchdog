@@ -8,11 +8,15 @@ export const NotificationRow = ({
     item,
     isChecked,
     count,
+    favorite,
+    onFavoriteToggle,
     localize,
 }: {
     item: NotificationItem;
     isChecked: boolean;
     count: number;
+    favorite: boolean;
+    onFavoriteToggle: () => void;
     localize: Localize;
 }) => {
     const gameTitleKey = item.gameTitleKey ?? gameTitleKeys[item.localeId];
@@ -33,6 +37,8 @@ export const NotificationRow = ({
             image={item.icon}
             label={label}
             count={count}
+            favorite={favorite}
+            onFavoriteToggle={onFavoriteToggle}
             isChecked={isChecked}
             onToggle={item.onToggle}
             style={{ marginBottom: "5rem" }}

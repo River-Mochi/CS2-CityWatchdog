@@ -40,7 +40,6 @@ Hotkeys
 - Check **Show Instructions** for more details or hover over each Options menu row > see details in the 3rd panel on the right.
 - City Watchdog hides/shows alert icons and does not fix the underlying problem; get a break until you are ready to fix it.
 - Unlimited Money save: make a backup before converting the save. Mod cannot undo that conversion.
-- This is heavily rewritten and explansion of City Controller, nearly a whole rewrite.
 - CWD's Tooltip View is a ground-up code write of similar money info to Show Text Trends (DanielVNZ retired).
 This viewer uses new methods to do customizable money layouts, settings options, and adds translations.
 - Install Achievement Fixer mod if you want Achievements while using mods, it was removed from this mod.
@@ -52,7 +51,7 @@ I hope you enjoy the new features, better performance, and safety checks!
 - If you like effort put into free mods, please give a Like :)
 - 15 languages: Hello, Hallo, Hola, Bonjour, Ciao, こんにちは, 안녕하세요, Cześć, Olá, Olá, สวัสดี, Merhaba, Xin chào, 你好, 你好
 - If anyone can make better thumbnail or screenshots, please let me know.
-- Mod is save safe and safe to remove. Does not use Harmony patch, safer/more compatible. Good Performance: effectively no loss.
+- Mod is save safe and safe to remove. Does not use Harmony patch, safer/more compatible. Good for performance: lightweight for daily use.
 
 ### Thanks to all supporters and testers
 - River Mochi - author/maintainer
@@ -92,7 +91,7 @@ tags: Visual, UI UX tool tips,UI organize icons
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* Updated to game patch 1.6
+* Added Mini HUD with icons for top problems in city, see options menu.
 * Added district names
 * Other recent major changes:
 * Added [i] button toggles on/off ALL game hover over tool-tips.

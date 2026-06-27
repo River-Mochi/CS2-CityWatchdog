@@ -11,12 +11,13 @@
 
 namespace CityWatchdog.Systems
 {
-    using CityWatchdog.Extensions;
-    using Game.Prefabs;
-    using Game.UI;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using CityWatchdog.Extensions;
+    using CS2Shared.RiverMochi;     // LogUtils
+    using Game.Prefabs;
+    using Game.UI;
 
     public partial class AlertIconSystem
     {
@@ -52,7 +53,7 @@ namespace CityWatchdog.Systems
             //LogRouteNotificationPrefabName,
             //LogTransportLineNotificationSvgSources,
             //LogTransportLineNotificationPrefabName,
-        }.ForEach(action => CityWatchdog.Mod.DebugLog(action));
+        }.ForEach(action => LogUtils.Debug(action));
 
         private List<NotificationIconPrefab> GetTransportLineNotificationPrefab() {
             List<NotificationIconPrefab> result = new();

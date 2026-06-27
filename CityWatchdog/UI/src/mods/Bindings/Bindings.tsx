@@ -16,6 +16,15 @@ export const hideRoadNames$ = bindValue<boolean>(mod.id, "HideRoadNames", false)
 export const hideDistrictNames$ = bindValue<boolean>(mod.id, "HideDistrictNames", false);
 export const showRoadArrows$ = bindValue<boolean>(mod.id, "ShowRoadArrows", false);
 export const notificationCounts$ = bindValue<number[]>(mod.id, "NotificationCounts", []);
+export const miniHudFavorites$ = bindValue<number[]>(mod.id, "MiniHudFavorites", []);
+export const miniHudEnabled$ = bindValue<boolean>(mod.id, "MiniHudEnabled", false);
+export const miniHudMode$ = bindValue<number>(mod.id, "MiniHudMode", 0);
+export const miniHudItemCount$ = bindValue<number>(mod.id, "MiniHudItemCount", 5);
+export const miniHudOrientation$ = bindValue<number>(mod.id, "MiniHudOrientation", 0);
+export const miniHudPlacement$ = bindValue<number>(mod.id, "MiniHudPlacement", 1);
+export const miniHudHideZero$ = bindValue<boolean>(mod.id, "MiniHudHideZero", true);
+export const miniHudGlassStyle$ = bindValue<boolean>(mod.id, "MiniHudGlassStyle", true);
+export const panelButtonsOnlyStart$ = bindValue<boolean>(mod.id, "PanelButtonsOnlyStart", false);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
 export const ElectricityBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBottleneckNotification");
@@ -87,6 +96,8 @@ export const OnDisableCwdTooltipsToggle = (disable: boolean) => trigger(mod.id, 
 export const OnHideRoadNamesToggle = (hide: boolean) => trigger(mod.id, "HideRoadNames", hide);
 export const OnHideDistrictNamesToggle = (hide: boolean) => trigger(mod.id, "HideDistrictNames", hide);
 export const OnShowRoadArrowsToggle = (show: boolean) => trigger(mod.id, "ShowRoadArrows", show);
+export const OnToggleMiniHudFavorite = (index: number) => trigger(mod.id, "ToggleMiniHudFavorite", index);
+export const OnMiniHudNotificationClicked = (index: number) => trigger(mod.id, "MiniHudNotificationClicked", index);
 
 export const OnElectricityElectricityNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ElectricityElectricityNotification", enable);
 export const OnElectricityBottleneckNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ElectricityBottleneckNotification", enable);

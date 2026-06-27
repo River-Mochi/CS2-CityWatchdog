@@ -200,13 +200,22 @@
     cursor: grabbing;
 }
 
+.headerCollapseButton,
 .headerCloseButton {
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: 24rem;
     width: 24rem;
     height: 24rem;
-    margin-left: 8rem;
+    margin-left: 5rem;
+}
+
+.headerCollapseIcon {
+    width: 16rem;
+    height: 16rem;
+    display: block;
+    pointer-events: none;
+    filter: brightness(0) invert(1) opacity(0.85);
 }
 
 // Standalone X glyph inside the icon-button — vanilla button frame doesn't size the inner img.
@@ -352,8 +361,8 @@
 }
 
 .infoIcon {
-    width: 32rem;
-    height: 32rem;
+    width: 30rem;
+    height: 30rem;
     display: block;
     pointer-events: none;
     transition-property: filter, opacity, transform;
@@ -365,19 +374,19 @@
 // blow out. The vanilla Info icon source is softer so the same boost still reads.
 .infoButton:hover .infoIcon {
     filter: brightness(1.2);
-    transform: scale(1.08);
+    transform: scale(1.04);
 }
 
-// Road-arrow icon — slightly larger than the standard infoIcon to fill the button.
-.roadArrowIcon {
-    width: 34rem;
-    height: 34rem;
+// The diagonal road/district artwork reaches close to its SVG edges, so leave enough inset
+// for the button border and hover scale instead of letting its corners escape the frame.
+.mapToggleIcon {
+    width: 25rem;
+    height: 25rem;
 }
 
-// District icon is authored at 40x40 and needs a small inset beside the fuller 64x64 road icons.
-.districtIcon {
-    width: 30rem;
-    height: 30rem;
+.infoButton:hover .mapToggleIcon {
+    filter: brightness(1.08);
+    transform: none;
 }
 
 .toolbarButton {

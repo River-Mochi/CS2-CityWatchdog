@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 64 64"
+     width="100%"
+     height="100%">
+
+  <!-- Road / base shapes -->
+  <path
+    fill="#C4C4C4"
+    d="M3.337,19.35 29.545,56.214 59.581,46.675 60.036,44.848 3.911,17.046Z"/>
+
+  <path
+    fill="#D4D4D4"
+    d="M4.547,17.029 35.503,51.516 54.545,46.443 29.398,9.329Z"/>
+
+  <path
+    fill="#949494"
+    d="M3.876,17.027 30.454,53.661 44.532,49.462 17.795,12.772Z"/>
+
+  <path
+    fill="#949494"
+    d="M19.438,12.4 46.016,49.034 60.094,44.835 33.357,8.145Z"/>
+
+  <!-- Large fat A, made shorter -->
+  <path
+    fill="#FFFFFF"
+    stroke="#383434"
+    stroke-width="1.5"
+    stroke-linejoin="round"
+    paint-order="stroke fill"
+    fill-rule="evenodd"
+    d="M18.8,52
+       L28.4,22
+       H35.6
+       L45.2,52
+       H39
+       L37,45
+       H27
+       L25,52
+       Z
+
+       M32,29
+       L29.3,39
+       H34.7
+       Z"/>
+</svg>

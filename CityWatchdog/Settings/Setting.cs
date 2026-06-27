@@ -11,9 +11,11 @@
 
 namespace CityWatchdog
 {
+    using System;
+    using System.Collections.Generic;
     using CityWatchdog.Systems;
-    using CS2Shared.RiverMochi;
     using Colossal.IO.AssetDatabase;
+    using CS2Shared.RiverMochi;
     using Game;
     using Game.Input;
     using Game.Modding;
@@ -21,15 +23,13 @@ namespace CityWatchdog
     using Game.Settings;
     using Game.UI;
     using Game.UI.Widgets;
-    using System;
-    using System.Collections.Generic;
     using Unity.Entities;
     using UnityEngine;
 
     [FileLocation("ModsSettings/CityWatchdog/CityWatchdog")]
-    [SettingsUITabOrder(Actions, MoneyTab, About, Debug)]
-    [SettingsUIGroupOrder(AboutUsage, Notifications, Milestone, MoneyViewGroup, Money, SaveConversion, AboutInfo, AboutLinks, AboutDiagnostics, Serialize)]
-    [SettingsUIShowGroupName(AboutUsage, Notifications, Milestone, MoneyViewGroup, Money, SaveConversion, AboutDiagnostics, Serialize)]
+    [SettingsUITabOrder(Actions, MoneyTab, About)]
+    [SettingsUIGroupOrder(AboutUsage, Notifications, MoneyViewGroup, MiniHudGroup, Milestone, Money, SaveConversion, AboutInfo, AboutLinks, AboutDiagnostics, Serialize)]
+    [SettingsUIShowGroupName(AboutUsage, Notifications, MoneyViewGroup, MiniHudGroup, Milestone, Money, SaveConversion, AboutDiagnostics, Serialize)]
     public partial class Setting : ModSetting
     {
         internal static Setting Instance { get; set; } = null!;
@@ -54,6 +54,7 @@ namespace CityWatchdog
         internal const string MoneyViewGroup = nameof(MoneyViewGroup);
         internal const string Money = nameof(Money);
         internal const string Notifications = nameof(Notifications);
+        internal const string MiniHudGroup = nameof(MiniHudGroup);
         internal const string Milestone = nameof(Milestone);
         internal const string SaveConversion = nameof(SaveConversion);
         internal const string HotkeyActions = nameof(HotkeyActions);
@@ -97,6 +98,13 @@ namespace CityWatchdog
         internal const int MoneyTooltipModeFullData = 0;
         internal const int MoneyTooltipModeCompact = 1;
         internal const int MoneyTooltipModeMini = 2;
+        internal const int MiniHudModeTopActive = 0;
+        internal const int MiniHudModeFavorites = 1;
+        internal const int MiniHudOrientationHorizontal = 0;
+        internal const int MiniHudOrientationVertical = 1;
+        internal const int MiniHudPlacementTopCenter = 0;
+        internal const int MiniHudPlacementTopRight = 1;
+        internal const int MiniHudPlacementDraggable = 2;
 
         public Setting(IMod mod) : base(mod)
         {
@@ -149,7 +157,7 @@ namespace CityWatchdog
         public int PopulationTooltipFontScale { get; set; }
 
         // --------------------------------------------------------------------
-        // Money tab - Money
+        // Money-Milestones tab - Money
         // --------------------------------------------------------------------
 
         [SettingsUISlider(min = 20000, max = 2000000, step = 20000, scalarMultiplier = 1, unit = Unit.kInteger)]
@@ -190,6 +198,10 @@ namespace CityWatchdog
         [SettingsUISection(Actions, Notifications)]
         public ProxyBinding ToggleNotificationPanelKeyboardBinding { get; set; }
 
+        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISetter(typeof(Setting), nameof(OnPanelButtonsOnlyStartChanged))]
+        public bool PanelButtonsOnlyStart { get; set; }
+
         [SettingsUIKeyboardBinding(BindingKeyboard.Backslash, ToggleRoadNamesAction)]
         [SettingsUISection(Actions, Notifications)]
         public ProxyBinding ToggleRoadNamesKeyboardBinding { get; set; }
@@ -219,28 +231,119 @@ namespace CityWatchdog
         public bool DisableCwdTooltips { get; set; }
 
         // --------------------------------------------------------------------
-        // Actions tab - New city start settings
+        // Actions tab - Mini HUD Notifications
+        // --------------------------------------------------------------------
+
+        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudEnabledChanged))]
+        public bool MiniHudEnabled { get; set; }
+
+        [SettingsUIButton]
+        [SettingsUISection(Actions, MiniHudGroup)]
+        public bool ApplyMiniHudRecommendedPreset
+        {
+            set
+            {
+                if (!value)
+                {
+                    return;
+                }
+
+                MiniHudEnabled = true;
+                MiniHudMode = MiniHudModeTopActive;
+                MiniHudItemCount = 5;
+                MiniHudOrientation = MiniHudOrientationVertical;
+                MiniHudPlacement = MiniHudPlacementDraggable;
+                MiniHudHideZero = true;
+                MiniHudGlassStyle = true;
+
+                CityWatchdogUISystem? uiSystem = GetUISystem();
+                uiSystem?.UpdateMiniHudEnabledBinding(MiniHudEnabled);
+                uiSystem?.UpdateMiniHudModeBinding(MiniHudMode);
+                uiSystem?.UpdateMiniHudItemCountBinding(MiniHudItemCount);
+                uiSystem?.UpdateMiniHudOrientationBinding(MiniHudOrientation);
+                uiSystem?.UpdateMiniHudPlacementBinding(MiniHudPlacement);
+                uiSystem?.UpdateMiniHudHideZeroBinding(MiniHudHideZero);
+                uiSystem?.UpdateMiniHudGlassStyleBinding(MiniHudGlassStyle);
+
+                try
+                {
+                    ApplyAndSave();
+                }
+                catch (Exception ex)
+                {
+                    LogUtils.WarnOnce(
+                        "mini-hud-recommended-preset-save",
+                        () => $"Failed to save Mini HUD recommended preset: {ex.GetType().Name}: {ex.Message}",
+                        ex);
+                }
+            }
+        }
+
+        [SettingsUIDropdown(typeof(Setting), nameof(GetMiniHudModeItems))]
+        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudModeChanged))]
+        public int MiniHudMode { get; set; }
+
+        [SettingsUIDropdown(typeof(Setting), nameof(GetMiniHudItemCountItems))]
+        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudItemCountChanged))]
+        public int MiniHudItemCount { get; set; }
+
+        [SettingsUIDropdown(typeof(Setting), nameof(GetMiniHudOrientationItems))]
+        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudOrientationChanged))]
+        public int MiniHudOrientation { get; set; }
+
+        [SettingsUIDropdown(typeof(Setting), nameof(GetMiniHudPlacementItems))]
+        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudPlacementChanged))]
+        public int MiniHudPlacement { get; set; }
+
+        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudHideZeroChanged))]
+        public bool MiniHudHideZero { get; set; }
+
+        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudGlassStyleChanged))]
+        public bool MiniHudGlassStyle { get; set; }
+
+        // Two 31-bit masks persist the 62 row favorites without exposing 62 Options toggles.
+        [SettingsUIHidden]
+        public int MiniHudFavoriteMaskLow { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudFavoriteMaskHigh { get; set; }
+
+        // --------------------------------------------------------------------
+        // Money-Milestones tab - New city start settings
         // --------------------------------------------------------------------
 
         [SettingsUIDropdown(typeof(Setting), nameof(GetInitialMoneyItems))]
-        [SettingsUISection(Actions, Milestone)]
+        [SettingsUISection(MoneyTab, Milestone)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(IsInGame))]
         public int InitialMoney { get; set; }
 
         // Safety rule:
         // - OFF while a city is loaded stays disabled, so milestone injection cannot be enabled mid-city.
         // - ON while a city is loaded stays enabled, so it can be turned OFF without rebooting.
-        [SettingsUISection(Actions, Milestone)]
+        [SettingsUISection(MoneyTab, Milestone)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(CannotEnableCustomMilestoneInGame))]
         public bool CustomMilestone { get; set; }
 
         [SettingsUIDropdown(typeof(Setting), nameof(GetMilestoneLevelItems))]
-        [SettingsUISection(Actions, Milestone)]
+        [SettingsUISection(MoneyTab, Milestone)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(GetMilestoneLevelStatus))]
         public int MilestoneLevel { get; set; }
 
         // --------------------------------------------------------------------
-        // Money tab - Unlimited Money Converter
+        // Money-Milestones tab - Unlimited Money Converter
         // --------------------------------------------------------------------
 
         [SettingsUISection(MoneyTab, SaveConversion)]
@@ -298,12 +401,12 @@ namespace CityWatchdog
 
 
         // --------------------------------------------------------------------
-        // Debug tab
+        // About tab - Diagnostics
         // --------------------------------------------------------------------
 
         [SettingsUIButtonGroup(DebugButtonsRow)]
         [SettingsUIButton]
-        [SettingsUISection(Debug, AboutDiagnostics)]
+        [SettingsUISection(About, AboutDiagnostics)]
         public bool WriteNotificationAuditLog
         {
             set
@@ -329,7 +432,7 @@ namespace CityWatchdog
 
         [SettingsUIButtonGroup(DebugButtonsRow)]
         [SettingsUIButton]
-        [SettingsUISection(Debug, AboutDiagnostics)]
+        [SettingsUISection(About, AboutDiagnostics)]
         public bool OpenLog
         {
             set
@@ -371,6 +474,11 @@ namespace CityWatchdog
         public bool EnsureMoneyViewEnabled()
         {
             return !MoneyView;
+        }
+
+        public bool EnsureMiniHudEnabled()
+        {
+            return !MiniHudEnabled;
         }
 
         private bool HideUsageText()
@@ -488,6 +596,71 @@ namespace CityWatchdog
             };
         }
 
+        public DropdownItem<int>[] GetMiniHudModeItems()
+        {
+            return new[]
+            {
+                new DropdownItem<int>
+                {
+                    value = MiniHudModeTopActive,
+                    displayName = GetOptionLocaleID("MiniHudModeTopActive"),
+                },
+                new DropdownItem<int>
+                {
+                    value = MiniHudModeFavorites,
+                    displayName = GetOptionLocaleID("MiniHudModeFavorites"),
+                },
+            };
+        }
+
+        public DropdownItem<int>[] GetMiniHudItemCountItems()
+        {
+            return new[]
+            {
+                CreateDropdownItem(5),
+                CreateDropdownItem(10),
+            };
+        }
+
+        public DropdownItem<int>[] GetMiniHudOrientationItems()
+        {
+            return new[]
+            {
+                new DropdownItem<int>
+                {
+                    value = MiniHudOrientationHorizontal,
+                    displayName = GetOptionLocaleID("MiniHudOrientationHorizontal"),
+                },
+                new DropdownItem<int>
+                {
+                    value = MiniHudOrientationVertical,
+                    displayName = GetOptionLocaleID("MiniHudOrientationVertical"),
+                },
+            };
+        }
+
+        public DropdownItem<int>[] GetMiniHudPlacementItems()
+        {
+            return new[]
+            {
+                new DropdownItem<int>
+                {
+                    value = MiniHudPlacementTopCenter,
+                    displayName = GetOptionLocaleID("MiniHudPlacementTopCenter"),
+                },
+                new DropdownItem<int>
+                {
+                    value = MiniHudPlacementTopRight,
+                    displayName = GetOptionLocaleID("MiniHudPlacementTopRight"),
+                },
+                new DropdownItem<int>
+                {
+                    value = MiniHudPlacementDraggable,
+                    displayName = GetOptionLocaleID("MiniHudPlacementDraggable"),
+                },
+            };
+        }
+
         public void ResetInitialMoney()
         {
             InitialMoney = 0;
@@ -518,6 +691,16 @@ namespace CityWatchdog
             HideRoadNames = false;
             HideDistrictNames = false;
             ShowRoadArrows = false;
+            PanelButtonsOnlyStart = false;
+            MiniHudEnabled = false;
+            MiniHudMode = MiniHudModeTopActive;
+            MiniHudItemCount = 5;
+            MiniHudOrientation = MiniHudOrientationHorizontal;
+            MiniHudPlacement = MiniHudPlacementTopRight;
+            MiniHudHideZero = true;
+            MiniHudGlassStyle = true;
+            MiniHudFavoriteMaskLow = 0;
+            MiniHudFavoriteMaskHigh = 0;
 
             Notification.SetDefaults();
         }
@@ -555,6 +738,28 @@ namespace CityWatchdog
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
                 .UpdatePopulationTooltipFontScaleBinding(value);
+        }
+
+        private void OnMiniHudEnabledChanged(bool value) => GetUISystem()?.UpdateMiniHudEnabledBinding(value);
+
+        private void OnMiniHudModeChanged(int value) => GetUISystem()?.UpdateMiniHudModeBinding(value);
+
+        private void OnMiniHudItemCountChanged(int value) => GetUISystem()?.UpdateMiniHudItemCountBinding(value);
+
+        private void OnMiniHudOrientationChanged(int value) => GetUISystem()?.UpdateMiniHudOrientationBinding(value);
+
+        private void OnMiniHudPlacementChanged(int value) => GetUISystem()?.UpdateMiniHudPlacementBinding(value);
+
+        private void OnMiniHudHideZeroChanged(bool value) => GetUISystem()?.UpdateMiniHudHideZeroBinding(value);
+
+        private void OnMiniHudGlassStyleChanged(bool value) => GetUISystem()?.UpdateMiniHudGlassStyleBinding(value);
+
+        private void OnPanelButtonsOnlyStartChanged(bool value) => GetUISystem()?.UpdatePanelButtonsOnlyStartBinding(value);
+
+        private static CityWatchdogUISystem? GetUISystem()
+        {
+            return World.DefaultGameObjectInjectionWorld?
+                .GetExistingSystemManaged<CityWatchdogUISystem>();
         }
 
         private bool GetMilestoneLevelStatus()

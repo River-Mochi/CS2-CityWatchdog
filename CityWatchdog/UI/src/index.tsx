@@ -5,6 +5,7 @@ import { ModRegistrar, type ModuleRegistry, type ModuleRegistryExtend } from "cs
 import mod from "../mod.json";
 import { NotificationPanel } from "./mods/NotificationPanel/NotificationPanel";
 import { EntryButton } from "./mods/EntryButton/EntryButton";
+import { MiniHud } from "./mods/MiniHud/MiniHud";
 import { DescriptionTooltipMoneyViewExtension, StatFieldMoneyViewExtension, TooltipGateExtension } from "./mods/MoneyView/MoneyView";
 import { VanillaComponentResolver } from "./utils/vanilla";
 // Side-effect import — webpack emits this SVG to coui://ui-mods/images/ so the C# Options UI
@@ -39,6 +40,7 @@ const register: ModRegistrar = (moduleRegistry) => {
     extendSafe(moduleRegistry, DESCRIPTION_TOOLTIP_MODULE, DESCRIPTION_TOOLTIP_EXPORT, DescriptionTooltipMoneyViewExtension);
     moduleRegistry.append("GameTopLeft", EntryButton);
     moduleRegistry.append("Game", NotificationPanel);
+    moduleRegistry.append("Game", MiniHud);
 };
 
 export default register;

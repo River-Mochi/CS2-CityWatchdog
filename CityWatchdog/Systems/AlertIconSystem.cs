@@ -11,15 +11,14 @@
 
 namespace CityWatchdog.Systems
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
     using Colossal.Serialization.Entities;
     using Game.Common;
     using Game.Notifications;
     using Game.Prefabs;
     using Game.UI;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using Unity.Collections;
     using Unity.Entities;
 
@@ -143,23 +142,6 @@ namespace CityWatchdog.Systems
             }
 
             nativeArray.Dispose();
-            if (EntityDictionary.Any()) {
-                foreach (KeyValuePair<Entity, int> item in EntityDictionary) {
-                    CityWatchdog.Mod.DebugLog(() => $"{prefabSystem.GetPrefab<NotificationIconPrefab>(item.Key).name} | {item.Value}");
-                    //EnableNotification(item.Key, Act);
-                }
-            }
-        }
-
-        public void DebugNotificationIconPrefab() {
-            CityWatchdog.Mod.DebugLog(() => "Debug NotificationIconPrefab");
-            NativeArray<Entity> entityArray = notificationIconDisplayDataQuery.ToEntityArray(Allocator.TempJob);
-            foreach (Entity item in entityArray) {
-                CityWatchdog.Mod.DebugLog(() => $"{prefabSystem.GetPrefab<NotificationIconPrefab>(item).name}");
-            }
-
-            entityArray.Dispose();
-            CityWatchdog.Mod.DebugLog(() => "Debug NotificationIconPrefab completed");
         }
 
         public void EnableNotification(Entity entity, bool enabled) {
