@@ -7,10 +7,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 2rem;
-    padding-right: 4rem;
-    padding-bottom: 2rem;
-    padding-left: 4rem;
+    padding-top: 1rem;
+    padding-right: 2rem;
+    padding-bottom: 1rem;
+    padding-left: 2rem;
     border-top-left-radius: 6rem;
     border-top-right-radius: 6rem;
     border-bottom-left-radius: 6rem;
@@ -80,13 +80,17 @@
     right: 16rem;
 }
 
+.vertical.topRight {
+    top: 54rem;
+}
+
 .draggableHorizontal {
     top: 8rem;
     left: 50%;
 }
 
 .draggableVertical {
-    top: 52rem;
+    top: 54rem;
     right: 16rem;
 }
 
@@ -94,12 +98,12 @@
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
-    height: 28rem;
-    min-width: 38rem;
-    padding-top: 2rem;
-    padding-right: 3rem;
-    padding-bottom: 2rem;
-    padding-left: 3rem;
+    height: 26rem;
+    min-width: 0;
+    padding-top: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
     border-top-style: none;
     border-right-style: none;
     border-bottom-style: none;
@@ -116,7 +120,7 @@
 }
 
 .horizontal .items .item + .item {
-    margin-left: 3rem;
+    margin-left: 2rem;
 }
 
 .vertical .items .item + .item {
@@ -131,14 +135,14 @@
     width: 22rem;
     height: 22rem;
     display: block;
-    margin-right: 3rem;
+    margin-right: 1rem;
 }
 
 .count {
     display: block;
     width: 22rem;
     flex: 0 0 22rem;
-    font-size: var(--fontSizeXS);
+    font-size: 12rem;
     font-weight: 700;
     line-height: 1;
     text-align: right;
@@ -146,13 +150,13 @@
 }
 
 .vertical .count {
-    width: 24rem;
-    flex-basis: 24rem;
+    width: 22rem;
+    flex-basis: 22rem;
 }
 
 .hud:hover .count,
 .item:hover .count {
-    font-size: 15rem;
+    font-size: 16rem;
     font-weight: 800;
 }
 
@@ -160,8 +164,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 16rem;
-    min-height: 16rem;
+    min-width: 10rem;
+    min-height: 10rem;
     padding-top: 0;
     padding-right: 2rem;
     padding-bottom: 0;
@@ -171,7 +175,7 @@
     border-bottom-style: none;
     border-left-style: none;
     background-color: transparent;
-    color: rgba(255, 255, 255, 0.86);
+    color: rgba(255, 255, 255, 0.58);
     font-size: 10rem;
     font-weight: 800;
     line-height: 1;
@@ -186,52 +190,39 @@
     cursor: grabbing;
 }
 
-.openHandleDots {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.openHandleDot {
-    width: 4rem;
-    height: 4rem;
+.openHandleMark {
+    width: 14rem;
+    height: 3rem;
     display: block;
-    border-top-left-radius: 50%;
-    border-top-right-radius: 50%;
-    border-bottom-left-radius: 50%;
-    border-bottom-right-radius: 50%;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
     background-color: currentColor;
 }
 
 .openHandle:hover {
-    color: rgba(255, 255, 255, 1);
+    color: rgba(255, 255, 255, 0.72);
 }
 
 .vertical .openHandle {
-    margin-top: 2rem;
-    min-width: 24rem;
-}
-
-.vertical .openHandleDots {
-    flex-direction: row;
-}
-
-.vertical .openHandleDot + .openHandleDot {
-    margin-left: 2rem;
+    margin-top: 1rem;
+    min-width: 18rem;
+    min-height: 6rem;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .horizontal .openHandle {
     margin-top: 0;
-    margin-left: 2rem;
-    min-height: 26rem;
+    margin-left: 1rem;
+    min-width: 6rem;
+    min-height: 22rem;
     padding-right: 1rem;
     padding-left: 1rem;
 }
 
-.horizontal .openHandleDots {
-    flex-direction: column;
-}
-
-.horizontal .openHandleDot + .openHandleDot {
-    margin-top: 2rem;
+.horizontal .openHandleMark {
+    width: 3rem;
+    height: 14rem;
 }

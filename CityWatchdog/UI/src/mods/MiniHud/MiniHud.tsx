@@ -62,6 +62,7 @@ export const MiniHud = () => {
     const glassStyle = useValue(miniHudGlassStyle$);
     const activeGamePanel = useValue(game.activeGamePanel$);
     const isPhotoMode = activeGamePanel?.__Type == game.GamePanelType.PhotoMode;
+    const isDraggable = placement === PLACEMENT_DRAGGABLE;
     const [position, setPosition] = useState<Position>(sessionPosition);
     const [dragging, setDragging] = useState(false);
     const hudRef = useRef<HTMLDivElement | null>(null);
@@ -165,7 +166,7 @@ export const MiniHud = () => {
         event.preventDefault();
         event.stopPropagation();
 
-        if (placement !== PLACEMENT_DRAGGABLE) {
+        if (!isDraggable) {
             return;
         }
 
@@ -210,13 +211,13 @@ export const MiniHud = () => {
     const dragTransform = orientation === ORIENTATION_VERTICAL
         ? `translate(${position.x}px, ${position.y}px)`
         : `translate(-50%, 0) translate(${position.x}px, ${position.y}px)`;
-    const openHandleTooltip = text("MiniHudDragHandle", "Drag dots to move Mini HUD.");
+    const openHandleTooltip = text("MiniHudDragHandle", "Drag handle to move Mini HUD.");
 
     return (
         <div
             ref={hudRef}
-            className={`${styles.hud} ${glassStyle ? styles.glass : styles.gray} ${orientation === ORIENTATION_VERTICAL ? styles.vertical : styles.horizontal} ${placement === PLACEMENT_DRAGGABLE ? styles.draggable : ""} ${placementClass}`}
-            style={placement === PLACEMENT_DRAGGABLE
+            className={`${styles.hud} ${glassStyle ? styles.glass : styles.gray} ${orientation === ORIENTATION_VERTICAL ? styles.vertical : styles.horizontal} ${isDraggable ? styles.draggable : ""} ${placementClass}`}
+            style={isDraggable
                 ? { transform: dragTransform }
                 : undefined}
         >
@@ -242,21 +243,19 @@ export const MiniHud = () => {
                         </div>
                     ))}
                 </div>
-                <Tooltip {...{ cwdBypass: true }} tooltip={openHandleTooltip}>
-                    <button
-                        type="button"
-                        className={styles.openHandle}
-                        onMouseDown={onOpenHandleMouseDown}
-                        onClick={onOpenHandleClick}
-                        aria-label={openHandleTooltip}
-                    >
-                        <span className={styles.openHandleDots} aria-hidden="true">
-                            <span className={styles.openHandleDot}></span>
-                            <span className={styles.openHandleDot}></span>
-                            <span className={styles.openHandleDot}></span>
-                        </span>
-                    </button>
-                </Tooltip>
+                {isDraggable && (
+                    <Tooltip {...{ cwdBypass: true }} tooltip={openHandleTooltip}>
+                        <button
+                            type="button"
+                            className={styles.openHandle}
+                            onMouseDown={onOpenHandleMouseDown}
+                            onClick={onOpenHandleClick}
+                            aria-label={openHandleTooltip}
+                        >
+                            <span className={styles.openHandleMark} aria-hidden="true"></span>
+                        </button>
+                    </Tooltip>
+                )}
             </div>
         </div>
     );

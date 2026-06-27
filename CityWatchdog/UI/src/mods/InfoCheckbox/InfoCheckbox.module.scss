@@ -81,8 +81,12 @@
     cursor: pointer;
 }
 
-.favoriteButton:hover,
-.favoriteButtonActive {
+.favoriteButton:hover {
+    color: rgba(245, 248, 250, 0.86);
+}
+
+.favoriteButtonActive,
+.favoriteButtonActive:hover {
     color: #5fb8ff;
 }
 

@@ -91,7 +91,7 @@ tags: Visual, UI UX tool tips,UI organize icons
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* Updated to game patch 1.6
+* Added Mini HUD with icons for top problems in city, see options menu.
 * Added district names
 * Other recent major changes:
 * Added [i] button toggles on/off ALL game hover over tool-tips.

@@ -302,7 +302,7 @@ const NotificationPanelContent = () => {
                 </div>
             }
         >
-            {/* Left side: Info + Road-Name toggles. Right side: sort + mass actions. */}
+            {/* Left side: Info + Road Name + Road Arrows + District. Right side: sort + mass actions. */}
             <div className={styles.toolbar}>
                 <div className={styles.toolbarLeft}>
                     {/* Info button: toggles vanilla game tooltips (cursor-follow + DescriptionTooltip popups).
@@ -335,18 +335,6 @@ const NotificationPanelContent = () => {
                         </div>
                     </CwdTooltip>
 
-                    {/* District Name toggle: hides labels without affecting boundaries or area overlays. */}
-                    <CwdTooltip tooltip={districtNameTooltip}>
-                        <div
-                            className={`${styles.infoButton} ${districtNamesHidden ? styles.infoButtonTipsOff : ""}`}
-                            role="button"
-                            aria-pressed={districtNamesHidden}
-                            onClick={() => { OnHideDistrictNamesToggle(!districtNamesHidden); }}
-                        >
-                            <img src={districtIconSrc} className={`${styles.infoIcon} ${styles.mapToggleIcon}`} />
-                        </div>
-                    </CwdTooltip>
-
                     {/* Road Arrow toggle: forces vanilla 1-way arrows on while browsing.
                         Default OFF (vanilla behavior: arrows only visible with a road tool active). */}
                     <CwdTooltip tooltip={roadArrowTooltip}>
@@ -357,6 +345,18 @@ const NotificationPanelContent = () => {
                             onClick={() => { OnShowRoadArrowsToggle(!roadArrowsShown); }}
                         >
                             <img src={roadArrowIconSrc} className={`${styles.infoIcon} ${styles.mapToggleIcon}`} />
+                        </div>
+                    </CwdTooltip>
+
+                    {/* District Name toggle: hides labels without affecting boundaries or area overlays. */}
+                    <CwdTooltip tooltip={districtNameTooltip}>
+                        <div
+                            className={`${styles.infoButton} ${districtNamesHidden ? styles.infoButtonTipsOff : ""}`}
+                            role="button"
+                            aria-pressed={districtNamesHidden}
+                            onClick={() => { OnHideDistrictNamesToggle(!districtNamesHidden); }}
+                        >
+                            <img src={districtIconSrc} className={`${styles.infoIcon} ${styles.mapToggleIcon}`} />
                         </div>
                     </CwdTooltip>
                 </div>
