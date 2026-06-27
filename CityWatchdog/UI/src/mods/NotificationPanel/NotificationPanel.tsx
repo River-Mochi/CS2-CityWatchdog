@@ -50,13 +50,13 @@ import TitleBarIconPath from "../../../images/NotificationIcon_TitleBar.svg";
 import SortArrowUpPath from "../../../images/sort-arrow-up.svg";
 import SortArrowDownPath from "../../../images/sort-arrow-down.svg";
 
-// Road-name toggle icon — cleaner max variant, CSS handles the blue "active" state.
-import RoadNameOnPath from "../../../images/icon-Roadname-max.svg";
+// Road-name toggle icon — user-provided max variant, CSS handles the blue "active" state.
+import RoadNameOnPath from "../../../images/icon-RoadName-max.svg";
 
-// District-name toggle icon — cleaner max variant tuned for small toolbar rendering.
-import DistrictIconPath from "../../../images/icon-Districts-max.svg";
+// District-name toggle icon — user-provided max variant tuned for small toolbar rendering.
+import DistrictIconPath from "../../../images/Districts-max.svg";
 
-// Road-arrow toggle icon — cleaner max variant tuned for small toolbar rendering.
+// Road-arrow toggle icon — user-provided max variant tuned for small toolbar rendering.
 import RoadArrowIconPath from "../../../images/icon-RoadArrows-max.svg";
 
 const modIconSrc = TitleBarIconPath;
