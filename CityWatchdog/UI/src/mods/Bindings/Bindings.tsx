@@ -97,6 +97,7 @@ export const OnHideRoadNamesToggle = (hide: boolean) => trigger(mod.id, "HideRoa
 export const OnHideDistrictNamesToggle = (hide: boolean) => trigger(mod.id, "HideDistrictNames", hide);
 export const OnShowRoadArrowsToggle = (show: boolean) => trigger(mod.id, "ShowRoadArrows", show);
 export const OnToggleMiniHudFavorite = (index: number) => trigger(mod.id, "ToggleMiniHudFavorite", index);
+export const OnMiniHudNotificationClicked = (index: number) => trigger(mod.id, "MiniHudNotificationClicked", index);
 
 export const OnElectricityElectricityNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ElectricityElectricityNotification", enable);
 export const OnElectricityBottleneckNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ElectricityBottleneckNotification", enable);

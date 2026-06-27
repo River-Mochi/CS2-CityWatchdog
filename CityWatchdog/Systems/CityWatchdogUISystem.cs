@@ -16,9 +16,12 @@ namespace CityWatchdog.Systems
     using Colossal.UI.Binding;
     using Game;
     using Game.Input;
+    using Game.Rendering;
     using Game.SceneFlow;
+    using Game.Tools;
     using Game.UI;
     using System;
+    using Unity.Entities;
 
     public partial class CityWatchdogUISystem : UISystemBaseExtension {
         // The compact HUD can tolerate slightly older totals; keeping its scan cadence lower
@@ -148,6 +151,7 @@ namespace CityWatchdog.Systems
                 new ArrayWriter<int>());
             AddBinding(miniHudFavoritesBinding);
             AddTriggerBinding<int>("ToggleMiniHudFavorite", ToggleMiniHudFavorite);
+            AddTriggerBinding<int>("MiniHudNotificationClicked", JumpToMiniHudNotification);
             miniHudEnabledBinding = AddValueBinding(nameof(Setting.MiniHudEnabled), Setting.Instance.MiniHudEnabled);
             miniHudModeBinding = AddValueBinding(nameof(Setting.MiniHudMode), Setting.Instance.MiniHudMode);
             miniHudItemCountBinding = AddValueBinding(nameof(Setting.MiniHudItemCount), Setting.Instance.MiniHudItemCount);
@@ -863,6 +867,23 @@ namespace CityWatchdog.Systems
             {
                 notificationCountUpdateState.ForceUpdate();
             }
+        }
+
+        private void JumpToMiniHudNotification(int index)
+        {
+            if (!alertIconSystem.TryGetFirstNotificationEntity(index, out Entity entity) ||
+                !EntityManager.Exists(entity))
+            {
+                return;
+            }
+
+            ToolSystem toolSystem = World.GetOrCreateSystemManaged<ToolSystem>();
+            CameraUpdateSystem cameraSystem = World.GetOrCreateSystemManaged<CameraUpdateSystem>();
+
+            toolSystem.selected = entity;
+            cameraSystem.orbitCameraController.followedEntity = entity;
+            cameraSystem.orbitCameraController.TryMatchPosition(cameraSystem.activeCameraController);
+            cameraSystem.activeCameraController = cameraSystem.orbitCameraController;
         }
 
         private void ToggleMiniHudFavorite(int index)

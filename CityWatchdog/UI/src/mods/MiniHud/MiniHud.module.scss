@@ -36,15 +36,11 @@
 }
 
 .draggable {
-    cursor: grab;
-}
-
-.draggable:active {
-    cursor: grabbing;
+    cursor: default;
 }
 
 .draggable .item {
-    cursor: inherit;
+    cursor: pointer;
 }
 
 .content {
@@ -140,8 +136,8 @@
 
 .count {
     display: block;
-    width: 18rem;
-    flex: 0 0 18rem;
+    width: 22rem;
+    flex: 0 0 22rem;
     font-size: var(--fontSizeXS);
     font-weight: 700;
     line-height: 1;
@@ -150,16 +146,22 @@
 }
 
 .vertical .count {
-    width: 20rem;
-    flex-basis: 20rem;
+    width: 24rem;
+    flex-basis: 24rem;
 }
 
-.hud:hover .count {
+.hud:hover .count,
+.item:hover .count {
     font-size: 15rem;
     font-weight: 800;
 }
 
 .openHandle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 16rem;
+    min-height: 16rem;
     padding-top: 0;
     padding-right: 2rem;
     padding-bottom: 0;
@@ -169,11 +171,19 @@
     border-bottom-style: none;
     border-left-style: none;
     background-color: transparent;
-    color: rgba(255, 255, 255, 0.72);
+    color: rgba(255, 255, 255, 0.86);
     font-size: 10rem;
     font-weight: 800;
     line-height: 1;
-    cursor: pointer;
+    cursor: default;
+}
+
+.draggable .openHandle {
+    cursor: grab;
+}
+
+.draggable .openHandle:active {
+    cursor: grabbing;
 }
 
 .openHandleDots {
@@ -183,8 +193,8 @@
 }
 
 .openHandleDot {
-    width: 3rem;
-    height: 3rem;
+    width: 4rem;
+    height: 4rem;
     display: block;
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
@@ -194,11 +204,12 @@
 }
 
 .openHandle:hover {
-    color: rgba(255, 255, 255, 0.92);
+    color: rgba(255, 255, 255, 1);
 }
 
 .vertical .openHandle {
     margin-top: 2rem;
+    min-width: 24rem;
 }
 
 .vertical .openHandleDots {
@@ -212,6 +223,7 @@
 .horizontal .openHandle {
     margin-top: 0;
     margin-left: 2rem;
+    min-height: 26rem;
     padding-right: 1rem;
     padding-left: 1rem;
 }

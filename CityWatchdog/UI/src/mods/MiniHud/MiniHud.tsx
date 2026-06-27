@@ -16,7 +16,7 @@ import {
     miniHudOrientation$,
     miniHudPlacement$,
     notificationCounts$,
-    OnControlPanelBindingToggle,
+    OnMiniHudNotificationClicked,
 } from "../Bindings/Bindings";
 import { allItems } from "../NotificationPanel/notificationData";
 import { useText } from "../shared/localization";
@@ -161,12 +161,11 @@ export const MiniHud = () => {
         .sort((a, b) => b.count - a.count || a.index - b.index)
         .slice(0, itemCount === 10 ? 10 : 5);
 
-    const onHudMouseDown = (event: ReactMouseEvent<HTMLDivElement>) => {
+    const onOpenHandleMouseDown = (event: ReactMouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         event.stopPropagation();
 
         if (placement !== PLACEMENT_DRAGGABLE) {
-            OnControlPanelBindingToggle(true);
             return;
         }
 
@@ -189,10 +188,15 @@ export const MiniHud = () => {
         setDragging(true);
     };
 
-    const onOpenMiniHud = (event: ReactMouseEvent<HTMLButtonElement>) => {
+    const onOpenHandleClick = (event: ReactMouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         event.stopPropagation();
-        OnControlPanelBindingToggle(true);
+    };
+
+    const onItemClick = (event: ReactMouseEvent<HTMLDivElement>, index: number) => {
+        event.preventDefault();
+        event.stopPropagation();
+        OnMiniHudNotificationClicked(index);
     };
 
     const placementClass =
@@ -206,7 +210,7 @@ export const MiniHud = () => {
     const dragTransform = orientation === ORIENTATION_VERTICAL
         ? `translate(${position.x}px, ${position.y}px)`
         : `translate(-50%, 0) translate(${position.x}px, ${position.y}px)`;
-    const openHandleTooltip = text("MiniHudOpenPanel", "Click dots opens main panel.\nOptions menu can remove this button.");
+    const openHandleTooltip = text("MiniHudDragHandle", "Drag dots to move Mini HUD.");
 
     return (
         <div
@@ -215,7 +219,6 @@ export const MiniHud = () => {
             style={placement === PLACEMENT_DRAGGABLE
                 ? { transform: dragTransform }
                 : undefined}
-            onMouseDown={onHudMouseDown}
         >
             <div className={styles.content}>
                 <div className={styles.items}>
@@ -232,32 +235,28 @@ export const MiniHud = () => {
                             key={index}
                             className={styles.item}
                             role="button"
+                            onClick={(event) => onItemClick(event, index)}
                         >
                             <span className={styles.count}>{formatMiniNotificationCount(count)}</span>
                             <img src={item.icon} className={styles.icon} alt="" />
                         </div>
                     ))}
                 </div>
-                {placement === PLACEMENT_DRAGGABLE && (
-                    <Tooltip {...{ cwdBypass: true }} tooltip={openHandleTooltip}>
-                        <button
-                            type="button"
-                            className={styles.openHandle}
-                            onMouseDown={(event) => {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }}
-                            onClick={onOpenMiniHud}
-                            aria-label={openHandleTooltip}
-                        >
-                            <span className={styles.openHandleDots} aria-hidden="true">
-                                <span className={styles.openHandleDot}></span>
-                                <span className={styles.openHandleDot}></span>
-                                <span className={styles.openHandleDot}></span>
-                            </span>
-                        </button>
-                    </Tooltip>
-                )}
+                <Tooltip {...{ cwdBypass: true }} tooltip={openHandleTooltip}>
+                    <button
+                        type="button"
+                        className={styles.openHandle}
+                        onMouseDown={onOpenHandleMouseDown}
+                        onClick={onOpenHandleClick}
+                        aria-label={openHandleTooltip}
+                    >
+                        <span className={styles.openHandleDots} aria-hidden="true">
+                            <span className={styles.openHandleDot}></span>
+                            <span className={styles.openHandleDot}></span>
+                            <span className={styles.openHandleDot}></span>
+                        </span>
+                    </button>
+                </Tooltip>
             </div>
         </div>
     );
