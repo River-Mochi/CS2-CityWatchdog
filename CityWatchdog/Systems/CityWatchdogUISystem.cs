@@ -966,6 +966,8 @@ namespace CityWatchdog.Systems
 
         public void UpdateMiniHudGlassStyleBinding(bool value) => miniHudGlassStyleBinding?.Update(value);
 
+        public void UpdateMiniHudFavoritesBinding() => miniHudFavoritesBinding?.Update(GetMiniHudFavoriteIndexes());
+
         public void UpdatePanelButtonsOnlyStartBinding(bool value) => panelButtonsOnlyStartBinding?.Update(value);
 
     }

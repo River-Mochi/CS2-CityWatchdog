@@ -105,6 +105,23 @@ namespace CityWatchdog
         internal const int MiniHudPlacementTopCenter = 0;
         internal const int MiniHudPlacementTopRight = 1;
         internal const int MiniHudPlacementDraggable = 2;
+        private const int MiniHudRecommendedFavoriteMaskLow =
+            (1 << 0) |  // Not enough electricity
+            (1 << 1) |  // Electricity bottleneck
+            (1 << 6) |  // Battery depleted
+            (1 << 7) |  // Electric cable not connected
+            (1 << 9) |  // Not enough water
+            (1 << 11) | // Backed up sewer
+            (1 << 12) | // Water pipe not connected
+            (1 << 20) | // Abandoned
+            (1 << 24);  // Traffic jam
+        private const int MiniHudRecommendedFavoriteMaskHigh =
+            (1 << 0) |  // No pedestrian access
+            (1 << 11) | // On fire
+            (1 << 13) | // Garbage piling up
+            (1 << 18) | // Traffic accident
+            (1 << 19) | // Crime scene
+            (1 << 30);  // No vehicles
 
         public Setting(IMod mod) : base(mod)
         {
@@ -256,6 +273,7 @@ namespace CityWatchdog
                 MiniHudPlacement = MiniHudPlacementDraggable;
                 MiniHudHideZero = true;
                 MiniHudGlassStyle = true;
+                SetMiniHudRecommendedFavorites();
 
                 CityWatchdogUISystem? uiSystem = GetUISystem();
                 uiSystem?.UpdateMiniHudEnabledBinding(MiniHudEnabled);
@@ -265,6 +283,7 @@ namespace CityWatchdog
                 uiSystem?.UpdateMiniHudPlacementBinding(MiniHudPlacement);
                 uiSystem?.UpdateMiniHudHideZeroBinding(MiniHudHideZero);
                 uiSystem?.UpdateMiniHudGlassStyleBinding(MiniHudGlassStyle);
+                uiSystem?.UpdateMiniHudFavoritesBinding();
 
                 try
                 {
@@ -699,10 +718,15 @@ namespace CityWatchdog
             MiniHudPlacement = MiniHudPlacementTopRight;
             MiniHudHideZero = true;
             MiniHudGlassStyle = true;
-            MiniHudFavoriteMaskLow = 0;
-            MiniHudFavoriteMaskHigh = 0;
+            SetMiniHudRecommendedFavorites();
 
             Notification.SetDefaults();
+        }
+
+        private void SetMiniHudRecommendedFavorites()
+        {
+            MiniHudFavoriteMaskLow = MiniHudRecommendedFavoriteMaskLow;
+            MiniHudFavoriteMaskHigh = MiniHudRecommendedFavoriteMaskHigh;
         }
 
         private void OnMoneyViewChanged(bool value)
