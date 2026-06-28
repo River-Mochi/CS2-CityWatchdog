@@ -71,8 +71,8 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<!--Screenshot, can be set multiple times-->
     <Screenshot Value="Properties/image10-Notifications1.jpg" />
     <Screenshot Value="Properties/image15-Money.jpg" />
-    <Screenshot Value="Properties/image20-MinimalistPanel.jpg" />
-    <Screenshot Value="Properties/image30-Hotkeys-ToolTipViewer.jpg" />
+    <Screenshot Value="Properties/image20-MinimalPanel.jpg" />
+    <Screenshot Value="Properties/image30-HotKeys-ToolTipViewer.jpg" />
     <Screenshot Value="Properties/image40-MiniHUD-Options.jpg" />
     <Screenshot Value="Properties/image50-Milestone-Money.jpg" />
 	<!--Tag, can be set multiple times-->
