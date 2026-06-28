@@ -365,15 +365,12 @@
     height: 30rem;
     display: block;
     pointer-events: none;
-    transition-property: filter, opacity, transform;
-    transition-duration: 120ms, 120ms, 120ms;
-    transition-timing-function: ease-out, ease-out, ease-out;
+    transition-property: opacity, transform;
+    transition-duration: 120ms, 120ms;
+    transition-timing-function: ease-out, ease-out;
 }
 
-// Hover brightness kept modest (1.2 not 1.6) so the custom pure-white road icons don't
-// blow out. The vanilla Info icon source is softer so the same boost still reads.
 .infoButton:hover .infoIcon {
-    filter: brightness(1.2);
     transform: scale(1.04);
 }
 
@@ -385,7 +382,6 @@
 }
 
 .infoButton:hover .mapToggleIcon {
-    filter: brightness(1.08);
     transform: none;
 }
 
@@ -443,13 +439,9 @@
     height: 22rem;
     display: block;
     pointer-events: none;
-    transition-property: filter, opacity, transform;
-    transition-duration: 120ms, 120ms, 120ms;
-    transition-timing-function: ease-out, ease-out, ease-out;
-}
-
-.toolbarButton:hover .toolbarIcon {
-    filter: brightness(1.6);
+    transition-property: opacity, transform;
+    transition-duration: 120ms, 120ms;
+    transition-timing-function: ease-out, ease-out;
 }
 
 .sortButton {
