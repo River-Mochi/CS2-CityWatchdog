@@ -4,24 +4,22 @@
 	<!--Name of the mod to display to players-->
 	<DisplayName Value="City Watchdog" />
 	<!--Short description of the mod-->
-	<ShortDescription Value="Show/Hide notification alert icons, add/remove Money, set Milestones, Better Money Tooltip bottom menu." />
+	<ShortDescription Value="Show/Hide notification icons, add/remove Money, set Milestones, Mini HUD, Better Tooltips." />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
 
 #### Display toggles
-- [i] button - Instant Hide/show **ALL** vanilla mouse-over tooltips.
-- 1-click - Show/hide 1-way road arrows.
-- 1-click - Hide/show road name or district
-- Road arrows also hide road names while arrows are shown, side-effect of vanilla road-label system.
+- [i] button - Instant hide/show **ALL** vanilla mouse-over tooltips.
+- 1-click - show/hide 1-way road arrows.
+- 1-click - hide/show road name or district.
 
 #### Features
 - Notifications: **Instant on/off** toggle for all city alert icons (ones over buildings).
 - Reduce visual stress while building (does not fix city problems for you).
 - Open full panel from the top-left button or hotkey.
 - Start city with any Milestone. Trains now! Yes you can! Set Initial money if you want less for a challenge or more.
-- Modeled on original City Controller mod.
-- Many new features and future plans.
+- Mini HUD view
 
 #### Money tools
 - Quick handy info: hover over bottom menu money/population tooltips for instant info chart (faster than opening Info view).
@@ -65,20 +63,18 @@ I hope you enjoy the new features, better performance, and safety checks!
 https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
 
 
-tags: Visual, UI UX tool tips,UI organize icons
+tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 
 </LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail-dog-city03.jpg" />
 	<!--Screenshot, can be set multiple times-->
-    <Screenshot Value="Properties/image10-Notifications.jpg" />
+    <Screenshot Value="Properties/image10-Notifications1.jpg" />
     <Screenshot Value="Properties/image15-Money.jpg" />
-    <Screenshot Value="Properties/image20-ToggleOff.jpg" />
-    <Screenshot Value="Properties/image25-Languages.jpg" />
-    <Screenshot Value="Properties/image30-Hotkeys-Money.jpg" />
-    <Screenshot Value="Properties/image40-Money.jpg" />
-    <Screenshot Value="Properties/image65-InstructionsCN.jpg" />
-    <Screenshot Value="Properties/image80-RainMoney.jpg" />
+    <Screenshot Value="Properties/image20-MinimalistPanel.jpg" />
+    <Screenshot Value="Properties/image30-Hotkeys-ToolTipViewer.jpg" />
+    <Screenshot Value="Properties/image40-MiniHUD-Options.jpg" />
+    <Screenshot Value="Properties/image50-Milestone-Money.jpg" />
 	<!--Tag, can be set multiple times-->
 	<Tag Value="Code Mod" />
 	<!--Link to the forum post where the mod can be discussed-->
@@ -91,13 +87,14 @@ tags: Visual, UI UX tool tips,UI organize icons
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* Added Mini HUD with icons for top problems in city, see options menu.
+* Added Mini HUD with icons/totals for top problems in city, see options menu.
+* Added Favorites settings for mini hud, draggable, vertical or horizontal, glass panel.
 * Added district names
 * Other recent major changes:
 * Added [i] button toggles on/off ALL game hover over tool-tips.
-* Added Hotkey for on/off of the same game all tooltips feature.
+* Added Hotkey for on/off of all game hover tooltips.
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
+    <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
 	<ExternalLink Type="github" Url="https://github.com/River-Mochi/CS2-CityWatchdog" />
-	<ExternalLink Type="discord" Url="https://discord.gg/HTav7ARPs2" />
 </Publish>

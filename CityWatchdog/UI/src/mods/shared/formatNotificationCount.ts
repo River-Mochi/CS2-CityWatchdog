@@ -20,11 +20,11 @@ export const formatMiniNotificationCount = (value: number) => {
 
 export const formatPanelNotificationCount = (value: number) => {
     if (value >= 1_000_000) {
-        return formatScaledCount(value, 1_000_000, "m", 2);
+        return formatScaledCount(value, 1_000_000, "m", 1);
     }
 
     if (value >= 1_000) {
-        return formatScaledCount(value, 1_000, "k", 2);
+        return formatScaledCount(value, 1_000, "k", 1);
     }
 
     return value.toString();
