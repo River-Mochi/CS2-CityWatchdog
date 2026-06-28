@@ -7,7 +7,7 @@ import { useLocalization } from "cs2/l10n";
 import { getModule } from "cs2/modding";
 import { useText } from "../shared/localization";
 import { Button, Panel, Tooltip } from "cs2/ui";
-import { useState, type ReactElement, type ReactNode } from "react";
+import { useCallback, useState, type ReactElement, type ReactNode } from "react";
 import {
     controlPanelEnabled$,
     disableAllTooltips$,
@@ -30,6 +30,7 @@ import { Divider } from "../Divider/Divider";
 import { InfoPanel } from "../InfoPanel/InfoPanel";
 import { VanillaComponentResolver } from "../../utils/vanilla";
 import { NotificationRow } from "./NotificationRow";
+import { PanelButton, PanelButtonText, type PanelButtonTone } from "./buttons/PanelButton";
 import styles from "./NotificationPanel.module.scss";
 import {
     allIconSources,
@@ -139,11 +140,11 @@ const NotificationPanelContent = () => {
     const anySelected = allValues.some(Boolean);
     const selectedTotalCount = allValues.filter(Boolean).length;
     const totalNotificationCount = allValues.length;
-    const toggleAllStateClass = allSelected
-        ? styles.toggleAllOn
+    const toggleAllTone: PanelButtonTone = allSelected
+        ? "on"
         : anySelected
-            ? styles.toggleAllPartial
-            : styles.toggleAllOff;
+            ? "partial"
+            : "off";
 
     const allSectionsExpanded = sections.every((section) => expandedSections[section.localeId] === true);
 
@@ -151,13 +152,13 @@ const NotificationPanelContent = () => {
     // The button shows the next action: descending icon while the list is currently ascending.
     const sortIconSrc = sortAscending ? sortArrowDownSrc : sortArrowUpSrc;
 
-    const localize: Localize = (localeId, fallback, raw = false) => {
+    const localize: Localize = useCallback((localeId, fallback, raw = false) => {
         if (raw) {
             return translate(localeId) ?? fallback ?? localeId;
         }
 
         return uiText(localeId, fallback);
-    };
+    }, [translate, uiText]);
 
     const sortTooltip = sortAscending
         ? localize("SortDescending", "↓Sort Descending")
@@ -312,95 +313,82 @@ const NotificationPanelContent = () => {
                         When off, the button turns red — clear reminder the player has globally muted hover tooltips.
                         alwaysVisible so user can always discover how to turn vanilla tooltips back on. */}
                     <CwdTooltip tooltip={infoTooltip} alwaysVisible>
-                        <div
-                            className={`${styles.infoButton} ${allTooltipsDisabled ? styles.infoButtonAllOff : ""}`}
-                            role="button"
-                            aria-pressed={allTooltipsDisabled}
+                        <PanelButton
+                            tone={allTooltipsDisabled ? "danger" : "default"}
+                            ariaPressed={allTooltipsDisabled}
+                            iconSrc={infoIconSrc}
                             onClick={() => { OnDisableAllTooltipsToggle(!allTooltipsDisabled); }}
-                        >
-                            <img src={infoIconSrc} className={styles.infoIcon} />
-                        </div>
+                        />
                     </CwdTooltip>
 
                     {/* Road Name on/off toggle. Default state shows the "names on" icon; click flips it to "names off".
                         Backslash (\) hotkey is wired on the C# side. */}
                     <CwdTooltip tooltip={roadNameTooltip}>
-                        <div
-                            className={`${styles.infoButton} ${roadNamesHidden ? styles.infoButtonTipsOff : ""}`}
-                            role="button"
-                            aria-pressed={roadNamesHidden}
+                        <PanelButton
+                            tone={roadNamesHidden ? "active" : "default"}
+                            ariaPressed={roadNamesHidden}
+                            iconSrc={roadNameOnSrc}
+                            iconKind="map"
                             onClick={() => { OnHideRoadNamesToggle(!roadNamesHidden); }}
-                        >
-                            <img
-                                src={roadNameOnSrc}
-                                className={`${styles.infoIcon} ${styles.mapToggleIcon}`}
-                            />
-                        </div>
+                        />
                     </CwdTooltip>
 
                     {/* Road Arrow toggle: forces vanilla 1-way arrows on while browsing.
                         Default OFF (vanilla behavior: arrows only visible with a road tool active). */}
                     <CwdTooltip tooltip={roadArrowTooltip}>
-                        <div
-                            className={`${styles.infoButton} ${roadArrowsShown ? styles.infoButtonTipsOff : ""}`}
-                            role="button"
-                            aria-pressed={roadArrowsShown}
+                        <PanelButton
+                            tone={roadArrowsShown ? "active" : "default"}
+                            ariaPressed={roadArrowsShown}
+                            iconSrc={roadArrowIconSrc}
+                            iconKind="map"
                             onClick={() => { OnShowRoadArrowsToggle(!roadArrowsShown); }}
-                        >
-                            <img src={roadArrowIconSrc} className={`${styles.infoIcon} ${styles.mapToggleIcon}`} />
-                        </div>
+                        />
                     </CwdTooltip>
 
                     {/* District Name toggle: hides labels without affecting boundaries or area overlays. */}
                     <CwdTooltip tooltip={districtNameTooltip}>
-                        <div
-                            className={`${styles.infoButton} ${districtNamesHidden ? styles.infoButtonTipsOff : ""}`}
-                            role="button"
-                            aria-pressed={districtNamesHidden}
+                        <PanelButton
+                            tone={districtNamesHidden ? "active" : "default"}
+                            ariaPressed={districtNamesHidden}
+                            iconSrc={districtIconSrc}
+                            iconKind="map"
                             onClick={() => { OnHideDistrictNamesToggle(!districtNamesHidden); }}
-                        >
-                            <img src={districtIconSrc} className={`${styles.infoIcon} ${styles.mapToggleIcon}`} />
-                        </div>
+                        />
                     </CwdTooltip>
                 </div>
 
                 <div className={styles.toolbarButtons}>
                     <CwdTooltip tooltip={sortTooltip}>
-                        <Button
-                            className={`${styles.toolbarButton} ${styles.sortButton}`}
+                        <PanelButton
+                            kind="sort"
+                            iconSrc={sortIconSrc}
+                            iconKind="sort"
                             onClick={() => { setSortAscending(!sortAscending); }}
-                            focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
-                        >
-                            <img
-                                src={sortIconSrc}
-                                className={`${styles.toolbarIcon} ${styles.sortIcon}`}
-                                alt=""
-                            />
-                        </Button>
+                        />
                     </CwdTooltip>
 
                     <CwdTooltip tooltip={allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows")}>
-                        <Button
-                            className={`${styles.toolbarButton} ${styles.countButton} ${toggleAllStateClass}`}
+                        <PanelButton
+                            kind="count"
+                            tone={toggleAllTone}
                             onClick={onToggleAllSections}
-                            focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
                         >
-                            <span className={styles.countButtonText}>
+                            <PanelButtonText kind="count">
                                 {selectedTotalCount}/{totalNotificationCount}
-                            </span>
-                        </Button>
+                            </PanelButtonText>
+                        </PanelButton>
                     </CwdTooltip>
 
                     <CwdTooltip tooltip={tooltipContent("ToggleAllTooltip", "Show/hide all icons.\nColor: green = all on; blue = mixed; red = all off.")}>
-                        <Button
-                            className={`${styles.toolbarButton} ${styles.toggleButton} ${toggleAllStateClass}`}
+                        <PanelButton
+                            kind="toggle"
+                            tone={toggleAllTone}
                             onClick={onToggleAll}
-                            focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
                         >
-                            <span className={styles.toggleButtonText}>
+                            <PanelButtonText kind="toggle">
                                 {localize("ToggleAll", "Toggle All")}
-                            </span>
-                        </Button>
+                            </PanelButtonText>
+                        </PanelButton>
                     </CwdTooltip>
 
                 </div>

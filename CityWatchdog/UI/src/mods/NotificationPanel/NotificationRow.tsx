@@ -3,22 +3,25 @@
 
 import { InfoCheckbox } from "../InfoCheckbox/InfoCheckbox";
 import { gameTitleKeys, type Localize, type NotificationItem } from "./notificationData";
+import { memo } from "react";
 
-export const NotificationRow = ({
-    item,
-    isChecked,
-    count,
-    favorite,
-    onFavoriteToggle,
-    localize,
-}: {
+interface NotificationRowProps {
     item: NotificationItem;
     isChecked: boolean;
     count: number;
     favorite: boolean;
     onFavoriteToggle: () => void;
     localize: Localize;
-}) => {
+}
+
+export const NotificationRow = memo(({
+    item,
+    isChecked,
+    count,
+    favorite,
+    onFavoriteToggle,
+    localize,
+}: NotificationRowProps) => {
     const gameTitleKey = item.gameTitleKey ?? gameTitleKeys[item.localeId];
     const gameLabel = gameTitleKey
         ? localize(gameTitleKey, undefined, true)
@@ -44,4 +47,9 @@ export const NotificationRow = ({
             style={{ marginBottom: "5rem" }}
         ></InfoCheckbox>
     );
-};
+}, (prev, next) =>
+    prev.item === next.item &&
+    prev.isChecked === next.isChecked &&
+    prev.count === next.count &&
+    prev.favorite === next.favorite &&
+    prev.localize === next.localize);

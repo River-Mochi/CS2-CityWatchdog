@@ -21,6 +21,7 @@
 
 import enUS from "../../../../lang/en-US.json";
 import { useLocalization } from "cs2/l10n";
+import { useCallback } from "react";
 
 // Make a type called TextKey that is the list of every key actually in en-US.json.
 // VS Code uses this to autocomplete valid keys when you type text("...") in a .tsx file,
@@ -36,11 +37,11 @@ const enFallback = enUS as Record<string, string>;
 
 export const useText = (): ((key: TextKey | (string & {}), fallback?: string) => string) => {
     const { translate } = useLocalization();
-    return (key: TextKey | (string & {}), fallback?: string): string => {
+    return useCallback((key: TextKey | (string & {}), fallback?: string): string => {
         const translated = translate(`${KEY_PREFIX}.${key}`);
         if (translated !== null && translated !== undefined) {
             return translated;
         }
         return enFallback[key] ?? fallback ?? key;
-    };
+    }, [translate]);
 };
