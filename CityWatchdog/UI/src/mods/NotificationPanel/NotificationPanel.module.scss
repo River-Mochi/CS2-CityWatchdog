@@ -304,9 +304,9 @@
     background-color: rgba(36, 54, 66, 0.58);
     box-sizing: border-box;
     cursor: pointer;
-    transition-property: background-color, border-color, box-shadow, opacity;
-    transition-duration: 120ms, 120ms, 120ms, 120ms;
-    transition-timing-function: ease-out, ease-out, ease-out, ease-out;
+    transition-property: none;
+    transition-duration: 0s;
+    transition-timing-function: ease;
 
     &:hover {
         background-color: rgba(232, 247, 255, 0.34);
@@ -365,13 +365,13 @@
     height: 30rem;
     display: block;
     pointer-events: none;
-    transition-property: opacity, transform;
-    transition-duration: 120ms, 120ms;
-    transition-timing-function: ease-out, ease-out;
+    transition-property: none;
+    transition-duration: 0s;
+    transition-timing-function: ease;
 }
 
 .infoButton:hover .infoIcon {
-    transform: scale(1.04);
+    transform: none;
 }
 
 // The diagonal road/district artwork reaches close to its SVG edges, so leave enough inset
@@ -419,9 +419,9 @@
     text-transform: none;
     white-space: nowrap;
     cursor: pointer;
-    transition-property: background-color, border-color, box-shadow, color, transform;
-    transition-duration: 120ms, 120ms, 120ms, 120ms, 120ms;
-    transition-timing-function: ease-out, ease-out, ease-out, ease-out, ease-out;
+    transition-property: none;
+    transition-duration: 0s;
+    transition-timing-function: ease;
 
     &:hover {
         background-color: rgba(232, 247, 255, 0.34);
@@ -439,9 +439,9 @@
     height: 22rem;
     display: block;
     pointer-events: none;
-    transition-property: opacity, transform;
-    transition-duration: 120ms, 120ms;
-    transition-timing-function: ease-out, ease-out;
+    transition-property: none;
+    transition-duration: 0s;
+    transition-timing-function: ease;
 }
 
 .sortButton {
@@ -462,7 +462,7 @@
 }
 
 .sortButton:hover .sortIcon {
-    transform: scale(1.08);
+    transform: none;
 }
 
 .toggleButton {
