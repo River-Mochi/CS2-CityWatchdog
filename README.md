@@ -1,40 +1,19 @@
-# City Watchdog
+# City Watchdog — declutter & stay informed
 
-City Watchdog helps reduce notification icon clutter in Cities Skylines II.
+City Watchdog lets you **hide or show vanilla alert icons, road labels, tool-tips and more** so you can build without visual noise, then spot problems instantly when you’re ready.
 
-Open the in-game City Watchdog panel to show or hide notification icons by category, or change individual alerts one by one.
-The mod also includes simple money tools and milestone setup.
+### Key things it does
+| In-city | What it helps with |
+|---------|-------------------|
+| **Toggle icons** | 1-click or hotkey to hide/show every building-alert icon, or pick by category |
+| **Mini HUD** | A slim bar with live counts of your worst problems; click an icon to cycle through affected buildings |
+| **Better tool-tips** | Quick income/expense and population trends right on the bottom bar, no Info View needed |
+| **Road + district labels** | One hotkey to hide/show road names, district names, or 1-way arrows while you build |
+| **Money helpers** | Add / subtract cash with keys, or auto-refill below a limit; set starting money + milestone before load |
+| **Save converter** | One-click converts an *Unlimited Money* save to normal budgeting (optional) |
 
-## Main features
+### Good to know
+* City Watchdog *displays* or *hides* alerts – it never edits your city data.  
+* Back-up before converting an Unlimited-Money save (it can’t be undone).
 
-- Show or hide notification icons by category.
-- Toggle all notification icons on/off with the panel or hotkey.
-- Add or subtract money with hotkeys.
-- Automatically add money when city funds fall below a chosen threshold.
-- Set starting money before loading or starting a city.
-- Pick a milestone before loading or starting a city.
-- Convert an Unlimited Money save to normal limited-money budgeting.
-
-## Notes
-
-City Watchdog hides or shows notification icons. It does not fix the city problem behind the alert.
-
-Make a backup before converting an Unlimited Money save. City Watchdog cannot undo that conversion.
-
-- Money View is a ground-up rewrite that implements similar trend info to the retired "Show Text Trends". It is different in how it uses vanilla
-CS2 component extensions, custom CWD settings options, localization, and a custom new money tooltip design.
-- City Watchdog is a heavily rewritten, modernized redux/expansion of City Controller. It is not just a copy-paste release. I hope you enjoy the new features and improvements!
-
-
-## Credits
-
-- River Mochi - mod author and maintainer
-- Mbyron26 - original City Controller mod
-- Dorkington, Flightech, SonNathan - testers
-- Thumbnail photograph by Maryia Shedava at Mont Saint-Michel in Normandy, France https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
-- Money View inspired by earlier mods by DanielNZ "Show Text"
-
-## Links
-
-- [Paradox Mods](https://mods.paradoxplaza.com/mods/144908/Windows)
-- [Paradox Forums](https://forum.paradoxplaza.com/forum/threads/city-watchdog.1924169/)
+→ Full language list (15) and support links are in the in-game **Options › City Watchdog › About** tab.
