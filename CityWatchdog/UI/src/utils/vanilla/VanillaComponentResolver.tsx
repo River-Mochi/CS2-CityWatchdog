@@ -32,12 +32,12 @@ import type {
 
 // Shared vanilla-module library for HoverColors and future CS2 mods.
 //
-// This combines two good patterns from community:
+// Combines two good patterns from community:
 // - yenyang's "how to in the UI" comments
 // - Luca's scalable grouped registries for components/themes/focus helpers
 // - River-Mochi notes and tweaks
 //
-// Practical notes for future:
+// Notes for future:
 // 1. Open the in-game UI dev tools at http://localhost:9444/
 // 2. In Sources -> index.js, pretty-print if needed
 // 3. Search for the TSX/SCSS path wanted

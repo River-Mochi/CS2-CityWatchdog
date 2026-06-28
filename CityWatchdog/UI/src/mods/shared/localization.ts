@@ -16,8 +16,8 @@
 //   game language — when the player switches language, components rerender and pick up the new
 //   translations automatically via useLocalization().
 //
-//   The static en-US.json import is the fallback for keys missing from the active locale's JSON
-//   (and also covers a brief window during boot before the locale source loads).
+//   Static en-US.json import is the fallback for keys missing from the active locale's JSON
+//   (also covers a brief window during boot before the locale source loads).
 
 import enUS from "../../../../lang/en-US.json";
 import { useLocalization } from "cs2/l10n";

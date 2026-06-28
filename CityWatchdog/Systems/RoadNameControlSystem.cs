@@ -37,14 +37,14 @@
 
 namespace CityWatchdog.Systems
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
     using CS2Shared.RiverMochi;
     using Game;
     using Game.Input;
     using Game.Rendering;
     using Game.Tools;
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
     using UnityEngine;
     using UnityEngine.Rendering;
 
@@ -166,7 +166,7 @@ namespace CityWatchdog.Systems
 
             // Only suppress vanilla Render when the user wants names hidden AND nothing else needs
             // the arrows path. When arrows are forced or a net tool is active, vanilla naturally
-            // skips the names loop, so we let it run — that gives us arrows + no names for free.
+            // skips the names loop, so we let it run — gives us arrows + no names for free.
             bool shouldBeUnsubscribed = hideRequested && !arrowsForced && !toolWantsArrows;
 
             if (shouldBeUnsubscribed && !currentlyUnsubscribed)

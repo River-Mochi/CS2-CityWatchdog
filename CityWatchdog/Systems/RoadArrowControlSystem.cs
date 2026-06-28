@@ -17,7 +17,7 @@
 //         // draws arrows
 //     }
 //
-// So setting requireNetArrows = true on the default tool makes the vanilla code render
+// Setting requireNetArrows = true on the default tool makes the vanilla code render
 // arrows the whole time the user is browsing. The moment the user grabs a real tool the
 // vanilla check looks at that tool's own flag, so we don't interfere with tool behavior.
 //

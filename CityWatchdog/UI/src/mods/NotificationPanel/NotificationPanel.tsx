@@ -77,7 +77,7 @@ const roundButtonHighlightStyle = getModule("game-ui/common/input/button/themes/
 //      visible when the Info button mutes vanilla game tooltips (disableAllTooltips$).
 //   2. Reads disableCwdTooltips$ itself — the CWD title-bar icon mutes panel tooltips by
 //      returning just the children. `alwaysVisible` is for the Info button and the CWD icon
-//      themselves so users can always discover how to turn each toggle back on.
+//      so users can always see how to turn each toggle back on.
 const CwdTooltip = ({
     tooltip,
     alwaysVisible,
@@ -264,7 +264,7 @@ const NotificationPanelContent = () => {
                 <div className={styles.header}>
                     <div className={styles.headerTitleArea}>
                         {/* Title-bar CWD icon — clickable. Toggles panel tooltips. alwaysVisible so the
-                            user can always discover how to turn panel tooltips back on. */}
+                            players knows how to turn panel tooltips back on and it's not also invisible. */}
                         <CwdTooltip tooltip={titleBarTooltip} alwaysVisible>
                             <div
                                 className={`${styles.headerModIconButton} ${cwdTooltipsDisabled ? styles.headerModIconOff : ""}`}
@@ -310,7 +310,7 @@ const NotificationPanelContent = () => {
             <div className={styles.toolbar}>
                 <div className={styles.toolbarLeft}>
                     {/* Info button: toggles vanilla game tooltips (cursor-follow + DescriptionTooltip popups).
-                        When off, the button turns red — clear reminder the player has globally muted hover tooltips.
+                        When off, the button turns red — strong reminder the player has globally muted hover tooltips.
                         alwaysVisible so user can always discover how to turn vanilla tooltips back on. */}
                     <CwdTooltip tooltip={infoTooltip} alwaysVisible>
                         <PanelButton

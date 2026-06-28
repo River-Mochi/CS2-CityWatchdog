@@ -9,21 +9,19 @@
 // File: src/Localization/InCityLocalization.cs
 // Purpose: Loads embedded in-city UI JSON translations into the game's LocalizationManager.
 //
-// Why embedded: the JSON bytes ride inside CityWatchdog.dll, so the loader does not need to
+// Why embedded: JSON bytes ride inside CityWatchdog.dll, so the loader doesn't need to
 // resolve any filesystem path. Works identically for local-dev installs at
 // <EnvPath.kUserDataPath>/Mods/CityWatchdog/ and PDX-subscribed installs at
-// <EnvPath.kCacheDataPath>/Mods/pdx_mods/<asset_id>_<version>/. Eliminates the install-path
-// failure modes that plagued v1.0.2 (Assembly.Location crash, hardcoded user-data path that
-// silently missed subscribers).
+// <EnvPath.kCacheDataPath>/Mods/pdx_mods/<asset_id>_<version>/.
 //
-// Source pattern: RoadRailSpeeds InCityLocalization.cs by River-Mochi (which itself adapted
-// Algernon's LineTool embedded-CSV approach to JSON). See CS2ModdingTips/CS2-InCity-Localization-Pattern.md
-// for the canonical River-Mochi mod localization recipe.
+// Source pattern: RoadRailSpeeds InCityLocalization.cs (which adapted Algernon's LineTool
+// embedded-CSV to use JSON). See CS2ModdingTips/CS2-InCity-Localization-Pattern.md
+// for River-Mochi localization recipe.
 //
-// DELIBERATELY does NOT filter by localizationManager.GetSupportedLocales(). The user supports
+// DELIBERATELY does NOT filter by localizationManager.GetSupportedLocales(). CWD supports
 // unofficial locales (vi-VN, tr-TR, th-TH, pt-PT) for players using third-party locale-adder
-// mods (I18N Everywhere, the Thai locale mod, the Turkish-style EXE patcher). Filtering would
-// silently break those players. Register every embedded JSON; unused ones cost nothing.
+// mods (I18N Everywhere, Thai mod). Filtering would silently break those players.
+// Register every embedded JSON; unused ones cost nothing.
 
 namespace CityWatchdog
 {
