@@ -191,6 +191,7 @@ const NotificationPanelContent = () => {
             "TitleBarTooltipPanelOn",
             "Expand rows; [✓] check to show, uncheck to hide alerts.\nClick this icon to hide City Watchdog panel tooltips.",
         );
+    const panelCollapseTooltip = localize("PanelCollapseToggle", "Expand/collapse whole panel.");
 
     // Same text regardless of toggle state — Info button is always discoverable.
     const infoTooltip = tooltipContent(
@@ -280,17 +281,19 @@ const NotificationPanelContent = () => {
                             CITY WATCHDOG
                         </div>
                     </div>
-                    <Button
-                        className={roundButtonHighlightStyle.button + " " + styles.headerCollapseButton}
-                        variant="icon"
-                        onClick={() => { setPanelCollapsed(!panelCollapsed); }}
-                        focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
-                    >
-                        <img
-                            src={panelCollapsed ? "Media/Glyphs/ThickStrokeArrowRight.svg" : "Media/Glyphs/ThickStrokeArrowDown.svg"}
-                            className={styles.headerCollapseIcon}
-                        />
-                    </Button>
+                    <CwdTooltip tooltip={panelCollapseTooltip}>
+                        <Button
+                            className={roundButtonHighlightStyle.button + " " + styles.headerCollapseButton}
+                            variant="icon"
+                            onClick={() => { setPanelCollapsed(!panelCollapsed); }}
+                            focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
+                        >
+                            <img
+                                src={panelCollapsed ? "Media/Glyphs/ThickStrokeArrowRight.svg" : "Media/Glyphs/ThickStrokeArrowDown.svg"}
+                                className={styles.headerCollapseIcon}
+                            />
+                        </Button>
+                    </CwdTooltip>
                     <Button
                         className={roundButtonHighlightStyle.button + " " + styles.headerCloseButton}
                         variant="icon"
@@ -306,8 +309,8 @@ const NotificationPanelContent = () => {
             <div className={styles.toolbar}>
                 <div className={styles.toolbarLeft}>
                     {/* Info button: toggles vanilla game tooltips (cursor-follow + DescriptionTooltip popups).
-                        When off, the button turns red — a clear reminder the player has globally muted hover tooltips.
-                        alwaysVisible so the user can always discover how to turn vanilla tooltips back on. */}
+                        When off, the button turns red — clear reminder the player has globally muted hover tooltips.
+                        alwaysVisible so user can always discover how to turn vanilla tooltips back on. */}
                     <CwdTooltip tooltip={infoTooltip} alwaysVisible>
                         <div
                             className={`${styles.infoButton} ${allTooltipsDisabled ? styles.infoButtonAllOff : ""}`}

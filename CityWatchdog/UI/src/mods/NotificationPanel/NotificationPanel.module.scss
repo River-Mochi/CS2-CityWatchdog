@@ -1,10 +1,9 @@
 // File: src/UI/src/mods/NotificationPanel/NotificationPanel.module.scss
 // Purpose: Styles CWD notification panel.
 //
-// CSS rules in this file are all in LONGHAND form — no shorthand properties (no `border`,
+// CSS rules in this file are all LONGHAND — no shorthand properties (no `border`,
 // `border-radius`, `padding`, `margin`, `flex`, `transition`, `background`, etc.). Coherent
-// Gameface chokes on var() inside shorthand declarations and the user's standing rule is
-// "use the long version of CSS always" for this codebase.
+// Gameface chokes on var() inside shorthand declarations.
 
 .panelAnchor {
     position: absolute;
@@ -22,7 +21,7 @@
     width: 360rem;
     max-height: 890rem;
     // Let custom wrapper colors show through instead of stacking extra vanilla fills.
-    // This follows the same idea used by ZoneTools: make the Panel shell transparent,
+    // follows the same idea as ZoneTools: make Panel shell transparent,
     // then style the real vanilla header/content wrappers below.
     --menuPanel1: transparent;
     --menuPanel2: transparent;
@@ -48,7 +47,7 @@
             background-color: rgba(76, 98, 112, 0.46) !important;
         }
     // Actual vanilla Panel content wrapper.
-    // This is the main large panel body behind toolbar + notification rows.
+    // Main large panel body behind toolbar + notification rows.
     > div[class*="content_"] {
         background-image: linear-gradient(to bottom, rgba(55, 82, 96, 0.72), rgba(31, 45, 60, 0.66)) !important;
         background-color: transparent !important;
@@ -140,8 +139,8 @@
     }
 }
 
-// Active state — panel tooltips OFF. Matches the Info-button "all off" red border / orange icon
-// look so the player clearly sees a mod-side toggle is muting something.
+// Active state — when panel tooltips OFF. Matches the Info-button "all off" red border / orange icon
+// so the player clearly sees a mod-side toggle is muting something important.
 .headerModIconOff {
     background-color: transparent;
     border-top-color: rgba(255, 96, 96, 0.95);
@@ -275,7 +274,8 @@
     display: block;
 }
 
-// Gives info icon the same framed button style.
+// Cohtml SVG img hover gotcha: do NOT change or animate `filter` on these toolbar icons.
+// That caused a black flash on fast hover. Use container hover colors plus transform-only icon grow.
 .infoButton {
     width: 32rem;
     height: 32rem;

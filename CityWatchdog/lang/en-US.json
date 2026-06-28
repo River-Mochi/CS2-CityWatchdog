@@ -4,6 +4,7 @@
   "TooltipToggle": "Show/hide ALL game hover tooltips.\nSet hotkey in Options menu.",
   "TitleBarTooltipPanelOn": "Click to show/hide Tooltips for City Watchdog.",
   "TitleBarTooltipPanelOff": "Click to show/hide Tooltips for City Watchdog.",
+  "PanelCollapseToggle": "Expand/collapse whole panel.",
   "RoadNameToggleOn": "Click to hide road names.\nHotkey: \\",
   "RoadNameToggleOff": "Click to show road names.\nHotkey: \\",
   "DistrictNameToggleOn": "Click to hide district names.",

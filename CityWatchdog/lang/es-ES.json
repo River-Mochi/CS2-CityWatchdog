@@ -4,6 +4,7 @@
   "TooltipToggle": "Mostrar/ocultar TODAS las descripciones emergentes del juego.\nConfigura la tecla en el menú Opciones.",
   "TitleBarTooltipPanelOn": "Haz clic para mostrar/ocultar las descripciones de City Watchdog.",
   "TitleBarTooltipPanelOff": "Haz clic para mostrar/ocultar las descripciones de City Watchdog.",
+  "PanelCollapseToggle": "Expandir/contraer todo el panel.",
   "RoadNameToggleOn": "Haz clic para ocultar nombres de carreteras.\nTecla: \\",
   "RoadNameToggleOff": "Haz clic para mostrar nombres de carreteras.\nTecla: \\",
   "DistrictNameToggleOn": "Haz clic para ocultar nombres de distritos.",

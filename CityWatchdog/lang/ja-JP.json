@@ -4,6 +4,7 @@
   "TooltipToggle": "ゲーム内のすべてのホバーツールチップを表示/非表示にします。\nオプションメニューでホットキーを設定します。",
   "TitleBarTooltipPanelOn": "City Watchdog のツールチップを表示/非表示にします。",
   "TitleBarTooltipPanelOff": "City Watchdog のツールチップを表示/非表示にします。",
+  "PanelCollapseToggle": "パネル全体を展開/折りたたみ。",
   "RoadNameToggleOn": "道路名を非表示にします。\nホットキー: \\",
   "RoadNameToggleOff": "道路名を表示します。\nホットキー: \\",
   "DistrictNameToggleOn": "地区名を非表示にします。",
