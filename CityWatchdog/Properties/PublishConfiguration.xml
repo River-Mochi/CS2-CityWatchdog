@@ -58,7 +58,7 @@ I hope you enjoy the new features, better performance, and safety checks!
 - Notices inspired by the orig. City Controller mod by Mbyron26.
 - Dorkington - tester/feature suggestion
 - Flightech, SonNathan, Brainium - testers
-- UnMaestro - testing, German translation editing
+- UnMaestro - testing, German editor
 - Thumbnail photograph by Maryia Shedava at Mont Saint-Michel in Normandy, France:
 https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
 
@@ -87,7 +87,7 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* Fix - css hover over white.
+* Fix - css hover over white works now.
 * Added Mini HUD with icons/totals for top problems in city, see options menu.
 * Added Favorites settings for mini hud, draggable, vertical or horizontal, glass panel.
 * Added district names
