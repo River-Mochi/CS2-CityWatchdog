@@ -68,8 +68,10 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<Thumbnail Value="Properties/Thumbnail-dog-city03.jpg" />
 	<!--Screenshot, can be set multiple times-->
     <Screenshot Value="Properties/image10-Notifications1.jpg" />
+    <Screenshot Value="Properties/image11-Before.jpg" />
     <Screenshot Value="Properties/image15-Money.jpg" />
     <Screenshot Value="Properties/image20-MinimalPanel.jpg" />
+    <Screenshot Value="Properties/image21-Mini-HUD.jpg" />
     <Screenshot Value="Properties/image30-HotKeys-ToolTipViewer.jpg" />
     <Screenshot Value="Properties/image40-MiniHUD-Options.jpg" />
     <Screenshot Value="Properties/image50-Milestone-Money.jpg" />
@@ -85,12 +87,10 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* Fix - css hover over white works now.
-* Added Mini HUD with icons/totals for top problems in city, see options menu.
-* Added Favorites settings for mini hud, draggable, vertical or horizontal, glass panel.
-* Added district names
-* Other recent major changes:
-* Added [i] button toggles on/off ALL game hover over tool-tips.
+* added Mini-hud appears even with main panel open.
+* UI polish and updated recommended preset
+* Milestone dropdown now defaults to the lowest entry.
+* updated all locale files
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
     <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
