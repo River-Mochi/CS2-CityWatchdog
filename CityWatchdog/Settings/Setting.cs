@@ -98,7 +98,7 @@ namespace CityWatchdog
         internal const int MoneyTooltipModeFullData = 0;
         internal const int MoneyTooltipModeCompact = 1;
         internal const int MoneyTooltipModeMini = 2;
-        internal const int MilestoneBoomTown = 5;       // default city in Milestone dropdown
+        internal const int MilestoneTinyVillage = 0;
         internal const int MiniHudModeTopActive = 0;
         internal const int MiniHudModeFavorites = 1;
         internal const int MiniHudOrientationHorizontal = 0;
@@ -702,7 +702,7 @@ namespace CityWatchdog
             InitialMoney = 0;
 
             CustomMilestone = false;
-            MilestoneLevel = MilestoneBoomTown;
+            MilestoneLevel = MilestoneTinyVillage;
 
             ConfirmUnlimitedMoneySaveConversion = false;
             ShowUsage = false;
