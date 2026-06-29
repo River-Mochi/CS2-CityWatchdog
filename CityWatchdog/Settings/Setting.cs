@@ -711,11 +711,12 @@ namespace CityWatchdog
             HideDistrictNames = false;
             ShowRoadArrows = false;
             PanelButtonsOnlyStart = false;
+
             MiniHudEnabled = false;
             MiniHudMode = MiniHudModeTopActive;
             MiniHudItemCount = 5;
-            MiniHudOrientation = MiniHudOrientationHorizontal;
-            MiniHudPlacement = MiniHudPlacementTopRight;
+            MiniHudOrientation = MiniHudOrientationVertical;
+            MiniHudPlacement = MiniHudPlacementDraggable;
             MiniHudHideZero = true;
             MiniHudGlassStyle = true;
             SetMiniHudRecommendedFavorites();

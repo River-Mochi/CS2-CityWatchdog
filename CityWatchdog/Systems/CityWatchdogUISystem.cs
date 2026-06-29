@@ -11,16 +11,16 @@
 
 namespace CityWatchdog.Systems
 {
+    using System;
     using CityWatchdog.Alerts;
-    using CS2Shared.RiverMochi;
     using Colossal.UI.Binding;
+    using CS2Shared.RiverMochi;
     using Game;
     using Game.Input;
     using Game.Rendering;
     using Game.SceneFlow;
     using Game.Tools;
     using Game.UI;
-    using System;
     using Unity.Entities;
 
     public partial class CityWatchdogUISystem : UISystemBaseExtension {
@@ -28,6 +28,9 @@ namespace CityWatchdog.Systems
         // avoids making an always-visible convenience feature expensive on low-end systems.
         private const int kPanelCountUpdateInterval = 128;
         private const int kMiniHudCountUpdateInterval = 1024;
+
+        private readonly int[] lastNotificationCounts = new int[AlertIconSystem.NotificationCountLength];
+        private bool hasLastNotificationCounts;
 
         private AlertIconSystem alertIconSystem = null!;
         private ProxyAction? toggleNotificationsAction;
@@ -636,8 +639,34 @@ namespace CityWatchdog.Systems
 
             if (shouldUpdateCounts)
             {
-                notificationCountsBinding.Update(alertIconSystem.GetNotificationCounts());
+                int[] nextCounts = alertIconSystem.GetNotificationCounts();
+
+                if (!hasLastNotificationCounts || !AreSameNotificationCounts(lastNotificationCounts, nextCounts))
+                {
+                    Array.Copy(nextCounts, lastNotificationCounts, nextCounts.Length);
+                    hasLastNotificationCounts = true;
+                    notificationCountsBinding.Update(nextCounts);
+                }
             }
+        }
+
+
+        private static bool AreSameNotificationCounts(int[] previous, int[] next)
+        {
+            if (previous.Length != next.Length)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < previous.Length; i++)
+            {
+                if (previous[i] != next[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private void InitializeKeybindActions()
