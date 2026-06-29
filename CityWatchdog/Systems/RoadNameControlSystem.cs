@@ -164,7 +164,7 @@ namespace CityWatchdog.Systems
             bool arrowsForced = setting?.ShowRoadArrows ?? false;
             bool toolWantsArrows = NetToolWantsArrows();
 
-            // Only suppress vanilla Render when the user wants names hidden AND nothing else needs
+            // Only suppress vanilla Render when road names are configured hidden AND nothing else needs
             // the arrows path. When arrows are forced or a net tool is active, vanilla naturally
             // skips the names loop, so we let it run — gives us arrows + no names for free.
             bool shouldBeUnsubscribed = hideRequested && !arrowsForced && !toolWantsArrows;

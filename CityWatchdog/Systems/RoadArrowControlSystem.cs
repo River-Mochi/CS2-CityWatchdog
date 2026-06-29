@@ -18,8 +18,9 @@
 //     }
 //
 // Setting requireNetArrows = true on the default tool makes the vanilla code render
-// arrows the whole time the user is browsing. The moment the user grabs a real tool the
-// vanilla check looks at that tool's own flag, so we don't interfere with tool behavior.
+// arrows while no placement, road, zone, bulldozer, or other gameplay tool is active.
+// When one of those tools is active, the vanilla check looks at that tool's own flag,
+// so CWD does not interfere with tool behavior.
 //
 // `requireNetArrows` is a public property on ToolBaseSystem but its setter is internal,
 // so we go through reflection. No Harmony, no IL patching, no custom render path of our own.

@@ -20,7 +20,7 @@
 //
 // DELIBERATELY does NOT filter by localizationManager.GetSupportedLocales(). CWD supports
 // unofficial locales (vi-VN, tr-TR, th-TH, pt-PT) for players using third-party locale-adder
-// mods (I18N Everywhere, Thai mod). Filtering would silently break those players.
+// (e.g., I18N Everywhere, Thai locale mod). Filtering would silently break those locales.
 // Register every embedded JSON; unused ones cost nothing.
 
 namespace CityWatchdog

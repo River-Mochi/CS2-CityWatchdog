@@ -51,13 +51,13 @@ import TitleBarIconPath from "../../../images/NotificationIcon_TitleBar.svg";
 import SortArrowUpPath from "../../../images/sort-arrow-up.svg";
 import SortArrowDownPath from "../../../images/sort-arrow-down.svg";
 
-// Road-name toggle icon — user-provided max variant, CSS handles the blue "active" state.
+// Road-name toggle icon. CSS handles the blue active state.
 import RoadNameOnPath from "../../../images/icon-RoadName-max.svg";
 
-// District-name toggle icon — user-provided max variant tuned for small toolbar rendering.
+// District-name toggle icon tuned for small toolbar rendering.
 import DistrictIconPath from "../../../images/Districts-max.svg";
 
-// Road-arrow toggle icon — user-provided max variant tuned for small toolbar rendering.
+// Road-arrow toggle icon tuned for small toolbar rendering.
 import RoadArrowIconPath from "../../../images/icon-RoadArrows-max.svg";
 
 const modIconSrc = TitleBarIconPath;
@@ -76,8 +76,7 @@ const roundButtonHighlightStyle = getModule("game-ui/common/input/button/themes/
 //   1. Passes a `cwdBypass` flag the global TooltipGate extension reads, so panel tooltips stay
 //      visible when the Info button mutes vanilla game tooltips (disableAllTooltips$).
 //   2. Reads disableCwdTooltips$ itself — the CWD title-bar icon mutes panel tooltips by
-//      returning just the children. `alwaysVisible` is for the Info button and the CWD icon
-//      so users can always see how to turn each toggle back on.
+//      returning just the children. `alwaysVisible` keeps recovery toggles discoverable.
 const CwdTooltip = ({
     tooltip,
     alwaysVisible,
@@ -122,7 +121,7 @@ const NotificationPanelContent = () => {
     const roadNamesHidden = useValue(hideRoadNames$);
     // hideDistrictNames$ — District toggle: vanilla district labels only.
     const districtNamesHidden = useValue(hideDistrictNames$);
-    // showRoadArrows$ — Road-Arrow toggle: force vanilla 1-way arrows on while browsing.
+    // showRoadArrows$ — Road-Arrow toggle: force vanilla 1-way arrows on when no road tool is active.
     const roadArrowsShown = useValue(showRoadArrows$);
     const [expandedSections, setExpandedSections] = useState(createExpandedSections);
     const allValues = useAllNotificationValues();
@@ -311,7 +310,7 @@ const NotificationPanelContent = () => {
                 <div className={styles.toolbarLeft}>
                     {/* Info button: toggles vanilla game tooltips (cursor-follow + DescriptionTooltip popups).
                         When off, the button turns red — strong reminder the player has globally muted hover tooltips.
-                        alwaysVisible so user can always discover how to turn vanilla tooltips back on. */}
+                        alwaysVisible keeps the vanilla-tooltip recovery control discoverable. */}
                     <CwdTooltip tooltip={infoTooltip} alwaysVisible>
                         <PanelButton
                             tone={allTooltipsDisabled ? "danger" : "default"}
@@ -333,7 +332,7 @@ const NotificationPanelContent = () => {
                         />
                     </CwdTooltip>
 
-                    {/* Road Arrow toggle: forces vanilla 1-way arrows on while browsing.
+                    {/* Road Arrow toggle: forces vanilla 1-way arrows on when no road tool is active.
                         Default OFF (vanilla behavior: arrows only visible with a road tool active). */}
                     <CwdTooltip tooltip={roadArrowTooltip}>
                         <PanelButton

@@ -232,7 +232,7 @@ namespace CityWatchdog
         [SettingsUIHidden]
         public bool HideDistrictNames { get; set; }
 
-        // Show 1-way road direction arrows while browsing the city (no road tool needed).
+        // Show 1-way road direction arrows while no road tool is active.
         // Hidden from Options UI; toggled from the in-game panel button.
         [SettingsUIHidden]
         public bool ShowRoadArrows { get; set; }
