@@ -71,45 +71,16 @@ export const MiniHud = () => {
     const animationFrameRef = useRef<number | null>(null);
     const resizeAnimationFrameRef = useRef<number | null>(null);
 
-    const clampHudToViewport = useCallback(() => {
-        const rect = hudRef.current?.getBoundingClientRect();
-        if (rect === undefined) {
-            return;
-        }
-
-        setPosition((current) => {
-            let nextX = current.x;
-            let nextY = current.y;
-
-            if (rect.left < 0) {
-                nextX -= rect.left;
-            }
-            if (rect.top < 0) {
-                nextY -= rect.top;
-            }
-            if (rect.right > window.innerWidth) {
-                nextX -= rect.right - window.innerWidth;
-            }
-            if (rect.bottom > window.innerHeight) {
-                nextY -= rect.bottom - window.innerHeight;
-            }
-
-            if (nextX === current.x && nextY === current.y) {
-                return current;
-            }
-
-            const next = { x: nextX, y: nextY };
-            sessionPosition = next;
-            pendingPositionRef.current = next;
-            return next;
-        });
+    const resetHudPosition = useCallback(() => {
+        const next = { x: 0, y: 0 };
+        sessionPosition = next;
+        pendingPositionRef.current = next;
+        setPosition(next);
     }, []);
 
     useEffect(() => {
-        sessionPosition = { x: 0, y: 0 };
-        pendingPositionRef.current = sessionPosition;
-        setPosition(sessionPosition);
-    }, [orientation, placement]);
+        resetHudPosition();
+    }, [orientation, placement, resetHudPosition]);
 
     useEffect(() => {
         if (!dragging) {
@@ -187,7 +158,7 @@ export const MiniHud = () => {
 
             resizeAnimationFrameRef.current = window.requestAnimationFrame(() => {
                 resizeAnimationFrameRef.current = null;
-                clampHudToViewport();
+                resetHudPosition();
             });
         };
 
@@ -199,28 +170,7 @@ export const MiniHud = () => {
                 resizeAnimationFrameRef.current = null;
             }
         };
-    }, [enabled, isDraggable, clampHudToViewport]);
-
-    useEffect(() => {
-        if (!enabled || !isDraggable || fullPanelVisible || isPhotoMode) {
-            return;
-        }
-
-        if (resizeAnimationFrameRef.current !== null) {
-            window.cancelAnimationFrame(resizeAnimationFrameRef.current);
-        }
-        resizeAnimationFrameRef.current = window.requestAnimationFrame(() => {
-            resizeAnimationFrameRef.current = null;
-            clampHudToViewport();
-        });
-
-        return () => {
-            if (resizeAnimationFrameRef.current !== null) {
-                window.cancelAnimationFrame(resizeAnimationFrameRef.current);
-                resizeAnimationFrameRef.current = null;
-            }
-        };
-    }, [enabled, isDraggable, fullPanelVisible, isPhotoMode, orientation, placement, clampHudToViewport]);
+    }, [enabled, isDraggable, resetHudPosition]);
 
     useEffect(() => () => {
         if (animationFrameRef.current !== null) {
