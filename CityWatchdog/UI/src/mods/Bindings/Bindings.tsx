@@ -24,7 +24,7 @@ export const miniHudPlacement$ = bindValue<number>(mod.id, "MiniHudPlacement", 2
 export const miniHudMode$ = bindValue<number>(mod.id, "MiniHudMode", 1);                // favorites
 export const miniHudItemCount$ = bindValue<number>(mod.id, "MiniHudItemCount", 5);
 export const miniHudHideZero$ = bindValue<boolean>(mod.id, "MiniHudHideZero", true);
-export const miniHudGlassStyle$ = bindValue<boolean>(mod.id, "MiniHudGlassStyle", true);
+export const miniHudGlassStyle$ = bindValue<boolean>(mod.id, "MiniHudGlassStyle", false);
 
 export const panelButtonsOnlyStart$ = bindValue<boolean>(mod.id, "PanelButtonsOnlyStart", false);
 

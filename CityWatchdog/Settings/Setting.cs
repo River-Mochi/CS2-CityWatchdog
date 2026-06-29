@@ -122,6 +122,7 @@ namespace CityWatchdog
             (1 << 26);  // Road required / no road access
         private const int MiniHudRecommendedFavoriteMaskHigh =
             (1 << 0) |  // No pedestrian access
+            (1 << 4) |  // Lack of labor
             (1 << 8) |  // Water damage
             (1 << 11) | // On fire
             (1 << 12) | // Burned down
@@ -280,7 +281,7 @@ namespace CityWatchdog
                 MiniHudOrientation = MiniHudOrientationVertical;
                 MiniHudPlacement = MiniHudPlacementDraggable;
                 MiniHudHideZero = true;
-                MiniHudGlassStyle = true;
+                MiniHudGlassStyle = false;
                 SetMiniHudRecommendedFavorites();
 
                 CityWatchdogUISystem? uiSystem = GetUISystem();
@@ -726,7 +727,7 @@ namespace CityWatchdog
             MiniHudOrientation = MiniHudOrientationVertical;
             MiniHudPlacement = MiniHudPlacementDraggable;
             MiniHudHideZero = true;
-            MiniHudGlassStyle = true;
+            MiniHudGlassStyle = false;
             SetMiniHudRecommendedFavorites();
 
             Notification.SetDefaults();

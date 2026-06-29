@@ -177,16 +177,16 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudEnabled)),
                     "Shows a small city HUD with the most important notification counts.\n" +
                     "Use it as a quick alert strip without opening the full City Watchdog panel.\n" +
-                    "Click on icons jumps to the building. Example, if you have 3, just keep clicking." +
-                    "Clicks on icon rotate the jump to each of the 3 buildings, then back to the first one."
+                    "Clicking an icon jumps to one matching problem spot.\n" +
+                    "Keep clicking the same icon to rotate through matching spots, then back to the first one."
                 },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Recommended preset" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
                     "Applies a recommended Mini HUD setup:\n" +
-                    "Top active alerts, 5 icons, vertical, draggable, hide zero alerts, add glass style.\n" +
+                    "Favorites, 5 icons, vertical, draggable, hide zero alerts, glass style off.\n" +
                     "Draggable vertical preset starts near the top-right side.\n" +
-                    "Starter Blue-Star Favorites: Abandoned, On fire, Garbage piling up, Not enough electricity, Electricity bottleneck, Battery depleted, Electric cable not connected, Traffic accident, Crime scene, Traffic jam, No pedestrian access, No vehicles, Not enough water, Backed up sewer, Water pipe not connected.\n" +
+                    "Starter Blue-Star Favorites: Not enough electricity, Electricity bottleneck, Battery depleted, Electric cable not connected, Power line not connected, Not enough water, Backed up sewer, Water pipe not connected, Sewer pipe not connected, Abandoned, High rent, Traffic jam, Road required, No pedestrian access, Lack of Labor, Water damage, On fire, Burned down, Garbage piling up, Traffic accident, Crime scene, Pathfinding failed, No vehicles.\n" +
                     "Change Blue Stars anytime in the City Watchdog city panel." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini HUD Mode" },
