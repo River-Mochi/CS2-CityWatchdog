@@ -701,7 +701,7 @@ namespace CityWatchdog
             InitialMoney = 0;
 
             CustomMilestone = false;
-            MilestoneLevel = 19;
+            MilestoneLevel = 15;
 
             ConfirmUnlimitedMoneySaveConversion = false;
             ShowUsage = false;
