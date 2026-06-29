@@ -267,7 +267,7 @@ namespace CityWatchdog
                 }
 
                 MiniHudEnabled = true;
-                MiniHudMode = MiniHudModeTopActive;
+                MiniHudMode = MiniHudModeFavorites;
                 MiniHudItemCount = 5;
                 MiniHudOrientation = MiniHudOrientationVertical;
                 MiniHudPlacement = MiniHudPlacementDraggable;
@@ -712,8 +712,8 @@ namespace CityWatchdog
             ShowRoadArrows = false;
             PanelButtonsOnlyStart = false;
 
-            MiniHudEnabled = false;
-            MiniHudMode = MiniHudModeTopActive;
+            MiniHudEnabled = true;
+            MiniHudMode = MiniHudModeFavorites;
             MiniHudItemCount = 5;
             MiniHudOrientation = MiniHudOrientationVertical;
             MiniHudPlacement = MiniHudPlacementDraggable;

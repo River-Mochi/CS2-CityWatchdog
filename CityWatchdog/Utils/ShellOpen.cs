@@ -7,24 +7,23 @@
 // ================= </copyright> ======================
 
 // File: Utils/ShellOpen.cs
-// Version: 0.3.0
-// Purpose: file/folder opening helpers for CS2 Options UI buttons.
+// Version: 0.3.1
+// Purpose: File/folder opening helpers for CS2 Options UI buttons.
 // Based on River-Mochi shared CS2 utilities.
 
-namespace CityWatchdog
+namespace CS2Shared.RiverMochi
 {
-    using CS2Shared.RiverMochi;
-    using Colossal.Logging;
     using System;
     using System.Diagnostics;
     using System.IO;
+    using Colossal.Logging;
     using UnityEngine;
 
-    internal static class ShellOpen
+    public static class ShellOpen
     {
         private static ILog? s_Log;
         private static string s_ModId = string.Empty;
-        private static string s_ModTag = "[CityWatchdog]";
+        private static string s_ModTag = "[CS2Shared]";
 
         public static void Configure(ILog log, string modId, string modTag)
         {
@@ -33,7 +32,9 @@ namespace CityWatchdog
             if (!string.IsNullOrWhiteSpace(modId))
             {
                 s_ModId = Path.GetFileNameWithoutExtension(modId.Trim());
-                LogUtils.Configure(s_ModId);
+
+                // Also configures LogUtils default logger, so short LogUtils.Info(...) calls work.
+                LogUtils.Configure(s_ModId, log);
             }
 
             if (!string.IsNullOrWhiteSpace(modTag))
@@ -66,12 +67,7 @@ namespace CityWatchdog
         {
             try
             {
-                if (!string.IsNullOrWhiteSpace(LogManager.kDefaultLogPath))
-                {
-                    return LogManager.kDefaultLogPath;
-                }
-
-                // Fallback for unusual environments where Colossal has not initialized the log path yet.
+                // CS2 puts Player.log beside the Logs folder.
                 string consoleLogPath = Application.consoleLogPath;
                 if (string.IsNullOrEmpty(consoleLogPath))
                 {
@@ -134,7 +130,12 @@ namespace CityWatchdog
                     return;
                 }
 
-                TryOpenWithUnityFileUrl(fullPath, isFolder);
+                if (TryOpenWithUnityFileUrl(fullPath, isFolder))
+                {
+                    return;
+                }
+
+                LogInfo(logLabel, "could not open path: " + fullPath);
             }
             catch (Exception ex)
             {
@@ -212,9 +213,8 @@ namespace CityWatchdog
 
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
-                LogWarn("ShellOpen", "OS shell failed: " + ex.GetType().Name + ": " + ex.Message, ex);
                 return false;
             }
         }
