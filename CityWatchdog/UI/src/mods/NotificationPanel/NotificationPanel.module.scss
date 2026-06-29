@@ -210,11 +210,11 @@
 }
 
 .headerCollapseIcon {
-    width: 16rem;
-    height: 16rem;
+    width: 19rem;
+    height: 19rem;
     display: block;
     pointer-events: none;
-    filter: brightness(0) invert(1) opacity(0.85);
+    filter: brightness(0) invert(1) opacity(0.95);
 }
 
 // Standalone X glyph inside the icon-button — vanilla button frame doesn't size the inner img.

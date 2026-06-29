@@ -15,11 +15,12 @@
 - 1-click - hide/show road name or district.
 
 #### Features
-- Notifications: **Instant on/off** toggle for all city alert icons (ones over buildings).
+- Mini HUD view: custom tracker list for any problem; repeat clicking the icon will cycle and jump to all map spots.
+- Notifications: **Instant on/off** toggle for all city alert icons (ones covering the city).
 - Reduce visual stress while building (does not fix city problems for you).
 - Open full panel from the top-left button or hotkey.
 - Start city with any Milestone. Trains now! Yes you can! Set Initial money if you want less for a challenge or more.
-- Mini HUD view
+
 
 #### Money tools
 - Quick handy info: hover over bottom menu money/population tooltips for instant info chart (faster than opening Info view).
@@ -36,10 +37,7 @@ Hotkeys
 
 ### Important Notes
 - Check **Show Instructions** for more details or hover over each Options menu row > see details in the 3rd panel on the right.
-- City Watchdog hides/shows alert icons and does not fix the underlying problem; get a break until you are ready to fix it.
 - Unlimited Money save: make a backup before converting the save. Mod cannot undo that conversion.
-- CWD's Tooltip View is a ground-up code write of similar money info to Show Text Trends (DanielVNZ retired).
-This viewer uses new methods to do customizable money layouts, settings options, and adds translations.
 - Install Achievement Fixer mod if you want Achievements while using mods, it was removed from this mod.
 
 I hope you enjoy the new features, better performance, and safety checks!

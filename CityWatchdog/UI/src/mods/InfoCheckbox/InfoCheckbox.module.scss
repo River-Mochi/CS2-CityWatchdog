@@ -109,7 +109,7 @@
 
 .favoriteStarOuter {
     fill: none;
-    stroke: currentColor;
+    stroke: rgba(254, 254, 254, 0.50);
     stroke-width: 1.65;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -125,6 +125,7 @@
 }
 
 .favoriteButtonActive .favoriteStarFill {
+    fill: #5fb8ff;
     opacity: 0.12;
 }
 
@@ -134,6 +135,15 @@
 
 .favoriteButtonActive .favoriteStarInner {
     opacity: 0.72;
+}
+
+.favoriteButton:not(.favoriteButtonActive):hover .favoriteStarOuter {
+    stroke: rgba(254, 254, 254, 0.66);
+}
+
+.favoriteButton:not(.favoriteButtonActive):hover .favoriteStarFill {
+    fill: #fefefe;
+    opacity: 0.16;
 }
 
 // Keep notification SVGs small and pinned to the left of each row.

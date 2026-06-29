@@ -470,8 +470,8 @@ namespace CityWatchdog.Systems
             {
                 matcher = index switch
                 {
-                    57 => ResourceConnectionPrefabMatcher(IsOilPipeNotConnectedNotification),
-                    58 => ResourceConnectionPrefabMatcher(IsFishingPierNotConnectedNotification),
+                    56 => ResourceConnectionPrefabMatcher(IsOilPipeNotConnectedNotification),
+                    57 => ResourceConnectionPrefabMatcher(IsFishingPierNotConnectedNotification),
                     _ => ResourceConnectionPrefabMatcher(IsOtherResourceConnectionNotification),
                 };
                 return true;

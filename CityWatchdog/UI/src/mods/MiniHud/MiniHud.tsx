@@ -6,7 +6,6 @@ import { game } from "cs2/bindings";
 import { Tooltip } from "cs2/ui";
 import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import {
-    controlPanelEnabled$,
     miniHudEnabled$,
     miniHudFavorites$,
     miniHudGlassStyle$,
@@ -51,7 +50,6 @@ let sessionPosition: Position = { x: 0, y: 0 };
 export const MiniHud = () => {
     const text = useText();
     const enabled = useValue(miniHudEnabled$);
-    const fullPanelVisible = useValue(controlPanelEnabled$);
     const counts = useValue(notificationCounts$);
     const favorites = useValue(miniHudFavorites$);
     const mode = useValue(miniHudMode$);
@@ -181,7 +179,7 @@ export const MiniHud = () => {
         }
     }, []);
 
-    if (!enabled || fullPanelVisible || isPhotoMode) {
+    if (!enabled || isPhotoMode) {
         return null;
     }
 
@@ -246,7 +244,7 @@ export const MiniHud = () => {
     const dragTransform = orientation === ORIENTATION_VERTICAL
         ? `translate(${position.x}px, ${position.y}px)`
         : `translate(-50%, 0) translate(${position.x}px, ${position.y}px)`;
-    const openHandleTooltip = text("MiniHudDragHandle", "Drag handle to move Mini HUD.");
+    const openHandleTooltip = text("MiniHudDragHandle", "Draggable dots.");
 
     return (
         <div

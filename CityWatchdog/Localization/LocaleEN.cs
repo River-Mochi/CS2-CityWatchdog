@@ -240,15 +240,15 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Milestone Selector" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
                     "Enable <before loading or starting a city> to unlock a chosen milestone immediately after the city loads.\n" +
-                    "Cannot be turned ON after a city is loaded, but it can be turned OFF if it was left enabled by mistake.\n" +
-                    "If you forgot and loaded a city, just restart the game, and pick milestone before entering a city.\n" +
-                    "City Watchdog cannot undo milestone changes already saved into a city; use an earlier save if needed."
+                    "- Cannot be turned ON after a city is loaded, but it can be turned OFF if it was left enabled by mistake.\n" +
+                    "- If you forgot and loaded a city, just restart the game, and pick milestone before entering a city.\n" +
+                    "- Mod cannot undo milestone changes already saved into a city; use an earlier save if needed."
                 },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Milestone" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)),
-                    "Pick the milestone level to unlock on the next city load.\n" +
-                    "This is only adjustable outside a loaded city, and only after [Milestone Selector] is enabled [ ✓ ].\n" +
+                    "Pick a milestone level to unlock on the next city load.\n" +
+                    "This is <only adjustable outside a loaded city>, and only after [Milestone Selector] is enabled [ ✓ ].\n" +
                     "If the city is already at or past the milestone selected, then nothing will happen.\n" +
                     "A change only happens if the milestone selected here is higher than what the city has."
                 },

@@ -111,17 +111,24 @@ namespace CityWatchdog
             (1 << 1) |  // Electricity bottleneck
             (1 << 6) |  // Battery depleted
             (1 << 7) |  // Electric cable not connected
+            (1 << 8) |  // Power line not connected
             (1 << 9) |  // Not enough water
             (1 << 11) | // Backed up sewer
             (1 << 12) | // Water pipe not connected
+            (1 << 13) | // Sewer pipe not connected
             (1 << 20) | // Abandoned
-            (1 << 24);  // Traffic jam
+            (1 << 23) | // High rent
+            (1 << 24) | // Traffic jam
+            (1 << 26);  // Road required / no road access
         private const int MiniHudRecommendedFavoriteMaskHigh =
             (1 << 0) |  // No pedestrian access
+            (1 << 8) |  // Water damage
             (1 << 11) | // On fire
+            (1 << 12) | // Burned down
             (1 << 13) | // Garbage piling up
             (1 << 18) | // Traffic accident
             (1 << 19) | // Crime scene
+            (1 << 28) | // Pathfinding failed
             (1 << 30);  // No vehicles
 
         public Setting(IMod mod) : base(mod)
