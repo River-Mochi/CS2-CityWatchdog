@@ -10,7 +10,6 @@
   "DistrictNameToggleOn": "Ocultar nombres de distritos.",
   "DistrictNameToggleOff": "Mostrar nombres de distritos.",
   "RoadArrowToggleOff": "Mostrar/ocultar flechas de sentido único en todas las carreteras.\nEfecto secundario: también oculta los nombres de carretera.",
-  "MiniHudOpenPanel": "Asa para arrastrar el Mini-HUD.",
   "MiniHudDragHandle": "Arrastra los puntos.",
   "MiniHudFavoriteTooltip": "Estrella azul = favorito guardado para el mini-HUD",
   "ToggleAll": "CAMBIAR TODO",

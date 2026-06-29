@@ -10,7 +10,6 @@
   "DistrictNameToggleOn": "隐藏区域名称。",
   "DistrictNameToggleOff": "显示区域名称。",
   "RoadArrowToggleOff": "显示/隐藏所有道路的单向箭头。\n副作用：也会隐藏道路名称。",
-  "MiniHudOpenPanel": "Mini-HUD 拖动把手。",
   "MiniHudDragHandle": "拖动圆点。",
   "MiniHudFavoriteTooltip": "蓝星 = 已保存到 mini-HUD 收藏",
   "ToggleAll": "全部切换",

@@ -6,6 +6,7 @@ import { game } from "cs2/bindings";
 import { Tooltip } from "cs2/ui";
 import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import {
+    disableCwdTooltips$,
     miniHudEnabled$,
     miniHudFavorites$,
     miniHudGlassStyle$,
@@ -58,6 +59,7 @@ export const MiniHud = () => {
     const placement = useValue(miniHudPlacement$);
     const hideZero = useValue(miniHudHideZero$);
     const glassStyle = useValue(miniHudGlassStyle$);
+    const cwdTooltipsDisabled = useValue(disableCwdTooltips$);
     const activeGamePanel = useValue(game.activeGamePanel$);
     const isPhotoMode = activeGamePanel?.__Type == game.GamePanelType.PhotoMode;
     const isDraggable = placement === PLACEMENT_DRAGGABLE;
@@ -245,6 +247,21 @@ export const MiniHud = () => {
         ? `translate(${position.x}px, ${position.y}px)`
         : `translate(-50%, 0) translate(${position.x}px, ${position.y}px)`;
     const openHandleTooltip = text("MiniHudDragHandle", "Draggable dots.");
+    const openHandleButton = (
+        <button
+            type="button"
+            className={styles.openHandle}
+            onMouseDown={onOpenHandleMouseDown}
+            onClick={onOpenHandleClick}
+            aria-label={openHandleTooltip}
+        >
+            <span className={styles.openHandleMark} aria-hidden="true">
+                <span className={styles.openHandleDot}></span>
+                <span className={styles.openHandleDot}></span>
+                <span className={styles.openHandleDot}></span>
+            </span>
+        </button>
+    );
 
     return (
         <div
@@ -277,21 +294,9 @@ export const MiniHud = () => {
                     ))}
                 </div>
                 {isDraggable && (
-                    <Tooltip {...{ cwdBypass: true }} tooltip={openHandleTooltip}>
-                        <button
-                            type="button"
-                            className={styles.openHandle}
-                            onMouseDown={onOpenHandleMouseDown}
-                            onClick={onOpenHandleClick}
-                            aria-label={openHandleTooltip}
-                        >
-                            <span className={styles.openHandleMark} aria-hidden="true">
-                                <span className={styles.openHandleDot}></span>
-                                <span className={styles.openHandleDot}></span>
-                                <span className={styles.openHandleDot}></span>
-                            </span>
-                        </button>
-                    </Tooltip>
+                    cwdTooltipsDisabled
+                        ? openHandleButton
+                        : <Tooltip {...{ cwdBypass: true }} tooltip={openHandleTooltip}>{openHandleButton}</Tooltip>
                 )}
             </div>
         </div>

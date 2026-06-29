@@ -27,7 +27,7 @@ namespace CityWatchdog
     using UnityEngine;
 
     [FileLocation("ModsSettings/CityWatchdog/CityWatchdog")]
-    [SettingsUITabOrder(Actions, MoneyTab, About)]
+    [SettingsUITabOrder(Actions, MiniHudTab, MoneyTab, About)]
     [SettingsUIGroupOrder(AboutUsage, Notifications, MoneyViewGroup, MiniHudGroup, Milestone, Money, SaveConversion, AboutInfo, AboutLinks, AboutDiagnostics, Serialize)]
     [SettingsUIShowGroupName(AboutUsage, Notifications, MoneyViewGroup, MiniHudGroup, Milestone, Money, SaveConversion, AboutDiagnostics, Serialize)]
     public partial class Setting : ModSetting
@@ -36,6 +36,7 @@ namespace CityWatchdog
 
         // Tab IDs.
         internal const string Actions = nameof(Actions);
+        internal const string MiniHudTab = "MiniHud";
         internal const string MoneyTab = "Money";
         internal const string Hotkeys = nameof(Hotkeys);
         internal const string About = nameof(About);
@@ -257,15 +258,15 @@ namespace CityWatchdog
         public bool DisableCwdTooltips { get; set; }
 
         // --------------------------------------------------------------------
-        // Actions tab - Mini HUD Notifications
+        // Mini-HUD tab - Mini HUD Notifications
         // --------------------------------------------------------------------
 
-        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUISection(MiniHudTab, MiniHudGroup)]
         [SettingsUISetter(typeof(Setting), nameof(OnMiniHudEnabledChanged))]
         public bool MiniHudEnabled { get; set; }
 
         [SettingsUIButton]
-        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUISection(MiniHudTab, MiniHudGroup)]
         public bool ApplyMiniHudRecommendedPreset
         {
             set
@@ -309,35 +310,35 @@ namespace CityWatchdog
         }
 
         [SettingsUIDropdown(typeof(Setting), nameof(GetMiniHudModeItems))]
-        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUISection(MiniHudTab, MiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(Setting), nameof(OnMiniHudModeChanged))]
         public int MiniHudMode { get; set; }
 
         [SettingsUIDropdown(typeof(Setting), nameof(GetMiniHudItemCountItems))]
-        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUISection(MiniHudTab, MiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(Setting), nameof(OnMiniHudItemCountChanged))]
         public int MiniHudItemCount { get; set; }
 
+        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudHideZeroChanged))]
+        public bool MiniHudHideZero { get; set; }
+
         [SettingsUIDropdown(typeof(Setting), nameof(GetMiniHudOrientationItems))]
-        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUISection(MiniHudTab, MiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(Setting), nameof(OnMiniHudOrientationChanged))]
         public int MiniHudOrientation { get; set; }
 
         [SettingsUIDropdown(typeof(Setting), nameof(GetMiniHudPlacementItems))]
-        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUISection(MiniHudTab, MiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(Setting), nameof(OnMiniHudPlacementChanged))]
         public int MiniHudPlacement { get; set; }
 
-        [SettingsUISection(Actions, MiniHudGroup)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
-        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudHideZeroChanged))]
-        public bool MiniHudHideZero { get; set; }
-
-        [SettingsUISection(Actions, MiniHudGroup)]
+        [SettingsUISection(MiniHudTab, MiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(Setting), nameof(OnMiniHudGlassStyleChanged))]
         public bool MiniHudGlassStyle { get; set; }

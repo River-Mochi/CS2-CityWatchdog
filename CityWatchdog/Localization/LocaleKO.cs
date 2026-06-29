@@ -38,6 +38,7 @@ namespace CityWatchdog
             {
                 { m_Settings.GetSettingsLocaleID(), title },
                 { m_Settings.GetOptionTabLocaleID(Setting.Actions), "작업" },
+                { m_Settings.GetOptionTabLocaleID(Setting.MiniHudTab), "Mini-HUD" },
                 { m_Settings.GetOptionTabLocaleID(Setting.MoneyTab), "돈-마일스톤" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "정보" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "사용법" },

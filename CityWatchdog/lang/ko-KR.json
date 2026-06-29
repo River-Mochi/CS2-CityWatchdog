@@ -10,7 +10,6 @@
   "DistrictNameToggleOn": "구역 이름 숨기기.",
   "DistrictNameToggleOff": "구역 이름 표시.",
   "RoadArrowToggleOff": "모든 도로의 일방통행 화살표를 표시/숨김합니다.\n부작용: 도로 이름도 숨겨집니다.",
-  "MiniHudOpenPanel": "Mini-HUD 드래그 핸들.",
   "MiniHudDragHandle": "점을 드래그하세요.",
   "MiniHudFavoriteTooltip": "파란 별 = mini-HUD에 저장된 즐겨찾기",
   "ToggleAll": "모두 전환",

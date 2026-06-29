@@ -10,7 +10,6 @@
   "DistrictNameToggleOn": "ซ่อนชื่อเขต",
   "DistrictNameToggleOff": "แสดงชื่อเขต",
   "RoadArrowToggleOff": "แสดง/ซ่อนลูกศรทางเดียวบนถนนทุกเส้น\nผลข้างเคียง: ซ่อนชื่อถนนด้วย",
-  "MiniHudOpenPanel": "ที่จับลาก Mini-HUD",
   "MiniHudDragHandle": "ลากจุด",
   "MiniHudFavoriteTooltip": "ดาวสีน้ำเงิน = รายการโปรดที่บันทึกไว้สำหรับ mini-HUD",
   "ToggleAll": "สลับทั้งหมด",

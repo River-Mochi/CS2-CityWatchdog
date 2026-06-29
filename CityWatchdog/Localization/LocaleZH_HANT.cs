@@ -38,6 +38,7 @@ namespace CityWatchdog
             {
                 { m_Settings.GetSettingsLocaleID(), title },
                 { m_Settings.GetOptionTabLocaleID(Setting.Actions), "操作" },
+                { m_Settings.GetOptionTabLocaleID(Setting.MiniHudTab), "Mini-HUD" },
                 { m_Settings.GetOptionTabLocaleID(Setting.MoneyTab), "金錢與里程碑" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "關於" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "使用說明" },

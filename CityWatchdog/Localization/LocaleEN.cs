@@ -41,6 +41,7 @@ namespace CityWatchdog
 
                 // --- Tabs ---
                 { m_Settings.GetOptionTabLocaleID(Setting.Actions), "Actions" },
+                { m_Settings.GetOptionTabLocaleID(Setting.MiniHudTab), "Mini-HUD" },
                 { m_Settings.GetOptionTabLocaleID(Setting.MoneyTab), "Money-Milestones" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "About" },
 
@@ -170,7 +171,7 @@ namespace CityWatchdog
                 },
 
                 // --------------------------------------------------------------------
-                // Actions tab - Mini HUD Notifications
+                // Mini-HUD tab - Mini HUD Notifications
                 // --------------------------------------------------------------------
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudEnabled)), "Mini HUD" },

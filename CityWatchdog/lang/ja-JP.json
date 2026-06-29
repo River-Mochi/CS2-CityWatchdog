@@ -10,7 +10,6 @@
   "DistrictNameToggleOn": "地区名を非表示にします。",
   "DistrictNameToggleOff": "地区名を表示します。",
   "RoadArrowToggleOff": "全道路の一方通行矢印を表示/非表示にします。\n副作用: 道路名も非表示になります。",
-  "MiniHudOpenPanel": "Mini-HUD のドラッグ用ハンドル。",
   "MiniHudDragHandle": "点をドラッグします。",
   "MiniHudFavoriteTooltip": "青い星 = mini-HUD 用に保存されたお気に入り",
   "ToggleAll": "すべて切替",

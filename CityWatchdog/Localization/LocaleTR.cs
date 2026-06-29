@@ -38,6 +38,7 @@ namespace CityWatchdog
             {
                 { m_Settings.GetSettingsLocaleID(), title },
                 { m_Settings.GetOptionTabLocaleID(Setting.Actions), "İşlemler" },
+                { m_Settings.GetOptionTabLocaleID(Setting.MiniHudTab), "Mini-HUD" },
                 { m_Settings.GetOptionTabLocaleID(Setting.MoneyTab), "Para-Kilometre Taşları" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "Hakkında" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "KULLANIM" },
