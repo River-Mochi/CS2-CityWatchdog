@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: src/Localization/LocaleFR.cs
-// Purpose: English (en-US) for City Watchdog Options UI menu.
+// Purpose: French (fr-FR) for City Watchdog Options UI menu.
 
 namespace CityWatchdog
 {
@@ -36,15 +36,10 @@ namespace CityWatchdog
 
             Dictionary<string, string> entries = new Dictionary<string, string>
             {
-                // --- Mod title ---
                 { m_Settings.GetSettingsLocaleID(), title },
-
-                // --- Tabs ---
                 { m_Settings.GetOptionTabLocaleID(Setting.Actions), "Actions" },
                 { m_Settings.GetOptionTabLocaleID(Setting.MoneyTab), "Argent et jalons" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "À propos" },
-
-                // --- Groups, ordered by Options menu location ---
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "UTILISATION" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "Notifications" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "Infos en ville" },
@@ -55,289 +50,98 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutDiagnostics), "DIAGNOSTICS" },
-
-                // --------------------------------------------------------------------
-                // Actions tab - Usage
-                // --------------------------------------------------------------------
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Afficher les instructions" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Affiche ou masque les instructions ci-dessous." },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
-                    "<Affichage>\n" +
-                    "1. Bouton [i] : masquer/afficher TOUS les infobulles du jeu — bâtiments, cims, outils et icônes du menu inférieur.\n" +
-                    "2. Noms de routes : masquer/afficher les noms des routes. Raccourci : \\.\n" +
-                    "3. Noms de districts : masquer/afficher les noms de districts sans changer les limites.\n" +
-                    "4. Flèches de route : forcer les flèches de sens unique (masque aussi les noms de routes).\n" +
-                    "5. Icône de barre CWD : afficher/masquer les infobulles du panneau City Watchdog.\n" +
-                    "\n" +
-                    "<Alertes de notification>\n" +
-                    "1. Cliquez sur le bouton City Watchdog en haut à gauche, ou appuyez sur Shift+N, pour ouvrir le panneau.\n" +
-                    "2. Bouton de tri croissant/décroissant.\n" +
-                    "3. Toggle All coupe/réactive tout rapidement, ou ouvrez une section pour changer des icônes précises.\n" +
-                    "4. Masque seulement les icônes ; ne corrige pas le problème de la ville.\n" +
-                    "\n" +
-                    "<Aides d'argent>\n" +
-                    "1. Ajouter ou retirer de l'argent : utilisez <Montant du raccourci argent> avec les touches [ et ].\n" +
-                    "2. L'ajout automatique ajoute de l'argent quand la ville passe sous la limite choisie.\n" +
-                    "3. Convertir une sauvegarde Argent illimité ne sert qu'aux villes créées en Argent illimité et est <irréversible>.\n" +
-                    "\n" +
-                    "<Infobulles du menu inférieur>\n" +
-                    "Money View ajoute les tendances d'argent et de population à la barre, avec plus de détails au survol.\n" +
-                    "\n" +
-                    "<Jalon personnalisé>\n" +
-                    "Réglez l'argent initial et les jalons dans Argent et jalons > RÉGLAGES DE DÉPART DE NOUVELLE VILLE avant de charger ou commencer une ville."
-                },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Afficher ou masquer les instructions ci-dessous." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)), "<Affichage>\n1. Bouton [i] : masque/affiche TOUS les tooltips du jeu.\n2. Bouton Noms de routes : masque/affiche les noms de routes. Raccourci : \\.\n3. Bouton Noms de districts : masque/affiche les noms sans changer les limites.\n4. Bouton Flèches de routes : force les flèches de sens unique et masque aussi les noms de routes.\n5. Icône de titre CWD : masque/affiche les tooltips du panneau.\n\n<Alertes>\n1. Cliquez sur le bouton City Watchdog en haut à gauche, ou appuyez sur Shift+N.\n2. Le bouton de tri change l’ordre croissant/décroissant.\n3. Toggle All coupe/réactive tout, ou ouvrez une section pour régler une icône précise.\n4. Le mod masque les icônes seulement; il ne corrige pas le problème de ville.\n\n<Aides argent>\n1. Ajouter ou retirer de l’argent : utilisez les touches [ et ].\n2. L’ajout automatique ajoute de l’argent sous la limite choisie.\n3. Convertir une sauvegarde Argent illimité est irréversible.\n\n<Tooltips du menu du bas>\nMoney View ajoute des tendances argent/population et des détails au survol.\n\n<Jalon personnalisé>\nRéglez Argent initial et les jalons avant de charger ou démarrer une ville." },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
-
-                // --------------------------------------------------------------------
-                // Actions tab - Notifications
-                // --------------------------------------------------------------------
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Afficher/masquer les icônes de notification" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
-                    "<Raccourci> pour la même action que le bouton <[TOGGLE ALL]> en ville.\n" +
-                    "Affiche ou masque instantanément toutes les icônes de notification listées." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Afficher/Masquer instantanément toutes les icônes de notification" },
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "<Raccourci> pour la même action que the en jeu <[TOGGLE ALL]> bouton icône.\nAffiche ou masque instantanément toutes les icônes de notification listées." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Afficher/Masquer toutes les icônes de notification" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "Ouvrir/fermer le panneau de notifications" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)),
-                    "<Raccourci> pour ouvrir ou fermer le\n" +
-                    "<panneau de notifications> en ville.\n" +
-                    "Même effet que le bouton en haut à gauche."
-                },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "<Raccourci> for ouvrir ou fermer the\n<panneau de notifications> en ville.\nMême effet que cliquer sur l’icône en haut à gauche to open the panneau complet." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Ouvrir/Fermer le panneau de notifications" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PanelButtonsOnlyStart)), "Démarrer en mode boutons" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PanelButtonsOnlyStart)),
-                    "Si activé [ ✓ ], le bouton en haut à gauche ouvre City Watchdog en petite vue avec boutons seulement.\n" +
-                    "Utilisez la flèche de la barre de titre ou le bouton de nombre de lignes pour ouvrir le panneau complet." },
-
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PanelButtonsOnlyStart)), "Démarrage en mode boutons" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PanelButtonsOnlyStart)), "Si activé [ ✓ ], opening City Watchdog from the bouton en haut à gauche starts in the smaller vue boutons seulement.\nUse the flèche de la barre de titre or the bouton du nombre de lignes to expand the panneau complet." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)), "Masquer/Afficher les noms de routes" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)),
-                    "<Raccourci> pour masquer ou afficher instantanément les noms de routes du jeu.\n" +
-                    "Même effet que l’icône Nom de route dans la barre d’outils City Watchdog." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)), "<Raccourci> to instantly hide or show the noms de routes du jeu en ville.\nSame as clicking the icône Nom de route in the City Watchdog barre d’outils du panneau." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "Masquer/Afficher les noms de routes" },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "Désactiver toutes les infobulles au survol" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
-                    "<Raccourci> pour masquer ou afficher TOUTES les infobulles du jeu — bâtiments, citoyens, outils et icônes du menu du bas.\n" +
-                    "<Les fenêtres argent/population de City Watchdog restent actives>; elles sont contrôlées par Money View.\n" +
-                    "Même effet que l’icône [i] du panneau City Watchdog." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "<Raccourci> to instantly hide or show TOUTES les infobulles du jeu — bâtiments, citoyens, outils et icônes du menu inférieur.\n<City Watchdog's own fenêtres argent/population restent actives>; those are contrôlées par the l’option Argent View ci-dessus.\nSame as clicking the [i] icon on the City Watchdog panel inside the city." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Masquer/Afficher toutes les infobulles du jeu" },
-
-                // --------------------------------------------------------------------
-                // Actions tab - In-City Info Viewer
-                // --------------------------------------------------------------------
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Afficher les ToolTips argent + population" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
-                    "<Activation recommandée>\n" +
-                    "Menu du bas : affiche les tendances avec les flèches d’argent et de population du jeu.\n" +
-                    "Fonction légère de survol de la barre d’outils <affichage seulement>;\n" +
-                    "gagne du temps et peut être plus performant que d’ouvrir le panneau Info du jeu."
-                },
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)), "<Activation recommandée>\nMenu inférieur du jeu: Shows valeurs de tendance with the game's bottom toolbar <argent et population arrows>.\nThis is a léger hover over toolbar feature <affichage seulement>;\nSaves time and possible better performance than opening game's Info view panel." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyViewMode)), "Fréquence Money View" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)),
-                    "Choisissez si le texte de tendance affiche les valeurs horaires ou mensuelles pour l’argent et la population.\n" +
-                    "Mensuel utilise revenus moins dépenses du budget pour l’argent, et une projection sur 24 h pour la population." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)), "Choisir whether the bottom-toolbar trend text shows horaires ou mensuelles values for argent et population.\nMonthly uses budget income minus expenses for money, and a 24-hour projection for population." },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeHourly"), "Horaire (/h)" },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeMonthly"), "Mensuel (/mo)" },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "Style d’infobulle d’argent" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
-                    "Choisissez le niveau de détail dans l’infobulle d’argent.\n" +
-                    "Compact = valeur par défaut à la première installation.\n" +
-                    "<Mini> affiche seulement 2 valeurs Net pour /mo et /h.\n" +
-                    "<Compact> raccourcit les grands nombres (15.21M au lieu de 15,212,318).\n" +
-                    "<Full data> affiche les valeurs longues et les champs Total." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)), "Choisir how much detail appears in the money hover tooltip.\nCompact = default on first install.\n<Mini> shows only 2 Net values for /mo and /h.\n<Compact> shortens large values (15.21M instead of 15,212,318).\n<Données complètes> shows long values and Total fields." },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Compact" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "Données complètes" },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Taille police argent" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
-                    "Ajuste la <taille de police> des nombres dans l’infobulle Money View.\n" +
-                    "Jeu par défaut = 100%\n" +
-                    "<Mod par défaut = 120%>\n" +
-                    "Survolez Argent en bas de l’écran.\n" +
-                    "Demandé par des joueurs qui ont du mal à lire les petites infobulles."
-                },
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Adjusts <taille de police> of Argent View tooltip numbers.\nPar défaut du jeu = 100%\n<Par défaut du mod = 120%>\nSurvoler Argent at bottom of the screen.\nRequested by players who have hard time seeing smaller tooltips in the game." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Taille police population" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)),
-                    "Ajuste la <taille de police> des nombres de population.\n" +
-                    "Jeu par défaut = 100%\n" +
-                    "<Mod par défaut = 120%>\n" +
-                    "Survolez Population en bas de l’écran."
-                },
-
-                // --------------------------------------------------------------------
-                // Actions tab - Mini HUD Notifications
-                // --------------------------------------------------------------------
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudEnabled)), "Notifications Mini HUD" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudEnabled)),
-                    "Affiche un petit HUD en ville avec les compteurs de notification les plus importants.\n" +
-                    "Utilisez-le comme barre d'alerte rapide sans ouvrir le panneau City Watchdog complet." },
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Adjusts <taille de police> of population tooltip numbers.\nPar défaut du jeu = 100%\n<Par défaut du mod = 120%>\nSurvoler Population at bottom of the screen." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudEnabled)), "Mini HUD" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudEnabled)), "Affiche un petit HUD en ville with the most compteurs de notification importants.\nUse it as a barre d’alerte rapide without opening the full City Watchdog panel.\nCliquer une icône va à one emplacement de problème correspondant.\nContinuer à cliquer the same icon to parcourir les emplacements correspondants, then back to the first one." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Préréglage conseillé" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "Applique un réglage conseillé du Mini HUD :\n" +
-                    "alertes les plus actives, 5 icônes, vertical, déplaçable, zéro masqué et style verre.\n" +
-                    "Le préréglage vertical déplaçable commence près du coin supérieur droit." },
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Applique une configuration Mini HUD conseillée:\nFavoris, 5 icônes, vertical, déplaçable, masquer les alertes à zéro, style verre désactivé.\nDéplaçable vertical preset starts near the top-right side.\nStarter Favoris étoile bleue: Not enough electricity, Electricity bottleneck, Battery depleted, Electric cable not connected, Power line not connected, Not enough water, Backed up sewer, Water pipe not connected, Sewer pipe not connected, Abandoned, High rent, Traffic jam, Road required, No pedestrian access, Lack of Labor, Water damage, On fire, Burned down, Garbage piling up, Traffic accident, Crime scene, Pathfinding failed, No vehicles.\nChangez les étoiles bleues à tout moment in the City Watchdog city panel." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mode Mini HUD" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
-                    "Choisissez les lignes de notification utilisées par le Mini HUD.\n" +
-                    "Alertes les plus actives affiche les plus grands compteurs actuels.\n" +
-                    "Favoris affiche seulement les lignes marquées comme favorites dans le panneau City Watchdog." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)), "Choisir quelles lignes de notification the Mini HUD uses.\n**Top active** alerts shows the plus grands compteurs actuels.\n**Favoris** includes all rows marquées avec **Étoile bleue** in the panneau principal City Watchdog.\nYou can pick as many favorites as you want,\nbut Mini HUD still shows only the top 5 or top 10 current counts from that **favorites blue-star** list." },
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Alertes les plus actives" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Favoris" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Nombre d'icônes Mini HUD" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudItemCount)),
-                    "Choisissez combien d'icônes de notification le Mini HUD peut afficher à la fois." },
-
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Nombre d’icônes Mini HUD" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudItemCount)), "Choisir how many notification icons the Mini HUD can show at once." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudOrientation)), "Orientation Mini HUD" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudOrientation)),
-                    "Choisissez si les icônes du Mini HUD sont en ligne ou en colonne." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudOrientation)), "Choisir whether Mini HUD icons are arranged in a row or a column." },
                 { m_Settings.GetOptionLocaleID("MiniHudOrientationHorizontal"), "Horizontal" },
                 { m_Settings.GetOptionLocaleID("MiniHudOrientationVertical"), "Vertical" },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPlacement)), "Position Mini HUD" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPlacement)),
-                    "Choisissez où le Mini HUD apparaît.\n" +
-                    "Déplaçable permet de le déplacer dans l'interface de la ville." },
-                { m_Settings.GetOptionLocaleID("MiniHudPlacementTopCenter"), "Haut centre" },
-                { m_Settings.GetOptionLocaleID("MiniHudPlacementTopRight"), "Haut droite" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPlacement)), "Choisir where the Mini HUD appears.\nDéplaçable lets you move it en ville UI." },
+                { m_Settings.GetOptionLocaleID("MiniHudPlacementTopCenter"), "En haut au centre" },
+                { m_Settings.GetOptionLocaleID("MiniHudPlacementTopRight"), "En haut à droite" },
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementDraggable"), "Déplaçable" },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudHideZero)), "Masquer les alertes à zéro" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudHideZero)),
-                    "Quand activé [ ✓ ], le Mini HUD masque les lignes de notification dont le compteur est 0." },
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudHideZero)), "Si activé [ ✓ ], the Mini HUD hides notification rows with a count of 0." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudGlassStyle)), "Style verre" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudGlassStyle)),
-                    "Ajoute un fond doux de type verre derrière le Mini HUD pour une meilleure lisibilité." },
-
-                // --------------------------------------------------------------------
-                // Money-Milestones tab - New City Start Settings
-                // --------------------------------------------------------------------
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudGlassStyle)), "Adds a soft glass-style background behind the Mini HUD for readability." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Argent initial" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
-                    "Définit l’argent de départ pour une nouvelle ville avec <argent limité>, ou la première ville chargée,\n" +
-                    "puis revient à Game Default après application.\n" +
-                    "Grisé si une ville est déjà chargée.\n" +
-                    "À régler avant de créer/charger une ville. Après application, utilisez <Montant raccourci argent> ou <Ajout automatique d’argent>." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)), "Sets the starting balance for a nouvelle <argent limité> city or the première ville chargée,\nthen revient à la valeur du jeu after it applies.\nThis is grisé if a ville déjà chargée.\nSet this avant de démarrer/charger a city. It applies once, then use <Montant du raccourci argent> or <Ajout automatique d’argent> afterward." },
                 { m_Settings.GetOptionLocaleID("GameDefault"), "Valeur du jeu" },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Sélecteur de milestone" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
-                    "Activez <avant de charger ou créer une ville> pour débloquer immédiatement le milestone choisi après chargement.\n" +
-                    "Impossible à activer quand une ville est déjà chargée, mais vous pouvez le désactiver s’il est resté actif par erreur.\n" +
-                    "Si vous avez oublié, redémarrez le jeu et choisissez le milestone avant d’entrer en ville.\n" +
-                    "City Watchdog ne peut pas annuler les milestones déjà sauvegardés dans une ville; utilisez une sauvegarde plus ancienne si besoin." },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Milestone" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)),
-                    "Choisissez le milestone à débloquer au prochain chargement de ville.\n" +
-                    "Réglable seulement hors ville chargée, et seulement après activation de [Sélecteur de milestone] [ ✓ ]." },
-
-                // --------------------------------------------------------------------
-                // Money-Milestones tab - Money
-                // --------------------------------------------------------------------
-
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Sélecteur de jalon" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)), "Activer <avant de charger ou démarrer une ville> to débloquer un jalon choisi juste après le chargement.\n- Ne peut pas être activé after a city is loaded, but it peut être désactivé if it was left enabled by mistake.\n- If you oublié and loaded a city, just redémarrer le jeu, and pick milestone before entering a city.\n- Mod ne peut pas annuler milestone changes already saved into a city; use an sauvegarde précédente if needed." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Jalon" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)), "Choisir a milestone level to unlock on the prochain chargement de ville.\nThis is <only adjustable outside a loaded city>, and only after [Sélecteur de jalon] is enabled [ ✓ ].\nIf the city is already at or past the milestone selected, then nothing will happen.\nA change only happens if the milestone selected here is higher than what the city has." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Montant du raccourci argent" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
-                    "Utilisez ce montant avec les raccourcis Ajouter et Retirer de l’argent.\n" +
-                    "<Mod par défaut = 40,000>\n" +
-                    "Ne fait rien sans utiliser le raccourci en ville.\n" +
-                    "Pour l’argent automatique, activez Ajout automatique d’argent."
-                },
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)), "Utilisez ce montant with the Ajouter de l’argent and Retirer de l’argent raccourcis.\n<Par défaut du mod = 40,000>\nThis ne fait rien sauf si you use the hotkey to add/subtract money (en ville).\nFor automated money, enable the Ajout automatique d’argent option." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Ajouter de l’argent" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)),
-                    "Raccourci pour <Ajouter de l’argent> en ville." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Raccourci to <Ajouter de l’argent> inside the city." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Ajouter de l’argent" },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Retirer de l’argent" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)),
-                    "Raccourci pour <Retirer de l’argent> en ville." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Raccourci to <Retirer de l’argent> inside the city." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "Retirer de l’argent" },
-
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Ajout automatique d’argent" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
-                    "Quand activé [ ✓ ], City Watchdog vérifie le solde pendant qu’une ville est chargée.\n" +
-                    "- Si le solde est <sous le seuil>,\n" +
-                    "  il ajoute le montant automatique choisi.\n" +
-                    "- Il est recommandé d’utiliser l’argent manuel avec les raccourcis (<[> ou <]>) au besoin, mais cette option est disponible."
-                },
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)), "Si activé [ ✓ ], City Watchdog checks the solde de la ville while a city is loaded.\n- If the balance is <sous le seuil>, \n  it ajoute le montant automatique choisi.\n- Recommend to use Manual money with hotkey (<[> or <]>) as needed  instead of this automated option, but this is here if you want it." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Seuil d’argent automatique" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),
-                    "Si l’ajout automatique est activé et que le solde passe sous cette valeur,\n" +
-                    "ajoute le montant automatique choisi." },
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "If Ajout automatique d’argent is enabled and the solde de la ville falls below this value,\nAdd the selected automatic amount." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Montant automatique" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)),
-                    "Montant ajouté à chaque déclenchement automatique.\n" +
-                    "Choisissez une valeur assez élevée pour repasser au-dessus du seuil." },
-
-                // --------------------------------------------------------------------
-                // Money-Milestones tab - Save Conversion
-                // --------------------------------------------------------------------
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Amount added each time Ajout automatique d’argent triggers.\nChoisir a value high enough to bring the city safely above the threshold." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "Convertisseur Argent illimité" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)),
-                    "<Faites d’abord une sauvegarde de la ville>.\n" +
-                    "Convertit une ville créée avec Argent illimité en ville normale avec budget régulier.\n" +
-                    "Activer ceci débloque le bouton <[Convertir la sauvegarde Argent illimité]> quand la ville chargée est de type <Argent illimité>.\n" +
-                    "City Watchdog ne peut pas annuler cette conversion.\n" +
-                    "Si vos villes sont normales, ignorez cette option." },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Convertir la ville Argent illimité en normale" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
-                    "Pour les villes commencées avec <Argent illimité>.\n" +
-                    "Pendant que cette ville est chargée, convertit la sauvegarde en budget limité normal.\n" +
-                    "Le bouton est <désactivé/grisé> sauf si la ville chargée est de type <Argent illimité>\n" +
-                    "et que <Convertisseur Argent illimité> est ON [ ✓ ].\n" +
-                    "Faites une sauvegarde et utilisez à vos risques; City Watchdog ne peut pas annuler cette conversion." },
-
-                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
-                    "Convertir cette ville d’Argent illimité vers argent limité normal ?\n" +
-                    "Sauvegardez D’ABORD; City Watchdog ne peut pas annuler cela.\n" +
-                    "Êtes-vous sûr ?" },
-
-                // --------------------------------------------------------------------
-                // About tab
-                // --------------------------------------------------------------------
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "<Faites d’abord une sauvegarde de la ville>.\nConvertit une ville that started as Argent illimité to a ville normale with défis d’argent normaux.\nEnabling this unlocks the <[Convert Argent illimité Save]> button when the loaded city is <Argent illimité> type.\nCity Watchdog ne peut pas annuler cette conversion.\nIf you have normal cities, do not worry about this; it is not needed." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Convertir la ville Argent illimité en ville normale" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "For cities started with <Argent illimité>.\nWhile that city is loaded, this converts the save to normal limited-money budgeting so the city has défis d’argent normaux again.\nButton is <disabled/greyed-out> unless the loaded city is an <Argent illimité> type\nand <Convertisseur Argent illimité> is ON [ ✓ ].\nMake a backup save, and use at your own risk; City Watchdog ne peut pas annuler cette conversion." },
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Convert this city from Argent illimité to normal argent limité?\nSave a backup FIRST; City Watchdog ne peut pas annuler this.\nAre you sure?" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Nom du mod" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.NameText)), "Nom affiché de ce mod." },
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.NameText)), "Display name of this mod." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.VersionText)), "Version" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "Version actuelle du mod." },
-
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "Current mod version." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Ouvre la page Paradox Mods de l’auteur." },
-
-                // --------------------------------------------------------------------
-                // About tab - Diagnostics
-                // --------------------------------------------------------------------
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "Rapport debug dans le log" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)),
-                    "<Inutile pour le jeu normal.>\n" +
-                    "Pour testeurs et vérifications après patch : écrit un rapport <Logs/CityWatchdog.log>\n" +
-                    "comparant les prefabs de notification du jeu avec les icônes contrôlées par Watchdog." },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Ouvrir le log" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
-                    "Ouvre </Logs/CityWatchdog.log> s’il existe.\n" +
-                    "Si le fichier manque, ouvre le dossier Logs/ à la place." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Open the author's Paradox Mods page." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "Rapport debug vers le journal" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)), "<Not needed for normal gameplay.>\nFor testers and post game-patch checks: écrit un <Logs/CityWatchdog.log> rapport\ncomparing live game notification prefabs with the notification icons Watchdog currently controls." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Ouvrir le journal" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "Ouvre </Logs/CityWatchdog.log> s’il existe.\nSi le fichier log manque, ouvre le dossier Logs/ à la place." },
             };
 
             return entries;
