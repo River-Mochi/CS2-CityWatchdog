@@ -16,14 +16,16 @@ export const hideRoadNames$ = bindValue<boolean>(mod.id, "HideRoadNames", false)
 export const hideDistrictNames$ = bindValue<boolean>(mod.id, "HideDistrictNames", false);
 export const showRoadArrows$ = bindValue<boolean>(mod.id, "ShowRoadArrows", false);
 export const notificationCounts$ = bindValue<number[]>(mod.id, "NotificationCounts", []);
+
 export const miniHudFavorites$ = bindValue<number[]>(mod.id, "MiniHudFavorites", []);
-export const miniHudEnabled$ = bindValue<boolean>(mod.id, "MiniHudEnabled", false);
+export const miniHudEnabled$ = bindValue<boolean>(mod.id, "MiniHudEnabled", true);
+export const miniHudOrientation$ = bindValue<number>(mod.id, "MiniHudOrientation", 1);
+export const miniHudPlacement$ = bindValue<number>(mod.id, "MiniHudPlacement", 2);
 export const miniHudMode$ = bindValue<number>(mod.id, "MiniHudMode", 0);
 export const miniHudItemCount$ = bindValue<number>(mod.id, "MiniHudItemCount", 5);
-export const miniHudOrientation$ = bindValue<number>(mod.id, "MiniHudOrientation", 0);
-export const miniHudPlacement$ = bindValue<number>(mod.id, "MiniHudPlacement", 1);
 export const miniHudHideZero$ = bindValue<boolean>(mod.id, "MiniHudHideZero", true);
 export const miniHudGlassStyle$ = bindValue<boolean>(mod.id, "MiniHudGlassStyle", true);
+
 export const panelButtonsOnlyStart$ = bindValue<boolean>(mod.id, "PanelButtonsOnlyStart", false);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
