@@ -19,8 +19,8 @@ export const notificationCounts$ = bindValue<number[]>(mod.id, "NotificationCoun
 
 export const miniHudFavorites$ = bindValue<number[]>(mod.id, "MiniHudFavorites", []);
 export const miniHudEnabled$ = bindValue<boolean>(mod.id, "MiniHudEnabled", true);
-export const miniHudOrientation$ = bindValue<number>(mod.id, "MiniHudOrientation", 1);
-export const miniHudPlacement$ = bindValue<number>(mod.id, "MiniHudPlacement", 2);
+export const miniHudOrientation$ = bindValue<number>(mod.id, "MiniHudOrientation", 1);  // vertical
+export const miniHudPlacement$ = bindValue<number>(mod.id, "MiniHudPlacement", 2);      // draggable
 export const miniHudMode$ = bindValue<number>(mod.id, "MiniHudMode", 0);
 export const miniHudItemCount$ = bindValue<number>(mod.id, "MiniHudItemCount", 5);
 export const miniHudHideZero$ = bindValue<boolean>(mod.id, "MiniHudHideZero", true);
