@@ -5,7 +5,7 @@ import { memo } from "react";
 import { Checkbox } from "../../checkbox/checkbox";
 import { FavoriteButton } from "../../favorites/favoriteButton";
 import { formatPanelNotificationCount } from "../../shared/formatNotificationCount";
-import { gameTitleKeys, type Localize, type NotificationItem } from "../../panel/notification-panel/notificationData";
+import { gameTitleKeys, type Localize, type NotificationItem } from "../notification-panel/notificationData";
 import styles from "./notificationRow.module.scss";
 
 interface NotificationRowProps {

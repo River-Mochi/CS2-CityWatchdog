@@ -92,7 +92,7 @@ import {
     WaterPipeWaterPipeNotConnectedNotificationBinding$,
     WorkProviderEducatedNotificationBinding$, WorkProviderUneducatedNotificationBinding$,
     OnWorkProviderEducatedNotificationBindingToggle, OnWorkProviderUneducatedNotificationBindingToggle,
-} from "../../bindings/bindings";
+} from "../../../bindings/bindings";
 
 export type Localize = (localeId: string, fallback?: string, raw?: boolean) => string;
 
