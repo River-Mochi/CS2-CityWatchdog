@@ -1,10 +1,9 @@
 // File: src/UI/src/mods/InfoCheckbox/InfoCheckbox.tsx
-// Purpose: Renders one notification row with a left icon, label text, and right checkbox.
+// Purpose: Renders one notification row with a left icon, label text, count, favorite marker, and checkbox.
 
 import type { CSSProperties } from "react";
 import { Checkbox } from "../Checkbox/Checkbox";
-import { useText } from "../shared/localization";
-import { VanillaComponentResolver } from "../../utils/vanilla";
+import { FavoriteButton } from "../Favorites/FavoriteButton";
 import { formatPanelNotificationCount } from "../shared/formatNotificationCount";
 import styles from "./InfoCheckbox.module.scss";
 
@@ -31,9 +30,6 @@ export const InfoCheckbox = ({
     className,
     style,
 }: InfoCheckboxProps) => {
-    const text = useText();
-    const favoriteTooltip = text("MiniHudFavoriteTooltip", "Blue Star = favorite saved for mini-HUD");
-    const DescriptionTooltip = VanillaComponentResolver.instance.DescriptionTooltip;
     const rowClassName = `${styles.subPanel} ${className ?? ""}`;
 
     return (
@@ -48,39 +44,14 @@ export const InfoCheckbox = ({
                 <span className={styles.label}>{label}</span>
             </div>
 
-            {/* Right side: visual checkbox. Row click handles the actual toggle. */}
+            {/* Right side: count, optional Mini HUD favorite marker, and visual checkbox. */}
             <div className={styles.labelCheckboxSection}>
                 {count !== undefined && <span className={styles.count}>{formatPanelNotificationCount(count)}</span>}
                 {onFavoriteToggle !== undefined && (
-                    <DescriptionTooltip title={null} description={favoriteTooltip} direction="right">
-                        <button
-                            type="button"
-                            className={`${styles.favoriteButton} ${favorite ? styles.favoriteButtonActive : ""}`}
-                            aria-label={favoriteTooltip}
-                            onMouseDown={(event) => event.stopPropagation()}
-                            onClick={(event) => {
-                                event.stopPropagation();
-                                onFavoriteToggle();
-                            }}
-                        >
-                            <svg className={styles.favoriteIcon} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                                <path
-                                    className={styles.favoriteStarFill}
-                                    d="M12 2.6l2.88 5.84 6.45.94-4.67 4.55 1.1 6.43L12 17.33l-5.76 3.03 1.1-6.43-4.67-4.55 6.45-.94L12 2.6z"
-                                />
-                                <path
-                                    className={styles.favoriteStarOuter}
-                                    d="M12 2.6l2.88 5.84 6.45.94-4.67 4.55 1.1 6.43L12 17.33l-5.76 3.03 1.1-6.43-4.67-4.55 6.45-.94L12 2.6z"
-                                />
-                                <g transform="translate(12 12) scale(0.9) translate(-12 -12)">
-                                    <path
-                                        className={styles.favoriteStarInner}
-                                        d="M12 2.6l2.88 5.84 6.45.94-4.67 4.55 1.1 6.43L12 17.33l-5.76 3.03 1.1-6.43-4.67-4.55 6.45-.94L12 2.6z"
-                                    />
-                                </g>
-                            </svg>
-                        </button>
-                    </DescriptionTooltip>
+                    <FavoriteButton
+                        favorite={favorite ?? false}
+                        onToggle={onFavoriteToggle}
+                    />
                 )}
                 <Checkbox isChecked={isChecked} onValueToggle={() => { }} />
             </div>
