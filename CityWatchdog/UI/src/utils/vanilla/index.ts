@@ -1,4 +1,4 @@
-// File: UI/src/utils/vanilla/index.ts
+// File: src/UI/src/utils/vanilla/index.ts
 // Purpose: Barrel exports for vanilla CS2 UI resolver utilities.
 
 export * from "./components";

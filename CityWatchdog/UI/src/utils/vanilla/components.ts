@@ -1,4 +1,4 @@
-// File: UI/src/utils/vanilla/components.ts
+// File: src/UI/src/utils/vanilla/components.ts
 // Purpose: Registry entries for vanilla CS2 React components.
 
 export const VANILLA_COMPONENT_MODULES = {
