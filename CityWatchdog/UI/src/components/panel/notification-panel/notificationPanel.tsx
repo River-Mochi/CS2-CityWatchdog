@@ -25,7 +25,7 @@ import {
     OnHideRoadNamesToggle,
     OnShowRoadArrowsToggle,
     OnToggleMiniHudFavorite,
-} from "../../bindings/bindings";
+} from "../../../bindings/bindings";
 import { Divider } from "../../divider/divider";
 import { InfoPanel } from "../info-panel/infoPanel";
 import { VanillaComponentResolver } from "../../../utils/vanilla";

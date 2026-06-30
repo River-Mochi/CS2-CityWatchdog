@@ -126,9 +126,6 @@
 
     <ItemGroup>
         <Folder Include="lang\" />
-        <Folder Include="UI\src\mods\InfoPanel\" />
-        <Folder Include="UI\src\mods\Divider\" />
-        <Folder Include="UI\src\mods\ControlPanelViews\" />
         <Folder Include="Utils\" />
     </ItemGroup>
 
