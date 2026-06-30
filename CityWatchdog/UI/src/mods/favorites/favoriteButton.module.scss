@@ -29,6 +29,10 @@
     opacity: 1;
 }
 
+.favoriteButtonInactive {
+    opacity: 1;
+}
+
 .favoriteIcon {
     width: 18rem;
     height: 18rem;
@@ -71,11 +75,11 @@
     opacity: 0.72;
 }
 
-.favoriteButton:not(.favoriteButtonActive):hover .favoriteStarOuter {
+.favoriteButtonInactive:hover .favoriteStarOuter {
     stroke: rgba(254, 254, 254, 0.66);
 }
 
-.favoriteButton:not(.favoriteButtonActive):hover .favoriteStarFill {
+.favoriteButtonInactive:hover .favoriteStarFill {
     fill: #fefefe;
     opacity: 0.16;
 }
