@@ -1,4 +1,4 @@
-// File: src/UI/src/mods/NotificationPanel/notificationData.ts
+// File: src/UI/src/components/panel/notification-panel/notificationData.ts
 // Purpose: Notification panel section data, vanilla title keys, icons, and binding/toggle wiring.
 
 import type { ValueBinding } from "cs2/api";
@@ -92,7 +92,7 @@ import {
     WaterPipeWaterPipeNotConnectedNotificationBinding$,
     WorkProviderEducatedNotificationBinding$, WorkProviderUneducatedNotificationBinding$,
     OnWorkProviderEducatedNotificationBindingToggle, OnWorkProviderUneducatedNotificationBindingToggle,
-} from "../Bindings/Bindings";
+} from "../../bindings/bindings";
 
 export type Localize = (localeId: string, fallback?: string, raw?: boolean) => string;
 

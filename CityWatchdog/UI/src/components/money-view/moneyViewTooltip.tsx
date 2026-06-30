@@ -1,4 +1,4 @@
-// File: src/UI/src/mods/MoneyView/MoneyViewTooltip.tsx
+// File: src/UI/src/components/money-view/moneyViewTooltip.tsx
 // Purpose: Custom hover tooltip for the bottom-toolbar money field.
 
 import { useValue } from "cs2/api";
@@ -6,8 +6,8 @@ import { economyBudget, toolbarBottom } from "cs2/bindings";
 import { Unit, useLocalization, type Localization } from "cs2/l10n";
 import { useText } from "../shared/localization";
 import { Children, isValidElement, type CSSProperties, type ReactNode } from "react";
-import { moneyTooltipFontScale$, moneyTooltipMode$, moneyView$ } from "../Bindings/Bindings";
-import styles from "./MoneyView.module.scss";
+import { moneyTooltipFontScale$, moneyTooltipMode$, moneyView$ } from "../../bindings/bindings";
+import styles from "./moneyView.module.scss";
 import {
     formatTooltipMoneyValue,
     formatTooltipMoneyViewValue,

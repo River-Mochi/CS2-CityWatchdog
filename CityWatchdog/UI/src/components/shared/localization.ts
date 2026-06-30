@@ -3,7 +3,7 @@
 // See LICENSE file in the project root for full license info.
 // </copyright>
 
-// File: UI/src/mods/shared/localization.ts
+// File: UI/src/components/shared/localization.ts
 // Purpose:
 //   In-city UI locale lookup. The C# side (InCityLocalization.LoadEmbeddedJsonTranslations)
 //   reads embedded lang/<locale>.json resources via Assembly.GetManifestResourceStream,

@@ -1,4 +1,4 @@
-// File: src/UI/src/mods/NotificationPanel/usePanelDrag.ts
+// File: src/UI/src/components/panel/notification-panel/usePanelDrag.ts
 // Purpose: Keeps the CWD panel draggable and clamped inside the game window.
 
 import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";

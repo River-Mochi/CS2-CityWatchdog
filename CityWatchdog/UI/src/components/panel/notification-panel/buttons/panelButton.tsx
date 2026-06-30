@@ -1,10 +1,10 @@
-// File: src/UI/src/mods/NotificationPanel/buttons/PanelButton.tsx
+// File: src/UI/src/components/panel/notification-panel/buttons/panelButton.tsx
 // Purpose: Notification-panel toolbar buttons with Cohtml-safe hover behavior.
 
 import { Button } from "cs2/ui";
 import type { ReactNode } from "react";
-import { VanillaComponentResolver } from "../../../utils/vanilla";
-import styles from "./PanelButton.module.scss";
+import { VanillaComponentResolver } from "../../../../utils/vanilla";
+import styles from "./panelButton.module.scss";
 
 export type PanelButtonKind = "icon" | "sort" | "count" | "toggle";
 export type PanelButtonTone = "default" | "active" | "danger" | "on" | "partial" | "off";

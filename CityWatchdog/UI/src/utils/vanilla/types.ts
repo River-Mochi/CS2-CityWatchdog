@@ -1,4 +1,4 @@
-// File: UI/src/utils/vanilla/types.ts
+// File: src/UI/src/utils/vanilla/types.ts
 // Purpose: Shared TypeScript prop types for vanilla CS2 UI resolver entries.
 
 import type { Color, FocusKey, Theme, UniqueFocusKey } from "cs2/bindings";

@@ -1,4 +1,4 @@
-// File: UI/src/utils/vanilla/VanillaComponentResolver.tsx
+// File: src/UI/src/utils/vanilla/VanillaComponentResolver.tsx
 // Purpose: Typed resolver for vanilla CS2 UI modules loaded from the game registry.
 
 import type { FocusKey, UniqueFocusKey } from "cs2/bindings";

@@ -1,4 +1,4 @@
-// File: src/UI/src/mods/MoneyView/moneyViewShared.ts
+// File: src/UI/src/components/money-view/moneyViewShared.ts
 // Purpose: Shared Money View constants, number formatting, and sign/color helpers.
 
 import { LocalizedNumber, Unit, type Localization } from "cs2/l10n";

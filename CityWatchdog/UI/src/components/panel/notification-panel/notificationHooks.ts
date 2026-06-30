@@ -1,4 +1,4 @@
-// File: src/UI/src/mods/NotificationPanel/notificationHooks.ts
+// File: src/UI/src/components/panel/notification-panel/notificationHooks.ts
 // Purpose: React hooks that keep notification checkbox state synced with C# bindings.
 
 import { useEffect, useState } from "react";

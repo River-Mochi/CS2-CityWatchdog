@@ -1,4 +1,4 @@
-// File: UI/src/utils/vanilla/themes.ts
+// File: src/UI/src/utils/vanilla/themes.ts
 // Purpose: Registry entries for vanilla CS2 SCSS theme modules.
 
 export const VANILLA_THEME_MODULES = {

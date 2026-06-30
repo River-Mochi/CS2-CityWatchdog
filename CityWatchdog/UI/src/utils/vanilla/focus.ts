@@ -1,4 +1,4 @@
-// File: UI/src/utils/vanilla/focus.ts
+// File: src/UI/src/utils/vanilla/focus.ts
 // Purpose: Registry entries for vanilla CS2 focus helpers.
 
 export const VANILLA_FOCUS_MODULES = {

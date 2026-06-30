@@ -1,11 +1,11 @@
-// File: src/UI/src/mods/MoneyView/ToolbarTrendAmount.tsx
+// File: src/UI/src/components/money-view/toolbarTrendAmount.tsx
 // Purpose: Renders Money View trend amounts beside vanilla money and population fields.
 
 import { useValue } from "cs2/api";
 import { economyBudget, toolbarBottom } from "cs2/bindings";
 import { Unit, useLocalization, type Localization } from "cs2/l10n";
-import { moneyViewMode$, moneyView$ } from "../Bindings/Bindings";
-import styles from "./MoneyView.module.scss";
+import { moneyViewMode$, moneyView$ } from "../../bindings/bindings";
+import styles from "./moneyView.module.scss";
 import {
     formatToolbarTrendValue,
     getDisplayWholeValue,
