@@ -1,5 +1,5 @@
 // File: src/UI/src/mods/InfoCheckbox/InfoCheckbox.module.scss
-// Purpose: Styles one notification row with icon, label, and checkbox.
+// Purpose: Styles one notification row with icon, label, count, and checkbox.
 //
 // All CSS in longhand form — no shorthand. See feedback_no_css_shorthand.md.
 
@@ -39,7 +39,7 @@
     flex-basis: auto;
 }
 
-// Right side of the row: checkbox area.
+// Right side of the row: count, favorite marker, and checkbox area.
 // flex-grow:0 / flex-shrink:0 keeps the checkbox from being squeezed by long translated labels.
 .labelCheckboxSection {
     display: flex;
@@ -65,85 +65,6 @@
     font-weight: 700;
     line-height: 1;
     text-align: right;
-}
-
-.favoriteButton {
-    width: 20rem;
-    height: 22rem;
-    margin-right: 3rem;
-    padding-top: 2rem;
-    padding-right: 2rem;
-    padding-bottom: 2rem;
-    padding-left: 2rem;
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: none;
-    border-left-style: none;
-    background-color: transparent;
-    color: rgba(220, 226, 230, 0.65);
-    opacity: 1;
-    cursor: pointer;
-}
-
-.favoriteButton:hover {
-    color: rgba(245, 248, 250, 0.86);
-}
-
-.favoriteButtonActive,
-.favoriteButtonActive:hover {
-    color: #5fb8ff;
-}
-
-.favoriteIcon {
-    width: 18rem;
-    height: 18rem;
-    display: block;
-    color: inherit;
-    overflow: visible;
-}
-
-.favoriteStarFill {
-    fill: #5fb8ff;
-    opacity: 0;
-}
-
-.favoriteStarOuter {
-    fill: none;
-    stroke: rgba(254, 254, 254, 0.50);
-    stroke-width: 1.65;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.favoriteStarInner {
-    fill: none;
-    stroke: #5fb8ff;
-    stroke-width: 1.25;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    opacity: 0;
-}
-
-.favoriteButtonActive .favoriteStarFill {
-    fill: #5fb8ff;
-    opacity: 0.12;
-}
-
-.favoriteButtonActive .favoriteStarOuter {
-    stroke: #5fb8ff;
-}
-
-.favoriteButtonActive .favoriteStarInner {
-    opacity: 0.72;
-}
-
-.favoriteButton:not(.favoriteButtonActive):hover .favoriteStarOuter {
-    stroke: rgba(254, 254, 254, 0.66);
-}
-
-.favoriteButton:not(.favoriteButtonActive):hover .favoriteStarFill {
-    fill: #fefefe;
-    opacity: 0.16;
 }
 
 // Keep notification SVGs small and pinned to the left of each row.
