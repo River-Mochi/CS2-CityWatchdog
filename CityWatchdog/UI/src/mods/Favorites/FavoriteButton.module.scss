@@ -1,0 +1,37 @@
+// File: src/UI/src/mods/Favorites/FavoriteButton.module.scss
+// Purpose: Styles the Mini HUD favorite marker button used in notification rows.
+//
+// All CSS in longhand form — no shorthand. See feedback_no_css_shorthand.md.
+
+.favoriteButton {
+    width: 20rem;
+    height: 22rem;
+    margin-right: 3rem;
+    padding-top: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    background-color: transparent;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.favoriteButton:hover {
+    opacity: 0.86;
+}
+
+.favoriteButtonActive,
+.favoriteButtonActive:hover {
+    opacity: 1;
+}
+
+.favoriteIcon {
+    width: 18rem;
+    height: 18rem;
+    display: block;
+    overflow: visible;
+}
