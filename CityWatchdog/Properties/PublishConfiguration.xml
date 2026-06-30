@@ -87,10 +87,14 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-* New tab for all Mini-HUD items.
-* Fix Mod tooltips off also works for  Mini-HUD
-* UI updates. updated recommended preset
-* updated all locale files
+- New tab for all Mini-HUD items.
+- Fix Mod tooltips off also works for Mini-HUD
+- UI updates. updated recommended preset
+- updated all locale files
+- row label no longer toggles checkbox, only checkbox does it.
+- duplicate Facility Full dedupe fixed for Mini HUD
+- horizontal Mini HUD spacing improved
+- Mini HUD icons slightly bigger
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
     <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />

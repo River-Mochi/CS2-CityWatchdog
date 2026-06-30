@@ -186,7 +186,8 @@ export const MiniHud = () => {
     }
 
     const favoriteSet = new Set(favorites);
-    const candidates = allItems
+    const maxItems = itemCount === 10 ? 10 : 5;
+    const candidatePool = allItems
         .map((item, index) => ({
             item,
             index,
@@ -194,8 +195,20 @@ export const MiniHud = () => {
         }))
         .filter((entry) => mode !== MODE_FAVORITES || favoriteSet.has(entry.index))
         .filter((entry) => !hideZero || entry.count > 0)
-        .sort((a, b) => b.count - a.count || a.index - b.index)
-        .slice(0, itemCount === 10 ? 10 : 5);
+        .sort((a, b) => b.count - a.count || a.index - b.index);
+
+    const seenMiniHudIdentities = new Set<string>();
+    const candidates = candidatePool
+        .filter((entry) => {
+            const identity = entry.item.miniHudIdentity ?? entry.item.localeId;
+            if (seenMiniHudIdentities.has(identity)) {
+                return false;
+            }
+
+            seenMiniHudIdentities.add(identity);
+            return true;
+        })
+        .slice(0, maxItems);
 
     const onOpenHandleMouseDown = (event: ReactMouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -256,7 +269,6 @@ export const MiniHud = () => {
             aria-label={openHandleTooltip}
         >
             <span className={styles.openHandleMark} aria-hidden="true">
-                <span className={styles.openHandleDot}></span>
                 <span className={styles.openHandleDot}></span>
                 <span className={styles.openHandleDot}></span>
             </span>

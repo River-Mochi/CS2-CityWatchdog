@@ -98,7 +98,7 @@
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
-    height: 26rem;
+    height: 28rem;
     min-width: 0;
     padding-top: 1rem;
     padding-right: 1rem;
@@ -132,8 +132,8 @@
 }
 
 .icon {
-    width: 22rem;
-    height: 22rem;
+    width: 24rem;
+    height: 24rem;
     display: block;
     margin-right: 1rem;
 }
@@ -141,7 +141,9 @@
 .count {
     display: block;
     min-width: 26rem;
-    flex: 0 0 auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
     font-size: 12rem;
     font-weight: 700;
     line-height: 1;
@@ -149,14 +151,30 @@
     white-space: nowrap;
 }
 
+// Vertical keeps right-aligned fixed-width counts so the icon column stays steady.
 .vertical .count {
     min-width: 26rem;
+    text-align: right;
+}
+
+// Horizontal uses a tighter centered count so each number stays visually attached to its own icon.
+// min-width is not a max-width: wider values like 1.2k can expand normally.
+.horizontal .count {
+    min-width: 20rem;
+    text-align: center;
 }
 
 .hud:hover .count,
 .item:hover .count {
     font-size: 15rem;
     font-weight: 800;
+}
+
+// Keep the horizontal count compact even when the HUD hover enlarges the font.
+.horizontal .hud:hover .count,
+.horizontal .item:hover .count {
+    min-width: 20rem;
+    text-align: center;
 }
 
 .openHandle {

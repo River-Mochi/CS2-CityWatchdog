@@ -85,15 +85,15 @@ export const PanelButton = ({
 
     if (kind === "icon") {
         return (
-            <div
+            <Button
                 className={classNames(styles.iconButton, toneClass(tone))}
-                role="button"
-                aria-pressed={ariaPressed}
+                variant="icon"
                 onClick={onClick}
+                focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
             >
                 {icon}
                 {children}
-            </div>
+            </Button>
         );
     }
 

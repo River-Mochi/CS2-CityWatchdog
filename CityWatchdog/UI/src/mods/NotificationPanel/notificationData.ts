@@ -103,6 +103,9 @@ export interface NotificationItem {
     // If the game key is missing, CWD falls back to the CWD locale string.
     readonly gameTitleKey?: string;
 
+    // Optional Mini HUD identity. Use this when two panel rows represent the same vanilla alert/icon/count.
+    readonly miniHudIdentity?: string;
+
     readonly icon: string;
     readonly binding: ValueBinding<boolean>;
     readonly onToggle: (enabled: boolean) => void;
@@ -115,6 +118,7 @@ export interface NotificationSection {
 }
 
 const icon = (name: string) => `Media/Game/Notifications/${name}.svg`;
+const facilityFullMiniHudIdentity = "FacilityFullNotification";
 
 export const gameTitleKeys: Record<string, string> = {
     ElectricityElectricityNotification: "Notifications.TITLE[Electricity Notification]",
@@ -283,7 +287,7 @@ export const sections: NotificationSection[] = [
         localeId: "Garbage",
         items: [
             { icon: icon("TooMuchGarbage"), localeId: "GarbageGarbageNotification", binding: GarbageGarbageNotificationBinding$, onToggle: OnGarbageGarbageNotificationBindingToggle },
-            { icon: icon("FacilityFull"), localeId: "GarbageFacilityFullNotification", binding: GarbageFacilityFullNotificationBinding$, onToggle: OnGarbageFacilityFullNotificationBindingToggle },
+            { icon: icon("FacilityFull"), localeId: "GarbageFacilityFullNotification", miniHudIdentity: facilityFullMiniHudIdentity, binding: GarbageFacilityFullNotificationBinding$, onToggle: OnGarbageFacilityFullNotificationBindingToggle },
         ],
     },
     {
@@ -291,7 +295,7 @@ export const sections: NotificationSection[] = [
         items: [
             { icon: icon("MedicalEmergency"), localeId: "HealthcareAmbulanceNotification", binding: HealthcareAmbulanceNotificationBinding$, onToggle: OnHealthcareAmbulanceNotificationBindingToggle },
             { icon: icon("HearseServiceNeeded"), localeId: "HealthcareHearseNotification", binding: HealthcareHearseNotificationBinding$, onToggle: OnHealthcareHearseNotificationBindingToggle },
-            { icon: icon("FacilityFull"), localeId: "HealthcareFacilityFullNotification", binding: HealthcareFacilityFullNotificationBinding$, onToggle: OnHealthcareFacilityFullNotificationBindingToggle },
+            { icon: icon("FacilityFull"), localeId: "HealthcareFacilityFullNotification", miniHudIdentity: facilityFullMiniHudIdentity, binding: HealthcareFacilityFullNotificationBinding$, onToggle: OnHealthcareFacilityFullNotificationBindingToggle },
         ],
     },
     {
