@@ -100,8 +100,9 @@ namespace CityWatchdog
                     log.Warn($"{modTag} InCityLocalization: failed loading '{resourceName}': {ex.GetType().Name}: {ex.Message}");
                 }
             }
-
+#if DEBUG
             log.Info($"{modTag} InCityLocalization: registered {registered}/{resourceNames.Length} embedded locale sources.");
+#endif
         }
 
         private static bool IsLangJsonResource(string resourceName)
