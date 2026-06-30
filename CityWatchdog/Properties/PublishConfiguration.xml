@@ -55,7 +55,7 @@ I hope you enjoy the new features, better performance, and safety checks!
 - Money View inspired by earlier mods by DanielNZ Show Text.
 - Notices inspired by the orig. City Controller mod by Mbyron26.
 - Dorkington - tester/feature suggestion
-- Flightech, SonNathan, Brainium - testers
+- Brainium, Flightech, SonNathan - testers
 - UnMaestro - testing, German editor
 - Thumbnail photograph by Maryia Shedava at Mont Saint-Michel in Normandy, France:
 https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
@@ -80,7 +80,7 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/city-watchdog.1924169/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.1.3" />
+	<ModVersion Value="1.1.4" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.6.*" />
 	<!--Dependency for the mod, can be set multiple times-->

@@ -30,10 +30,11 @@
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
         <!-- Versioning: single source of truth -->
-        <GameVersion>1.6.*</GameVersion>
-        <Version>1.1.3</Version>
+        <Version>1.1.4</Version>
         <AssemblyVersion>$(Version).0</AssemblyVersion>
         <FileVersion>$(Version).0</FileVersion>
+
+        <GameVersion>1.6.*</GameVersion>
 
         <!-- Assembly identity -->
         <RootNamespace>CityWatchdog</RootNamespace>
