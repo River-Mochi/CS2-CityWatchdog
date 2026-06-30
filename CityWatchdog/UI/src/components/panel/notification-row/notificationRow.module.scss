@@ -60,11 +60,38 @@
     flex-shrink: 0;
     flex-basis: 34rem;
     margin-right: 2rem;
+    padding-top: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+    border-top-left-radius: 3rem;
+    border-top-right-radius: 3rem;
+    border-bottom-left-radius: 3rem;
+    border-bottom-right-radius: 3rem;
+    box-sizing: border-box;
     color: rgba(254, 254, 254, 0.82);
     font-size: var(--fontSizeXS);
     font-weight: 700;
     line-height: 1;
     text-align: right;
+}
+
+.countJump {
+    cursor: pointer;
+}
+
+.countJump:hover {
+    background-color: rgba(84, 215, 255, 0.16);
+    color: #ffffff;
+}
+
+.countJump:active {
+    background-color: rgba(84, 215, 255, 0.28);
+    color: #ffffff;
+}
+
+.countDisabled {
+    cursor: default;
 }
 
 // Keep notification SVGs small and pinned to the left of each row.

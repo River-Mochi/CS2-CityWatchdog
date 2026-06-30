@@ -87,6 +87,8 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
+- Added click-to-jump from alert counts in the main panel, so you can find the next matching city problem faster.
+- Recent updates earlier today:
 - New tab for all Mini-HUD items.
 - Fix Mod tooltips off also works for Mini-HUD
 - UI updates. updated recommended preset

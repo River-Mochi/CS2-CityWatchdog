@@ -1,11 +1,12 @@
 // File: src/UI/src/components/panel/notification-row/notificationRow.tsx
 // Purpose: Renders one notification alert row with icon, label, count, favorite marker, and checkbox.
 
-import { memo } from "react";
+import { memo, type KeyboardEvent } from "react";
+import { OnMiniHudNotificationClicked } from "../../../bindings/bindings";
 import { Checkbox } from "../../checkbox/checkbox";
 import { FavoriteButton } from "../../favorites/favoriteButton";
 import { formatPanelNotificationCount } from "../../shared/formatNotificationCount";
-import { gameTitleKeys, type Localize, type NotificationItem } from "../notification-panel/notificationData";
+import { gameTitleKeys, notificationCountIndexes, type Localize, type NotificationItem } from "../notification-panel/notificationData";
 import styles from "./notificationRow.module.scss";
 
 interface NotificationRowProps {
@@ -38,6 +39,29 @@ export const NotificationRow = memo(({
             ? gameLabel
             : localize(item.localeId);
 
+    const countIndex = notificationCountIndexes.get(item.localeId) ?? -1;
+    const canJumpToAlert = countIndex >= 0 && count > 0;
+    const countClassName = canJumpToAlert
+        ? `${styles.count} ${styles.countJump}`
+        : `${styles.count} ${styles.countDisabled}`;
+
+    const onCountClick = () => {
+        if (canJumpToAlert) {
+            OnMiniHudNotificationClicked(countIndex);
+        }
+    };
+
+    const onCountKeyDown = (event: KeyboardEvent<HTMLSpanElement>) => {
+        if (!canJumpToAlert) {
+            return;
+        }
+
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            OnMiniHudNotificationClicked(countIndex);
+        }
+    };
+
     return (
         <div
             className={styles.subPanel}
@@ -49,9 +73,18 @@ export const NotificationRow = memo(({
                 <span className={styles.label}>{label}</span>
             </div>
 
-            {/* Right side: count, Mini HUD favorite marker, and notification toggle checkbox. */}
+            {/* Right side: count jump target, Mini HUD favorite marker, and notification toggle checkbox. */}
             <div className={styles.labelCheckboxSection}>
-                <span className={styles.count}>{formatPanelNotificationCount(count)}</span>
+                <span
+                    className={countClassName}
+                    role={canJumpToAlert ? "button" : undefined}
+                    tabIndex={canJumpToAlert ? 0 : undefined}
+                    aria-disabled={canJumpToAlert ? undefined : true}
+                    onClick={canJumpToAlert ? onCountClick : undefined}
+                    onKeyDown={canJumpToAlert ? onCountKeyDown : undefined}
+                >
+                    {formatPanelNotificationCount(count)}
+                </span>
                 <FavoriteButton
                     favorite={favorite}
                     onToggle={onFavoriteToggle}
