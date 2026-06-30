@@ -6,14 +6,13 @@ import { OnMiniHudNotificationClicked } from "../../../bindings/bindings";
 import { Checkbox } from "../../checkbox/checkbox";
 import { FavoriteButton } from "../../favorites/favoriteButton";
 import { formatPanelNotificationCount } from "../../shared/formatNotificationCount";
-import { gameTitleKeys, type Localize, type NotificationItem } from "../notification-panel/notificationData";
+import { gameTitleKeys, notificationCountIndexes, type Localize, type NotificationItem } from "../notification-panel/notificationData";
 import styles from "./notificationRow.module.scss";
 
 interface NotificationRowProps {
     item: NotificationItem;
     isChecked: boolean;
     count: number;
-    countIndex: number;
     favorite: boolean;
     onFavoriteToggle: () => void;
     localize: Localize;
@@ -23,7 +22,6 @@ export const NotificationRow = memo(({
     item,
     isChecked,
     count,
-    countIndex,
     favorite,
     onFavoriteToggle,
     localize,
@@ -41,6 +39,7 @@ export const NotificationRow = memo(({
             ? gameLabel
             : localize(item.localeId);
 
+    const countIndex = notificationCountIndexes.get(item.localeId) ?? -1;
     const canJumpToAlert = countIndex >= 0 && count > 0;
     const countClassName = canJumpToAlert
         ? `${styles.count} ${styles.countJump}`
@@ -98,6 +97,5 @@ export const NotificationRow = memo(({
     prev.item === next.item &&
     prev.isChecked === next.isChecked &&
     prev.count === next.count &&
-    prev.countIndex === next.countIndex &&
     prev.favorite === next.favorite &&
     prev.localize === next.localize);
