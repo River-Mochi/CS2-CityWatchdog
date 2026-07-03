@@ -279,6 +279,7 @@ namespace CityWatchdog
                 MiniHudEnabled = true;
                 MiniHudMode = MiniHudModeFavorites;     // use blue-star recommended favorites
                 MiniHudItemCount = 5;
+                MiniHudScale = 100;
                 MiniHudOrientation = MiniHudOrientationVertical;
                 MiniHudPlacement = MiniHudPlacementDraggable;
                 MiniHudHideZero = true;
@@ -289,6 +290,7 @@ namespace CityWatchdog
                 uiSystem?.UpdateMiniHudEnabledBinding(MiniHudEnabled);
                 uiSystem?.UpdateMiniHudModeBinding(MiniHudMode);
                 uiSystem?.UpdateMiniHudItemCountBinding(MiniHudItemCount);
+                uiSystem?.UpdateMiniHudScaleBinding(MiniHudScale);
                 uiSystem?.UpdateMiniHudOrientationBinding(MiniHudOrientation);
                 uiSystem?.UpdateMiniHudPlacementBinding(MiniHudPlacement);
                 uiSystem?.UpdateMiniHudHideZeroBinding(MiniHudHideZero);
@@ -325,6 +327,12 @@ namespace CityWatchdog
         [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(Setting), nameof(OnMiniHudHideZeroChanged))]
         public bool MiniHudHideZero { get; set; }
+
+        [SettingsUISlider(min = 90, max = 130, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudScaleChanged))]
+        public int MiniHudScale { get; set; }
 
         [SettingsUIDropdown(typeof(Setting), nameof(GetMiniHudOrientationItems))]
         [SettingsUISection(MiniHudTab, MiniHudGroup)]
@@ -700,7 +708,7 @@ namespace CityWatchdog
             MoneyView = true;
             MoneyViewMode = MoneyViewModeHourly;
             MoneyTooltipMode = MoneyTooltipModeCompact;
-            // If defaults change, also update bindValue fallbacks /UI/src/mods/Bindings/Bindings.tsx
+            // If defaults change, also update bindValue fallbacks in UI/src/bindings/bindings.tsx.
             MoneyTooltipFontScale = 120;
             PopulationTooltipFontScale = 120;
 
@@ -725,6 +733,7 @@ namespace CityWatchdog
             MiniHudEnabled = true;
             MiniHudMode = MiniHudModeFavorites; // use blue-star recommended
             MiniHudItemCount = 5;
+            MiniHudScale = 100;
             MiniHudOrientation = MiniHudOrientationVertical;
             MiniHudPlacement = MiniHudPlacementDraggable;
             MiniHudHideZero = true;
@@ -780,6 +789,8 @@ namespace CityWatchdog
         private void OnMiniHudModeChanged(int value) => GetUISystem()?.UpdateMiniHudModeBinding(value);
 
         private void OnMiniHudItemCountChanged(int value) => GetUISystem()?.UpdateMiniHudItemCountBinding(value);
+
+        private void OnMiniHudScaleChanged(int value) => GetUISystem()?.UpdateMiniHudScaleBinding(value);
 
         private void OnMiniHudOrientationChanged(int value) => GetUISystem()?.UpdateMiniHudOrientationBinding(value);
 

@@ -7,10 +7,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 1rem;
-    padding-right: 2rem;
-    padding-bottom: 1rem;
-    padding-left: 2rem;
+    padding-top: var(--miniHudPanelPaddingY, 2rem);
+    padding-right: var(--miniHudPanelPaddingX, 2.5rem);
+    padding-bottom: var(--miniHudPanelPaddingY, 2rem);
+    padding-left: var(--miniHudPanelPaddingX, 2.5rem);
     border-top-left-radius: 6rem;
     border-top-right-radius: 6rem;
     border-bottom-left-radius: 6rem;
@@ -23,7 +23,7 @@
     border-right-width: 0;
     border-bottom-width: 0;
     border-left-width: 0;
-    box-shadow: 0 2rem 8rem rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4rem 12rem rgba(0, 0, 0, 0.34), inset 0 0 0 1rem rgba(254, 255, 255, 0.08);
     pointer-events: auto;
 }
 
@@ -32,7 +32,7 @@
 }
 
 .gray {
-    background-color: rgba(42, 61, 74, 0.50);
+    background-color: rgba(25, 38, 61, 0.84);
 }
 
 .draggable {
@@ -98,12 +98,12 @@
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
-    height: 28rem;
+    height: var(--miniHudItemHeight, 34rem);
     min-width: 0;
-    padding-top: 1rem;
-    padding-right: 1rem;
-    padding-bottom: 1rem;
-    padding-left: 1rem;
+    padding-top: var(--miniHudItemPaddingY, 1rem);
+    padding-right: var(--miniHudItemPaddingX, 1.25rem);
+    padding-bottom: var(--miniHudItemPaddingY, 1rem);
+    padding-left: var(--miniHudItemPaddingX, 1.25rem);
     border-top-style: none;
     border-right-style: none;
     border-bottom-style: none;
@@ -132,19 +132,19 @@
 }
 
 .icon {
-    width: 24rem;
-    height: 24rem;
+    width: var(--miniHudIconSize, 28rem);
+    height: var(--miniHudIconSize, 28rem);
     display: block;
-    margin-right: 1rem;
+    margin-right: var(--miniHudIconGap, 1.5rem);
 }
 
 .count {
     display: block;
-    min-width: 26rem;
+    min-width: var(--miniHudCountWidthVertical, 30rem);
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: auto;
-    font-size: 12rem;
+    font-size: var(--miniHudCountFontSize, 14rem);
     font-weight: 700;
     line-height: 1;
     text-align: right;
@@ -153,27 +153,27 @@
 
 // Vertical keeps right-aligned fixed-width counts so the icon column stays steady.
 .vertical .count {
-    min-width: 26rem;
+    min-width: var(--miniHudCountWidthVertical, 30rem);
     text-align: right;
 }
 
 // Horizontal uses a tighter centered count so each number stays visually attached to its own icon.
 // min-width is not a max-width: wider values like 1.2k can expand normally.
 .horizontal .count {
-    min-width: 20rem;
+    min-width: var(--miniHudCountWidthHorizontal, 24rem);
     text-align: center;
 }
 
 .hud:hover .count,
 .item:hover .count {
-    font-size: 15rem;
+    font-size: var(--miniHudCountHoverFontSize, 16rem);
     font-weight: 800;
 }
 
 // Keep the horizontal count compact even when the HUD hover enlarges the font.
 .horizontal .hud:hover .count,
 .horizontal .item:hover .count {
-    min-width: 20rem;
+    min-width: var(--miniHudCountWidthHorizontal, 24rem);
     text-align: center;
 }
 
@@ -181,8 +181,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 10rem;
-    min-height: 10rem;
+    min-width: var(--miniHudHandleMin, 14rem);
+    min-height: var(--miniHudHandleMin, 14rem);
     padding-top: 0;
     padding-right: 2rem;
     padding-bottom: 0;
@@ -215,10 +215,10 @@
 }
 
 .openHandleDot {
-    width: 3rem;
-    height: 3rem;
+    width: var(--miniHudDotSize, 4.5rem);
+    height: var(--miniHudDotSize, 4.5rem);
     display: block;
-    margin-right: 2rem;
+    margin-right: var(--miniHudDotGap, 3rem);
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
     border-bottom-left-radius: 50%;
@@ -244,19 +244,19 @@
 
 .vertical .openHandle {
     margin-top: 1rem;
-    min-width: 18rem;
-    min-height: 6rem;
+    min-width: var(--miniHudVerticalHandleWidth, 24rem);
+    min-height: var(--miniHudVerticalHandleHeight, 10rem);
     padding-top: 0;
     padding-bottom: 0;
 }
 
 .horizontal .openHandle {
     margin-top: 0;
-    margin-left: 3rem;
-    min-width: 6rem;
-    min-height: 22rem;
-    padding-right: 1rem;
-    padding-left: 1rem;
+    margin-left: var(--miniHudHorizontalHandleMarginLeft, 4rem);
+    min-width: var(--miniHudHorizontalHandleWidth, 14rem);
+    min-height: var(--miniHudHorizontalHandleHeight, 34rem);
+    padding-right: var(--miniHudHorizontalHandlePadX, 3rem);
+    padding-left: var(--miniHudHorizontalHandlePadX, 3rem);
 }
 
 .horizontal .openHandleMark {
@@ -265,7 +265,7 @@
 
 .horizontal .openHandleDot {
     margin-right: 0;
-    margin-bottom: 2rem;
+    margin-bottom: var(--miniHudDotGap, 3rem);
 }
 
 .horizontal .openHandleDot:last-child {

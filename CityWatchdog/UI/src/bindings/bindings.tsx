@@ -23,6 +23,7 @@ export const miniHudOrientation$ = bindValue<number>(mod.id, "MiniHudOrientation
 export const miniHudPlacement$ = bindValue<number>(mod.id, "MiniHudPlacement", 2);      // draggable
 export const miniHudMode$ = bindValue<number>(mod.id, "MiniHudMode", 1);                // favorites
 export const miniHudItemCount$ = bindValue<number>(mod.id, "MiniHudItemCount", 5);
+export const miniHudScale$ = bindValue<number>(mod.id, "MiniHudScale", 100);
 export const miniHudHideZero$ = bindValue<boolean>(mod.id, "MiniHudHideZero", true);
 export const miniHudGlassStyle$ = bindValue<boolean>(mod.id, "MiniHudGlassStyle", false);
 

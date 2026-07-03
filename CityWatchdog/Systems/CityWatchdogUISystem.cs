@@ -43,6 +43,7 @@ namespace CityWatchdog.Systems
         private ValueBinding<bool> miniHudEnabledBinding = null!;
         private ValueBinding<int> miniHudModeBinding = null!;
         private ValueBinding<int> miniHudItemCountBinding = null!;
+        private ValueBinding<int> miniHudScaleBinding = null!;
         private ValueBinding<int> miniHudOrientationBinding = null!;
         private ValueBinding<int> miniHudPlacementBinding = null!;
         private ValueBinding<bool> miniHudHideZeroBinding = null!;
@@ -158,6 +159,7 @@ namespace CityWatchdog.Systems
             miniHudEnabledBinding = AddValueBinding(nameof(Setting.MiniHudEnabled), Setting.Instance.MiniHudEnabled);
             miniHudModeBinding = AddValueBinding(nameof(Setting.MiniHudMode), Setting.Instance.MiniHudMode);
             miniHudItemCountBinding = AddValueBinding(nameof(Setting.MiniHudItemCount), Setting.Instance.MiniHudItemCount);
+            miniHudScaleBinding = AddValueBinding(nameof(Setting.MiniHudScale), Setting.Instance.MiniHudScale);
             miniHudOrientationBinding = AddValueBinding(nameof(Setting.MiniHudOrientation), Setting.Instance.MiniHudOrientation);
             miniHudPlacementBinding = AddValueBinding(nameof(Setting.MiniHudPlacement), Setting.Instance.MiniHudPlacement);
             miniHudHideZeroBinding = AddValueBinding(nameof(Setting.MiniHudHideZero), Setting.Instance.MiniHudHideZero);
@@ -986,6 +988,8 @@ namespace CityWatchdog.Systems
         public void UpdateMiniHudModeBinding(int value) => miniHudModeBinding?.Update(value);
 
         public void UpdateMiniHudItemCountBinding(int value) => miniHudItemCountBinding?.Update(value);
+
+        public void UpdateMiniHudScaleBinding(int value) => miniHudScaleBinding?.Update(value);
 
         public void UpdateMiniHudOrientationBinding(int value) => miniHudOrientationBinding?.Update(value);
 

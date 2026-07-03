@@ -94,6 +94,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "รายการโปรด" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "จำนวนไอคอน Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudItemCount)), "เลือก how many notification icons the Mini HUD can show at once." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudScale)), "Mini HUD size" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudScale)), "Scale Mini HUD icons and numbers.\n90% = compact. 100% = default. Increase up to 130% for better visibility." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudOrientation)), "ทิศทาง Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudOrientation)), "เลือก whether Mini HUD icons are arranged in a row or a column." },
                 { m_Settings.GetOptionLocaleID("MiniHudOrientationHorizontal"), "แนวนอน" },

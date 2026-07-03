@@ -94,6 +94,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Preferiti" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Numero icone Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudItemCount)), "Scegli how many notification icons the Mini HUD can show at once." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudScale)), "Mini HUD size" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudScale)), "Scale Mini HUD icons and numbers.\n90% = compact. 100% = default. Increase up to 130% for better visibility." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudOrientation)), "Orientamento Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudOrientation)), "Scegli whether Mini HUD icons are arranged in a row or a column." },
                 { m_Settings.GetOptionLocaleID("MiniHudOrientationHorizontal"), "Orizzontale" },

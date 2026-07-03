@@ -19,9 +19,6 @@
         <!-- Path to the PowerShell that syncs PublishConfiguration.xml + mod.json with $(Version). -->
         <PublishConfigScript>$(MSBuildProjectDirectory)\Scripts\Update-PublishConfig.ps1</PublishConfigScript>
 
-        <!-- Only set this if overriding the Managed path is required -->
-        <CustomManagedPath></CustomManagedPath>
-
         <Nullable>enable</Nullable>
 
 		<!-- Code quality: enable modern analyzer checks without requiring XML docs. -->
