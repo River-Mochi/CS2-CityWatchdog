@@ -182,13 +182,14 @@ namespace CityWatchdog
                     "Keep clicking the same icon to rotate through matching spots, then back to the first one."
                 },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Recommended preset" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Recommended Starter Set" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
                     "Applies a recommended Mini HUD setup:\n" +
-                    "Favorites, 5 icons, vertical, draggable, hide zero alerts, glass style off.\n" +
-                    "Draggable vertical preset starts near the top-right side.\n" +
-                    "Starter Blue-Star Favorites: Not enough electricity, Electricity bottleneck, Battery depleted, Electric cable not connected, Power line not connected, Not enough water, Backed up sewer, Water pipe not connected, Sewer pipe not connected, Abandoned, High rent, Traffic jam, Road required, No pedestrian access, Lack of Labor, Water damage, On fire, Burned down, Garbage piling up, Traffic accident, Crime scene, Pathfinding failed, No vehicles.\n" +
-                    "Change Blue Stars anytime in the City Watchdog city panel." },
+                    "Favorites, 5 icons, horizontal, top center, 100% size, dark panel.\n" +
+                    "Zero-count alerts stay visible.\n" +
+                    "Add/remove **Blue Star** favorites anytime in the expanded Watchdog panel.\n" +
+                    "Starter set Blue-Star favorites are included with **[Recommended]**."
+                  },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini HUD Mode" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
