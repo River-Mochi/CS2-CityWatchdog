@@ -36,119 +36,333 @@ namespace CityWatchdog
 
             Dictionary<string, string> entries = new Dictionary<string, string>
             {
+                // --- Mod title ---
                 { m_Settings.GetSettingsLocaleID(), title },
+
+                // --- Tabs ---
                 { m_Settings.GetOptionTabLocaleID(Setting.Actions), "操作" },
                 { m_Settings.GetOptionTabLocaleID(Setting.MiniHudTab), "Mini-HUD" },
-                { m_Settings.GetOptionTabLocaleID(Setting.MoneyTab), "お金・マイルストーン" },
+                { m_Settings.GetOptionTabLocaleID(Setting.MoneyTab), "資金・マイルストーン" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "情報" },
+
+                // --- Groups, ordered by Options menu location ---
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "使い方" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "通知" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "都市内情報ビューア" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "都市内情報ビュー" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.MiniHudGroup), "Mini HUD 通知" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "新しい都市の開始設定" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.Money), "お金" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "無制限資金セーブを変換" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "新都市開始設定" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Money), "資金" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "無限資金セーブ変換" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutDiagnostics), "診断" },
+
+                // --------------------------------------------------------------------
+                // Actions tab - Usage
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "説明を表示" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "表示/非表示 the usage instructions below." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)), "<Display toggles>\n1. [i] button: show/hide all game hover tooltips.\n2. Road Name button: show/hide road name labels. ホットキー: \\.\n3. District Name button: show/hide district names without changing boundaries.\n4. Road Arrow button: show/hide one-way road arrows and also hide road names.\n5. CWD title icon: show/hide panel tooltips.\n\n<Notification alerts>\n開く City Watchdog with the top-left button or Shift+N. Sort, Toggle All, or expand sections to change specific icons. This hides icons only; it does not fix city problems.\n\n<お金 helpers>\nUse [ and ] to add/subtract money. Automatic money adds money below your chosen limit. 無制限資金 conversion is not reversible.\n\n<Bottom menu tooltips>\nお金 View adds money and population trend values to the bottom toolbar.\n\n<Custom milestone>\nSet 初期資金 and milestones before loading or starting a city." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "下の使い方を表示/非表示にします。" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
+                    "<表示切替>\n" +
+                    "1. [i] ボタン：ゲーム内の全ホバーツールチップを表示/非表示。\n" +
+                    "2. 道路名ボタン：道路名を表示/非表示。ホットキー：\\。\n" +
+                    "3. 地区名ボタン：境界は変えずに地区名だけ表示/非表示。\n" +
+                    "4. 道路矢印ボタン：一方通行矢印を強制表示/非表示（道路名も非表示）。\n" +
+                    "5. CWD タイトルアイコン：City Watchdog パネルのツールチップを表示/非表示。\n\n" +
+                    "<通知アラート>\n" +
+                    "1. 左上の City Watchdog ボタン、または Shift+N でパネルを開きます。\n" +
+                    "2. 並び替えボタン：昇順/降順。\n" +
+                    "3. Toggle All で一括オン/オフ。セクションを開けば個別変更できます。\n" +
+                    "4. アイコンを隠すだけで、都市の問題自体は解決しません。\n\n" +
+                    "<資金ヘルプ>\n" +
+                    "1. 資金追加/減額：既定キー [ と ] を使います。\n" +
+                    "2. 自動追加は、資金が設定した下限を下回ると追加します。\n" +
+                    "3. 無限資金セーブ変換は無限資金で始めた都市専用で、<元に戻せません>。\n\n" +
+                    "<下部メニューのツールチップ>\n" +
+                    "Money View は資金/人口の傾向値とホバー詳細を追加します。\n\n" +
+                    "<カスタム マイルストーン>\n" +
+                    "都市を読み込む/開始する前に、初期資金とマイルストーンを設定します。"
+                },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "通知アイコンを切り替え" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "<ホットキー> for the same action as the in-game <[TOGGLE ALL]> icon button.\nIt shows or hides all listed city notification icons instantly." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "すべての通知アイコンを即時表示/非表示" },
+
+                // --------------------------------------------------------------------
+                // Actions tab - Notifications
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "通知アイコン切替" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
+                    "<ホットキー> はゲーム内 <[TOGGLE ALL]> ボタンと同じ動作です。\n" +
+                    "一覧の都市通知アイコンをすぐに表示/非表示にします。" },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "全通知アイコンを即時表示/非表示" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "通知パネルを開く/閉じる" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "<ホットキー> for opening or closing the\n<通知パネル> 都市内.\nWorks the same as clicking Top Left icon to open the full panel." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)),
+                    "<ホットキー> で都市内の\n" +
+                    "<通知パネル>を開閉します。\n" +
+                    "左上アイコンで完全パネルを開くのと同じです。"
+                },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "通知パネルを開く/閉じる" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PanelButtonsOnlyStart)), "ボタンのみで開始" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PanelButtonsOnlyStart)), "有効時 [ ✓ ], opening City Watchdog from the top-left button starts in the smaller buttons-only view.\nUse the title-bar arrow or the row-count button to expand the full panel." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PanelButtonsOnlyStart)), "ボタンだけで開始" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PanelButtonsOnlyStart)),
+                    "有効 [ ✓ ] の場合、左上ボタンから小さいボタン専用表示で開きます。\n" +
+                    "タイトルバー矢印か行数ボタンで完全パネルに展開します。" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)), "道路名を非表示/表示" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)), "<ホットキー> to instantly hide or show the vanilla road name labels 都市内.\nSame as clicking the Road-Name icon in the City Watchdog panel toolbar." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)),
+                    "<ホットキー> でバニラの道路名ラベルを即時表示/非表示。\n" +
+                    "City Watchdog ツールバーの道路名アイコンと同じです。" },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "道路名を非表示/表示" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "すべてのマウスオーバーツールチップを無効化" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "<ホットキー> to instantly hide or show ALL game hover tooltips — buildings, cims, tools, and bottom menu icons.\n<City Watchdog's own money/population popups stay on>; those are controlled by the お金 View option above.\nSame as clicking the [i] icon on the City Watchdog panel inside the city." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "ゲームの全ホバーツールチップを表示/非表示" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "お金＋人口ツールチップを表示" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)), "<Recommend Enable>\nBottom game menu: Shows trend values with the game's bottom toolbar <money and population arrows>.\nThis is a lightweight hover over toolbar feature <display only>;\nSaves time and possible better performance than opening game's Info view panel." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyViewMode)), "Money View の頻度" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)), "選択 whether the bottom-toolbar trend text shows hourly or monthly values for money and population.\nMonthly uses budget income minus expenses for money, and a 24-hour projection for population." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "全マウスオーバーツールチップ無効" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
+                    "<ホットキー> でゲーム内の全ホバーツールチップを表示/非表示。\n" +
+                    "<City Watchdog の資金/人口ポップアップは残ります>。上の Money View で制御します。\n" +
+                    "City Watchdog パネル内の [i] アイコンと同じです。" },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "ゲーム内ホバーツールチップを表示/非表示" },
+
+                // --------------------------------------------------------------------
+                // Actions tab - In-City Info Viewer
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "資金 + 人口ツールチップを表示" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
+                    "<推奨>\n" +
+                    "下部メニュー：資金/人口の矢印に傾向値を表示します。\n" +
+                    "軽いツールバーホバー機能です<表示のみ>；\n" +
+                    "ゲームの情報パネルを開く手間を減らします。"
+                },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyViewMode)), "Money View 頻度" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)),
+                    "下部ツールバーの傾向を時間ごと/月ごとで選びます。\n" +
+                    "月次は収入−支出、人口は24時間予測を使います。" },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeHourly"), "毎時 (/h)" },
-                { m_Settings.GetOptionLocaleID("MoneyViewModeMonthly"), "月間 (/mo)" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "お金ツールチップのスタイル" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)), "選択 how much detail appears in the money hover tooltip.\nコンパクト = default on first install.\n<Mini> shows only 2 Net values for /mo and /h.\n<コンパクト> shortens large values (15.21M instead of 15,212,318).\n<全データ> shows long values and Total fields." },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "ミニ" },
+                { m_Settings.GetOptionLocaleID("MoneyViewModeMonthly"), "毎月 (/mo)" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "資金ツールチップ形式" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
+                    "資金ツールチップの詳細量を選びます。\n" +
+                    "コンパクト = 初回既定。\n" +
+                    "<Mini> は /mo と /h の純額2つだけ表示。\n" +
+                    "<コンパクト> は大きい数を短縮（15,212,318 → 15.21M）。\n" +
+                    "<全データ> は長い値と合計を表示します。" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "コンパクト" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "全データ" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "お金の文字サイズ" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Adjusts <font size> of お金 View tooltip numbers.\nゲーム既定 = 100%\n<Mod既定 = 120%>\nHover over お金 at bottom of the screen.\nRequested by players who have hard time seeing smaller tooltips in the game." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "人口の文字サイズ" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Adjusts <font size> of population tooltip numbers.\nゲーム既定 = 100%\n<Mod既定 = 120%>\nHover over Population at bottom of the screen." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "資金フォントサイズ" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
+                    "Money View の数値<フォントサイズ>を調整します。\n" +
+                    "ゲーム既定 = 100%\n" +
+                    "<Mod 既定 = 120%>\n" +
+                    "画面下の資金にマウスを合わせます。\n" +
+                    "小さいツールチップが読みにくいプレイヤー向けです。"
+                },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "人口フォントサイズ" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)),
+                    "人口ツールチップ数値の<フォントサイズ>を調整します。\n" +
+                    "ゲーム既定 = 100%\n" +
+                    "<Mod 既定 = 120%>\n" +
+                    "画面下の人口にマウスを合わせます。"
+                },
+
+                // --------------------------------------------------------------------
+                // Mini-HUD tab - Mini HUD Notifications
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudEnabled)), "Mini HUD" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudEnabled)), "都市に小さなHUDを表示します with the most important notification counts.\nUse it as a quick alert strip without opening the full City Watchdog panel.\nClicking an icon jumps to one matching problem spot.\nKeep clicking the same icon to rotate through matching spots, then back to the first one." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "おすすめプリセット" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Applies a recommended Mini HUD setup:\nFavorites, 5 icons, horizontal, top center, 100% size, dark panel.\nZero-count alerts stay visible.\nAdd/remove **Blue Star** favorites anytime in the expanded Watchdog panel.\nStarter set Blue-Star favorites are included with **[Recommended]**." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudEnabled)),
+                    "重要な通知数を小さな都市HUDで表示します。\n" +
+                    "完全パネルを開かずに素早く確認できます。\n" +
+                    "アイコンをクリックすると対応する問題地点へ移動します。\n" +
+                    "同じアイコンを押し続けると候補地点を順番に巡回します。"
+                },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "推奨スターター設定" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
+                    "推奨 Mini HUD 設定を適用します：\n" +
+                    "お気に入り、5アイコン、横向き、上中央、100%、暗いパネル。\n" +
+                    "0件アラートも表示します。\n" +
+                    "展開した Watchdog パネルで **青い星** お気に入りを変更できます。\n" +
+                    "スターターの **青い星** お気に入りは **[推奨]** に含まれます。"
+                  },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini HUD モード" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)), "選択 which notification rows the Mini HUD uses.\n**Top active** alerts shows the highest current counts.\n**お気に入り** includes all rows marked with **青い星** in the main City Watchdog panel.\nYou can pick as many favorites as you want,\nbut Mini HUD still shows only the top 5 or top 10 current counts from that **favorites blue-star** list." },
-                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "上位アクティブ警告" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
+                    "Mini HUD が使う通知行を選びます。\n" +
+                    "**上位アクティブ** は現在数が多いアラートを表示。\n" +
+                    "**お気に入り** はメインパネルで **青い星** の行を使います。\n" +
+                    "お気に入りはいくつでも選べますが、\n" +
+                    "Mini HUD はその中から上位5または10件だけ表示します。" },
+                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "上位アクティブ" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "お気に入り" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Mini HUD アイコン数" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudItemCount)), "選択 how many notification icons the Mini HUD can show at once." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudScale)), "Mini HUD size" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudScale)), "Scale Mini HUD icons and numbers.\n90% = compact. 100% = default. Increase up to 130% for better visibility." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudOrientation)), "Mini HUD の向き" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudOrientation)), "選択 whether Mini HUD icons are arranged in a row or a column." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudItemCount)),
+                    "Mini HUD に同時表示する通知アイコン数を選びます。" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudScale)), "Mini HUD サイズ" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudScale)),
+                    "Mini HUD のアイコンと数字を拡大/縮小します。\n" +
+                    "90% = 小さめ。100% = 既定。見やすくするなら最大130%。" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudOrientation)), "Mini HUD 向き" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudOrientation)),
+                    "横一列か縦一列を選びます。" },
                 { m_Settings.GetOptionLocaleID("MiniHudOrientationHorizontal"), "横" },
                 { m_Settings.GetOptionLocaleID("MiniHudOrientationVertical"), "縦" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPlacement)), "Mini HUD の位置" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPlacement)), "選択 where the Mini HUD appears.\nドラッグ可能 lets you move it 都市内 UI." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPlacement)), "Mini HUD 位置" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPlacement)),
+                    "Mini HUD の表示位置を選びます。\n" +
+                    "ドラッグ可なら都市UI内で移動できます。" },
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementTopCenter"), "上中央" },
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementTopRight"), "右上" },
-                { m_Settings.GetOptionLocaleID("MiniHudPlacementDraggable"), "ドラッグ可能" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelStyle)), "Mini HUD style" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPanelStyle)), "Choose the Mini HUD background style.\nGlass panel goes from clear to a cloudy white tint; it does not get darker.\nUse Dark panel for a darker vanilla-style HUD." },
-                { m_Settings.GetOptionLocaleID("MiniHudPanelStyleDark"), "Dark panel" },
-                { m_Settings.GetOptionLocaleID("MiniHudPanelStyleGlass"), "Glass panel" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelOpacity)), "Mini HUD opacity" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPanelOpacity)), "Adjusts Mini HUD background transparency.\nLower values are more transparent. Higher values are more solid.\nGlass becomes more white/cloudy. Dark becomes more solid/dark." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudHideZero)), "ゼロ件の警告を非表示" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudHideZero)), "有効時 [ ✓ ], the Mini HUD hides notification rows with a count of 0." },
+                { m_Settings.GetOptionLocaleID("MiniHudPlacementDraggable"), "ドラッグ可" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelStyle)), "Mini HUD スタイル" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPanelStyle)),
+                    "Mini HUD の背景スタイルを選びます。\n" +
+                    "ガラスは透明から白く曇るだけで暗くなりません。\n" +
+                    "暗いパネルは暗めのバニラ風HUDです。" },
+                { m_Settings.GetOptionLocaleID("MiniHudPanelStyleDark"), "暗いパネル" },
+                { m_Settings.GetOptionLocaleID("MiniHudPanelStyleGlass"), "ガラスパネル" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelOpacity)), "Mini HUD 不透明度" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPanelOpacity)),
+                    "Mini HUD 背景の透明度を調整します。\n" +
+                    "低いほど透明。高いほど不透明。\n" +
+                    "ガラスは白く曇り、暗いパネルはより濃くなります。" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudHideZero)), "0件アラートを隠す" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudHideZero)),
+                    "有効 [ ✓ ] の場合、Mini HUD は件数0の行を隠します。" },
+
+                // --------------------------------------------------------------------
+                // Money-Milestones tab - New City Start Settings
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "初期資金" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)), "Sets the starting balance for a new <limited money> city or the first loaded city,\nthen resets to ゲーム既定 after it applies.\nThis is grayed out if a city is already loaded.\nSet this before starting/loading a city. It applies once, then use <お金ホットキー金額> or <自動でお金を追加> afterward." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
+                    "新しい<有限資金>都市、または最初に読み込む都市の開始資金を設定し、\n" +
+                    "適用後にゲーム既定へ戻します。\n" +
+                    "都市が読み込み済みの場合は無効です。\n" +
+                    "都市開始/読み込み前に設定。適用後は<資金ホットキー額>または<自動資金追加>を使います。" },
                 { m_Settings.GetOptionLocaleID("GameDefault"), "ゲーム既定" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "マイルストーン選択" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)), "Enable <before loading or starting a city> to unlock a chosen milestone immediately after the city loads.\n- Cannot be turned ON after a city is loaded, but it can be turned OFF if it was left enabled by mistake.\n- If you forgot and loaded a city, just restart the game, and pick milestone before entering a city.\n- Mod 元に戻せません milestone changes already saved into a city; use an earlier save if needed." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
+                    "<都市を読み込む/開始する前>に有効化すると、読み込み後に選んだマイルストーンを解除します。\n" +
+                    "- 都市読み込み後はオンにできませんが、誤ってオンならオフにできます。\n" +
+                    "- 忘れた場合はゲームを再起動し、都市に入る前に選びます。\n" +
+                    "- すでに保存されたマイルストーン変更は戻せません。必要なら古いセーブを使ってください。"
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "マイルストーン" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)), "Pick a milestone level to unlock on the next city load.\nThis is <only adjustable outside a loaded city>, and only after [マイルストーン選択] is enabled [ ✓ ].\nIf the city is already at or past the milestone selected, then nothing will happen.\nA change only happens if the milestone selected here is higher than what the city has." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "お金ホットキー金額" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)), "Use this amount with the お金を追加 and お金を減らす hotkeys.\n<Mod既定 = 40,000>\nThis does nothing unless you use the hotkey to add/subtract money (都市内).\nFor automated money, enable the 自動でお金を追加 option." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "お金を追加" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "ホットキー to <お金を追加> inside the city." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "お金を追加" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "お金を減らす" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "ホットキー to <お金を減らす> inside the city." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "お金を減らす" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "自動でお金を追加" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)), "有効時 [ ✓ ], City Watchdog checks the city balance while a city is loaded.\n- If the balance is <below the threshold>, \n  it adds the selected automatic amount.\n- Recommend to use Manual money with hotkey (<[> or <]>) as needed  instead of this automated option, but this is here if you want it." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "自動追加の資金しきい値" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "If 自動でお金を追加 is enabled and the city balance falls below this value,\nAdd the selected automatic amount." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "自動追加金額" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Amount added each time 自動でお金を追加 triggers.\n選択 a value high enough to bring the city safely above the threshold." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "無制限資金コンバーター" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "<先に都市をバックアップしてください>.\nConverts a city that started as 無制限資金 to a normal city with regular money challenges.\nEnabling this unlocks the <[Convert 無制限資金 Save]> button when the loaded city is <無制限資金> type.\nCity Watchdog 元に戻せません this conversion.\nIf you have normal cities, do not worry about this; it is not needed." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "無制限資金の都市を通常に変換" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "For cities started with <無制限資金>.\nWhile that city is loaded, this converts the save to normal limited-money budgeting so the city has regular money challenges again.\nButton is <disabled/greyed-out> unless the loaded city is an <無制限資金> type\nand <無制限資金コンバーター> is ON [ ✓ ].\nMake a backup save, and use at your own risk; City Watchdog 元に戻せません this conversion." },
-                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Convert this city from 無制限資金 to normal limited money?\nSave a backup FIRST; City Watchdog 元に戻せません this.\nAre you sure?" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Mod名" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.NameText)), "Display name of this mod." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)),
+                    "次回読み込み時に解除するマイルストーンを選びます。\n" +
+                    "<都市未読み込み時のみ>、かつ [マイルストーン選択] が有効 [ ✓ ] の時だけ調整できます。\n" +
+                    "都市がすでに同等以上なら何も起きません。\n" +
+                    "選択したものが現在より高い場合だけ変更されます。"
+                },
+
+                // --------------------------------------------------------------------
+                // Money-Milestones tab - Money
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "資金ホットキー額" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
+                    "資金追加/減額ホットキーで使う金額です。\n" +
+                    "<Mod 既定 = 40,000>\n" +
+                    "都市内でホットキーを使わない限り何もしません。\n" +
+                    "自動なら、自動資金追加を有効にします。"
+                },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "資金追加" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)),
+                    "都市内で <資金追加> するホットキー。" },
+                { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "資金追加" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "資金減額" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)),
+                    "都市内で <資金減額> するホットキー。" },
+                { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "資金減額" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "自動資金追加" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
+                    "有効 [ ✓ ] の場合、City Watchdog は都市の残高を確認します。\n" +
+                    "- 残高が<しきい値未満>なら、\n" +
+                    "  選択した金額を追加します。\n" +
+                    "- 必要時に手動ホットキー（<[> または <]>）を使うのがおすすめです" +
+                    "  が、自動オプションも用意しています。"
+                },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "自動資金しきい値" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),
+                    "自動資金追加が有効で残高がこの値を下回ると、\n" +
+                    "選択した金額を追加します。" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "自動資金額" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)),
+                    "自動発動ごとに追加する金額。\n" +
+                    "しきい値を安全に超える額を選んでください。" },
+
+                // --------------------------------------------------------------------
+                // Money-Milestones tab - Save Conversion
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "無限資金コンバーター" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)),
+                    "<先に都市をバックアップしてください>。\n" +
+                    "無限資金で始めた都市を通常の資金チャレンジ都市へ変換します。\n" +
+                    "<無限資金>タイプの都市で <[無限資金セーブ変換]> ボタンを有効にします。\n" +
+                    "City Watchdog はこの変換を元に戻せません。\n" +
+                    "通常都市なら不要です。" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "無限資金セーブ都市を通常へ変換" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
+                    "<無限資金>で開始した都市用です。\n" +
+                    "その都市を読み込んだ状態で、通常の有限資金予算へ変換します。\n" +
+                    "読み込み中の都市が <無限資金> タイプでない場合、ボタンは<無効/グレー>です\n" +
+                    "さらに <無限資金コンバーター> がオン [ ✓ ] である必要があります。\n" +
+                    "バックアップして自己責任で使用してください。City Watchdog は戻せません。" },
+
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
+                    "この都市を無限資金から通常の有限資金へ変換しますか？\n" +
+                    "先にバックアップしてください。City Watchdog は元に戻せません。\n" +
+                    "本当によろしいですか？" },
+
+                // --------------------------------------------------------------------
+                // About tab
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Mod 名" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.NameText)), "この Mod の表示名。" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.VersionText)), "バージョン" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "Current mod version." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "現在の Mod バージョン。" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "開く the author's Paradox Mods page." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "作者の Paradox Mods ページを開きます。" },
+
+                // --------------------------------------------------------------------
+                // About tab - Diagnostics
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "デバッグ報告をログへ" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)), "<Not needed for normal gameplay.>\nFor testers and post game-patch checks: writes a <Logs/CityWatchdog.log> report\ncomparing live game notification prefabs with the notification icons Watchdog currently controls." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)),
+                    "<通常プレイでは不要です。>\n" +
+                    "テストやゲーム更新後確認用：<Logs/CityWatchdog.log> に報告を書き込みます\n" +
+                    "ゲーム内通知 prefab と Watchdog が制御する通知アイコンを比較します。" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "ログを開く" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "開くs </Logs/CityWatchdog.log> if it exists.\nIf the log file is missing, opens the Logs/ folder instead." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "存在すれば </Logs/CityWatchdog.log> を開きます。\n" +
+                    "ログがない場合は Logs/ フォルダーを開きます。" },
             };
 
             return entries;
