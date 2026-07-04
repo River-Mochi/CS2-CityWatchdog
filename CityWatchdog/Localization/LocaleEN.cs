@@ -182,13 +182,14 @@ namespace CityWatchdog
                     "Keep clicking the same icon to rotate through matching spots, then back to the first one."
                 },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Recommended preset" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Recommended Starter Set" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
                     "Applies a recommended Mini HUD setup:\n" +
-                    "Favorites, 5 icons, vertical, draggable, hide zero alerts, glass style off.\n" +
-                    "Draggable vertical preset starts near the top-right side.\n" +
-                    "Starter Blue-Star Favorites: Not enough electricity, Electricity bottleneck, Battery depleted, Electric cable not connected, Power line not connected, Not enough water, Backed up sewer, Water pipe not connected, Sewer pipe not connected, Abandoned, High rent, Traffic jam, Road required, No pedestrian access, Lack of Labor, Water damage, On fire, Burned down, Garbage piling up, Traffic accident, Crime scene, Pathfinding failed, No vehicles.\n" +
-                    "Change Blue Stars anytime in the City Watchdog city panel." },
+                    "Favorites, 5 icons, horizontal, top center, 100% size, dark panel.\n" +
+                    "Zero-count alerts stay visible.\n" +
+                    "Add/remove **Blue Star** favorites anytime in the expanded Watchdog panel.\n" +
+                    "Starter set Blue-Star favorites are included with **[Recommended]**."
+                  },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini HUD Mode" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
@@ -223,13 +224,23 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementTopRight"), "Top right" },
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementDraggable"), "Draggable" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelStyle)), "Mini HUD style" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPanelStyle)),
+                    "Choose the Mini HUD background style.\n" +
+                    "Glass panel goes from clear to a cloudy white tint; it does not get darker.\n" +
+                    "Use Dark panel for a darker vanilla-style HUD." },
+                { m_Settings.GetOptionLocaleID("MiniHudPanelStyleDark"), "Dark panel" },
+                { m_Settings.GetOptionLocaleID("MiniHudPanelStyleGlass"), "Glass panel" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelOpacity)), "Mini HUD opacity" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPanelOpacity)),
+                    "Adjusts Mini HUD background transparency.\n" +
+                    "Lower values are more transparent. Higher values are more solid.\n" +
+                    "Glass becomes more white/cloudy. Dark becomes more solid/dark." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudHideZero)), "Hide zero alerts" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudHideZero)),
                     "When enabled [ ✓ ], the Mini HUD hides notification rows with a count of 0." },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudGlassStyle)), "Glass style" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudGlassStyle)),
-                    "Adds a soft glass-style background behind the Mini HUD for readability." },
 
                 // --------------------------------------------------------------------
                 // Money-Milestones tab - New City Start Settings

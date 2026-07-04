@@ -47,7 +47,8 @@ namespace CityWatchdog.Systems
         private ValueBinding<int> miniHudOrientationBinding = null!;
         private ValueBinding<int> miniHudPlacementBinding = null!;
         private ValueBinding<bool> miniHudHideZeroBinding = null!;
-        private ValueBinding<bool> miniHudGlassStyleBinding = null!;
+        private ValueBinding<int> miniHudPanelStyleBinding = null!;
+        private ValueBinding<int> miniHudPanelOpacityBinding = null!;
         private ValueBinding<bool> panelButtonsOnlyStartBinding = null!;
         private ValueBinding<bool>? moneyViewBinding;
         private ValueBinding<int>? moneyViewModeBinding;
@@ -163,7 +164,8 @@ namespace CityWatchdog.Systems
             miniHudOrientationBinding = AddValueBinding(nameof(Setting.MiniHudOrientation), Setting.Instance.MiniHudOrientation);
             miniHudPlacementBinding = AddValueBinding(nameof(Setting.MiniHudPlacement), Setting.Instance.MiniHudPlacement);
             miniHudHideZeroBinding = AddValueBinding(nameof(Setting.MiniHudHideZero), Setting.Instance.MiniHudHideZero);
-            miniHudGlassStyleBinding = AddValueBinding(nameof(Setting.MiniHudGlassStyle), Setting.Instance.MiniHudGlassStyle);
+            miniHudPanelStyleBinding = AddValueBinding(nameof(Setting.MiniHudPanelStyle), Setting.Instance.MiniHudPanelStyle);
+            miniHudPanelOpacityBinding = AddValueBinding(nameof(Setting.MiniHudPanelOpacity), Setting.Instance.MiniHudPanelOpacity);
             panelButtonsOnlyStartBinding = AddValueBinding(nameof(Setting.PanelButtonsOnlyStart), Setting.Instance.PanelButtonsOnlyStart);
             moneyViewBinding = AddValueBinding(nameof(Setting.MoneyView), Setting.Instance.MoneyView);
             moneyViewModeBinding = AddValueBinding(nameof(Setting.MoneyViewMode), Setting.Instance.MoneyViewMode);
@@ -997,7 +999,9 @@ namespace CityWatchdog.Systems
 
         public void UpdateMiniHudHideZeroBinding(bool value) => miniHudHideZeroBinding?.Update(value);
 
-        public void UpdateMiniHudGlassStyleBinding(bool value) => miniHudGlassStyleBinding?.Update(value);
+        public void UpdateMiniHudPanelStyleBinding(int value) => miniHudPanelStyleBinding?.Update(value);
+
+        public void UpdateMiniHudPanelOpacityBinding(int value) => miniHudPanelOpacityBinding?.Update(value);
 
         public void UpdateMiniHudFavoritesBinding() => miniHudFavoritesBinding?.Update(GetMiniHudFavoriteIndexes());
 

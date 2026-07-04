@@ -107,6 +107,8 @@ namespace CityWatchdog
                 LogUtils.Error($"{ModTag} Settings load failed: {ex.GetType().Name}: {ex.Message}", ex);
             }
 
+            setting.NormalizeLoadedSettings();
+
             try
             {
                 setting.RegisterInOptionsUI();

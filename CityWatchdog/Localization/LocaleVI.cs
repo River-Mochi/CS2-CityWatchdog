@@ -36,115 +36,333 @@ namespace CityWatchdog
 
             Dictionary<string, string> entries = new Dictionary<string, string>
             {
+                // --- Mod title ---
                 { m_Settings.GetSettingsLocaleID(), title },
+
+                // --- Tabs ---
                 { m_Settings.GetOptionTabLocaleID(Setting.Actions), "Hành động" },
                 { m_Settings.GetOptionTabLocaleID(Setting.MiniHudTab), "Mini-HUD" },
-                { m_Settings.GetOptionTabLocaleID(Setting.MoneyTab), "Tiền và cột mốc" },
+                { m_Settings.GetOptionTabLocaleID(Setting.MoneyTab), "Tiền-Mốc" },
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "Giới thiệu" },
+
+                // --- Groups, ordered by Options menu location ---
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "CÁCH DÙNG" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "Thông báo" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "Trình xem thông tin trong thành phố" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "Xem thông tin trong thành phố" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.MiniHudGroup), "Thông báo Mini HUD" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "CÀI ĐẶT BẮT ĐẦU THÀNH PHỐ MỚI" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "THIẾT LẬP THÀNH PHỐ MỚI" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Tiền" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Chuyển đổi save tiền vô hạn" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Chuyển save tiền vô hạn" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutDiagnostics), "CHẨN ĐOÁN" },
+
+                // --------------------------------------------------------------------
+                // Actions tab - Usage
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ShowUsage)), "Hiện hướng dẫn" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Hiện hoặc ẩn the usage instructions below." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)), "<Display toggles>\n1. [i] button: show/hide all game hover tooltips.\n2. Road Name button: show/hide road name labels. Phím tắt: \\.\n3. District Name button: show/hide district names without changing boundaries.\n4. Road Arrow button: show/hide one-way road arrows and also hide road names.\n5. CWD title icon: show/hide panel tooltips.\n\n<Notification alerts>\nMở City Watchdog with the top-left button or Shift+N. Sort, Toggle All, or expand sections to change specific icons. This hides icons only; it does not fix city problems.\n\n<Tiền helpers>\nUse [ and ] to add/subtract money. Automatic money adds money below your chosen limit. Tiền vô hạn conversion is not reversible.\n\n<Bottom menu tooltips>\nTiền View adds money and population trend values to the bottom toolbar.\n\n<Custom milestone>\nSet Tiền ban đầu and milestones before loading or starting a city." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Hiện hoặc ẩn phần hướng dẫn bên dưới." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
+                    "<Nút hiển thị>\n" +
+                    "1. Nút [i]: ẩn/hiện TẤT CẢ tooltip khi rê chuột trong game.\n" +
+                    "2. Nút tên đường: ẩn/hiện tên đường. Phím tắt: \\.\n" +
+                    "3. Nút tên quận: ẩn/hiện tên quận, không đổi ranh giới.\n" +
+                    "4. Nút mũi tên đường: ép bật/tắt mũi tên một chiều (cũng ẩn tên đường).\n" +
+                    "5. Biểu tượng CWD: ẩn/hiện tooltip của bảng City Watchdog.\n\n" +
+                    "<Cảnh báo>\n" +
+                    "1. Bấm City Watchdog ở góc trên trái hoặc nhấn Shift+N để mở bảng.\n" +
+                    "2. Nút sắp xếp: tăng/giảm.\n" +
+                    "3. Toggle All bật/tắt nhanh tất cả, hoặc mở từng mục để chỉnh riêng.\n" +
+                    "4. Chỉ ẩn biểu tượng; không sửa vấn đề thật của thành phố.\n\n" +
+                    "<Công cụ tiền>\n" +
+                    "1. Thêm hoặc trừ tiền: dùng phím mặc định [ và ].\n" +
+                    "2. Tự động thêm tiền khi thành phố thấp hơn giới hạn bạn đặt.\n" +
+                    "3. Chuyển save Tiền vô hạn chỉ dành cho thành phố bắt đầu bằng Tiền vô hạn và <không thể hoàn tác>.\n\n" +
+                    "<Tooltip menu dưới>\n" +
+                    "Money View thêm xu hướng tiền/dân số và chi tiết khi rê chuột.\n\n" +
+                    "<Mốc tùy chỉnh>\n" +
+                    "Đặt tiền ban đầu và mốc trước khi tải hoặc bắt đầu thành phố."
+                },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Bật/tắt biểu tượng thông báo" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "<Phím tắt> for the same action as the in-game <[TOGGLE ALL]> icon button.\nIt shows or hides all listed city notification icons instantly." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Hiện/ẩn ngay mọi biểu tượng thông báo" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "Mở/đóng bảng thông báo" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "<Phím tắt> for opening or closing the\n<bảng thông báo> trong thành phố.\nWorks the same as clicking Top Left icon to open the full panel." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Mở/đóng bảng thông báo" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PanelButtonsOnlyStart)), "Bắt đầu dạng chỉ nút" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PanelButtonsOnlyStart)), "Khi bật [ ✓ ], opening City Watchdog from the top-left button starts in the smaller buttons-only view.\nUse the title-bar arrow or the row-count button to expand the full panel." },
+
+                // --------------------------------------------------------------------
+                // Actions tab - Notifications
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)), "Bật/tắt biểu tượng cảnh báo" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationsKeyboardBinding)),
+                    "<Phím tắt> cùng chức năng với nút <[TOGGLE ALL]> trong game.\n" +
+                    "Hiện hoặc ẩn ngay tất cả biểu tượng cảnh báo trong danh sách." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationsAction), "Hiện/ẩn ngay tất cả biểu tượng cảnh báo" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "Mở/đóng bảng cảnh báo" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)),
+                    "<Phím tắt> để mở hoặc đóng\n" +
+                    "<bảng cảnh báo> trong thành phố.\n" +
+                    "Giống bấm biểu tượng góc trên trái để mở bảng đầy đủ."
+                },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Mở/đóng bảng cảnh báo" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PanelButtonsOnlyStart)), "Bắt đầu chỉ nút" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PanelButtonsOnlyStart)),
+                    "Khi bật [ ✓ ], City Watchdog mở ở chế độ nhỏ chỉ có nút.\n" +
+                    "Dùng mũi tên thanh tiêu đề hoặc nút số dòng để mở bảng đầy đủ." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)), "Ẩn/hiện tên đường" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)), "<Phím tắt> to instantly hide or show the vanilla road name labels trong thành phố.\nSame as clicking the Road-Name icon in the City Watchdog panel toolbar." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleRoadNamesKeyboardBinding)),
+                    "<Phím tắt> để ẩn/hiện nhãn tên đường vanilla.\n" +
+                    "Giống bấm biểu tượng Tên đường trên thanh City Watchdog." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "Ẩn/hiện tên đường" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "Tắt mọi tooltip khi rê chuột" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "<Phím tắt> to instantly hide or show ALL game hover tooltips — buildings, cims, tools, and bottom menu icons.\n<City Watchdog's own money/population popups stay on>; those are controlled by the Tiền View option above.\nSame as clicking the [i] icon on the City Watchdog panel inside the city." },
-                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Ẩn/hiện mọi tooltip của game" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "Tắt mọi tooltip rê chuột" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
+                    "<Phím tắt> để ẩn/hiện TẤT CẢ tooltip rê chuột của game.\n" +
+                    "<Popup tiền/dân số riêng của City Watchdog vẫn bật>; chúng do Money View điều khiển.\n" +
+                    "Giống bấm biểu tượng [i] trong bảng City Watchdog." },
+                { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Ẩn/hiện tooltip của game" },
+
+                // --------------------------------------------------------------------
+                // Actions tab - In-City Info Viewer
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Hiện tooltip tiền + dân số" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)), "<Recommend Enable>\nBottom game menu: Shows trend values with the game's bottom toolbar <money and population arrows>.\nThis is a lightweight hover over toolbar feature <display only>;\nSaves time and possible better performance than opening game's Info view panel." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
+                    "<Khuyên bật>\n" +
+                    "Menu dưới: hiện giá trị xu hướng với mũi tên tiền và dân số.\n" +
+                    "Tính năng nhẹ khi rê chuột trên thanh công cụ <chỉ hiển thị>;\n" +
+                    "Đỡ phải mở bảng Info của game."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyViewMode)), "Tần suất Money View" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)), "Chọn whether the bottom-toolbar trend text shows hourly or monthly values for money and population.\nMonthly uses budget income minus expenses for money, and a 24-hour projection for population." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)),
+                    "Chọn xu hướng ở menu dưới theo giờ hay theo tháng.\n" +
+                    "Theo tháng dùng thu nhập trừ chi phí, dân số dùng dự báo 24 giờ." },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeHourly"), "Theo giờ (/h)" },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeMonthly"), "Theo tháng (/mo)" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipMode)), "Kiểu tooltip tiền" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)), "Chọn how much detail appears in the money hover tooltip.\nGọn = default on first install.\n<Mini> shows only 2 Net values for /mo and /h.\n<Gọn> shortens large values (15.21M instead of 15,212,318).\n<Dữ liệu đầy đủ> shows long values and Total fields." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipMode)),
+                    "Chọn mức chi tiết trong tooltip tiền.\n" +
+                    "Gọn = mặc định lần đầu cài.\n" +
+                    "<Mini> chỉ hiện 2 giá trị Net cho /mo và /h.\n" +
+                    "<Gọn> rút ngắn số lớn (15.21M thay vì 15,212,318).\n" +
+                    "<Dữ liệu đầy đủ> hiện số dài và tổng." },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Gọn" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "Dữ liệu đầy đủ" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Cỡ chữ tiền" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Adjusts <font size> of Tiền View tooltip numbers.\nMặc định của game = 100%\n<Mặc định của mod = 120%>\nHover over Tiền at bottom of the screen.\nRequested by players who have hard time seeing smaller tooltips in the game." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
+                    "Chỉnh <cỡ chữ> số trong tooltip Money View.\n" +
+                    "Mặc định game = 100%\n" +
+                    "<Mặc định mod = 120%>\n" +
+                    "Rê chuột lên Tiền ở dưới màn hình.\n" +
+                    "Dành cho người chơi thấy tooltip nhỏ khó đọc."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Cỡ chữ dân số" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)), "Adjusts <font size> of population tooltip numbers.\nMặc định của game = 100%\n<Mặc định của mod = 120%>\nHover over Population at bottom of the screen." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.PopulationTooltipFontScale)),
+                    "Chỉnh <cỡ chữ> số trong tooltip dân số.\n" +
+                    "Mặc định game = 100%\n" +
+                    "<Mặc định mod = 120%>\n" +
+                    "Rê chuột lên Dân số ở dưới màn hình."
+                },
+
+                // --------------------------------------------------------------------
+                // Mini-HUD tab - Mini HUD Notifications
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudEnabled)), "Mini HUD" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudEnabled)), "Hiện một HUD nhỏ trong thành phố with the most important notification counts.\nUse it as a quick alert strip without opening the full City Watchdog panel.\nClicking an icon jumps to one matching problem spot.\nKeep clicking the same icon to rotate through matching spots, then back to the first one." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Cấu hình đề xuất" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Applies a recommended Mini HUD setup:\nYêu thích, 5 icons, vertical, draggable, hide zero alerts, glass style off.\nKéo được vertical preset starts near the top-right side.\nStarter Blue-Star Yêu thích: Not enough electricity, Electricity bottleneck, Battery depleted, Electric cable not connected, Power line not connected, Not enough water, Backed up sewer, Water pipe not connected, Sewer pipe not connected, Abandoned, High rent, Traffic jam, Road required, No pedestrian access, Lack of Labor, Water damage, On fire, Burned down, Garbage piling up, Traffic accident, Crime scene, Pathfinding failed, No vehicles.\nChange Sao xanhs anytime in the City Watchdog city panel." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudEnabled)),
+                    "Hiện HUD nhỏ với các số cảnh báo quan trọng.\n" +
+                    "Dùng như dải cảnh báo nhanh mà không mở bảng đầy đủ.\n" +
+                    "Bấm biểu tượng để nhảy tới một điểm có vấn đề tương ứng.\n" +
+                    "Bấm tiếp cùng biểu tượng để xoay qua các điểm khác rồi về điểm đầu."
+                },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Bộ khởi đầu khuyên dùng" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
+                    "Áp dụng thiết lập Mini HUD khuyên dùng:\n" +
+                    "Yêu thích, 5 biểu tượng, ngang, trên giữa, 100%, bảng tối.\n" +
+                    "Cảnh báo số 0 vẫn hiện.\n" +
+                    "Thêm/bỏ yêu thích **Sao xanh** trong bảng Watchdog mở rộng.\n" +
+                    "Bộ **Sao xanh** ban đầu nằm trong **[Khuyên dùng]**."
+                  },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Chế độ Mini HUD" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)), "Chọn which notification rows the Mini HUD uses.\n**Top active** alerts shows the highest current counts.\n**Yêu thích** includes all rows marked with **Sao xanh** in the main City Watchdog panel.\nYou can pick as many favorites as you want,\nbut Mini HUD still shows only the top 5 or top 10 current counts from that **favorites blue-star** list." },
-                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Cảnh báo hoạt động nhiều nhất" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
+                    "Chọn các dòng thông báo Mini HUD dùng.\n" +
+                    "**Đang hoạt động cao** hiện số hiện tại cao nhất.\n" +
+                    "**Yêu thích** gồm các dòng có **Sao xanh** trong bảng chính.\n" +
+                    "Bạn có thể chọn bao nhiêu yêu thích tùy ý,\n" +
+                    "nhưng Mini HUD chỉ hiện top 5 hoặc top 10 số cao nhất từ danh sách đó." },
+                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Cảnh báo hoạt động cao" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Yêu thích" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Số biểu tượng Mini HUD" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudItemCount)), "Chọn how many notification icons the Mini HUD can show at once." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudScale)), "Mini HUD size" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudScale)), "Scale Mini HUD icons and numbers.\n90% = compact. 100% = default. Increase up to 130% for better visibility." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudItemCount)),
+                    "Chọn số biểu tượng Mini HUD có thể hiện cùng lúc." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudScale)), "Kích thước Mini HUD" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudScale)),
+                    "Phóng/thu biểu tượng và số của Mini HUD.\n" +
+                    "90% = gọn. 100% = mặc định. Tăng đến 130% để dễ nhìn hơn." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudOrientation)), "Hướng Mini HUD" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudOrientation)), "Chọn whether Mini HUD icons are arranged in a row or a column." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudOrientation)),
+                    "Chọn xếp thành hàng hay cột." },
                 { m_Settings.GetOptionLocaleID("MiniHudOrientationHorizontal"), "Ngang" },
                 { m_Settings.GetOptionLocaleID("MiniHudOrientationVertical"), "Dọc" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPlacement)), "Vị trí Mini HUD" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPlacement)), "Chọn where the Mini HUD appears.\nKéo được lets you move it trong thành phố UI." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPlacement)),
+                    "Chọn nơi Mini HUD xuất hiện.\n" +
+                    "Kéo được cho phép di chuyển trong UI thành phố." },
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementTopCenter"), "Trên giữa" },
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementTopRight"), "Trên phải" },
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementDraggable"), "Kéo được" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudHideZero)), "Ẩn cảnh báo bằng 0" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudHideZero)), "Khi bật [ ✓ ], the Mini HUD hides notification rows with a count of 0." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudGlassStyle)), "Kiểu kính" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudGlassStyle)), "Adds a soft glass-style background behind the Mini HUD for readability." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelStyle)), "Kiểu Mini HUD" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPanelStyle)),
+                    "Chọn kiểu nền Mini HUD.\n" +
+                    "Nền kính từ trong sang trắng mờ; không tối hơn.\n" +
+                    "Dùng nền tối cho HUD kiểu vanilla tối hơn." },
+                { m_Settings.GetOptionLocaleID("MiniHudPanelStyleDark"), "Nền tối" },
+                { m_Settings.GetOptionLocaleID("MiniHudPanelStyleGlass"), "Nền kính" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelOpacity)), "Độ mờ Mini HUD" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPanelOpacity)),
+                    "Chỉnh độ trong suốt nền Mini HUD.\n" +
+                    "Thấp hơn = trong hơn. Cao hơn = đặc hơn.\n" +
+                    "Kính trắng/mờ hơn. Tối thì đặc/tối hơn." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudHideZero)), "Ẩn cảnh báo số 0" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudHideZero)),
+                    "Khi bật [ ✓ ], Mini HUD ẩn các dòng có số 0." },
+
+                // --------------------------------------------------------------------
+                // Money-Milestones tab - New City Start Settings
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.InitialMoney)), "Tiền ban đầu" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)), "Sets the starting balance for a new <limited money> city or the first loaded city,\nthen resets to Mặc định của game after it applies.\nThis is grayed out if a city is already loaded.\nSet this before starting/loading a city. It applies once, then use <Số tiền phím tắt> or <Tự động thêm tiền> afterward." },
-                { m_Settings.GetOptionLocaleID("GameDefault"), "Mặc định của game" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Chọn cột mốc" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)), "Enable <before loading or starting a city> to unlock a chosen milestone immediately after the city loads.\n- Cannot be turned ON after a city is loaded, but it can be turned OFF if it was left enabled by mistake.\n- If you forgot and loaded a city, just restart the game, and pick milestone before entering a city.\n- Mod không thể hoàn tác milestone changes already saved into a city; use an earlier save if needed." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Cột mốc" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)), "Pick a milestone level to unlock on the next city load.\nThis is <only adjustable outside a loaded city>, and only after [Chọn cột mốc] is enabled [ ✓ ].\nIf the city is already at or past the milestone selected, then nothing will happen.\nA change only happens if the milestone selected here is higher than what the city has." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.InitialMoney)),
+                    "Đặt số dư bắt đầu cho thành phố mới <tiền giới hạn> hoặc thành phố tải đầu tiên,\n" +
+                    "rồi đặt lại về mặc định game sau khi áp dụng.\n" +
+                    "Bị khóa nếu đã tải thành phố.\n" +
+                    "Đặt trước khi bắt đầu/tải thành phố. Sau đó dùng <Số tiền phím tắt> hoặc <Tự động thêm tiền>." },
+                { m_Settings.GetOptionLocaleID("GameDefault"), "Mặc định game" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Chọn mốc" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
+                    "Bật <trước khi tải hoặc bắt đầu thành phố> để mở khóa mốc đã chọn sau khi tải.\n" +
+                    "- Không thể bật sau khi đã tải thành phố, nhưng có thể tắt nếu bật nhầm.\n" +
+                    "- Nếu quên, khởi động lại game và chọn trước khi vào thành phố.\n" +
+                    "- Mod không thể hoàn tác mốc đã lưu; hãy dùng save cũ nếu cần."
+                },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Mốc" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)),
+                    "Chọn mốc mở khóa ở lần tải thành phố tiếp theo.\n" +
+                    "Chỉ chỉnh được <ngoài thành phố đã tải>, và sau khi [Chọn mốc] bật [ ✓ ].\n" +
+                    "Nếu thành phố đã ở mốc đó hoặc cao hơn thì không xảy ra gì.\n" +
+                    "Chỉ thay đổi nếu mốc chọn cao hơn hiện tại."
+                },
+
+                // --------------------------------------------------------------------
+                // Money-Milestones tab - Money
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ManualMoneyAmount)), "Số tiền phím tắt" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)), "Use this amount with the Thêm tiền and Trừ tiền hotkeys.\n<Mặc định của mod = 40,000>\nThis does nothing unless you use the hotkey to add/subtract money (trong thành phố).\nFor automated money, enable the Tự động thêm tiền option." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
+                    "Dùng số tiền này với phím Thêm tiền và Trừ tiền.\n" +
+                    "<Mặc định mod = 40.000>\n" +
+                    "Không làm gì trừ khi dùng phím tắt trong thành phố.\n" +
+                    "Muốn tự động thì bật Tự động thêm tiền."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Thêm tiền" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Phím tắt to <Thêm tiền> inside the city." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)),
+                    "Phím tắt để <Thêm tiền> trong thành phố." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Thêm tiền" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Trừ tiền" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Phím tắt to <Trừ tiền> inside the city." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)),
+                    "Phím tắt để <Trừ tiền> trong thành phố." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "Trừ tiền" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Tự động thêm tiền" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)), "Khi bật [ ✓ ], City Watchdog checks the city balance while a city is loaded.\n- If the balance is <below the threshold>, \n  it adds the selected automatic amount.\n- Recommend to use Manual money with hotkey (<[> or <]>) as needed  instead of this automated option, but this is here if you want it." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
+                    "Khi bật [ ✓ ], City Watchdog kiểm tra số dư thành phố.\n" +
+                    "- Nếu số dư <dưới ngưỡng>, \n" +
+                    "  sẽ thêm số tiền tự động đã chọn.\n" +
+                    "- Nên dùng tiền thủ công bằng phím tắt (<[> hoặc <]>) khi cần" +
+                    "  thay vì tự động, nhưng tùy chọn này vẫn có."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "Ngưỡng tiền tự động" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)), "If Tự động thêm tiền is enabled and the city balance falls below this value,\nAdd the selected automatic amount." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyThreshold)),
+                    "Nếu tự động thêm tiền bật và số dư thấp hơn giá trị này,\n" +
+                    "sẽ thêm số tiền đã chọn." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Số tiền tự động" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)), "Amount added each time Tự động thêm tiền triggers.\nChọn a value high enough to bring the city safely above the threshold." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "Bộ chuyển đổi tiền vô hạn" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "<Hãy sao lưu thành phố trước>.\nConverts a city that started as Tiền vô hạn to a normal city with regular money challenges.\nEnabling this unlocks the <[Convert Tiền vô hạn Save]> button when the loaded city is <Tiền vô hạn> type.\nCity Watchdog không thể hoàn tác this conversion.\nIf you have normal cities, do not worry about this; it is not needed." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Chuyển thành phố tiền vô hạn sang bình thường" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "For cities started with <Tiền vô hạn>.\nWhile that city is loaded, this converts the save to normal limited-money budgeting so the city has regular money challenges again.\nButton is <disabled/greyed-out> unless the loaded city is an <Tiền vô hạn> type\nand <Bộ chuyển đổi tiền vô hạn> is ON [ ✓ ].\nMake a backup save, and use at your own risk; City Watchdog không thể hoàn tác this conversion." },
-                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Convert this city from Tiền vô hạn to normal limited money?\nSave a backup FIRST; City Watchdog không thể hoàn tác this.\nAre you sure?" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoneyAmount)),
+                    "Số tiền thêm mỗi lần tự động kích hoạt.\n" +
+                    "Chọn đủ cao để vượt an toàn qua ngưỡng." },
+
+                // --------------------------------------------------------------------
+                // Money-Milestones tab - Save Conversion
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "Bộ chuyển Tiền vô hạn" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)),
+                    "<Hãy sao lưu thành phố TRƯỚC>.\n" +
+                    "Chuyển thành phố bắt đầu bằng Tiền vô hạn sang thành phố thường.\n" +
+                    "Mở nút <[Chuyển save Tiền vô hạn]> khi thành phố tải là loại <Tiền vô hạn>.\n" +
+                    "City Watchdog không thể hoàn tác chuyển đổi này.\n" +
+                    "Nếu là thành phố thường thì không cần." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)), "Chuyển thành phố Tiền vô hạn sang thường" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
+                    "Dành cho thành phố bắt đầu với <Tiền vô hạn>.\n" +
+                    "Khi thành phố đó đang tải, chuyển save sang ngân sách tiền giới hạn thường.\n" +
+                    "Nút sẽ <tắt/màu xám> trừ khi thành phố là loại <Tiền vô hạn>\n" +
+                    "và <Bộ chuyển Tiền vô hạn> đang BẬT [ ✓ ].\n" +
+                    "Hãy sao lưu và tự chịu rủi ro; City Watchdog không thể hoàn tác." },
+
+                { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
+                    "Chuyển thành phố này từ Tiền vô hạn sang tiền giới hạn thường?\n" +
+                    "Sao lưu TRƯỚC; City Watchdog không thể hoàn tác.\n" +
+                    "Bạn chắc chứ?" },
+
+                // --------------------------------------------------------------------
+                // About tab
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.NameText)), "Tên mod" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.NameText)), "Display name of this mod." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.NameText)), "Tên hiển thị của mod này." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.VersionText)), "Phiên bản" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "Current mod version." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.VersionText)), "Phiên bản mod hiện tại." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenParadox)), "Paradox Mods" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Mở the author's Paradox Mods page." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenParadox)), "Mở trang Paradox Mods của tác giả." },
+
+                // --------------------------------------------------------------------
+                // About tab - Diagnostics
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.WriteNotificationAuditLog)), "Ghi báo cáo debug vào log" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)), "<Not needed for normal gameplay.>\nFor testers and post game-patch checks: writes a <Logs/CityWatchdog.log> report\ncomparing live game notification prefabs with the notification icons Watchdog currently controls." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.WriteNotificationAuditLog)),
+                    "<Không cần cho chơi bình thường.>\n" +
+                    "Cho tester và sau patch game: ghi báo cáo <Logs/CityWatchdog.log>\n" +
+                    "so sánh prefab thông báo của game với icon Watchdog đang kiểm soát." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.OpenLog)), "Mở log" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)), "Mởs </Logs/CityWatchdog.log> if it exists.\nIf the log file is missing, opens the Logs/ folder instead." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.OpenLog)),
+                    "Mở </Logs/CityWatchdog.log> nếu có.\n" +
+                    "Nếu thiếu file log, mở thư mục Logs/." },
             };
 
             return entries;

@@ -4,16 +4,17 @@
 import { useValue } from "cs2/api";
 import { game } from "cs2/bindings";
 import { Tooltip } from "cs2/ui";
-import { useCallback, useEffect, useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import {
     disableCwdTooltips$,
     miniHudEnabled$,
     miniHudFavorites$,
-    miniHudGlassStyle$,
     miniHudHideZero$,
     miniHudItemCount$,
     miniHudMode$,
     miniHudOrientation$,
+    miniHudPanelOpacity$,
+    miniHudPanelStyle$,
     miniHudPlacement$,
     miniHudScale$,
     notificationCounts$,
@@ -30,6 +31,7 @@ const ORIENTATION_VERTICAL = 1;
 const PLACEMENT_TOP_CENTER = 0;
 const PLACEMENT_TOP_RIGHT = 1;
 const PLACEMENT_DRAGGABLE = 2;
+const PANEL_STYLE_GLASS = 1;
 
 type Position = {
     x: number;
@@ -47,34 +49,17 @@ type DragState = {
     originHeight: number;
 };
 
-type MiniHudStyle = CSSProperties & {
-    "--miniHudPanelPaddingY": string;
-    "--miniHudPanelPaddingX": string;
-    "--miniHudItemHeight": string;
-    "--miniHudItemPaddingY": string;
-    "--miniHudItemPaddingX": string;
-    "--miniHudIconSize": string;
-    "--miniHudIconGap": string;
-    "--miniHudCountFontSize": string;
-    "--miniHudCountHoverFontSize": string;
-    "--miniHudCountWidthVertical": string;
-    "--miniHudCountWidthHorizontal": string;
-    "--miniHudHandleMin": string;
-    "--miniHudVerticalHandleWidth": string;
-    "--miniHudVerticalHandleHeight": string;
-    "--miniHudHorizontalHandleWidth": string;
-    "--miniHudHorizontalHandleHeight": string;
-    "--miniHudHorizontalHandleMarginLeft": string;
-    "--miniHudHorizontalHandlePadX": string;
-    "--miniHudDotSize": string;
-    "--miniHudDotGap": string;
-};
-
 let sessionPosition: Position = { x: 0, y: 0 };
 
-const clampMiniHudScale = (value: number) => Math.min(130, Math.max(90, Number.isFinite(value) ? value : 100)) / 100;
+const getMiniHudScaleClass = (value: number) => {
+    const normalized = Math.round(Math.min(130, Math.max(90, Number.isFinite(value) ? value : 100)) / 5) * 5;
+    return styles[`scale${normalized}`] ?? styles.scale100;
+};
 
-const scaledRem = (baseRem: number, scale: number) => `${Math.round(baseRem * scale * 100) / 100}rem`;
+const getMiniHudOpacityClass = (value: number) => {
+    const normalized = Math.round(Math.min(100, Math.max(30, Number.isFinite(value) ? value : 70)) / 5) * 5;
+    return styles[`opacity${normalized}`] ?? styles.opacity70;
+};
 
 export const MiniHud = () => {
     const text = useText();
@@ -87,10 +72,12 @@ export const MiniHud = () => {
     const placement = useValue(miniHudPlacement$);
     const miniHudScale = useValue(miniHudScale$);
     const hideZero = useValue(miniHudHideZero$);
-    const glassStyle = useValue(miniHudGlassStyle$);
+    const panelStyle = useValue(miniHudPanelStyle$);
+    const panelOpacity = useValue(miniHudPanelOpacity$);
     const cwdTooltipsDisabled = useValue(disableCwdTooltips$);
     const activeGamePanel = useValue(game.activeGamePanel$);
-    const isPhotoMode = activeGamePanel?.__Type == game.GamePanelType.PhotoMode;
+    const activeGamePanelType = activeGamePanel?.__Type ?? "none";
+    const isPhotoMode = activeGamePanelType == game.GamePanelType.PhotoMode;
     const isDraggable = placement === PLACEMENT_DRAGGABLE;
     const [position, setPosition] = useState<Position>(sessionPosition);
     const [dragging, setDragging] = useState(false);
@@ -99,9 +86,44 @@ export const MiniHud = () => {
     const pendingPositionRef = useRef(position);
     const animationFrameRef = useRef<number | null>(null);
     const resizeAnimationFrameRef = useRef<number | null>(null);
+    const layoutAnimationFrameRef = useRef<number | null>(null);
+    const layoutTimeoutRef = useRef<number | null>(null);
 
     const resetHudPosition = useCallback(() => {
         const next = { x: 0, y: 0 };
+        sessionPosition = next;
+        pendingPositionRef.current = next;
+        setPosition(next);
+    }, []);
+
+    const clampHudPosition = useCallback(() => {
+        const rect = hudRef.current?.getBoundingClientRect();
+        if (rect === undefined) {
+            return;
+        }
+
+        const current = pendingPositionRef.current;
+        let nextX = current.x;
+        let nextY = current.y;
+
+        if (rect.left < 0) {
+            nextX -= rect.left;
+        }
+        if (rect.top < 0) {
+            nextY -= rect.top;
+        }
+        if (rect.right > window.innerWidth) {
+            nextX -= rect.right - window.innerWidth;
+        }
+        if (rect.bottom > window.innerHeight) {
+            nextY -= rect.bottom - window.innerHeight;
+        }
+
+        if (nextX === current.x && nextY === current.y) {
+            return;
+        }
+
+        const next = { x: nextX, y: nextY };
         sessionPosition = next;
         pendingPositionRef.current = next;
         setPosition(next);
@@ -208,11 +230,13 @@ export const MiniHud = () => {
         if (resizeAnimationFrameRef.current !== null) {
             window.cancelAnimationFrame(resizeAnimationFrameRef.current);
         }
+        if (layoutAnimationFrameRef.current !== null) {
+            window.cancelAnimationFrame(layoutAnimationFrameRef.current);
+        }
+        if (layoutTimeoutRef.current !== null) {
+            window.clearTimeout(layoutTimeoutRef.current);
+        }
     }, []);
-
-    if (!enabled || isPhotoMode) {
-        return null;
-    }
 
     const favoriteSet = new Set(favorites);
     const maxItems = itemCount === 10 ? 10 : 5;
@@ -238,6 +262,54 @@ export const MiniHud = () => {
             return true;
         })
         .slice(0, maxItems);
+
+    const candidateLayoutKey = candidates.length === 0
+        ? "empty"
+        : candidates.map(({ index, count }) => `${index}:${formatMiniNotificationCount(count)}`).join("|");
+    const layoutOptionsKey = `${activeGamePanelType}:${mode}:${maxItems}:${hideZero ? 1 : 0}:${favorites.join(",")}`;
+
+    useEffect(() => {
+        if (!enabled || !isDraggable || dragging) {
+            return;
+        }
+
+        const scheduleClamp = () => {
+            if (layoutAnimationFrameRef.current !== null) {
+                window.cancelAnimationFrame(layoutAnimationFrameRef.current);
+            }
+
+            layoutAnimationFrameRef.current = window.requestAnimationFrame(() => {
+                layoutAnimationFrameRef.current = null;
+                clampHudPosition();
+            });
+        };
+
+        if (layoutTimeoutRef.current !== null) {
+            window.clearTimeout(layoutTimeoutRef.current);
+            layoutTimeoutRef.current = null;
+        }
+
+        scheduleClamp();
+        layoutTimeoutRef.current = window.setTimeout(() => {
+            layoutTimeoutRef.current = null;
+            scheduleClamp();
+        }, 150);
+
+        return () => {
+            if (layoutAnimationFrameRef.current !== null) {
+                window.cancelAnimationFrame(layoutAnimationFrameRef.current);
+                layoutAnimationFrameRef.current = null;
+            }
+            if (layoutTimeoutRef.current !== null) {
+                window.clearTimeout(layoutTimeoutRef.current);
+                layoutTimeoutRef.current = null;
+            }
+        };
+    }, [candidateLayoutKey, clampHudPosition, dragging, enabled, isDraggable, layoutOptionsKey, miniHudScale, orientation, panelOpacity, panelStyle]);
+
+    if (!enabled || isPhotoMode) {
+        return null;
+    }
 
     const onOpenHandleMouseDown = (event: ReactMouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -288,32 +360,9 @@ export const MiniHud = () => {
     const dragTransform = orientation === ORIENTATION_VERTICAL
         ? `translate(${position.x}px, ${position.y}px)`
         : `translate(-50%, 0) translate(${position.x}px, ${position.y}px)`;
-    const sizeScale = clampMiniHudScale(miniHudScale);
-    const hudStyle: MiniHudStyle = {
-        "--miniHudPanelPaddingY": scaledRem(2, sizeScale),
-        "--miniHudPanelPaddingX": scaledRem(2.5, sizeScale),
-        "--miniHudItemHeight": scaledRem(34, sizeScale),
-        "--miniHudItemPaddingY": scaledRem(1, sizeScale),
-        "--miniHudItemPaddingX": scaledRem(1.25, sizeScale),
-        "--miniHudIconSize": scaledRem(28, sizeScale),
-        "--miniHudIconGap": scaledRem(1.5, sizeScale),
-        "--miniHudCountFontSize": scaledRem(14, sizeScale),
-        "--miniHudCountHoverFontSize": scaledRem(16, sizeScale),
-        "--miniHudCountWidthVertical": scaledRem(30, sizeScale),
-        "--miniHudCountWidthHorizontal": scaledRem(24, sizeScale),
-        "--miniHudHandleMin": scaledRem(14, sizeScale),
-        "--miniHudVerticalHandleWidth": scaledRem(24, sizeScale),
-        "--miniHudVerticalHandleHeight": scaledRem(10, sizeScale),
-        "--miniHudHorizontalHandleWidth": scaledRem(14, sizeScale),
-        "--miniHudHorizontalHandleHeight": scaledRem(34, sizeScale),
-        "--miniHudHorizontalHandleMarginLeft": scaledRem(4, sizeScale),
-        "--miniHudHorizontalHandlePadX": scaledRem(3, sizeScale),
-        "--miniHudDotSize": scaledRem(4.5, sizeScale),
-        "--miniHudDotGap": scaledRem(3, sizeScale),
-    };
-    if (isDraggable) {
-        hudStyle.transform = dragTransform;
-    }
+    const scaleClass = getMiniHudScaleClass(miniHudScale);
+    const panelStyleClass = panelStyle === PANEL_STYLE_GLASS ? styles.glass : styles.dark;
+    const panelOpacityClass = getMiniHudOpacityClass(panelOpacity);
     const openHandleTooltip = text("MiniHudDragHandle", "Draggable dots.");
     const openHandleButton = (
         <button
@@ -333,8 +382,10 @@ export const MiniHud = () => {
     return (
         <div
             ref={hudRef}
-            className={`${styles.hud} ${glassStyle ? styles.glass : styles.gray} ${orientation === ORIENTATION_VERTICAL ? styles.vertical : styles.horizontal} ${isDraggable ? styles.draggable : ""} ${placementClass}`}
-            style={hudStyle}
+            className={`${styles.hud} ${panelStyleClass} ${panelOpacityClass} ${orientation === ORIENTATION_VERTICAL ? styles.vertical : styles.horizontal} ${scaleClass} ${isDraggable ? styles.draggable : ""} ${placementClass}`}
+            style={isDraggable
+                ? { transform: dragTransform }
+                : undefined}
         >
             <div className={styles.content}>
                 <div className={styles.items}>
