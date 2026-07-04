@@ -226,14 +226,17 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelStyle)), "Mini HUD style" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPanelStyle)),
-                    "Choose the Mini HUD background style." },
+                    "Choose the Mini HUD background style.\n" +
+                    "Glass panel goes from clear to a cloudy white tint; it does not get darker.\n" +
+                    "Use Dark panel for a darker vanilla-style HUD." },
                 { m_Settings.GetOptionLocaleID("MiniHudPanelStyleDark"), "Dark panel" },
                 { m_Settings.GetOptionLocaleID("MiniHudPanelStyleGlass"), "Glass panel" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelOpacity)), "Mini HUD opacity" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPanelOpacity)),
                     "Adjusts Mini HUD background transparency.\n" +
-                    "Lower values are more transparent. Higher values are more solid." },
+                    "Lower values are more transparent. Higher values are more solid.\n" +
+                    "Glass becomes more white/cloudy. Dark becomes more solid/dark." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudHideZero)), "Hide zero alerts" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudHideZero)),

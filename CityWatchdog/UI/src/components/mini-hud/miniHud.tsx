@@ -57,7 +57,7 @@ const getMiniHudScaleClass = (value: number) => {
 };
 
 const getMiniHudOpacityClass = (value: number) => {
-    const normalized = Math.round(Math.min(100, Math.max(40, Number.isFinite(value) ? value : 70)) / 5) * 5;
+    const normalized = Math.round(Math.min(100, Math.max(30, Number.isFinite(value) ? value : 70)) / 5) * 5;
     return styles[`opacity${normalized}`] ?? styles.opacity70;
 };
 
@@ -85,9 +85,43 @@ export const MiniHud = () => {
     const pendingPositionRef = useRef(position);
     const animationFrameRef = useRef<number | null>(null);
     const resizeAnimationFrameRef = useRef<number | null>(null);
+    const layoutAnimationFrameRef = useRef<number | null>(null);
 
     const resetHudPosition = useCallback(() => {
         const next = { x: 0, y: 0 };
+        sessionPosition = next;
+        pendingPositionRef.current = next;
+        setPosition(next);
+    }, []);
+
+    const clampHudPosition = useCallback(() => {
+        const rect = hudRef.current?.getBoundingClientRect();
+        if (rect === undefined) {
+            return;
+        }
+
+        const current = pendingPositionRef.current;
+        let nextX = current.x;
+        let nextY = current.y;
+
+        if (rect.left < 0) {
+            nextX -= rect.left;
+        }
+        if (rect.top < 0) {
+            nextY -= rect.top;
+        }
+        if (rect.right > window.innerWidth) {
+            nextX -= rect.right - window.innerWidth;
+        }
+        if (rect.bottom > window.innerHeight) {
+            nextY -= rect.bottom - window.innerHeight;
+        }
+
+        if (nextX === current.x && nextY === current.y) {
+            return;
+        }
+
+        const next = { x: nextX, y: nextY };
         sessionPosition = next;
         pendingPositionRef.current = next;
         setPosition(next);
@@ -194,11 +228,10 @@ export const MiniHud = () => {
         if (resizeAnimationFrameRef.current !== null) {
             window.cancelAnimationFrame(resizeAnimationFrameRef.current);
         }
+        if (layoutAnimationFrameRef.current !== null) {
+            window.cancelAnimationFrame(layoutAnimationFrameRef.current);
+        }
     }, []);
-
-    if (!enabled || isPhotoMode) {
-        return null;
-    }
 
     const favoriteSet = new Set(favorites);
     const maxItems = itemCount === 10 ? 10 : 5;
@@ -224,6 +257,36 @@ export const MiniHud = () => {
             return true;
         })
         .slice(0, maxItems);
+
+    const candidateLayoutKey = candidates.length === 0
+        ? "empty"
+        : candidates.map(({ index, count }) => `${index}:${formatMiniNotificationCount(count)}`).join("|");
+
+    useEffect(() => {
+        if (!enabled || !isDraggable || dragging) {
+            return;
+        }
+
+        if (layoutAnimationFrameRef.current !== null) {
+            window.cancelAnimationFrame(layoutAnimationFrameRef.current);
+        }
+
+        layoutAnimationFrameRef.current = window.requestAnimationFrame(() => {
+            layoutAnimationFrameRef.current = null;
+            clampHudPosition();
+        });
+
+        return () => {
+            if (layoutAnimationFrameRef.current !== null) {
+                window.cancelAnimationFrame(layoutAnimationFrameRef.current);
+                layoutAnimationFrameRef.current = null;
+            }
+        };
+    }, [candidateLayoutKey, clampHudPosition, dragging, enabled, isDraggable, miniHudScale, orientation, panelOpacity, panelStyle]);
+
+    if (!enabled || isPhotoMode) {
+        return null;
+    }
 
     const onOpenHandleMouseDown = (event: ReactMouseEvent<HTMLButtonElement>) => {
         event.preventDefault();

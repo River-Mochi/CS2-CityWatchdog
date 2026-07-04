@@ -23,28 +23,28 @@
     border-right-width: 0;
     border-bottom-width: 0;
     border-left-width: 0;
-    box-shadow: 0 4rem 12rem rgba(0, 0, 0, 0.34), inset 0 0 0 1rem rgba(254, 255, 255, 0.08);
+    box-shadow: 0 4rem 12rem rgba(0, 0, 0, 0.34);
     pointer-events: auto;
 }
 
 .glass {
-    background-color: rgba(255, 255, 255, 0.14);
+    background-color: rgba(255, 255, 255, 0.20);
     background-image: none;
 }
 
 .dark {
-    background-color: rgba(25, 38, 61, 0.70);
-    background-image: linear-gradient(to bottom, rgba(55, 82, 96, 0.70), rgba(31, 45, 60, 0.64));
+    background-color: rgba(18, 28, 43, 0.70);
+    background-image: linear-gradient(to bottom, rgba(32, 48, 58, 0.70), rgba(15, 25, 38, 0.70));
 }
 
-@mixin miniHudOpacity($name, $alpha) {
+@mixin miniHudOpacity($name, $darkAlpha, $glassAlpha) {
     .dark.opacity#{$name} {
-        background-color: rgba(25, 38, 61, $alpha);
-        background-image: linear-gradient(to bottom, rgba(55, 82, 96, $alpha), rgba(31, 45, 60, $alpha * 0.92));
+        background-color: rgba(18, 28, 43, $darkAlpha);
+        background-image: linear-gradient(to bottom, rgba(32, 48, 58, $darkAlpha), rgba(15, 25, 38, $darkAlpha));
     }
 
     .glass.opacity#{$name} {
-        background-color: rgba(255, 255, 255, $alpha * 0.2);
+        background-color: rgba(255, 255, 255, $glassAlpha);
         background-image: none;
     }
 }
@@ -369,19 +369,21 @@
     }
 }
 
-@include miniHudOpacity(40, 0.4);
-@include miniHudOpacity(45, 0.45);
-@include miniHudOpacity(50, 0.5);
-@include miniHudOpacity(55, 0.55);
-@include miniHudOpacity(60, 0.6);
-@include miniHudOpacity(65, 0.65);
-@include miniHudOpacity(70, 0.7);
-@include miniHudOpacity(75, 0.75);
-@include miniHudOpacity(80, 0.8);
-@include miniHudOpacity(85, 0.85);
-@include miniHudOpacity(90, 0.9);
-@include miniHudOpacity(95, 0.95);
-@include miniHudOpacity(100, 1);
+@include miniHudOpacity(30, 0.3, 0.06);
+@include miniHudOpacity(35, 0.35, 0.075);
+@include miniHudOpacity(40, 0.4, 0.09);
+@include miniHudOpacity(45, 0.45, 0.105);
+@include miniHudOpacity(50, 0.5, 0.12);
+@include miniHudOpacity(55, 0.55, 0.14);
+@include miniHudOpacity(60, 0.6, 0.16);
+@include miniHudOpacity(65, 0.65, 0.18);
+@include miniHudOpacity(70, 0.7, 0.20);
+@include miniHudOpacity(75, 0.75, 0.225);
+@include miniHudOpacity(80, 0.8, 0.25);
+@include miniHudOpacity(85, 0.85, 0.28);
+@include miniHudOpacity(90, 0.9, 0.31);
+@include miniHudOpacity(95, 0.95, 0.34);
+@include miniHudOpacity(100, 1, 0.37);
 
 @include miniHudScale(90, 0.9);
 @include miniHudScale(95, 0.95);

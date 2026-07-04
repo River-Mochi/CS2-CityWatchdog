@@ -358,7 +358,7 @@ namespace CityWatchdog
         [SettingsUISetter(typeof(Setting), nameof(OnMiniHudPanelStyleChanged))]
         public int MiniHudPanelStyle { get; set; }
 
-        [SettingsUISlider(min = 40, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISlider(min = 30, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(MiniHudTab, MiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(Setting), nameof(OnMiniHudPanelOpacityChanged))]
@@ -787,7 +787,7 @@ namespace CityWatchdog
 
             MiniHudPanelOpacity = MiniHudPanelOpacity <= 0
                 ? MiniHudPanelOpacityDefault
-                : Math.Clamp(MiniHudPanelOpacity, 40, 100);
+                : Math.Clamp(MiniHudPanelOpacity, 30, 100);
         }
 
         private void SetMiniHudRecommendedFavorites()
