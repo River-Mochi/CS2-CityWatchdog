@@ -76,7 +76,8 @@ export const MiniHud = () => {
     const panelOpacity = useValue(miniHudPanelOpacity$);
     const cwdTooltipsDisabled = useValue(disableCwdTooltips$);
     const activeGamePanel = useValue(game.activeGamePanel$);
-    const isPhotoMode = activeGamePanel?.__Type == game.GamePanelType.PhotoMode;
+    const activeGamePanelType = activeGamePanel?.__Type ?? "none";
+    const isPhotoMode = activeGamePanelType == game.GamePanelType.PhotoMode;
     const isDraggable = placement === PLACEMENT_DRAGGABLE;
     const [position, setPosition] = useState<Position>(sessionPosition);
     const [dragging, setDragging] = useState(false);
@@ -86,6 +87,7 @@ export const MiniHud = () => {
     const animationFrameRef = useRef<number | null>(null);
     const resizeAnimationFrameRef = useRef<number | null>(null);
     const layoutAnimationFrameRef = useRef<number | null>(null);
+    const layoutTimeoutRef = useRef<number | null>(null);
 
     const resetHudPosition = useCallback(() => {
         const next = { x: 0, y: 0 };
@@ -231,6 +233,9 @@ export const MiniHud = () => {
         if (layoutAnimationFrameRef.current !== null) {
             window.cancelAnimationFrame(layoutAnimationFrameRef.current);
         }
+        if (layoutTimeoutRef.current !== null) {
+            window.clearTimeout(layoutTimeoutRef.current);
+        }
     }, []);
 
     const favoriteSet = new Set(favorites);
@@ -261,28 +266,46 @@ export const MiniHud = () => {
     const candidateLayoutKey = candidates.length === 0
         ? "empty"
         : candidates.map(({ index, count }) => `${index}:${formatMiniNotificationCount(count)}`).join("|");
+    const layoutOptionsKey = `${activeGamePanelType}:${mode}:${maxItems}:${hideZero ? 1 : 0}:${favorites.join(",")}`;
 
     useEffect(() => {
         if (!enabled || !isDraggable || dragging) {
             return;
         }
 
-        if (layoutAnimationFrameRef.current !== null) {
-            window.cancelAnimationFrame(layoutAnimationFrameRef.current);
+        const scheduleClamp = () => {
+            if (layoutAnimationFrameRef.current !== null) {
+                window.cancelAnimationFrame(layoutAnimationFrameRef.current);
+            }
+
+            layoutAnimationFrameRef.current = window.requestAnimationFrame(() => {
+                layoutAnimationFrameRef.current = null;
+                clampHudPosition();
+            });
+        };
+
+        if (layoutTimeoutRef.current !== null) {
+            window.clearTimeout(layoutTimeoutRef.current);
+            layoutTimeoutRef.current = null;
         }
 
-        layoutAnimationFrameRef.current = window.requestAnimationFrame(() => {
-            layoutAnimationFrameRef.current = null;
-            clampHudPosition();
-        });
+        scheduleClamp();
+        layoutTimeoutRef.current = window.setTimeout(() => {
+            layoutTimeoutRef.current = null;
+            scheduleClamp();
+        }, 150);
 
         return () => {
             if (layoutAnimationFrameRef.current !== null) {
                 window.cancelAnimationFrame(layoutAnimationFrameRef.current);
                 layoutAnimationFrameRef.current = null;
             }
+            if (layoutTimeoutRef.current !== null) {
+                window.clearTimeout(layoutTimeoutRef.current);
+                layoutTimeoutRef.current = null;
+            }
         };
-    }, [candidateLayoutKey, clampHudPosition, dragging, enabled, isDraggable, miniHudScale, orientation, panelOpacity, panelStyle]);
+    }, [candidateLayoutKey, clampHudPosition, dragging, enabled, isDraggable, layoutOptionsKey, miniHudScale, orientation, panelOpacity, panelStyle]);
 
     if (!enabled || isPhotoMode) {
         return null;
