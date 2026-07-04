@@ -224,13 +224,20 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementTopRight"), "Top right" },
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementDraggable"), "Draggable" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelStyle)), "Mini HUD style" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPanelStyle)),
+                    "Choose the Mini HUD background style." },
+                { m_Settings.GetOptionLocaleID("MiniHudPanelStyleDark"), "Dark panel" },
+                { m_Settings.GetOptionLocaleID("MiniHudPanelStyleGlass"), "Glass panel" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelOpacity)), "Mini HUD opacity" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPanelOpacity)),
+                    "Adjusts Mini HUD background transparency.\n" +
+                    "Lower values are more transparent. Higher values are more solid." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudHideZero)), "Hide zero alerts" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudHideZero)),
                     "When enabled [ ✓ ], the Mini HUD hides notification rows with a count of 0." },
-
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudGlassStyle)), "Glass style" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudGlassStyle)),
-                    "Adds a soft glass-style background behind the Mini HUD for readability." },
 
                 // --------------------------------------------------------------------
                 // Money-Milestones tab - New City Start Settings

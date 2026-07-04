@@ -107,6 +107,9 @@ namespace CityWatchdog
         internal const int MiniHudPlacementTopCenter = 0;
         internal const int MiniHudPlacementTopRight = 1;
         internal const int MiniHudPlacementDraggable = 2;
+        internal const int MiniHudPanelStyleDark = 0;
+        internal const int MiniHudPanelStyleGlass = 1;
+        internal const int MiniHudPanelOpacityDefault = 70;
         private const int MiniHudRecommendedFavoriteMaskLow =
             (1 << 0) |  // Not enough electricity
             (1 << 1) |  // Electricity bottleneck
@@ -283,6 +286,8 @@ namespace CityWatchdog
                 MiniHudOrientation = MiniHudOrientationHorizontal;
                 MiniHudPlacement = MiniHudPlacementTopCenter;
                 MiniHudHideZero = false;
+                MiniHudPanelStyle = MiniHudPanelStyleDark;
+                MiniHudPanelOpacity = MiniHudPanelOpacityDefault;
                 MiniHudGlassStyle = false;
                 SetMiniHudRecommendedFavorites();
 
@@ -294,7 +299,8 @@ namespace CityWatchdog
                 uiSystem?.UpdateMiniHudOrientationBinding(MiniHudOrientation);
                 uiSystem?.UpdateMiniHudPlacementBinding(MiniHudPlacement);
                 uiSystem?.UpdateMiniHudHideZeroBinding(MiniHudHideZero);
-                uiSystem?.UpdateMiniHudGlassStyleBinding(MiniHudGlassStyle);
+                uiSystem?.UpdateMiniHudPanelStyleBinding(MiniHudPanelStyle);
+                uiSystem?.UpdateMiniHudPanelOpacityBinding(MiniHudPanelOpacity);
                 uiSystem?.UpdateMiniHudFavoritesBinding();
 
                 try
@@ -346,9 +352,19 @@ namespace CityWatchdog
         [SettingsUISetter(typeof(Setting), nameof(OnMiniHudPlacementChanged))]
         public int MiniHudPlacement { get; set; }
 
+        [SettingsUIDropdown(typeof(Setting), nameof(GetMiniHudPanelStyleItems))]
         [SettingsUISection(MiniHudTab, MiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
-        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudGlassStyleChanged))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudPanelStyleChanged))]
+        public int MiniHudPanelStyle { get; set; }
+
+        [SettingsUISlider(min = 40, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMiniHudEnabled))]
+        [SettingsUISetter(typeof(Setting), nameof(OnMiniHudPanelOpacityChanged))]
+        public int MiniHudPanelOpacity { get; set; }
+
+        [SettingsUIHidden]
         public bool MiniHudGlassStyle { get; set; }
 
         // Two 31-bit masks persist the 62 row favorites without exposing 62 Options toggles.
@@ -698,6 +714,23 @@ namespace CityWatchdog
             };
         }
 
+        public DropdownItem<int>[] GetMiniHudPanelStyleItems()
+        {
+            return new[]
+            {
+                new DropdownItem<int>
+                {
+                    value = MiniHudPanelStyleDark,
+                    displayName = GetOptionLocaleID("MiniHudPanelStyleDark"),
+                },
+                new DropdownItem<int>
+                {
+                    value = MiniHudPanelStyleGlass,
+                    displayName = GetOptionLocaleID("MiniHudPanelStyleGlass"),
+                },
+            };
+        }
+
         public void ResetInitialMoney()
         {
             InitialMoney = 0;
@@ -737,10 +770,24 @@ namespace CityWatchdog
             MiniHudOrientation = MiniHudOrientationVertical;
             MiniHudPlacement = MiniHudPlacementDraggable;
             MiniHudHideZero = true;
+            MiniHudPanelStyle = MiniHudPanelStyleDark;
+            MiniHudPanelOpacity = MiniHudPanelOpacityDefault;
             MiniHudGlassStyle = false;
             SetMiniHudRecommendedFavorites();
 
             Notification.SetDefaults();
+        }
+
+        public void NormalizeLoadedSettings()
+        {
+            if (MiniHudPanelStyle != MiniHudPanelStyleDark && MiniHudPanelStyle != MiniHudPanelStyleGlass)
+            {
+                MiniHudPanelStyle = MiniHudPanelStyleDark;
+            }
+
+            MiniHudPanelOpacity = MiniHudPanelOpacity <= 0
+                ? MiniHudPanelOpacityDefault
+                : Math.Clamp(MiniHudPanelOpacity, 40, 100);
         }
 
         private void SetMiniHudRecommendedFavorites()
@@ -798,7 +845,9 @@ namespace CityWatchdog
 
         private void OnMiniHudHideZeroChanged(bool value) => GetUISystem()?.UpdateMiniHudHideZeroBinding(value);
 
-        private void OnMiniHudGlassStyleChanged(bool value) => GetUISystem()?.UpdateMiniHudGlassStyleBinding(value);
+        private void OnMiniHudPanelStyleChanged(int value) => GetUISystem()?.UpdateMiniHudPanelStyleBinding(value);
+
+        private void OnMiniHudPanelOpacityChanged(int value) => GetUISystem()?.UpdateMiniHudPanelOpacityBinding(value);
 
         private void OnPanelButtonsOnlyStartChanged(bool value) => GetUISystem()?.UpdatePanelButtonsOnlyStartBinding(value);
 

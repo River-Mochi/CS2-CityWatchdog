@@ -29,10 +29,24 @@
 
 .glass {
     background-color: rgba(255, 255, 255, 0.14);
+    background-image: none;
 }
 
-.gray {
-    background-color: rgba(25, 38, 61, 0.84);
+.dark {
+    background-color: rgba(25, 38, 61, 0.70);
+    background-image: linear-gradient(to bottom, rgba(55, 82, 96, 0.70), rgba(31, 45, 60, 0.64));
+}
+
+@mixin miniHudOpacity($name, $alpha) {
+    .dark.opacity#{$name} {
+        background-color: rgba(25, 38, 61, $alpha);
+        background-image: linear-gradient(to bottom, rgba(55, 82, 96, $alpha), rgba(31, 45, 60, $alpha * 0.92));
+    }
+
+    .glass.opacity#{$name} {
+        background-color: rgba(255, 255, 255, $alpha * 0.2);
+        background-image: none;
+    }
 }
 
 .draggable {
@@ -247,12 +261,12 @@
     background-color: rgba(245, 248, 250, 0.70);
 }
 
-.gray .openHandleDot {
-    background-color: rgba(245, 248, 250, 0.68);
+.dark .openHandleDot {
+    background-color: rgba(245, 248, 250, 0.76);
 }
 
-.gray .openHandle:hover .openHandleDot {
-    background-color: rgba(245, 248, 250, 0.82);
+.dark .openHandle:hover .openHandleDot {
+    background-color: rgba(245, 248, 250, 0.92);
 }
 
 .vertical .openHandle {
@@ -354,6 +368,20 @@
         margin-bottom: 3rem * $scale;
     }
 }
+
+@include miniHudOpacity(40, 0.4);
+@include miniHudOpacity(45, 0.45);
+@include miniHudOpacity(50, 0.5);
+@include miniHudOpacity(55, 0.55);
+@include miniHudOpacity(60, 0.6);
+@include miniHudOpacity(65, 0.65);
+@include miniHudOpacity(70, 0.7);
+@include miniHudOpacity(75, 0.75);
+@include miniHudOpacity(80, 0.8);
+@include miniHudOpacity(85, 0.85);
+@include miniHudOpacity(90, 0.9);
+@include miniHudOpacity(95, 0.95);
+@include miniHudOpacity(100, 1);
 
 @include miniHudScale(90, 0.9);
 @include miniHudScale(95, 0.95);

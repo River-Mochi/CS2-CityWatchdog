@@ -9,11 +9,12 @@ import {
     disableCwdTooltips$,
     miniHudEnabled$,
     miniHudFavorites$,
-    miniHudGlassStyle$,
     miniHudHideZero$,
     miniHudItemCount$,
     miniHudMode$,
     miniHudOrientation$,
+    miniHudPanelOpacity$,
+    miniHudPanelStyle$,
     miniHudPlacement$,
     miniHudScale$,
     notificationCounts$,
@@ -30,6 +31,7 @@ const ORIENTATION_VERTICAL = 1;
 const PLACEMENT_TOP_CENTER = 0;
 const PLACEMENT_TOP_RIGHT = 1;
 const PLACEMENT_DRAGGABLE = 2;
+const PANEL_STYLE_GLASS = 1;
 
 type Position = {
     x: number;
@@ -54,6 +56,11 @@ const getMiniHudScaleClass = (value: number) => {
     return styles[`scale${normalized}`] ?? styles.scale100;
 };
 
+const getMiniHudOpacityClass = (value: number) => {
+    const normalized = Math.round(Math.min(100, Math.max(40, Number.isFinite(value) ? value : 70)) / 5) * 5;
+    return styles[`opacity${normalized}`] ?? styles.opacity70;
+};
+
 export const MiniHud = () => {
     const text = useText();
     const enabled = useValue(miniHudEnabled$);
@@ -65,7 +72,8 @@ export const MiniHud = () => {
     const placement = useValue(miniHudPlacement$);
     const miniHudScale = useValue(miniHudScale$);
     const hideZero = useValue(miniHudHideZero$);
-    const glassStyle = useValue(miniHudGlassStyle$);
+    const panelStyle = useValue(miniHudPanelStyle$);
+    const panelOpacity = useValue(miniHudPanelOpacity$);
     const cwdTooltipsDisabled = useValue(disableCwdTooltips$);
     const activeGamePanel = useValue(game.activeGamePanel$);
     const isPhotoMode = activeGamePanel?.__Type == game.GamePanelType.PhotoMode;
@@ -267,6 +275,8 @@ export const MiniHud = () => {
         ? `translate(${position.x}px, ${position.y}px)`
         : `translate(-50%, 0) translate(${position.x}px, ${position.y}px)`;
     const scaleClass = getMiniHudScaleClass(miniHudScale);
+    const panelStyleClass = panelStyle === PANEL_STYLE_GLASS ? styles.glass : styles.dark;
+    const panelOpacityClass = getMiniHudOpacityClass(panelOpacity);
     const openHandleTooltip = text("MiniHudDragHandle", "Draggable dots.");
     const openHandleButton = (
         <button
@@ -286,7 +296,7 @@ export const MiniHud = () => {
     return (
         <div
             ref={hudRef}
-            className={`${styles.hud} ${glassStyle ? styles.glass : styles.gray} ${orientation === ORIENTATION_VERTICAL ? styles.vertical : styles.horizontal} ${scaleClass} ${isDraggable ? styles.draggable : ""} ${placementClass}`}
+            className={`${styles.hud} ${panelStyleClass} ${panelOpacityClass} ${orientation === ORIENTATION_VERTICAL ? styles.vertical : styles.horizontal} ${scaleClass} ${isDraggable ? styles.draggable : ""} ${placementClass}`}
             style={isDraggable
                 ? { transform: dragTransform }
                 : undefined}
