@@ -110,6 +110,7 @@ namespace CityWatchdog
         internal const int MiniHudPanelStyleDark = 0;
         internal const int MiniHudPanelStyleGlass = 1;
         internal const int MiniHudPanelOpacityDefault = 70;
+        internal const int MiniHudPositionLimit = 20000;
         private const int MiniHudRecommendedFavoriteMaskLow =
             (1 << 0) |  // Not enough electricity
             (1 << 1) |  // Electricity bottleneck
@@ -289,6 +290,9 @@ namespace CityWatchdog
                 MiniHudPanelStyle = MiniHudPanelStyleDark;
                 MiniHudPanelOpacity = MiniHudPanelOpacityDefault;
                 MiniHudGlassStyle = false;
+                MiniHudPositionX = 0;
+                MiniHudPositionY = 0;
+                MiniHudPositionOrientation = MiniHudOrientation;
                 SetMiniHudRecommendedFavorites();
 
                 CityWatchdogUISystem? uiSystem = GetUISystem();
@@ -301,6 +305,7 @@ namespace CityWatchdog
                 uiSystem?.UpdateMiniHudHideZeroBinding(MiniHudHideZero);
                 uiSystem?.UpdateMiniHudPanelStyleBinding(MiniHudPanelStyle);
                 uiSystem?.UpdateMiniHudPanelOpacityBinding(MiniHudPanelOpacity);
+                uiSystem?.UpdateMiniHudPositionBinding(MiniHudPositionX, MiniHudPositionY, MiniHudPositionOrientation);
                 uiSystem?.UpdateMiniHudFavoritesBinding();
 
                 try
@@ -373,6 +378,15 @@ namespace CityWatchdog
 
         [SettingsUIHidden]
         public int MiniHudFavoriteMaskHigh { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudPositionX { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudPositionY { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudPositionOrientation { get; set; }
 
         // --------------------------------------------------------------------
         // Money-Milestones tab - New city start settings
@@ -773,6 +787,9 @@ namespace CityWatchdog
             MiniHudPanelStyle = MiniHudPanelStyleDark;
             MiniHudPanelOpacity = MiniHudPanelOpacityDefault;
             MiniHudGlassStyle = false;
+            MiniHudPositionX = 0;
+            MiniHudPositionY = 0;
+            MiniHudPositionOrientation = MiniHudOrientation;
             SetMiniHudRecommendedFavorites();
 
             Notification.SetDefaults();
@@ -788,6 +805,13 @@ namespace CityWatchdog
             MiniHudPanelOpacity = MiniHudPanelOpacity <= 0
                 ? MiniHudPanelOpacityDefault
                 : Math.Clamp(MiniHudPanelOpacity, 30, 100);
+            MiniHudPositionX = Math.Clamp(MiniHudPositionX, -MiniHudPositionLimit, MiniHudPositionLimit);
+            MiniHudPositionY = Math.Clamp(MiniHudPositionY, -MiniHudPositionLimit, MiniHudPositionLimit);
+            if (MiniHudPositionOrientation != MiniHudOrientationHorizontal &&
+                MiniHudPositionOrientation != MiniHudOrientationVertical)
+            {
+                MiniHudPositionOrientation = MiniHudOrientation;
+            }
         }
 
         private void SetMiniHudRecommendedFavorites()

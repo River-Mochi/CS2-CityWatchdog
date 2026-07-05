@@ -16,9 +16,13 @@ import {
     miniHudPanelOpacity$,
     miniHudPanelStyle$,
     miniHudPlacement$,
+    miniHudPositionOrientation$,
+    miniHudPositionX$,
+    miniHudPositionY$,
     miniHudScale$,
     notificationCounts$,
     OnMiniHudNotificationClicked,
+    OnMiniHudPositionChanged,
 } from "../../bindings/bindings";
 import { allItems } from "../panel/notification-panel/notificationData";
 import { useText } from "../shared/localization";
@@ -32,6 +36,7 @@ const PLACEMENT_TOP_CENTER = 0;
 const PLACEMENT_TOP_RIGHT = 1;
 const PLACEMENT_DRAGGABLE = 2;
 const PANEL_STYLE_GLASS = 1;
+const MINI_HUD_POSITION_LIMIT = 20000;
 
 type Position = {
     x: number;
@@ -61,6 +66,9 @@ const getMiniHudOpacityClass = (value: number) => {
     return styles[`opacity${normalized}`] ?? styles.opacity70;
 };
 
+const normalizePositionValue = (value: number) =>
+    Math.round(Math.min(MINI_HUD_POSITION_LIMIT, Math.max(-MINI_HUD_POSITION_LIMIT, Number.isFinite(value) ? value : 0)));
+
 export const MiniHud = () => {
     const text = useText();
     const enabled = useValue(miniHudEnabled$);
@@ -74,6 +82,9 @@ export const MiniHud = () => {
     const hideZero = useValue(miniHudHideZero$);
     const panelStyle = useValue(miniHudPanelStyle$);
     const panelOpacity = useValue(miniHudPanelOpacity$);
+    const savedPositionX = useValue(miniHudPositionX$);
+    const savedPositionY = useValue(miniHudPositionY$);
+    const savedPositionOrientation = useValue(miniHudPositionOrientation$);
     const cwdTooltipsDisabled = useValue(disableCwdTooltips$);
     const activeGamePanel = useValue(game.activeGamePanel$);
     const activeGamePanelType = activeGamePanel?.__Type ?? "none";
@@ -89,12 +100,27 @@ export const MiniHud = () => {
     const layoutAnimationFrameRef = useRef<number | null>(null);
     const layoutTimeoutRef = useRef<number | null>(null);
 
-    const resetHudPosition = useCallback(() => {
-        const next = { x: 0, y: 0 };
+    const applyHudPosition = useCallback((next: Position) => {
         sessionPosition = next;
         pendingPositionRef.current = next;
         setPosition(next);
     }, []);
+
+    const resetHudPosition = useCallback(() => {
+        applyHudPosition({ x: 0, y: 0 });
+    }, [applyHudPosition]);
+
+    const restoreSavedHudPosition = useCallback(() => {
+        if (savedPositionOrientation !== orientation) {
+            resetHudPosition();
+            return;
+        }
+
+        applyHudPosition({
+            x: normalizePositionValue(savedPositionX),
+            y: normalizePositionValue(savedPositionY),
+        });
+    }, [applyHudPosition, orientation, resetHudPosition, savedPositionOrientation, savedPositionX, savedPositionY]);
 
     const clampHudPosition = useCallback(() => {
         const rect = hudRef.current?.getBoundingClientRect();
@@ -124,14 +150,17 @@ export const MiniHud = () => {
         }
 
         const next = { x: nextX, y: nextY };
-        sessionPosition = next;
-        pendingPositionRef.current = next;
-        setPosition(next);
-    }, []);
+        applyHudPosition(next);
+    }, [applyHudPosition]);
 
     useEffect(() => {
+        if (isDraggable) {
+            restoreSavedHudPosition();
+            return;
+        }
+
         resetHudPosition();
-    }, [orientation, placement, resetHudPosition]);
+    }, [isDraggable, orientation, placement, resetHudPosition, restoreSavedHudPosition]);
 
     useEffect(() => {
         if (!dragging) {
@@ -171,8 +200,7 @@ export const MiniHud = () => {
             if (animationFrameRef.current === null) {
                 animationFrameRef.current = window.requestAnimationFrame(() => {
                     animationFrameRef.current = null;
-                    sessionPosition = pendingPositionRef.current;
-                    setPosition(pendingPositionRef.current);
+                    applyHudPosition(pendingPositionRef.current);
                 });
             }
         };
@@ -185,8 +213,10 @@ export const MiniHud = () => {
 
             dragRef.current = null;
             setDragging(false);
-            sessionPosition = pendingPositionRef.current;
-            setPosition(pendingPositionRef.current);
+            applyHudPosition(pendingPositionRef.current);
+            if (isDraggable) {
+                OnMiniHudPositionChanged(orientation, pendingPositionRef.current.x, pendingPositionRef.current.y);
+            }
         };
 
         document.addEventListener("mousemove", onMouseMove);
@@ -195,7 +225,7 @@ export const MiniHud = () => {
             document.removeEventListener("mousemove", onMouseMove);
             document.removeEventListener("mouseup", onMouseUp);
         };
-    }, [dragging]);
+    }, [applyHudPosition, dragging, isDraggable, orientation]);
 
     useEffect(() => {
         if (!enabled || !isDraggable) {

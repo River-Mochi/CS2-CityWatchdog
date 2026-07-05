@@ -87,14 +87,12 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Improved Mini HUD: display, size, and Dark/Glass panels.
-- Added opacity slider for minu-Hud panel.
+- Improved Mini HUD: display, size, and Dark/Glass panels - See Options MENU.
+- Opacity slider for minu-Hud panel (Options menu).
 - Improved draggable HUD screen-edge handling.
 - Updated all translations
 - Recent updates yesterday:
-- New tab for all Mini-HUD items.
-- Fix Mod tooltips off also works for Mini-HUD
-- Added click-to-jump from alert counts in the main panel, so you can find the next matching city problem faster.
+- Added click-to-jump from alert counts in the Main panel, you can find the next matching city problem faster.
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
     <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />

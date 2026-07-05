@@ -27,6 +27,9 @@ export const miniHudScale$ = bindValue<number>(mod.id, "MiniHudScale", 100);
 export const miniHudHideZero$ = bindValue<boolean>(mod.id, "MiniHudHideZero", true);
 export const miniHudPanelStyle$ = bindValue<number>(mod.id, "MiniHudPanelStyle", 0);
 export const miniHudPanelOpacity$ = bindValue<number>(mod.id, "MiniHudPanelOpacity", 70);
+export const miniHudPositionX$ = bindValue<number>(mod.id, "MiniHudPositionX", 0);
+export const miniHudPositionY$ = bindValue<number>(mod.id, "MiniHudPositionY", 0);
+export const miniHudPositionOrientation$ = bindValue<number>(mod.id, "MiniHudPositionOrientation", 1);
 
 export const panelButtonsOnlyStart$ = bindValue<boolean>(mod.id, "PanelButtonsOnlyStart", false);
 
@@ -102,6 +105,7 @@ export const OnHideDistrictNamesToggle = (hide: boolean) => trigger(mod.id, "Hid
 export const OnShowRoadArrowsToggle = (show: boolean) => trigger(mod.id, "ShowRoadArrows", show);
 export const OnToggleMiniHudFavorite = (index: number) => trigger(mod.id, "ToggleMiniHudFavorite", index);
 export const OnMiniHudNotificationClicked = (index: number) => trigger(mod.id, "MiniHudNotificationClicked", index);
+export const OnMiniHudPositionChanged = (orientation: number, x: number, y: number) => trigger(mod.id, "MiniHudPositionChanged", `${orientation},${Math.round(x)},${Math.round(y)}`);
 
 export const OnElectricityElectricityNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ElectricityElectricityNotification", enable);
 export const OnElectricityBottleneckNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ElectricityBottleneckNotification", enable);
