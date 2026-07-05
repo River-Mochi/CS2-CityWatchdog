@@ -49,9 +49,10 @@ namespace CityWatchdog.Systems
         private ValueBinding<bool> miniHudHideZeroBinding = null!;
         private ValueBinding<int> miniHudPanelStyleBinding = null!;
         private ValueBinding<int> miniHudPanelOpacityBinding = null!;
-        private ValueBinding<int> miniHudPositionXBinding = null!;
-        private ValueBinding<int> miniHudPositionYBinding = null!;
-        private ValueBinding<int> miniHudPositionOrientationBinding = null!;
+        private ValueBinding<int> miniHudHorizontalPositionXBinding = null!;
+        private ValueBinding<int> miniHudHorizontalPositionYBinding = null!;
+        private ValueBinding<int> miniHudVerticalPositionXBinding = null!;
+        private ValueBinding<int> miniHudVerticalPositionYBinding = null!;
         private ValueBinding<bool> panelButtonsOnlyStartBinding = null!;
         private ValueBinding<bool>? moneyViewBinding;
         private ValueBinding<int>? moneyViewModeBinding;
@@ -170,9 +171,10 @@ namespace CityWatchdog.Systems
             miniHudHideZeroBinding = AddValueBinding(nameof(Setting.MiniHudHideZero), Setting.Instance.MiniHudHideZero);
             miniHudPanelStyleBinding = AddValueBinding(nameof(Setting.MiniHudPanelStyle), Setting.Instance.MiniHudPanelStyle);
             miniHudPanelOpacityBinding = AddValueBinding(nameof(Setting.MiniHudPanelOpacity), Setting.Instance.MiniHudPanelOpacity);
-            miniHudPositionXBinding = AddValueBinding(nameof(Setting.MiniHudPositionX), Setting.Instance.MiniHudPositionX);
-            miniHudPositionYBinding = AddValueBinding(nameof(Setting.MiniHudPositionY), Setting.Instance.MiniHudPositionY);
-            miniHudPositionOrientationBinding = AddValueBinding(nameof(Setting.MiniHudPositionOrientation), Setting.Instance.MiniHudPositionOrientation);
+            miniHudHorizontalPositionXBinding = AddValueBinding(nameof(Setting.MiniHudHorizontalPositionX), Setting.Instance.MiniHudHorizontalPositionX);
+            miniHudHorizontalPositionYBinding = AddValueBinding(nameof(Setting.MiniHudHorizontalPositionY), Setting.Instance.MiniHudHorizontalPositionY);
+            miniHudVerticalPositionXBinding = AddValueBinding(nameof(Setting.MiniHudVerticalPositionX), Setting.Instance.MiniHudVerticalPositionX);
+            miniHudVerticalPositionYBinding = AddValueBinding(nameof(Setting.MiniHudVerticalPositionY), Setting.Instance.MiniHudVerticalPositionY);
             panelButtonsOnlyStartBinding = AddValueBinding(nameof(Setting.PanelButtonsOnlyStart), Setting.Instance.PanelButtonsOnlyStart);
             moneyViewBinding = AddValueBinding(nameof(Setting.MoneyView), Setting.Instance.MoneyView);
             moneyViewModeBinding = AddValueBinding(nameof(Setting.MoneyViewMode), Setting.Instance.MoneyViewMode);
@@ -982,9 +984,29 @@ namespace CityWatchdog.Systems
             x = Math.Clamp(x, -Setting.MiniHudPositionLimit, Setting.MiniHudPositionLimit);
             y = Math.Clamp(y, -Setting.MiniHudPositionLimit, Setting.MiniHudPositionLimit);
 
-            if (Setting.Instance.MiniHudPositionX == x &&
-                Setting.Instance.MiniHudPositionY == y &&
-                Setting.Instance.MiniHudPositionOrientation == orientation)
+            if (orientation == Setting.MiniHudOrientationHorizontal)
+            {
+                if (Setting.Instance.MiniHudHorizontalPositionX == x &&
+                    Setting.Instance.MiniHudHorizontalPositionY == y)
+                {
+                    return;
+                }
+
+                Setting.Instance.MiniHudHorizontalPositionX = x;
+                Setting.Instance.MiniHudHorizontalPositionY = y;
+            }
+            else if (orientation == Setting.MiniHudOrientationVertical)
+            {
+                if (Setting.Instance.MiniHudVerticalPositionX == x &&
+                    Setting.Instance.MiniHudVerticalPositionY == y)
+                {
+                    return;
+                }
+
+                Setting.Instance.MiniHudVerticalPositionX = x;
+                Setting.Instance.MiniHudVerticalPositionY = y;
+            }
+            else
             {
                 return;
             }
@@ -1062,11 +1084,26 @@ namespace CityWatchdog.Systems
 
         public void UpdateMiniHudFavoritesBinding() => miniHudFavoritesBinding?.Update(GetMiniHudFavoriteIndexes());
 
-        public void UpdateMiniHudPositionBinding(int x, int y, int orientation)
+        private void UpdateMiniHudPositionBinding(int x, int y, int orientation)
         {
-            miniHudPositionXBinding?.Update(x);
-            miniHudPositionYBinding?.Update(y);
-            miniHudPositionOrientationBinding?.Update(orientation);
+            if (orientation == Setting.MiniHudOrientationHorizontal)
+            {
+                miniHudHorizontalPositionXBinding?.Update(x);
+                miniHudHorizontalPositionYBinding?.Update(y);
+            }
+            else if (orientation == Setting.MiniHudOrientationVertical)
+            {
+                miniHudVerticalPositionXBinding?.Update(x);
+                miniHudVerticalPositionYBinding?.Update(y);
+            }
+        }
+
+        public void UpdateMiniHudPositionBindings()
+        {
+            miniHudHorizontalPositionXBinding?.Update(Setting.Instance.MiniHudHorizontalPositionX);
+            miniHudHorizontalPositionYBinding?.Update(Setting.Instance.MiniHudHorizontalPositionY);
+            miniHudVerticalPositionXBinding?.Update(Setting.Instance.MiniHudVerticalPositionX);
+            miniHudVerticalPositionYBinding?.Update(Setting.Instance.MiniHudVerticalPositionY);
         }
 
         public void UpdatePanelButtonsOnlyStartBinding(bool value) => panelButtonsOnlyStartBinding?.Update(value);

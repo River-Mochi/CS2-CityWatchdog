@@ -27,9 +27,10 @@ export const miniHudScale$ = bindValue<number>(mod.id, "MiniHudScale", 100);
 export const miniHudHideZero$ = bindValue<boolean>(mod.id, "MiniHudHideZero", true);
 export const miniHudPanelStyle$ = bindValue<number>(mod.id, "MiniHudPanelStyle", 0);
 export const miniHudPanelOpacity$ = bindValue<number>(mod.id, "MiniHudPanelOpacity", 70);
-export const miniHudPositionX$ = bindValue<number>(mod.id, "MiniHudPositionX", 0);
-export const miniHudPositionY$ = bindValue<number>(mod.id, "MiniHudPositionY", 0);
-export const miniHudPositionOrientation$ = bindValue<number>(mod.id, "MiniHudPositionOrientation", 1);
+export const miniHudHorizontalPositionX$ = bindValue<number>(mod.id, "MiniHudHorizontalPositionX", 0);
+export const miniHudHorizontalPositionY$ = bindValue<number>(mod.id, "MiniHudHorizontalPositionY", 0);
+export const miniHudVerticalPositionX$ = bindValue<number>(mod.id, "MiniHudVerticalPositionX", 0);
+export const miniHudVerticalPositionY$ = bindValue<number>(mod.id, "MiniHudVerticalPositionY", 0);
 
 export const panelButtonsOnlyStart$ = bindValue<boolean>(mod.id, "PanelButtonsOnlyStart", false);
 

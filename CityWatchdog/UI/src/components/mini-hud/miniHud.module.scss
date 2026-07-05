@@ -242,15 +242,15 @@
 }
 
 .openHandleDot {
-    width: 5rem;
-    height: 5rem;
+    width: 5.5rem;
+    height: 5.5rem;
     display: block;
     margin-right: 3rem;
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
     border-bottom-left-radius: 50%;
     border-bottom-right-radius: 50%;
-    background-color: rgba(245, 248, 250, 0.54);
+    background-color: rgba(245, 248, 250, 0.68);
 }
 
 .openHandleDot:last-child {
@@ -258,21 +258,21 @@
 }
 
 .openHandle:hover .openHandleDot {
-    background-color: rgba(245, 248, 250, 0.70);
+    background-color: rgba(245, 248, 250, 0.84);
 }
 
 .dark .openHandleDot {
-    background-color: rgba(245, 248, 250, 0.76);
+    background-color: rgba(245, 248, 250, 0.86);
 }
 
 .dark .openHandle:hover .openHandleDot {
-    background-color: rgba(245, 248, 250, 0.92);
+    background-color: rgba(245, 248, 250, 0.98);
 }
 
 .vertical .openHandle {
     margin-top: 1rem;
-    min-width: 24rem;
-    min-height: 10rem;
+    min-width: 30rem;
+    min-height: 12rem;
     padding-top: 0;
     padding-bottom: 0;
 }
@@ -345,14 +345,14 @@
     }
 
     .scale#{$name} .openHandleDot {
-        width: 5rem * $scale;
-        height: 5rem * $scale;
+        width: 5.5rem * $scale;
+        height: 5.5rem * $scale;
         margin-right: 3rem * $scale;
     }
 
     .scale#{$name}.vertical .openHandle {
-        min-width: 24rem * $scale;
-        min-height: 10rem * $scale;
+        min-width: 30rem * $scale;
+        min-height: 12rem * $scale;
     }
 
     .scale#{$name}.horizontal .openHandle {

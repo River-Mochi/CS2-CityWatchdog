@@ -293,6 +293,10 @@ namespace CityWatchdog
                 MiniHudPositionX = 0;
                 MiniHudPositionY = 0;
                 MiniHudPositionOrientation = MiniHudOrientation;
+                MiniHudHorizontalPositionX = 0;
+                MiniHudHorizontalPositionY = 0;
+                MiniHudVerticalPositionX = 0;
+                MiniHudVerticalPositionY = 0;
                 SetMiniHudRecommendedFavorites();
 
                 CityWatchdogUISystem? uiSystem = GetUISystem();
@@ -305,7 +309,7 @@ namespace CityWatchdog
                 uiSystem?.UpdateMiniHudHideZeroBinding(MiniHudHideZero);
                 uiSystem?.UpdateMiniHudPanelStyleBinding(MiniHudPanelStyle);
                 uiSystem?.UpdateMiniHudPanelOpacityBinding(MiniHudPanelOpacity);
-                uiSystem?.UpdateMiniHudPositionBinding(MiniHudPositionX, MiniHudPositionY, MiniHudPositionOrientation);
+                uiSystem?.UpdateMiniHudPositionBindings();
                 uiSystem?.UpdateMiniHudFavoritesBinding();
 
                 try
@@ -387,6 +391,18 @@ namespace CityWatchdog
 
         [SettingsUIHidden]
         public int MiniHudPositionOrientation { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudHorizontalPositionX { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudHorizontalPositionY { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudVerticalPositionX { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudVerticalPositionY { get; set; }
 
         // --------------------------------------------------------------------
         // Money-Milestones tab - New city start settings
@@ -790,6 +806,10 @@ namespace CityWatchdog
             MiniHudPositionX = 0;
             MiniHudPositionY = 0;
             MiniHudPositionOrientation = MiniHudOrientation;
+            MiniHudHorizontalPositionX = 0;
+            MiniHudHorizontalPositionY = 0;
+            MiniHudVerticalPositionX = 0;
+            MiniHudVerticalPositionY = 0;
             SetMiniHudRecommendedFavorites();
 
             Notification.SetDefaults();
@@ -812,6 +832,29 @@ namespace CityWatchdog
             {
                 MiniHudPositionOrientation = MiniHudOrientation;
             }
+
+            if ((MiniHudPositionX != 0 || MiniHudPositionY != 0) &&
+                MiniHudHorizontalPositionX == 0 &&
+                MiniHudHorizontalPositionY == 0 &&
+                MiniHudVerticalPositionX == 0 &&
+                MiniHudVerticalPositionY == 0)
+            {
+                if (MiniHudPositionOrientation == MiniHudOrientationHorizontal)
+                {
+                    MiniHudHorizontalPositionX = MiniHudPositionX;
+                    MiniHudHorizontalPositionY = MiniHudPositionY;
+                }
+                else
+                {
+                    MiniHudVerticalPositionX = MiniHudPositionX;
+                    MiniHudVerticalPositionY = MiniHudPositionY;
+                }
+            }
+
+            MiniHudHorizontalPositionX = Math.Clamp(MiniHudHorizontalPositionX, -MiniHudPositionLimit, MiniHudPositionLimit);
+            MiniHudHorizontalPositionY = Math.Clamp(MiniHudHorizontalPositionY, -MiniHudPositionLimit, MiniHudPositionLimit);
+            MiniHudVerticalPositionX = Math.Clamp(MiniHudVerticalPositionX, -MiniHudPositionLimit, MiniHudPositionLimit);
+            MiniHudVerticalPositionY = Math.Clamp(MiniHudVerticalPositionY, -MiniHudPositionLimit, MiniHudPositionLimit);
         }
 
         private void SetMiniHudRecommendedFavorites()

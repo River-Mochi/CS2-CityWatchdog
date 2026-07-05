@@ -16,10 +16,11 @@ import {
     miniHudPanelOpacity$,
     miniHudPanelStyle$,
     miniHudPlacement$,
-    miniHudPositionOrientation$,
-    miniHudPositionX$,
-    miniHudPositionY$,
+    miniHudHorizontalPositionX$,
+    miniHudHorizontalPositionY$,
     miniHudScale$,
+    miniHudVerticalPositionX$,
+    miniHudVerticalPositionY$,
     notificationCounts$,
     OnMiniHudNotificationClicked,
     OnMiniHudPositionChanged,
@@ -82,9 +83,10 @@ export const MiniHud = () => {
     const hideZero = useValue(miniHudHideZero$);
     const panelStyle = useValue(miniHudPanelStyle$);
     const panelOpacity = useValue(miniHudPanelOpacity$);
-    const savedPositionX = useValue(miniHudPositionX$);
-    const savedPositionY = useValue(miniHudPositionY$);
-    const savedPositionOrientation = useValue(miniHudPositionOrientation$);
+    const savedHorizontalPositionX = useValue(miniHudHorizontalPositionX$);
+    const savedHorizontalPositionY = useValue(miniHudHorizontalPositionY$);
+    const savedVerticalPositionX = useValue(miniHudVerticalPositionX$);
+    const savedVerticalPositionY = useValue(miniHudVerticalPositionY$);
     const cwdTooltipsDisabled = useValue(disableCwdTooltips$);
     const activeGamePanel = useValue(game.activeGamePanel$);
     const activeGamePanelType = activeGamePanel?.__Type ?? "none";
@@ -111,16 +113,14 @@ export const MiniHud = () => {
     }, [applyHudPosition]);
 
     const restoreSavedHudPosition = useCallback(() => {
-        if (savedPositionOrientation !== orientation) {
-            resetHudPosition();
-            return;
-        }
+        const savedX = orientation === ORIENTATION_VERTICAL ? savedVerticalPositionX : savedHorizontalPositionX;
+        const savedY = orientation === ORIENTATION_VERTICAL ? savedVerticalPositionY : savedHorizontalPositionY;
 
         applyHudPosition({
-            x: normalizePositionValue(savedPositionX),
-            y: normalizePositionValue(savedPositionY),
+            x: normalizePositionValue(savedX),
+            y: normalizePositionValue(savedY),
         });
-    }, [applyHudPosition, orientation, resetHudPosition, savedPositionOrientation, savedPositionX, savedPositionY]);
+    }, [applyHudPosition, orientation, savedHorizontalPositionX, savedHorizontalPositionY, savedVerticalPositionX, savedVerticalPositionY]);
 
     const clampHudPosition = useCallback(() => {
         const rect = hudRef.current?.getBoundingClientRect();
@@ -403,6 +403,7 @@ export const MiniHud = () => {
             aria-label={openHandleTooltip}
         >
             <span className={styles.openHandleMark} aria-hidden="true">
+                <span className={styles.openHandleDot}></span>
                 <span className={styles.openHandleDot}></span>
                 <span className={styles.openHandleDot}></span>
             </span>
