@@ -15,10 +15,10 @@
 - 1-click - hide/show road name or district.
 
 #### Features
-- Mini HUD view: custom tracker list for any problem; repeat clicking the icon will cycle and jump to all map spots.
-- Notifications: **Instant on/off** toggle for all city alert icons (ones covering the city).
+- **Mini HUD**: custom tracker list for any problem; repeat clicking the icon will cycle and jump to all map spots.
+- **Notifications**: **Instant on/off** toggle for all city alert icons (ones covering the city).
 - Reduce visual stress while building (does not fix city problems for you).
-- Open full panel from the top-left button or hotkey.
+- Open full panel from the top-left button.
 - Start city with any Milestone. Trains now! Yes you can! Set Initial money if you want less for a challenge or more.
 
 
@@ -94,7 +94,7 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 - Improved draggable HUD screen-edge handling.
 - Updated all translations
 - Recent updates yesterday:
-- Added click-to-jump from alert counts in the Main panel, you can find the next matching city problem faster.
+- Added click-to-jump in the Main panel count number too, you can find the next matching city problem faster.
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
     <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
