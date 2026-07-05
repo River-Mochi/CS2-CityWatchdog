@@ -109,7 +109,7 @@ namespace CityWatchdog
         internal const int MiniHudPlacementDraggable = 2;
         internal const int MiniHudPanelStyleDark = 0;
         internal const int MiniHudPanelStyleGlass = 1;
-        internal const int MiniHudPanelOpacityDefault = 70;
+        internal const int MiniHudPanelOpacityDefault = 50;
         internal const int MiniHudPositionLimit = 20000;
         private const int MiniHudRecommendedFavoriteMaskLow =
             (1 << 0) |  // Not enough electricity

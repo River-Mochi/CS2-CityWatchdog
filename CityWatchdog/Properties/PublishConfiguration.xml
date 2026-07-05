@@ -52,8 +52,8 @@ I hope you enjoy the new features, better performance, and safety checks!
 ### Thanks to all supporters and testers
 - River Mochi - author/maintainer
 - yenyang - locale tech feedback
-- Money View inspired by earlier mods by DanielNZ Show Text.
 - Notices inspired by the orig. City Controller mod by Mbyron26.
+- Money View inspired by earlier mods by DanielNZ Show Text.
 - Dorkington - tester/feature suggestion
 - Brainium, Flightech, SonNathan - testers
 - UnMaestro - testing, German editor
@@ -87,6 +87,7 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
+- Draggable mini hud remembers position between game sessions.
 - Improved Mini HUD: display, size, and Dark/Glass panels (See Options MENU).
 - Opacity slider for minu-Hud panel (see Options menu).
 - Hud draggable position persists between game sessions.
