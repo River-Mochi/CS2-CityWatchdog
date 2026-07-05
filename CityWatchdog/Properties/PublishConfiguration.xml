@@ -87,8 +87,9 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Improved Mini HUD: display, size, and Dark/Glass panels - See Options MENU.
-- Opacity slider for minu-Hud panel (Options menu).
+- Improved Mini HUD: display, size, and Dark/Glass panels (See Options MENU).
+- Opacity slider for minu-Hud panel (see Options menu).
+- Hud draggable position persists between game sessions.
 - Improved draggable HUD screen-edge handling.
 - Updated all translations
 - Recent updates yesterday:
