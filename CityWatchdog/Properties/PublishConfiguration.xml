@@ -65,7 +65,7 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 
 </LongDescription>
 	<!--Thumbnail-->
-	<Thumbnail Value="Properties/Thumbnail-dog-city03.jpg" />
+	<Thumbnail Value="Properties/Thumbnail-dog-city04.jpg" />
 	<!--Screenshot, can be set multiple times-->
     <Screenshot Value="Properties/image10-Notifications1.jpg" />
     <Screenshot Value="Properties/image11-Before.jpg" />
