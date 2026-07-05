@@ -109,7 +109,8 @@ namespace CityWatchdog
         internal const int MiniHudPlacementDraggable = 2;
         internal const int MiniHudPanelStyleDark = 0;
         internal const int MiniHudPanelStyleGlass = 1;
-        internal const int MiniHudPanelOpacityDefault = 70;
+        internal const int MiniHudPanelOpacityDefault = 50;
+        internal const int MiniHudPositionLimit = 20000;
         private const int MiniHudRecommendedFavoriteMaskLow =
             (1 << 0) |  // Not enough electricity
             (1 << 1) |  // Electricity bottleneck
@@ -289,6 +290,13 @@ namespace CityWatchdog
                 MiniHudPanelStyle = MiniHudPanelStyleDark;
                 MiniHudPanelOpacity = MiniHudPanelOpacityDefault;
                 MiniHudGlassStyle = false;
+                MiniHudPositionX = 0;
+                MiniHudPositionY = 0;
+                MiniHudPositionOrientation = MiniHudOrientation;
+                MiniHudHorizontalPositionX = 0;
+                MiniHudHorizontalPositionY = 0;
+                MiniHudVerticalPositionX = 0;
+                MiniHudVerticalPositionY = 0;
                 SetMiniHudRecommendedFavorites();
 
                 CityWatchdogUISystem? uiSystem = GetUISystem();
@@ -301,6 +309,7 @@ namespace CityWatchdog
                 uiSystem?.UpdateMiniHudHideZeroBinding(MiniHudHideZero);
                 uiSystem?.UpdateMiniHudPanelStyleBinding(MiniHudPanelStyle);
                 uiSystem?.UpdateMiniHudPanelOpacityBinding(MiniHudPanelOpacity);
+                uiSystem?.UpdateMiniHudPositionBindings();
                 uiSystem?.UpdateMiniHudFavoritesBinding();
 
                 try
@@ -373,6 +382,27 @@ namespace CityWatchdog
 
         [SettingsUIHidden]
         public int MiniHudFavoriteMaskHigh { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudPositionX { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudPositionY { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudPositionOrientation { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudHorizontalPositionX { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudHorizontalPositionY { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudVerticalPositionX { get; set; }
+
+        [SettingsUIHidden]
+        public int MiniHudVerticalPositionY { get; set; }
 
         // --------------------------------------------------------------------
         // Money-Milestones tab - New city start settings
@@ -773,6 +803,13 @@ namespace CityWatchdog
             MiniHudPanelStyle = MiniHudPanelStyleDark;
             MiniHudPanelOpacity = MiniHudPanelOpacityDefault;
             MiniHudGlassStyle = false;
+            MiniHudPositionX = 0;
+            MiniHudPositionY = 0;
+            MiniHudPositionOrientation = MiniHudOrientation;
+            MiniHudHorizontalPositionX = 0;
+            MiniHudHorizontalPositionY = 0;
+            MiniHudVerticalPositionX = 0;
+            MiniHudVerticalPositionY = 0;
             SetMiniHudRecommendedFavorites();
 
             Notification.SetDefaults();
@@ -788,6 +825,36 @@ namespace CityWatchdog
             MiniHudPanelOpacity = MiniHudPanelOpacity <= 0
                 ? MiniHudPanelOpacityDefault
                 : Math.Clamp(MiniHudPanelOpacity, 30, 100);
+            MiniHudPositionX = Math.Clamp(MiniHudPositionX, -MiniHudPositionLimit, MiniHudPositionLimit);
+            MiniHudPositionY = Math.Clamp(MiniHudPositionY, -MiniHudPositionLimit, MiniHudPositionLimit);
+            if (MiniHudPositionOrientation != MiniHudOrientationHorizontal &&
+                MiniHudPositionOrientation != MiniHudOrientationVertical)
+            {
+                MiniHudPositionOrientation = MiniHudOrientation;
+            }
+
+            if ((MiniHudPositionX != 0 || MiniHudPositionY != 0) &&
+                MiniHudHorizontalPositionX == 0 &&
+                MiniHudHorizontalPositionY == 0 &&
+                MiniHudVerticalPositionX == 0 &&
+                MiniHudVerticalPositionY == 0)
+            {
+                if (MiniHudPositionOrientation == MiniHudOrientationHorizontal)
+                {
+                    MiniHudHorizontalPositionX = MiniHudPositionX;
+                    MiniHudHorizontalPositionY = MiniHudPositionY;
+                }
+                else
+                {
+                    MiniHudVerticalPositionX = MiniHudPositionX;
+                    MiniHudVerticalPositionY = MiniHudPositionY;
+                }
+            }
+
+            MiniHudHorizontalPositionX = Math.Clamp(MiniHudHorizontalPositionX, -MiniHudPositionLimit, MiniHudPositionLimit);
+            MiniHudHorizontalPositionY = Math.Clamp(MiniHudHorizontalPositionY, -MiniHudPositionLimit, MiniHudPositionLimit);
+            MiniHudVerticalPositionX = Math.Clamp(MiniHudVerticalPositionX, -MiniHudPositionLimit, MiniHudPositionLimit);
+            MiniHudVerticalPositionY = Math.Clamp(MiniHudVerticalPositionY, -MiniHudPositionLimit, MiniHudPositionLimit);
         }
 
         private void SetMiniHudRecommendedFavorites()
