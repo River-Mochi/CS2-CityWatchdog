@@ -280,7 +280,7 @@ namespace CityWatchdog
                     return;
                 }
 
-               ApplyMiniHudStarterPresetValues();
+                ApplyMiniHudStarterPresetValues();
 
                 CityWatchdogUISystem? uiSystem = GetUISystem();
                 uiSystem?.UpdateMiniHudEnabledBinding(MiniHudEnabled);
@@ -776,7 +776,7 @@ namespace CityWatchdog
             ShowRoadArrows = false;
             PanelButtonsOnlyStart = false;
 
-           ApplyMiniHudStarterPresetValues();
+            ApplyMiniHudStarterPresetValues();
 
             Notification.SetDefaults();
         }
