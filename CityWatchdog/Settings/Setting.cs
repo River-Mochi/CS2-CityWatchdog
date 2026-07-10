@@ -109,7 +109,7 @@ namespace CityWatchdog
         internal const int MiniHudPlacementDraggable = 2;
         internal const int MiniHudPanelStyleDark = 0;
         internal const int MiniHudPanelStyleGlass = 1;
-        internal const int MiniHudPanelOpacityDefault = 50;
+        internal const int MiniHudPanelOpacityDefault = 30;
         internal const int MiniHudPositionLimit = 20000;
         private const int MiniHudRecommendedFavoriteMaskLow =
             (1 << 0) |  // Not enough electricity
@@ -280,26 +280,7 @@ namespace CityWatchdog
                     return;
                 }
 
-                MiniHudEnabled = true;
-                MiniHudMode = MiniHudModeFavorites;     // use blue-star recommended favorites
-                MiniHudItemCount = 5;
-                MiniHudScale = 100;
-
-                MiniHudOrientation = MiniHudOrientationVertical;
-                MiniHudPlacement = MiniHudPlacementDraggable;
-                MiniHudHideZero = true;
-
-                MiniHudPanelStyle = MiniHudPanelStyleDark;
-                MiniHudPanelOpacity = MiniHudPanelOpacityDefault;
-                MiniHudGlassStyle = false;
-                MiniHudPositionX = 0;
-                MiniHudPositionY = 0;
-                MiniHudPositionOrientation = MiniHudOrientation;
-                MiniHudHorizontalPositionX = 0;
-                MiniHudHorizontalPositionY = 0;
-                MiniHudVerticalPositionX = 0;
-                MiniHudVerticalPositionY = 0;
-                SetMiniHudRecommendedFavorites();
+               ApplyMiniHudStarterPresetValues();
 
                 CityWatchdogUISystem? uiSystem = GetUISystem();
                 uiSystem?.UpdateMiniHudEnabledBinding(MiniHudEnabled);
@@ -795,8 +776,15 @@ namespace CityWatchdog
             ShowRoadArrows = false;
             PanelButtonsOnlyStart = false;
 
+           ApplyMiniHudStarterPresetValues();
+
+            Notification.SetDefaults();
+        }
+
+        private void ApplyMiniHudStarterPresetValues()
+        {
             MiniHudEnabled = true;
-            MiniHudMode = MiniHudModeFavorites; // use blue-star recommended
+            MiniHudMode = MiniHudModeFavorites;
             MiniHudItemCount = 5;
             MiniHudScale = 100;
             MiniHudOrientation = MiniHudOrientationVertical;
@@ -813,9 +801,8 @@ namespace CityWatchdog
             MiniHudVerticalPositionX = 0;
             MiniHudVerticalPositionY = 0;
             SetMiniHudRecommendedFavorites();
-
-            Notification.SetDefaults();
         }
+
 
         public void NormalizeLoadedSettings()
         {
