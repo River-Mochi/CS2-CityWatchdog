@@ -80,21 +80,22 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/city-watchdog.1924169/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.1.6" />
+	<ModVersion Value="1.1.7" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.6.*" />
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
+- Button for Recommended Starter set is now draggable mini-HUD.
+- Fix favorite star stroke width css
+- Fix mini-HUD pane
+-
+- Recent this week:
 - Draggable mini hud remembers position between game sessions.
 - Improved Mini HUD: display, size, and Dark/Glass panels (See Options MENU).
 - Opacity slider for minu-Hud panel (see Options menu).
 - Hud draggable position persists between game sessions.
-- Improved draggable HUD screen-edge handling.
-- Updated all translations
-- Recent updates yesterday:
-- Added click-to-jump in the Main panel count number too, you can find the next matching city problem faster.
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
     <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />

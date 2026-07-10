@@ -284,9 +284,11 @@ namespace CityWatchdog
                 MiniHudMode = MiniHudModeFavorites;     // use blue-star recommended favorites
                 MiniHudItemCount = 5;
                 MiniHudScale = 100;
-                MiniHudOrientation = MiniHudOrientationHorizontal;
-                MiniHudPlacement = MiniHudPlacementTopCenter;
-                MiniHudHideZero = false;
+
+                MiniHudOrientation = MiniHudOrientationVertical;
+                MiniHudPlacement = MiniHudPlacementDraggable;
+                MiniHudHideZero = true;
+
                 MiniHudPanelStyle = MiniHudPanelStyleDark;
                 MiniHudPanelOpacity = MiniHudPanelOpacityDefault;
                 MiniHudGlassStyle = false;

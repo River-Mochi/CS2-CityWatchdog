@@ -182,7 +182,7 @@ namespace CityWatchdog
                     "Keep clicking the same icon to rotate through matching spots, then back to the first one."
                 },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Recommended Starter Set" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Click This - Recommended Starter Set" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
                     "Applies a recommended Mini HUD setup:\n" +
                     "Favorites, 5 icons, horizontal, top center, 100% size, dark panel.\n" +
