@@ -20,114 +20,117 @@
   align-items: center;
 }
 
-    .subPanel:hover {
-        background-color: rgba(255, 255, 255, 0.18);
-    }
+  .subPanel:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+  }
 
-    .subPanel:active {
-        background-color: var(--activeColorBright);
-    }
+  .subPanel:active {
+    background-color: var(--activeColorBright);
+  }
 
-    .subPanelOff {
-      background-color: rgba(255, 255, 255, 0.08);
-    }
+.subPanelOff {
+  background-color: rgba(255, 255, 255, 0.08);
+}
 
-      .subPanelOff:hover {
-        background-color: rgba(255, 255, 255, 0.14);
-      }
-
-    .iconLabelSectionOff {
-      opacity: 0.5;
-    }
+  .subPanelOff:hover,
+  .subPanelOff:active {
+    background-color: rgba(255, 255, 255, 0.14);
+  }
 
 // Left side of the row: notification icon + text.
 // min-width: 0 allows long vanilla labels to shrink and use ellipsis.
 .iconLabelSection {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    min-width: 0;
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-width: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+}
+
+// OFF notice state should dim only the alert identity.
+// Count and Mini HUD favorite star stay clear because they still do useful actions.
+.iconLabelSectionOff {
+  opacity: 0.5;
 }
 
 // Right side of the row: count, favorite marker, and checkbox area.
 // flex-grow:0 / flex-shrink:0 keeps the checkbox from being squeezed by long translated labels.
 .labelCheckboxSection {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: auto;
-    margin-left: 4rem;
-    font-size: var(--fontSizeXS);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+  margin-left: 4rem;
+  font-size: var(--fontSizeXS);
 }
 
 .count {
-    display: block;
-    width: 34rem;
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: 34rem;
-    margin-right: 2rem;
-    padding-top: 2rem;
-    padding-right: 2rem;
-    padding-bottom: 2rem;
-    padding-left: 2rem;
-    border-top-left-radius: 3rem;
-    border-top-right-radius: 3rem;
-    border-bottom-left-radius: 3rem;
-    border-bottom-right-radius: 3rem;
-    box-sizing: border-box;
-    color: rgba(254, 254, 254, 0.82);
-    font-size: var(--fontSizeXS);
-    font-weight: 700;
-    line-height: 1;
-    text-align: right;
+  display: block;
+  width: 34rem;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 34rem;
+  margin-right: 2rem;
+  padding-top: 2rem;
+  padding-right: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 2rem;
+  border-top-left-radius: 3rem;
+  border-top-right-radius: 3rem;
+  border-bottom-left-radius: 3rem;
+  border-bottom-right-radius: 3rem;
+  box-sizing: border-box;
+  color: rgba(254, 254, 254, 0.82);
+  font-size: var(--fontSizeXS);
+  font-weight: 700;
+  line-height: 1;
+  text-align: right;
 }
 
 .countJump {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.countJump:hover {
+  .countJump:hover {
     background-color: rgba(84, 215, 255, 0.16);
     color: #ffffff;
-}
+  }
 
-.countJump:active {
+  .countJump:active {
     background-color: rgba(84, 215, 255, 0.28);
     color: #ffffff;
-}
+  }
 
 .countDisabled {
-    cursor: default;
+  cursor: default;
 }
 
 // Keep notification SVGs small and pinned to the left of each row.
 .icon {
-    width: 24rem;
-    height: 24rem;
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: 24rem;
-    margin-right: 0.5em;
-    display: block;
+  width: 24rem;
+  height: 24rem;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 24rem;
+  margin-right: 0.5em;
+  display: block;
 }
 
 // Long vanilla labels truncate before they run into the checkbox.
 .label {
-    min-width: 0;
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: auto;
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: rgba(254, 254, 254, 0.8);
-    font-size: var(--fontSizeS);
+  min-width: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgba(254, 254, 254, 0.8);
+  font-size: var(--fontSizeS);
 }
