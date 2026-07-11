@@ -88,9 +88,9 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - Button for Recommended Starter set is now draggable mini-HUD.
-- Fix favorite star stroke width css warn
+- Fix blue star stroke width css warn
 - Fix mini-HUD pane
--
+- Main panel row only icon+label dim when notice is off. Blue start always visible, count visible when > 0.
 - Recent this week:
 - Draggable mini hud remembers position between game sessions.
 - Improved Mini HUD: display, size, and Dark/Glass panels (See Options MENU).
