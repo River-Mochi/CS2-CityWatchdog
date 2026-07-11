@@ -88,7 +88,7 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - Button for Recommended Starter set is now draggable mini-HUD.
-- Fix favorite star stroke width css
+- Fix favorite star stroke width css warn
 - Fix mini-HUD pane
 -
 - Recent this week:
