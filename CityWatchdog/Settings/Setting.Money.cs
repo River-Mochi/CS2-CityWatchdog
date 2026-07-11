@@ -286,10 +286,6 @@ namespace CityWatchdog
             };
         }
 
-        public DropdownItem<int>[] GetMiniHudModeItems()
-
-
-
         public void ResetInitialMoney()
         {
             InitialMoney = 0;
