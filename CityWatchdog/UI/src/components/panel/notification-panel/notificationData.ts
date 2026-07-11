@@ -357,9 +357,9 @@ export const createExpandedSections = (expanded: boolean | null = null) => {
     const result: Record<string, boolean> = {};
 
     sections.forEach((section) => {
-        // Fresh UI sessions start collapsed.
-        // In the same city/session, manual expand/collapse state is still remembered by React state.
-        result[section.localeId] = expanded ?? false;
+        // Fresh UI sessions start all rows expanded.
+        // In the same city/session, manual expand/collapse state is remembered by React state.
+        result[section.localeId] = expanded ?? true;
     });
 
     return result;

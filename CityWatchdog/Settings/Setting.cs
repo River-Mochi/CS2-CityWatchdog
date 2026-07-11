@@ -23,6 +23,7 @@ namespace CityWatchdog
     using Game.UI.Widgets;
     using Unity.Entities;
     using UnityEngine;
+    using Game.UI;
 
     [FileLocation("ModsSettings/CityWatchdog/CityWatchdog")]
     [SettingsUITabOrder(Actions, MiniHudTab, MoneyTab, About)]

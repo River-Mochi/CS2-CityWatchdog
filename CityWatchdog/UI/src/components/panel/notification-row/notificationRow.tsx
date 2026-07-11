@@ -45,6 +45,16 @@ export const NotificationRow = memo(({
         ? `${styles.count} ${styles.countJump}`
         : `${styles.count} ${styles.countDisabled}`;
 
+
+  const rowClassName = isChecked
+    ? styles.subPanel
+    : `${styles.subPanel} ${styles.subPanelOff}`;
+
+  const iconLabelClassName = isChecked
+    ? styles.iconLabelSection
+    : `${styles.iconLabelSection} ${styles.iconLabelSectionOff}`;
+
+
     const onCountClick = () => {
         if (canJumpToAlert) {
             OnMiniHudNotificationClicked(countIndex);
@@ -63,12 +73,9 @@ export const NotificationRow = memo(({
     };
 
     return (
-        <div
-            className={styles.subPanel}
-            style={{ marginBottom: "5rem", opacity: isChecked ? 1 : 0.5 }}
-        >
+      <div className={rowClassName}>
             {/* Left side: small notification icon plus vanilla/localized label. */}
-            <div className={styles.iconLabelSection}>
+            <div className={iconLabelClassName}>
                 <img src={item.icon} className={styles.icon} alt="" />
                 <span className={styles.label}>{label}</span>
             </div>
