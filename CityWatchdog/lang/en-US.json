@@ -10,6 +10,7 @@
   "SortModeDescending": "Sorting: Z → A · click to cycle",
   "SortModeActiveFirst": "Sorting: active alerts first · click to cycle",
   "NoActiveAlerts": "No active alerts.",
+  "BackToGrouped": "Back to grouped list (leave Active view).",
   "BuildingLevelingNotification": "Leveling building",
   "RoadNameToggleOn": "Hide road names.\nHotkey: \\",
   "RoadNameToggleOff": "Show road names.\nHotkey: \\",

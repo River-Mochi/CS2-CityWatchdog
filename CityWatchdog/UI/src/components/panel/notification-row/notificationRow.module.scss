@@ -53,7 +53,7 @@
 // signal it's off, so dimming the icon is redundant (it now reads like the "mixed" state). Only the
 // label steps down to a readable gray so "off" stays obvious without hiding the alert identity.
 .iconLabelSectionOff .label {
-  color: rgba(254, 254, 254, 0.6);
+  color: rgba(254, 254, 254, 0.68);
 }
 
 // Right side of the row: count, favorite marker, and checkbox area.

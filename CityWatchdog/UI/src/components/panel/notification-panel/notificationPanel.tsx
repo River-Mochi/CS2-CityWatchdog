@@ -168,6 +168,14 @@ const NotificationPanelContent = () => {
         setActiveSnapshot(next === SORT_ACTIVE && notificationCounts.length > 0 ? notificationCounts.slice() : null);
     };
 
+    // In Active view the count/expand button has no sections to act on, so it becomes a "back to the
+    // grouped list" control (returns to A→Z), which is what players reach for to leave Active view.
+    const exitToGroupedView = () => {
+        setSortMode(SORT_ASCENDING);
+        sessionSortMode = SORT_ASCENDING;
+        setActiveSnapshot(null);
+    };
+
     // Active-first is a flat list: every count > 0 row (by the frozen snapshot), sorted by count desc.
     // allItems index === count index, so it doubles as the lookup into counts/values/favorites.
     // Dedupe by miniHudIdentity so a shared alert — e.g. "Facility full", which Garbage and Healthcare
@@ -425,11 +433,13 @@ const NotificationPanelContent = () => {
                         />
                     </CwdTooltip>
 
-                    <CwdTooltip tooltip={allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows")}>
+                    <CwdTooltip tooltip={sortMode === SORT_ACTIVE
+                        ? localize("BackToGrouped", "Back to grouped list")
+                        : (allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows"))}>
                         <PanelButton
                             kind="count"
                             tone={toggleAllTone}
-                            onClick={onToggleAllSections}
+                            onClick={sortMode === SORT_ACTIVE ? exitToGroupedView : onToggleAllSections}
                         >
                             <PanelButtonText kind="count">
                                 {selectedTotalCount}/{totalNotificationCount}
