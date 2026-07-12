@@ -345,6 +345,9 @@ namespace CityWatchdog
             MiniHudHorizontalPositionY = Math.Clamp(MiniHudHorizontalPositionY, -MiniHudPositionLimit, MiniHudPositionLimit);
             MiniHudVerticalPositionX = Math.Clamp(MiniHudVerticalPositionX, -MiniHudPositionLimit, MiniHudPositionLimit);
             MiniHudVerticalPositionY = Math.Clamp(MiniHudVerticalPositionY, -MiniHudPositionLimit, MiniHudPositionLimit);
+
+            PanelPositionX = Math.Clamp(PanelPositionX, -PanelPositionLimit, PanelPositionLimit);
+            PanelPositionY = Math.Clamp(PanelPositionY, -PanelPositionLimit, PanelPositionLimit);
         }
 
         private void SetMiniHudRecommendedFavorites()

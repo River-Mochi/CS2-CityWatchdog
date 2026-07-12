@@ -33,6 +33,8 @@ export const miniHudVerticalPositionX$ = bindValue<number>(mod.id, "MiniHudVerti
 export const miniHudVerticalPositionY$ = bindValue<number>(mod.id, "MiniHudVerticalPositionY", 0);
 
 export const panelButtonsOnlyStart$ = bindValue<boolean>(mod.id, "PanelButtonsOnlyStart", false);
+export const panelPositionX$ = bindValue<number>(mod.id, "PanelPositionX", 0);
+export const panelPositionY$ = bindValue<number>(mod.id, "PanelPositionY", 0);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
 export const ElectricityBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBottleneckNotification");
@@ -107,6 +109,7 @@ export const OnShowRoadArrowsToggle = (show: boolean) => trigger(mod.id, "ShowRo
 export const OnToggleMiniHudFavorite = (index: number) => trigger(mod.id, "ToggleMiniHudFavorite", index);
 export const OnMiniHudNotificationClicked = (index: number) => trigger(mod.id, "MiniHudNotificationClicked", index);
 export const OnMiniHudPositionChanged = (orientation: number, x: number, y: number) => trigger(mod.id, "MiniHudPositionChanged", `${orientation},${Math.round(x)},${Math.round(y)}`);
+export const OnPanelPositionChanged = (x: number, y: number) => trigger(mod.id, "PanelPositionChanged", `${Math.round(x)},${Math.round(y)}`);
 
 export const OnElectricityElectricityNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ElectricityElectricityNotification", enable);
 export const OnElectricityBottleneckNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ElectricityBottleneckNotification", enable);

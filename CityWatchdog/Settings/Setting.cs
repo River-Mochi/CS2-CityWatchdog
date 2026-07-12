@@ -63,6 +63,10 @@ namespace CityWatchdog
         internal const string AboutDiagnostics = nameof(AboutDiagnostics);
         internal const string AboutUsage = nameof(AboutUsage);
 
+        // Coarse sanity bound (pixels) for the stored draggable panel position. The UI does the
+        // real on-screen clamping against the live viewport; this only guards absurd saved values.
+        internal const int PanelPositionLimit = 20000;
+
         private const string AboutLinksRow = nameof(AboutLinksRow);
         private const string DebugButtonsRow = nameof(DebugButtonsRow);
         private const string UsageIconPath = "coui://ui-mods/images/NotificationIcon_PawOrgCir.svg";
@@ -129,6 +133,14 @@ namespace CityWatchdog
         // property still registers and falls into an unnamed default tab.
         [SettingsUIHidden]
         public bool DisableCwdTooltips { get; set; }
+
+        // Last position of the draggable main panel. Hidden from Options UI; written by the panel
+        // drag and clamped back on-screen by the UI so a resolution change can't strand it off-view.
+        [SettingsUIHidden]
+        public int PanelPositionX { get; set; }
+
+        [SettingsUIHidden]
+        public int PanelPositionY { get; set; }
 
         // About tab
         // --------------------------------------------------------------------
@@ -251,6 +263,8 @@ namespace CityWatchdog
             HideDistrictNames = false;
             ShowRoadArrows = false;
             PanelButtonsOnlyStart = false;
+            PanelPositionX = 0;
+            PanelPositionY = 0;
 
             ApplyMiniHudStarterPresetValues();
 

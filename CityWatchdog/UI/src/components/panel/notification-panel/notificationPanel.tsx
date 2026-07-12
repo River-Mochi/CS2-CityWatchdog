@@ -17,6 +17,8 @@ import {
     miniHudFavorites$,
     notificationCounts$,
     panelButtonsOnlyStart$,
+    panelPositionX$,
+    panelPositionY$,
     showRoadArrows$,
     OnControlPanelBindingToggle,
     OnDisableAllTooltipsToggle,
@@ -128,12 +130,14 @@ const NotificationPanelContent = () => {
     const notificationCounts = useValue(notificationCounts$);
     const miniHudFavorites = useValue(miniHudFavorites$);
     const favoriteIndexes = new Set(miniHudFavorites);
+    const savedPanelPositionX = useValue(panelPositionX$);
+    const savedPanelPositionY = useValue(panelPositionY$);
     const {
         panelOffset,
         panelDragging,
         panelElementRef,
         handlePanelDragStart,
-    } = usePanelDrag();
+    } = usePanelDrag({ x: savedPanelPositionX, y: savedPanelPositionY });
 
     const allSelected = allValues.every(Boolean);
     const anySelected = allValues.some(Boolean);
