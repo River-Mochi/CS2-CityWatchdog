@@ -7,7 +7,7 @@ import { useLocalization } from "cs2/l10n";
 import { getModule } from "cs2/modding";
 import { useText } from "../../shared/localization";
 import { Button, Panel, Tooltip } from "cs2/ui";
-import { useCallback, useState, type ReactElement, type ReactNode } from "react";
+import { useCallback, useEffect, useState, type ReactElement, type ReactNode } from "react";
 import {
     controlPanelEnabled$,
     disableAllTooltips$,
@@ -36,6 +36,7 @@ import { PanelButton, PanelButtonText, type PanelButtonTone } from "./buttons/pa
 import styles from "./notificationPanel.module.scss";
 import {
     allIconSources,
+    allItems,
     createExpandedSections,
     notificationCountIndexes,
     sections,
@@ -52,6 +53,7 @@ import TitleBarIconPath from "../../../../images/NotificationIcon_TitleBar.svg";
 // Sort icons are custom mod images emitted by webpack to coui://ui-mods/images/.
 import SortArrowUpPath from "../../../../images/sort-arrow-up.svg";
 import SortArrowDownPath from "../../../../images/sort-arrow-down.svg";
+import SortActivePath from "../../../../images/sort-active.svg";
 
 // Road-name toggle icon. CSS handles the blue active state.
 import RoadNameOnPath from "../../../../images/icon-RoadName-max.svg";
@@ -65,6 +67,7 @@ import RoadArrowIconPath from "../../../../images/icon-RoadArrows-max.svg";
 const modIconSrc = TitleBarIconPath;
 const sortArrowUpSrc = SortArrowUpPath;
 const sortArrowDownSrc = SortArrowDownPath;
+const sortActiveSrc = SortActivePath;
 const roadNameOnSrc = RoadNameOnPath;
 const districtIconSrc = DistrictIconPath;
 const roadArrowIconSrc = RoadArrowIconPath;
@@ -73,6 +76,13 @@ const roadArrowIconSrc = RoadArrowIconPath;
 const infoIconSrc = "Media/Game/Icons/AdvisorInfoViewWhite.svg";
 
 const roundButtonHighlightStyle = getModule("game-ui/common/input/button/themes/round-highlight-button.module.scss", "classes");
+
+// Sort button cycles through three modes. Kept at module scope so the chosen mode survives the
+// panel closing and reopening within a game session (active-first order re-snapshots on open).
+const SORT_ASCENDING = 0;
+const SORT_DESCENDING = 1;
+const SORT_ACTIVE = 2;
+let sessionSortMode = SORT_ASCENDING;
 
 // Panel-internal Tooltip wrapper. Two jobs:
 //   1. Passes a `cwdBypass` flag the global TooltipGate extension reads, so panel tooltips stay
@@ -110,7 +120,8 @@ const NotificationPanelContent = () => {
     const localization = useLocalization();
     const uiText = useText();
     const { translate } = localization;
-    const [sortAscending, setSortAscending] = useState(true);
+    const [sortMode, setSortMode] = useState(sessionSortMode);
+    const [activeSnapshot, setActiveSnapshot] = useState<number[] | null>(null);
     const panelButtonsOnlyStart = useValue(panelButtonsOnlyStart$);
     const [panelCollapsed, setPanelCollapsed] = useState(() => panelButtonsOnlyStart);
     // disableAllTooltips$ — Info button: vanilla game hover tooltips.
@@ -139,6 +150,33 @@ const NotificationPanelContent = () => {
         handlePanelDragStart,
     } = usePanelDrag({ x: savedPanelPositionX, y: savedPanelPositionY });
 
+    // Active-first sort snapshots the counts so rows don't reshuffle while you read. The snapshot is
+    // taken on click (see cycleSortMode) and re-taken here on panel (re)open or if it wasn't ready yet.
+    useEffect(() => {
+        if (sortMode !== SORT_ACTIVE) {
+            return;
+        }
+        if (activeSnapshot === null && notificationCounts.length > 0) {
+            setActiveSnapshot(notificationCounts.slice());
+        }
+    }, [sortMode, activeSnapshot, notificationCounts]);
+
+    const cycleSortMode = () => {
+        const next = (sortMode + 1) % 3;
+        setSortMode(next);
+        sessionSortMode = next;
+        setActiveSnapshot(next === SORT_ACTIVE && notificationCounts.length > 0 ? notificationCounts.slice() : null);
+    };
+
+    // Active-first is a flat list: every count > 0 row (by the frozen snapshot), sorted by count desc.
+    // allItems index === count index, so it doubles as the lookup into counts/values/favorites.
+    const activeRows = sortMode === SORT_ACTIVE
+        ? allItems
+            .map((item, index) => ({ item, index, count: activeSnapshot?.[index] ?? 0 }))
+            .filter((entry) => entry.count > 0)
+            .sort((a, b) => b.count - a.count || a.index - b.index)
+        : [];
+
     const allSelected = allValues.every(Boolean);
     const anySelected = allValues.some(Boolean);
     const selectedTotalCount = allValues.filter(Boolean).length;
@@ -151,9 +189,11 @@ const NotificationPanelContent = () => {
 
     const allSectionsExpanded = sections.every((section) => expandedSections[section.localeId] === true);
 
-    // sortAscending is the current list state.
-    // The button shows the next action: descending icon while the list is currently ascending.
-    const sortIconSrc = sortAscending ? sortArrowDownSrc : sortArrowUpSrc;
+    // The icon reflects the CURRENT sort mode: up = A→Z, down = Z→A, bars = active-first.
+    const sortIconSrc =
+        sortMode === SORT_ASCENDING ? sortArrowUpSrc
+            : sortMode === SORT_DESCENDING ? sortArrowDownSrc
+                : sortActiveSrc;
 
     const localize: Localize = useCallback((localeId, fallback, raw = false) => {
         if (raw) {
@@ -163,9 +203,10 @@ const NotificationPanelContent = () => {
         return uiText(localeId, fallback);
     }, [translate, uiText]);
 
-    const sortTooltip = sortAscending
-        ? localize("SortDescending", "↓Sort Descending")
-        : localize("SortAscending", "↑Sort Ascending");
+    const sortTooltip =
+        sortMode === SORT_ASCENDING ? localize("SortModeAscending", "Sorting: A → Z · click to cycle")
+            : sortMode === SORT_DESCENDING ? localize("SortModeDescending", "Sorting: Z → A · click to cycle")
+                : localize("SortModeActiveFirst", "Sorting: active alerts first · click to cycle");
 
     const tooltipContent = (localeId: string, fallback: string) => {
         const tooltip = localize(localeId, fallback);
@@ -232,7 +273,7 @@ const NotificationPanelContent = () => {
 
     const orderedSections = [...sections].sort((a, b) => {
         const result = localize(a.localeId).localeCompare(localize(b.localeId));
-        return sortAscending ? result : -result;
+        return sortMode === SORT_DESCENDING ? -result : result;
     });
 
     const onToggleAll = () => {
@@ -369,7 +410,7 @@ const NotificationPanelContent = () => {
                             kind="sort"
                             iconSrc={sortIconSrc}
                             iconKind="sort"
-                            onClick={() => { setSortAscending(!sortAscending); }}
+                            onClick={cycleSortMode}
                         />
                     </CwdTooltip>
 
@@ -402,7 +443,28 @@ const NotificationPanelContent = () => {
 
             <IconPreloader />
 
-            {!panelCollapsed && orderedSections.map((section, index) => (
+            {/* Active-first: flat list of only the count > 0 rows (frozen snapshot), sorted by count. */}
+            {!panelCollapsed && sortMode === SORT_ACTIVE && (
+                activeRows.length === 0
+                    ? (
+                        <div style={{ paddingTop: "12rem", paddingBottom: "12rem", textAlign: "center", opacity: 0.6 }}>
+                            {localize("NoActiveAlerts", "No active alerts.")}
+                        </div>
+                    )
+                    : activeRows.map(({ item, index }) => (
+                        <NotificationRow
+                            key={item.localeId}
+                            item={item}
+                            isChecked={allValues[index] ?? false}
+                            count={notificationCounts[index] ?? 0}
+                            favorite={favoriteIndexes.has(index)}
+                            onFavoriteToggle={() => OnToggleMiniHudFavorite(index)}
+                            localize={localize}
+                        />
+                    ))
+            )}
+
+            {!panelCollapsed && sortMode !== SORT_ACTIVE && orderedSections.map((section, index) => (
                     <NotificationSectionView
                         key={section.localeId}
                         section={section}

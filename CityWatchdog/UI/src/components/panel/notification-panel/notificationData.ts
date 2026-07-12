@@ -5,6 +5,7 @@ import type { ValueBinding } from "cs2/api";
 import {
     BuildingAbandonedCollapsedNotificationBinding$, BuildingAbandonedNotificationBinding$, BuildingCondemnedNotificationBinding$,
     BuildingHighRentNotificationBinding$,
+    BuildingLevelUpNotificationBinding$,
     BuildingTurnedOffNotificationBinding$,
     CompanyNoCustomersNotificationBinding$, CompanyNoInputsNotificationBinding$,
     DisasterDestroyedNotificationBinding$, DisasterWaterDamageNotificationBinding$, DisasterWaterDestroyedNotificationBinding$, DisasterWeatherDamageNotificationBinding$, DisasterWeatherDestroyedNotificationBinding$,
@@ -19,6 +20,7 @@ import {
     HealthcareAmbulanceNotificationBinding$, HealthcareFacilityFullNotificationBinding$, HealthcareHearseNotificationBinding$,
     OnBuildingAbandonedCollapsedNotificationBindingToggle, OnBuildingAbandonedNotificationBindingToggle, OnBuildingCondemnedNotificationBindingToggle,
     OnBuildingHighRentNotificationBindingToggle,
+    OnBuildingLevelUpNotificationBindingToggle,
     OnBuildingTurnedOffNotificationBindingToggle,
     OnCompanyNoCustomersNotificationBindingToggle, OnCompanyNoInputsNotificationBindingToggle,
     OnDisasterDestroyedNotificationBindingToggle, OnDisasterWaterDamageNotificationBindingToggle, OnDisasterWaterDestroyedNotificationBindingToggle, OnDisasterWeatherDamageNotificationBindingToggle, OnDisasterWeatherDestroyedNotificationBindingToggle,
@@ -147,6 +149,7 @@ export const gameTitleKeys: Record<string, string> = {
     BuildingCondemnedNotification: "Notifications.TITLE[Condemned]",
     BuildingTurnedOffNotification: "Notifications.TITLE[Turned Off]",
     BuildingHighRentNotification: "Notifications.TITLE[Rent Too High]",
+    BuildingLevelUpNotification: "Notifications.TITLE[Leveling Building]",
 
     TrafficBottleneckNotification: "Notifications.TITLE[Traffic Bottleneck Notification]",
     TrafficDeadEndNotification: "Notifications.TITLE[Dead End]",
@@ -236,6 +239,7 @@ export const sections: NotificationSection[] = [
             { icon: icon("BuildingCondemned"), localeId: "BuildingCondemnedNotification", binding: BuildingCondemnedNotificationBinding$, onToggle: OnBuildingCondemnedNotificationBindingToggle },
             { icon: icon("TurnedOff"), localeId: "BuildingTurnedOffNotification", binding: BuildingTurnedOffNotificationBinding$, onToggle: OnBuildingTurnedOffNotificationBindingToggle },
             { icon: icon("RentTooHigh"), localeId: "BuildingHighRentNotification", binding: BuildingHighRentNotificationBinding$, onToggle: OnBuildingHighRentNotificationBindingToggle },
+            { icon: icon("LevelingBuilding"), localeId: "BuildingLevelUpNotification", binding: BuildingLevelUpNotificationBinding$, onToggle: OnBuildingLevelUpNotificationBindingToggle },
         ],
     },
     {

@@ -421,6 +421,7 @@ namespace CityWatchdog.Systems
             EnableBuildingNotification(BuildingNotificationIcon.CondemnedNotification, Setting.Instance.Notification.BuildingCondemnedNotification);
             EnableBuildingNotification(BuildingNotificationIcon.TurnedOffNotification, Setting.Instance.Notification.BuildingTurnedOffNotification);
             EnableBuildingNotification(BuildingNotificationIcon.HighRentNotification, Setting.Instance.Notification.BuildingHighRentNotification);
+            EnableBuildingNotification(BuildingNotificationIcon.LevelUpNotification, Setting.Instance.Notification.BuildingLevelUpNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -441,6 +442,9 @@ namespace CityWatchdog.Systems
             }
             else if (buildingNotificationIcon == BuildingNotificationIcon.HighRentNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_HighRentNotification, value);
+            }
+            else if (buildingNotificationIcon == BuildingNotificationIcon.LevelUpNotification) {
+                EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_LevelingBuildingNotificationPrefab, value);
             }
 
             if (refresh)

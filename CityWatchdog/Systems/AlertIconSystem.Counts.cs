@@ -21,7 +21,7 @@ namespace CityWatchdog.Systems
 
     public partial class AlertIconSystem
     {
-        public const int NotificationCountLength = 62;
+        public const int NotificationCountLength = 63;
         private readonly Dictionary<int, int> nextNotificationEntityOffsets = new();
 
         public int[] GetNotificationCounts()
@@ -73,10 +73,11 @@ namespace CityWatchdog.Systems
                 counts[index++] = Count(building.m_CondemnedNotification);
                 counts[index++] = Count(building.m_TurnedOffNotification);
                 counts[index++] = Count(building.m_HighRentNotification);
+                counts[index++] = Count(building.m_LevelingBuildingNotificationPrefab);
             }
             else
             {
-                index += 5;
+                index += 6;
             }
 
             if (trafficConfigurationDataQuery.TryGetSingleton(out TrafficConfigurationData traffic))
@@ -344,7 +345,7 @@ namespace CityWatchdog.Systems
                 return true;
             }
 
-            if (index >= 19 && index <= 23 && buildingConfigurationDataQuery.TryGetSingleton(out BuildingConfigurationData building))
+            if (index >= 19 && index <= 24 && buildingConfigurationDataQuery.TryGetSingleton(out BuildingConfigurationData building))
             {
                 Entity prefab = index switch
                 {
@@ -352,140 +353,141 @@ namespace CityWatchdog.Systems
                     20 => building.m_AbandonedNotification,
                     21 => building.m_CondemnedNotification,
                     22 => building.m_TurnedOffNotification,
-                    _ => building.m_HighRentNotification,
+                    23 => building.m_HighRentNotification,
+                    _ => building.m_LevelingBuildingNotificationPrefab,
                 };
                 matcher = PrefabMatcher(prefab);
                 return true;
             }
 
-            if (index >= 24 && index <= 32 && trafficConfigurationDataQuery.TryGetSingleton(out TrafficConfigurationData traffic))
+            if (index >= 25 && index <= 33 && trafficConfigurationDataQuery.TryGetSingleton(out TrafficConfigurationData traffic))
             {
                 Entity prefab = index switch
                 {
-                    24 => traffic.m_BottleneckNotification,
-                    25 => traffic.m_DeadEndNotification,
-                    26 => traffic.m_RoadConnectionNotification,
-                    27 => traffic.m_TrackConnectionNotification,
-                    28 => traffic.m_CarConnectionNotification,
-                    29 => traffic.m_ShipConnectionNotification,
-                    30 => traffic.m_TrainConnectionNotification,
-                    31 => traffic.m_PedestrianConnectionNotification,
+                    25 => traffic.m_BottleneckNotification,
+                    26 => traffic.m_DeadEndNotification,
+                    27 => traffic.m_RoadConnectionNotification,
+                    28 => traffic.m_TrackConnectionNotification,
+                    29 => traffic.m_CarConnectionNotification,
+                    30 => traffic.m_ShipConnectionNotification,
+                    31 => traffic.m_TrainConnectionNotification,
+                    32 => traffic.m_PedestrianConnectionNotification,
                     _ => traffic.m_BicycleConnectionNotification,
                 };
                 matcher = PrefabMatcher(prefab);
                 return true;
             }
 
-            if (index >= 33 && index <= 34 && companyNotificationParameterQuery.TryGetSingleton(out CompanyNotificationParameterData company))
+            if (index >= 34 && index <= 35 && companyNotificationParameterQuery.TryGetSingleton(out CompanyNotificationParameterData company))
             {
-                matcher = PrefabMatcher(index == 33
+                matcher = PrefabMatcher(index == 34
                     ? company.m_NoInputsNotificationPrefab
                     : company.m_NoCustomersNotificationPrefab);
                 return true;
             }
 
-            if (index >= 35 && index <= 36 && workProviderNotificationParameterQuery.TryGetSingleton(out WorkProviderParameterData workProvider))
+            if (index >= 36 && index <= 37 && workProviderNotificationParameterQuery.TryGetSingleton(out WorkProviderParameterData workProvider))
             {
-                matcher = PrefabMatcher(index == 35
+                matcher = PrefabMatcher(index == 36
                     ? workProvider.m_UneducatedNotificationPrefab
                     : workProvider.m_EducatedNotificationPrefab);
                 return true;
             }
 
-            if (index >= 37 && index <= 41 && disasterNotificationParameterQuery.TryGetSingleton(out DisasterConfigurationData disaster))
+            if (index >= 38 && index <= 42 && disasterNotificationParameterQuery.TryGetSingleton(out DisasterConfigurationData disaster))
             {
                 Entity prefab = index switch
                 {
-                    37 => disaster.m_WeatherDamageNotificationPrefab,
-                    38 => disaster.m_WeatherDestroyedNotificationPrefab,
-                    39 => disaster.m_WaterDamageNotificationPrefab,
-                    40 => disaster.m_WaterDestroyedNotificationPrefab,
+                    38 => disaster.m_WeatherDamageNotificationPrefab,
+                    39 => disaster.m_WeatherDestroyedNotificationPrefab,
+                    40 => disaster.m_WaterDamageNotificationPrefab,
+                    41 => disaster.m_WaterDestroyedNotificationPrefab,
                     _ => disaster.m_DestroyedNotificationPrefab,
                 };
                 matcher = PrefabMatcher(prefab);
                 return true;
             }
 
-            if (index >= 42 && index <= 43 && fireNotificationParameterQuery.TryGetSingleton(out FireConfigurationData fire))
+            if (index >= 43 && index <= 44 && fireNotificationParameterQuery.TryGetSingleton(out FireConfigurationData fire))
             {
-                matcher = PrefabMatcher(index == 42
+                matcher = PrefabMatcher(index == 43
                     ? fire.m_FireNotificationPrefab
                     : fire.m_BurnedDownNotificationPrefab);
                 return true;
             }
 
-            if (index >= 44 && index <= 45 && garbageNotificationParameterQuery.TryGetSingleton(out GarbageParameterData garbage))
+            if (index >= 45 && index <= 46 && garbageNotificationParameterQuery.TryGetSingleton(out GarbageParameterData garbage))
             {
-                matcher = PrefabMatcher(index == 44
+                matcher = PrefabMatcher(index == 45
                     ? garbage.m_GarbageNotificationPrefab
                     : garbage.m_FacilityFullNotificationPrefab);
                 return true;
             }
 
-            if (index >= 46 && index <= 48 && healthcareNotificationParameterQuery.TryGetSingleton(out HealthcareParameterData healthcare))
+            if (index >= 47 && index <= 49 && healthcareNotificationParameterQuery.TryGetSingleton(out HealthcareParameterData healthcare))
             {
                 Entity prefab = index switch
                 {
-                    46 => healthcare.m_AmbulanceNotificationPrefab,
-                    47 => healthcare.m_HearseNotificationPrefab,
+                    47 => healthcare.m_AmbulanceNotificationPrefab,
+                    48 => healthcare.m_HearseNotificationPrefab,
                     _ => healthcare.m_FacilityFullNotificationPrefab,
                 };
                 matcher = PrefabMatcher(prefab);
                 return true;
             }
 
-            if (index >= 49 && index <= 50 && policeNotificationParameterQuery.TryGetSingleton(out PoliceConfigurationData police))
+            if (index >= 50 && index <= 51 && policeNotificationParameterQuery.TryGetSingleton(out PoliceConfigurationData police))
             {
-                matcher = PrefabMatcher(index == 49
+                matcher = PrefabMatcher(index == 50
                     ? police.m_TrafficAccidentNotificationPrefab
                     : police.m_CrimeSceneNotificationPrefab);
                 return true;
             }
 
-            if (index >= 51 && index <= 53 && pollutionNotificationParameterQuery.TryGetSingleton(out PollutionParameterData pollution))
+            if (index >= 52 && index <= 54 && pollutionNotificationParameterQuery.TryGetSingleton(out PollutionParameterData pollution))
             {
                 Entity prefab = index switch
                 {
-                    51 => pollution.m_AirPollutionNotification,
-                    52 => pollution.m_NoisePollutionNotification,
+                    52 => pollution.m_AirPollutionNotification,
+                    53 => pollution.m_NoisePollutionNotification,
                     _ => pollution.m_GroundPollutionNotification,
                 };
                 matcher = PrefabMatcher(prefab);
                 return true;
             }
 
-            if (index == 54)
+            if (index == 55)
             {
                 matcher = IsLowSuppliesNotificationPrefab;
                 return true;
             }
 
-            if (index == 55)
+            if (index == 56)
             {
                 matcher = IsNoFuelNotificationPrefab;
                 return true;
             }
 
-            if (index >= 56 && index <= 58)
+            if (index >= 57 && index <= 59)
             {
                 matcher = index switch
                 {
-                    56 => ResourceConnectionPrefabMatcher(IsOilPipeNotConnectedNotification),
-                    57 => ResourceConnectionPrefabMatcher(IsFishingPierNotConnectedNotification),
+                    57 => ResourceConnectionPrefabMatcher(IsOilPipeNotConnectedNotification),
+                    58 => ResourceConnectionPrefabMatcher(IsFishingPierNotConnectedNotification),
                     _ => ResourceConnectionPrefabMatcher(IsOtherResourceConnectionNotification),
                 };
                 return true;
             }
 
-            if (index >= 59 && index <= 60 && routeNotificationParameterQuery.TryGetSingleton(out RouteConfigurationData route))
+            if (index >= 60 && index <= 61 && routeNotificationParameterQuery.TryGetSingleton(out RouteConfigurationData route))
             {
-                matcher = PrefabMatcher(index == 59
+                matcher = PrefabMatcher(index == 60
                     ? route.m_PathfindNotification
                     : route.m_GateBypassNotification);
                 return true;
             }
 
-            if (index == 61 && transportLineNotificationParameterQuery.TryGetSingleton(out TransportLineData transport))
+            if (index == 62 && transportLineNotificationParameterQuery.TryGetSingleton(out TransportLineData transport))
             {
                 matcher = PrefabMatcher(transport.m_VehicleNotification);
                 return true;
