@@ -159,6 +159,7 @@
     transform: scale(1.08);
 }
 
+// MINI HUD count (NOT the main panel count — that lives in notificationRow.module.scss).
 .count {
     display: block;
     min-width: 30rem;

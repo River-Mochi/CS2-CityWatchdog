@@ -69,6 +69,7 @@
   font-size: var(--fontSizeXS);
 }
 
+// MAIN panel row count (NOT the Mini HUD count — that lives in miniHud.module.scss).
 .count {
   display: block;
   width: 34rem;
@@ -84,6 +85,20 @@
   border-top-right-radius: 3rem;
   border-bottom-left-radius: 3rem;
   border-bottom-right-radius: 3rem;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-width: 1rem;
+  border-right-width: 1rem;
+  border-bottom-width: 1rem;
+  border-left-width: 1rem;
+  // Transparent at rest so every count reserves identical box space (no text shift between
+  // clickable and disabled counts). .countJump paints the border in; .countDisabled stays clear.
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
   box-sizing: border-box;
   color: rgba(254, 254, 254, 0.82);
   font-size: var(--fontSizeXS);
@@ -92,20 +107,36 @@
   text-align: right;
 }
 
+// Visible box + faint fill at rest so players see the count is a clickable "jump to alert" chip.
 .countJump {
   cursor: pointer;
+  border-top-color: rgba(84, 215, 255, 0.55);
+  border-right-color: rgba(84, 215, 255, 0.55);
+  border-bottom-color: rgba(84, 215, 255, 0.55);
+  border-left-color: rgba(84, 215, 255, 0.55);
+  background-color: rgba(84, 215, 255, 0.08);
 }
 
   .countJump:hover {
     background-color: rgba(84, 215, 255, 0.16);
+    border-top-color: rgba(84, 215, 255, 0.85);
+    border-right-color: rgba(84, 215, 255, 0.85);
+    border-bottom-color: rgba(84, 215, 255, 0.85);
+    border-left-color: rgba(84, 215, 255, 0.85);
     color: #ffffff;
   }
 
   .countJump:active {
     background-color: rgba(84, 215, 255, 0.28);
+    border-top-color: rgba(84, 215, 255, 0.95);
+    border-right-color: rgba(84, 215, 255, 0.95);
+    border-bottom-color: rgba(84, 215, 255, 0.95);
+    border-left-color: rgba(84, 215, 255, 0.95);
     color: #ffffff;
   }
 
+// Zero-count rows can't jump anywhere, so they keep the transparent border from .count — a plain
+// number reads as "nothing to click" next to the boxed, clickable counts.
 .countDisabled {
   cursor: default;
 }

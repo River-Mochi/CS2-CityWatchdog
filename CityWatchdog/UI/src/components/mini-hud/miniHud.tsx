@@ -419,6 +419,7 @@ export const MiniHud = () => {
                 : undefined}
         >
             <div className={styles.content}>
+                {/* MINI HUD counts — separate from the main panel's notificationRow count. */}
                 <div className={styles.items}>
                     {candidates.length === 0 ? (
                         <div

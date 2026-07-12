@@ -81,6 +81,7 @@ export const NotificationRow = memo(({
 
       {/* Right side: count jump target, Mini HUD favorite marker, and notification toggle checkbox. */}
       <div className={styles.labelCheckboxSection}>
+        {/* MAIN panel count — click to jump. The Mini HUD has its own count in miniHud.tsx. */}
         <span
           className={countClassName}
           role={canJumpToAlert ? "button" : undefined}
