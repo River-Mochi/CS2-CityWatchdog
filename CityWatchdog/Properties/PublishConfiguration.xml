@@ -88,13 +88,11 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 <ChangeLog>
 - Recommended Starter set button is now draggable choice for mini-HUD.
 - Fix blue star stroke width css warn
-- Fix mini-HUD panel
 - fix Main panel rows: blue star always visible (no dim), count visible when > 0.
 - box added to main panel counts for better visibility.
+- main panel position also persistes between game sessions now just like mini-hud.
 - Recent this week:
-- Draggable mini hud remembers position between game sessions.
-- Improved Mini HUD: display, size, and Dark/Glass panels (See Options MENU).
-- Opacity slider for minu-Hud panel (see Options menu).
+- Better mini-HUD: display, icon size slider, opacity slider, and Dark/Glass panels (See Options MENU).
 - Hud draggable position persists between game sessions.
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
