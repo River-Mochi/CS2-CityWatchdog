@@ -10,7 +10,7 @@
   "SortModeDescending": "Sorting: Z → A · click to cycle",
   "SortModeActiveFirst": "Sorting: active alerts first · click to cycle",
   "NoActiveAlerts": "No active alerts.",
-  "BuildingLevelUpNotification": "Leveling building",
+  "BuildingLevelingNotification": "Leveling building",
   "RoadNameToggleOn": "Hide road names.\nHotkey: \\",
   "RoadNameToggleOff": "Show road names.\nHotkey: \\",
   "DistrictNameToggleOn": "Hide district names.",

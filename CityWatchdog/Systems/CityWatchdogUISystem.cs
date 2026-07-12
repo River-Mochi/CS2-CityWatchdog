@@ -88,7 +88,7 @@ namespace CityWatchdog.Systems
         private BoolBinding buildingCondemnedNotificationBinding = null!;
         private BoolBinding buildingTurnedOffNotificationBinding = null!;
         private BoolBinding buildingHighRentNotificationBinding = null!;
-        private BoolBinding buildingLevelUpNotificationBinding = null!;
+        private BoolBinding buildingLevelingNotificationBinding = null!;
 
         private BoolBinding trafficBottleneckNotificationBinding = null!;
         private BoolBinding trafficDeadEndNotificationBinding = null!;
@@ -214,7 +214,7 @@ namespace CityWatchdog.Systems
             buildingCondemnedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.BuildingCondemnedNotification), Setting.Instance.Notification.BuildingCondemnedNotification, OnBuildingCondemnedNotificationToggle);
             buildingTurnedOffNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.BuildingTurnedOffNotification), Setting.Instance.Notification.BuildingTurnedOffNotification, OnBuildingTurnedOffNotificationToggle);
             buildingHighRentNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.BuildingHighRentNotification), Setting.Instance.Notification.BuildingHighRentNotification, OnBuildingHighRentNotificationToggle);
-            buildingLevelUpNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.BuildingLevelUpNotification), Setting.Instance.Notification.BuildingLevelUpNotification, OnBuildingLevelUpNotificationToggle);
+            buildingLevelingNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.BuildingLevelingNotification), Setting.Instance.Notification.BuildingLevelingNotification, OnBuildingLevelingNotificationToggle);
 
             trafficBottleneckNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TrafficBottleneckNotification), Setting.Instance.Notification.TrafficBottleneckNotification, OnTrafficBottleneckNotificationToggle);
             trafficDeadEndNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TrafficDeadEndNotification), Setting.Instance.Notification.TrafficDeadEndNotification, OnTrafficDeadEndNotificationToggle);
@@ -397,10 +397,10 @@ namespace CityWatchdog.Systems
             Setting.Instance.Notification.BuildingHighRentNotification = value;
             alertIconSystem.EnableBuildingNotification(BuildingNotificationIcon.HighRentNotification, value, true);
         }
-        private void OnBuildingLevelUpNotificationToggle(bool value) {
-            buildingLevelUpNotificationBinding.Update(value);
-            Setting.Instance.Notification.BuildingLevelUpNotification = value;
-            alertIconSystem.EnableBuildingNotification(BuildingNotificationIcon.LevelUpNotification, value, true);
+        private void OnBuildingLevelingNotificationToggle(bool value) {
+            buildingLevelingNotificationBinding.Update(value);
+            Setting.Instance.Notification.BuildingLevelingNotification = value;
+            alertIconSystem.EnableBuildingNotification(BuildingNotificationIcon.LevelingNotification, value, true);
         }
         #endregion
 
@@ -757,7 +757,7 @@ namespace CityWatchdog.Systems
             buildingCondemnedNotificationBinding.Update(enabled);
             buildingTurnedOffNotificationBinding.Update(enabled);
             buildingHighRentNotificationBinding.Update(enabled);
-            buildingLevelUpNotificationBinding.Update(enabled);
+            buildingLevelingNotificationBinding.Update(enabled);
 
             trafficBottleneckNotificationBinding.Update(enabled);
             trafficDeadEndNotificationBinding.Update(enabled);

@@ -49,10 +49,11 @@
   flex-basis: auto;
 }
 
-// OFF notice state should dim only the alert identity.
-// Count and Mini HUD favorite star stay clear because they still do useful actions.
-.iconLabelSectionOff {
-  opacity: 0.5;
+// OFF state: keep the icon at full brightness — the empty checkbox and the red Toggle-All box already
+// signal it's off, so dimming the icon is redundant (it now reads like the "mixed" state). Only the
+// label steps down to a readable gray so "off" stays obvious without hiding the alert identity.
+.iconLabelSectionOff .label {
+  color: rgba(254, 254, 254, 0.6);
 }
 
 // Right side of the row: count, favorite marker, and checkbox area.

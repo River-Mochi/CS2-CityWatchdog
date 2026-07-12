@@ -170,11 +170,22 @@ const NotificationPanelContent = () => {
 
     // Active-first is a flat list: every count > 0 row (by the frozen snapshot), sorted by count desc.
     // allItems index === count index, so it doubles as the lookup into counts/values/favorites.
+    // Dedupe by miniHudIdentity so a shared alert — e.g. "Facility full", which Garbage and Healthcare
+    // display from one game prefab/count — appears only once here (same approach as the Mini HUD).
+    const seenActiveIdentities = new Set<string>();
     const activeRows = sortMode === SORT_ACTIVE
         ? allItems
             .map((item, index) => ({ item, index, count: activeSnapshot?.[index] ?? 0 }))
             .filter((entry) => entry.count > 0)
             .sort((a, b) => b.count - a.count || a.index - b.index)
+            .filter((entry) => {
+                const identity = entry.item.miniHudIdentity ?? entry.item.localeId;
+                if (seenActiveIdentities.has(identity)) {
+                    return false;
+                }
+                seenActiveIdentities.add(identity);
+                return true;
+            })
         : [];
 
     const allSelected = allValues.every(Boolean);

@@ -42,7 +42,7 @@ namespace CityWatchdog
             public bool BuildingCondemnedNotification { get; set; }
             public bool BuildingTurnedOffNotification { get; set; }
             public bool BuildingHighRentNotification { get; set; }
-            public bool BuildingLevelUpNotification { get; set; }
+            public bool BuildingLevelingNotification { get; set; }
 
             public bool TrafficBottleneckNotification { get; set; }
             public bool TrafficDeadEndNotification { get; set; }
@@ -122,7 +122,7 @@ namespace CityWatchdog
                 BuildingCondemnedNotification = true;
                 BuildingTurnedOffNotification = true;
                 BuildingHighRentNotification = true;
-                BuildingLevelUpNotification = false;   // OFF by default to match vanilla (hidden unless opted in).
+                BuildingLevelingNotification = false;   // OFF by default to match vanilla (hidden unless opted in).
 
                 TrafficBottleneckNotification = true;
                 TrafficDeadEndNotification = true;

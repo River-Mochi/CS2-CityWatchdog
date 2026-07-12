@@ -18,6 +18,6 @@ namespace CityWatchdog.Alerts
         CondemnedNotification,
         TurnedOffNotification,
         HighRentNotification,
-        LevelUpNotification,
+        LevelingNotification,
     }
 }

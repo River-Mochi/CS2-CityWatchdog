@@ -60,7 +60,7 @@ export const BuildingAbandonedNotificationBinding$ = bindValue<boolean>(mod.id, 
 export const BuildingCondemnedNotificationBinding$ = bindValue<boolean>(mod.id, "BuildingCondemnedNotification");
 export const BuildingTurnedOffNotificationBinding$ = bindValue<boolean>(mod.id, "BuildingTurnedOffNotification");
 export const BuildingHighRentNotificationBinding$ = bindValue<boolean>(mod.id, "BuildingHighRentNotification");
-export const BuildingLevelUpNotificationBinding$ = bindValue<boolean>(mod.id, "BuildingLevelUpNotification");
+export const BuildingLevelingNotificationBinding$ = bindValue<boolean>(mod.id, "BuildingLevelingNotification");
 export const TrafficBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "TrafficBottleneckNotification");
 export const TrafficDeadEndNotificationBinding$ = bindValue<boolean>(mod.id, "TrafficDeadEndNotification");
 export const TrafficRoadConnectionNotificationBinding$ = bindValue<boolean>(mod.id, "TrafficRoadConnectionNotification");
@@ -136,7 +136,7 @@ export const OnBuildingAbandonedNotificationBindingToggle = (enable: boolean) =>
 export const OnBuildingCondemnedNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "BuildingCondemnedNotification", enable);
 export const OnBuildingTurnedOffNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "BuildingTurnedOffNotification", enable);
 export const OnBuildingHighRentNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "BuildingHighRentNotification", enable);
-export const OnBuildingLevelUpNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "BuildingLevelUpNotification", enable);
+export const OnBuildingLevelingNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "BuildingLevelingNotification", enable);
 export const OnTrafficBottleneckNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "TrafficBottleneckNotification", enable);
 export const OnTrafficDeadEndNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "TrafficDeadEndNotification", enable);
 export const OnTrafficRoadConnectionNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "TrafficRoadConnectionNotification", enable);
