@@ -5,6 +5,7 @@
   "TitleBarTooltipPanelOn": "Show/hide Tooltips for this mod.",
   "TitleBarTooltipPanelOff": "Show/hide Tooltips for City Watchdog.",
   "PanelCollapseToggle": "Expand/collapse whole panel.",
+  "DragTitleBar": "Drag title bar.",
   "RoadNameToggleOn": "Hide road names.\nHotkey: \\",
   "RoadNameToggleOff": "Show road names.\nHotkey: \\",
   "DistrictNameToggleOn": "Hide district names.",

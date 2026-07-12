@@ -192,6 +192,7 @@ const NotificationPanelContent = () => {
             "Expand rows; [✓] check to show, uncheck to hide alerts.\nClick this icon to hide City Watchdog panel tooltips.",
         );
     const panelCollapseTooltip = localize("PanelCollapseToggle", "Expand/collapse whole panel.");
+    const dragTitleTooltip = localize("DragTitleBar", "Drag title bar.");
 
     // Same text regardless of toggle state — Info button is always discoverable.
     const infoTooltip = tooltipContent(
@@ -274,12 +275,14 @@ const NotificationPanelContent = () => {
                                 <img src={modIconSrc} className={styles.headerModIcon} />
                             </div>
                         </CwdTooltip>
-                        <div
-                            className={`${styles.headerModName} ${panelDragging ? styles.headerModNameDragging : ""}`}
-                            onMouseDown={handlePanelDragStart}
-                        >
-                            CITY WATCHDOG
-                        </div>
+                        <CwdTooltip tooltip={dragTitleTooltip}>
+                            <div
+                                className={`${styles.headerModName} ${panelDragging ? styles.headerModNameDragging : ""}`}
+                                onMouseDown={handlePanelDragStart}
+                            >
+                                CITY WATCHDOG
+                            </div>
+                        </CwdTooltip>
                     </div>
                     <CwdTooltip tooltip={panelCollapseTooltip}>
                         <Button

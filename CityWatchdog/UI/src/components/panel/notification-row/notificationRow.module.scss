@@ -107,14 +107,14 @@
   text-align: right;
 }
 
-// Visible box + faint fill at rest so players see the count is a clickable "jump to alert" chip.
+// Blue box outline at rest, NO fill, so the count reads as a clickable "jump to alert" chip
+// without a persistent tint. A fill appears only on hover/active below as interaction feedback.
 .countJump {
   cursor: pointer;
   border-top-color: rgba(84, 215, 255, 0.55);
   border-right-color: rgba(84, 215, 255, 0.55);
   border-bottom-color: rgba(84, 215, 255, 0.55);
   border-left-color: rgba(84, 215, 255, 0.55);
-  background-color: rgba(84, 215, 255, 0.08);
 }
 
   .countJump:hover {
