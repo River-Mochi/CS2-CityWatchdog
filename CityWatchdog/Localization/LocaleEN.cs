@@ -201,22 +201,22 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Top active alerts" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Favorites" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Mini HUD icon count" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Icon count" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudItemCount)),
                     "Choose how many notification icons the Mini HUD can show at once." },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudScale)), "Mini HUD size" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudScale)), "Icon size" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudScale)),
                     "Scale Mini HUD icons and numbers.\n" +
                     "90% = compact. 100% = default. Increase up to 130% for better visibility." },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudOrientation)), "Mini HUD orientation" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudOrientation)), "Orientation" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudOrientation)),
                     "Choose whether Mini HUD icons are arranged in a row or a column." },
                 { m_Settings.GetOptionLocaleID("MiniHudOrientationHorizontal"), "Horizontal" },
                 { m_Settings.GetOptionLocaleID("MiniHudOrientationVertical"), "Vertical" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPlacement)), "Mini HUD placement" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPlacement)), "HUD placement" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPlacement)),
                     "Choose where the Mini HUD appears.\n" +
                     "Draggable lets you move it in the city UI." },
@@ -224,7 +224,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementTopRight"), "Top right" },
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementDraggable"), "Draggable" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelStyle)), "Mini HUD style" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelStyle)), "Dark or Glass style" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPanelStyle)),
                     "Choose the Mini HUD background style.\n" +
                     "Glass panel goes from clear to a cloudy white tint; it does not get darker.\n" +
@@ -232,7 +232,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("MiniHudPanelStyleDark"), "Dark panel" },
                 { m_Settings.GetOptionLocaleID("MiniHudPanelStyleGlass"), "Glass panel" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelOpacity)), "Mini HUD opacity" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelOpacity)), "Background opacity" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPanelOpacity)),
                     "Adjusts Mini HUD background transparency.\n" +
                     "Lower values are more transparent. Higher values are more solid.\n" +
