@@ -368,3 +368,23 @@ export const createExpandedSections = (expanded: boolean | null = null) => {
 
     return result;
 };
+
+// Persisted expand/collapse: one bit per section by its index in `sections` (bit set = collapsed).
+// 0 = all expanded. Section order must stay stable for saved masks to keep their meaning.
+export const expandedSectionsFromMask = (mask: number): Record<string, boolean> => {
+    const result: Record<string, boolean> = {};
+    sections.forEach((section, index) => {
+        result[section.localeId] = ((mask >> index) & 1) === 0;
+    });
+    return result;
+};
+
+export const collapsedSectionsMask = (expanded: Record<string, boolean>): number => {
+    let mask = 0;
+    sections.forEach((section, index) => {
+        if (expanded[section.localeId] === false) {
+            mask |= 1 << index;
+        }
+    });
+    return mask;
+};

@@ -12,7 +12,9 @@
 namespace CityWatchdog
 {
     using System.Collections.Generic; // Dictionary and KeyValuePair
+
     using Colossal;                   // IDictionarySource
+
     using Game.UI.Editor;
 
     public sealed class LocaleEN : IDictionarySource
@@ -127,7 +129,7 @@ namespace CityWatchdog
                 // Actions tab - In-City Info Viewer
                 // --------------------------------------------------------------------
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Show Money + Population ToolTips" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Show Money Trends + Population ToolTips" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
                     "<Recommend Enable>\n" +
                     "Bottom game menu: Shows trend values with the game's bottom toolbar <money and population arrows>.\n" +
@@ -184,11 +186,11 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Click This - Quick Start Set" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "Applies a recommended Mini HUD setup:\n" +
-                    "Favorites, 5 icons, horizontal, top center, 100% size, dark panel.\n" +
+                    "Applies a quick start for Mini HUD:\n" +
+                    "Favorites, 5 icons, vertical, draggable, 100% size, dark panel.\n" +
                     "Zero-count alerts stay visible.\n" +
-                    "Add/remove **Blue Star** favorites anytime in the expanded Watchdog panel.\n" +
-                    "Starter set Blue-Star favorites are included with **[Recommended]**."
+                    "Includes a starter set of Blue-Star favorites.\n" +
+                    "Add/remove **Blue Star** favorites in the expanded Watchdog panel."     
                   },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini HUD Mode" },

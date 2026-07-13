@@ -19,6 +19,7 @@ import {
     panelButtonsOnlyStart$,
     panelPositionX$,
     panelPositionY$,
+    panelCollapsedSectionsMask$,
     showRoadArrows$,
     OnControlPanelBindingToggle,
     OnDisableAllTooltipsToggle,
@@ -27,6 +28,7 @@ import {
     OnHideRoadNamesToggle,
     OnShowRoadArrowsToggle,
     OnToggleMiniHudFavorite,
+    OnPanelCollapsedSectionsChanged,
 } from "../../../bindings/bindings";
 import { Divider } from "../../divider/divider";
 import { InfoPanel } from "../info-panel/infoPanel";
@@ -38,6 +40,8 @@ import {
     allIconSources,
     allItems,
     createExpandedSections,
+    expandedSectionsFromMask,
+    collapsedSectionsMask,
     notificationCountIndexes,
     sections,
     setAllNotifications,
@@ -143,6 +147,7 @@ const NotificationPanelContent = () => {
     const favoriteIndexes = new Set(miniHudFavorites);
     const savedPanelPositionX = useValue(panelPositionX$);
     const savedPanelPositionY = useValue(panelPositionY$);
+    const savedCollapsedMask = useValue(panelCollapsedSectionsMask$);
     const {
         panelOffset,
         panelDragging,
@@ -160,6 +165,12 @@ const NotificationPanelContent = () => {
             setActiveSnapshot(notificationCounts.slice());
         }
     }, [sortMode, activeSnapshot, notificationCounts]);
+
+    // Restore the player's saved expand/collapse state once the setting binding resolves (and re-apply
+    // harmlessly after our own saves round-trip). This does NOT save, so it can't clobber the setting.
+    useEffect(() => {
+        setExpandedSections(expandedSectionsFromMask(savedCollapsedMask));
+    }, [savedCollapsedMask]);
 
     const cycleSortMode = () => {
         const next = (sortMode + 1) % 3;
@@ -299,21 +310,24 @@ const NotificationPanelContent = () => {
         setAllNotifications(!allSelected);
     };
 
+    // Update the rows AND persist the resulting mask so the layout survives a game restart.
+    const applyExpandedSections = (next: Record<string, boolean>) => {
+        setExpandedSections(next);
+        OnPanelCollapsedSectionsChanged(collapsedSectionsMask(next));
+    };
+
     const onToggleAllSections = () => {
         if (panelCollapsed) {
             setPanelCollapsed(false);
-            setExpandedSections(createExpandedSections(true));
+            applyExpandedSections(createExpandedSections(true));
             return;
         }
 
-        setExpandedSections(createExpandedSections(!allSectionsExpanded));
+        applyExpandedSections(createExpandedSections(!allSectionsExpanded));
     };
 
     const onSectionExpandedChange = (section: NotificationSection, expanded: boolean) => {
-        setExpandedSections((current) => ({
-            ...current,
-            [section.localeId]: expanded,
-        }));
+        applyExpandedSections({ ...expandedSections, [section.localeId]: expanded });
     };
 
     return (

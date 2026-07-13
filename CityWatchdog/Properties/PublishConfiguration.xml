@@ -49,10 +49,10 @@ I hope you enjoy the new features, better performance, and safety checks!
 - Mod is save safe and safe to remove. Does not use Harmony patch, safer/more compatible. Good for performance: lightweight for daily use.
 
 ### Thanks to all supporters and testers
-- River Mochi - author/maintainer
+- River Mochi - main author
 - yenyang - locale tech feedback
-- Notices inspired by the orig. City Controller mod by Mbyron26.
-- Money View inspired by earlier mods by DanielNZ Show Text.
+- Notices inspired by the orig. City Controller by Mbyron26.
+- Money View inspired by earlier Show Text by DanielNZ.
 - Dorkington - tester/feature suggestion
 - Brainium, Flightech, SonNathan - testers
 - UnMaestro - testing, German editor
@@ -67,10 +67,10 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<Thumbnail Value="Properties/Thumbnail-dog-city04.jpg" />
 	<!--Screenshot, can be set multiple times-->
     <Screenshot Value="Properties/image10-Notifications1.jpg" />
-    <Screenshot Value="Properties/image11-Before.jpg" />
-    <Screenshot Value="Properties/image15-Money.jpg" />
-    <Screenshot Value="Properties/image20-MinimalPanel.jpg" />
-    <Screenshot Value="Properties/image21-Mini-HUD.jpg" />
+    <Screenshot Value="Properties/image11-Mini-HUD.jpg" />
+    <Screenshot Value="Properties/image12-Before.jpg" />
+    <Screenshot Value="Properties/image15-MinimalPanel.jpg" />
+    <Screenshot Value="Properties/image20-Money.jpg" />
     <Screenshot Value="Properties/image30-HotKeys-ToolTipViewer.jpg" />
     <Screenshot Value="Properties/image40-MiniHUD-Options.jpg" />
     <Screenshot Value="Properties/image50-Milestone-Money.jpg" />
@@ -79,19 +79,20 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/city-watchdog.1924169/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.1.7" />
+	<ModVersion Value="1.2.0" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.6.*" />
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Recommended Starter set button updated for favorites + draggable choice.
+- mini HUD Recommended Starter set button now uses Favorites mode + draggable.
 - fix Main panel rows: blue star always visible (no dim), count visible when > 0.
 - Fix blue star stroke width css
 - Better visibility: box added for counts on main panel.
-- main panel position persistes between game sessions now just like mini-hud.
+- main panel position persists between game sessions now just like mini-hud.
 - updated all translations for new tooltips
+- mina panel now starts expanded for new installs.
 - Recent this week:
 - Better mini-HUD: icon size slider, opacity slider, and Dark/Glass panels (see Options MENU).
 - Hud draggable position persists between game sessions.

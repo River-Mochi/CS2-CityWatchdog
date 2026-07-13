@@ -142,6 +142,11 @@ namespace CityWatchdog
         [SettingsUIHidden]
         public int PanelPositionY { get; set; }
 
+        // Which main-panel sections the player collapsed, as a bitmask over the section list
+        // (bit set = collapsed). Default 0 = all expanded, so a fresh install shows every row.
+        [SettingsUIHidden]
+        public int PanelCollapsedSectionsMask { get; set; }
+
         // About tab
         // --------------------------------------------------------------------
 
@@ -265,6 +270,7 @@ namespace CityWatchdog
             PanelButtonsOnlyStart = false;
             PanelPositionX = 0;
             PanelPositionY = 0;
+            PanelCollapsedSectionsMask = 0;
 
             ApplyMiniHudStarterPresetValues();
 
