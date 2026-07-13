@@ -38,9 +38,8 @@ namespace CityWatchdog.Systems
         {
             base.OnCreate();
 
-            bool initialCwd = Setting.Instance?.DisableCwdTooltips ?? false;
-
-            // "Disable all vanilla tooltips" is in-session only — starts off every game launch.
+            // Both tooltip toggles are in-session only: they start OFF (tooltips shown) every game
+            // launch, so new mod tooltips are always visible first; the player must re-toggle to hide.
             disableAllTooltipsBinding = AddBoolBindingAndTriggerBinding(
                 DisableAllTooltipsBindingName,
                 false,
@@ -48,7 +47,7 @@ namespace CityWatchdog.Systems
 
             disableCwdTooltipsBinding = AddBoolBindingAndTriggerBinding(
                 nameof(Setting.DisableCwdTooltips),
-                initialCwd,
+                false,
                 OnDisableCwdTooltipsToggle);
 
             toggleAllTooltipsAction = EnableHotkey(Setting.ToggleAllTooltipsAction);
@@ -93,14 +92,8 @@ namespace CityWatchdog.Systems
 
         private void OnDisableCwdTooltipsToggle(bool value)
         {
+            // In-session only: update the binding but do not persist, so tooltips return next launch.
             disableCwdTooltipsBinding.Update(value);
-
-            Setting? setting = Setting.Instance;
-            if (setting != null)
-            {
-                setting.DisableCwdTooltips = value;
-                TryPersist(setting);
-            }
         }
 
         private void ApplyToGame(bool value)
@@ -113,21 +106,6 @@ namespace CityWatchdog.Systems
             if (cachedTooltipUISystem != null)
             {
                 cachedTooltipUISystem.hideTooltips = value;
-            }
-        }
-
-        private static void TryPersist(Setting setting)
-        {
-            try
-            {
-                setting.ApplyAndSave();
-            }
-            catch (Exception ex)
-            {
-                LogUtils.WarnOnce(
-                    "tooltip-save",
-                    () => $"Failed to persist tooltip settings: {ex.GetType().Name}: {ex.Message}",
-                    ex);
             }
         }
 

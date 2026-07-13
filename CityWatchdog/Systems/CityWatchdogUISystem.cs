@@ -56,6 +56,7 @@ namespace CityWatchdog.Systems
         private ValueBinding<int> panelPositionXBinding = null!;
         private ValueBinding<int> panelPositionYBinding = null!;
         private ValueBinding<int> panelCollapsedSectionsMaskBinding = null!;
+        private ValueBinding<int> panelSortModeBinding = null!;
         private ValueBinding<bool> panelButtonsOnlyStartBinding = null!;
         private ValueBinding<bool>? moneyViewBinding;
         private ValueBinding<int>? moneyViewModeBinding;
@@ -168,6 +169,7 @@ namespace CityWatchdog.Systems
             AddTriggerBinding<string>("MiniHudPositionChanged", SaveMiniHudPosition);
             AddTriggerBinding<string>("PanelPositionChanged", SavePanelPosition);
             AddTriggerBinding<int>("PanelCollapsedSectionsChanged", SavePanelCollapsedSections);
+            AddTriggerBinding<int>("PanelSortModeChanged", SavePanelSortMode);
             miniHudEnabledBinding = AddValueBinding(nameof(Setting.MiniHudEnabled), Setting.Instance.MiniHudEnabled);
             miniHudModeBinding = AddValueBinding(nameof(Setting.MiniHudMode), Setting.Instance.MiniHudMode);
             miniHudItemCountBinding = AddValueBinding(nameof(Setting.MiniHudItemCount), Setting.Instance.MiniHudItemCount);
@@ -184,6 +186,7 @@ namespace CityWatchdog.Systems
             panelPositionXBinding = AddValueBinding(nameof(Setting.PanelPositionX), Setting.Instance.PanelPositionX);
             panelPositionYBinding = AddValueBinding(nameof(Setting.PanelPositionY), Setting.Instance.PanelPositionY);
             panelCollapsedSectionsMaskBinding = AddValueBinding(nameof(Setting.PanelCollapsedSectionsMask), Setting.Instance.PanelCollapsedSectionsMask);
+            panelSortModeBinding = AddValueBinding(nameof(Setting.PanelSortMode), Setting.Instance.PanelSortMode);
             panelButtonsOnlyStartBinding = AddValueBinding(nameof(Setting.PanelButtonsOnlyStart), Setting.Instance.PanelButtonsOnlyStart);
             moneyViewBinding = AddValueBinding(nameof(Setting.MoneyView), Setting.Instance.MoneyView);
             moneyViewModeBinding = AddValueBinding(nameof(Setting.MoneyViewMode), Setting.Instance.MoneyViewMode);
@@ -1105,6 +1108,29 @@ namespace CityWatchdog.Systems
                 LogUtils.WarnOnce(
                     "panel-collapsed-sections-save",
                     () => $"Failed to save panel collapsed sections: {ex.GetType().Name}: {ex.Message}",
+                    ex);
+            }
+        }
+
+        private void SavePanelSortMode(int mode)
+        {
+            if (mode < 0 || mode > 2 || Setting.Instance.PanelSortMode == mode)
+            {
+                return;
+            }
+
+            Setting.Instance.PanelSortMode = mode;
+            panelSortModeBinding.Update(mode);
+
+            try
+            {
+                Setting.Instance.ApplyAndSave();
+            }
+            catch (Exception ex)
+            {
+                LogUtils.WarnOnce(
+                    "panel-sort-mode-save",
+                    () => $"Failed to save panel sort mode: {ex.GetType().Name}: {ex.Message}",
                     ex);
             }
         }

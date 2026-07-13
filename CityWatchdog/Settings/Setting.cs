@@ -128,9 +128,9 @@ namespace CityWatchdog
         [SettingsUISection(Actions, Notifications)]
         public ProxyBinding ToggleAllTooltipsKeyboardBinding { get; set; }
 
-        // Persisted across sessions but intentionally hidden from Options UI — controlled only
-        // by the CWD title-bar icon on the in-game panel. Without [SettingsUIHidden] the
-        // property still registers and falls into an unnamed default tab.
+        // Session-only now: the CWD title-bar tooltip toggle starts OFF (tooltips shown) each launch
+        // so new mod tooltips are always seen first. Retained only so the binding name stays
+        // "DisableCwdTooltips"; the stored value is no longer read to drive behavior.
         [SettingsUIHidden]
         public bool DisableCwdTooltips { get; set; }
 
@@ -146,6 +146,11 @@ namespace CityWatchdog
         // (bit set = collapsed). Default 0 = all expanded, so a fresh install shows every row.
         [SettingsUIHidden]
         public int PanelCollapsedSectionsMask { get; set; }
+
+        // Main-panel sort mode the player last used: 0 = A->Z, 1 = Z->A, 2 = Active-first.
+        // Default 0 so a fresh install opens grouped A->Z.
+        [SettingsUIHidden]
+        public int PanelSortMode { get; set; }
 
         // About tab
         // --------------------------------------------------------------------
@@ -271,6 +276,7 @@ namespace CityWatchdog
             PanelPositionX = 0;
             PanelPositionY = 0;
             PanelCollapsedSectionsMask = 0;
+            PanelSortMode = 0;
 
             ApplyMiniHudStarterPresetValues();
 

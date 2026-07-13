@@ -20,6 +20,7 @@ import {
     panelPositionX$,
     panelPositionY$,
     panelCollapsedSectionsMask$,
+    panelSortMode$,
     showRoadArrows$,
     OnControlPanelBindingToggle,
     OnDisableAllTooltipsToggle,
@@ -29,6 +30,7 @@ import {
     OnShowRoadArrowsToggle,
     OnToggleMiniHudFavorite,
     OnPanelCollapsedSectionsChanged,
+    OnPanelSortModeChanged,
 } from "../../../bindings/bindings";
 import { Divider } from "../../divider/divider";
 import { InfoPanel } from "../info-panel/infoPanel";
@@ -148,6 +150,7 @@ const NotificationPanelContent = () => {
     const savedPanelPositionX = useValue(panelPositionX$);
     const savedPanelPositionY = useValue(panelPositionY$);
     const savedCollapsedMask = useValue(panelCollapsedSectionsMask$);
+    const savedSortMode = useValue(panelSortMode$);
     const {
         panelOffset,
         panelDragging,
@@ -172,20 +175,25 @@ const NotificationPanelContent = () => {
         setExpandedSections(expandedSectionsFromMask(savedCollapsedMask));
     }, [savedCollapsedMask]);
 
-    const cycleSortMode = () => {
-        const next = (sortMode + 1) % 3;
-        setSortMode(next);
-        sessionSortMode = next;
-        setActiveSnapshot(next === SORT_ACTIVE && notificationCounts.length > 0 ? notificationCounts.slice() : null);
+    // Restore the saved sort mode once its binding resolves (A->Z, Z->A, or Active-first).
+    useEffect(() => {
+        setSortMode(savedSortMode);
+        sessionSortMode = savedSortMode;
+    }, [savedSortMode]);
+
+    // Set the sort mode, snapshot the active list when needed, and persist the choice for next launch.
+    const setAndSaveSortMode = (mode: number) => {
+        setSortMode(mode);
+        sessionSortMode = mode;
+        OnPanelSortModeChanged(mode);
+        setActiveSnapshot(mode === SORT_ACTIVE && notificationCounts.length > 0 ? notificationCounts.slice() : null);
     };
+
+    const cycleSortMode = () => setAndSaveSortMode((sortMode + 1) % 3);
 
     // In Active view the count/expand button has no sections to act on, so it becomes a "back to the
     // grouped list" control (returns to A→Z), which is what players reach for to leave Active view.
-    const exitToGroupedView = () => {
-        setSortMode(SORT_ASCENDING);
-        sessionSortMode = SORT_ASCENDING;
-        setActiveSnapshot(null);
-    };
+    const exitToGroupedView = () => setAndSaveSortMode(SORT_ASCENDING);
 
     // Active-first is a flat list: every count > 0 row (by the frozen snapshot), sorted by count desc.
     // allItems index === count index, so it doubles as the lookup into counts/values/favorites.
@@ -483,7 +491,7 @@ const NotificationPanelContent = () => {
                 activeRows.length === 0
                     ? (
                         <div style={{ paddingTop: "12rem", paddingBottom: "12rem", textAlign: "center", opacity: 0.6 }}>
-                            {localize("NoActiveAlerts", "No active alerts.")}
+                            {localize("NoActiveAlerts", "No active notifications.")}
                         </div>
                     )
                     : activeRows.map(({ item, index }) => (

@@ -36,6 +36,7 @@ export const panelButtonsOnlyStart$ = bindValue<boolean>(mod.id, "PanelButtonsOn
 export const panelPositionX$ = bindValue<number>(mod.id, "PanelPositionX", 0);
 export const panelPositionY$ = bindValue<number>(mod.id, "PanelPositionY", 0);
 export const panelCollapsedSectionsMask$ = bindValue<number>(mod.id, "PanelCollapsedSectionsMask", 0);
+export const panelSortMode$ = bindValue<number>(mod.id, "PanelSortMode", 0);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
 export const ElectricityBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBottleneckNotification");
@@ -113,6 +114,7 @@ export const OnMiniHudNotificationClicked = (index: number) => trigger(mod.id, "
 export const OnMiniHudPositionChanged = (orientation: number, x: number, y: number) => trigger(mod.id, "MiniHudPositionChanged", `${orientation},${Math.round(x)},${Math.round(y)}`);
 export const OnPanelPositionChanged = (x: number, y: number) => trigger(mod.id, "PanelPositionChanged", `${Math.round(x)},${Math.round(y)}`);
 export const OnPanelCollapsedSectionsChanged = (mask: number) => trigger(mod.id, "PanelCollapsedSectionsChanged", mask);
+export const OnPanelSortModeChanged = (mode: number) => trigger(mod.id, "PanelSortModeChanged", mode);
 
 export const OnElectricityElectricityNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ElectricityElectricityNotification", enable);
 export const OnElectricityBottleneckNotificationBindingToggle = (enable: boolean) => trigger(mod.id, "ElectricityBottleneckNotification", enable);
