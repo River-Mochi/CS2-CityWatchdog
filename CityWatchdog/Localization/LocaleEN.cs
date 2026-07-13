@@ -67,25 +67,27 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ShowUsage)), "Show or hide the usage instructions below." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.UsageText)),
+                    "A. Use Paw icon (city top left), or press Shift+N, to open the main panel.\n" +
                     "<Display toggles>\n" +
-                    "1. [i] button: hide/show ALL game hover tooltips - buildings, cims, tools, bottom menu icons.\n" +
-                    "2. Road Name button: hide/show road name labels. Hotkey: \\.\n" +
-                    "3. District Name button: hide/show district name labels without changing district boundaries.\n" +
-                    "4. Road Arrow button: force 1-way road arrows on/off (also hides road names).\n" +
-                    "5. CWD Title bar icon: show/hide City Watchdog panel tooltips.\n\n" +
+                    "1. Title bar icon: show/hide City Watchdog mod tooltips.\n\n" +
+                    "2. **[i]** button: hide/show <ALL> game hover tooltips - buildings, cims, tools, bottom menu icons.\n" +
+                    "3. Road button: hide/show road name labels. Hotkey: \\.\n" +
+                    "4. District button: hide/show district name labels.\n" +
+                    "5. Road Arrow button: force 1-way road arrows on/off (also hides road names).\n" +
+                
                     "<Notification alerts>\n" +
-                    "1. Click the City Watchdog button (Top Left), or press Shift+N, to open the panel.\n" +
-                    "2. Sort button for ascending/descending.\n" +
-                    "3. Toggle All for quick all Off/On, or expand a section to change specific ones.\n" +
-                    "4. Shows or hides icons only; does not fix the underlying city problem.\n\n" +
+                    "1. Sort button cycles A->Z-> Active-only list.\n" +
+                    "2. [63/63] click to expand all rows; shows number of notifications ON/total.\n" +
+                    "3a. Toggle All for quick all Off/On, or expand a section to change specific ones.\n" +
+                    "3b. Shows or hides icons only; does not fix the underlying city problem.\n\n" +
                     "<Money helpers>\n" +
-                    "1. Add or Subtract Money: use the <Money Hotkey Amount> default keys [ and ].\n" +
-                    "2. Automatic add money adds money when a city goes lower than the limit you set.\n" +
+                    "1. Add / Subtract Money: use the default keys <[ or ]> for <Money Hotkey Amount>.\n" +
+                    "2. Automatic money adds money when a city goes lower than the limit you set.\n" +
                     "3. Convert Unlimited Money Save is only for cities that were started with Unlimited Money and is <not reversible>.\n\n" +
                     "<Bottom menu tooltips>\n" +
-                    "Money View adds trend values to money and population toolbar and extra details on mouse hover.\n\n" +
+                    "Money View adds extra details like Trending on mouse hover over money or population tooltips.\n\n" +
                     "<Custom milestone>\n" +
-                    "Set Initial Money and select Milestones from Money-Milestones > NEW CITY START SETTINGS before loading or starting a city."
+                    "Money-Milestones > NEW CITY START SETTINGS sets Initial Money or Milestones before loading or starting a city."
                 },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.UsageText)), "" },
 
@@ -186,10 +188,10 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Click This - Quick Start Set" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "Applies a quick start for Mini HUD:\n" +
+                    "Applies a <quick start> for Mini HUD:\n" +
                     "Favorites, 5 icons, vertical, draggable, 100% size, dark panel.\n" +
                     "Zero-count alerts stay visible.\n" +
-                    "Includes a starter set of Blue-Star favorites.\n" +
+                    "Includes a **starter set of Blue Star favorites**.\n" +
                     "Add/remove **Blue Star** favorites in the expanded Watchdog panel."     
                   },
 
