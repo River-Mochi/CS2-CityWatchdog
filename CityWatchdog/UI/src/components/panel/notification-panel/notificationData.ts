@@ -155,6 +155,7 @@ export const gameTitleKeys: Record<string, string> = {
     BuildingCondemnedNotification: "Notifications.TITLE[Condemned]",
     BuildingTurnedOffNotification: "Notifications.TITLE[Turned Off]",
     BuildingHighRentNotification: "Notifications.TITLE[Rent Too High]",
+    BuildingLevelingNotification: "Notifications.TITLE[Leveling Building]",
 
     TrafficBottleneckNotification: "Notifications.TITLE[Traffic Bottleneck Notification]",
     TrafficDeadEndNotification: "Notifications.TITLE[Dead End]",

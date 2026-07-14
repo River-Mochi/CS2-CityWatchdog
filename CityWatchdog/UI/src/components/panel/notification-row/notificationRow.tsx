@@ -31,13 +31,19 @@ export const NotificationRow = memo(({
     ? localize(gameTitleKey, undefined, true)
     : undefined;
 
-  const label =
+  const baseLabel =
     gameLabel &&
       gameLabel !== gameTitleKey &&
       !gameLabel.includes("NOTIFICATIONS.TITLE") &&
       !gameLabel.includes("Notifications.TITLE")
       ? gameLabel
       : localize(item.localeId);
+
+  // Optional rows (e.g. Leveling Building) get "(optional)" appended after whichever name showed —
+  // vanilla's translated title or the CWD fallback — so the tag is always in the player's language.
+  const label = item.excludeFromToggleAll
+    ? `${baseLabel}${localize("OptionalTag", " (optional)")}`
+    : baseLabel;
 
   const countIndex = notificationCountIndexes.get(item.localeId) ?? -1;
   const canJumpToAlert = countIndex >= 0 && count > 0;
