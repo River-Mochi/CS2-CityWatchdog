@@ -73,12 +73,12 @@ namespace CityWatchdog
                     "2. **[i]** button: hide/show <ALL> game hover tooltips - buildings, cims, tools, bottom menu icons.\n" +
                     "3. Road button: hide/show road name labels. Hotkey: \\.\n" +
                     "4. District button: hide/show district name labels.\n" +
-                    "5. Road Arrow button: force 1-way road arrows on/off (also hides road names).\n" +
+                    "5. Road Arrow button: force 1-way road arrows on/off (also hides road names).\n\n" +
                 
                     "<Notification alerts>\n" +
-                    "1. Sort button cycles A->Z-> Active-only list.\n" +
-                    "2. [63/63] click to expand all rows; shows number of notifications ON/total.\n" +
-                    "3a. Toggle All for quick all Off/On, or expand a section to change specific ones.\n" +
+                    "1. Sort button cycles A→Z, Z→A, Active-only list.\n" +
+                    "2. [0/63] click to expand/hide rows; shows number of notifications ON/total.\n" +
+                    "3a. [Toggle All] instantly turns Off/On all notification icons.\n" +
                     "3b. Shows or hides icons only; does not fix the underlying city problem.\n\n" +
                     "<Money helpers>\n" +
                     "1. Add / Subtract Money: use the default keys <[ or ]> for <Money Hotkey Amount>.\n" +
@@ -190,7 +190,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
                     "Applies a <quick start> for Mini HUD:\n" +
                     "Favorites, 5 icons, vertical, draggable, 100% size, dark panel.\n" +
-                    "Zero-count alerts stay visible.\n" +
+                    "Zero-count alerts are hidden.\n" +
                     "Includes a **starter set of Blue Star favorites**.\n" +
                     "Add/remove **Blue Star** favorites in the expanded Watchdog panel."     
                   },
