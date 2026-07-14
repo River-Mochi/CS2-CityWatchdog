@@ -86,16 +86,15 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- mini HUD Recommended Starter set button now uses Favorites mode + draggable.
-- fix Main panel rows: blue star always visible (no dim), count visible when > 0.
-- Fix blue star stroke width css
-- Better visibility: box added for counts on main panel.
-- main panel position persists between game sessions now just like mini-hud.
-- updated all translations for new tooltips
-- mina panel now starts expanded for new installs.
-- Recent this week:
-- Better mini-HUD: icon size slider, opacity slider, and Dark/Glass panels (see Options MENU).
-- Hud draggable position persists between game sessions.
+- Main panel Sort button now has 3rd mode for quick list view of only active problems.
+- Mini HUD recommended starter now uses Favorites mode + draggable placement.
+- Main panel rows: blue star + active counts stay visible when rows are toggled off.
+- Active counts now have a clear blue box.
+- Fixed blue-star CSS stroke-width.
+- Main panel position now persists between game sessions.
+- Main panel sections now default to expanded and remember player last state
+- Updated translations for new tooltips.
+- Recent this week: Mini HUD icon size, opacity slider, and Dark/Glass panel options.
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
     <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
