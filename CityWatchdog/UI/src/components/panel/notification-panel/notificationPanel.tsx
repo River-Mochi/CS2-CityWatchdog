@@ -434,10 +434,16 @@ const NotificationPanelContent = () => {
             "Click to hide district names.",
         );
 
-    const orderedSections = [...sections].sort((a, b) => {
-        const result = localize(a.localeId).localeCompare(localize(b.localeId));
-        return sortMode === SORT_DESCENDING ? -result : result;
-    });
+    // Memoized: this sort calls localize() twice per comparison plus localeCompare (both string-heavy),
+    // and section titles only change when the sort mode or the game language does — NOT when a count
+    // ticks or a checkbox toggles. Without this it re-ran on every panel render for identical output.
+    const orderedSections = useMemo(
+        () => [...sections].sort((a, b) => {
+            const result = localize(a.localeId).localeCompare(localize(b.localeId));
+            return sortMode === SORT_DESCENDING ? -result : result;
+        }),
+        [sortMode, localize],
+    );
 
     const onToggleAll = () => {
         setAllNotifications(!allSelected);
@@ -616,12 +622,12 @@ const IconPreloader = () => {
 
 // Memoized so an action affecting ONE section (checkbox toggle, that section's own expand/collapse)
 // doesn't force every OTHER section to re-run useSectionValues + rebuild its row list for nothing.
-// notificationCounts gets a genuinely new array reference on its own ~2s poll tick regardless of
-// content — the comparator correctly re-renders everyone THEN (we can't cheaply know which section's
-// counts actually moved), while staying stable (and bailing out) for all the unrelated interactions
-// in between. onExpandedChange is intentionally excluded: it's recreated per section every render but
-// always closes over the same section + calls the same handler, so a new reference here never reflects
-// an actual behavior change worth re-rendering for (same convention as NotificationRow's comparator).
+// notificationCounts only gets a new array reference when the counts ACTUALLY changed — the C# side
+// diffs them (AreSameNotificationCounts in CityWatchdogUISystem) and skips the binding update when
+// they match, so the poll tick alone does NOT churn this prop. onExpandedChange is intentionally
+// excluded: it's recreated per section every render but always closes over the same section + calls
+// the same handler, so a new reference never reflects an actual behavior change worth re-rendering
+// for (same convention as NotificationRow's comparator).
 const NotificationSectionView = memo(({
     section,
     expanded,
