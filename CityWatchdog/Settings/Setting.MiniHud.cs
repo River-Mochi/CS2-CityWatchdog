@@ -45,19 +45,30 @@ namespace CityWatchdog
             (1 << 11) | // Backed up sewer
             (1 << 12) | // Water pipe not connected
             (1 << 13) | // Sewer pipe not connected
+            (1 << 19) | // Collapsed
             (1 << 20) | // Abandoned
+            (1 << 21) | // Condemned
+            (1 << 22) | // Deactivated
             (1 << 23) | // High rent
             (1 << 25) | // Traffic jam
-            (1 << 27);  // Road required / no road access
+            (1 << 27) | // Road required / no road access
+            (1 << 28) | // Track not connected
+            (1 << 29);  // No car access
         private const int MiniHudRecommendedFavoriteMaskHigh =
             (1 << 1) |  // No pedestrian access
             (1 << 5) |  // Lack of labor
+            (1 << 7) |  // Weather damage
             (1 << 9) |  // Water damage
             (1 << 12) | // On fire
             (1 << 13) | // Burned down
             (1 << 14) | // Garbage piling up
+            (1 << 15) | // Facility full (Garbage)
+            (1 << 17) | // Waiting for a hearse
+            (1 << 18) | // Facility full (Healthcare)
             (1 << 19) | // Traffic accident
             (1 << 20) | // Crime scene
+            (1 << 24) | // Low supplies
+            (1 << 25) | // Out of fuel
             (1 << 29) | // Pathfinding failed
             (1 << 31);  // No vehicles
 

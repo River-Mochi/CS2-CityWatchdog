@@ -7,7 +7,7 @@ import { useLocalization } from "cs2/l10n";
 import { getModule } from "cs2/modding";
 import { useText } from "../../shared/localization";
 import { Button, Panel, Tooltip } from "cs2/ui";
-import { useCallback, useEffect, useState, type ReactElement, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactElement, type ReactNode } from "react";
 import {
     controlPanelEnabled$,
     disableAllTooltips$,
@@ -111,6 +111,102 @@ const CwdTooltip = ({
     return <Tooltip {...{ cwdBypass: true }} tooltip={tooltip}>{children}</Tooltip>;
 };
 
+// Isolates ALL drag-position state so a 60fps drag never re-renders the expensive ~63-row body.
+// The draggable title lives HERE (not passed down) because it needs panelDragging/handlePanelDragStart
+// directly — keeping that coupling local avoids a forwardRef/imperative-handle bridge across component
+// boundaries. `children` (toolbar + rows) is built ONCE by the parent and passed through unchanged, so
+// React sees the same element reference on every drag frame and skips reconciling that whole subtree —
+// only this wrapper's own tiny header JSX re-renders per mouse-move.
+const DraggablePanelFrame = ({
+    savedOffset,
+    cwdTooltipsDisabled,
+    titleBarTooltip,
+    dragTitleTooltip,
+    panelCollapseTooltip,
+    panelCollapsed,
+    onPanelCollapsedToggle,
+    onCloseClick,
+    children,
+}: {
+    savedOffset: { x: number; y: number };
+    cwdTooltipsDisabled: boolean;
+    titleBarTooltip: ReactNode;
+    dragTitleTooltip: ReactNode;
+    panelCollapseTooltip: ReactNode;
+    panelCollapsed: boolean;
+    onPanelCollapsedToggle: () => void;
+    onCloseClick: () => void;
+    children: ReactNode;
+}) => {
+    const {
+        panelOffset,
+        panelDragging,
+        panelElementRef,
+        handlePanelDragStart,
+    } = usePanelDrag(savedOffset);
+
+    return (
+        <div
+            ref={panelElementRef}
+            className={styles.panelAnchor}
+            style={{ transform: `translate(${panelOffset.x}px, ${panelOffset.y}px)` }}
+        >
+            <Panel
+                className={styles.panel}
+                header={
+                    <div className={styles.header}>
+                        <div className={styles.headerTitleArea}>
+                            {/* Title-bar CWD icon — clickable. Toggles panel tooltips. alwaysVisible so the
+                                players knows how to turn panel tooltips back on and it's not also invisible. */}
+                            <CwdTooltip tooltip={titleBarTooltip} alwaysVisible>
+                                <div
+                                    className={`${styles.headerModIconButton} ${cwdTooltipsDisabled ? styles.headerModIconOff : ""}`}
+                                    role="button"
+                                    aria-pressed={cwdTooltipsDisabled}
+                                    onClick={() => { OnDisableCwdTooltipsToggle(!cwdTooltipsDisabled); }}
+                                >
+                                    <img src={modIconSrc} className={styles.headerModIcon} />
+                                </div>
+                            </CwdTooltip>
+                            <CwdTooltip tooltip={dragTitleTooltip}>
+                                <div
+                                    className={`${styles.headerModName} ${panelDragging ? styles.headerModNameDragging : ""}`}
+                                    onMouseDown={handlePanelDragStart}
+                                >
+                                    CITY WATCHDOG
+                                </div>
+                            </CwdTooltip>
+                        </div>
+                        <CwdTooltip tooltip={panelCollapseTooltip}>
+                            <Button
+                                className={roundButtonHighlightStyle.button + " " + styles.headerCollapseButton}
+                                variant="icon"
+                                onClick={onPanelCollapsedToggle}
+                                focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
+                            >
+                                <img
+                                    src={panelCollapsed ? "Media/Glyphs/ThickStrokeArrowRight.svg" : "Media/Glyphs/ThickStrokeArrowDown.svg"}
+                                    className={styles.headerCollapseIcon}
+                                />
+                            </Button>
+                        </CwdTooltip>
+                        <Button
+                            className={roundButtonHighlightStyle.button + " " + styles.headerCloseButton}
+                            variant="icon"
+                            onClick={onCloseClick}
+                            focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
+                        >
+                            <img src="Media/Glyphs/Close.svg" className={styles.headerCloseIcon} />
+                        </Button>
+                    </div>
+                }
+            >
+                {children}
+            </Panel>
+        </div>
+    );
+};
+
 export const NotificationPanel = () => {
     const showPanel = useValue(controlPanelEnabled$);
     const isPhotoMode = useValue(game.activeGamePanel$)?.__Type == game.GamePanelType.PhotoMode;
@@ -146,17 +242,14 @@ const NotificationPanelContent = () => {
     const allValues = useAllNotificationValues();
     const notificationCounts = useValue(notificationCounts$);
     const miniHudFavorites = useValue(miniHudFavorites$);
-    const favoriteIndexes = new Set(miniHudFavorites);
+    // Memoized: without this, a fresh Set was allocated every render (including the 60fps drag
+    // re-renders this file used to get before DraggablePanelFrame isolated that), which also
+    // defeated any future memo() on components that receive favoriteIndexes as a prop.
+    const favoriteIndexes = useMemo(() => new Set(miniHudFavorites), [miniHudFavorites]);
     const savedPanelPositionX = useValue(panelPositionX$);
     const savedPanelPositionY = useValue(panelPositionY$);
     const savedCollapsedMask = useValue(panelCollapsedSectionsMask$);
     const savedSortMode = useValue(panelSortMode$);
-    const {
-        panelOffset,
-        panelDragging,
-        panelElementRef,
-        handlePanelDragStart,
-    } = usePanelDrag({ x: savedPanelPositionX, y: savedPanelPositionY });
 
     // Active-first sort snapshots the counts so rows don't reshuffle while you read. The snapshot is
     // taken on click (see cycleSortMode) and re-taken here on panel (re)open or if it wasn't ready yet.
@@ -352,60 +445,15 @@ const NotificationPanelContent = () => {
     };
 
     return (
-        <div
-            ref={panelElementRef}
-            className={styles.panelAnchor}
-            style={{ transform: `translate(${panelOffset.x}px, ${panelOffset.y}px)` }}
-        >
-        <Panel
-            className={styles.panel}
-            header={
-                <div className={styles.header}>
-                    <div className={styles.headerTitleArea}>
-                        {/* Title-bar CWD icon — clickable. Toggles panel tooltips. alwaysVisible so the
-                            players knows how to turn panel tooltips back on and it's not also invisible. */}
-                        <CwdTooltip tooltip={titleBarTooltip} alwaysVisible>
-                            <div
-                                className={`${styles.headerModIconButton} ${cwdTooltipsDisabled ? styles.headerModIconOff : ""}`}
-                                role="button"
-                                aria-pressed={cwdTooltipsDisabled}
-                                onClick={() => { OnDisableCwdTooltipsToggle(!cwdTooltipsDisabled); }}
-                            >
-                                <img src={modIconSrc} className={styles.headerModIcon} />
-                            </div>
-                        </CwdTooltip>
-                        <CwdTooltip tooltip={dragTitleTooltip}>
-                            <div
-                                className={`${styles.headerModName} ${panelDragging ? styles.headerModNameDragging : ""}`}
-                                onMouseDown={handlePanelDragStart}
-                            >
-                                CITY WATCHDOG
-                            </div>
-                        </CwdTooltip>
-                    </div>
-                    <CwdTooltip tooltip={panelCollapseTooltip}>
-                        <Button
-                            className={roundButtonHighlightStyle.button + " " + styles.headerCollapseButton}
-                            variant="icon"
-                            onClick={() => { setPanelCollapsed(!panelCollapsed); }}
-                            focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
-                        >
-                            <img
-                                src={panelCollapsed ? "Media/Glyphs/ThickStrokeArrowRight.svg" : "Media/Glyphs/ThickStrokeArrowDown.svg"}
-                                className={styles.headerCollapseIcon}
-                            />
-                        </Button>
-                    </CwdTooltip>
-                    <Button
-                        className={roundButtonHighlightStyle.button + " " + styles.headerCloseButton}
-                        variant="icon"
-                        onClick={() => { OnControlPanelBindingToggle(false); }}
-                        focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
-                    >
-                        <img src="Media/Glyphs/Close.svg" className={styles.headerCloseIcon} />
-                    </Button>
-                </div>
-            }
+        <DraggablePanelFrame
+            savedOffset={{ x: savedPanelPositionX, y: savedPanelPositionY }}
+            cwdTooltipsDisabled={cwdTooltipsDisabled}
+            titleBarTooltip={titleBarTooltip}
+            dragTitleTooltip={dragTitleTooltip}
+            panelCollapseTooltip={panelCollapseTooltip}
+            panelCollapsed={panelCollapsed}
+            onPanelCollapsedToggle={() => { setPanelCollapsed(!panelCollapsed); }}
+            onCloseClick={() => { OnControlPanelBindingToggle(false); }}
         >
             {/* Left side: Info + Road Name + Road Arrows + District. Right side: sort + mass actions. */}
             <div className={styles.toolbar}>
@@ -532,8 +580,7 @@ const NotificationPanelContent = () => {
                         onExpandedChange={(expanded) => onSectionExpandedChange(section, expanded)}
                     />
                 ))}
-        </Panel>
-        </div>
+        </DraggablePanelFrame>
     );
 };
 
