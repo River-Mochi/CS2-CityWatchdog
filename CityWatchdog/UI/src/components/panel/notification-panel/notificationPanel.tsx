@@ -124,6 +124,7 @@ const DraggablePanelFrame = ({
     dragTitleTooltip,
     panelCollapseTooltip,
     panelCollapsed,
+    allSectionsExpanded,
     onPanelCollapsedToggle,
     onCloseClick,
     children,
@@ -134,6 +135,9 @@ const DraggablePanelFrame = ({
     dragTitleTooltip: ReactNode;
     panelCollapseTooltip: ReactNode;
     panelCollapsed: boolean;
+    // Only true when every section is showing its rows — the one state that gets the shorter
+    // max-height. The "categories only" collapsed view and any partial-expand state are unaffected.
+    allSectionsExpanded: boolean;
     onPanelCollapsedToggle: () => void;
     onCloseClick: () => void;
     children: ReactNode;
@@ -152,7 +156,7 @@ const DraggablePanelFrame = ({
             style={{ transform: `translate(${panelOffset.x}px, ${panelOffset.y}px)` }}
         >
             <Panel
-                className={styles.panel}
+                className={`${styles.panel} ${allSectionsExpanded ? styles.panelAllExpanded : ""}`}
                 header={
                     <div className={styles.header}>
                         <div className={styles.headerTitleArea}>
@@ -168,14 +172,27 @@ const DraggablePanelFrame = ({
                                     <img src={modIconSrc} className={styles.headerModIcon} />
                                 </div>
                             </CwdTooltip>
-                            <CwdTooltip tooltip={dragTitleTooltip}>
+                            {/* While actively dragging, skip the Tooltip wrapper entirely rather than just
+                                hiding it — the title's DOM position lags one rAF tick behind the raw
+                                mousemove during a fast drag, so a hover-tracking tooltip mounted here
+                                would flicker on/off as the cursor drifts in and out of the stale hit-box. */}
+                            {panelDragging ? (
                                 <div
-                                    className={`${styles.headerModName} ${panelDragging ? styles.headerModNameDragging : ""}`}
+                                    className={`${styles.headerModName} ${styles.headerModNameDragging}`}
                                     onMouseDown={handlePanelDragStart}
                                 >
                                     CITY WATCHDOG
                                 </div>
-                            </CwdTooltip>
+                            ) : (
+                                <CwdTooltip tooltip={dragTitleTooltip}>
+                                    <div
+                                        className={styles.headerModName}
+                                        onMouseDown={handlePanelDragStart}
+                                    >
+                                        CITY WATCHDOG
+                                    </div>
+                                </CwdTooltip>
+                            )}
                         </div>
                         <CwdTooltip tooltip={panelCollapseTooltip}>
                             <Button
@@ -454,6 +471,7 @@ const NotificationPanelContent = () => {
             dragTitleTooltip={dragTitleTooltip}
             panelCollapseTooltip={panelCollapseTooltip}
             panelCollapsed={panelCollapsed}
+            allSectionsExpanded={allSectionsExpanded}
             onPanelCollapsedToggle={() => { setPanelCollapsed(!panelCollapsed); }}
             onCloseClick={() => { OnControlPanelBindingToggle(false); }}
         >

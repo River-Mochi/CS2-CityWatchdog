@@ -67,6 +67,13 @@
     }
 }
 
+// Applied ONLY when every section is expanded (the tallest content state, currently the one that
+// needs the scrollbar). Deliberately NOT the base .panel rule — the "categories only" collapsed
+// view and any partially-expanded state keep the original 890rem ceiling, completely untouched.
+.panelAllExpanded {
+    max-height: 790rem;
+}
+
 .header {
     width: 100%;
     min-width: 0;
