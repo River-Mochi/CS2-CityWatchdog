@@ -7,7 +7,7 @@ import { useLocalization } from "cs2/l10n";
 import { getModule } from "cs2/modding";
 import { useText } from "../../shared/localization";
 import { Button, Panel, Tooltip } from "cs2/ui";
-import { useCallback, useEffect, useMemo, useState, type ReactElement, type ReactNode } from "react";
+import { memo, useCallback, useEffect, useMemo, useState, type ReactElement, type ReactNode } from "react";
 import {
     controlPanelEnabled$,
     disableAllTooltips$,
@@ -299,7 +299,9 @@ const NotificationPanelContent = () => {
     const activeRows = sortMode === SORT_ACTIVE
         ? allItems
             .map((item, arrayIndex) => ({ item, arrayIndex, count: activeSnapshot?.[item.countIndex] ?? 0 }))
-            .filter((entry) => entry.count > 0)
+            // Optional rows (e.g. Leveling Building) never appear here — there's nothing to "fix" about
+            // a positive-status extra, so it doesn't belong in a problems-triage list at any position.
+            .filter((entry) => entry.count > 0 && !entry.item.optional)
             .sort((a, b) => b.count - a.count || a.item.countIndex - b.item.countIndex)
             .filter((entry) => {
                 const identity = entry.item.miniHudIdentity ?? entry.item.localeId;
@@ -311,15 +313,15 @@ const NotificationPanelContent = () => {
             })
         : [];
 
-    // Toggle All's tone/count reflect only the bulk-toggleable rows — excludeFromToggleAll rows
-    // (currently just Leveling Building) are opt-in extras that bulk actions deliberately skip, so
-    // they're left out here too. Otherwise the button could never show "all on" without also
-    // requiring that optional row, and its on/off direction would misread which way to toggle.
+    // Toggle All's tone/count reflect only the bulk-toggleable rows — optional rows (currently just
+    // Leveling Building) are opt-in extras that bulk actions deliberately skip, so they're left out
+    // here too. Otherwise the button could never show "all on" without also requiring that optional
+    // row, and its on/off direction would misread which way to toggle.
     // allValues is self-built from `allItems` in this same array order, so plain array position
     // (not countIndex) is the correct lookup here.
     const toggleAllValues = allItems
         .map((item, arrayIndex) => ({ item, value: allValues[arrayIndex] ?? false }))
-        .filter((entry) => !entry.item.excludeFromToggleAll)
+        .filter((entry) => !entry.item.optional)
         .map((entry) => entry.value);
     const allSelected = toggleAllValues.every(Boolean);
     const anySelected = toggleAllValues.some(Boolean);
@@ -594,7 +596,15 @@ const IconPreloader = () => {
     );
 };
 
-const NotificationSectionView = ({
+// Memoized so an action affecting ONE section (checkbox toggle, that section's own expand/collapse)
+// doesn't force every OTHER section to re-run useSectionValues + rebuild its row list for nothing.
+// notificationCounts gets a genuinely new array reference on its own ~2s poll tick regardless of
+// content — the comparator correctly re-renders everyone THEN (we can't cheaply know which section's
+// counts actually moved), while staying stable (and bailing out) for all the unrelated interactions
+// in between. onExpandedChange is intentionally excluded: it's recreated per section every render but
+// always closes over the same section + calls the same handler, so a new reference here never reflects
+// an actual behavior change worth re-rendering for (same convention as NotificationRow's comparator).
+const NotificationSectionView = memo(({
     section,
     expanded,
     localize,
@@ -648,4 +658,10 @@ const NotificationSectionView = ({
             />
         </>
     );
-};
+}, (prev, next) =>
+    prev.section === next.section &&
+    prev.expanded === next.expanded &&
+    prev.localize === next.localize &&
+    prev.notificationCounts === next.notificationCounts &&
+    prev.favoriteIndexes === next.favoriteIndexes &&
+    prev.showDivider === next.showDivider);

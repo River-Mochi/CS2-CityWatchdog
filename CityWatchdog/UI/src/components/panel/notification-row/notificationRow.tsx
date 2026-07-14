@@ -41,7 +41,7 @@ export const NotificationRow = memo(({
 
   // Optional rows (e.g. Leveling Building) get "(optional)" appended after whichever name showed —
   // vanilla's translated title or the CWD fallback — so the tag is always in the player's language.
-  const label = item.excludeFromToggleAll
+  const label = item.optional
     ? `${baseLabel}${localize("OptionalTag", " (optional)")}`
     : baseLabel;
 

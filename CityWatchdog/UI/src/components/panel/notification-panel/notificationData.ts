@@ -117,11 +117,12 @@ export interface NotificationItem {
     // different display section (e.g. "Other") without ever touching the C# side or renumbering.
     readonly countIndex: number;
 
-    // Optional/positive-status rows (e.g. Leveling Building) that Toggle All and the N hotkey
-    // deliberately leave alone — they're opt-in extras, not "problem" alerts. Excluded from the
-    // Toggle All button's on/off/mixed tone and its N/N count so that count can reach 63-1 = 62/62
-    // "all on" without requiring this row too, and so bulk actions never touch its real setting.
-    readonly excludeFromToggleAll?: boolean;
+    // Marks a row as an opt-in, positive-status extra (e.g. Leveling Building) rather than a
+    // "problem" alert. Affects it everywhere the panel distinguishes problems from extras:
+    // Toggle All / the N hotkey leave its real setting untouched, its tone/count are excluded from
+    // the Toggle All summary (so that can still reach a clean "all on"), and it never appears in
+    // the Active-first triage list (there's nothing to "fix" about it, so it doesn't belong there).
+    readonly optional?: boolean;
 }
 
 export interface NotificationSection {
@@ -361,7 +362,7 @@ export const sections: NotificationSection[] = [
     {
         localeId: "Other",
         items: [
-            { icon: icon("LevelingBuilding"), localeId: "BuildingLevelingNotification", countIndex: 24, binding: BuildingLevelingNotificationBinding$, onToggle: OnBuildingLevelingNotificationBindingToggle, excludeFromToggleAll: true },
+            { icon: icon("LevelingBuilding"), localeId: "BuildingLevelingNotification", countIndex: 24, binding: BuildingLevelingNotificationBinding$, onToggle: OnBuildingLevelingNotificationBindingToggle, optional: true },
         ],
     },
 ];
