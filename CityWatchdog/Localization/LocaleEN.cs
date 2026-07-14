@@ -77,7 +77,7 @@ namespace CityWatchdog
                 
                     "<Notification alerts>\n" +
                     "1. Sort button cycles A→Z, Z→A, Active-only list.\n" +
-                    "2. [0/63] click to expand/hide rows; shows number of notifications ON/total.\n" +
+                    "2. <[0/63]> = icons ON/total. Click to expand/collapse all rows.\n" +
                     "3a. [Toggle All] instantly turns Off/On all notification icons.\n" +
                     "3b. Shows or hides icons only; does not fix the underlying city problem.\n\n" +
                     "<Money helpers>\n" +
