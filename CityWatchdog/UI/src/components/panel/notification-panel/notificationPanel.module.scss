@@ -70,8 +70,11 @@
 // Applied ONLY when every section is expanded (the tallest content state, currently the one that
 // needs the scrollbar). Deliberately NOT the base .panel rule — the "categories only" collapsed
 // view and any partially-expanded state keep the original 890rem ceiling, completely untouched.
+// 830rem (not 790rem) — 790 clipped mid-row instead of at a clean row boundary. Exactly where the
+// cutoff lands still depends on how many rows are showing (varies per player/city), so this is tuned
+// for a typical full-expand case, not a guarantee against ever clipping mid-row for every possible count.
 .panelAllExpanded {
-    max-height: 790rem;
+    max-height: 830rem;
 }
 
 .header {
