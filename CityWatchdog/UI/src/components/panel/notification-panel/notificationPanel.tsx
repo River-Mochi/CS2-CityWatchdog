@@ -215,10 +215,18 @@ const NotificationPanelContent = () => {
             })
         : [];
 
-    const allSelected = allValues.every(Boolean);
-    const anySelected = allValues.some(Boolean);
-    const selectedTotalCount = allValues.filter(Boolean).length;
-    const totalNotificationCount = allValues.length;
+    // Toggle All's tone/count reflect only the bulk-toggleable rows — excludeFromToggleAll rows
+    // (currently just Leveling Building) are opt-in extras that bulk actions deliberately skip, so
+    // they're left out here too. Otherwise the button could never show "all on" without also
+    // requiring that optional row, and its on/off direction would misread which way to toggle.
+    const toggleAllValues = allItems
+        .map((item, index) => ({ item, value: allValues[index] ?? false }))
+        .filter((entry) => !entry.item.excludeFromToggleAll)
+        .map((entry) => entry.value);
+    const allSelected = toggleAllValues.every(Boolean);
+    const anySelected = toggleAllValues.some(Boolean);
+    const selectedTotalCount = toggleAllValues.filter(Boolean).length;
+    const totalNotificationCount = toggleAllValues.length;
     const toggleAllTone: PanelButtonTone = allSelected
         ? "on"
         : anySelected

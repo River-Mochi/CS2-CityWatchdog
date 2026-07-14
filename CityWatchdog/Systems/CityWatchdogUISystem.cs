@@ -763,7 +763,9 @@ namespace CityWatchdog.Systems
             buildingCondemnedNotificationBinding.Update(enabled);
             buildingTurnedOffNotificationBinding.Update(enabled);
             buildingHighRentNotificationBinding.Update(enabled);
-            buildingLevelingNotificationBinding.Update(enabled);
+            // Deliberately NOT updated here: Leveling is an optional/positive row that Toggle All
+            // and the N hotkey leave alone (its real setting is never touched by SetAllNotificationSettings
+            // either) — only its own manual checkbox should change it.
 
             trafficBottleneckNotificationBinding.Update(enabled);
             trafficDeadEndNotificationBinding.Update(enabled);

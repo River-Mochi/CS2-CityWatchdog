@@ -88,7 +88,7 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 <ChangeLog>
 - Main panel Sort button now has 3rd mode for quick list view of only active problems.
 - Mini HUD recommended starter now uses Favorites mode + draggable placement.
-- Main panel rows: blue star + active counts stay visible when rows are toggled off.
+- Main panel icons +blue star no longer fade out when inactive.
 - Active counts now have a clear blue box.
 - Fixed blue-star CSS stroke-width.
 - Main panel position now persists between game sessions.

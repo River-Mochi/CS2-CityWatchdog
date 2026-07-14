@@ -111,6 +111,12 @@ export interface NotificationItem {
     readonly icon: string;
     readonly binding: ValueBinding<boolean>;
     readonly onToggle: (enabled: boolean) => void;
+
+    // Optional/positive-status rows (e.g. Leveling Building) that Toggle All and the N hotkey
+    // deliberately leave alone — they're opt-in extras, not "problem" alerts. Excluded from the
+    // Toggle All button's on/off/mixed tone and its N/N count so that count can reach 63-1 = 62/62
+    // "all on" without requiring this row too, and so bulk actions never touch its real setting.
+    readonly excludeFromToggleAll?: boolean;
 }
 
 export interface NotificationSection {
@@ -149,7 +155,6 @@ export const gameTitleKeys: Record<string, string> = {
     BuildingCondemnedNotification: "Notifications.TITLE[Condemned]",
     BuildingTurnedOffNotification: "Notifications.TITLE[Turned Off]",
     BuildingHighRentNotification: "Notifications.TITLE[Rent Too High]",
-    BuildingLevelingNotification: "Notifications.TITLE[Leveling Building]",
 
     TrafficBottleneckNotification: "Notifications.TITLE[Traffic Bottleneck Notification]",
     TrafficDeadEndNotification: "Notifications.TITLE[Dead End]",
@@ -239,7 +244,7 @@ export const sections: NotificationSection[] = [
             { icon: icon("BuildingCondemned"), localeId: "BuildingCondemnedNotification", binding: BuildingCondemnedNotificationBinding$, onToggle: OnBuildingCondemnedNotificationBindingToggle },
             { icon: icon("TurnedOff"), localeId: "BuildingTurnedOffNotification", binding: BuildingTurnedOffNotificationBinding$, onToggle: OnBuildingTurnedOffNotificationBindingToggle },
             { icon: icon("RentTooHigh"), localeId: "BuildingHighRentNotification", binding: BuildingHighRentNotificationBinding$, onToggle: OnBuildingHighRentNotificationBindingToggle },
-            { icon: icon("LevelingBuilding"), localeId: "BuildingLevelingNotification", binding: BuildingLevelingNotificationBinding$, onToggle: OnBuildingLevelingNotificationBindingToggle },
+            { icon: icon("LevelingBuilding"), localeId: "BuildingLevelingNotification", binding: BuildingLevelingNotificationBinding$, onToggle: OnBuildingLevelingNotificationBindingToggle, excludeFromToggleAll: true },
         ],
     },
     {
