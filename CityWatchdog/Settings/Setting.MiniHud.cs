@@ -31,6 +31,10 @@ namespace CityWatchdog
         internal const int MiniHudPanelStyleGlass = 1;
         internal const int MiniHudPanelOpacityDefault = 30;
         internal const int MiniHudPositionLimit = 20000;
+        // Bit positions are raw countIndex values (see notificationData.ts) — NOT re-derived from
+        // any enum, so they must be hand-verified against the current index table whenever items are
+        // inserted/removed. Bit 24 (Leveling Building) is deliberately NOT included: it's an optional,
+        // positive-status row the player opts into manually, not a recommended "problem" alert.
         private const int MiniHudRecommendedFavoriteMaskLow =
             (1 << 0) |  // Not enough electricity
             (1 << 1) |  // Electricity bottleneck
@@ -43,19 +47,19 @@ namespace CityWatchdog
             (1 << 13) | // Sewer pipe not connected
             (1 << 20) | // Abandoned
             (1 << 23) | // High rent
-            (1 << 24) | // Traffic jam
-            (1 << 26);  // Road required / no road access
+            (1 << 25) | // Traffic jam
+            (1 << 27);  // Road required / no road access
         private const int MiniHudRecommendedFavoriteMaskHigh =
-            (1 << 0) |  // No pedestrian access
-            (1 << 4) |  // Lack of labor
-            (1 << 8) |  // Water damage
-            (1 << 11) | // On fire
-            (1 << 12) | // Burned down
-            (1 << 13) | // Garbage piling up
-            (1 << 18) | // Traffic accident
-            (1 << 19) | // Crime scene
-            (1 << 28) | // Pathfinding failed
-            (1 << 30);  // No vehicles
+            (1 << 1) |  // No pedestrian access
+            (1 << 5) |  // Lack of labor
+            (1 << 9) |  // Water damage
+            (1 << 12) | // On fire
+            (1 << 13) | // Burned down
+            (1 << 14) | // Garbage piling up
+            (1 << 19) | // Traffic accident
+            (1 << 20) | // Crime scene
+            (1 << 29) | // Pathfinding failed
+            (1 << 31);  // No vehicles
 
 
 
