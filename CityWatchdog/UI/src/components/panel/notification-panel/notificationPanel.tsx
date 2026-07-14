@@ -196,15 +196,18 @@ const NotificationPanelContent = () => {
     const exitToGroupedView = () => setAndSaveSortMode(SORT_ASCENDING);
 
     // Active-first is a flat list: every count > 0 row (by the frozen snapshot), sorted by count desc.
-    // allItems index === count index, so it doubles as the lookup into counts/values/favorites.
+    // arrayIndex is this item's position in `allItems` (for allValues, which is self-built from that
+    // same array and order). item.countIndex is the STABLE index into the C#-side counts/favorites/
+    // jump-to-alert — the two can differ (e.g. Leveling Building lives in a different section from
+    // its countIndex position), so both must be tracked and used for the right lookup below.
     // Dedupe by miniHudIdentity so a shared alert — e.g. "Facility full", which Garbage and Healthcare
     // display from one game prefab/count — appears only once here (same approach as the Mini HUD).
     const seenActiveIdentities = new Set<string>();
     const activeRows = sortMode === SORT_ACTIVE
         ? allItems
-            .map((item, index) => ({ item, index, count: activeSnapshot?.[index] ?? 0 }))
+            .map((item, arrayIndex) => ({ item, arrayIndex, count: activeSnapshot?.[item.countIndex] ?? 0 }))
             .filter((entry) => entry.count > 0)
-            .sort((a, b) => b.count - a.count || a.index - b.index)
+            .sort((a, b) => b.count - a.count || a.item.countIndex - b.item.countIndex)
             .filter((entry) => {
                 const identity = entry.item.miniHudIdentity ?? entry.item.localeId;
                 if (seenActiveIdentities.has(identity)) {
@@ -219,8 +222,10 @@ const NotificationPanelContent = () => {
     // (currently just Leveling Building) are opt-in extras that bulk actions deliberately skip, so
     // they're left out here too. Otherwise the button could never show "all on" without also
     // requiring that optional row, and its on/off direction would misread which way to toggle.
+    // allValues is self-built from `allItems` in this same array order, so plain array position
+    // (not countIndex) is the correct lookup here.
     const toggleAllValues = allItems
-        .map((item, index) => ({ item, value: allValues[index] ?? false }))
+        .map((item, arrayIndex) => ({ item, value: allValues[arrayIndex] ?? false }))
         .filter((entry) => !entry.item.excludeFromToggleAll)
         .map((entry) => entry.value);
     const allSelected = toggleAllValues.every(Boolean);
@@ -502,14 +507,14 @@ const NotificationPanelContent = () => {
                             {localize("NoActiveAlerts", "No active notifications.")}
                         </div>
                     )
-                    : activeRows.map(({ item, index }) => (
+                    : activeRows.map(({ item, arrayIndex }) => (
                         <NotificationRow
                             key={item.localeId}
                             item={item}
-                            isChecked={allValues[index] ?? false}
-                            count={notificationCounts[index] ?? 0}
-                            favorite={favoriteIndexes.has(index)}
-                            onFavoriteToggle={() => OnToggleMiniHudFavorite(index)}
+                            isChecked={allValues[arrayIndex] ?? false}
+                            count={notificationCounts[item.countIndex] ?? 0}
+                            favorite={favoriteIndexes.has(item.countIndex)}
+                            onFavoriteToggle={() => OnToggleMiniHudFavorite(item.countIndex)}
                             localize={localize}
                         />
                     ))

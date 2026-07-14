@@ -12,6 +12,8 @@
   "NoActiveAlerts": "Sem alertas ativos.",
   "BackToGrouped": "Voltar à lista por grupos.",
   "BuildingLevelingNotification": "Edifício a subir de nível",
+  "OptionalTag": " (opcional)",
+  "Other": "OUTRO",
   "RoadNameToggleOn": "Ocultar nomes das estradas.\nAtalho: \\",
   "RoadNameToggleOff": "Mostrar nomes das estradas.\nAtalho: \\",
   "DistrictNameToggleOn": "Ocultar nomes dos distritos.",

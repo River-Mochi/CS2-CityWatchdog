@@ -12,6 +12,8 @@
   "NoActiveAlerts": "Brak aktywnych alertów.",
   "BackToGrouped": "Wróć do listy grup.",
   "BuildingLevelingNotification": "Budynek awansuje",
+  "OptionalTag": " (opcjonalne)",
+  "Other": "INNE",
   "RoadNameToggleOn": "Ukryj nazwy dróg.\nSkrót: \\",
   "RoadNameToggleOff": "Pokaż nazwy dróg.\nSkrót: \\",
   "DistrictNameToggleOn": "Ukryj nazwy dzielnic.",

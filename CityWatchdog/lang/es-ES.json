@@ -12,6 +12,8 @@
   "NoActiveAlerts": "No hay alertas activas.",
   "BackToGrouped": "Volver a la lista agrupada.",
   "BuildingLevelingNotification": "Edificio subiendo de nivel",
+  "OptionalTag": " (opcional)",
+  "Other": "OTRO",
   "RoadNameToggleOn": "Ocultar nombres de calles.\nAtajo: \\",
   "RoadNameToggleOff": "Mostrar nombres de calles.\nAtajo: \\",
   "DistrictNameToggleOn": "Ocultar nombres de distritos.",

@@ -12,6 +12,8 @@
   "NoActiveAlerts": "Aucune alerte active.",
   "BackToGrouped": "Retour à la liste groupée.",
   "BuildingLevelingNotification": "Bâtiment en amélioration",
+  "OptionalTag": " (facultatif)",
+  "Other": "AUTRE",
   "RoadNameToggleOn": "Masquer les noms de routes.\nRaccourci : \\",
   "RoadNameToggleOff": "Afficher les noms de routes.\nRaccourci : \\",
   "DistrictNameToggleOn": "Masquer les noms de districts.",

@@ -270,11 +270,14 @@ export const MiniHud = () => {
 
     const favoriteSet = new Set(favorites);
     const maxItems = itemCount === 10 ? 10 : 5;
+    // index here is item.countIndex (the stable C#-side index), not this item's position in `allItems` —
+    // sections can be reorganized for display (e.g. Leveling Building lives in "Other") without this
+    // breaking, since countIndex travels with the item regardless of which section it's declared in.
     const candidatePool = allItems
-        .map((item, index) => ({
+        .map((item) => ({
             item,
-            index,
-            count: counts[index] ?? 0,
+            index: item.countIndex,
+            count: counts[item.countIndex] ?? 0,
         }))
         .filter((entry) => mode !== MODE_FAVORITES || favoriteSet.has(entry.index))
         .filter((entry) => !hideZero || entry.count > 0)

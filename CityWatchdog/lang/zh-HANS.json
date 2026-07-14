@@ -12,6 +12,8 @@
   "NoActiveAlerts": "没有活动警报。",
   "BackToGrouped": "返回分组列表。",
   "BuildingLevelingNotification": "建筑升级中",
+  "OptionalTag": " (可选)",
+  "Other": "其他",
   "RoadNameToggleOn": "隐藏道路名称。\n快捷键：\\",
   "RoadNameToggleOff": "显示道路名称。\n快捷键：\\",
   "DistrictNameToggleOn": "隐藏区域名称。",

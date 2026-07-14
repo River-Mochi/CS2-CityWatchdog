@@ -12,6 +12,8 @@
   "NoActiveAlerts": "Aktif uyarı yok.",
   "BackToGrouped": "Gruplu listeye dön.",
   "BuildingLevelingNotification": "Bina seviye atlıyor",
+  "OptionalTag": " (isteğe bağlı)",
+  "Other": "DİĞER",
   "RoadNameToggleOn": "Yol adlarını gizle.\nKısayol: \\",
   "RoadNameToggleOff": "Yol adlarını göster.\nKısayol: \\",
   "DistrictNameToggleOn": "Bölge adlarını gizle.",

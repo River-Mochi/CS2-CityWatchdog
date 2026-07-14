@@ -12,6 +12,8 @@
   "NoActiveAlerts": "ไม่มีการแจ้งเตือน",
   "BackToGrouped": "กลับสู่รายการกลุ่ม",
   "BuildingLevelingNotification": "อาคารกำลังอัปเลเวล",
+  "OptionalTag": " (ไม่บังคับ)",
+  "Other": "อื่นๆ",
   "RoadNameToggleOn": "ซ่อนชื่อถนน\nปุ่มลัด: \\",
   "RoadNameToggleOff": "แสดงชื่อถนน\nปุ่มลัด: \\",
   "DistrictNameToggleOn": "ซ่อนชื่อเขต",

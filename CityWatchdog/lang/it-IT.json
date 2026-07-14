@@ -12,6 +12,8 @@
   "NoActiveAlerts": "Nessun avviso attivo.",
   "BackToGrouped": "Torna alla lista gruppi.",
   "BuildingLevelingNotification": "Edificio in miglioramento",
+  "OptionalTag": " (opzionale)",
+  "Other": "ALTRO",
   "RoadNameToggleOn": "Nascondi nomi strade.\nTasto: \\",
   "RoadNameToggleOff": "Mostra nomi strade.\nTasto: \\",
   "DistrictNameToggleOn": "Nascondi nomi distretti.",

@@ -12,6 +12,8 @@
   "NoActiveAlerts": "発生中のアラートなし。",
   "BackToGrouped": "グループ表示に戻る。",
   "BuildingLevelingNotification": "建物レベルアップ中",
+  "OptionalTag": " (任意)",
+  "Other": "その他",
   "RoadNameToggleOn": "道路名を非表示。\nキー: \\",
   "RoadNameToggleOff": "道路名を表示。\nキー: \\",
   "DistrictNameToggleOn": "地区名を非表示。",

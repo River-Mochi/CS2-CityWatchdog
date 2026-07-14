@@ -12,6 +12,8 @@
   "NoActiveAlerts": "Keine aktiven Warnungen.",
   "BackToGrouped": "Zurück zur Gruppenliste.",
   "BuildingLevelingNotification": "Gebäude steigt auf",
+  "OptionalTag": " (optional)",
+  "Other": "SONSTIGES",
   "RoadNameToggleOn": "Straßennamen ausblenden.\nTaste: \\",
   "RoadNameToggleOff": "Straßennamen anzeigen.\nTaste: \\",
   "DistrictNameToggleOn": "Bezirksnamen ausblenden.",

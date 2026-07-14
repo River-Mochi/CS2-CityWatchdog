@@ -112,6 +112,11 @@ export interface NotificationItem {
     readonly binding: ValueBinding<boolean>;
     readonly onToggle: (enabled: boolean) => void;
 
+    // Stable index into the C# count array (AlertIconSystem.Counts.cs) / favorites / jump-to-alert.
+    // Explicit and independent of this item's position in `sections` so a row can be moved to a
+    // different display section (e.g. "Other") without ever touching the C# side or renumbering.
+    readonly countIndex: number;
+
     // Optional/positive-status rows (e.g. Leveling Building) that Toggle All and the N hotkey
     // deliberately leave alone — they're opt-in extras, not "problem" alerts. Excluded from the
     // Toggle All button's on/off/mixed tone and its N/N count so that count can reach 63-1 = 62/62
@@ -211,144 +216,152 @@ export const sections: NotificationSection[] = [
         localeId: "Electricity",
         defaultExpanded: true,
         items: [
-            { icon: icon("NotEnoughElectricity"), localeId: "ElectricityElectricityNotification", binding: ElectricityElectricityNotificationBinding$, onToggle: OnElectricityElectricityNotificationBindingToggle },
-            { icon: icon("ElectricityBottleneck"), localeId: "ElectricityBottleneckNotification", binding: ElectricityBottleneckNotificationBinding$, onToggle: OnElectricityBottleneckNotificationBindingToggle },
-            { icon: icon("BadServiceElectricity"), localeId: "ElectricityBuildingBottleneckNotification", binding: ElectricityBuildingBottleneckNotificationBinding$, onToggle: OnElectricityBuildingBottleneckNotificationBindingToggle },
-            { icon: icon("LowProductionElectricity"), localeId: "ElectricityNotEnoughProductionNotification", binding: ElectricityNotEnoughProductionNotificationBinding$, onToggle: OnElectricityNotEnoughProductionNotificationBindingToggle },
-            { icon: icon("OutOfCapacityElectricity"), localeId: "ElectricityTransformerNotification", binding: ElectricityTransformerNotificationBinding$, onToggle: OnElectricityTransformerNotificationBindingToggle },
-            { icon: icon("NotEnoughOutputLinesConnected"), localeId: "ElectricityNotEnoughConnectedNotification", binding: ElectricityNotEnoughConnectedNotificationBinding$, onToggle: OnElectricityNotEnoughConnectedNotificationBindingToggle },
-            { icon: icon("BatteryEmpty"), localeId: "ElectricityBatteryEmptyNotification", binding: ElectricityBatteryEmptyNotificationBinding$, onToggle: OnElectricityBatteryEmptyNotificationBindingToggle },
-            { icon: icon("PowerlineDisconnectedLow"), localeId: "ElectricityLowVoltageNotConnected", binding: ElectricityLowVoltageNotConnectedBinding$, onToggle: OnElectricityLowVoltageNotConnectedBindingToggle },
-            { icon: icon("PowerlineDisconnected"), localeId: "ElectricityHighVoltageNotConnected", binding: ElectricityHighVoltageNotConnectedBinding$, onToggle: OnElectricityHighVoltageNotConnectedBindingToggle },
+            { icon: icon("NotEnoughElectricity"), localeId: "ElectricityElectricityNotification", countIndex: 0, binding: ElectricityElectricityNotificationBinding$, onToggle: OnElectricityElectricityNotificationBindingToggle },
+            { icon: icon("ElectricityBottleneck"), localeId: "ElectricityBottleneckNotification", countIndex: 1, binding: ElectricityBottleneckNotificationBinding$, onToggle: OnElectricityBottleneckNotificationBindingToggle },
+            { icon: icon("BadServiceElectricity"), localeId: "ElectricityBuildingBottleneckNotification", countIndex: 2, binding: ElectricityBuildingBottleneckNotificationBinding$, onToggle: OnElectricityBuildingBottleneckNotificationBindingToggle },
+            { icon: icon("LowProductionElectricity"), localeId: "ElectricityNotEnoughProductionNotification", countIndex: 3, binding: ElectricityNotEnoughProductionNotificationBinding$, onToggle: OnElectricityNotEnoughProductionNotificationBindingToggle },
+            { icon: icon("OutOfCapacityElectricity"), localeId: "ElectricityTransformerNotification", countIndex: 4, binding: ElectricityTransformerNotificationBinding$, onToggle: OnElectricityTransformerNotificationBindingToggle },
+            { icon: icon("NotEnoughOutputLinesConnected"), localeId: "ElectricityNotEnoughConnectedNotification", countIndex: 5, binding: ElectricityNotEnoughConnectedNotificationBinding$, onToggle: OnElectricityNotEnoughConnectedNotificationBindingToggle },
+            { icon: icon("BatteryEmpty"), localeId: "ElectricityBatteryEmptyNotification", countIndex: 6, binding: ElectricityBatteryEmptyNotificationBinding$, onToggle: OnElectricityBatteryEmptyNotificationBindingToggle },
+            { icon: icon("PowerlineDisconnectedLow"), localeId: "ElectricityLowVoltageNotConnected", countIndex: 7, binding: ElectricityLowVoltageNotConnectedBinding$, onToggle: OnElectricityLowVoltageNotConnectedBindingToggle },
+            { icon: icon("PowerlineDisconnected"), localeId: "ElectricityHighVoltageNotConnected", countIndex: 8, binding: ElectricityHighVoltageNotConnectedBinding$, onToggle: OnElectricityHighVoltageNotConnectedBindingToggle },
         ],
     },
     {
         localeId: "WaterPipe",
         items: [
-            { icon: icon("NoRunningWater"), localeId: "WaterPipeWaterNotification", binding: WaterPipeWaterNotificationBinding$, onToggle: OnWaterPipeWaterNotificationBindingToggle },
-            { icon: icon("ContaminatedWater"), localeId: "WaterPipeDirtyWaterNotification", binding: WaterPipeDirtyWaterNotificationBinding$, onToggle: OnWaterPipeDirtyWaterNotificationBindingToggle },
-            { icon: icon("Sewage"), localeId: "WaterPipeSewageNotification", binding: WaterPipeSewageNotificationBinding$, onToggle: OnWaterPipeSewageNotificationBindingToggle },
-            { icon: icon("WaterPipeDisconnected"), localeId: "WaterPipeWaterPipeNotConnectedNotification", binding: WaterPipeWaterPipeNotConnectedNotificationBinding$, onToggle: OnWaterPipeWaterPipeNotConnectedNotificationBindingToggle },
-            { icon: icon("SewagePipeDisconnected"), localeId: "WaterPipeSewagePipeNotConnectedNotification", binding: WaterPipeSewagePipeNotConnectedNotificationBinding$, onToggle: OnWaterPipeSewagePipeNotConnectedNotificationBindingToggle },
-            { icon: icon("WaterFacilityOverload"), localeId: "WaterPipeNotEnoughWaterCapacityNotification", binding: WaterPipeNotEnoughWaterCapacityNotificationBinding$, onToggle: OnWaterPipeNotEnoughWaterCapacityNotificationBindingToggle },
-            { icon: icon("SewageFacilityOverload"), localeId: "WaterPipeNotEnoughSewageCapacityNotification", binding: WaterPipeNotEnoughSewageCapacityNotificationBinding$, onToggle: OnWaterPipeNotEnoughSewageCapacityNotificationBindingToggle },
-            { icon: icon("GroundwaterLevelLow"), localeId: "WaterPipeNotEnoughGroundwaterNotification", binding: WaterPipeNotEnoughGroundwaterNotificationBinding$, onToggle: OnWaterPipeNotEnoughGroundwaterNotificationBindingToggle },
-            { icon: icon("SurfaceWaterLevelLow"), localeId: "WaterPipeNotEnoughSurfaceWaterNotification", binding: WaterPipeNotEnoughSurfaceWaterNotificationBinding$, onToggle: OnWaterPipeNotEnoughSurfaceWaterNotificationBindingToggle },
-            { icon: icon("DirtyWaterPump"), localeId: "WaterPipeDirtyWaterPumpNotification", binding: WaterPipeDirtyWaterPumpNotificationBinding$, onToggle: OnWaterPipeDirtyWaterPumpNotificationBindingToggle },
+            { icon: icon("NoRunningWater"), localeId: "WaterPipeWaterNotification", countIndex: 9, binding: WaterPipeWaterNotificationBinding$, onToggle: OnWaterPipeWaterNotificationBindingToggle },
+            { icon: icon("ContaminatedWater"), localeId: "WaterPipeDirtyWaterNotification", countIndex: 10, binding: WaterPipeDirtyWaterNotificationBinding$, onToggle: OnWaterPipeDirtyWaterNotificationBindingToggle },
+            { icon: icon("Sewage"), localeId: "WaterPipeSewageNotification", countIndex: 11, binding: WaterPipeSewageNotificationBinding$, onToggle: OnWaterPipeSewageNotificationBindingToggle },
+            { icon: icon("WaterPipeDisconnected"), localeId: "WaterPipeWaterPipeNotConnectedNotification", countIndex: 12, binding: WaterPipeWaterPipeNotConnectedNotificationBinding$, onToggle: OnWaterPipeWaterPipeNotConnectedNotificationBindingToggle },
+            { icon: icon("SewagePipeDisconnected"), localeId: "WaterPipeSewagePipeNotConnectedNotification", countIndex: 13, binding: WaterPipeSewagePipeNotConnectedNotificationBinding$, onToggle: OnWaterPipeSewagePipeNotConnectedNotificationBindingToggle },
+            { icon: icon("WaterFacilityOverload"), localeId: "WaterPipeNotEnoughWaterCapacityNotification", countIndex: 14, binding: WaterPipeNotEnoughWaterCapacityNotificationBinding$, onToggle: OnWaterPipeNotEnoughWaterCapacityNotificationBindingToggle },
+            { icon: icon("SewageFacilityOverload"), localeId: "WaterPipeNotEnoughSewageCapacityNotification", countIndex: 15, binding: WaterPipeNotEnoughSewageCapacityNotificationBinding$, onToggle: OnWaterPipeNotEnoughSewageCapacityNotificationBindingToggle },
+            { icon: icon("GroundwaterLevelLow"), localeId: "WaterPipeNotEnoughGroundwaterNotification", countIndex: 16, binding: WaterPipeNotEnoughGroundwaterNotificationBinding$, onToggle: OnWaterPipeNotEnoughGroundwaterNotificationBindingToggle },
+            { icon: icon("SurfaceWaterLevelLow"), localeId: "WaterPipeNotEnoughSurfaceWaterNotification", countIndex: 17, binding: WaterPipeNotEnoughSurfaceWaterNotificationBinding$, onToggle: OnWaterPipeNotEnoughSurfaceWaterNotificationBindingToggle },
+            { icon: icon("DirtyWaterPump"), localeId: "WaterPipeDirtyWaterPumpNotification", countIndex: 18, binding: WaterPipeDirtyWaterPumpNotificationBinding$, onToggle: OnWaterPipeDirtyWaterPumpNotificationBindingToggle },
         ],
     },
     {
         localeId: "Building",
         items: [
-            { icon: icon("BuildingCollapsed"), localeId: "BuildingAbandonedCollapsedNotification", binding: BuildingAbandonedCollapsedNotificationBinding$, onToggle: OnBuildingAbandonedCollapsedNotificationBindingToggle },
-            { icon: icon("BuildingAbandoned"), localeId: "BuildingAbandonedNotification", binding: BuildingAbandonedNotificationBinding$, onToggle: OnBuildingAbandonedNotificationBindingToggle },
-            { icon: icon("BuildingCondemned"), localeId: "BuildingCondemnedNotification", binding: BuildingCondemnedNotificationBinding$, onToggle: OnBuildingCondemnedNotificationBindingToggle },
-            { icon: icon("TurnedOff"), localeId: "BuildingTurnedOffNotification", binding: BuildingTurnedOffNotificationBinding$, onToggle: OnBuildingTurnedOffNotificationBindingToggle },
-            { icon: icon("RentTooHigh"), localeId: "BuildingHighRentNotification", binding: BuildingHighRentNotificationBinding$, onToggle: OnBuildingHighRentNotificationBindingToggle },
-            { icon: icon("LevelingBuilding"), localeId: "BuildingLevelingNotification", binding: BuildingLevelingNotificationBinding$, onToggle: OnBuildingLevelingNotificationBindingToggle, excludeFromToggleAll: true },
+            { icon: icon("BuildingCollapsed"), localeId: "BuildingAbandonedCollapsedNotification", countIndex: 19, binding: BuildingAbandonedCollapsedNotificationBinding$, onToggle: OnBuildingAbandonedCollapsedNotificationBindingToggle },
+            { icon: icon("BuildingAbandoned"), localeId: "BuildingAbandonedNotification", countIndex: 20, binding: BuildingAbandonedNotificationBinding$, onToggle: OnBuildingAbandonedNotificationBindingToggle },
+            { icon: icon("BuildingCondemned"), localeId: "BuildingCondemnedNotification", countIndex: 21, binding: BuildingCondemnedNotificationBinding$, onToggle: OnBuildingCondemnedNotificationBindingToggle },
+            { icon: icon("TurnedOff"), localeId: "BuildingTurnedOffNotification", countIndex: 22, binding: BuildingTurnedOffNotificationBinding$, onToggle: OnBuildingTurnedOffNotificationBindingToggle },
+            { icon: icon("RentTooHigh"), localeId: "BuildingHighRentNotification", countIndex: 23, binding: BuildingHighRentNotificationBinding$, onToggle: OnBuildingHighRentNotificationBindingToggle },
         ],
     },
     {
         localeId: "Traffic",
         items: [
-            { icon: icon("TrafficBottleneck"), localeId: "TrafficBottleneckNotification", binding: TrafficBottleneckNotificationBinding$, onToggle: OnTrafficBottleneckNotificationBindingToggle },
-            { icon: icon("DeadEnd"), localeId: "TrafficDeadEndNotification", binding: TrafficDeadEndNotificationBinding$, onToggle: OnTrafficDeadEndNotificationBindingToggle },
-            { icon: icon("RoadNotConnected"), localeId: "TrafficRoadConnectionNotification", binding: TrafficRoadConnectionNotificationBinding$, onToggle: OnTrafficRoadConnectionNotificationBindingToggle },
-            { icon: icon("TrackNotConnected"), localeId: "TrafficTrackConnectionNotification", binding: TrafficTrackConnectionNotificationBinding$, onToggle: OnTrafficTrackConnectionNotificationBindingToggle },
-            { icon: icon("NoCarAccess"), localeId: "TrafficCarConnectionNotification", binding: TrafficCarConnectionNotificationBinding$, onToggle: OnTrafficCarConnectionNotificationBindingToggle },
-            { icon: icon("NoBoatAccess"), localeId: "TrafficShipConnectionNotification", binding: TrafficShipConnectionNotificationBinding$, onToggle: OnTrafficShipConnectionNotificationBindingToggle },
-            { icon: icon("NoTrainAccess"), localeId: "TrafficTrainConnectionNotification", binding: TrafficTrainConnectionNotificationBinding$, onToggle: OnTrafficTrainConnectionNotificationBindingToggle },
-            { icon: icon("NoPedestrianAccess"), localeId: "TrafficPedestrianConnectionNotification", binding: TrafficPedestrianConnectionNotificationBinding$, onToggle: OnTrafficPedestrianConnectionNotificationBindingToggle },
-            { icon: icon("NoBikeAccess"), localeId: "TrafficBicycleConnectionNotification", binding: TrafficBicycleConnectionNotificationBinding$, onToggle: OnTrafficBicycleConnectionNotificationBindingToggle },
+            { icon: icon("TrafficBottleneck"), localeId: "TrafficBottleneckNotification", countIndex: 25, binding: TrafficBottleneckNotificationBinding$, onToggle: OnTrafficBottleneckNotificationBindingToggle },
+            { icon: icon("DeadEnd"), localeId: "TrafficDeadEndNotification", countIndex: 26, binding: TrafficDeadEndNotificationBinding$, onToggle: OnTrafficDeadEndNotificationBindingToggle },
+            { icon: icon("RoadNotConnected"), localeId: "TrafficRoadConnectionNotification", countIndex: 27, binding: TrafficRoadConnectionNotificationBinding$, onToggle: OnTrafficRoadConnectionNotificationBindingToggle },
+            { icon: icon("TrackNotConnected"), localeId: "TrafficTrackConnectionNotification", countIndex: 28, binding: TrafficTrackConnectionNotificationBinding$, onToggle: OnTrafficTrackConnectionNotificationBindingToggle },
+            { icon: icon("NoCarAccess"), localeId: "TrafficCarConnectionNotification", countIndex: 29, binding: TrafficCarConnectionNotificationBinding$, onToggle: OnTrafficCarConnectionNotificationBindingToggle },
+            { icon: icon("NoBoatAccess"), localeId: "TrafficShipConnectionNotification", countIndex: 30, binding: TrafficShipConnectionNotificationBinding$, onToggle: OnTrafficShipConnectionNotificationBindingToggle },
+            { icon: icon("NoTrainAccess"), localeId: "TrafficTrainConnectionNotification", countIndex: 31, binding: TrafficTrainConnectionNotificationBinding$, onToggle: OnTrafficTrainConnectionNotificationBindingToggle },
+            { icon: icon("NoPedestrianAccess"), localeId: "TrafficPedestrianConnectionNotification", countIndex: 32, binding: TrafficPedestrianConnectionNotificationBinding$, onToggle: OnTrafficPedestrianConnectionNotificationBindingToggle },
+            { icon: icon("NoBikeAccess"), localeId: "TrafficBicycleConnectionNotification", countIndex: 33, binding: TrafficBicycleConnectionNotificationBinding$, onToggle: OnTrafficBicycleConnectionNotificationBindingToggle },
         ],
     },
     {
         localeId: "Company",
         items: [
-            { icon: icon("NoInputs"), localeId: "CompanyNoInputsNotification", gameTitleKey: "Notifications.TITLE[No Inputs]", binding: CompanyNoInputsNotificationBinding$, onToggle: OnCompanyNoInputsNotificationBindingToggle },
-            { icon: icon("NoCustomers"), localeId: "CompanyNoCustomersNotification", binding: CompanyNoCustomersNotificationBinding$, onToggle: OnCompanyNoCustomersNotificationBindingToggle },
+            { icon: icon("NoInputs"), localeId: "CompanyNoInputsNotification", gameTitleKey: "Notifications.TITLE[No Inputs]", countIndex: 34, binding: CompanyNoInputsNotificationBinding$, onToggle: OnCompanyNoInputsNotificationBindingToggle },
+            { icon: icon("NoCustomers"), localeId: "CompanyNoCustomersNotification", countIndex: 35, binding: CompanyNoCustomersNotificationBinding$, onToggle: OnCompanyNoCustomersNotificationBindingToggle },
         ],
     },
     {
         localeId: "WorkProvider",
         items: [
-            { icon: icon("NoWorkers"), localeId: "WorkProviderUneducatedNotification", binding: WorkProviderUneducatedNotificationBinding$, onToggle: OnWorkProviderUneducatedNotificationBindingToggle },
-            { icon: icon("NoEducatedWorkers"), localeId: "WorkProviderEducatedNotification", binding: WorkProviderEducatedNotificationBinding$, onToggle: OnWorkProviderEducatedNotificationBindingToggle },
+            { icon: icon("NoWorkers"), localeId: "WorkProviderUneducatedNotification", countIndex: 36, binding: WorkProviderUneducatedNotificationBinding$, onToggle: OnWorkProviderUneducatedNotificationBindingToggle },
+            { icon: icon("NoEducatedWorkers"), localeId: "WorkProviderEducatedNotification", countIndex: 37, binding: WorkProviderEducatedNotificationBinding$, onToggle: OnWorkProviderEducatedNotificationBindingToggle },
         ],
     },
     {
         localeId: "Disaster",
         items: [
-            { icon: icon("WeatherDamage"), localeId: "DisasterWeatherDamageNotification", binding: DisasterWeatherDamageNotificationBinding$, onToggle: OnDisasterWeatherDamageNotificationBindingToggle },
-            { icon: icon("WeatherDestroyed"), localeId: "DisasterWeatherDestroyedNotification", binding: DisasterWeatherDestroyedNotificationBinding$, onToggle: OnDisasterWeatherDestroyedNotificationBindingToggle },
-            { icon: icon("WaterDamage"), localeId: "DisasterWaterDamageNotification", binding: DisasterWaterDamageNotificationBinding$, onToggle: OnDisasterWaterDamageNotificationBindingToggle },
-            { icon: icon("WaterDestroyed"), localeId: "DisasterWaterDestroyedNotification", binding: DisasterWaterDestroyedNotificationBinding$, onToggle: OnDisasterWaterDestroyedNotificationBindingToggle },
-            { icon: icon("Destroyed"), localeId: "DisasterDestroyedNotification", binding: DisasterDestroyedNotificationBinding$, onToggle: OnDisasterDestroyedNotificationBindingToggle },
+            { icon: icon("WeatherDamage"), localeId: "DisasterWeatherDamageNotification", countIndex: 38, binding: DisasterWeatherDamageNotificationBinding$, onToggle: OnDisasterWeatherDamageNotificationBindingToggle },
+            { icon: icon("WeatherDestroyed"), localeId: "DisasterWeatherDestroyedNotification", countIndex: 39, binding: DisasterWeatherDestroyedNotificationBinding$, onToggle: OnDisasterWeatherDestroyedNotificationBindingToggle },
+            { icon: icon("WaterDamage"), localeId: "DisasterWaterDamageNotification", countIndex: 40, binding: DisasterWaterDamageNotificationBinding$, onToggle: OnDisasterWaterDamageNotificationBindingToggle },
+            { icon: icon("WaterDestroyed"), localeId: "DisasterWaterDestroyedNotification", countIndex: 41, binding: DisasterWaterDestroyedNotificationBinding$, onToggle: OnDisasterWaterDestroyedNotificationBindingToggle },
+            { icon: icon("Destroyed"), localeId: "DisasterDestroyedNotification", countIndex: 42, binding: DisasterDestroyedNotificationBinding$, onToggle: OnDisasterDestroyedNotificationBindingToggle },
         ],
     },
     {
         localeId: "Fire",
         items: [
-            { icon: icon("BuildingOnFire"), localeId: "FireFireNotification", binding: FireFireNotificationBinding$, onToggle: OnFireFireNotificationBindingToggle },
-            { icon: icon("BurnedDown"), localeId: "FireBurnedDownNotification", binding: FireBurnedDownNotificationBinding$, onToggle: OnFireBurnedDownNotificationBindingToggle },
+            { icon: icon("BuildingOnFire"), localeId: "FireFireNotification", countIndex: 43, binding: FireFireNotificationBinding$, onToggle: OnFireFireNotificationBindingToggle },
+            { icon: icon("BurnedDown"), localeId: "FireBurnedDownNotification", countIndex: 44, binding: FireBurnedDownNotificationBinding$, onToggle: OnFireBurnedDownNotificationBindingToggle },
         ],
     },
     {
         localeId: "Garbage",
         items: [
-            { icon: icon("TooMuchGarbage"), localeId: "GarbageGarbageNotification", binding: GarbageGarbageNotificationBinding$, onToggle: OnGarbageGarbageNotificationBindingToggle },
-            { icon: icon("FacilityFull"), localeId: "GarbageFacilityFullNotification", miniHudIdentity: facilityFullMiniHudIdentity, binding: GarbageFacilityFullNotificationBinding$, onToggle: OnGarbageFacilityFullNotificationBindingToggle },
+            { icon: icon("TooMuchGarbage"), localeId: "GarbageGarbageNotification", countIndex: 45, binding: GarbageGarbageNotificationBinding$, onToggle: OnGarbageGarbageNotificationBindingToggle },
+            { icon: icon("FacilityFull"), localeId: "GarbageFacilityFullNotification", miniHudIdentity: facilityFullMiniHudIdentity, countIndex: 46, binding: GarbageFacilityFullNotificationBinding$, onToggle: OnGarbageFacilityFullNotificationBindingToggle },
         ],
     },
     {
         localeId: "Healthcare",
         items: [
-            { icon: icon("MedicalEmergency"), localeId: "HealthcareAmbulanceNotification", binding: HealthcareAmbulanceNotificationBinding$, onToggle: OnHealthcareAmbulanceNotificationBindingToggle },
-            { icon: icon("HearseServiceNeeded"), localeId: "HealthcareHearseNotification", binding: HealthcareHearseNotificationBinding$, onToggle: OnHealthcareHearseNotificationBindingToggle },
-            { icon: icon("FacilityFull"), localeId: "HealthcareFacilityFullNotification", miniHudIdentity: facilityFullMiniHudIdentity, binding: HealthcareFacilityFullNotificationBinding$, onToggle: OnHealthcareFacilityFullNotificationBindingToggle },
+            { icon: icon("MedicalEmergency"), localeId: "HealthcareAmbulanceNotification", countIndex: 47, binding: HealthcareAmbulanceNotificationBinding$, onToggle: OnHealthcareAmbulanceNotificationBindingToggle },
+            { icon: icon("HearseServiceNeeded"), localeId: "HealthcareHearseNotification", countIndex: 48, binding: HealthcareHearseNotificationBinding$, onToggle: OnHealthcareHearseNotificationBindingToggle },
+            { icon: icon("FacilityFull"), localeId: "HealthcareFacilityFullNotification", miniHudIdentity: facilityFullMiniHudIdentity, countIndex: 49, binding: HealthcareFacilityFullNotificationBinding$, onToggle: OnHealthcareFacilityFullNotificationBindingToggle },
         ],
     },
     {
         localeId: "Police",
         items: [
-            { icon: icon("TrafficAccident"), localeId: "PoliceTrafficAccidentNotification", binding: PoliceTrafficAccidentNotificationBinding$, onToggle: OnPoliceTrafficAccidentNotificationBindingToggle },
-            { icon: icon("CrimeScene"), localeId: "PoliceCrimeSceneNotification", binding: PoliceCrimeSceneNotificationBinding$, onToggle: OnPoliceCrimeSceneNotificationBindingToggle },
+            { icon: icon("TrafficAccident"), localeId: "PoliceTrafficAccidentNotification", countIndex: 50, binding: PoliceTrafficAccidentNotificationBinding$, onToggle: OnPoliceTrafficAccidentNotificationBindingToggle },
+            { icon: icon("CrimeScene"), localeId: "PoliceCrimeSceneNotification", countIndex: 51, binding: PoliceCrimeSceneNotificationBinding$, onToggle: OnPoliceCrimeSceneNotificationBindingToggle },
         ],
     },
     {
         localeId: "Pollution",
         items: [
-            { icon: icon("AirPollution"), localeId: "PollutionAirPollutionNotification", binding: PollutionAirPollutionNotificationBinding$, onToggle: OnPollutionAirPollutionNotificationBindingToggle },
-            { icon: icon("NoisePollution"), localeId: "PollutionNoisePollutionNotification", binding: PollutionNoisePollutionNotificationBinding$, onToggle: OnPollutionNoisePollutionNotificationBindingToggle },
-            { icon: icon("PollutedSoil"), localeId: "PollutionGroundPollutionNotification", binding: PollutionGroundPollutionNotificationBinding$, onToggle: OnPollutionGroundPollutionNotificationBindingToggle },
+            { icon: icon("AirPollution"), localeId: "PollutionAirPollutionNotification", countIndex: 52, binding: PollutionAirPollutionNotificationBinding$, onToggle: OnPollutionAirPollutionNotificationBindingToggle },
+            { icon: icon("NoisePollution"), localeId: "PollutionNoisePollutionNotification", countIndex: 53, binding: PollutionNoisePollutionNotificationBinding$, onToggle: OnPollutionNoisePollutionNotificationBindingToggle },
+            { icon: icon("PollutedSoil"), localeId: "PollutionGroundPollutionNotification", countIndex: 54, binding: PollutionGroundPollutionNotificationBinding$, onToggle: OnPollutionGroundPollutionNotificationBindingToggle },
         ],
     },
     {
         localeId: "ResourceConsumer",
         items: [
-            { icon: icon("NotEnoughIndustrialGoods"), localeId: "ResourceConsumerNoResourceNotification", binding: ResourceConsumerNoResourceNotificationBinding$, onToggle: OnResourceConsumerNoResourceNotificationBindingToggle },
-            { icon: icon("NoFuel"), localeId: "ResourceConsumerNoFuelNotification", binding: ResourceConsumerNoFuelNotificationBinding$, onToggle: OnResourceConsumerNoFuelNotificationBindingToggle },
+            { icon: icon("NotEnoughIndustrialGoods"), localeId: "ResourceConsumerNoResourceNotification", countIndex: 55, binding: ResourceConsumerNoResourceNotificationBinding$, onToggle: OnResourceConsumerNoResourceNotificationBindingToggle },
+            { icon: icon("NoFuel"), localeId: "ResourceConsumerNoFuelNotification", countIndex: 56, binding: ResourceConsumerNoFuelNotificationBinding$, onToggle: OnResourceConsumerNoFuelNotificationBindingToggle },
         ],
     },
     {
         localeId: "ResourceConnection",
         items: [
-            { icon: icon("OilPipeNotConnected"), localeId: "ResourceConnectionOilPipeNotConnectedNotification", binding: ResourceConnectionOilPipeNotConnectedNotificationBinding$, onToggle: OnResourceConnectionOilPipeNotConnectedNotificationBindingToggle },
-            { icon: icon("FishingPierNotConnected"), localeId: "ResourceConnectionFishingPierNotConnectedNotification", binding: ResourceConnectionFishingPierNotConnectedNotificationBinding$, onToggle: OnResourceConnectionFishingPierNotConnectedNotificationBindingToggle },
-            { icon: icon("OilPipeNotConnected"), localeId: "ResourceConnectionWarningNotification", binding: ResourceConnectionWarningNotificationBinding$, onToggle: OnResourceConnectionWarningNotificationBindingToggle },
+            { icon: icon("OilPipeNotConnected"), localeId: "ResourceConnectionOilPipeNotConnectedNotification", countIndex: 57, binding: ResourceConnectionOilPipeNotConnectedNotificationBinding$, onToggle: OnResourceConnectionOilPipeNotConnectedNotificationBindingToggle },
+            { icon: icon("FishingPierNotConnected"), localeId: "ResourceConnectionFishingPierNotConnectedNotification", countIndex: 58, binding: ResourceConnectionFishingPierNotConnectedNotificationBinding$, onToggle: OnResourceConnectionFishingPierNotConnectedNotificationBindingToggle },
+            { icon: icon("OilPipeNotConnected"), localeId: "ResourceConnectionWarningNotification", countIndex: 59, binding: ResourceConnectionWarningNotificationBinding$, onToggle: OnResourceConnectionWarningNotificationBindingToggle },
         ],
     },
     {
         localeId: "Route",
         items: [
-            { icon: icon("PathfindFailed"), localeId: "RoutePathfindNotification", binding: RoutePathfindNotificationBinding$, onToggle: OnRoutePathfindNotificationBindingToggle },
-            { icon: icon("NoPortAccess"), localeId: "RouteGateBypassNotification", binding: RouteGateBypassNotificationBinding$, onToggle: OnRouteGateBypassNotificationBindingToggle },
+            { icon: icon("PathfindFailed"), localeId: "RoutePathfindNotification", countIndex: 60, binding: RoutePathfindNotificationBinding$, onToggle: OnRoutePathfindNotificationBindingToggle },
+            { icon: icon("NoPortAccess"), localeId: "RouteGateBypassNotification", countIndex: 61, binding: RouteGateBypassNotificationBinding$, onToggle: OnRouteGateBypassNotificationBindingToggle },
         ],
     },
     {
         localeId: "TransportLine",
         items: [
-            { icon: icon("NoVehicles"), localeId: "TransportLineVehicleNotification", binding: TransportLineVehicleNotificationBinding$, onToggle: OnTransportLineVehicleNotificationBindingToggle },
+            { icon: icon("NoVehicles"), localeId: "TransportLineVehicleNotification", countIndex: 62, binding: TransportLineVehicleNotificationBinding$, onToggle: OnTransportLineVehicleNotificationBindingToggle },
+        ],
+    },
+    // Appended LAST (not inserted alphabetically) so every existing section keeps its bit position in
+    // PanelCollapsedSectionsMask — inserting this earlier in the array would shift every later
+    // section's saved collapse-state bit and silently scramble players' existing settings.
+    {
+        localeId: "Other",
+        items: [
+            { icon: icon("LevelingBuilding"), localeId: "BuildingLevelingNotification", countIndex: 24, binding: BuildingLevelingNotificationBinding$, onToggle: OnBuildingLevelingNotificationBindingToggle, excludeFromToggleAll: true },
         ],
     },
 ];
@@ -356,7 +369,7 @@ export const sections: NotificationSection[] = [
 export const allItems = sections.flatMap((section) => section.items);
 export const allIconSources = Array.from(new Set(allItems.map((item) => item.icon)));
 export const notificationCountIndexes = new Map(
-    allItems.map((item, index) => [item.localeId, index]),
+    allItems.map((item) => [item.localeId, item.countIndex]),
 );
 
 export const setAllNotifications = (enabled: boolean) => {
