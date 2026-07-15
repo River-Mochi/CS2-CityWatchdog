@@ -63,7 +63,6 @@ namespace CityWatchdog
             (1 << 13) | // Burned down
             (1 << 14) | // Garbage piling up
             (1 << 15) | // Facility full (Garbage)
-            (1 << 17) | // Waiting for a hearse
             (1 << 18) | // Facility full (Healthcare)
             (1 << 19) | // Traffic accident
             (1 << 20) | // Crime scene

@@ -279,11 +279,6 @@
     margin-left: 2rem;
 }
 
-// Tooltip content wrapper. JSX renders each line as its own div, so no white-space helper is needed.
-.tooltipText {
-    display: block;
-}
-
 .modIcon {
     width: 1.2em;
     height: 1.2em;

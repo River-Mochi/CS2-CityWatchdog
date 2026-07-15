@@ -6,7 +6,7 @@ import { game } from "cs2/bindings";
 import { useLocalization } from "cs2/l10n";
 import { getModule } from "cs2/modding";
 import { useText } from "../../shared/localization";
-import { Button, Panel, Tooltip } from "cs2/ui";
+import { Button, FormattedParagraphs, Panel, Tooltip } from "cs2/ui";
 import { memo, useCallback, useEffect, useMemo, useState, type ReactElement, type ReactNode } from "react";
 import {
     controlPanelEnabled$,
@@ -91,22 +91,16 @@ const SORT_ACTIVE = 2;
 let sessionSortMode = SORT_ASCENDING;
 
 // Coherent collapses a literal "\n" inside a text node down to a space, so a multi-line tooltip only
-// renders as multiple lines if every line is its own element. Centralised here instead of at each call
-// site: a tooltip can pass a plain localize() string and keep its line breaks, and no call site can
-// silently drop one by forgetting to opt in. Non-string (already-JSX) tooltips pass through untouched.
-const renderTooltipLines = (tooltip: ReactNode): ReactNode => {
-    if (typeof tooltip !== "string" || !tooltip.includes("\n")) {
-        return tooltip;
-    }
-
-    return (
-        <div className={styles.tooltipText}>
-            {tooltip.split("\n").map((line, index) => (
-                <div key={index}>{line}</div>
-            ))}
-        </div>
-    );
-};
+// renders as multiple lines if every line becomes its own element. FormattedParagraphs is vanilla's
+// own component for exactly this (game-ui/common/text/formatted-paragraphs.tsx): it splits on
+// /\r\n|\r|\n/, drops blank lines, and renders each line as a themed FormattedText — so we match
+// vanilla tooltip styling instead of hand-rolling divs. Pass it via children; its `text` prop is
+// deprecated in cs2/ui. Centralised here so no call site can drop a line break by forgetting to opt in;
+// non-string (already-JSX) tooltips pass through untouched.
+const renderTooltipLines = (tooltip: ReactNode): ReactNode =>
+    typeof tooltip === "string" && tooltip.includes("\n")
+        ? <FormattedParagraphs>{tooltip}</FormattedParagraphs>
+        : tooltip;
 
 // Panel-internal Tooltip wrapper. Three jobs:
 //   1. Passes a `cwdBypass` flag the global TooltipGate extension reads, so panel tooltips stay
