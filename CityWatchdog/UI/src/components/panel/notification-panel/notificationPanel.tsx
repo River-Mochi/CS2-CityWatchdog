@@ -90,11 +90,30 @@ const SORT_DESCENDING = 1;
 const SORT_ACTIVE = 2;
 let sessionSortMode = SORT_ASCENDING;
 
-// Panel-internal Tooltip wrapper. Two jobs:
+// Coherent collapses a literal "\n" inside a text node down to a space, so a multi-line tooltip only
+// renders as multiple lines if every line is its own element. Centralised here instead of at each call
+// site: a tooltip can pass a plain localize() string and keep its line breaks, and no call site can
+// silently drop one by forgetting to opt in. Non-string (already-JSX) tooltips pass through untouched.
+const renderTooltipLines = (tooltip: ReactNode): ReactNode => {
+    if (typeof tooltip !== "string" || !tooltip.includes("\n")) {
+        return tooltip;
+    }
+
+    return (
+        <div className={styles.tooltipText}>
+            {tooltip.split("\n").map((line, index) => (
+                <div key={index}>{line}</div>
+            ))}
+        </div>
+    );
+};
+
+// Panel-internal Tooltip wrapper. Three jobs:
 //   1. Passes a `cwdBypass` flag the global TooltipGate extension reads, so panel tooltips stay
 //      visible when the Info button mutes vanilla game tooltips (disableAllTooltips$).
 //   2. Reads disableCwdTooltips$ itself — the CWD title-bar icon mutes panel tooltips by
 //      returning just the children. `alwaysVisible` keeps recovery toggles discoverable.
+//   3. Splits "\n" into one line element each (see renderTooltipLines above).
 const CwdTooltip = ({
     tooltip,
     alwaysVisible,
@@ -108,7 +127,7 @@ const CwdTooltip = ({
     if (cwdTooltipsDisabled && !alwaysVisible) {
         return <>{children}</>;
     }
-    return <Tooltip {...{ cwdBypass: true }} tooltip={tooltip}>{children}</Tooltip>;
+    return <Tooltip {...{ cwdBypass: true }} tooltip={renderTooltipLines(tooltip)}>{children}</Tooltip>;
 };
 
 // Isolates ALL drag-position state so a 60fps drag never re-renders the expensive ~63-row body.
@@ -371,31 +390,14 @@ const NotificationPanelContent = () => {
             : sortMode === SORT_DESCENDING ? localize("SortModeDescending", "Sorting: Z → A · click to cycle")
                 : localize("SortModeActiveFirst", "Sorting: active alerts first · click to cycle");
 
-    const tooltipContent = (localeId: string, fallback: string) => {
-        const tooltip = localize(localeId, fallback);
-        const lines = tooltip.split("\n");
-
-        if (lines.length <= 1) {
-            return tooltip;
-        }
-
-        return (
-            <div className={styles.tooltipText}>
-                {lines.map((line, index) => (
-                    <div key={`${localeId}-${index}`}>{line}</div>
-                ))}
-            </div>
-        );
-    };
-
     // Title bar CWD icon is now BOTH a hover-help and a click toggle for panel tooltips.
     // Tooltip text switches based on the panel-tooltip state.
     const titleBarTooltip = cwdTooltipsDisabled
-        ? tooltipContent(
+        ? localize(
             "TitleBarTooltipPanelOff",
             "Click to show City Watchdog panel tooltips.",
         )
-        : tooltipContent(
+        : localize(
             "TitleBarTooltipPanelOn",
             "Expand rows; [✓] check to show, uncheck to hide alerts.\nClick this icon to hide City Watchdog panel tooltips.",
         );
@@ -403,33 +405,33 @@ const NotificationPanelContent = () => {
     const dragTitleTooltip = localize("DragTitleBar", "Drag title bar.");
 
     // Same text regardless of toggle state — Info button is always discoverable.
-    const infoTooltip = tooltipContent(
+    const infoTooltip = localize(
         "TooltipToggle",
         "Show/hide ALL game hover tooltips.\nCursor tooltips over buildings, cims, tools, and the small popups on game UI buttons.",
     );
 
     // Road-name toggle: state-aware text.
     const roadNameTooltip = roadNamesHidden
-        ? tooltipContent(
+        ? localize(
             "RoadNameToggleOff",
             "Click to show road names.\nHotkey: \\",
         )
-        : tooltipContent(
+        : localize(
             "RoadNameToggleOn",
             "Click to hide road names.\nHotkey: \\",
         );
 
-    const roadArrowTooltip = tooltipContent(
+    const roadArrowTooltip = localize(
         "RoadArrowToggleOff",
         "Click to show/hide 1-way road arrows on every road.\nThis also hides road names as side effect.\nNormally only visible while a road tool is active.",
     );
 
     const districtNameTooltip = districtNamesHidden
-        ? tooltipContent(
+        ? localize(
             "DistrictNameToggleOff",
             "Click to show district names.",
         )
-        : tooltipContent(
+        : localize(
             "DistrictNameToggleOn",
             "Click to hide district names.",
         );
@@ -556,7 +558,7 @@ const NotificationPanelContent = () => {
                         </PanelButton>
                     </CwdTooltip>
 
-                    <CwdTooltip tooltip={tooltipContent("ToggleAllTooltip", "Show/hide all icons.\nColor: green = all on; blue = mixed; red = all off.")}>
+                    <CwdTooltip tooltip={localize("ToggleAllTooltip", "Show/hide all icons.\nColor: green = all on; blue = mixed; red = all off.")}>
                         <PanelButton
                             kind="toggle"
                             tone={toggleAllTone}
