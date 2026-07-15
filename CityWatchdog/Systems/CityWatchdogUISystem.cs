@@ -24,10 +24,13 @@ namespace CityWatchdog.Systems
     using Unity.Entities;
 
     public partial class CityWatchdogUISystem : UISystemBaseExtension {
-        // The compact HUD can tolerate slightly older totals; keeping its scan cadence lower
-        // avoids making an always-visible convenience feature expensive on low-end systems.
-        private const int kPanelCountUpdateInterval = 128;
-        private const int kMiniHudCountUpdateInterval = 1024;
+        // Counting notifications means walking every Icon entity — the game keeps no running total,
+        // so cadence is the only lever we have. Units are SimulationSystem frames: 60 per second at
+        // normal speed, faster when the player speeds time up, frozen entirely while paused.
+        // Only one of these is ever live — an open panel supersedes the mini HUD — and both are
+        // preceded by a ForceUpdate(), so they govern steady-state refresh only, never the first paint.
+        private const int kPanelCountUpdateInterval = 256;
+        private const int kMiniHudCountUpdateInterval = 256;
 
         private readonly int[] lastNotificationCounts = new int[AlertIconSystem.NotificationCountLength];
         private bool hasLastNotificationCounts;

@@ -230,6 +230,12 @@ namespace CityWatchdog.Systems
             ComponentTypeHandle<PrefabRef> prefabRefTypeHandle = GetComponentTypeHandle<PrefabRef>(true);
             using NativeArray<ArchetypeChunk> chunks = iconQuery.ToArchetypeChunkArray(Allocator.TempJob);
 
+            // ToArchetypeChunkArray syncs only change-filter and enableable types — it cannot know
+            // which components we read back out of the chunks, so PrefabRef's write dependency is
+            // still live here. ToComponentDataArray<T> completes T's itself, which is why the
+            // resource-consumer/connection helpers below do not need this.
+            CompleteDependency();
+
             for (int i = 0; i < chunks.Length; i++)
             {
                 NativeArray<PrefabRef> prefabRefs = chunks[i].GetNativeArray(ref prefabRefTypeHandle);
@@ -264,6 +270,9 @@ namespace CityWatchdog.Systems
             ComponentTypeHandle<PrefabRef> prefabRefTypeHandle = GetComponentTypeHandle<PrefabRef>(true);
             EntityTypeHandle entityTypeHandle = GetEntityTypeHandle();
             using NativeArray<ArchetypeChunk> chunks = iconQuery.ToArchetypeChunkArray(Allocator.TempJob);
+
+            // Same reason as BuildActiveIconCounts: a chunk walk completes no read dependency for us.
+            CompleteDependency();
 
             for (int i = 0; i < chunks.Length; i++)
             {

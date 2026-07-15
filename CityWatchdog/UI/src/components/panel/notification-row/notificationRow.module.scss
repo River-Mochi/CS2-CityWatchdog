@@ -3,14 +3,17 @@
 //
 // All CSS in longhand form — no shorthand. See feedback_no_css_shorthand.md.
 
+// Row height = tallest child (.icon, 24rem) + padding-top/bottom + margin-bottom gap.
+// Padding and gap trimmed 5rem -> 4rem each: -3rem per row (~8%), so ~2 more rows fit per screen
+// without shrinking the icon or touching legibility. 24rem is the floor unless .icon shrinks too.
 .subPanel {
   display: flex;
   flex-direction: row;
   width: 100%;
-  margin-bottom: 5rem;
-  padding-top: 5rem;
+  margin-bottom: 4rem;
+  padding-top: 4rem;
   padding-right: 6rem;
-  padding-bottom: 5rem;
+  padding-bottom: 4rem;
   padding-left: 6rem;
   background-color: rgba(255, 255, 255, 0.12);
   border-top-left-radius: var(--panelRadiusInnerSIP);

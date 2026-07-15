@@ -344,33 +344,48 @@ namespace CityWatchdog.Systems
                    IsNotificationPrefabName(notificationPrefab, "Fuel");
         }
 
-        private bool IsNotificationIcon(Entity notificationPrefab, string iconName) {
+        // A notification prefab is created once per city load and keeps its identity for the rest of the
+        // session, so its icon path and name never change. Resolving them costs a PrefabSystem lookup
+        // plus ImageSystem.GetIcon, and that ran for every resource prefab on every count scan — the only
+        // string work left in that path. Cached per entity, a scan does nothing but trivial compares.
+        // Cleared in OnGameLoaded because Entity values are recycled across city loads.
+        private readonly Dictionary<Entity, (string IconPath, string Name)> notificationPrefabStrings = new();
+
+        // Only GetPrefab can realistically throw: ImageSystem.GetIcon returns null rather than throwing,
+        // so a single try/catch here reproduces the previous per-method behaviour exactly.
+        private bool TryGetNotificationPrefabStrings(Entity notificationPrefab, out (string IconPath, string Name) strings) {
             if (notificationPrefab == Entity.Null) {
+                strings = default;
                 return false;
+            }
+
+            if (notificationPrefabStrings.TryGetValue(notificationPrefab, out strings)) {
+                return true;
             }
 
             try {
                 NotificationIconPrefab prefab = prefabSystem.GetPrefab<NotificationIconPrefab>(notificationPrefab);
-                string iconPath = ImageSystem.GetIcon(prefab) ?? string.Empty;
-                return iconPath.EndsWith(iconName, System.StringComparison.OrdinalIgnoreCase);
+                strings = (ImageSystem.GetIcon(prefab) ?? string.Empty, prefab.name ?? string.Empty);
             }
             catch {
+                // Never cache a failure. An entity that cannot be resolved yet has to be retried on the
+                // next scan, not poisoned into a permanent negative for the rest of the session.
+                strings = default;
                 return false;
             }
+
+            notificationPrefabStrings[notificationPrefab] = strings;
+            return true;
+        }
+
+        private bool IsNotificationIcon(Entity notificationPrefab, string iconName) {
+            return TryGetNotificationPrefabStrings(notificationPrefab, out (string IconPath, string Name) strings) &&
+                   strings.IconPath.EndsWith(iconName, System.StringComparison.OrdinalIgnoreCase);
         }
 
         private bool IsNotificationPrefabName(Entity notificationPrefab, string text) {
-            if (notificationPrefab == Entity.Null) {
-                return false;
-            }
-
-            try {
-                NotificationIconPrefab prefab = prefabSystem.GetPrefab<NotificationIconPrefab>(notificationPrefab);
-                return (prefab.name ?? string.Empty).IndexOf(text, System.StringComparison.OrdinalIgnoreCase) >= 0;
-            }
-            catch {
-                return false;
-            }
+            return TryGetNotificationPrefabStrings(notificationPrefab, out (string IconPath, string Name) strings) &&
+                   strings.Name.IndexOf(text, System.StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         private void SetResourceConnectionNotifications(bool value, System.Func<ResourceConnectionData, bool> predicate) {

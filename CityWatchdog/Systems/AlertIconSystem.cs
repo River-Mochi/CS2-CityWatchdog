@@ -46,6 +46,11 @@ namespace CityWatchdog.Systems
 
         protected override void OnGameLoaded(Context serializationContext) {
             base.OnGameLoaded(serializationContext);
+
+            // Entity values are recycled across city loads, so last city's prefab strings must not
+            // survive into this one.
+            notificationPrefabStrings.Clear();
+
             SetElectricityNotifications();
             SetWaterPipeNotifications();
             SetBuildingNotifications();
