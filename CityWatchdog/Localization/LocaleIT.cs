@@ -63,7 +63,7 @@ namespace CityWatchdog
                     "\n" +
                     "<Avvisi>\n" +
                     "1. Ordine: A→Z, Z→A, solo attivi.\n" +
-                    "2. <[0/63]> = icone ON/totale. Clic: espandi/comprimi tutte le righe.\n" +
+                    "2. <[0/62]> = icone ON/totale. Clic: espandi/comprimi tutte le righe.\n" +
                     "3a. [Attiva tutto] spegne/accende subito tutte le icone avviso.\n" +
                     "3b. Nasconde solo le icone; non risolve il problema della città.\n" +
                     "\n" +

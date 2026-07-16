@@ -63,7 +63,7 @@ namespace CityWatchdog
                     "\n" +
                     "<Warnmeldungen>\n" +
                     "1. Sortierbutton wechselt A→Z, Z→A, Nur aktive Liste.\n" +
-                    "2. <[0/63]> = Icons AN/Gesamt. Klick: alle Zeilen auf-/zuklappen.\n" +
+                    "2. <[0/62]> = Icons AN/Gesamt. Klick: alle Zeilen auf-/zuklappen.\n" +
                     "3a. [Alle umschalten] schaltet sofort alle Warn-Icons aus/an.\n" +
                     "3b. Blendet nur Icons aus; behebt nicht das Stadtproblem.\n" +
                     "\n" +

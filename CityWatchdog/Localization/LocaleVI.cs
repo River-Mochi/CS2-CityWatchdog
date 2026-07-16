@@ -63,7 +63,7 @@ namespace CityWatchdog
                     "\n" +
                     "<Cảnh báo>\n" +
                     "1. Nút sắp xếp đổi A→Z, Z→A, chỉ cảnh báo đang có.\n" +
-                    "2. <[0/63]> = icon ON/tổng. Bấm để bung/thu tất cả dòng.\n" +
+                    "2. <[0/62]> = icon ON/tổng. Bấm để bung/thu tất cả dòng.\n" +
                     "3a. [Bật/tắt tất cả] tắt/bật ngay mọi icon cảnh báo.\n" +
                     "3b. Chỉ ẩn icon; không sửa lỗi trong thành phố.\n" +
                     "\n" +
