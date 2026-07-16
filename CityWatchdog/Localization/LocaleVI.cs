@@ -147,18 +147,20 @@ namespace CityWatchdog
                     "Bấm tiếp cùng icon để xoay qua các điểm rồi về điểm đầu." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Bấm: khởi động nhanh" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "Áp dụng <khởi động nhanh> cho Mini HUD:\n" +
-                    "Yêu thích, 5 icon, dọc, kéo được, 100%, bảng tối.\n" +
-                    "Cảnh báo có 0 sẽ bị ẩn.\n" +
-                    "Có **bộ yêu thích Sao xanh ban đầu**.\n" +
-                    "Thêm/xóa yêu thích **Sao xanh** trong bảng Watchdog mở rộng." },
+                    "Áp dụng <khởi đầu nhanh> cho Mini HUD:\n" +
+                    "Bao gồm một **bộ yêu thích Blue Star khởi đầu**.\n" +
+                    "Thêm/xóa yêu thích **Blue Star** trong bảng Watchdog đang mở.\n" +
+                    "Yêu thích, 5 biểu tượng, dọc, kéo được, kích thước 100%, bảng tối.\n" +
+                    "Cảnh báo có số 0 sẽ bị ẩn.\n"
+                  },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Chế độ Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
                     "Chọn các dòng thông báo Mini HUD dùng.\n" +
-                    "**Đang có nhiều nhất** hiện các số hiện tại cao nhất.\n" +
-                    "**Yêu thích** dùng các dòng có **Sao xanh** trong bảng chính.\n" +
-                    "Bạn có thể chọn nhiều yêu thích,\n" +
-                    "nhưng Mini HUD chỉ hiện top 5 hoặc top 10." },
+                    "**Đang hoạt động cao nhất** hiện các số đếm cao nhất.\n" +
+                    "**Yêu thích** dùng các dòng có **Blue Star** trong bảng chính City Watchdog.\n" +
+                    "Bạn có thể chọn bao nhiêu yêu thích cũng được,\n" +
+                    "nhưng Mini HUD chỉ hiện top 5 hoặc top 10 từ danh sách **Blue Star** đó."
+                  },
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Cảnh báo đang có nhiều nhất" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Yêu thích" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Số icon" },

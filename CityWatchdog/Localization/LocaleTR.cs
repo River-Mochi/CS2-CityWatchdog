@@ -148,17 +148,19 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Tıkla: hızlı başlangıç" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
                     "Mini HUD için <hızlı başlangıç> uygular:\n" +
-                    "Favoriler, 5 simge, dikey, sürüklenebilir, %100, koyu panel.\n" +
-                    "0 sayılı uyarılar gizlenir.\n" +
-                    "**Mavi Yıldız favori başlangıç seti** içerir.\n" +
-                    "Genişletilmiş Watchdog panelinde **Mavi Yıldız** favorileri ekle/kaldır." },
+                    "Başlangıç için bir **Blue Star favori seti** içerir.\n" +
+                    "Açık Watchdog panelinde **Blue Star** favorileri ekle/kaldır.\n" +
+                    "Favoriler, 5 simge, dikey, sürüklenebilir, %100 boyut, koyu panel.\n" +
+                    "Sayısı 0 olan uyarılar gizlenir.\n"
+                  },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini HUD modu" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
                     "Mini HUD hangi bildirim satırlarını kullansın seç.\n" +
-                    "**En aktif** en yüksek güncel sayaçları gösterir.\n" +
-                    "**Favoriler** ana panelde **Mavi Yıldız** olan satırları kullanır.\n" +
+                    "**En aktifler** en yüksek güncel sayıları gösterir.\n" +
+                    "**Favoriler** ana City Watchdog panelindeki **Blue Star** satırlarını kullanır.\n" +
                     "İstediğin kadar favori seçebilirsin,\n" +
-                    "ama Mini HUD sadece ilk 5 veya 10 sayacı gösterir." },
+                    "ama Mini HUD bu **Blue Star** listesinden sadece ilk 5 veya 10 taneyi gösterir."
+                  },
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "En aktif uyarılar" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Favoriler" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Simge sayısı" },

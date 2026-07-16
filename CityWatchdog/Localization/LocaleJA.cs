@@ -147,18 +147,20 @@ namespace CityWatchdog
                     "同じアイコンを続けてクリックすると候補を巡回します。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "クリック: クイック開始" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "ミニHUDの <クイック開始> を適用:\n" +
-                    "お気に入り、5アイコン、縦、ドラッグ可、100%、暗いパネル。\n" +
-                    "0件のアラートは非表示。\n" +
-                    "**青い星のお気に入りスターターセット** を含みます。\n" +
-                    "展開した Watchdog パネルで **青い星** を追加/削除できます。" },
+                    "Mini HUD の<クイックスタート>を適用します:\n" +
+                    "**Blue Star** お気に入りのスターターセットを含みます。\n" +
+                    "展開した Watchdog パネルで **Blue Star** お気に入りを追加/削除します。\n" +
+                    "お気に入り、5個のアイコン、縦表示、ドラッグ可能、サイズ100%、ダークパネル。\n" +
+                    "件数0のアラートは非表示になります。\n"
+                  },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "ミニHUDモード" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
-                    "ミニHUDが使う通知行を選びます。\n" +
-                    "**上位アクティブ** は現在数の多いものを表示。\n" +
-                    "**お気に入り** はメインパネルの **青い星** 行を使います。\n" +
-                    "お気に入りはいくつでも選べますが、\n" +
-                    "ミニHUDはその中の上位5件または10件だけ表示します。" },
+                    "Mini HUD が使う通知行を選びます。\n" +
+                    "**上位アクティブ** は現在件数が多いものを表示します。\n" +
+                    "**お気に入り** はメイン City Watchdog パネルの **Blue Star** 行を使います。\n" +
+                    "お気に入りは好きなだけ選べますが、\n" +
+                    "Mini HUD はその **Blue Star** リストから上位5件または10件だけ表示します。"
+                  },
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "上位アクティブ" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "お気に入り" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "アイコン数" },

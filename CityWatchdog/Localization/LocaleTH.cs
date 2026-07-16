@@ -147,18 +147,20 @@ namespace CityWatchdog
                     "คลิกซ้ำเพื่อวนจุดที่ตรงกัน แล้วกลับจุดแรก" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "คลิก: เริ่มเร็ว" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "ใช้ <เริ่มเร็ว> สำหรับ Mini HUD:\n" +
-                    "รายการโปรด, 5 ไอคอน, แนวตั้ง, ลากได้, 100%, แผงมืด\n" +
-                    "ซ่อนแจ้งเตือนที่มี 0\n" +
-                    "มี **ชุดเริ่มต้นรายการโปรดดาวฟ้า**\n" +
-                    "เพิ่ม/ลบ **ดาวฟ้า** ในแผง Watchdog แบบขยาย" },
+                    "ใช้<การตั้งค่าเริ่มต้นเร็ว>สำหรับ Mini HUD:\n" +
+                    "มี**ชุดเริ่มต้นรายการโปรด Blue Star**รวมอยู่ด้วย.\n" +
+                    "เพิ่ม/ลบรายการโปรด **Blue Star** ในแผง Watchdog ที่เปิดอยู่.\n" +
+                    "รายการโปรด, 5 ไอคอน, แนวตั้ง, ลากได้, ขนาด 100%, แผงสีเข้ม.\n" +
+                    "ซ่อนการแจ้งเตือนที่มีจำนวน 0.\n"
+                  },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "โหมด Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
-                    "เลือกแถวแจ้งเตือนที่ Mini HUD ใช้\n" +
-                    "**Active สูงสุด** แสดงจำนวนปัจจุบันที่สูงสุด\n" +
-                    "**รายการโปรด** ใช้แถวที่มี **ดาวฟ้า** ในแผงหลัก\n" +
-                    "เลือกได้หลายรายการโปรดตามต้องการ\n" +
-                    "แต่ Mini HUD แสดงแค่ top 5 หรือ top 10" },
+                    "เลือกแถวแจ้งเตือนที่ Mini HUD จะใช้.\n" +
+                    "**ใช้งานสูงสุด** แสดงจำนวนปัจจุบันที่สูงที่สุด.\n" +
+                    "**รายการโปรด** ใช้แถวที่มี **Blue Star** ในแผงหลัก City Watchdog.\n" +
+                    "เลือกได้กี่รายการโปรดก็ได้,\n" +
+                    "แต่ Mini HUD จะแสดงแค่ 5 หรือ 10 อันดับแรกจากรายการ **Blue Star** นี้."
+                  },
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "แจ้งเตือน active สูงสุด" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "รายการโปรด" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "จำนวนไอคอน" },

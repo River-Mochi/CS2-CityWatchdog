@@ -148,17 +148,19 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Klik: szybki start" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
                     "Stosuje <szybki start> dla Mini HUD:\n" +
-                    "Ulubione, 5 ikon, pionowo, przeciągane, 100%, ciemny panel.\n" +
-                    "Alerty z 0 są ukryte.\n" +
-                    "Zawiera **startowy zestaw ulubionych z niebieską gwiazdką**.\n" +
-                    "Dodaj/usuń **niebieskie gwiazdki** w rozwiniętym panelu Watchdog." },
+                    "Zawiera **startowy zestaw ulubionych Blue Star**.\n" +
+                    "Dodawaj/usuwaj ulubione **Blue Star** w otwartym panelu Watchdog.\n" +
+                    "Ulubione, 5 ikon, pionowo, przeciągalne, rozmiar 100%, ciemny panel.\n" +
+                    "Alerty z liczbą 0 są ukrywane.\n"
+                  },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Tryb Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
-                    "Wybierz, których wierszy używa Mini HUD.\n" +
-                    "**Top aktywne** pokazuje najwyższe bieżące liczniki.\n" +
-                    "**Ulubione** używa wierszy z **niebieską gwiazdką** w panelu głównym.\n" +
-                    "Możesz wybrać dowolną liczbę ulubionych,\n" +
-                    "ale Mini HUD pokazuje tylko top 5 lub top 10." },
+                    "Wybierz, które wiersze ma używać Mini HUD.\n" +
+                    "**Najaktywniejsze** pokazuje najwyższe bieżące liczniki.\n" +
+                    "**Ulubione** używa wierszy z **Blue Star** w głównym panelu City Watchdog.\n" +
+                    "Możesz wybrać tyle ulubionych, ile chcesz,\n" +
+                    "ale Mini HUD pokaże tylko top 5 lub top 10 z tej listy **Blue Star**."
+                  },
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Top aktywne alerty" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Ulubione" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Liczba ikon" },

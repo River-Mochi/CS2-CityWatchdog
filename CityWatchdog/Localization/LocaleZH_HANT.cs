@@ -147,18 +147,20 @@ namespace CityWatchdog
                     "繼續點擊同一圖示可輪換問題点，再回到第一个。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "點擊：快速開始" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "为迷你HUD套用 <快速開始>：\n" +
-                    "收藏、5个圖示、垂直、可拖曳、100%、深色面板。\n" +
-                    "0計數警報会隱藏。\n" +
-                    "包含 **藍星收藏起始组**。\n" +
-                    "在展開的 Watchdog 面板中新增/移除 **藍星** 收藏。" },
+                    "為 Mini HUD 套用<快速入門>:\n" +
+                    "包含一組**入門 Blue Star 收藏**。\n" +
+                    "在已展開的 Watchdog 面板中新增/移除 **Blue Star** 收藏。\n" +
+                    "收藏，5 個圖示，垂直，可拖曳，100% 大小，深色面板。\n" +
+                    "數量為 0 的警報會隱藏。\n"
+                  },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "迷你HUD模式" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
-                    "選擇迷你HUD使用哪些通知行。\n" +
-                    "**最活跃** 顯示目前計數最高的警報。\n" +
-                    "**收藏** 使用主面板中带 **藍星** 的行。\n" +
-                    "你可以選擇任意數量收藏，\n" +
-                    "但迷你HUD只顯示其中前5或前10。" },
+                    "選擇 Mini HUD 使用哪些通知列。\n" +
+                    "**最活躍**顯示目前數量最高的警報。\n" +
+                    "**收藏**使用 City Watchdog 主面板中標記為 **Blue Star** 的列。\n" +
+                    "你可以選擇任意數量的收藏，\n" +
+                    "但 Mini HUD 只顯示該 **Blue Star** 清單中的前 5 或前 10 個。"
+                  },
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "最活跃警報" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "收藏" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "圖示數量" },

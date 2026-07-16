@@ -147,18 +147,20 @@ namespace CityWatchdog
                     "Clique de novo para alternar entre pontos e voltar ao primeiro." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Clique: início rápido" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "Aplica um <início rápido> para Mini HUD:\n" +
-                    "Favoritos, 5 ícones, vertical, arrastável, 100%, painel escuro.\n" +
-                    "Alertas com 0 ficam ocultos.\n" +
-                    "Inclui um **conjunto inicial de favoritos Estrela azul**.\n" +
-                    "Adicione/remova favoritos **Estrela azul** no painel Watchdog expandido." },
+                    "Aplica uma <configuração rápida> ao Mini HUD:\n" +
+                    "Inclui um **conjunto inicial de favoritos Blue Star**.\n" +
+                    "Adiciona/remove favoritos **Blue Star** no painel Watchdog aberto.\n" +
+                    "Favoritos, 5 ícones, vertical, arrastável, tamanho 100%, painel escuro.\n" +
+                    "Alertas com contagem 0 ficam ocultos.\n"
+                  },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Modo Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
-                    "Escolha quais linhas o Mini HUD usa.\n" +
-                    "**Mais ativos** mostra as maiores contagens atuais.\n" +
-                    "**Favoritos** usa linhas marcadas com **Estrela azul** no painel principal.\n" +
-                    "Você pode escolher quantos favoritos quiser,\n" +
-                    "mas o Mini HUD mostra só o top 5 ou top 10." },
+                    "Escolhe que linhas o Mini HUD usa.\n" +
+                    "**Top ativos** mostra as maiores contagens atuais.\n" +
+                    "**Favoritos** usa linhas com **Blue Star** no painel principal City Watchdog.\n" +
+                    "Podes escolher todos os favoritos que quiseres,\n" +
+                    "mas o Mini HUD mostra só o top 5 ou top 10 dessa lista **Blue Star**."
+                  },
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Alertas mais ativos" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Favoritos" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Quantidade de ícones" },

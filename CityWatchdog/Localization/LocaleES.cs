@@ -148,17 +148,19 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Clic: inicio rápido" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
                     "Aplica un <inicio rápido> para Mini HUD:\n" +
+                    "Incluye un **set inicial de favoritos Blue Star**.\n" +
+                    "Añade/quita favoritos **Blue Star** en el panel Watchdog abierto.\n" +
                     "Favoritos, 5 iconos, vertical, arrastrable, tamaño 100%, panel oscuro.\n" +
-                    "Las alertas con 0 se ocultan.\n" +
-                    "Incluye un **grupo inicial de favoritos con estrella azul**.\n" +
-                    "Añade/quita favoritos de **estrella azul** en el panel Watchdog expandido." },
+                    "Las alertas con 0 se ocultan.\n"
+                  },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Modo Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
                     "Elige qué filas usa el Mini HUD.\n" +
                     "**Top activas** muestra los contadores actuales más altos.\n" +
-                    "**Favoritos** usa filas con **estrella azul** en el panel principal.\n" +
+                    "**Favoritos** usa filas con **Blue Star** en el panel principal City Watchdog.\n" +
                     "Puedes elegir tantos favoritos como quieras,\n" +
-                    "pero Mini HUD solo muestra el top 5 o top 10." },
+                    "pero Mini HUD solo muestra el top 5 o top 10 de esa lista **Blue Star**."
+                  },
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Top alertas activas" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Favoritos" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Cantidad de iconos" },

@@ -63,7 +63,7 @@ namespace CityWatchdog
                     "\n" +
                     "<Alertes>\n" +
                     "1. Tri : A→Z, Z→A, liste active seule.\n" +
-                    "2. <[0/63]> = icônes ON/total. Clique pour ouvrir/fermer toutes les lignes.\n" +
+                    "2. <[0/63]> = icônes actives/total. Clique pour ouvrir/fermer toutes les lignes.\n" +
                     "3a. [Tout basculer] active/désactive tout de suite toutes les icônes d’alerte.\n" +
                     "3b. Masque seulement les icônes ; ne corrige pas le problème de ville.\n" +
                     "\n" +
@@ -148,17 +148,19 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Clic : démarrage rapide" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
                     "Applique un <démarrage rapide> pour Mini HUD :\n" +
+                    "Inclut un **lot de favoris Blue Star**.\n" +
+                    "Ajoute/retire les favoris **Blue Star** dans le panneau Watchdog ouvert.\n" +
                     "Favoris, 5 icônes, vertical, déplaçable, taille 100 %, panneau sombre.\n" +
-                    "Les alertes à 0 sont masquées.\n" +
-                    "Inclut un **lot de favoris étoile bleue**.\n" +
-                    "Ajoute/retire des favoris **étoile bleue** dans le panneau Watchdog étendu." },
+                    "Les alertes à 0 sont masquées.\n"
+                  },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mode Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
                     "Choisis les lignes utilisées par le Mini HUD.\n" +
                     "**Top actives** montre les compteurs actuels les plus hauts.\n" +
-                    "**Favoris** utilise les lignes avec **étoile bleue** dans le panneau principal.\n" +
+                    "**Favoris** utilise les lignes avec **Blue Star** dans le panneau principal.\n" +
                     "Tu peux choisir autant de favoris que tu veux,\n" +
-                    "mais Mini HUD montre seulement le top 5 ou top 10." },
+                    "mais Mini HUD montre seulement le top 5 ou top 10 de cette liste **Blue Star**."
+                  },
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Top alertes actives" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Favoris" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Nombre d’icônes" },
@@ -176,7 +178,7 @@ namespace CityWatchdog
                     "Choisis où apparaît le Mini HUD.\n" +
                     "Déplaçable permet de le bouger dans l’interface de ville." },
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementTopCenter"), "Haut centre" },
-                { m_Settings.GetOptionLocaleID("MiniHudPlacementTopRight"), "Haut droite" },
+                { m_Settings.GetOptionLocaleID("MiniHudPlacementTopRight"), "Haut droit" },
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementDraggable"), "Déplaçable" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudPanelStyle)), "Style sombre ou verre" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudPanelStyle)),

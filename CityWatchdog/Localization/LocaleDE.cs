@@ -148,17 +148,19 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Klick: Schnellstart" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
                     "Wendet einen <Schnellstart> für Mini HUD an:\n" +
+                    "Enthält ein **Starter-Set mit Blue Star-Favoriten**.\n" +
+                    "**Blue Star**-Favoriten im erweiterten Watchdog-Panel hinzufügen/entfernen.\n" +
                     "Favoriten, 5 Icons, vertikal, verschiebbar, 100%, dunkles Panel.\n" +
-                    "Warnungen mit 0 werden versteckt.\n" +
-                    "Enthält ein **Starter-Set mit Blauer-Stern-Favoriten**.\n" +
-                    "**Blaue Sterne** im erweiterten Watchdog-Panel hinzufügen/entfernen." },
+                    "Warnungen mit 0 werden versteckt.\n"
+                  },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini-HUD-Modus" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
                     "Wähle, welche Warnzeilen das Mini HUD nutzt.\n" +
                     "**Top aktiv** zeigt die höchsten aktuellen Zähler.\n" +
-                    "**Favoriten** nutzt Zeilen mit **Blauem Stern** im Hauptpanel.\n" +
+                    "**Favoriten** nutzt alle Zeilen mit **Blue Star** im City-Watchdog-Hauptpanel.\n" +
                     "Du kannst beliebig viele Favoriten wählen,\n" +
-                    "aber Mini HUD zeigt nur die Top 5 oder Top 10 daraus." },
+                    "aber Mini HUD zeigt nur Top 5 oder Top 10 aus dieser **Blue-Star**-Liste."
+                  },
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Top aktive Warnungen" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Favoriten" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Icon-Anzahl" },

@@ -147,18 +147,20 @@ namespace CityWatchdog
                     "같은 아이콘을 계속 클릭하면 위치를 순환 후 처음으로 돌아갑니다." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "클릭: 빠른 시작" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "미니 HUD <빠른 시작> 적용:\n" +
-                    "즐겨찾기, 5 아이콘, 세로, 드래그 가능, 100%, 어두운 패널.\n" +
-                    "0개 알림은 숨깁니다.\n" +
-                    "**파란 별 즐겨찾기 시작 세트** 포함.\n" +
-                    "확장된 Watchdog 패널에서 **파란 별** 즐겨찾기 추가/삭제." },
+                    "Mini HUD <빠른 시작>을 적용합니다:\n" +
+                    "**Blue Star** 즐겨찾기 시작 세트를 포함합니다.\n" +
+                    "펼친 Watchdog 패널에서 **Blue Star** 즐겨찾기를 추가/제거하세요.\n" +
+                    "즐겨찾기, 아이콘 5개, 세로, 드래그 가능, 100% 크기, 어두운 패널.\n" +
+                    "개수 0인 알림은 숨겨집니다.\n"
+                  },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "미니 HUD 모드" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
-                    "미니 HUD가 사용할 알림 줄을 선택합니다.\n" +
-                    "**상위 활성**은 현재 카운트가 높은 알림을 표시.\n" +
-                    "**즐겨찾기**는 메인 패널의 **파란 별** 줄을 사용.\n" +
-                    "즐겨찾기는 원하는 만큼 고를 수 있지만,\n" +
-                    "미니 HUD는 그중 상위 5개 또는 10개만 표시합니다." },
+                    "Mini HUD가 사용할 알림 줄을 선택합니다.\n" +
+                    "**활성 상위**는 현재 개수가 가장 높은 알림을 보여줍니다.\n" +
+                    "**즐겨찾기**는 메인 City Watchdog 패널의 **Blue Star** 줄을 사용합니다.\n" +
+                    "즐겨찾기는 원하는 만큼 선택할 수 있지만,\n" +
+                    "Mini HUD는 그 **Blue Star** 목록에서 상위 5개 또는 10개만 보여줍니다."
+                  },
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "상위 활성 알림" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "즐겨찾기" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "아이콘 수" },
