@@ -28,13 +28,8 @@ The Mini HUD can show either:
 - **Favorites**: alert rows you marked with the **blue star** in the main panel.
 
 The Quick Start button sets the Mini HUD to:
-
-- Favorites mode
-- 5 icons
-- vertical layout
-- draggable placement
-- 100% size
-- dark panel
+- Currated blue-star rows pre-selected.
+- Favorites mode, 5 icons, vertical layout, draggable placement, 100% size, dark panel
 - zero-count icons hidden
 
 ## Good to know
