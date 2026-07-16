@@ -41,7 +41,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionTabLocaleID(Setting.About), "À propos" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutUsage), "UTILISATION" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Notifications), "Notifications" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "Infos en ville" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.MoneyViewGroup), "Infos en jeu" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.MiniHudGroup), "Alertes Mini HUD" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "DÉPART NOUVELLE VILLE" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Argent" },
@@ -86,7 +86,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)), "Ouvrir/fermer le panneau d’alertes" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleNotificationPanelKeyboardBinding)),
                     "<Raccourci> pour ouvrir ou fermer le\n" +
-                    "<panneau d’alertes> en ville.\n" +
+                    "<panneau d’alertes> en jeu.\n" +
                     "Comme cliquer l’icône en haut à gauche." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleNotificationPanelAction), "Ouvrir/fermer le panneau d’alertes" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.PanelButtonsOnlyStart)), "Démarrage boutons seuls" },
@@ -206,9 +206,10 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.CustomMilestone)), "Sélecteur de jalon" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.CustomMilestone)),
                     "Active <avant de charger ou démarrer> pour débloquer un jalon au chargement.\n" +
-                    "- Impossible d’activer en ville chargée, mais possible de désactiver.\n" +
-                    "- Oublié ? Redémarre le jeu et choisis avant d’entrer en ville.\n" +
+                    "- Impossible d'activer dans une ville déjà chargée, mais possible de le désactiver.\n" +
+                    "- Oublié? Redémarre le jeu et choisis avant de charger ta ville.\n" +
                     "- Le mod n’annule pas les jalons déjà sauvegardés ; utilise une ancienne save." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MilestoneLevel)), "Jalon" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MilestoneLevel)),
                     "Choisis le jalon à débloquer au prochain chargement.\n" +
@@ -219,13 +220,13 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ManualMoneyAmount)),
                     "Utilise ce montant avec les raccourcis Ajouter et Retirer argent.\n" +
                     "<Défaut du mod = 40 000>\n" +
-                    "Ne fait rien sans utiliser le raccourci en ville.\n" +
+                    "Ne fait rien sans utiliser le raccourci en jeu.\n" +
                     "Pour automatiser, active Argent auto." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Ajouter argent" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Raccourci pour <Ajouter argent> en ville." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.AddMoneyKeyboardBinding)), "Raccourci pour <Ajouter argent> en jeu." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.AddMoneyAction), "Ajouter argent" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Retirer argent" },
-                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Raccourci pour <Retirer argent> en ville." },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.SubtractMoneyKeyboardBinding)), "Raccourci pour <Retirer argent> en jeu." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.SubtractMoneyAction), "Retirer argent" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.AutomaticAddMoney)), "Argent auto" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.AutomaticAddMoney)),
@@ -245,7 +246,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)), "Convertisseur argent illimité" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConfirmUnlimitedMoneySaveConversion)),
                     "<Fais d’abord une sauvegarde>.\n" +
-                    "Convertit une ville créée en Argent illimité en ville normale.\n" +
+                    "Convertit une ville créée en Argent illimité en jeu normale.\n" +
                     "Active le bouton <[Convertir sauvegarde Argent illimité]> si la ville chargée est de type <Argent illimité>.\n" +
                     "City Watchdog ne peut pas annuler ça.\n" +
                     "Si tes villes sont normales, ignore ceci." },
