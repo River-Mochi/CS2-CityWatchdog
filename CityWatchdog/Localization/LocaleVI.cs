@@ -153,14 +153,16 @@ namespace CityWatchdog
                     "Thêm/xóa **sao xanh dương** trong bảng Watchdog đã mở rộng.\n" +
                     "Bộ này gồm: Yêu thích, 5 biểu tượng, dọc, kéo được, cỡ 100 %, bảng tối, ẩn biểu tượng có số 0."
                   },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Chế độ Mini HUD" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Chế độ bảng nhỏ" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
-                    "Chọn các dòng thông báo Mini HUD dùng.\n" +
+                    "Chọn các dòng cảnh báo bảng nhỏ dùng.\n" +
                     "**Đang hoạt động cao nhất** hiện các số đếm cao nhất.\n" +
-                    "**Yêu thích** dùng các dòng có **Blue Star** trong bảng chính City Watchdog.\n" +
+                    "**Yêu thích** dùng các dòng có **sao xanh dương** trong bảng chính City Watchdog.\n" +
                     "Bạn có thể chọn bao nhiêu yêu thích cũng được,\n" +
-                    "nhưng Mini HUD chỉ hiện top 5 hoặc top 10 từ danh sách **Blue Star** đó."
+                    "nhưng bảng nhỏ chỉ hiện top 5 hoặc top 10 từ danh sách **sao xanh dương** đó."
                   },
+                
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Cảnh báo đang có nhiều nhất" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Yêu thích" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Số icon" },

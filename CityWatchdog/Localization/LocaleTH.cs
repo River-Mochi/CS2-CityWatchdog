@@ -154,14 +154,14 @@ namespace CityWatchdog
                     "ชุดนี้รวม: รายการโปรด, 5 ไอคอน, แนวตั้ง, ลากได้, ขนาด 100 %, แผงมืด, ซ่อนไอคอนที่นับได้ 0."
                   },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "โหมด Mini HUD" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "โหมดแผงย่อ" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
-                    "เลือกแถวแจ้งเตือนที่ Mini HUD จะใช้.\n" +
+                    "เลือกแถวแจ้งเตือนที่แผงย่อจะใช้.\n" +
                     "**ใช้งานสูงสุด** แสดงจำนวนปัจจุบันที่สูงที่สุด.\n" +
-                    "**รายการโปรด** ใช้แถวที่มี **Blue Star** ในแผงหลัก City Watchdog.\n" +
+                    "**รายการโปรด** ใช้แถวที่มี **ดาวสีน้ำเงิน** ในแผงหลัก City Watchdog.\n" +
                     "เลือกได้กี่รายการโปรดก็ได้,\n" +
-                    "แต่ Mini HUD จะแสดงแค่ 5 หรือ 10 อันดับแรกจากรายการ **Blue Star** นี้."
-                  },
+                    "แต่แผงย่อจะแสดงแค่ 5 หรือ 10 อันดับแรกจากรายการ **ดาวสีน้ำเงิน** นี้."
+                  },          
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "แจ้งเตือน active สูงสุด" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "รายการโปรด" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "จำนวนไอคอน" },

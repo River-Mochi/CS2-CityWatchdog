@@ -154,13 +154,13 @@ namespace CityWatchdog
                     "Zestaw zawiera: Ulubione, 5 ikon, pionowo, przeciągane, rozmiar 100 %, ciemny panel, ikony z liczbą 0 ukryte."
                   },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Tryb Mini HUD" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Tryb mini panelu" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
-                    "Wybierz, które wiersze ma używać Mini HUD.\n" +
+                    "Wybierz, które wiersze alertów ma używać mini panel.\n" +
                     "**Najaktywniejsze** pokazuje najwyższe bieżące liczniki.\n" +
-                    "**Ulubione** używa wierszy z **Blue Star** w głównym panelu City Watchdog.\n" +
+                    "**Ulubione** używa wierszy z **niebieską gwiazdką** w głównym panelu City Watchdog.\n" +
                     "Możesz wybrać tyle ulubionych, ile chcesz,\n" +
-                    "ale Mini HUD pokaże tylko top 5 lub top 10 z tej listy **Blue Star**."
+                    "ale mini panel pokaże tylko top 5 lub top 10 z tej listy **niebieskich gwiazdek**."
                   },
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Top aktywne alerty" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Ulubione" },

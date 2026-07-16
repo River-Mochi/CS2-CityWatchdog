@@ -153,14 +153,16 @@ namespace CityWatchdog
                     "Ajoute/retire des **étoiles bleues** dans le panneau Watchdog ouvert.\n" +
                     "Le set inclut : Favoris, 5 icônes, vertical, déplaçable, taille 100 %, panneau sombre, icônes à 0 masquées."
                   },
-                                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mode Mini HUD" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mode mini-affichage" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
-                    "Choisis les lignes utilisées par le Mini HUD.\n" +
+                    "Choisis les lignes d’alerte utilisées par le mini-affichage.\n" +
                     "**Top actives** montre les compteurs actuels les plus hauts.\n" +
-                    "**Favoris** utilise les lignes avec **Blue Star** dans le panneau principal.\n" +
+                    "**Favoris** utilise les lignes avec **étoile bleue** dans le panneau principal City Watchdog.\n" +
                     "Tu peux choisir autant de favoris que tu veux,\n" +
-                    "mais Mini HUD montre seulement le top 5 ou top 10 de cette liste **Blue Star**."
+                    "mais le mini-affichage montre seulement le top 5 ou top 10 de cette liste d’**étoiles bleues**."
                   },
+
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Top alertes actives" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Favoris" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Nombre d’icônes" },

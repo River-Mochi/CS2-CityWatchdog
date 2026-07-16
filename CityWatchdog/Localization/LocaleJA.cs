@@ -154,14 +154,15 @@ namespace CityWatchdog
                     "セット内容: お気に入り、5アイコン、縦表示、ドラッグ可、100%サイズ、暗いパネル、0件アイコンは非表示。"
                   },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "ミニHUDモード" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "ミニ表示モード" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
-                    "Mini HUD が使う通知行を選びます。\n" +
+                    "ミニ表示で使う通知行を選びます。\n" +
                     "**上位アクティブ** は現在件数が多いものを表示します。\n" +
-                    "**お気に入り** はメイン City Watchdog パネルの **Blue Star** 行を使います。\n" +
+                    "**お気に入り** はメイン City Watchdog パネルの **青い星** の行を使います。\n" +
                     "お気に入りは好きなだけ選べますが、\n" +
-                    "Mini HUD はその **Blue Star** リストから上位5件または10件だけ表示します。"
+                    "ミニ表示はその **青い星** リストから上位5件または10件だけ表示します。"
                   },
+
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "上位アクティブ" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "お気に入り" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "アイコン数" },

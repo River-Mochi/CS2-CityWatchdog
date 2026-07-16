@@ -153,14 +153,15 @@ namespace CityWatchdog
                     "Genişletilmiş Watchdog panelinde **mavi yıldız** ekle/kaldır.\n" +
                     "Set içeriği: Favoriler, 5 ikon, dikey, sürüklenebilir, %100 boyut, koyu panel, sayısı 0 olan ikonlar gizlenir."
                   },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini HUD modu" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini panel modu" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
-                    "Mini HUD hangi bildirim satırlarını kullansın seç.\n" +
+                    "Mini panelin hangi uyarı satırlarını kullanacağını seç.\n" +
                     "**En aktifler** en yüksek güncel sayıları gösterir.\n" +
-                    "**Favoriler** ana City Watchdog panelindeki **Blue Star** satırlarını kullanır.\n" +
+                    "**Favoriler** ana City Watchdog panelindeki **mavi yıldız** satırlarını kullanır.\n" +
                     "İstediğin kadar favori seçebilirsin,\n" +
-                    "ama Mini HUD bu **Blue Star** listesinden sadece ilk 5 veya 10 taneyi gösterir."
-                  },
+                    "ama mini panel bu **mavi yıldız** listesinden sadece ilk 5 veya 10 taneyi gösterir."
+                  },            
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "En aktif uyarılar" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Favoriler" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "Simge sayısı" },

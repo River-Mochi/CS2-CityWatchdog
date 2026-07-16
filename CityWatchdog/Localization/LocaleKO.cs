@@ -154,14 +154,15 @@ namespace CityWatchdog
                     "세트 포함: 즐겨찾기, 아이콘 5개, 세로, 드래그 가능, 100% 크기, 어두운 패널, 0개 아이콘 숨김."
                   },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "미니 HUD 모드" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "미니 표시창 모드" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
-                    "Mini HUD가 사용할 알림 줄을 선택합니다.\n" +
+                    "미니 표시창이 사용할 알림 줄을 선택합니다.\n" +
                     "**활성 상위**는 현재 개수가 가장 높은 알림을 보여줍니다.\n" +
-                    "**즐겨찾기**는 메인 City Watchdog 패널의 **Blue Star** 줄을 사용합니다.\n" +
+                    "**즐겨찾기**는 메인 City Watchdog 패널의 **파란 별** 줄을 사용합니다.\n" +
                     "즐겨찾기는 원하는 만큼 선택할 수 있지만,\n" +
-                    "Mini HUD는 그 **Blue Star** 목록에서 상위 5개 또는 10개만 보여줍니다."
+                    "미니 표시창은 그 **파란 별** 목록에서 상위 5개 또는 10개만 보여줍니다."
                   },
+
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "상위 활성 알림" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "즐겨찾기" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "아이콘 수" },

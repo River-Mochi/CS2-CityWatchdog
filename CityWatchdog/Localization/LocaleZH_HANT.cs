@@ -153,14 +153,16 @@ namespace CityWatchdog
                     "在展開的 Watchdog 面板中新增/移除 **藍色星星**。\n" +
                     "套裝包含：收藏、5 個圖示、直向、可拖曳、100% 大小、深色面板、隱藏數量為 0 的圖示。"
                   },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "迷你HUD模式" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "迷你面板模式" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
-                    "選擇 Mini HUD 使用哪些通知列。\n" +
+                    "選擇迷你面板使用哪些警報列。\n" +
                     "**最活躍**顯示目前數量最高的警報。\n" +
-                    "**收藏**使用 City Watchdog 主面板中標記為 **Blue Star** 的列。\n" +
+                    "**收藏**使用 City Watchdog 主面板中標記為 **藍色星星** 的列。\n" +
                     "你可以選擇任意數量的收藏，\n" +
-                    "但 Mini HUD 只顯示該 **Blue Star** 清單中的前 5 或前 10 個。"
+                    "但迷你面板只顯示該 **藍色星星** 清單中的前 5 或前 10 個。"
                   },
+
                 { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "最活跃警報" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "收藏" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudItemCount)), "圖示數量" },
