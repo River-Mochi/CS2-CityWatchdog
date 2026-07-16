@@ -68,6 +68,7 @@ namespace CityWatchdog
             (1 << 20) | // Crime scene
             (1 << 24) | // Low supplies
             (1 << 25) | // Out of fuel
+            (1 << 26) | // Oil pipe not connected
             (1 << 29) | // Pathfinding failed
             (1 << 31);  // No vehicles
 

@@ -97,9 +97,13 @@ let sessionSortMode = SORT_ASCENDING;
 // vanilla tooltip styling instead of hand-rolling divs. Pass it via children; its `text` prop is
 // deprecated in cs2/ui. Centralised here so no call site can drop a line break by forgetting to opt in;
 // non-string (already-JSX) tooltips pass through untouched.
+// className (not theme) is what tightens the line gap: vanilla spaces paragraphs with
+// `.paragraphs_nbD p+p { margin-top: var(--paragraphGap) }` — a wrapper rule matching `p` by element,
+// so overriding the `p` THEME class does nothing. className merges alongside vanilla's wrapper class,
+// letting us re-point --paragraphGap. See tooltipParagraphs in the scss.
 const renderTooltipLines = (tooltip: ReactNode): ReactNode =>
     typeof tooltip === "string" && tooltip.includes("\n")
-        ? <FormattedParagraphs>{tooltip}</FormattedParagraphs>
+        ? <FormattedParagraphs className={styles.tooltipParagraphs}>{tooltip}</FormattedParagraphs>
         : tooltip;
 
 // Panel-internal Tooltip wrapper. Three jobs:
@@ -136,6 +140,7 @@ const DraggablePanelFrame = ({
     titleBarTooltip,
     dragTitleTooltip,
     panelCollapseTooltip,
+    panelTitle,
     panelCollapsed,
     allSectionsExpanded,
     onPanelCollapsedToggle,
@@ -147,6 +152,8 @@ const DraggablePanelFrame = ({
     titleBarTooltip: ReactNode;
     dragTitleTooltip: ReactNode;
     panelCollapseTooltip: ReactNode;
+    // Swaps to the Active-view title so the header says what the body is actually showing.
+    panelTitle: string;
     panelCollapsed: boolean;
     // Only true when every section is showing its rows — the one state that gets the shorter
     // max-height. The "categories only" collapsed view and any partial-expand state are unaffected.
@@ -194,7 +201,7 @@ const DraggablePanelFrame = ({
                                     className={`${styles.headerModName} ${styles.headerModNameDragging}`}
                                     onMouseDown={handlePanelDragStart}
                                 >
-                                    CITY WATCHDOG
+                                    {panelTitle}
                                 </div>
                             ) : (
                                 <CwdTooltip tooltip={dragTitleTooltip}>
@@ -202,7 +209,7 @@ const DraggablePanelFrame = ({
                                         className={styles.headerModName}
                                         onMouseDown={handlePanelDragStart}
                                     >
-                                        CITY WATCHDOG
+                                        {panelTitle}
                                     </div>
                                 </CwdTooltip>
                             )}
@@ -395,6 +402,11 @@ const NotificationPanelContent = () => {
             "TitleBarTooltipPanelOn",
             "Expand rows; [✓] check to show, uncheck to hide alerts.\nClick this icon to hide City Watchdog panel tooltips.",
         );
+    // The mod name is deliberately not localized (it's the brand), but the Active-view title is — it
+    // describes what the body is showing, so the header stops lying when the list is filtered.
+    const panelTitle = sortMode === SORT_ACTIVE
+        ? localize("PanelTitleActiveAlerts", "ACTIVE ALERTS")
+        : "CITY WATCHDOG";
     const panelCollapseTooltip = localize("PanelCollapseToggle", "Expand/collapse whole panel.");
     const dragTitleTooltip = localize("DragTitleBar", "Drag title bar.");
 
@@ -472,9 +484,20 @@ const NotificationPanelContent = () => {
             titleBarTooltip={titleBarTooltip}
             dragTitleTooltip={dragTitleTooltip}
             panelCollapseTooltip={panelCollapseTooltip}
+            panelTitle={panelTitle}
             panelCollapsed={panelCollapsed}
             allSectionsExpanded={allSectionsExpanded}
-            onPanelCollapsedToggle={() => { setPanelCollapsed(!panelCollapsed); }}
+            onPanelCollapsedToggle={() => {
+                const collapsing = !panelCollapsed;
+                setPanelCollapsed(collapsing);
+                // Re-expanding is the player asking to see the list again, so re-snapshot: the Active
+                // view is deliberately frozen (see activeRows) and would otherwise still show whatever
+                // was true when it was first opened. Costs nothing — notificationCounts is already live
+                // in the binding, so this copies 63 ints and triggers no scan.
+                if (!collapsing && sortMode === SORT_ACTIVE && notificationCounts.length > 0) {
+                    setActiveSnapshot(notificationCounts.slice());
+                }
+            }}
             onCloseClick={() => { OnControlPanelBindingToggle(false); }}
         >
             {/* Left side: Info + Road Name + Road Arrows + District. Right side: sort + mass actions. */}

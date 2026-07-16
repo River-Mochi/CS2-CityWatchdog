@@ -13,6 +13,7 @@ namespace CityWatchdog.Systems
 {
     using System;
     using CityWatchdog.Alerts;
+    using Colossal.Serialization.Entities;
     using Colossal.UI.Binding;
     using CS2Shared.RiverMochi;
     using Game;
@@ -144,6 +145,37 @@ namespace CityWatchdog.Systems
         private BoolBinding routeGateBypassNotificationBinding = null!;
 
         private BoolBinding transportLineVehicleNotificationBinding = null!;
+
+        // Close the panel on every city load. The Active view is a deliberately frozen snapshot, so a
+        // panel left open across a load keeps showing the PREVIOUS city's alert list — 8 disconnected oil
+        // pipes that exist in the city you just left. Closing unmounts the React tree, which discards that
+        // snapshot; the player reopens and gets this city's data. Players don't expect a mod panel to
+        // survive a load anyway.
+        protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
+        {
+            base.OnGameLoadingComplete(purpose, mode);
+
+            if (!IsRealGameLoad(purpose, mode))
+            {
+                return;
+            }
+
+            panelVisibleBinding.Update(false);
+
+            // The mini HUD stays open across loads, so force a rescan instead of letting it sit on the old
+            // city's totals until the next tick. Clearing hasLastNotificationCounts stops the diff in
+            // OnUpdate from suppressing the push when the two cities' arrays happen to match.
+            hasLastNotificationCounts = false;
+            notificationCountUpdateState.ForceUpdate();
+            miniHudCountUpdateState.ForceUpdate();
+        }
+
+        // Ignore editor/main-menu transitions and save-outs; only a real city load should reset the panel.
+        private static bool IsRealGameLoad(Purpose purpose, GameMode mode)
+        {
+            return mode == GameMode.Game &&
+                (purpose == Purpose.NewGame || purpose == Purpose.LoadGame);
+        }
 
         protected override void OnCreate() {
             base.OnCreate();
