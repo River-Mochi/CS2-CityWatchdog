@@ -402,15 +402,16 @@ const NotificationPanelContent = () => {
             "TitleBarTooltipPanelOn",
             "Expand rows; [✓] check to show, uncheck to hide alerts.\nClick this icon to hide City Watchdog panel tooltips.",
         );
-    // The header names the current view rather than the mod: the title bar's CWD icon already carries
-    // the branding, so the text is free to say what the body is actually showing. Sort mode owns this
-    // slot — the expand/collapse state deliberately does NOT also write here, since two independent
-    // states competing for one line means one of them is always lying.
+    // The header speaks only when the view has been changed from its resting state. A→Z is the default,
+    // so there's nothing to report and the slot goes back to the mod name; the other two are deliberate
+    // deviations worth naming. Sort mode owns this slot alone — expand/collapse deliberately does NOT
+    // also write here, because two independent states sharing one line means one of them always lies.
+    // The mod name stays unlocalized (it's the brand); the view names are translated.
     const panelTitle = sortMode === SORT_ACTIVE
         ? localize("PanelTitleActiveAlerts", "ACTIVE ALERTS")
         : sortMode === SORT_DESCENDING
             ? localize("PanelTitleSortDescending", "SORT: Z → A")
-            : localize("PanelTitleSortAscending", "SORT: A → Z");
+            : "CITY WATCHDOG";
     const panelCollapseTooltip = localize("PanelCollapseToggle", "Expand/collapse whole panel.");
     const dragTitleTooltip = localize("DragTitleBar", "Drag title bar.");
 
