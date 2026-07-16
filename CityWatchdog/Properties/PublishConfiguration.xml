@@ -86,16 +86,18 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Quick Start button for Mini HUD now uses Favorites mode + Draggable choice.
+- Quick Start button for Mini HUD now uses Favorites mode + Draggable.
 - Main panel icons and blue stars no longer fade out when inactive (only the text fades).
 - Sort button now has a 3rd mode: Active-only list. Shows all active problems with count > 0 without scrolling the full list.
 - Active counts above 0 now have a blue box, still allows click + jump to problem on the map.
 - Fixed blue-star CSS stroke width and improved panel dragging.
-- Main panel position now persists between game sessions.
+- Main Panel now remembers to open to your last position and Sort mode after restarting the game.
+- Main panel closes when you switch and load cities.
 - Main panel sections now default to expanded and remember the player’s last state.
+- New Other section and optional Leveling building notification (default off) - spot buildings about to level up.
 - Updated all translations for new tooltips.
-- Improved performance with caching and added guards.
-- Recent this week: Mini HUD icon size, opacity slider, and Dark/Glass panel options.
+- Improved performance and guards - smarter caching.
+- Recent this week: Mini HUD sliders for icon size and opacity, and Dark/Glass panel dropdown choices.
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
     <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
