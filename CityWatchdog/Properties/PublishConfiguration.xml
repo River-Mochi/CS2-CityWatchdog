@@ -86,14 +86,15 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- Main panel Sort button now has 3rd mode for quick list view of only active problems.
-- Mini HUD recommended starter now uses Favorites mode + draggable placement.
-- Main panel icons +blue star no longer fade out when inactive.
-- Active counts now have a clear blue box.
-- Fixed blue-star CSS stroke-width and main panel dragging improved.
+- Quick Start button for Mini HUD now uses Favorites mode + Draggable choice.
+- Main panel icons and blue stars no longer fade out when inactive (only the text fades).
+- Sort button now has a 3rd mode: Active-only list. Shows all active problems with count > 0 without scrolling the full list.
+- Active counts above 0 now have a blue box, still allows click + jump to problem on the map.
+- Fixed blue-star CSS stroke width and improved panel dragging.
 - Main panel position now persists between game sessions.
-- Main panel sections now default to expanded and remember player last state
-- Updated translations for new tooltips.
+- Main panel sections now default to expanded and remember the player’s last state.
+- Updated all translations for new tooltips.
+- Improved performance with caching and added guards.
 - Recent this week: Mini HUD icon size, opacity slider, and Dark/Glass panel options.
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
