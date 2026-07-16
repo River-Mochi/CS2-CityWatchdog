@@ -147,12 +147,13 @@ namespace CityWatchdog
                     "同じアイコンを続けてクリックすると候補を巡回します。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "クリック: クイック開始" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "Mini HUD の<クイックスタート>を適用します:\n" +
-                    "**Blue Star** お気に入りのスターターセットを含みます。\n" +
-                    "展開した Watchdog パネルで **Blue Star** お気に入りを追加/削除します。\n" +
-                    "お気に入り、5個のアイコン、縦表示、ドラッグ可能、サイズ100%、ダークパネル。\n" +
-                    "件数0のアラートは非表示になります。\n"
+                    "ミニ表示の<クイックスタート>を適用します:\n" +
+                    "**青い星のお気に入り**の初期セットを含みます。\n" +
+                    "**青い星**付きの通知は、合計数が上位5または10以内ならミニ表示に出ます。\n" +
+                    "展開した Watchdog パネルで **青い星** を追加/削除できます。\n" +
+                    "セット内容: お気に入り、5アイコン、縦表示、ドラッグ可、100%サイズ、暗いパネル、0件アイコンは非表示。"
                   },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "ミニHUDモード" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
                     "Mini HUD が使う通知行を選びます。\n" +

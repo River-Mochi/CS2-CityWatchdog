@@ -190,9 +190,9 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
                     "Applies a <quick start> for Mini HUD:\n" +
                     "Includes a **starter set of Blue Star favorites**.\n" +
-                    "Add/remove **Blue Star** favorites in the expanded Watchdog panel.\n" +
-                    "Favorites, 5 icons, vertical, draggable, 100% size, dark panel.\n" +
-                    "Zero-count alerts are hidden.\n"
+                    "A notice alert with a **blue Star** qualifies it to appear in the Mini-Hud if it is one of the top 5 or 10 by total count.\n" +
+                    "Add/remove **Blue Stars** in the expanded Watchdog panel.\n" +
+                    "Set includes: Favorites, 5 icons, vertical, draggable, 100% size, dark panel, zero count icons are hidden."
                   },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini HUD Mode" },

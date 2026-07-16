@@ -147,12 +147,13 @@ namespace CityWatchdog
                     "Weiterklicken rotiert durch Treffer und zurück zum ersten." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Klick: Schnellstart" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "Wendet einen <Schnellstart> für Mini HUD an:\n" +
-                    "Enthält ein **Starter-Set mit Blue Star-Favoriten**.\n" +
-                    "**Blue Star**-Favoriten im erweiterten Watchdog-Panel hinzufügen/entfernen.\n" +
-                    "Favoriten, 5 Icons, vertikal, verschiebbar, 100%, dunkles Panel.\n" +
-                    "Warnungen mit 0 werden versteckt.\n"
+                    "Aplica un <inicio rápido> para Mini HUD:\n" +
+                    "Incluye un **set inicial de favoritos Blue Star**.\n" +
+                    "Una alerta con **Blue Star** puede aparecer en el Mini-HUD si está en el top 5 o 10 por conteo total.\n" +
+                    "Añade/quita **Blue Stars** en el panel Watchdog expandido.\n" +
+                    "El set incluye: Favoritos, 5 iconos, vertical, arrastrable, tamaño 100 %, panel oscuro, iconos con conteo 0 ocultos."
                   },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini-HUD-Modus" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
                     "Wähle, welche Warnzeilen das Mini HUD nutzt.\n" +

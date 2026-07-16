@@ -147,12 +147,13 @@ namespace CityWatchdog
                     "Clique de novo para alternar entre pontos e voltar ao primeiro." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Clique: início rápido" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "Aplica uma <configuração rápida> para o Mini HUD:\n" +
-                    "Inclui um **conjunto inicial de favoritos Blue Star**.\n" +
-                    "Adicione/remova favoritos **Blue Star** no painel Watchdog aberto.\n" +
-                    "Favoritos, 5 ícones, vertical, arrastável, tamanho 100%, painel escuro.\n" +
-                    "Alertas com contagem 0 ficam ocultos.\n"
+                    "Aplica um <início rápido> para o mini painel:\n" +
+                    "Inclui um **conjunto inicial de estrelas azuis**.\n" +
+                    "Um alerta com **estrela azul** pode aparecer no mini painel se estiver no top 5 ou 10 por contagem total.\n" +
+                    "Adicione/remova **estrelas azuis** no painel Watchdog expandido.\n" +
+                    "O conjunto inclui: Favoritos, 5 ícones, vertical, arrastável, tamanho 100 %, painel escuro, ícones com contagem 0 ocultos."
                   },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Modo Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
                     "Escolha quais linhas o Mini HUD usa.\n" +

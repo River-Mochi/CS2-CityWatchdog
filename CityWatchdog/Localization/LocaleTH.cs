@@ -147,12 +147,13 @@ namespace CityWatchdog
                     "คลิกซ้ำเพื่อวนจุดที่ตรงกัน แล้วกลับจุดแรก" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "คลิก: เริ่มเร็ว" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "ใช้<การตั้งค่าเริ่มต้นเร็ว>สำหรับ Mini HUD:\n" +
-                    "มี**ชุดเริ่มต้นรายการโปรด Blue Star**รวมอยู่ด้วย.\n" +
-                    "เพิ่ม/ลบรายการโปรด **Blue Star** ในแผง Watchdog ที่เปิดอยู่.\n" +
-                    "รายการโปรด, 5 ไอคอน, แนวตั้ง, ลากได้, ขนาด 100%, แผงสีเข้ม.\n" +
-                    "ซ่อนการแจ้งเตือนที่มีจำนวน 0.\n"
+                    "ใช้ <ตั้งค่าเริ่มเร็ว> สำหรับแผงย่อ:\n" +
+                    "มี **ชุดเริ่มต้นดาวสีน้ำเงิน**.\n" +
+                    "แจ้งเตือนที่มี **ดาวสีน้ำเงิน** จะมีสิทธิ์แสดงในแผงย่อ ถ้าอยู่ใน 5 หรือ 10 อันดับแรกตามจำนวนรวม.\n" +
+                    "เพิ่ม/ลบ **ดาวสีน้ำเงิน** ในแผง Watchdog แบบขยาย.\n" +
+                    "ชุดนี้รวม: รายการโปรด, 5 ไอคอน, แนวตั้ง, ลากได้, ขนาด 100 %, แผงมืด, ซ่อนไอคอนที่นับได้ 0."
                   },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "โหมด Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
                     "เลือกแถวแจ้งเตือนที่ Mini HUD จะใช้.\n" +

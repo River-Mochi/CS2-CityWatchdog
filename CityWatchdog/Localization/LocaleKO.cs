@@ -147,12 +147,13 @@ namespace CityWatchdog
                     "같은 아이콘을 계속 클릭하면 위치를 순환 후 처음으로 돌아갑니다." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "클릭: 빠른 시작" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "Mini HUD <빠른 시작>을 적용합니다:\n" +
-                    "**Blue Star** 즐겨찾기 시작 세트를 포함합니다.\n" +
-                    "펼친 Watchdog 패널에서 **Blue Star** 즐겨찾기를 추가/제거하세요.\n" +
-                    "즐겨찾기, 아이콘 5개, 세로, 드래그 가능, 100% 크기, 어두운 패널.\n" +
-                    "개수 0인 알림은 숨겨집니다.\n"
+                    "미니 표시창 <빠른 시작>을 적용합니다:\n" +
+                    "**파란 별 즐겨찾기** 시작 세트를 포함합니다.\n" +
+                    "**파란 별**이 붙은 알림은 전체 개수 기준 상위 5개 또는 10개 안에 들면 미니 표시창에 표시될 수 있습니다.\n" +
+                    "펼친 Watchdog 패널에서 **파란 별**을 추가/제거하세요.\n" +
+                    "세트 포함: 즐겨찾기, 아이콘 5개, 세로, 드래그 가능, 100% 크기, 어두운 패널, 0개 아이콘 숨김."
                   },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "미니 HUD 모드" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
                     "Mini HUD가 사용할 알림 줄을 선택합니다.\n" +

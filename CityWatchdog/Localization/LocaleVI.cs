@@ -147,11 +147,11 @@ namespace CityWatchdog
                     "Bấm tiếp cùng icon để xoay qua các điểm rồi về điểm đầu." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Bấm: khởi động nhanh" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "Áp dụng <khởi đầu nhanh> cho Mini HUD:\n" +
-                    "Bao gồm một **bộ yêu thích Blue Star khởi đầu**.\n" +
-                    "Thêm/xóa yêu thích **Blue Star** trong bảng Watchdog đang mở.\n" +
-                    "Yêu thích, 5 biểu tượng, dọc, kéo được, kích thước 100%, bảng tối.\n" +
-                    "Cảnh báo có số 0 sẽ bị ẩn.\n"
+                    "Áp dụng <thiết lập nhanh> cho bảng nhỏ:\n" +
+                    "Bao gồm **bộ yêu thích sao xanh dương** ban đầu.\n" +
+                    "Cảnh báo có **sao xanh dương** có thể hiện trong bảng nhỏ nếu nằm trong top 5 hoặc 10 theo tổng số lượng.\n" +
+                    "Thêm/xóa **sao xanh dương** trong bảng Watchdog đã mở rộng.\n" +
+                    "Bộ này gồm: Yêu thích, 5 biểu tượng, dọc, kéo được, cỡ 100 %, bảng tối, ẩn biểu tượng có số 0."
                   },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Chế độ Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),

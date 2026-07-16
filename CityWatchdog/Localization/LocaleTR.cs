@@ -147,11 +147,11 @@ namespace CityWatchdog
                     "Aynı simgeye basmaya devam ederek sorunlar arasında gezer." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Tıkla: hızlı başlangıç" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "Mini HUD için <hızlı başlangıç> uygular:\n" +
-                    "Başlangıç için bir **Blue Star favori seti** içerir.\n" +
-                    "Açık Watchdog panelinde **Blue Star** favorileri ekle/kaldır.\n" +
-                    "Favoriler, 5 simge, dikey, sürüklenebilir, %100 boyut, koyu panel.\n" +
-                    "Sayısı 0 olan uyarılar gizlenir.\n"
+                    "Mini panel için <hızlı başlangıç> uygular:\n" +
+                    "**Mavi yıldız favorileri** için başlangıç seti içerir.\n" +
+                    "**Mavi yıldız** olan bir uyarı, toplam sayıya göre ilk 5 veya 10 içindeyse mini panelde görünebilir.\n" +
+                    "Genişletilmiş Watchdog panelinde **mavi yıldız** ekle/kaldır.\n" +
+                    "Set içeriği: Favoriler, 5 ikon, dikey, sürüklenebilir, %100 boyut, koyu panel, sayısı 0 olan ikonlar gizlenir."
                   },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mini HUD modu" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),

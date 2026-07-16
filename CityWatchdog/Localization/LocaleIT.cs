@@ -147,12 +147,13 @@ namespace CityWatchdog
                     "Altri clic scorrono i risultati e tornano al primo." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Clic: avvio rapido" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "Applica un <avvio rapido> per Mini HUD:\n" +
-                    "Include un **set iniziale di preferiti Blue Star**.\n" +
-                    "Aggiungi/rimuovi preferiti **Blue Star** nel pannello Watchdog aperto.\n" +
-                    "Preferiti, 5 icone, verticale, trascinabile, dimensione 100%, pannello scuro.\n" +
-                    "Gli avvisi con 0 sono nascosti.\n"
+                    "Applica un <avvio rapido> per il mini pannello:\n" +
+                    "Include un **set iniziale di stelle blu**.\n" +
+                    "Un avviso con **stella blu** può apparire nel mini pannello se è nella top 5 o 10 per conteggio totale.\n" +
+                    "Aggiungi/rimuovi **stelle blu** nel pannello Watchdog espanso.\n" +
+                    "Il set include: Preferiti, 5 icone, verticale, trascinabile, dimensione 100 %, pannello scuro, icone a 0 nascoste."
                   },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Modalità Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
                     "Scegli quali righe usa il Mini HUD.\n" +

@@ -147,13 +147,13 @@ namespace CityWatchdog
                     "Recliquer fait tourner les résultats puis revient au premier." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Clic : démarrage rapide" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "Applique un <démarrage rapide> pour Mini HUD :\n" +
-                    "Inclut un **lot de favoris Blue Star**.\n" +
-                    "Ajoute/retire les favoris **Blue Star** dans le panneau Watchdog ouvert.\n" +
-                    "Favoris, 5 icônes, vertical, déplaçable, taille 100 %, panneau sombre.\n" +
-                    "Les alertes à 0 sont masquées.\n"
+                    "Applique un <démarrage rapide> pour le mini-affichage :\n" +
+                    "Inclut un **lot de départ d’étoiles bleues**.\n" +
+                    "Une alerte avec **étoile bleue** peut apparaître dans le mini-affichage si elle est dans le top 5 ou 10 par compteur total.\n" +
+                    "Ajoute/retire des **étoiles bleues** dans le panneau Watchdog ouvert.\n" +
+                    "Le set inclut : Favoris, 5 icônes, vertical, déplaçable, taille 100 %, panneau sombre, icônes à 0 masquées."
                   },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mode Mini HUD" },
+                                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "Mode Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
                     "Choisis les lignes utilisées par le Mini HUD.\n" +
                     "**Top actives** montre les compteurs actuels les plus hauts.\n" +

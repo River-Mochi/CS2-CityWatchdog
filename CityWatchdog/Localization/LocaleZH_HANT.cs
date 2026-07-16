@@ -147,11 +147,11 @@ namespace CityWatchdog
                     "繼續點擊同一圖示可輪換問題点，再回到第一个。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "點擊：快速開始" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
-                    "為 Mini HUD 套用<快速入門>:\n" +
-                    "包含一組**入門 Blue Star 收藏**。\n" +
-                    "在已展開的 Watchdog 面板中新增/移除 **Blue Star** 收藏。\n" +
-                    "收藏，5 個圖示，垂直，可拖曳，100% 大小，深色面板。\n" +
-                    "數量為 0 的警報會隱藏。\n"
+                    "套用迷你面板的<快速開始>：\n" +
+                    "包含一組 **藍色星星收藏**初始設定。\n" +
+                    "帶 **藍色星星** 的通知，如果總數量排進前 5 或前 10，就可以顯示在迷你面板中。\n" +
+                    "在展開的 Watchdog 面板中新增/移除 **藍色星星**。\n" +
+                    "套裝包含：收藏、5 個圖示、直向、可拖曳、100% 大小、深色面板、隱藏數量為 0 的圖示。"
                   },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MiniHudMode)), "迷你HUD模式" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudMode)),
