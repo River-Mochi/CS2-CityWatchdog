@@ -31,9 +31,9 @@
       </g>
 
       <!-- Four grey dots -->
-      <ellipse cx="33"   cy="53.5" rx="4.8" ry="5.9" fill="#38BDF8"/>
-      <ellipse cx="42.5" cy="41.1" rx="5.4" ry="6.6" fill="#38BDF8"/>
-      <ellipse cx="57"   cy="41.1" rx="5.4" ry="6.6" fill="#38BDF8"/>
+      <ellipse cx="33"   cy="53.5" rx="4.8" ry="5.9" fill="#EC4899"/>
+      <ellipse cx="42.5" cy="41.1" rx="5.4" ry="6.6" fill="#FACC15"/>
+      <ellipse cx="57"   cy="41.1" rx="5.4" ry="6.6" fill="#A3E635"/>
       <ellipse cx="66"   cy="53.5" rx="4.8" ry="5.9" fill="#38BDF8"/>
 
     </g>

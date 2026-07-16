@@ -12,18 +12,24 @@
 namespace CityWatchdog
 {
     using System;
+
     using CityWatchdog.Systems;
+
     using Colossal.IO.AssetDatabase;
+
     using CS2Shared.RiverMochi;
+
     using Game;
     using Game.Input;
     using Game.Modding;
     using Game.SceneFlow;
     using Game.Settings;
-    using Game.UI.Widgets;
-    using Unity.Entities;
-    using UnityEngine;
     using Game.UI;
+    using Game.UI.Widgets;
+
+    using Unity.Entities;
+
+    using UnityEngine;
 
     [FileLocation("ModsSettings/CityWatchdog/CityWatchdog")]
     [SettingsUITabOrder(Actions, MiniHudTab, MoneyTab, About)]
@@ -69,7 +75,7 @@ namespace CityWatchdog
 
         private const string AboutLinksRow = nameof(AboutLinksRow);
         private const string DebugButtonsRow = nameof(DebugButtonsRow);
-        private const string UsageIconPath = "coui://ui-mods/images/NotificationIcon_PawOrgCir.svg";
+        private const string UsageIconPath = "coui://ui-mods/images/NotificationIcon_PawRainbow.svg";
         private const string UrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
 

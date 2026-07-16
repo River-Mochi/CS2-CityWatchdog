@@ -30,11 +30,7 @@ namespace CityWatchdog
             IList<IDictionaryEntryError> errors,
             Dictionary<string, int> indexCounts)
         {
-            string title = Mod.ModName;
-            if (!string.IsNullOrEmpty(Mod.ModVersion))
-            {
-                title += " (" + Mod.ModVersion + ")";
-            }
+            string title = Mod.ModName + " (城市守望者)";
 
             Dictionary<string, string> entries = new Dictionary<string, string>
             {

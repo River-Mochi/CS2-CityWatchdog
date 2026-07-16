@@ -10,7 +10,7 @@ import { DescriptionTooltipMoneyViewExtension, StatFieldMoneyViewExtension, Tool
 import { VanillaComponentResolver } from "./utils/vanilla";
 // Side-effect import — webpack emits this SVG to coui://ui-mods/images/ so the C# Options UI
 // Settings can reference it by raw path string (no TS importer for it on the C# side).
-import "../images/NotificationIcon_PawOrgCir.svg";
+import "../images/NotificationIcon_PawRainbow.svg";
 
 const STAT_FIELD_MODULE = "game-ui/game/components/toolbar/components/stat-field/stat-field.tsx";
 // Vanilla export name. Keep this value aligned with the game module export.
