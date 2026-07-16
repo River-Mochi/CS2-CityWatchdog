@@ -7,12 +7,14 @@
 // ================= </copyright> ======================
 
 // File: src/Systems/GameSystemBaseExtension.cs
-// Purpose: Small local system base helper so CityWatchdog does not depend on Mbyron26 CS2Shared.
+// Purpose: Small local system base helper
 
 namespace CityWatchdog.Systems
 {
     using System;
+
     using Colossal.Serialization.Entities;
+
     using Game;
 
     public abstract partial class GameSystemBaseExtension : GameSystemBase
