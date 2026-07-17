@@ -114,7 +114,7 @@
   "ResourceConnectionWarningNotification": "Outra linha desligada",
   "Route": "ROTA",
   "RoutePathfindNotification": "Rota falhou",
-  "RouteGateBypassNotification": "Existe um desvio ao portão",
+  "RouteGateBypassNotification": "Existe um desvio ao portão de entrada do porto",
   "TransportLine": "LINHA DE TRANSPORTE",
   "TransportLineVehicleNotification": "Sem veículos"
 }
