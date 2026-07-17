@@ -101,7 +101,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "Desativar todas as dicas" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
                     "<Atalho> para ocultar/mostrar TODAS as dicas do jogo: edifícios, cidadãos, ferramentas e ícones inferiores.\n" +
-                    "<Popups de dinheiro/população do City Watchdog continuam ativos>; eles são do Vista de dinheiro.\n" +
+                    "<Os popups de dinheiro/população do City Watchdog continuam ativos>; são controlados pela opção Vista de Dinheiro acima.\n" +
                     "Idêntico ao ícone [i] no painel do City Watchdog." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Ocultar/mostrar dicas do jogo" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Tendências do saldo + população" },
@@ -144,7 +144,7 @@ namespace CityWatchdog
                     "Mostra um HUD pequeno com contagens importantes de alerta.\n" +
                     "Usa como tira rápida sem abrir o painel completo.\n" +
                     "Clicar em um ícone salta para um problema correspondente.\n" +
-                    "Clica de novo para alternar entre os pontos e voltar ao primeiro." },
+                    "Clica de novo para alternar entre os problemas até voltar ao primeiro." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Clique: início rápido" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
                     "Aplica um <início rápido> para o mini painel:\n" +
