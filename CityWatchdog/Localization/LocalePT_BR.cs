@@ -45,7 +45,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(Setting.MiniHudGroup), "Alertas Mini HUD" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Milestone), "INÍCIO DE CIDADE NOVA" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.Money), "Dinheiro" },
-                { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Converter save ilimitado" },
+                { m_Settings.GetOptionGroupLocaleID(Setting.SaveConversion), "Converter save de Dinheiro ilimitado" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutInfo), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutLinks), "" },
                 { m_Settings.GetOptionGroupLocaleID(Setting.AboutDiagnostics), "DIAGNÓSTICO" },
@@ -65,7 +65,7 @@ namespace CityWatchdog
                     "1. Ordenar alterna A→Z, Z→A, só ativos.\n" +
                     "2. <[0/62]> = ícones ON/total. Clique para expandir/recolher todas as linhas.\n" +
                     "3a. [Alternar tudo] desliga/liga todos os ícones de alerta na hora.\n" +
-                    "3b. Só oculta ícones; não corrige o problema da cidade.\n" +
+                    "3b. Só oculta ícones; não corrige esse problema da cidade.\n" +
                     "\n" +
                     "<Ajuda de dinheiro>\n" +
                     "1. Adicionar / subtrair dinheiro: use as teclas padrão <[ ou ]> para <Valor do atalho de dinheiro>.\n" +
@@ -73,7 +73,7 @@ namespace CityWatchdog
                     "3. Converter save de Dinheiro ilimitado é só para essas cidades e é <irreversível>.\n" +
                     "\n" +
                     "<Dicas do menu inferior>\n" +
-                    "Visão de dinheiro adiciona detalhes como tendência ao passar o mouse em dinheiro ou população.\n" +
+                    "Visão de dinheiro adiciona detalhes das tendências ao passar o mouse em dinheiro ou população.\n" +
                     "\n" +
                     "<Marco personalizado>\n" +
                     "Dinheiro-Marcos > INÍCIO DE CIDADE NOVA define dinheiro inicial ou marcos antes de carregar/iniciar." },
@@ -100,17 +100,17 @@ namespace CityWatchdog
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleRoadNamesAction), "Ocultar/mostrar nomes das ruas" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)), "Desativar todas as dicas" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ToggleAllTooltipsKeyboardBinding)),
-                    "<Atalho> para ocultar/mostrar TODAS as dicas do jogo: prédios, cidadãos, ferramentas e ícones inferiores.\n" +
-                    "<Popups de dinheiro/população do City Watchdog continuam ativos>; eles são do Visão de dinheiro.\n" +
+                    "<Atalho> para ocultar/mostrar TODAS as dicas do jogo: prédios, cidadãos, ferramentas e ícones do menu inferior.\n" +
+                    "<Os popups de dinheiro/população do City Watchdog continuam ativos>; eles são controlados pela opção Visão de dinheiro acima.\n" +
                     "Igual ao ícone [i] no painel City Watchdog." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Ocultar/mostrar dicas do jogo" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Tendências de dinheiro + população" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
                     "<Recomendado>\n" +
                     "Menu inferior: mostra tendências nas setas de <dinheiro e população>.\n" +
-                    "Recurso leve ao passar o mouse <só visual>;\n" +
+                    "Recurso leve ativado ao passar o mouse sobre os valores <só visual>;\n" +
                     "economiza tempo e pode ser melhor que abrir o painel de info do jogo." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyViewMode)), "Frequência do Visão de dinheiro" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyViewMode)), "Frequência da Visão de dinheiro" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyViewMode)),
                     "Escolha valores por hora ou por mês no menu inferior.\n" +
                     "Mensal usa renda menos despesas e projeção de população de 24 h." },
@@ -128,7 +128,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "Dados completos" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyTooltipFontScale)), "Tamanho do texto de dinheiro" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyTooltipFontScale)),
-                    "Ajusta o <tamanho do texto> dos números do Visão de dinheiro.\n" +
+                    "Ajusta o <tamanho do texto> dos números da Visão de dinheiro.\n" +
                     "Padrão do jogo = 100%\n" +
                     "<Padrão do mod = 120%>\n" +
                     "Passe o mouse sobre Dinheiro na parte inferior.\n" +
@@ -143,8 +143,8 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MiniHudEnabled)),
                     "Mostra um HUD pequeno com contagens importantes de alerta.\n" +
                     "Use como faixa rápida sem abrir o painel completo.\n" +
-                    "Clicar em um ícone pula para um problema correspondente.\n" +
-                    "Clique de novo para alternar entre pontos e voltar ao primeiro." },
+                    "Clicar em um ícone pula para o problema correspondente.\n" +
+                    "Clique de novo para alternar entre problemas até voltar ao primeiro." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)), "Clique: início rápido" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ApplyMiniHudRecommendedPreset)),
                     "Aplica um <início rápido> para o mini painel:\n" +
@@ -253,7 +253,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
                     "Para cidades iniciadas com <Dinheiro ilimitado>.\n" +
                     "Com a cidade carregada, converte o save para orçamento normal limitado.\n" +
-                    "Botão fica <desativado/cinza> salvo se a cidade for <Dinheiro ilimitado>\n" +
+                    "Botão fica <desativado/cinza> salvo se a cidade for de <Dinheiro ilimitado>\n" +
                     "e <Conversor de dinheiro ilimitado> estiver ON [ ✓ ].\n" +
                     "Faça backup e use por sua conta; City Watchdog não desfaz." },
                 { m_Settings.GetOptionWarningLocaleID(nameof(Setting.ConvertUnlimitedMoneySave)),
