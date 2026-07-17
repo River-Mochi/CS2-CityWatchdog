@@ -27,7 +27,7 @@
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
         <!-- Versioning: single source of truth -->
-        <Version>1.2.0</Version>
+        <Version>1.2.1</Version>
         <AssemblyVersion>$(Version).0</AssemblyVersion>
         <FileVersion>$(Version).0</FileVersion>
 

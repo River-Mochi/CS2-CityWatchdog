@@ -8,6 +8,11 @@
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
+### Watchdog organizes notification clutter, unlocks Money or Milestone, and puts control of Road names/arrows/districts/tooltips in your hands.
+
+- no gameplay impact like heavy UI mods that run every frame.
+- you'll wonder how you've been playing the game without it :)
+- don't forget the Like button, top right, so search works and more people know about the mod.
 
 #### Display toggles
 - [i] button - Instant hide/show **ALL** vanilla mouse-over tooltips.
@@ -28,7 +33,7 @@
 - Optional automatic money refiller. Manual is still recommended.
 - Convert saves from Unlimited Money type to normal Limited Money.
 
-Hotkeys
+**Hotkeys**
 - Shift+N = open/close panel (same as clicking on Top Left icon).
 - N    = toggle all notification icons on/off (same as clicking on Toggle All * star button)
 - [    = Add Money
@@ -81,13 +86,14 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/city-watchdog.1924169/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.2.0" />
+	<ModVersion Value="1.2.1" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.6.*" />
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
+- update French and Portuguese translations.
 - Quick Start button for Mini HUD now uses Favorites mode + Draggable.
 - Main panel icons and blue stars no longer fade out when inactive (only the text fades).
 - Sort button now has a 3rd mode: Active-only list. Shows all active problems with count > 0 without scrolling the full list.
