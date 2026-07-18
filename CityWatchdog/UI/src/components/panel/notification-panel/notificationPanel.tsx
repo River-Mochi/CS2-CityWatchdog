@@ -74,6 +74,12 @@ const modIconSrc = TitleBarIconPath;
 const sortArrowUpSrc = SortArrowUpPath;
 const sortArrowDownSrc = SortArrowDownPath;
 const sortActiveSrc = SortActivePath;
+const preloadedIconSources = [
+  ...allIconSources,
+  sortArrowUpSrc,
+  sortArrowDownSrc,
+  sortActiveSrc,
+];
 const roadNameOnSrc = RoadNameOnPath;
 const districtIconSrc = DistrictIconPath;
 const roadArrowIconSrc = RoadArrowIconPath;
@@ -621,7 +627,6 @@ const NotificationPanelContent = () => {
           localize={localize}
           notificationCounts={notificationCounts}
           favoriteIndexes={favoriteIndexes}
-          descending={sortMode === SORT_DESCENDING}
           showDivider={index > 0}
           onExpandedChange={(expanded) => onSectionExpandedChange(section, expanded)}
         />
@@ -633,7 +638,7 @@ const NotificationPanelContent = () => {
 const IconPreloader = () => {
   return (
     <div className={styles.iconPreloader} aria-hidden="true">
-      {allIconSources.map((source) => (
+      {preloadedIconSources.map((source) => (
         <img key={source} src={source} alt="" />
       ))}
     </div>
@@ -654,7 +659,6 @@ const NotificationSectionView = memo(({
   localize,
   notificationCounts,
   favoriteIndexes,
-  descending,
   showDivider,
   onExpandedChange,
 }: {
@@ -663,24 +667,24 @@ const NotificationSectionView = memo(({
   localize: Localize;
   notificationCounts: number[];
   favoriteIndexes: Set<number>;
-  descending: boolean;
   showDivider: boolean;
   onExpandedChange: (expanded: boolean) => void;
 }) => {
   const values = useSectionValues(section);
   const selectedCount = values.filter(Boolean).length;
 
-  // Sort the visible rows by their translated labels while retaining each item's original index.
-  // That index still addresses useSectionValues(), so sorting cannot attach a checkbox state to the
-  // wrong notification. A matching label keeps the stable data order as a deterministic tie-breaker.
+  // Rows inside a category always remain case-insensitive A→Z, even when the category list is
+  // Z→A. Retain each original index so sorting cannot attach state to the wrong notification.
   const orderedItems = useMemo(
     () => section.items
       .map((item, itemIndex) => ({ item, itemIndex }))
       .sort((a, b) => {
-        const result = localize(a.item.localeId).localeCompare(localize(b.item.localeId));
-        return (descending ? -result : result) || a.itemIndex - b.itemIndex;
+        const firstLabel = localize(a.item.localeId).toLocaleLowerCase();
+        const secondLabel = localize(b.item.localeId).toLocaleLowerCase();
+        const result = firstLabel.localeCompare(secondLabel);
+        return result || a.itemIndex - b.itemIndex;
       }),
-    [section, localize, descending],
+    [section, localize],
   );
 
   const summaryState =
@@ -723,5 +727,4 @@ const NotificationSectionView = memo(({
   prev.localize === next.localize &&
   prev.notificationCounts === next.notificationCounts &&
   prev.favoriteIndexes === next.favoriteIndexes &&
-  prev.descending === next.descending &&
   prev.showDivider === next.showDivider);
