@@ -119,7 +119,6 @@
     <ItemGroup>
         <None Include="$(ModPropsFile)" Link="Properties\Mod.props" />
         <None Include="$(ModTargetsFile)" Link="Properties\Mod.targets" />
-        <None Include="..\..\..\..\Downloads\notificationPanel.tsx" Link="UI\src\components\panel\notification-panel\notificationPanel.tsx" />
     </ItemGroup>
 
     <ItemGroup>
