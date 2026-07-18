@@ -93,6 +93,7 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
+- Added main panel opacity slider (see Options menu)
 - Improved: Sort A> Z and Z>A show all child rows in order A to Z for English.
 - Active alerts remains sorted from high count to low.
 - Fix all 3 Sort icons appear when cycled

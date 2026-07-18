@@ -80,6 +80,8 @@ namespace CityWatchdog
         private const string UrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
 
+        private int m_MainPanelOpacity = MainPanelOpacityDefault;
+
         public Setting(IMod mod) : base(mod)
         {
             SetDefaults();
@@ -138,7 +140,13 @@ namespace CityWatchdog
         [SettingsUISlider(min = 30, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(Actions, Notifications)]
         [SettingsUISetter(typeof(Setting), nameof(OnMainPanelOpacityChanged))]
-        public int MainPanelOpacity { get; set; }
+        public int MainPanelOpacity
+        {
+            get => m_MainPanelOpacity;
+            set => m_MainPanelOpacity = value <= 0
+                ? MainPanelOpacityDefault
+                : Math.Clamp(value, 30, 100);
+        }
 
         // Session-only now: the CWD title-bar tooltip toggle starts OFF (tooltips shown) each launch
         // so new mod tooltips are always seen first. Retained only so the binding name stays
