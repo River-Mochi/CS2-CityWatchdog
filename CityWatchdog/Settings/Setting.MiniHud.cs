@@ -322,10 +322,6 @@ namespace CityWatchdog
 
         public void NormalizeLoadedSettings()
         {
-            MainPanelOpacity = MainPanelOpacity <= 0
-                ? MainPanelOpacityDefault
-                : Math.Clamp(MainPanelOpacity, 30, 100);
-
             if (MiniHudPanelStyle != MiniHudPanelStyleDark && MiniHudPanelStyle != MiniHudPanelStyleGlass)
             {
                 MiniHudPanelStyle = MiniHudPanelStyleDark;
