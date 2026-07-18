@@ -104,6 +104,10 @@ namespace CityWatchdog
                     "<City Watchdog 돈/인구 팝업은 유지>; 머니 보기가 제어합니다.\n" +
                     "City Watchdog 패널의 [i] 아이콘과 같습니다." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "게임 호버 툴팁 숨김/표시" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MainPanelOpacity)), "메인 패널 불투명도" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MainPanelOpacity)),
+                    "기본 알림 패널 배경의 투명도를 조정합니다.\n" +
+                    "값이 낮을수록 투명하고, 높을수록 어둡고 불투명합니다." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "돈 추세 + 인구 툴팁" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
                     "<추천>\n" +

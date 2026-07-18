@@ -37,6 +37,7 @@ export const panelPositionX$ = bindValue<number>(mod.id, "PanelPositionX", 0);
 export const panelPositionY$ = bindValue<number>(mod.id, "PanelPositionY", 0);
 export const panelCollapsedSectionsMask$ = bindValue<number>(mod.id, "PanelCollapsedSectionsMask", 0);
 export const panelSortMode$ = bindValue<number>(mod.id, "PanelSortMode", 0);
+export const mainPanelOpacity$ = bindValue<number>(mod.id, "MainPanelOpacity", 70);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
 export const ElectricityBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBottleneckNotification");

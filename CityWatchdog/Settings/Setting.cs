@@ -72,6 +72,7 @@ namespace CityWatchdog
         // Coarse sanity bound (pixels) for the stored draggable panel position. The UI does the
         // real on-screen clamping against the live viewport; this only guards absurd saved values.
         internal const int PanelPositionLimit = 20000;
+        internal const int MainPanelOpacityDefault = 70;
 
         private const string AboutLinksRow = nameof(AboutLinksRow);
         private const string DebugButtonsRow = nameof(DebugButtonsRow);
@@ -133,6 +134,11 @@ namespace CityWatchdog
         [SettingsUIKeyboardBinding(BindingKeyboard.Backslash, ToggleAllTooltipsAction, shift: true)]
         [SettingsUISection(Actions, Notifications)]
         public ProxyBinding ToggleAllTooltipsKeyboardBinding { get; set; }
+
+        [SettingsUISlider(min = 30, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISetter(typeof(Setting), nameof(OnMainPanelOpacityChanged))]
+        public int MainPanelOpacity { get; set; }
 
         // Session-only now: the CWD title-bar tooltip toggle starts OFF (tooltips shown) each launch
         // so new mod tooltips are always seen first. Retained only so the binding name stays
@@ -279,6 +285,7 @@ namespace CityWatchdog
             HideDistrictNames = false;
             ShowRoadArrows = false;
             PanelButtonsOnlyStart = false;
+            MainPanelOpacity = MainPanelOpacityDefault;
             PanelPositionX = 0;
             PanelPositionY = 0;
             PanelCollapsedSectionsMask = 0;
@@ -290,6 +297,8 @@ namespace CityWatchdog
         }
 
         private void OnPanelButtonsOnlyStartChanged(bool value) => GetUISystem()?.UpdatePanelButtonsOnlyStartBinding(value);
+
+        private void OnMainPanelOpacityChanged(int value) => GetUISystem()?.UpdateMainPanelOpacityBinding(value);
 
         private static CityWatchdogUISystem? GetUISystem()
         {

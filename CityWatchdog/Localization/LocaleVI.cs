@@ -104,6 +104,10 @@ namespace CityWatchdog
                     "<Popup tiền/dân số của City Watchdog vẫn bật>; do Xem tiền điều khiển.\n" +
                     "Giống icon [i] trong bảng City Watchdog." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Ẩn/hiện tooltip hover của game" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MainPanelOpacity)), "Độ đục bảng chính" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MainPanelOpacity)),
+                    "Điều chỉnh độ trong suốt của nền bảng thông báo chính.\n" +
+                    "Giá trị thấp trong suốt hơn. Giá trị cao tối và đục hơn." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Xu hướng tiền + dân số" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
                     "<Nên bật>\n" +

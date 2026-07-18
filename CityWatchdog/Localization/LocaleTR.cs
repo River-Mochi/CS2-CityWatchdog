@@ -104,6 +104,10 @@ namespace CityWatchdog
                     "<City Watchdog para/nüfus popupları açık kalır>; onları Para Görünümü kontrol eder.\n" +
                     "City Watchdog panelindeki [i] simgesiyle aynı." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Oyun hover ipuçlarını gizle/göster" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MainPanelOpacity)), "Ana panel opaklığı" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MainPanelOpacity)),
+                    "Ana bildirim panelinin arka plan şeffaflığını ayarlar.\n" +
+                    "Düşük değerler daha şeffaf, yüksek değerler daha koyu ve opaktır." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Para trendleri + nüfus ipuçları" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
                     "<Önerilir>\n" +

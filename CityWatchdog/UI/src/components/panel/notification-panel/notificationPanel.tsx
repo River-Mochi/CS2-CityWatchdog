@@ -15,6 +15,7 @@ import {
   hideDistrictNames$,
   hideRoadNames$,
   miniHudFavorites$,
+  mainPanelOpacity$,
   notificationCounts$,
   panelButtonsOnlyStart$,
   panelPositionX$,
@@ -96,6 +97,11 @@ const SORT_DESCENDING = 1;
 const SORT_ACTIVE = 2;
 let sessionSortMode = SORT_ASCENDING;
 
+const getMainPanelOpacityClass = (value: number) => {
+  const normalized = Math.round(Math.min(100, Math.max(30, Number.isFinite(value) ? value : 70)) / 5) * 5;
+  return styles[`opacity${normalized}`] ?? styles.opacity70;
+};
+
 // Coherent collapses a literal "\n" inside a text node down to a space, so a multi-line tooltip only
 // renders as multiple lines if every line becomes its own element. FormattedParagraphs is vanilla's
 // own component for exactly this (game-ui/common/text/formatted-paragraphs.tsx): it splits on
@@ -168,6 +174,8 @@ const DraggablePanelFrame = ({
   onCloseClick: () => void;
   children: ReactNode;
 }) => {
+  const mainPanelOpacity = useValue(mainPanelOpacity$);
+  const mainPanelOpacityClass = getMainPanelOpacityClass(mainPanelOpacity);
   const {
     panelOffset,
     panelDragging,
@@ -182,7 +190,7 @@ const DraggablePanelFrame = ({
       style={{ transform: `translate(${panelOffset.x}px, ${panelOffset.y}px)` }}
     >
       <Panel
-        className={`${styles.panel} ${allSectionsExpanded ? styles.panelAllExpanded : ""}`}
+        className={`${styles.panel} ${mainPanelOpacityClass} ${allSectionsExpanded ? styles.panelAllExpanded : ""}`}
         header={
           <div className={styles.header}>
             <div className={styles.headerTitleArea}>

@@ -62,6 +62,7 @@ namespace CityWatchdog.Systems
         private ValueBinding<int> panelCollapsedSectionsMaskBinding = null!;
         private ValueBinding<int> panelSortModeBinding = null!;
         private ValueBinding<bool> panelButtonsOnlyStartBinding = null!;
+        private ValueBinding<int> mainPanelOpacityBinding = null!;
         private ValueBinding<bool>? moneyViewBinding;
         private ValueBinding<int>? moneyViewModeBinding;
         private ValueBinding<int>? moneyTooltipModeBinding;
@@ -223,6 +224,7 @@ namespace CityWatchdog.Systems
             panelCollapsedSectionsMaskBinding = AddValueBinding(nameof(Setting.PanelCollapsedSectionsMask), Setting.Instance.PanelCollapsedSectionsMask);
             panelSortModeBinding = AddValueBinding(nameof(Setting.PanelSortMode), Setting.Instance.PanelSortMode);
             panelButtonsOnlyStartBinding = AddValueBinding(nameof(Setting.PanelButtonsOnlyStart), Setting.Instance.PanelButtonsOnlyStart);
+            mainPanelOpacityBinding = AddValueBinding(nameof(Setting.MainPanelOpacity), Setting.Instance.MainPanelOpacity);
             moneyViewBinding = AddValueBinding(nameof(Setting.MoneyView), Setting.Instance.MoneyView);
             moneyViewModeBinding = AddValueBinding(nameof(Setting.MoneyViewMode), Setting.Instance.MoneyViewMode);
             moneyTooltipModeBinding = AddValueBinding(nameof(Setting.MoneyTooltipMode), Setting.Instance.MoneyTooltipMode);
@@ -1250,6 +1252,8 @@ namespace CityWatchdog.Systems
         }
 
         public void UpdatePanelButtonsOnlyStartBinding(bool value) => panelButtonsOnlyStartBinding?.Update(value);
+
+        public void UpdateMainPanelOpacityBinding(int value) => mainPanelOpacityBinding?.Update(value);
 
     }
 

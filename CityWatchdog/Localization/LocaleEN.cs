@@ -127,6 +127,11 @@ namespace CityWatchdog
                     "Same as clicking the [i] icon on the City Watchdog panel inside the city." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Hide/Show all game hover tooltips" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MainPanelOpacity)), "Main panel opacity" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MainPanelOpacity)),
+                    "Adjusts the main notification panel background transparency.\n" +
+                    "Lower values are more transparent. Higher values are darker and more solid." },
+
                 // --------------------------------------------------------------------
                 // Actions tab - In-City Info Viewer
                 // --------------------------------------------------------------------

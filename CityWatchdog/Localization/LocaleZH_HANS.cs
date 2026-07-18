@@ -104,6 +104,10 @@ namespace CityWatchdog
                     "<City Watchdog 的金钱/人口弹窗会保留>；由 金钱视图 控制。\n" +
                     "和 City Watchdog 面板内的 [i] 图标相同。" },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "隐藏/显示游戏悬停提示" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MainPanelOpacity)), "主面板不透明度" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MainPanelOpacity)),
+                    "调整主通知面板背景的透明度。\n" +
+                    "数值越低越透明；数值越高越深、越不透明。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "金钱趋势 + 人口提示" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
                     "<推荐开启>\n" +

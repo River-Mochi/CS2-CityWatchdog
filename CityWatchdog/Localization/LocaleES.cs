@@ -104,6 +104,10 @@ namespace CityWatchdog
                     "<Los popups de dinero/población de City Watchdog siguen activos>; los controla Vista de dinero.\n" +
                     "Igual que el icono [i] del panel City Watchdog." },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "Ocultar/mostrar tooltips del juego" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MainPanelOpacity)), "Opacidad del panel principal" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MainPanelOpacity)),
+                    "Ajusta la transparencia del fondo del panel principal de notificaciones.\n" +
+                    "Los valores bajos son más transparentes. Los valores altos son más oscuros y sólidos." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "Tendencias de dinero + población" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
                     "<Recomendado>\n" +

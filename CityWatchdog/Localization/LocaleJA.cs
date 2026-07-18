@@ -104,6 +104,10 @@ namespace CityWatchdog
                     "<City Watchdog の資金/人口ポップアップは残ります>; マネービュー が制御します。\n" +
                     "City Watchdog パネルの [i] アイコンと同じです。" },
                 { m_Settings.GetBindingKeyLocaleID(Setting.ToggleAllTooltipsAction), "ゲームのホバーツールチップ表示切替" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MainPanelOpacity)), "メインパネルの不透明度" },
+                { m_Settings.GetOptionDescLocaleID(nameof(Setting.MainPanelOpacity)),
+                    "通知メインパネルの背景の透明度を調整します。\n" +
+                    "値を下げると透明に、上げると暗く不透明になります。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(Setting.MoneyView)), "資金トレンド + 人口ツールチップ" },
                 { m_Settings.GetOptionDescLocaleID(nameof(Setting.MoneyView)),
                     "<おすすめ>\n" +
