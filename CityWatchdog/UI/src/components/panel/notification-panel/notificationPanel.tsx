@@ -74,6 +74,12 @@ const modIconSrc = TitleBarIconPath;
 const sortArrowUpSrc = SortArrowUpPath;
 const sortArrowDownSrc = SortArrowDownPath;
 const sortActiveSrc = SortActivePath;
+const preloadedIconSources = [
+    ...allIconSources,
+    sortArrowUpSrc,
+    sortArrowDownSrc,
+    sortActiveSrc,
+];
 const roadNameOnSrc = RoadNameOnPath;
 const districtIconSrc = DistrictIconPath;
 const roadArrowIconSrc = RoadArrowIconPath;
@@ -402,16 +408,11 @@ const NotificationPanelContent = () => {
             "TitleBarTooltipPanelOn",
             "Expand rows; [✓] check to show, uncheck to hide alerts.\nClick this icon to hide City Watchdog panel tooltips.",
         );
-    // The header speaks only when the view has been changed from its resting state. A→Z is the default,
-    // so there's nothing to report and the slot goes back to the mod name; the other two are deliberate
-    // deviations worth naming. Sort mode owns this slot alone — expand/collapse deliberately does NOT
-    // also write here, because two independent states sharing one line means one of them always lies.
-    // The mod name stays unlocalized (it's the brand); the view names are translated.
+    // Keep the brand title for both grouped sort directions. Only the flat Active view changes the
+    // title because it displays a fundamentally different list instead of the grouped sections.
     const panelTitle = sortMode === SORT_ACTIVE
         ? localize("PanelTitleActiveAlerts", "ACTIVE ALERTS")
-        : sortMode === SORT_DESCENDING
-            ? localize("PanelTitleSortDescending", "SORT: Z → A")
-            : "CITY WATCHDOG";
+        : "CITY WATCHDOG";
     const panelCollapseTooltip = localize("PanelCollapseToggle", "Expand/collapse whole panel.");
     const dragTitleTooltip = localize("DragTitleBar", "Drag title bar.");
 
@@ -626,6 +627,7 @@ const NotificationPanelContent = () => {
                         localize={localize}
                         notificationCounts={notificationCounts}
                         favoriteIndexes={favoriteIndexes}
+                        descending={sortMode === SORT_DESCENDING}
                         showDivider={index > 0}
                         onExpandedChange={(expanded) => onSectionExpandedChange(section, expanded)}
                     />
@@ -637,7 +639,7 @@ const NotificationPanelContent = () => {
 const IconPreloader = () => {
     return (
         <div className={styles.iconPreloader} aria-hidden="true">
-            {allIconSources.map((source) => (
+            {preloadedIconSources.map((source) => (
                 <img key={source} src={source} alt="" />
             ))}
         </div>
@@ -658,6 +660,7 @@ const NotificationSectionView = memo(({
     localize,
     notificationCounts,
     favoriteIndexes,
+    descending,
     showDivider,
     onExpandedChange,
 }: {
@@ -666,11 +669,25 @@ const NotificationSectionView = memo(({
     localize: Localize;
     notificationCounts: number[];
     favoriteIndexes: Set<number>;
+    descending: boolean;
     showDivider: boolean;
     onExpandedChange: (expanded: boolean) => void;
 }) => {
     const values = useSectionValues(section);
     const selectedCount = values.filter(Boolean).length;
+
+    // Sort the visible rows by their translated labels while retaining each item's original index.
+    // That index still addresses useSectionValues(), so sorting cannot attach a checkbox state to the
+    // wrong notification. A matching label keeps the stable data order as a deterministic tie-breaker.
+    const orderedItems = useMemo(
+        () => section.items
+            .map((item, itemIndex) => ({ item, itemIndex }))
+            .sort((a, b) => {
+                const result = localize(a.item.localeId).localeCompare(localize(b.item.localeId));
+                return (descending ? -result : result) || a.itemIndex - b.itemIndex;
+            }),
+        [section, localize, descending],
+    );
 
     const summaryState =
         selectedCount === section.items.length
@@ -689,7 +706,7 @@ const NotificationSectionView = memo(({
                 onExpandedChange={onExpandedChange}
                 summary={`${selectedCount}/${section.items.length}`}
                 summaryState={summaryState}
-                renderChildren={() => section.items.map((item, itemIndex) => {
+                renderChildren={() => orderedItems.map(({ item, itemIndex }) => {
                     const countIndex = notificationCountIndexes.get(item.localeId) ?? -1;
                     return (
                         <NotificationRow
@@ -712,4 +729,5 @@ const NotificationSectionView = memo(({
     prev.localize === next.localize &&
     prev.notificationCounts === next.notificationCounts &&
     prev.favoriteIndexes === next.favoriteIndexes &&
+    prev.descending === next.descending &&
     prev.showDivider === next.showDivider);

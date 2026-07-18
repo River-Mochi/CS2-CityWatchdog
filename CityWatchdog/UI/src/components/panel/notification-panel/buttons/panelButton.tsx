@@ -79,8 +79,17 @@ export const PanelButton = ({
     onClick,
     children,
 }: PanelButtonProps) => {
+    // Coherent Gameface can leave a reused image node blank after its src changes. Keying by source
+    // makes React mount a fresh node when a stateful button (currently Sort) switches icons.
     const icon = iconSrc !== undefined
-        ? <img src={iconSrc} className={classNames(styles.icon, iconKindClass(iconKind))} alt={iconAlt} />
+        ? (
+            <img
+                key={iconSrc}
+                src={iconSrc}
+                className={classNames(styles.icon, iconKindClass(iconKind))}
+                alt={iconAlt}
+            />
+        )
         : null;
 
     if (kind === "icon") {
