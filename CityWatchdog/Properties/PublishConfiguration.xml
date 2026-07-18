@@ -86,26 +86,19 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/city-watchdog.1924169/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.2.1" />
+	<ModVersion Value="1.2.2" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.6.*" />
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="" DisplayName="" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
-- update French and Portuguese translations.
-- Quick Start button for Mini HUD now uses Favorites mode + Draggable.
-- Main panel icons and blue stars no longer fade out when inactive (only the text fades).
-- Sort button now has a 3rd mode: Active-only list. Shows all active problems with count > 0 without scrolling the full list.
-- Active counts above 0 now have a blue box, still allows click + jump to problem on the map.
-- Fixed blue-star CSS stroke width and improved panel dragging.
+- Improved: Sort A> Z and Z>A show all child rows in order A to Z for English.
+- Active alerts remains sorted from high count to low.
+- Fix all 3 Sort icons appear when cycled
+- Sort button now has a 3rd mode: Active-only list: shows all active problems with count > 0 without scrolling the full list.
+- Active counts in main panel and above 0 now have a blue box, still allows click + jump to problem on the map.
 - Main Panel now remembers to open to your last position and Sort mode after restarting the game.
-- Main panel closes when you switch and load cities.
-- Main panel sections now default to expanded and remember the player’s last state.
-- New Other section and optional Leveling building notification (default off) - spot buildings about to level up.
-- Updated all translations for new tooltips.
-- Improved performance and guards - smarter caching.
-- Recent this week: Mini HUD sliders for icon size and opacity, and Dark/Glass panel dropdown choices.
 </ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
     <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
