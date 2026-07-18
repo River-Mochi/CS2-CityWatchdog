@@ -94,7 +94,7 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - Added main panel opacity slider (see Options menu)
-- Improved:  A> Z and Z>A  category modes keep child rows sorted A-Z for English.
+- Improved:  A> Z and Z>A  category modes keep child rows sorted A-Z.
 - Active alerts remains sorted from high count to low.
 - Fixed all 3 Sort icons when cycling modes.
 - Sort button now has a 3rd mode: Active-only list: shows all active problems with count > 0 without scrolling the full list.
