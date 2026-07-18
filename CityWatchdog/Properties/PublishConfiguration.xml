@@ -94,9 +94,9 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - Added main panel opacity slider (see Options menu)
-- Improved: Sort A> Z and Z>A show all child rows in order A to Z for English.
+- Improved:  A> Z and Z>A  category modes keep child rows sorted A-Z for English.
 - Active alerts remains sorted from high count to low.
-- Fix all 3 Sort icons appear when cycled
+- Fixed all 3 Sort icons when cycling modes.
 - Sort button now has a 3rd mode: Active-only list: shows all active problems with count > 0 without scrolling the full list.
 - Active counts in main panel and above 0 now have a blue box, still allows click + jump to problem on the map.
 - Main Panel now remembers to open to your last position and Sort mode after restarting the game.
