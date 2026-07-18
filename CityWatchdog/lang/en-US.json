@@ -10,7 +10,7 @@
   "DragTitleBar": "Drag title bar.",
   "SortModeAscending": "Sort A → Z \nClick to cycle",
   "SortModeDescending": "Sort Z → A \nClick to cycle",
-  "SortModeActiveFirst": "Sort Active-Only alerts. If Count = 1+\nClick to cycle",
+  "SortModeActiveFirst": "Sort Active-Only alerts. Count =/> 1+\nClick to cycle",
   "NoActiveAlerts": "No active notifications.",
   "BackToGrouped": "Back to grouped list (leave Active view).",
   "BuildingLevelingNotification": "Leveling building",
