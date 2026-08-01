@@ -7,33 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/RoadNameControlSystem.cs
-// Purpose: Toggle for vanilla aggregate road-name labels.
-//
-// Mechanism: unsubscribe AggregateRenderSystem.Render from RenderPipelineManager.beginContextRendering
-// whenever we want road names to NOT render, and let it stay subscribed when we want names or arrows
-// to render. Done via Delegate.CreateDelegate against the private Render method — no Harmony, no IL
-// patching.
-//
-// Why this and not the localization-dictionary overwrite approach we tried first:
-//   - AggregateMeshSystem bakes each road label's TEXT INTO A GPU TEXTURE the first time the label
-//     is created. The localization lookup runs only during that bake. Once a texture exists,
-//     blanking the dictionary entry has zero visible effect on the already-rendered label.
-//   - Existing labels would stay visible until something forced a rebake (a tool click, a hover,
-//     a road edit, a locale reload). Restoring originals on toggle-off had the inverse problem.
-//   - RoadNameRemover gets away with the localization-blank trick because Harmony patches catch
-//     TryGetValue inside every bake. Without Harmony we can't ride that pulse, so we operate at
-//     the only layer we can reach: the render pipeline subscription itself.
-//
-// Coordination with RoadArrowControlSystem:
-//   vanilla Render method draws arrows OR names mutually exclusively. When the active tool's
-//   requireNetArrows is true (either because the player has a road/upgrade/bulldoze tool active,
-//   or because RoadArrowControlSystem flipped DefaultToolSystem.requireNetArrows on), Render
-//   returns before the names loop. So in those states we MUST keep Render subscribed (otherwise
-//   we'd kill the arrows), and the names stay hidden as a free side-effect of the vanilla
-//   mutually-exclusive logic.
-//
-//   Unsubscribe only when HideRoadNames is on AND neither the arrows-force toggle
-//   nor a net tool is asking for arrows. In every other state, vanilla handles the right thing.
+// Purpose: Hides vanilla road names without blocking tool or forced road arrows.
 
 namespace CityWatchdog.Systems
 {
@@ -116,8 +90,8 @@ namespace CityWatchdog.Systems
             }
 
             // Re-evaluate every frame because two of the inputs (tool active, arrows-force setting)
-            // can change without us being notified. The subscribe/unsubscribe writes themselves are
-            // idempotent — they only run on transition.
+            // can change w/out us being notified. Subscribe/unsubscribe writes themselves are
+            // idempotent — only run on transition.
             ApplyToGame();
         }
 
@@ -146,6 +120,8 @@ namespace CityWatchdog.Systems
                 }
             }
 
+            // Road-name text is baked into GPU textures, so changing localization would not
+            // reliably hide existing labels. Control vanilla render callback instead.
             if (cachedRenderDelegate == null)
             {
                 cachedRenderDelegate = BuildRenderDelegate(cachedAggregateRenderSystem);
@@ -163,7 +139,7 @@ namespace CityWatchdog.Systems
             bool arrowsForced = setting?.ShowRoadArrows ?? false;
             bool toolWantsArrows = NetToolWantsArrows();
 
-            // Only suppress vanilla Render when road names are configured hidden AND nothing else needs
+            // Only suppress vanilla Render when road names are config hidden AND nothing else needs
             // the arrows path. When arrows are forced or a net tool is active, vanilla naturally
             // skips the names loop, so we let it run — gives us arrows + no names for free.
             bool shouldBeUnsubscribed = hideRequested && !arrowsForced && !toolWantsArrows;

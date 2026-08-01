@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/CityWatchdogUISystem.cs
-// Purpose: 
+// Purpose: Keeps CWD settings, game systems, React panel, and the mini HUD in sync.
 
 namespace CityWatchdog.Systems
 {
@@ -181,6 +181,8 @@ namespace CityWatchdog.Systems
                 (purpose == Purpose.NewGame || purpose == Purpose.LoadGame);
         }
 
+        // Binding IDs are the C# <-> React contract. Field names can change, but these IDs
+        // must stay aligned with UI.
         protected override void OnCreate() {
             base.OnCreate();
 

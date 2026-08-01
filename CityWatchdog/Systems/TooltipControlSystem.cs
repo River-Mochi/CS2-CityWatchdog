@@ -7,13 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/TooltipControlSystem.cs
-// Purpose: Tooltip on/off toggles.
-//   - "All vanilla tooltips" toggle drives Game.UI.Tooltip.TooltipUISystem.hideTooltips,
-//     which short-circuits the gameplay world/mouse tooltip pipeline at the source. State is
-//     in-session only: starts off each game launch, flipped via the Info button or Shift+\.
-//   - CwdSettings.DisableCwdTooltips is a UI-side React gate: the panel and the money/population
-//     extension skip rendering CWD tooltips when it's on. Persisted across sessions.
-//   - No Harmony: hideTooltips is a public setter on the vanilla system, so we just assign.
+// Purpose: Controls vanilla and CWD tooltip visibility, including the tooltip hotkey.
 
 namespace CityWatchdog.Systems
 {
@@ -104,6 +98,7 @@ namespace CityWatchdog.Systems
 
             if (cachedTooltipUISystem != null)
             {
+                // hideTooltips has a public setter, so no har. patching needed.
                 cachedTooltipUISystem.hideTooltips = value;
             }
         }

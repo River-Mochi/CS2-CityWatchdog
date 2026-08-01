@@ -7,24 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/RoadArrowControlSystem.cs
-// Purpose: Toggle to show 1-way road direction arrows even when no road tool is active.
-//
-// Approach: tell the vanilla DefaultToolSystem that it "wants" net arrows. When the player
-// has no specific tool selected, the active tool IS the default tool, and the vanilla
-// AggregateRenderSystem.Render method does:
-//
-//     if (m_ToolSystem.activeTool != null && m_ToolSystem.activeTool.requireNetArrows) {
-//         // draws arrows
-//     }
-//
-// CwdSettings requireNetArrows = true on the default tool makes the vanilla code render
-// arrows while no placement, road, zone, bulldozer, or other gameplay tool is active.
-// When one of those tools is active, the vanilla check looks at that tool's own flag,
-// so CWD does not interfere with tool behavior.
-//
-// `requireNetArrows` is a public property on ToolBaseSystem but its setter is internal,
-// so go through reflection, do no Harmony needed.
-//
+// Purpose: Forces vanilla one-way arrows while the default tool is active.
 
 namespace CityWatchdog.Systems
 {
@@ -177,6 +160,8 @@ namespace CityWatchdog.Systems
 
             if (arrowsRequiredProperty == null)
             {
+                // Property is public, but its setter is internal. Reflection keeps the hook
+                // limited to this one vanilla property w/out Harmony.
                 arrowsRequiredProperty = typeof(ToolBaseSystem).GetProperty(
                     ArrowsPropertyName,
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);

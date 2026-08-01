@@ -7,13 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/DistrictNameControlSystem.cs
-// Purpose: Toggle for vanilla district-name labels while preserving district overlays.
-//
-// AreaBufferSystem prepares area-name meshes during PreCulling. This system runs later in
-// SystemUpdatePhase.Rendering, consumes any pending district name mesh through the public
-// GetNameMesh API, then clears only the private district m_HasNameMesh flag. The subsequent
-// vanilla AreaRenderSystem callback skips district names while leaving boundaries, overlays,
-// other area labels, and render-callback ordering untouched.
+// Purpose: Hides vanilla district-name labels.
 
 namespace CityWatchdog.Systems
 {
@@ -44,6 +38,7 @@ namespace CityWatchdog.Systems
                 OnHideDistrictNamesToggle);
         }
 
+        // Restore vanilla's ready flag on unload so disabling CWD cannot leave names hidden.
         protected override void OnDestroy()
         {
             if (currentlyHiding)
@@ -116,6 +111,8 @@ namespace CityWatchdog.Systems
         {
             try
             {
+                // AreaBufferSystem prepared this mesh earlier in the frame. Read first, then
+                // clear only District ready flag so vanilla skips the label draw.
                 cachedAreaBufferSystem?.GetNameMesh(AreaType.District, out _, out _);
                 SetHasNameMesh(false);
             }
@@ -128,11 +125,14 @@ namespace CityWatchdog.Systems
             }
         }
 
+        // GetNameMesh is public, but the per-area ready flag is not. Reflection is limited
+        // to this one flag so boundaries and other area labels remain untouched.
         private void InitializeReflection()
         {
             try
             {
                 cachedAreaBufferSystem = World.GetExistingSystemManaged<AreaBufferSystem>();
+                // Rendering system may not exist yet during startup, so retry next update.
                 if (cachedAreaBufferSystem == null)
                 {
                     return;
