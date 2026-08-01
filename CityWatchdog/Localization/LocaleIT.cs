@@ -35,7 +35,7 @@ namespace CityWatchdog
                 { m_Settings.GetSettingsLocaleID(), title },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.Actions), "Azioni" },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.MiniHudTab), "Mini-HUD" },
-                { m_Settings.GetOptionTabLocaleID(CwdSettings.MoneyTab), "Soldi-Traguardi" },
+                { m_Settings.GetOptionTabLocaleID(CwdSettings.MoneyTab), "Nuova città" },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.About), "Info" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.AboutUsage), "USO" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.Notifications), "Notifiche" },
@@ -52,16 +52,16 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.UsageText)),
                     "A. Usa l’icona zampa in alto a sinistra, o Shift+N, per aprire il pannello.\n" +
                     "<Pulsanti vista>\n" +
-                    "1. Icona titolo: mostra/nasconde i tooltip di City Watchdog.\n" +
+                    "1. Icona titolo: mostra/nasconde i suggerimenti di City Watchdog.\n" +
                     "\n" +
-                    "2. Pulsante **[i]**: nasconde/mostra <TUTTI> i tooltip del gioco: edifici, cittadini, strumenti, barra in basso.\n" +
+                    "2. Pulsante **[i]**: nasconde/mostra <TUTTI> i suggerimenti del gioco: edifici, cittadini, strumenti e barra in basso.\n" +
                     "3. Pulsante strade: nasconde/mostra nomi strade. Scorciatoia: \\.\n" +
                     "4. Pulsante distretti: nasconde/mostra nomi distretti.\n" +
-                    "5. Pulsante frecce: forza frecce senso unico on/off (nasconde anche i nomi strade).\n" +
+                    "5. Pulsante frecce: attiva/disattiva le frecce a senso unico (nasconde anche i nomi strade).\n" +
                     "\n" +
                     "<Avvisi>\n" +
                     "1. Ordine: A→Z, Z→A, solo attivi.\n" +
-                    "2. <[0/62]> = icone ON/totale. Clic: espandi/comprimi tutte le righe.\n" +
+                    "2. <[0/62]> = icone ATTIVE/totale. Clic: espandi/comprimi tutte le righe.\n" +
                     "3a. [Attiva tutto] spegne/accende subito tutte le icone avviso.\n" +
                     "3b. Nasconde solo le icone; non risolve il problema della città.\n" +
                     "\n" +
@@ -70,11 +70,11 @@ namespace CityWatchdog
                     "2. Soldi automatici aggiunge soldi se la città scende sotto il limite scelto.\n" +
                     "3. Converti salvataggio Soldi illimitati vale solo per quelle città ed è <irreversibile>.\n" +
                     "\n" +
-                    "<Tooltip menu basso>\n" +
-                    "Vista soldi aggiunge dettagli come trend al passaggio su soldi o popolazione.\n" +
+                    "<Suggerimenti menu basso>\n" +
+                    "Vista soldi aggiunge dettagli come le tendenze al passaggio su soldi o popolazione.\n" +
                     "\n" +
                     "<Traguardo personalizzato>\n" +
-                    "Soldi-Traguardi > IMPOSTAZIONI NUOVA CITTÀ imposta soldi iniziali o traguardi prima di caricare/iniziare." },
+                    "Nuova città > IMPOSTAZIONI NUOVA CITTÀ imposta soldi iniziali o traguardi prima di caricare/iniziare." },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.UsageText)), "" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleNotificationsKeyboardBinding)), "Attiva/disattiva icone avviso" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleNotificationsKeyboardBinding)),
@@ -96,31 +96,31 @@ namespace CityWatchdog
                     "<Scorciatoia> per nascondere/mostrare i nomi strade del gioco base.\n" +
                     "Come l’icona nomi strade nel pannello City Watchdog." },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleRoadNamesAction), "Nascondi/mostra nomi strade" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleAllTooltipsKeyboardBinding)), "Disattiva tutti i tooltip" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleAllTooltipsKeyboardBinding)), "Disattiva tutti i suggerimenti" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleAllTooltipsKeyboardBinding)),
-                    "<Scorciatoia> per nascondere/mostrare TUTTI i tooltip del gioco: edifici, cittadini, strumenti e icone in basso.\n" +
-                    "<I popup soldi/popolazione di City Watchdog restano attivi>; li controlla Vista soldi.\n" +
+                    "<Scorciatoia> per nascondere/mostrare TUTTI i suggerimenti del gioco: edifici, cittadini, strumenti e icone in basso.\n" +
+                    "<Le finestre soldi/popolazione di City Watchdog restano attive>; le controlla Vista soldi.\n" +
                     "Come l’icona [i] nel pannello City Watchdog." },
-                { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Nascondi/mostra tooltip del gioco" },
+                { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Nascondi/mostra suggerimenti del gioco" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "Opacità pannello principale" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
                     "Regola la trasparenza dello sfondo del pannello principale delle notifiche.\n" +
                     "Valori bassi: più trasparente. Valori alti: più scuro e opaco." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyView)), "Trend soldi + popolazione" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyView)), "Tendenze soldi + popolazione" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyView)),
                     "<Consigliato>\n" +
-                    "Menu in basso: mostra trend sulle frecce <soldi e popolazione>.\n" +
+                    "Menu in basso: mostra le tendenze sulle frecce <soldi e popolazione>.\n" +
                     "Funzione leggera al passaggio <solo visuale>;\n" +
-                    "fa risparmiare tempo e può rendere meglio del pannello info del gioco." },
+                    "fa risparmiare tempo e può rendere meglio del pannello informazioni del gioco." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyViewMode)), "Frequenza Vista soldi" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyViewMode)),
                     "Scegli valori orari o mensili nella barra in basso.\n" +
-                    "Mensile usa entrate meno spese e proiezione popolazione 24 h." },
+                    "Mensile usa entrate meno spese e una proiezione popolazione di 24 h." },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeHourly"), "Orario (/h)" },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeMonthly"), "Mensile (/mo)" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyTooltipMode)), "Stile tooltip soldi" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyTooltipMode)), "Stile suggerimento soldi" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyTooltipMode)),
-                    "Scegli quanti dettagli mostra il tooltip soldi.\n" +
+                    "Scegli quanti dettagli mostra il suggerimento soldi.\n" +
                     "Compatto = predefinito alla prima installazione.\n" +
                     "<Mini> mostra solo 2 valori netti per /mo e /h.\n" +
                     "<Compatto> accorcia numeri grandi (15.21M invece di 15,212,318).\n" +
@@ -131,15 +131,15 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyTooltipFontScale)), "Dimensione testo soldi" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyTooltipFontScale)),
                     "Regola la <dimensione testo> dei numeri Vista soldi.\n" +
-                    "Default gioco = 100%\n" +
-                    "<Default mod = 120%>\n" +
+                    "Predefinito gioco = 100%\n" +
+                    "<Predefinito mod = 120%>\n" +
                     "Passa su Soldi in basso.\n" +
-                    "Per chi fatica a leggere tooltip piccoli." },
+                    "Per chi fatica a leggere suggerimenti piccoli." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.PopulationTooltipFontScale)), "Dimensione testo popolazione" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.PopulationTooltipFontScale)),
                     "Regola la <dimensione testo> dei numeri popolazione.\n" +
-                    "Default gioco = 100%\n" +
-                    "<Default mod = 120%>\n" +
+                    "Predefinito gioco = 100%\n" +
+                    "<Predefinito mod = 120%>\n" +
                     "Passa su Popolazione in basso." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudEnabled)), "Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudEnabled)),
@@ -150,29 +150,29 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "Clic: avvio rapido" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
                     "Applica un <avvio rapido> per il mini pannello:\n" +
-                    "Include un **set iniziale di stelle blu**.\n" +
-                    "Un avviso con **stella blu** può apparire nel mini pannello se è nella top 5 o 10 per conteggio totale.\n" +
+                    "Include una **selezione iniziale di stelle blu**.\n" +
+                    "Un avviso con **stella blu** può apparire nel mini pannello se è tra i 5 o 10 con il conteggio totale più alto.\n" +
                     "Aggiungi/rimuovi **stelle blu** nel pannello Watchdog espanso.\n" +
-                    "Il set include: Preferiti, 5 icone, verticale, trascinabile, dimensione 100 %, pannello scuro, icone a 0 nascoste."
+                    "La preimpostazione include: Preferiti, 5 icone, verticale, trascinabile, dimensione 100 %, pannello scuro e icone a 0 nascoste."
                   },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "Modalità mini pannello" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),
                     "Scegli quali righe di avviso usa il mini pannello.\n" +
-                    "**Top attivi** mostra i conteggi attuali più alti.\n" +
+                    "**Più attivi** mostra i conteggi attuali più alti.\n" +
                     "**Preferiti** usa le righe con **stella blu** nel pannello principale City Watchdog.\n" +
                     "Puoi scegliere tutti i preferiti che vuoi,\n" +
-                    "ma il mini pannello mostra solo top 5 o top 10 da quella lista di **stelle blu**."
+                    "ma il mini pannello mostra solo i 5 o 10 conteggi più alti di quella lista di **stelle blu**."
                   },
 
-                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Top avvisi attivi" },
+                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Avvisi più attivi" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Preferiti" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudItemCount)), "Numero icone" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudItemCount)), "Scegli quante icone può mostrare il Mini HUD." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudScale)), "Dimensione icone" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudScale)),
                     "Scala icone e numeri del Mini HUD.\n" +
-                    "90% = compatto. 100% = default. Fino a 130% per vedere meglio." },
+                    "90% = compatto. 100% = predefinito. Fino a 130% per vedere meglio." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudOrientation)), "Orientamento" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudOrientation)), "Scegli riga o colonna." },
                 { m_Settings.GetOptionLocaleID("MiniHudOrientationHorizontal"), "Orizzontale" },
@@ -201,10 +201,10 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InitialMoney)), "Soldi iniziali" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InitialMoney)),
                     "Imposta il saldo iniziale per una nuova città con <soldi limitati> o la prima città caricata,\n" +
-                    "poi torna al default del gioco.\n" +
+                    "poi torna al valore predefinito del gioco.\n" +
                     "Disattivato se una città è già caricata.\n" +
                     "Imposta prima di caricare/iniziare. Poi usa <Importo scorciatoia soldi> o <Soldi automatici>." },
-                { m_Settings.GetOptionLocaleID("GameDefault"), "Default gioco" },
+                { m_Settings.GetOptionLocaleID("GameDefault"), "Predefinito gioco" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.CustomMilestone)), "Selettore traguardo" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.CustomMilestone)),
                     "Attiva <prima di caricare o iniziare> per sbloccare un traguardo al caricamento.\n" +
@@ -220,7 +220,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ManualMoneyAmount)), "Importo scorciatoia soldi" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ManualMoneyAmount)),
                     "Usa questo importo con le scorciatoie Aggiungi e Sottrai soldi.\n" +
-                    "<Default mod = 40.000>\n" +
+                    "<Predefinito mod = 40.000>\n" +
                     "Non fa nulla senza usare la scorciatoia in città.\n" +
                     "Per automatizzare, attiva Soldi automatici." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.AddMoneyKeyboardBinding)), "Aggiungi soldi" },
@@ -234,7 +234,7 @@ namespace CityWatchdog
                     "Se attivo [ ✓ ], City Watchdog controlla il saldo città.\n" +
                     "- Se il saldo è <sotto la soglia>,\n" +
                     "  aggiunge l’importo scelto.\n" +
-                    "- Meglio usare soldi manuali con hotkey (<[> o <]>) quando serve\n" +
+                    "- Meglio usare soldi manuali con la scorciatoia (<[> o <]>) quando serve\n" +
                     "  invece dell’automatico; l’opzione c’è comunque." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.AutomaticAddMoneyThreshold)), "Soglia soldi automatici" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.AutomaticAddMoneyThreshold)),
@@ -246,7 +246,7 @@ namespace CityWatchdog
                     "Scegli abbastanza per superare la soglia." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ConfirmUnlimitedMoneySaveConversion)), "Convertitore soldi illimitati" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ConfirmUnlimitedMoneySaveConversion)),
-                    "<Fai PRIMA un backup della città>.\n" +
+                    "<Fai PRIMA una copia di sicurezza della città>.\n" +
                     "Converte una città avviata con Soldi illimitati in città normale.\n" +
                     "Attivandolo sblocchi <[Converti salvataggio Soldi illimitati]> se la città caricata è <Soldi illimitati>.\n" +
                     "City Watchdog non può annullare la conversione.\n" +
@@ -256,11 +256,11 @@ namespace CityWatchdog
                     "Per città iniziate con <Soldi illimitati>.\n" +
                     "Con la città caricata, converte il salvataggio a budget normale limitato.\n" +
                     "Il pulsante è <disabilitato/grigio> salvo se la città è <Soldi illimitati>\n" +
-                    "e <Convertitore soldi illimitati> è ON [ ✓ ].\n" +
-                    "Fai un backup; a tuo rischio. City Watchdog non annulla." },
+                    "e <Convertitore soldi illimitati> è ATTIVO [ ✓ ].\n" +
+                    "Fai una copia di sicurezza; usalo a tuo rischio. City Watchdog non annulla." },
                 { m_Settings.GetOptionWarningLocaleID(nameof(CwdSettings.ConvertUnlimitedMoneySave)),
                     "Convertire questa città da Soldi illimitati a soldi limitati normali?\n" +
-                    "Salva PRIMA un backup; City Watchdog non può annullare.\n" +
+                    "Salva PRIMA una copia di sicurezza; City Watchdog non può annullare.\n" +
                     "Sei sicuro?" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.NameText)), "Nome mod" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.NameText)), "Nome visualizzato del mod." },
@@ -268,12 +268,12 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.VersionText)), "Versione attuale del mod." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.OpenParadox)), "Apre la pagina Paradox Mods dell’autore." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)), "Report debug nel log" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)), "Rapporto diagnostico" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)),
                     "<Non serve per giocare normalmente.>\n" +
-                    "Per test e patch: scrive un report in <Logs/CityWatchdog.log>\n" +
-                    "confrontando avvisi live del gioco e icone gestite da Watchdog." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenLog)), "Apri log" },
+                    "Per i test e dopo gli aggiornamenti del gioco: scrive un rapporto in <Logs/CityWatchdog.log>\n" +
+                    "confrontando gli avvisi attuali del gioco con le icone gestite da Watchdog." },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenLog)), "Apri registro" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.OpenLog)),
                     "Apre </Logs/CityWatchdog.log> se esiste.\n" +
                     "Se manca, apre la cartella Logs/." },
