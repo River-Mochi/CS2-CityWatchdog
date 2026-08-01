@@ -22,10 +22,10 @@ namespace CityWatchdog.Systems
         // so renaming or removing the underlying C# property must NOT cascade into the JS bundle.
         private const string DisableAllTooltipsBindingName = "DisableAllTooltips";
 
-        private BoolBinding disableAllTooltipsBinding = null!;
-        private BoolBinding disableCwdTooltipsBinding = null!;
-        private TooltipUISystem? cachedTooltipUISystem;
-        private ProxyAction? toggleAllTooltipsAction;
+        private BoolBinding m_DisableAllTooltipsBinding = null!;
+        private BoolBinding m_DisableCwdTooltipsBinding = null!;
+        private TooltipUISystem? m_CachedTooltipUISystem;
+        private ProxyAction? m_ToggleAllTooltipsAction;
 
         protected override void OnCreate()
         {
@@ -33,73 +33,73 @@ namespace CityWatchdog.Systems
 
             // Both tooltip toggles are in-session only: they start OFF (tooltips shown) every game
             // launch, so new mod tooltips are always visible first; the player must re-toggle to hide.
-            disableAllTooltipsBinding = AddBoolBindingAndTriggerBinding(
+            m_DisableAllTooltipsBinding = AddBoolBindingAndTriggerBinding(
                 DisableAllTooltipsBindingName,
                 false,
                 OnDisableAllTooltipsToggle);
 
-            disableCwdTooltipsBinding = AddBoolBindingAndTriggerBinding(
+            m_DisableCwdTooltipsBinding = AddBoolBindingAndTriggerBinding(
                 nameof(CwdSettings.DisableCwdTooltips),
                 false,
                 OnDisableCwdTooltipsToggle);
 
-            toggleAllTooltipsAction = EnableHotkey(CwdSettings.ToggleAllTooltipsAction);
+            m_ToggleAllTooltipsAction = EnableHotkey(CwdSettings.ToggleAllTooltipsAction);
         }
 
         protected override void OnUpdate()
         {
-            if (toggleAllTooltipsAction == null)
+            if (m_ToggleAllTooltipsAction == null)
             {
-                toggleAllTooltipsAction = EnableHotkey(CwdSettings.ToggleAllTooltipsAction);
+                m_ToggleAllTooltipsAction = EnableHotkey(CwdSettings.ToggleAllTooltipsAction);
             }
 
-            if (toggleAllTooltipsAction?.WasReleasedThisFrame() == true)
+            if (m_ToggleAllTooltipsAction?.WasReleasedThisFrame() == true)
             {
-                OnDisableAllTooltipsToggle(!disableAllTooltipsBinding.Value);
+                OnDisableAllTooltipsToggle(!m_DisableAllTooltipsBinding.Value);
             }
 
             // Cheap idempotent re-apply: the vanilla TooltipUISystem is only created
             // in Game/Editor mode, so we cannot grab it during main menu. Keep the
             // game's hideTooltips field aligned with our binding once it appears.
-            if (cachedTooltipUISystem == null)
+            if (m_CachedTooltipUISystem == null)
             {
-                cachedTooltipUISystem = World.GetExistingSystemManaged<TooltipUISystem>();
-                if (cachedTooltipUISystem == null)
+                m_CachedTooltipUISystem = World.GetExistingSystemManaged<TooltipUISystem>();
+                if (m_CachedTooltipUISystem == null)
                 {
                     return;
                 }
             }
 
-            bool desired = disableAllTooltipsBinding.Value;
-            if (cachedTooltipUISystem.hideTooltips != desired)
+            bool desired = m_DisableAllTooltipsBinding.Value;
+            if (m_CachedTooltipUISystem.hideTooltips != desired)
             {
-                cachedTooltipUISystem.hideTooltips = desired;
+                m_CachedTooltipUISystem.hideTooltips = desired;
             }
         }
 
         private void OnDisableAllTooltipsToggle(bool value)
         {
-            disableAllTooltipsBinding.Update(value);
+            m_DisableAllTooltipsBinding.Update(value);
             ApplyToGame(value);
         }
 
         private void OnDisableCwdTooltipsToggle(bool value)
         {
             // In-session only: update the binding but do not persist, so tooltips return next launch.
-            disableCwdTooltipsBinding.Update(value);
+            m_DisableCwdTooltipsBinding.Update(value);
         }
 
         private void ApplyToGame(bool value)
         {
-            if (cachedTooltipUISystem == null)
+            if (m_CachedTooltipUISystem == null)
             {
-                cachedTooltipUISystem = World.GetExistingSystemManaged<TooltipUISystem>();
+                m_CachedTooltipUISystem = World.GetExistingSystemManaged<TooltipUISystem>();
             }
 
-            if (cachedTooltipUISystem != null)
+            if (m_CachedTooltipUISystem != null)
             {
                 // hideTooltips has a public setter, so no har. patching needed.
-                cachedTooltipUISystem.hideTooltips = value;
+                m_CachedTooltipUISystem.hideTooltips = value;
             }
         }
 
