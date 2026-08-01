@@ -34,7 +34,7 @@ namespace CityWatchdog
                 { m_Settings.GetSettingsLocaleID(), title },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.Actions), "การทำงาน" },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.MiniHudTab), "Mini-HUD" },
-                { m_Settings.GetOptionTabLocaleID(CwdSettings.MoneyTab), "เงิน-ไมล์สโตน" },
+                { m_Settings.GetOptionTabLocaleID(CwdSettings.MoneyTab), "เริ่มเมือง" },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.About), "เกี่ยวกับ" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.AboutUsage), "วิธีใช้" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.Notifications), "การแจ้งเตือน" },
@@ -51,16 +51,16 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.UsageText)),
                     "A. ใช้ไอคอนอุ้งเท้ามุมซ้ายบนของเมือง หรือกด Shift+N เพื่อเปิดแผงหลัก\n" +
                     "<ปุ่มแสดงผล>\n" +
-                    "1. ไอคอนแถบชื่อ: แสดง/ซ่อน tooltip ของ City Watchdog\n" +
+                    "1. ไอคอนแถบชื่อ: แสดง/ซ่อนคำแนะนำของ City Watchdog\n" +
                     "\n" +
-                    "2. ปุ่ม **[i]**: ซ่อน/แสดง tooltip ของเกม <ทั้งหมด> เช่น อาคาร ชาวเมือง เครื่องมือ ไอคอนเมนูล่าง\n" +
+                    "2. ปุ่ม **[i]**: ซ่อน/แสดงคำแนะนำของเกม <ทั้งหมด> เช่น อาคาร ชาวเมือง เครื่องมือ และไอคอนเมนูล่าง\n" +
                     "3. ปุ่มถนน: ซ่อน/แสดงชื่อถนน ปุ่มลัด: \\.\n" +
                     "4. ปุ่มเขต: ซ่อน/แสดงชื่อเขต\n" +
-                    "5. ปุ่มลูกศรถนน: บังคับลูกศรทางเดียว ON/OFF (ซ่อนชื่อถนนด้วย)\n" +
+                    "5. ปุ่มลูกศรถนน: แสดง/ซ่อนลูกศรทางเดียว (ซ่อนชื่อถนนด้วย)\n" +
                     "\n" +
                     "<แจ้งเตือน>\n" +
-                    "1. ปุ่มเรียงลำดับ: A→Z, Z→A, เฉพาะที่ active\n" +
-                    "2. <[0/62]> = ไอคอน ON/ทั้งหมด คลิกเพื่อขยาย/ย่อทุกแถว\n" +
+                    "1. ปุ่มเรียงลำดับ: A→Z, Z→A, เฉพาะที่กำลังเกิด\n" +
+                    "2. <[0/62]> = ไอคอนที่แสดง/ทั้งหมด คลิกเพื่อขยาย/ย่อทุกแถว\n" +
                     "3a. [สลับทั้งหมด] ปิด/เปิดไอคอนแจ้งเตือนทั้งหมดทันที\n" +
                     "3b. ซ่อนแค่ไอคอน ไม่ได้แก้ปัญหาในเมือง\n" +
                     "\n" +
@@ -69,11 +69,11 @@ namespace CityWatchdog
                     "2. เงินอัตโนมัติจะเติมเงินเมื่อเงินเมืองต่ำกว่าขีดที่ตั้งไว้\n" +
                     "3. แปลงเซฟเงินไม่จำกัดใช้เฉพาะเมืองที่เริ่มด้วยเงินไม่จำกัด และ <ย้อนกลับไม่ได้>\n" +
                     "\n" +
-                    "<tooltip เมนูล่าง>\n" +
-                    "มุมมองเงิน เพิ่มรายละเอียด เช่น แนวโน้ม เมื่อชี้เมาส์บนเงินหรือประชากร\n" +
+                    "<คำแนะนำเมนูล่าง>\n" +
+                    "มุมมองเงินเพิ่มรายละเอียด เช่น แนวโน้ม เมื่อชี้เมาส์บนเงินหรือประชากร\n" +
                     "\n" +
                     "<ไมล์สโตนกำหนดเอง>\n" +
-                    "เงิน-ไมล์สโตน > ตั้งค่าเมืองใหม่ ใช้ตั้งเงินเริ่มต้นหรือไมล์สโตนก่อนโหลด/เริ่มเมือง" },
+                    "เริ่มเมือง > ตั้งค่าเมืองใหม่ ใช้ตั้งเงินเริ่มต้นหรือไมล์สโตนก่อนโหลด/เริ่มเมือง" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.UsageText)), "" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleNotificationsKeyboardBinding)), "สลับไอคอนแจ้งเตือน" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleNotificationsKeyboardBinding)),
@@ -95,50 +95,50 @@ namespace CityWatchdog
                     "<ปุ่มลัด> เพื่อซ่อน/แสดงชื่อถนนเดิมของเกมทันที\n" +
                     "เหมือนไอคอนชื่อถนนใน City Watchdog" },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleRoadNamesAction), "ซ่อน/แสดงชื่อถนน" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleAllTooltipsKeyboardBinding)), "ปิด tooltip hover ทั้งหมด" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleAllTooltipsKeyboardBinding)), "ปิดคำแนะนำทั้งหมด" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleAllTooltipsKeyboardBinding)),
-                    "<ปุ่มลัด> เพื่อซ่อน/แสดง tooltip hover ของเกมทั้งหมด: อาคาร ชาวเมือง เครื่องมือ และไอคอนล่าง\n" +
-                    "<popup เงิน/ประชากรของ City Watchdog ยังอยู่>; ควบคุมโดย มุมมองเงิน\n" +
+                    "<ปุ่มลัด> เพื่อซ่อน/แสดงคำแนะนำของเกมทั้งหมด: อาคาร ชาวเมือง เครื่องมือ และไอคอนล่าง\n" +
+                    "<หน้าต่างเงิน/ประชากรของ City Watchdog ยังอยู่>; ควบคุมโดยมุมมองเงิน\n" +
                     "เหมือนไอคอน [i] ในแผง City Watchdog" },
-                { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "ซ่อน/แสดง tooltip hover ของเกม" },
+                { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "ซ่อน/แสดงคำแนะนำของเกม" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "ความทึบของแผงหลัก" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
                     "ปรับความโปร่งใสของพื้นหลังแผงการแจ้งเตือนหลัก\n" +
                     "ค่าต่ำจะโปร่งใสมากขึ้น ค่าสูงจะมืดและทึบมากขึ้น" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyView)), "แนวโน้มเงิน + tooltip ประชากร" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyView)), "แนวโน้มเงิน + คำแนะนำประชากร" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyView)),
                     "<แนะนำให้เปิด>\n" +
                     "เมนูล่าง: แสดงค่าแนวโน้มที่ลูกศร <เงินและประชากร>\n" +
-                    "ฟีเจอร์ hover แบบเบา <แสดงผลเท่านั้น>;\n" +
+                    "ฟังก์ชันชี้เมาส์แบบเบา <แสดงผลเท่านั้น>;\n" +
                     "ประหยัดเวลาและอาจลื่นกว่าเปิดแผงข้อมูลเกม" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyViewMode)), "ความถี่ มุมมองเงิน" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyViewMode)), "ความถี่มุมมองเงิน" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyViewMode)),
                     "เลือกให้แถบล่างแสดงค่ารายชั่วโมงหรือรายเดือน\n" +
                     "รายเดือนใช้รายรับลบรายจ่าย และคาดการณ์ประชากร 24 ชม." },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeHourly"), "รายชั่วโมง (/h)" },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeMonthly"), "รายเดือน (/mo)" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyTooltipMode)), "สไตล์ tooltip เงิน" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyTooltipMode)), "รูปแบบคำแนะนำเงิน" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyTooltipMode)),
                     "เลือกว่าจะแสดงรายละเอียดเงินมากแค่ไหน\n" +
                     "กะทัดรัด = ค่าเริ่มต้นเมื่อติดตั้งครั้งแรก\n" +
-                    "<Mini> แสดง Net แค่ 2 ค่า สำหรับ /mo และ /h\n" +
+                    "<ย่อ> แสดงยอดสุทธิแค่ 2 ค่า สำหรับ /mo และ /h\n" +
                     "<กะทัดรัด> ย่อเลขใหญ่ (เช่น 15.21M)\n" +
                     "<ข้อมูลเต็ม> แสดงค่ายาวและยอดรวม" },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "ย่อ" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "กะทัดรัด" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "ข้อมูลเต็ม" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyTooltipFontScale)), "ขนาดตัวอักษรเงิน" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyTooltipFontScale)),
-                    "ปรับ <ขนาดตัวอักษร> ของตัวเลข มุมมองเงิน\n" +
+                    "ปรับ <ขนาดตัวอักษร> ของตัวเลขมุมมองเงิน\n" +
                     "ค่าเกม = 100%\n" +
-                    "<ค่า mod = 120%>\n" +
+                    "<ค่าม็อด = 120%>\n" +
                     "ชี้เมาส์ที่เงินด้านล่างจอ\n" +
-                    "สำหรับผู้เล่นที่อ่าน tooltip เล็กยาก" },
+                    "สำหรับผู้เล่นที่อ่านคำแนะนำเล็กยาก" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.PopulationTooltipFontScale)), "ขนาดตัวอักษรประชากร" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.PopulationTooltipFontScale)),
                     "ปรับ <ขนาดตัวอักษร> ของตัวเลขประชากร\n" +
                     "ค่าเกม = 100%\n" +
-                    "<ค่า mod = 120%>\n" +
+                    "<ค่าม็อด = 120%>\n" +
                     "ชี้เมาส์ที่ประชากรด้านล่างจอ" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudEnabled)), "Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudEnabled)),
@@ -149,21 +149,21 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "คลิก: เริ่มเร็ว" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
                     "ใช้ <ตั้งค่าเริ่มเร็ว> สำหรับแผงย่อ:\n" +
-                    "มี **ชุดเริ่มต้นดาวสีน้ำเงิน**.\n" +
-                    "แจ้งเตือนที่มี **ดาวสีน้ำเงิน** จะมีสิทธิ์แสดงในแผงย่อ ถ้าอยู่ใน 5 หรือ 10 อันดับแรกตามจำนวนรวม.\n" +
-                    "เพิ่ม/ลบ **ดาวสีน้ำเงิน** ในแผง Watchdog แบบขยาย.\n" +
-                    "ชุดนี้รวม: รายการโปรด, 5 ไอคอน, แนวตั้ง, ลากได้, ขนาด 100 %, แผงมืด, ซ่อนไอคอนที่นับได้ 0."
+                    "มี **รายการเริ่มต้นดาวสีน้ำเงิน**\n" +
+                    "แจ้งเตือนที่มี **ดาวสีน้ำเงิน** จะแสดงในแผงย่อได้ ถ้าอยู่ใน 5 หรือ 10 อันดับแรกตามจำนวนรวม\n" +
+                    "เพิ่ม/ลบ **ดาวสีน้ำเงิน** ในแผง Watchdog แบบขยาย\n" +
+                    "ค่าที่ตั้ง: รายการโปรด, 5 ไอคอน, แนวตั้ง, ลากได้, ขนาด 100 %, แผงมืด, ซ่อนไอคอนที่นับได้ 0"
                   },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "โหมดแผงย่อ" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),
-                    "เลือกแถวแจ้งเตือนที่แผงย่อจะใช้.\n" +
-                    "**ใช้งานสูงสุด** แสดงจำนวนปัจจุบันที่สูงที่สุด.\n" +
-                    "**รายการโปรด** ใช้แถวที่มี **ดาวสีน้ำเงิน** ในแผงหลัก City Watchdog.\n" +
-                    "เลือกได้กี่รายการโปรดก็ได้,\n" +
-                    "แต่แผงย่อจะแสดงแค่ 5 หรือ 10 อันดับแรกจากรายการ **ดาวสีน้ำเงิน** นี้."
-                  },          
-                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "แจ้งเตือน active สูงสุด" },
+                    "เลือกแถวแจ้งเตือนที่แผงย่อจะใช้\n" +
+                    "**จำนวนสูงสุด** แสดงรายการที่มีจำนวนปัจจุบันสูงที่สุด\n" +
+                    "**รายการโปรด** ใช้แถวที่มี **ดาวสีน้ำเงิน** ในแผงหลัก City Watchdog\n" +
+                    "เลือกได้กี่รายการโปรดก็ได้\n" +
+                    "แต่แผงย่อจะแสดงแค่ 5 หรือ 10 อันดับแรกจากรายการ **ดาวสีน้ำเงิน** นี้"
+                  },
+                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "แจ้งเตือนจำนวนสูงสุด" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "รายการโปรด" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudItemCount)), "จำนวนไอคอน" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudItemCount)), "เลือกจำนวนไอคอนที่ Mini HUD แสดงได้" },
@@ -208,7 +208,7 @@ namespace CityWatchdog
                     "เปิด <ก่อนโหลดหรือเริ่มเมือง> เพื่อปลดล็อกไมล์สโตนที่เลือกเมื่อโหลดเมือง\n" +
                     "- เปิดไม่ได้หลังโหลดเมืองแล้ว แต่ปิดได้ถ้าเปิดไว้ผิด\n" +
                     "- ถ้าลืม ให้รีสตาร์ทเกม แล้วเลือกก่อนเข้าเมือง\n" +
-                    "- mod ย้อนการเปลี่ยนไมล์สโตนที่บันทึกแล้วไม่ได้ ใช้เซฟเก่าหากจำเป็น" },
+                    "- ม็อดย้อนการเปลี่ยนไมล์สโตนที่บันทึกแล้วไม่ได้ ใช้เซฟเก่าหากจำเป็น" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MilestoneLevel)), "ไมล์สโตน" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MilestoneLevel)),
                     "เลือกไมล์สโตนที่จะปลดล็อกในการโหลดเมืองครั้งถัดไป\n" +
@@ -218,7 +218,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ManualMoneyAmount)), "จำนวนเงินปุ่มลัด" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ManualMoneyAmount)),
                     "ใช้จำนวนนี้กับปุ่มลัดเพิ่มเงินและลบเงิน\n" +
-                    "<ค่า mod = 40,000>\n" +
+                    "<ค่าม็อด = 40,000>\n" +
                     "ไม่ทำงานถ้าไม่ใช้ปุ่มลัดในเมือง\n" +
                     "ถ้าต้องการอัตโนมัติ ให้เปิดเงินอัตโนมัติ" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.AddMoneyKeyboardBinding)), "เพิ่มเงิน" },
@@ -254,24 +254,24 @@ namespace CityWatchdog
                     "สำหรับเมืองที่เริ่มด้วย <เงินไม่จำกัด>\n" +
                     "เมื่อโหลดเมืองนั้นอยู่ จะเปลี่ยนเซฟเป็นงบจำกัดปกติ\n" +
                     "ปุ่มจะ <ปิด/เทา> เว้นแต่เมืองเป็น <เงินไม่จำกัด>\n" +
-                    "และ <ตัวแปลงเงินไม่จำกัด> เป็น ON [ ✓ ]\n" +
+                    "และ <ตัวแปลงเงินไม่จำกัด> เปิดอยู่ [ ✓ ]\n" +
                     "สำรองก่อนและใช้ด้วยความเสี่ยงเอง; City Watchdog ย้อนกลับไม่ได้" },
                 { m_Settings.GetOptionWarningLocaleID(nameof(CwdSettings.ConvertUnlimitedMoneySave)),
                     "แปลงเมืองนี้จากเงินไม่จำกัดเป็นเงินจำกัดปกติหรือไม่?\n" +
                     "สำรองก่อน; City Watchdog ย้อนกลับไม่ได้\n" +
                     "แน่ใจไหม?" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.NameText)), "ชื่อ mod" },
-                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.NameText)), "ชื่อที่แสดงของ mod นี้" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.NameText)), "ชื่อม็อด" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.NameText)), "ชื่อที่แสดงของม็อดนี้" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.VersionText)), "เวอร์ชัน" },
-                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.VersionText)), "เวอร์ชัน mod ปัจจุบัน" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.VersionText)), "เวอร์ชันม็อดปัจจุบัน" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.OpenParadox)), "เปิดหน้า Paradox Mods ของผู้สร้าง" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)), "รายงาน debug ลง log" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)), "รายงานวินิจฉัย" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)),
                     "<ไม่จำเป็นสำหรับการเล่นปกติ>\n" +
-                    "สำหรับเทสเตอร์และเช็กหลังแพตช์: เขียนรายงานลง <Logs/CityWatchdog.log>\n" +
-                    "เทียบ prefab แจ้งเตือนเกมกับไอคอนที่ Watchdog คุม" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenLog)), "เปิด log" },
+                    "สำหรับผู้ทดสอบและตรวจหลังอัปเดตเกม: เขียนรายงานลง <Logs/CityWatchdog.log>\n" +
+                    "เทียบพรีแฟบแจ้งเตือนเกมกับไอคอนที่ Watchdog ควบคุม" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenLog)), "เปิดบันทึก" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.OpenLog)),
                     "เปิด </Logs/CityWatchdog.log> ถ้ามี\n" +
                     "ถ้าไม่มี จะเปิดโฟลเดอร์ Logs/" },
