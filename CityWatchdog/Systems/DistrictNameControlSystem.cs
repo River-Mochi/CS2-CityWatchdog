@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/DistrictNameControlSystem.cs
-// Purpose: Hides vanilla district-name labels.
+// Purpose: Hides district names only.
 
 namespace CityWatchdog.Systems
 {

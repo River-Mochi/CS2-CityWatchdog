@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/CityWatchdogUISystem.cs
-// Purpose: Keeps CWD settings, game systems, React panel, and the mini HUD in sync.
+// Purpose: Keeps CWD settings, game systems, React panel, and mini HUD in sync.
 
 namespace CityWatchdog.Systems
 {
@@ -25,11 +25,8 @@ namespace CityWatchdog.Systems
     using Unity.Entities;
 
     public partial class CityWatchdogUISystem : UISystemBaseExtension {
-        // Counting notifications means walking every Icon entity — the game keeps no running total,
-        // so cadence is the only lever we have. Units are SimulationSystem frames: 60 per second at
-        // normal speed, faster when the player speeds time up, frozen entirely while paused.
-        // Only one of these is ever live — an open panel supersedes the mini HUD — and both are
-        // preceded by a ForceUpdate(), so they govern steady-state refresh only, never the first paint.
+        // Counting alerts scans every icon. Sim-frame throttles for steady updates
+        // ForceUpdate refreshes on city first load.
         private const int kPanelCountUpdateInterval = 256;
         private const int kMiniHudCountUpdateInterval = 256;
 

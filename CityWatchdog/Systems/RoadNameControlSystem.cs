@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/RoadNameControlSystem.cs
-// Purpose: Hides vanilla road names without blocking tool or forced road arrows.
+// Purpose: Hides road names w/out blocking road arrows.
 
 namespace CityWatchdog.Systems
 {

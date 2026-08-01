@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/RoadArrowControlSystem.cs
-// Purpose: Forces vanilla one-way arrows while the default tool is active.
+// Purpose: Shows one-way road arrows while the default tool is active.
 
 namespace CityWatchdog.Systems
 {
