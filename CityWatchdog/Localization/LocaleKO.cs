@@ -34,7 +34,7 @@ namespace CityWatchdog
                 { m_Settings.GetSettingsLocaleID(), title },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.Actions), "동작" },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.MiniHudTab), "미니 HUD" },
-                { m_Settings.GetOptionTabLocaleID(CwdSettings.MoneyTab), "돈-마일스톤" },
+                { m_Settings.GetOptionTabLocaleID(CwdSettings.MoneyTab), "도시 시작" },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.About), "정보" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.AboutUsage), "사용법" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.Notifications), "알림" },
@@ -56,12 +56,12 @@ namespace CityWatchdog
                     "2. **[i]** 버튼: 건물, 시민, 도구, 하단 메뉴 아이콘 등 게임 호버 툴팁을 <전부> 표시/숨김.\n" +
                     "3. 도로 버튼: 도로 이름 표시/숨김. 단축키: \\.\n" +
                     "4. 구역 버튼: 구역 이름 표시/숨김.\n" +
-                    "5. 도로 화살표 버튼: 일방통행 화살표 ON/OFF(도로 이름도 숨김).\n" +
+                    "5. 도로 화살표 버튼: 일방통행 화살표 표시/숨김(도로 이름도 숨김).\n" +
                     "\n" +
                     "<알림 경고>\n" +
                     "1. 정렬 버튼: A→Z, Z→A, 활성 목록만.\n" +
-                    "2. <[0/62]> = 아이콘 ON/전체. 클릭하면 모든 줄 펼침/접기.\n" +
-                    "3a. [모두 토글]은 모든 알림 아이콘을 즉시 OFF/ON.\n" +
+                    "2. <[0/62]> = 표시 아이콘/전체. 클릭하면 모든 줄 펼침/접기.\n" +
+                    "3a. [모두 토글]은 모든 알림 아이콘을 즉시 숨김/표시.\n" +
                     "3b. 아이콘만 숨기며, 도시 문제를 해결하지 않습니다.\n" +
                     "\n" +
                     "<돈 도우미>\n" +
@@ -70,10 +70,10 @@ namespace CityWatchdog
                     "3. 무제한 돈 저장 변환은 무제한 돈으로 시작한 도시 전용이며 <되돌릴 수 없습니다>.\n" +
                     "\n" +
                     "<하단 메뉴 툴팁>\n" +
-                    "머니 보기는 돈/인구에 마우스를 올릴 때 추세 같은 추가 정보를 보여줍니다.\n" +
+                    "돈 보기는 돈/인구에 마우스를 올릴 때 추세 같은 추가 정보를 보여줍니다.\n" +
                     "\n" +
                     "<사용자 마일스톤>\n" +
-                    "돈-마일스톤 > 새 도시 시작 설정에서 도시 로드/시작 전에 초기 돈 또는 마일스톤을 설정합니다." },
+                    "도시 시작 > 새 도시 시작 설정에서 도시 로드/시작 전에 초기 돈 또는 마일스톤을 설정합니다." },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.UsageText)), "" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleNotificationsKeyboardBinding)), "알림 아이콘 토글" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleNotificationsKeyboardBinding)),
@@ -98,7 +98,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleAllTooltipsKeyboardBinding)), "모든 호버 툴팁 끄기" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleAllTooltipsKeyboardBinding)),
                     "<단축키>로 건물, 시민, 도구, 하단 아이콘 등 게임 호버 툴팁을 전부 숨김/표시.\n" +
-                    "<City Watchdog 돈/인구 팝업은 유지>; 머니 보기가 제어합니다.\n" +
+                    "<City Watchdog 돈/인구 팝업은 유지>; 돈 보기가 제어합니다.\n" +
                     "City Watchdog 패널의 [i] 아이콘과 같습니다." },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "게임 호버 툴팁 숨김/표시" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "메인 패널 불투명도" },
@@ -111,7 +111,7 @@ namespace CityWatchdog
                     "하단 메뉴: <돈/인구 화살표>에 추세 값을 표시.\n" +
                     "가벼운 호버 기능 <표시만>;\n" +
                     "게임 정보 패널을 여는 것보다 빠르고 가벼울 수 있습니다." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyViewMode)), "머니 보기 주기" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyViewMode)), "돈 보기 주기" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyViewMode)),
                     "하단 표시의 돈/인구 추세를 시간별 또는 월별로 선택합니다.\n" +
                     "월별은 수입-지출과 24시간 인구 예측을 사용합니다." },
@@ -129,7 +129,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "전체 데이터" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyTooltipFontScale)), "돈 글자 크기" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyTooltipFontScale)),
-                    "머니 보기 숫자의 <글자 크기>를 조절합니다.\n" +
+                    "돈 보기 숫자의 <글자 크기>를 조절합니다.\n" +
                     "게임 기본 = 100%\n" +
                     "<모드 기본 = 120%>\n" +
                     "화면 아래 돈 위에 마우스를 올리세요.\n" +
@@ -149,22 +149,22 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "클릭: 빠른 시작" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
                     "미니 표시창 <빠른 시작>을 적용합니다:\n" +
-                    "**파란 별 즐겨찾기** 시작 세트를 포함합니다.\n" +
+                    "**파란 별 즐겨찾기** 시작 설정을 포함합니다.\n" +
                     "**파란 별**이 붙은 알림은 전체 개수 기준 상위 5개 또는 10개 안에 들면 미니 표시창에 표시될 수 있습니다.\n" +
                     "펼친 Watchdog 패널에서 **파란 별**을 추가/제거하세요.\n" +
-                    "세트 포함: 즐겨찾기, 아이콘 5개, 세로, 드래그 가능, 100% 크기, 어두운 패널, 0개 아이콘 숨김."
+                    "설정 내용: 즐겨찾기, 아이콘 5개, 세로, 드래그 가능, 100% 크기, 어두운 패널, 0개 아이콘 숨김."
                   },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "미니 표시창 모드" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),
                     "미니 표시창이 사용할 알림 줄을 선택합니다.\n" +
-                    "**활성 상위**는 현재 개수가 가장 높은 알림을 보여줍니다.\n" +
+                    "**개수 상위**는 현재 개수가 가장 높은 알림을 보여줍니다.\n" +
                     "**즐겨찾기**는 메인 City Watchdog 패널의 **파란 별** 줄을 사용합니다.\n" +
                     "즐겨찾기는 원하는 만큼 선택할 수 있지만,\n" +
-                    "미니 표시창은 그 **파란 별** 목록에서 상위 5개 또는 10개만 보여줍니다."
+                    "미니 표시창은 그 **파란 별** 목록에서 개수 상위 5개 또는 10개만 보여줍니다."
                   },
 
-                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "상위 활성 알림" },
+                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "개수 상위 알림" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "즐겨찾기" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudItemCount)), "아이콘 수" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudItemCount)), "미니 HUD가 한 번에 표시할 아이콘 수를 선택합니다." },
@@ -207,7 +207,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.CustomMilestone)), "마일스톤 선택" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.CustomMilestone)),
                     "로드/시작 <전에> 켜면 도시 로드 직후 선택 마일스톤을 해제합니다.\n" +
-                    "- 도시 로드 후에는 ON 불가, 실수로 켠 경우 OFF 가능.\n" +
+                    "- 도시 로드 후에는 켤 수 없지만, 실수로 켠 경우 끌 수 있습니다.\n" +
                     "- 잊었다면 게임을 재시작하고 도시 입장 전에 선택.\n" +
                     "- 이미 저장된 마일스톤 변경은 되돌릴 수 없으니 이전 저장 사용." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MilestoneLevel)), "마일스톤" },
@@ -255,7 +255,7 @@ namespace CityWatchdog
                     "<무제한 돈>으로 시작한 도시용.\n" +
                     "그 도시가 로드된 상태에서 일반 제한 자금 예산으로 변환합니다.\n" +
                     "도시가 <무제한 돈> 타입이고\n" +
-                    "<무제한 돈 변환기>가 ON [ ✓ ]일 때만 버튼이 활성화됩니다.\n" +
+                    "<무제한 돈 변환기>가 켜짐 [ ✓ ]일 때만 버튼이 활성화됩니다.\n" +
                     "백업 후 사용하세요. City Watchdog은 되돌릴 수 없습니다." },
                 { m_Settings.GetOptionWarningLocaleID(nameof(CwdSettings.ConvertUnlimitedMoneySave)),
                     "이 도시를 무제한 돈에서 일반 제한 자금으로 변환할까요?\n" +
@@ -267,12 +267,12 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.VersionText)), "현재 모드 버전." },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.OpenParadox)), "제작자의 Paradox Mods 페이지를 엽니다." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)), "디버그 보고서 로그" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)), "진단 보고서 기록" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)),
                     "<일반 플레이에는 필요 없음.>\n" +
-                    "테스터/패치 확인용: <Logs/CityWatchdog.log>에 보고서를 쓰고\n" +
+                    "테스트와 게임 업데이트 후 확인용: <Logs/CityWatchdog.log>에 보고서를 쓰고\n" +
                     "게임 알림 프리팹과 Watchdog 제어 아이콘을 비교합니다." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenLog)), "로그 열기" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenLog)), "기록 열기" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.OpenLog)),
                     "</Logs/CityWatchdog.log>가 있으면 엽니다.\n" +
                     "없으면 Logs/ 폴더를 엽니다." },
