@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/AlertIconSystem.Categories.cs
+// File: Systems/AlertIconSystem.Categories.cs
 // Purpose: Contains per-category notification alert mapping for City Watchdog.
 
 namespace CityWatchdog.Systems

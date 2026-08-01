@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/DistrictNameControlSystem.cs
+// File: Systems/DistrictNameControlSystem.cs
 // Purpose: Toggle for vanilla district-name labels while preserving district overlays.
 //
 // AreaBufferSystem prepares area-name meshes during PreCulling. This system runs later in

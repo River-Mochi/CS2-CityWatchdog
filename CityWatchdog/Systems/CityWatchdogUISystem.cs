@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/CityWatchdogUISystem.cs
+// File: Systems/CityWatchdogUISystem.cs
 // Purpose: 
 
 namespace CityWatchdog.Systems

@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/CityFinanceSystem.cs
+// File: Systems/CityFinanceSystem.cs
 // Purpose: Handles City Watchdog money actions, initial money, and automatic money support.
 
 namespace CityWatchdog.Systems

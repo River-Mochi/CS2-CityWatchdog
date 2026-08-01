@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/MilestoneSystem.cs
+// File: Systems/MilestoneSystem.cs
 // Purpose: Applies the custom milestone setting to new or loaded cities.
 
 namespace CityWatchdog.Systems

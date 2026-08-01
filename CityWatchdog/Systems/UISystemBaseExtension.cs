@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/UISystemBaseExtension.cs
+// File: Systems/UISystemBaseExtension.cs
 // Purpose: Local UI binding helpers used by the React bridge.
 
 namespace CityWatchdog.Systems

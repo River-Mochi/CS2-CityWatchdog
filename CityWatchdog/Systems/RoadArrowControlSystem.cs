@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/RoadArrowControlSystem.cs
+// File: Systems/RoadArrowControlSystem.cs
 // Purpose: Toggle to show 1-way road direction arrows even when no road tool is active.
 //
 // Approach: tell the vanilla DefaultToolSystem that it "wants" net arrows. When the player

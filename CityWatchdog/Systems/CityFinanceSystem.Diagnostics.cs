@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/CityFinanceSystem.Diagnostics.cs
+// File: Systems/CityFinanceSystem.Diagnostics.cs
 // Purpose: Keeps optional City Watchdog money/city debug dumps separate from money actions.
 
 namespace CityWatchdog.Systems

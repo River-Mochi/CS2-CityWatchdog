@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/AlertIconSystem.cs
+// File: Systems/AlertIconSystem.cs
 // Purpose: Applies City Watchdog notification icon settings to vanilla alert prefabs.
 
 namespace CityWatchdog.Systems

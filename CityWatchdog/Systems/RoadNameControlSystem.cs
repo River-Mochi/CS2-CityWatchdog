@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/RoadNameControlSystem.cs
+// File: Systems/RoadNameControlSystem.cs
 // Purpose: Toggle for vanilla aggregate road-name labels.
 //
 // Mechanism: unsubscribe AggregateRenderSystem.Render from RenderPipelineManager.beginContextRendering

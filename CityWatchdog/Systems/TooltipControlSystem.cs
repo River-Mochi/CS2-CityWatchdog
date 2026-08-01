@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/TooltipControlSystem.cs
+// File: Systems/TooltipControlSystem.cs
 // Purpose: Tooltip on/off toggles.
 //   - "All vanilla tooltips" toggle drives Game.UI.Tooltip.TooltipUISystem.hideTooltips,
 //     which short-circuits the gameplay world/mouse tooltip pipeline at the source. State is
