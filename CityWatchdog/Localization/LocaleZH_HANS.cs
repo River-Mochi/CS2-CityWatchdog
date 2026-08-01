@@ -35,7 +35,7 @@ namespace CityWatchdog
                 { m_Settings.GetSettingsLocaleID(), title },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.Actions), "操作" },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.MiniHudTab), "迷你HUD" },
-                { m_Settings.GetOptionTabLocaleID(CwdSettings.MoneyTab), "金钱-里程碑" },
+                { m_Settings.GetOptionTabLocaleID(CwdSettings.MoneyTab), "城市开局" },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.About), "关于" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.AboutUsage), "使用" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.Notifications), "通知" },
@@ -57,11 +57,11 @@ namespace CityWatchdog
                     "2. **[i]** 按钮：隐藏/显示游戏 <全部> 悬停提示：建筑、市民、工具、底部菜单图标。\n" +
                     "3. 道路按钮：隐藏/显示道路名称。快捷键：\\.\n" +
                     "4. 区域按钮：隐藏/显示区域名称。\n" +
-                    "5. 道路箭头按钮：强制单行道箭头 ON/OFF（也会隐藏道路名称）。\n" +
+                    "5. 道路箭头按钮：显示/隐藏单行道箭头（也会隐藏道路名称）。\n" +
                     "\n" +
                     "<通知警报>\n" +
                     "1. 排序按钮循环 A→Z、Z→A、仅活动列表。\n" +
-                    "2. <[0/62]> = 图标 ON/总数。点击展开/折叠所有行。\n" +
+                    "2. <[0/62]> = 显示图标/总数。点击展开/折叠所有行。\n" +
                     "3a. [全部切换] 立即关闭/开启所有警报图标。\n" +
                     "3b. 只隐藏图标；不会修复城市问题。\n" +
                     "\n" +
@@ -71,10 +71,10 @@ namespace CityWatchdog
                     "3. 转换无限金钱存档只适用于以无限金钱开局的城市，并且 <不可撤销>。\n" +
                     "\n" +
                     "<底部菜单提示>\n" +
-                    "金钱视图 会在悬停金钱或人口时添加趋势等额外信息。\n" +
+                    "金钱视图会在悬停金钱或人口时添加趋势等额外信息。\n" +
                     "\n" +
                     "<自定义里程碑>\n" +
-                    "金钱-里程碑 > 新城市开局设置，可在加载/开始城市前设置初始金钱或里程碑。" },
+                    "城市开局 > 新城市开局设置，可在加载/开始城市前设置初始金钱或里程碑。" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.UsageText)), "" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleNotificationsKeyboardBinding)), "切换警报图标" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleNotificationsKeyboardBinding)),
@@ -99,7 +99,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleAllTooltipsKeyboardBinding)), "禁用全部悬停提示" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleAllTooltipsKeyboardBinding)),
                     "<快捷键> 隐藏/显示游戏全部悬停提示：建筑、市民、工具、底部图标。\n" +
-                    "<City Watchdog 的金钱/人口弹窗会保留>；由 金钱视图 控制。\n" +
+                    "<City Watchdog 的金钱/人口弹窗会保留>；由金钱视图控制。\n" +
                     "和 City Watchdog 面板内的 [i] 图标相同。" },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "隐藏/显示游戏悬停提示" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "主面板不透明度" },
@@ -112,7 +112,7 @@ namespace CityWatchdog
                     "底部菜单：在 <金钱和人口箭头> 上显示趋势值。\n" +
                     "轻量悬停功能 <仅显示>；\n" +
                     "省时间，也可能比打开游戏信息面板更轻。" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyViewMode)), "金钱视图 频率" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyViewMode)), "金钱视图频率" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyViewMode)),
                     "选择底部趋势文字显示每小时或每月数值。\n" +
                     "每月使用收入减支出，以及24小时人口预测。" },
@@ -130,16 +130,16 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "完整数据" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyTooltipFontScale)), "金钱字体大小" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyTooltipFontScale)),
-                    "调整 金钱视图 数字的 <字体大小>。\n" +
+                    "调整金钱视图数字的 <字体大小>。\n" +
                     "游戏默认 = 100%\n" +
-                    "<Mod 默认 = 120%>\n" +
+                    "<模组默认 = 120%>\n" +
                     "悬停屏幕底部的金钱。\n" +
                     "适合看不清小提示的玩家。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.PopulationTooltipFontScale)), "人口字体大小" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.PopulationTooltipFontScale)),
                     "调整人口数字的 <字体大小>。\n" +
                     "游戏默认 = 100%\n" +
-                    "<Mod 默认 = 120%>\n" +
+                    "<模组默认 = 120%>\n" +
                     "悬停屏幕底部的人口。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudEnabled)), "迷你HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudEnabled)),
@@ -153,19 +153,19 @@ namespace CityWatchdog
                     "包含一组 **蓝色星星收藏**初始设置。\n" +
                     "带 **蓝色星星** 的通知，如果总数量排进前 5 或前 10，就可以显示在迷你面板中。\n" +
                     "在展开的 Watchdog 面板中添加/移除 **蓝色星星**。\n" +
-                    "套装包含：收藏、5 个图标、竖排、可拖动、100% 大小、深色面板、隐藏数量为 0 的图标。"
+                    "预设包含：收藏、5 个图标、竖排、可拖动、100% 大小、深色面板，并隐藏数量为 0 的图标。"
                   },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "迷你面板模式" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),
                     "选择迷你面板使用哪些警报行。\n" +
-                    "**最活跃**显示当前数量最高的警报。\n" +
+                    "**数量最高**显示当前数量最高的警报。\n" +
                     "**收藏**使用 City Watchdog 主面板中标记为 **蓝色星星** 的行。\n" +
                     "你可以选择任意数量的收藏，\n" +
-                    "但迷你面板只显示该 **蓝色星星** 列表中的前 5 或前 10 个。"
+                    "但迷你面板只显示该 **蓝色星星** 列表中数量最高的 5 或 10 个。"
                   },
 
-                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "最活跃警报" },
+                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "数量最高警报" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "收藏" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudItemCount)), "图标数量" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudItemCount)), "选择迷你HUD最多显示多少通知图标。" },
@@ -210,7 +210,7 @@ namespace CityWatchdog
                     "在 <加载或开始前> 启用，可在城市加载后立即解锁指定里程碑。\n" +
                     "- 城市加载后不能开启，但误开时可以关闭。\n" +
                     "- 忘了就重启游戏，并在进城前选择。\n" +
-                    "- Mod 不能撤销已经存入城市的里程碑变化；需要时用旧存档。" },
+                    "- 模组不能撤销已经存入城市的里程碑变化；需要时用旧存档。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MilestoneLevel)), "里程碑" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MilestoneLevel)),
                     "选择下次加载城市时解锁的里程碑。\n" +
@@ -220,7 +220,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ManualMoneyAmount)), "金钱快捷键金额" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ManualMoneyAmount)),
                     "此金额用于添加金钱和减少金钱快捷键。\n" +
-                    "<Mod 默认 = 40,000>\n" +
+                    "<模组默认 = 40,000>\n" +
                     "除非在城市内使用快捷键，否则不会生效。\n" +
                     "想自动加钱请启用自动金钱。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.AddMoneyKeyboardBinding)), "添加金钱" },
@@ -256,23 +256,23 @@ namespace CityWatchdog
                     "用于以 <无限金钱> 开局的城市。\n" +
                     "加载该城市时，把存档转换为普通有限金钱预算。\n" +
                     "按钮会 <禁用/变灰>，除非加载城市是 <无限金钱> 类型，\n" +
-                    "且 <无限金钱转换器> 为 ON [ ✓ ]。\n" +
+                    "且 <无限金钱转换器> 已启用 [ ✓ ]。\n" +
                     "请先备份并自行承担风险；City Watchdog 无法撤销。" },
                 { m_Settings.GetOptionWarningLocaleID(nameof(CwdSettings.ConvertUnlimitedMoneySave)),
                     "要把此城市从无限金钱转换为普通有限金钱吗？\n" +
                     "先保存备份；City Watchdog 无法撤销。\n" +
                     "确定吗？" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.NameText)), "Mod名称" },
-                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.NameText)), "此Mod的显示名称。" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.NameText)), "模组名称" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.NameText)), "此模组的显示名称。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.VersionText)), "版本" },
-                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.VersionText)), "当前Mod版本。" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.VersionText)), "当前模组版本。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.OpenParadox)), "打开作者的 Paradox Mods 页面。" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)), "调试报告到日志" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)), "诊断报告" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)),
                     "<正常游玩不需要。>\n" +
-                    "供测试和补丁检查：写入 <Logs/CityWatchdog.log> 报告，\n" +
-                    "比较游戏实时通知Prefab与 Watchdog 当前控制的图标。" },
+                    "供测试和游戏更新后检查：写入 <Logs/CityWatchdog.log> 报告，\n" +
+                    "比较游戏实时通知预制件与 Watchdog 当前控制的图标。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenLog)), "打开日志" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.OpenLog)),
                     "如果存在，打开 </Logs/CityWatchdog.log>。\n" +
