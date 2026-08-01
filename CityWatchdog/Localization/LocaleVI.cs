@@ -29,7 +29,7 @@ namespace CityWatchdog
         {
             string title = Mod.ModName + " (Người gác thành phố)";
 
-            Dictionary<string, string> entries = new Dictionary<string, string>
+            Dictionary<string, string> entries = new()
             {
                 { m_Settings.GetSettingsLocaleID(), title },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.Actions), "Hành động" },

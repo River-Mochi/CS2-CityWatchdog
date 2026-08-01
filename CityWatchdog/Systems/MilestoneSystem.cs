@@ -12,8 +12,8 @@
 namespace CityWatchdog.Systems
 {
 
-    using CS2Shared.RiverMochi;
     using Colossal.Serialization.Entities;
+    using CS2Shared.RiverMochi;
     using Game.City;
     using Game.Common;
     using Game.Prefabs;

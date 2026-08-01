@@ -11,15 +11,15 @@
 
 namespace CityWatchdog.Systems
 {
-    using CS2Shared.RiverMochi;
+    using System;
+    using System.Reflection;
     using Colossal.Serialization.Entities;
+    using CS2Shared.RiverMochi;
     using Game;
     using Game.City;
     using Game.Input;
     using Game.SceneFlow;
     using Game.Simulation;
-    using System;
-    using System.Reflection;
     using Unity.Entities;
 
     public partial class CityFinanceSystem : GameSystemBaseExtension

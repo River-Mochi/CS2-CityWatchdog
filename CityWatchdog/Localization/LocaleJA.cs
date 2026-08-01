@@ -29,7 +29,7 @@ namespace CityWatchdog
         {
             string title = Mod.ModName + " (街の見張り)";
 
-            Dictionary<string, string> entries = new Dictionary<string, string>
+            Dictionary<string, string> entries = new()
             {
                 { m_Settings.GetSettingsLocaleID(), title },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.Actions), "操作" },

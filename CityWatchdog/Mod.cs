@@ -60,7 +60,7 @@ namespace CityWatchdog
                 return;
             }
 
-            CwdSettings setting = new CwdSettings(this);
+            CwdSettings setting = new(this);
             Settings = CwdSettings.Instance = setting;
 
             try

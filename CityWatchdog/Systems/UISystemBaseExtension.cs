@@ -47,7 +47,7 @@ namespace CityWatchdog.Systems
 
         public ValueBinding<T> AddValueBinding<T>(string name, T initialValue)
         {
-            ValueBinding<T> valueBinding = new ValueBinding<T>(ModId, name, initialValue);
+            ValueBinding<T> valueBinding = new(ModId, name, initialValue);
             AddBinding(valueBinding);
             return valueBinding;
         }

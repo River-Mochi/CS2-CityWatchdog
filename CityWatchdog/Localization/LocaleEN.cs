@@ -33,7 +33,7 @@ namespace CityWatchdog
                 title += " (" + Mod.ModVersion + ")";
             }
 
-            Dictionary<string, string> entries = new Dictionary<string, string>
+            Dictionary<string, string> entries = new()
             {
                 // --- Mod title ---
                 { m_Settings.GetSettingsLocaleID(), title },
