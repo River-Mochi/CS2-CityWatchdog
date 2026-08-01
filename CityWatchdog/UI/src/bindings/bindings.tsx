@@ -39,6 +39,11 @@ export const panelCollapsedSectionsMask$ = bindValue<number>(mod.id, "PanelColla
 export const panelSortMode$ = bindValue<number>(mod.id, "PanelSortMode", 0);
 export const mainPanelOpacity$ = bindValue<number>(mod.id, "MainPanelOpacity", 70);
 
+// Notification-checkbox presets: the panel's "1 | 2" split button. Each flag is false until the
+// player first saves that slot (an unsaved slot renders dimmed and ignores a load click).
+export const preset1Saved$ = bindValue<boolean>(mod.id, "Preset1Saved", false);
+export const preset2Saved$ = bindValue<boolean>(mod.id, "Preset2Saved", false);
+
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
 export const ElectricityBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBottleneckNotification");
 export const ElectricityBuildingBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBuildingBottleneckNotification");
@@ -105,6 +110,9 @@ export const TransportLineVehicleNotificationBinding$ = bindValue<boolean>(mod.i
 
 export const OnControlPanelBindingToggle = (enable: boolean) => trigger(mod.id, "ControlPanelEnabled", enable);
 export const OnToggleAllNotifications = (enable: boolean) => trigger(mod.id, "ToggleAllNotifications", enable);
+// Presets: click a slot to load it, hold a slot to save the current checkboxes into it.
+export const OnLoadPreset = (slot: number) => trigger(mod.id, "LoadPreset", slot);
+export const OnSavePreset = (slot: number) => trigger(mod.id, "SavePreset", slot);
 export const OnDisableAllTooltipsToggle = (disable: boolean) => trigger(mod.id, "DisableAllTooltips", disable);
 export const OnDisableCwdTooltipsToggle = (disable: boolean) => trigger(mod.id, "DisableCwdTooltips", disable);
 export const OnHideRoadNamesToggle = (hide: boolean) => trigger(mod.id, "HideRoadNames", hide);

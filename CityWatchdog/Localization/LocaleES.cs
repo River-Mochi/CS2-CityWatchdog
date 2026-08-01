@@ -12,10 +12,7 @@
 namespace CityWatchdog
 {
     using System.Collections.Generic; // Dictionary and KeyValuePair
-
     using Colossal;                   // IDictionarySource
-
-    using Game.UI.Editor;
 
     public sealed class LocaleES : IDictionarySource
     {

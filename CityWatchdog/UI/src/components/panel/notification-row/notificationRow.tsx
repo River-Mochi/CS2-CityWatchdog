@@ -60,13 +60,19 @@ export const NotificationRow = memo(({
     ? `${styles.count} ${styles.countJump}`
     : `${styles.count} ${styles.countDisabled}`;
 
-  const onCountClick = () => {
+  // The jump target is the whole left-to-count strip (icon + label + count). The star and checkbox
+  // sit OUTSIDE this element, so clicking either never triggers a jump — no stopPropagation needed.
+  const jumpAreaClassName = canJumpToAlert
+    ? `${styles.rowJumpArea} ${styles.rowJumpAreaClickable}`
+    : styles.rowJumpArea;
+
+  const onJumpClick = () => {
     if (canJumpToAlert) {
       OnMiniHudNotificationClicked(countIndex);
     }
   };
 
-  const onCountKeyDown = (event: KeyboardEvent<HTMLSpanElement>) => {
+  const onJumpKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (!canJumpToAlert) {
       return;
     }
@@ -79,25 +85,27 @@ export const NotificationRow = memo(({
 
   return (
     <div className={rowClassName}>
-      {/* Left side: small notification icon plus vanilla/localized label. */}
-      <div className={iconLabelClassName}>
-        <img src={item.icon} className={styles.icon} alt="" />
-        <span className={styles.label}>{label}</span>
-      </div>
-
-      {/* Right side: count jump target, Mini HUD favorite marker, and notification toggle checkbox. */}
-      <div className={styles.labelCheckboxSection}>
-        {/* MAIN panel count — click to jump. The Mini HUD has its own count in miniHud.tsx. */}
-        <span
-          className={countClassName}
-          role={canJumpToAlert ? "button" : undefined}
-          tabIndex={canJumpToAlert ? 0 : undefined}
-          aria-disabled={canJumpToAlert ? undefined : true}
-          onClick={canJumpToAlert ? onCountClick : undefined}
-          onKeyDown={canJumpToAlert ? onCountKeyDown : undefined}
-        >
+      {/* Jump area: icon + label + count. Clicking anywhere here jumps to the alert on the map. */}
+      <div
+        className={jumpAreaClassName}
+        role={canJumpToAlert ? "button" : undefined}
+        tabIndex={canJumpToAlert ? 0 : undefined}
+        aria-disabled={canJumpToAlert ? undefined : true}
+        onClick={canJumpToAlert ? onJumpClick : undefined}
+        onKeyDown={canJumpToAlert ? onJumpKeyDown : undefined}
+      >
+        <div className={iconLabelClassName}>
+          <img src={item.icon} className={styles.icon} alt="" />
+          <span className={styles.label}>{label}</span>
+        </div>
+        {/* MAIN panel count badge. The Mini HUD has its own count in miniHud.tsx. */}
+        <span className={countClassName}>
           {formatPanelNotificationCount(count)}
         </span>
+      </div>
+
+      {/* Controls: Mini HUD favorite marker + notification toggle checkbox. Never jump. */}
+      <div className={styles.rowControls}>
         <FavoriteButton
           favorite={favorite}
           onToggle={onFavoriteToggle}

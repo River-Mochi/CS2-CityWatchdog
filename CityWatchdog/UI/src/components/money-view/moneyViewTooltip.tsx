@@ -57,7 +57,7 @@ export const MoneyViewTooltipContent = ({ baseContent }: { readonly baseContent:
 
     return (
         <div className={tooltipClassName} style={tooltipStyle}>
-            <div className={styles.tooltipTitle}>WATCHDOG</div>
+            <div className={styles.tooltipTitle}>City Watchdog</div>
 
             {!mini && (
                 <>

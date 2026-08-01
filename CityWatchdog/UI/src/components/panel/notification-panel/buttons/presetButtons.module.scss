@@ -1,0 +1,82 @@
+// File: src/UI/src/components/panel/notification-panel/buttons/presetButtons.module.scss
+// Purpose: "1 | 2" preset split button styles.
+//
+// Longhand CSS only — no shorthand properties (see feedback_no_css_shorthand.md).
+
+// Outer container that joins the two slots into one "1 | 2" control.
+.presetGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 32rem;
+  border-top-left-radius: 4rem;
+  border-top-right-radius: 4rem;
+  border-bottom-left-radius: 4rem;
+  border-bottom-right-radius: 4rem;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-width: 1rem;
+  border-right-width: 1rem;
+  border-bottom-width: 1rem;
+  border-left-width: 1rem;
+  border-top-color: rgba(255, 255, 255, 0.35);
+  border-right-color: rgba(255, 255, 255, 0.35);
+  border-bottom-color: rgba(255, 255, 255, 0.35);
+  border-left-color: rgba(255, 255, 255, 0.35);
+  background-color: rgba(36, 54, 66, 0.58);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.presetSlot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24rem;
+  height: 100%;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: var(--fontSizeS);
+  font-weight: 700;
+  line-height: 1;
+  transition-property: background-color, color, opacity;
+  transition-duration: 120ms, 120ms, 120ms;
+  transition-timing-function: ease-out, ease-out, ease-out;
+
+  &:hover {
+    background-color: rgba(232, 247, 255, 0.28);
+    color: #ffffff;
+  }
+}
+
+// Saved slot: a subtle blue fill signals it holds a setup you can load.
+.presetSlotSaved {
+  background-color: rgba(30, 131, 170, 0.5);
+}
+
+  .presetSlotSaved:hover {
+    background-color: rgba(50, 160, 200, 0.6);
+  }
+
+// Empty slot: dimmed. Still holdable (to save into), just clearly "nothing to load yet".
+.presetSlotEmpty {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+// While holding (before the save fires): a green "charging" highlight so the hold reads as intentional.
+.presetSlotHolding {
+  background-color: rgba(95, 220, 120, 0.55);
+  color: #ffffff;
+}
+
+// Thin separator between slot 1 and slot 2.
+.presetDivider {
+  width: 1rem;
+  height: 18rem;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 1rem;
+  background-color: rgba(255, 255, 255, 0.35);
+}

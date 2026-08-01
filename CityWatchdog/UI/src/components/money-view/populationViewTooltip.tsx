@@ -37,7 +37,7 @@ export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseCon
 
     return (
         <div className={styles.populationTooltipWrapper} style={tooltipStyle}>
-            <div className={styles.tooltipTitle}>WATCHDOG</div>
+            <div className={styles.tooltipTitle}>City Watchdog</div>
             <PopulationTooltipCurrentTrend
                 localization={localization}
                 label={text("PopulationTooltipCurrentTrend", "Current trend:")}

@@ -22,6 +22,8 @@ import {
   panelPositionY$,
   panelCollapsedSectionsMask$,
   panelSortMode$,
+  preset1Saved$,
+  preset2Saved$,
   showRoadArrows$,
   OnControlPanelBindingToggle,
   OnDisableAllTooltipsToggle,
@@ -32,12 +34,16 @@ import {
   OnToggleMiniHudFavorite,
   OnPanelCollapsedSectionsChanged,
   OnPanelSortModeChanged,
+  OnLoadPreset,
+  OnSavePreset,
 } from "../../../bindings/bindings";
 import { Divider } from "../../divider/divider";
 import { InfoPanel } from "../info-panel/infoPanel";
 import { VanillaComponentResolver } from "../../../utils/vanilla";
 import { NotificationRow } from "../notification-row/notificationRow";
 import { PanelButton, PanelButtonText, type PanelButtonTone } from "./buttons/panelButton";
+import { PresetSlot } from "./buttons/presetButtons";
+import presetStyles from "./buttons/presetButtons.module.scss";
 import styles from "./notificationPanel.module.scss";
 import {
   allIconSources,
@@ -289,6 +295,9 @@ const NotificationPanelContent = () => {
   const districtNamesHidden = useValue(hideDistrictNames$);
   // showRoadArrows$ — Road-Arrow toggle: force vanilla 1-way arrows on when no road tool is active.
   const roadArrowsShown = useValue(showRoadArrows$);
+  // preset1Saved$/preset2Saved$ — whether each "1 | 2" preset slot holds a saved checkbox layout.
+  const preset1Saved = useValue(preset1Saved$);
+  const preset2Saved = useValue(preset2Saved$);
   const [expandedSections, setExpandedSections] = useState(createExpandedSections);
   const allValues = useAllNotificationValues();
   const notificationCounts = useValue(notificationCounts$);
@@ -456,6 +465,18 @@ const NotificationPanelContent = () => {
       "Click to hide district names.",
     );
 
+  // Preset slots: tooltip depends on whether the slot already holds a saved layout.
+  const savedPresetTooltip = localize(
+    "PresetLoadHint",
+    "Click to load this saved icon setup.\nHold to overwrite it with your current checkboxes.",
+  );
+  const emptyPresetTooltip = localize(
+    "PresetSaveHint",
+    "This preset is empty.\nHold to save your current checkboxes into it.",
+  );
+  const preset1Tooltip = preset1Saved ? savedPresetTooltip : emptyPresetTooltip;
+  const preset2Tooltip = preset2Saved ? savedPresetTooltip : emptyPresetTooltip;
+
   // Memoized: this sort calls localize() twice per comparison plus localeCompare (both string-heavy),
   // and section titles only change when the sort mode or the game language does — NOT when a count
   // ticks or a checkbox toggles. Without this it re-ran on every panel render for identical output.
@@ -575,6 +596,28 @@ const NotificationPanelContent = () => {
             />
           </CwdTooltip>
 
+          {/* Preset slots "1 | 2": click a slot to load its saved checkbox layout, hold to save the
+              current one into it. Lets players keep favorite setups that Show/Hide Icons won't wipe. */}
+          <div className={presetStyles.presetGroup}>
+            <CwdTooltip tooltip={preset1Tooltip}>
+              <PresetSlot
+                label="1"
+                saved={preset1Saved}
+                onLoad={() => { OnLoadPreset(1); }}
+                onSave={() => { OnSavePreset(1); }}
+              />
+            </CwdTooltip>
+            <div className={presetStyles.presetDivider} />
+            <CwdTooltip tooltip={preset2Tooltip}>
+              <PresetSlot
+                label="2"
+                saved={preset2Saved}
+                onLoad={() => { OnLoadPreset(2); }}
+                onSave={() => { OnSavePreset(2); }}
+              />
+            </CwdTooltip>
+          </div>
+
           <CwdTooltip tooltip={sortMode === SORT_ACTIVE
             ? localize("BackToGrouped", "Back to grouped list")
             : (allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows"))}>
@@ -589,14 +632,16 @@ const NotificationPanelContent = () => {
             </PanelButton>
           </CwdTooltip>
 
-          <CwdTooltip tooltip={localize("ToggleAllTooltip", "Show/hide all icons.\nColor: green = all on; blue = mixed; red = all off.")}>
+          <CwdTooltip tooltip={localize("ToggleAllTooltip", "Show or hide ALL map notification icons at once.\nColor: green = all shown; blue = mixed; red = all hidden.")}>
             <PanelButton
               kind="toggle"
               tone={toggleAllTone}
               onClick={onToggleAll}
             >
               <PanelButtonText kind="toggle">
-                {localize("ToggleAll", "Toggle All")}
+                {allSelected
+                  ? localize("HideIcons", "Hide Icons")
+                  : localize("ShowIcons", "Show Icons")}
               </PanelButtonText>
             </PanelButton>
           </CwdTooltip>

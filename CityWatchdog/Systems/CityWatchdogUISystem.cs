@@ -63,6 +63,8 @@ namespace CityWatchdog.Systems
         private ValueBinding<int> panelSortModeBinding = null!;
         private ValueBinding<bool> panelButtonsOnlyStartBinding = null!;
         private ValueBinding<int> mainPanelOpacityBinding = null!;
+        private ValueBinding<bool> preset1SavedBinding = null!;
+        private ValueBinding<bool> preset2SavedBinding = null!;
         private ValueBinding<bool>? moneyViewBinding;
         private ValueBinding<int>? moneyViewModeBinding;
         private ValueBinding<int>? moneyTooltipModeBinding;
@@ -225,6 +227,10 @@ namespace CityWatchdog.Systems
             panelSortModeBinding = AddValueBinding(nameof(CwdSettings.PanelSortMode), CwdSettings.Instance.PanelSortMode);
             panelButtonsOnlyStartBinding = AddValueBinding(nameof(CwdSettings.PanelButtonsOnlyStart), CwdSettings.Instance.PanelButtonsOnlyStart);
             mainPanelOpacityBinding = AddValueBinding(nameof(CwdSettings.MainPanelOpacity), CwdSettings.Instance.MainPanelOpacity);
+            preset1SavedBinding = AddValueBinding(nameof(CwdSettings.Preset1Saved), CwdSettings.Instance.Preset1Saved);
+            preset2SavedBinding = AddValueBinding(nameof(CwdSettings.Preset2Saved), CwdSettings.Instance.Preset2Saved);
+            AddTriggerBinding<int>("SavePreset", SavePreset);
+            AddTriggerBinding<int>("LoadPreset", LoadPreset);
             moneyViewBinding = AddValueBinding(nameof(CwdSettings.MoneyView), CwdSettings.Instance.MoneyView);
             moneyViewModeBinding = AddValueBinding(nameof(CwdSettings.MoneyViewMode), CwdSettings.Instance.MoneyViewMode);
             moneyTooltipModeBinding = AddValueBinding(nameof(CwdSettings.MoneyTooltipMode), CwdSettings.Instance.MoneyTooltipMode);
@@ -851,6 +857,167 @@ namespace CityWatchdog.Systems
             routePathfindNotificationBinding.Update(enabled);
             routeGateBypassNotificationBinding.Update(enabled);
             transportLineVehicleNotificationBinding.Update(enabled);
+        }
+
+        // Save the current checkboxes into a preset slot ("hold" gesture on the panel's 1 | 2 button).
+        private void SavePreset(int slot)
+        {
+            CwdSettings.NotificationSetting live = CwdSettings.Instance.Notification;
+
+            if (slot == 1)
+            {
+                CwdSettings.Instance.Preset1.CopyFrom(live);
+                CwdSettings.Instance.Preset1Saved = true;
+                preset1SavedBinding.Update(true);
+            }
+            else if (slot == 2)
+            {
+                CwdSettings.Instance.Preset2.CopyFrom(live);
+                CwdSettings.Instance.Preset2Saved = true;
+                preset2SavedBinding.Update(true);
+            }
+            else
+            {
+                return;
+            }
+
+            TrySavePresetSettings("preset-save");
+        }
+
+        // Load a saved preset into the live checkboxes ("click" gesture on the panel's 1 | 2 button).
+        // A never-saved slot is a no-op so a fresh install cannot blank the live set with an empty preset.
+        private void LoadPreset(int slot)
+        {
+            CwdSettings.NotificationSetting source;
+
+            if (slot == 1)
+            {
+                if (!CwdSettings.Instance.Preset1Saved)
+                {
+                    return;
+                }
+                source = CwdSettings.Instance.Preset1;
+            }
+            else if (slot == 2)
+            {
+                if (!CwdSettings.Instance.Preset2Saved)
+                {
+                    return;
+                }
+                source = CwdSettings.Instance.Preset2;
+            }
+            else
+            {
+                return;
+            }
+
+            // Copy snapshot -> live, apply to the map icons in one batched pass, then push every panel
+            // checkbox binding so the rows reflect the loaded layout.
+            CwdSettings.Instance.Notification.CopyFrom(source);
+            alertIconSystem.ApplyNotificationSettings();
+            PushNotificationBindingsFromSettings();
+            TrySavePresetSettings("preset-load");
+        }
+
+        // Mirrors UpdateAllNotificationBindings but pushes each notification's OWN saved value (used
+        // after a preset load, where slots differ per notification). Includes BuildingLeveling, which
+        // the bulk Toggle All path deliberately skips.
+        private void PushNotificationBindingsFromSettings()
+        {
+            CwdSettings.NotificationSetting n = CwdSettings.Instance.Notification;
+
+            electricityElectricityNotificationBinding.Update(n.ElectricityElectricityNotification);
+            electricityBottleneckNotificationBinding.Update(n.ElectricityBottleneckNotification);
+            electricityBuildingBottleneckNotificationBinding.Update(n.ElectricityBuildingBottleneckNotification);
+            electricityNotEnoughProductionNotificationBinding.Update(n.ElectricityNotEnoughProductionNotification);
+            electricityTransformerNotificationBinding.Update(n.ElectricityTransformerNotification);
+            electricityNotEnoughConnectedNotificationBinding.Update(n.ElectricityNotEnoughConnectedNotification);
+            electricityBatteryEmptyNotificationBinding.Update(n.ElectricityBatteryEmptyNotification);
+            electricityLowVoltageNotConnectedBinding.Update(n.ElectricityLowVoltageNotConnected);
+            electricityHighVoltageNotConnectedBinding.Update(n.ElectricityHighVoltageNotConnected);
+
+            waterPipeWaterNotificationBinding.Update(n.WaterPipeWaterNotification);
+            waterPipeDirtyWaterNotificationBinding.Update(n.WaterPipeDirtyWaterNotification);
+            waterPipeSewageNotificationBinding.Update(n.WaterPipeSewageNotification);
+            waterPipeWaterPipeNotConnectedNotificationBinding.Update(n.WaterPipeWaterPipeNotConnectedNotification);
+            waterPipeSewagePipeNotConnectedNotificationBinding.Update(n.WaterPipeSewagePipeNotConnectedNotification);
+            waterPipeNotEnoughWaterCapacityNotificationBinding.Update(n.WaterPipeNotEnoughWaterCapacityNotification);
+            waterPipeNotEnoughSewageCapacityNotificationBinding.Update(n.WaterPipeNotEnoughSewageCapacityNotification);
+            waterPipeNotEnoughGroundwaterNotificationBinding.Update(n.WaterPipeNotEnoughGroundwaterNotification);
+            waterPipeNotEnoughSurfaceWaterNotificationBinding.Update(n.WaterPipeNotEnoughSurfaceWaterNotification);
+            waterPipeDirtyWaterPumpNotificationBinding.Update(n.WaterPipeDirtyWaterPumpNotification);
+
+            buildingAbandonedCollapsedNotificationBinding.Update(n.BuildingAbandonedCollapsedNotification);
+            buildingAbandonedNotificationBinding.Update(n.BuildingAbandonedNotification);
+            buildingCondemnedNotificationBinding.Update(n.BuildingCondemnedNotification);
+            buildingTurnedOffNotificationBinding.Update(n.BuildingTurnedOffNotification);
+            buildingHighRentNotificationBinding.Update(n.BuildingHighRentNotification);
+            buildingLevelingNotificationBinding.Update(n.BuildingLevelingNotification);
+
+            trafficBottleneckNotificationBinding.Update(n.TrafficBottleneckNotification);
+            trafficDeadEndNotificationBinding.Update(n.TrafficDeadEndNotification);
+            trafficRoadConnectionNotificationBinding.Update(n.TrafficRoadConnectionNotification);
+            trafficTrackConnectionNotificationBinding.Update(n.TrafficTrackConnectionNotification);
+            trafficCarConnectionNotificationBinding.Update(n.TrafficCarConnectionNotification);
+            trafficShipConnectionNotificationBinding.Update(n.TrafficShipConnectionNotification);
+            trafficTrainConnectionNotificationBinding.Update(n.TrafficTrainConnectionNotification);
+            trafficPedestrianConnectionNotificationBinding.Update(n.TrafficPedestrianConnectionNotification);
+            trafficBicycleConnectionNotificationBinding.Update(n.TrafficBicycleConnectionNotification);
+
+            companyNoInputsNotificationBinding.Update(n.CompanyNoInputsNotification);
+            companyNoCustomersNotificationBinding.Update(n.CompanyNoCustomersNotification);
+
+            workProviderUneducatedNotificationBinding.Update(n.WorkProviderUneducatedNotification);
+            workProviderEducatedNotificationBinding.Update(n.WorkProviderEducatedNotification);
+
+            disasterWeatherDamageNotificationBinding.Update(n.DisasterWeatherDamageNotification);
+            disasterWeatherDestroyedNotificationBinding.Update(n.DisasterWeatherDestroyedNotification);
+            disasterWaterDamageNotificationBinding.Update(n.DisasterWaterDamageNotification);
+            disasterWaterDestroyedNotificationBinding.Update(n.DisasterWaterDestroyedNotification);
+            disasterDestroyedNotificationBinding.Update(n.DisasterDestroyedNotification);
+
+            fireFireNotificationBinding.Update(n.FireFireNotification);
+            fireBurnedDownNotificationBinding.Update(n.FireBurnedDownNotification);
+
+            garbageGarbageNotificationBinding.Update(n.GarbageGarbageNotification);
+            garbageFacilityFullNotificationBinding.Update(n.GarbageFacilityFullNotification);
+
+            healthcareAmbulanceNotificationBinding.Update(n.HealthcareAmbulanceNotification);
+            healthcareHearseNotificationBinding.Update(n.HealthcareHearseNotification);
+            healthcareFacilityFullNotificationBinding.Update(n.HealthcareFacilityFullNotification);
+
+            policeTrafficAccidentNotificationBinding.Update(n.PoliceTrafficAccidentNotification);
+            policeCrimeSceneNotificationBinding.Update(n.PoliceCrimeSceneNotification);
+
+            pollutionAirPollutionNotificationBinding.Update(n.PollutionAirPollutionNotification);
+            pollutionNoisePollutionNotificationBinding.Update(n.PollutionNoisePollutionNotification);
+            pollutionGroundPollutionNotificationBinding.Update(n.PollutionGroundPollutionNotification);
+
+            resourceConsumerNoResourceNotificationBinding.Update(n.ResourceConsumerNoResourceNotification);
+            resourceConsumerNoFuelNotificationBinding.Update(n.ResourceConsumerNoFuelNotification);
+            resourceConnectionWarningNotificationBinding.Update(n.ResourceConnectionWarningNotification);
+            resourceConnectionOilPipeNotConnectedNotificationBinding.Update(n.ResourceConnectionOilPipeNotConnectedNotification);
+            resourceConnectionFishingPierNotConnectedNotificationBinding.Update(n.ResourceConnectionFishingPierNotConnectedNotification);
+
+            routePathfindNotificationBinding.Update(n.RoutePathfindNotification);
+            routeGateBypassNotificationBinding.Update(n.RouteGateBypassNotification);
+
+            transportLineVehicleNotificationBinding.Update(n.TransportLineVehicleNotification);
+        }
+
+        private static void TrySavePresetSettings(string tag)
+        {
+            try
+            {
+                CwdSettings.Instance.ApplyAndSave();
+            }
+            catch (Exception ex)
+            {
+                LogUtils.WarnOnce(
+                    tag,
+                    () => $"Failed to persist notification preset: {ex.GetType().Name}: {ex.Message}",
+                    ex);
+            }
         }
 
         private static bool AreAllNotificationSettingsEnabled()

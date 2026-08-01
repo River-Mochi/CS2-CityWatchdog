@@ -178,6 +178,32 @@ namespace CityWatchdog.Systems
             RefreshIcon();
         }
 
+        // Apply the CURRENT per-notification settings to the map icons. Unlike SetAllNotifications this
+        // does NOT force one value — each notification keeps its own saved state — so it is the apply
+        // path after a preset LOAD, where slots differ per notification. Each category applier reads
+        // CwdSettings.Instance.Notification and skips its own refresh; one RefreshIcon runs at the end.
+        public void ApplyNotificationSettings()
+        {
+            SetElectricityNotifications(false);
+            SetWaterPipeNotifications(false);
+            SetBuildingNotifications(false);
+            SetTrafficNotifications(false);
+            SetCompanyNotifications(false);
+            SetWorkProviderNotifications(false);
+            SetDisasterNotifications(false);
+            SetFireNotifications(false);
+            SetGarbageNotifications(false);
+            SetHealthcareNotifications(false);
+            SetPoliceNotifications(false);
+            SetPollutionNotifications(false);
+            SetResourceConsumerNotifications(false);
+            SetResourceConnectionNotifications(false);
+            SetRouteNotifications(false);
+            SetTransportLineNotifications(false);
+
+            RefreshIcon();
+        }
+
         private static void SetAllNotificationSettings(bool enabled)
         {
             CwdSettings.NotificationSetting notification = CwdSettings.Instance.Notification;

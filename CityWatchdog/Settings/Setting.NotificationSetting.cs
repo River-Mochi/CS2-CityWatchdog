@@ -1,4 +1,4 @@
-// <copyright file="CwdSettings.NotificationSetting.cs" company="River-Mochi">
+// <copyright file="Setting.NotificationSetting.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi. All rights reserved.
 // Licensed under the MIT License. You may not use this file except in compliance with this License.
 // See LICENSE file in the project root for full license information.
@@ -94,6 +94,90 @@ namespace CityWatchdog
             public bool RouteGateBypassNotification { get; set; }
 
             public bool TransportLineVehicleNotification { get; set; }
+
+            // Copies every notification flag from another snapshot. Used by the in-city preset slots
+            // (save = copy live -> preset; load = copy preset -> live). Unlike Toggle All, a preset
+            // captures the player's EXACT layout, so BuildingLevelingNotification (the optional row)
+            // IS included here. Keep this list complete whenever notifications are added.
+            public void CopyFrom(NotificationSetting other) {
+                ElectricityElectricityNotification = other.ElectricityElectricityNotification;
+                ElectricityBottleneckNotification = other.ElectricityBottleneckNotification;
+                ElectricityBuildingBottleneckNotification = other.ElectricityBuildingBottleneckNotification;
+                ElectricityNotEnoughProductionNotification = other.ElectricityNotEnoughProductionNotification;
+                ElectricityTransformerNotification = other.ElectricityTransformerNotification;
+                ElectricityNotEnoughConnectedNotification = other.ElectricityNotEnoughConnectedNotification;
+                ElectricityBatteryEmptyNotification = other.ElectricityBatteryEmptyNotification;
+                ElectricityLowVoltageNotConnected = other.ElectricityLowVoltageNotConnected;
+                ElectricityHighVoltageNotConnected = other.ElectricityHighVoltageNotConnected;
+
+                WaterPipeWaterNotification = other.WaterPipeWaterNotification;
+                WaterPipeDirtyWaterNotification = other.WaterPipeDirtyWaterNotification;
+                WaterPipeSewageNotification = other.WaterPipeSewageNotification;
+                WaterPipeWaterPipeNotConnectedNotification = other.WaterPipeWaterPipeNotConnectedNotification;
+                WaterPipeSewagePipeNotConnectedNotification = other.WaterPipeSewagePipeNotConnectedNotification;
+                WaterPipeNotEnoughWaterCapacityNotification = other.WaterPipeNotEnoughWaterCapacityNotification;
+                WaterPipeNotEnoughSewageCapacityNotification = other.WaterPipeNotEnoughSewageCapacityNotification;
+                WaterPipeNotEnoughGroundwaterNotification = other.WaterPipeNotEnoughGroundwaterNotification;
+                WaterPipeNotEnoughSurfaceWaterNotification = other.WaterPipeNotEnoughSurfaceWaterNotification;
+                WaterPipeDirtyWaterPumpNotification = other.WaterPipeDirtyWaterPumpNotification;
+
+                BuildingAbandonedCollapsedNotification = other.BuildingAbandonedCollapsedNotification;
+                BuildingAbandonedNotification = other.BuildingAbandonedNotification;
+                BuildingCondemnedNotification = other.BuildingCondemnedNotification;
+                BuildingTurnedOffNotification = other.BuildingTurnedOffNotification;
+                BuildingHighRentNotification = other.BuildingHighRentNotification;
+                BuildingLevelingNotification = other.BuildingLevelingNotification;
+
+                TrafficBottleneckNotification = other.TrafficBottleneckNotification;
+                TrafficDeadEndNotification = other.TrafficDeadEndNotification;
+                TrafficRoadConnectionNotification = other.TrafficRoadConnectionNotification;
+                TrafficTrackConnectionNotification = other.TrafficTrackConnectionNotification;
+                TrafficCarConnectionNotification = other.TrafficCarConnectionNotification;
+                TrafficShipConnectionNotification = other.TrafficShipConnectionNotification;
+                TrafficTrainConnectionNotification = other.TrafficTrainConnectionNotification;
+                TrafficPedestrianConnectionNotification = other.TrafficPedestrianConnectionNotification;
+                TrafficBicycleConnectionNotification = other.TrafficBicycleConnectionNotification;
+
+                CompanyNoInputsNotification = other.CompanyNoInputsNotification;
+                CompanyNoCustomersNotification = other.CompanyNoCustomersNotification;
+
+                WorkProviderUneducatedNotification = other.WorkProviderUneducatedNotification;
+                WorkProviderEducatedNotification = other.WorkProviderEducatedNotification;
+
+                DisasterWeatherDamageNotification = other.DisasterWeatherDamageNotification;
+                DisasterWeatherDestroyedNotification = other.DisasterWeatherDestroyedNotification;
+                DisasterWaterDamageNotification = other.DisasterWaterDamageNotification;
+                DisasterWaterDestroyedNotification = other.DisasterWaterDestroyedNotification;
+                DisasterDestroyedNotification = other.DisasterDestroyedNotification;
+
+                FireFireNotification = other.FireFireNotification;
+                FireBurnedDownNotification = other.FireBurnedDownNotification;
+
+                GarbageGarbageNotification = other.GarbageGarbageNotification;
+                GarbageFacilityFullNotification = other.GarbageFacilityFullNotification;
+
+                HealthcareAmbulanceNotification = other.HealthcareAmbulanceNotification;
+                HealthcareHearseNotification = other.HealthcareHearseNotification;
+                HealthcareFacilityFullNotification = other.HealthcareFacilityFullNotification;
+
+                PoliceTrafficAccidentNotification = other.PoliceTrafficAccidentNotification;
+                PoliceCrimeSceneNotification = other.PoliceCrimeSceneNotification;
+
+                PollutionAirPollutionNotification = other.PollutionAirPollutionNotification;
+                PollutionNoisePollutionNotification = other.PollutionNoisePollutionNotification;
+                PollutionGroundPollutionNotification = other.PollutionGroundPollutionNotification;
+
+                ResourceConsumerNoResourceNotification = other.ResourceConsumerNoResourceNotification;
+                ResourceConsumerNoFuelNotification = other.ResourceConsumerNoFuelNotification;
+                ResourceConnectionWarningNotification = other.ResourceConnectionWarningNotification;
+                ResourceConnectionOilPipeNotConnectedNotification = other.ResourceConnectionOilPipeNotConnectedNotification;
+                ResourceConnectionFishingPierNotConnectedNotification = other.ResourceConnectionFishingPierNotConnectedNotification;
+
+                RoutePathfindNotification = other.RoutePathfindNotification;
+                RouteGateBypassNotification = other.RouteGateBypassNotification;
+
+                TransportLineVehicleNotification = other.TransportLineVehicleNotification;
+            }
 
             public void SetDefaults() {
                 ElectricityElectricityNotification = true;
