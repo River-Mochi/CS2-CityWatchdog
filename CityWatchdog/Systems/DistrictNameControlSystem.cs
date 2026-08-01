@@ -19,29 +19,29 @@ namespace CityWatchdog.Systems
 
     public partial class DistrictNameControlSystem : UISystemBaseExtension
     {
-        private AreaBufferSystem? cachedAreaBufferSystem;
-        private FieldInfo? hasNameMeshField;
-        private object? districtAreaTypeData;
-        private bool reflectionReady;
-        private bool reflectionFailed;
-        private BoolBinding hideDistrictNamesBinding = null!;
-        private bool currentlyHiding;
+        private AreaBufferSystem? m_CachedAreaBufferSystem;
+        private FieldInfo? m_HasNameMeshField;
+        private object? m_DistrictAreaTypeData;
+        private bool m_ReflectionReady;
+        private bool m_ReflectionFailed;
+        private BoolBinding m_HideDistrictNamesBinding = null!;
+        private bool m_CurrentlyHiding;
 
         protected override void OnCreate()
         {
             base.OnCreate();
 
-            currentlyHiding = CwdSettings.Instance?.HideDistrictNames ?? false;
-            hideDistrictNamesBinding = AddBoolBindingAndTriggerBinding(
+            m_CurrentlyHiding = CwdSettings.Instance?.HideDistrictNames ?? false;
+            m_HideDistrictNamesBinding = AddBoolBindingAndTriggerBinding(
                 nameof(CwdSettings.HideDistrictNames),
-                currentlyHiding,
+                m_CurrentlyHiding,
                 OnHideDistrictNamesToggle);
         }
 
         // Restore vanilla's ready flag on unload so disabling CWD cannot leave names hidden.
         protected override void OnDestroy()
         {
-            if (currentlyHiding)
+            if (m_CurrentlyHiding)
             {
                 SetHasNameMesh(true);
             }
@@ -52,9 +52,9 @@ namespace CityWatchdog.Systems
         public void SyncFromSettings()
         {
             bool value = CwdSettings.Instance?.HideDistrictNames ?? false;
-            if (hideDistrictNamesBinding.Value != value)
+            if (m_HideDistrictNamesBinding.Value != value)
             {
-                hideDistrictNamesBinding.Update(value);
+                m_HideDistrictNamesBinding.Update(value);
             }
 
             ApplySetting(value);
@@ -62,23 +62,23 @@ namespace CityWatchdog.Systems
 
         protected override void OnUpdate()
         {
-            if (!reflectionReady && !reflectionFailed)
+            if (!m_ReflectionReady && !m_ReflectionFailed)
             {
                 InitializeReflection();
             }
 
             bool settingValue = CwdSettings.Instance?.HideDistrictNames ?? false;
-            if (settingValue != currentlyHiding)
+            if (settingValue != m_CurrentlyHiding)
             {
-                if (hideDistrictNamesBinding.Value != settingValue)
+                if (m_HideDistrictNamesBinding.Value != settingValue)
                 {
-                    hideDistrictNamesBinding.Update(settingValue);
+                    m_HideDistrictNamesBinding.Update(settingValue);
                 }
 
                 ApplySetting(settingValue);
             }
 
-            if (currentlyHiding && reflectionReady)
+            if (m_CurrentlyHiding && m_ReflectionReady)
             {
                 SuppressDistrictNameMesh();
             }
@@ -86,7 +86,7 @@ namespace CityWatchdog.Systems
 
         private void OnHideDistrictNamesToggle(bool value)
         {
-            hideDistrictNamesBinding.Update(value);
+            m_HideDistrictNamesBinding.Update(value);
 
             CwdSettings? setting = CwdSettings.Instance;
             if (setting != null)
@@ -100,8 +100,8 @@ namespace CityWatchdog.Systems
 
         private void ApplySetting(bool hide)
         {
-            currentlyHiding = hide;
-            if (!currentlyHiding)
+            m_CurrentlyHiding = hide;
+            if (!m_CurrentlyHiding)
             {
                 SetHasNameMesh(true);
             }
@@ -113,7 +113,7 @@ namespace CityWatchdog.Systems
             {
                 // AreaBufferSystem prepared this mesh earlier in the frame. Read first, then
                 // clear only District ready flag so vanilla skips the label draw.
-                cachedAreaBufferSystem?.GetNameMesh(AreaType.District, out _, out _);
+                m_CachedAreaBufferSystem?.GetNameMesh(AreaType.District, out _, out _);
                 SetHasNameMesh(false);
             }
             catch (Exception ex)
@@ -131,9 +131,9 @@ namespace CityWatchdog.Systems
         {
             try
             {
-                cachedAreaBufferSystem = World.GetExistingSystemManaged<AreaBufferSystem>();
+                m_CachedAreaBufferSystem = World.GetExistingSystemManaged<AreaBufferSystem>();
                 // Rendering system may not exist yet during startup, so retry next update.
-                if (cachedAreaBufferSystem == null)
+                if (m_CachedAreaBufferSystem == null)
                 {
                     return;
                 }
@@ -145,50 +145,50 @@ namespace CityWatchdog.Systems
                     LogUtils.WarnOnce(
                         "district-name-reflect",
                         () => "Cannot find AreaBufferSystem.AreaTypeData; district-name toggle disabled.");
-                    reflectionFailed = true;
+                    m_ReflectionFailed = true;
                     return;
                 }
 
                 FieldInfo? arrayField = bufferType.GetField(
                     "m_AreaTypeData",
                     BindingFlags.Instance | BindingFlags.NonPublic);
-                hasNameMeshField = areaTypeDataType.GetField(
+                m_HasNameMeshField = areaTypeDataType.GetField(
                     "m_HasNameMesh",
                     BindingFlags.Instance | BindingFlags.Public);
 
                 if (arrayField == null ||
-                    hasNameMeshField == null ||
-                    hasNameMeshField.FieldType != typeof(bool))
+                    m_HasNameMeshField == null ||
+                    m_HasNameMeshField.FieldType != typeof(bool))
                 {
                     LogUtils.WarnOnce(
                         "district-name-reflect",
                         () => "District-name toggle disabled because CS2 area rendering internals changed.");
-                    reflectionFailed = true;
+                    m_ReflectionFailed = true;
                     return;
                 }
 
-                Array? array = arrayField.GetValue(cachedAreaBufferSystem) as Array;
+                Array? array = arrayField.GetValue(m_CachedAreaBufferSystem) as Array;
                 int districtIndex = (int)AreaType.District;
                 if (array == null || districtIndex < 0 || districtIndex >= array.Length)
                 {
                     LogUtils.WarnOnce(
                         "district-name-reflect",
                         () => "m_AreaTypeData does not contain a District entry; district-name toggle disabled.");
-                    reflectionFailed = true;
+                    m_ReflectionFailed = true;
                     return;
                 }
 
-                districtAreaTypeData = array.GetValue(districtIndex);
-                if (districtAreaTypeData == null)
+                m_DistrictAreaTypeData = array.GetValue(districtIndex);
+                if (m_DistrictAreaTypeData == null)
                 {
                     LogUtils.WarnOnce(
                         "district-name-reflect",
                         () => "The District AreaTypeData entry is null; district-name toggle disabled.");
-                    reflectionFailed = true;
+                    m_ReflectionFailed = true;
                     return;
                 }
 
-                reflectionReady = true;
+                m_ReflectionReady = true;
 #if DEBUG
                 LogUtils.Debug(() => $"District reflection OK: AreaTypeData found, District index={districtIndex}, m_HasNameMesh bool field found.");
 #endif
@@ -199,20 +199,20 @@ namespace CityWatchdog.Systems
                     "district-name-init",
                     () => $"District-name reflection initialization failed: {ex.GetType().Name}: {ex.Message}",
                     ex);
-                reflectionFailed = true;
+                m_ReflectionFailed = true;
             }
         }
 
         private void SetHasNameMesh(bool value)
         {
-            if (districtAreaTypeData == null || hasNameMeshField == null)
+            if (m_DistrictAreaTypeData == null || m_HasNameMeshField == null)
             {
                 return;
             }
 
             try
             {
-                hasNameMeshField.SetValue(districtAreaTypeData, value);
+                m_HasNameMeshField.SetValue(m_DistrictAreaTypeData, value);
             }
             catch (Exception ex)
             {
