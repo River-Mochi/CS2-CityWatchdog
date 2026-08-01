@@ -41,7 +41,6 @@ namespace CityWatchdog.Systems
     using System.Collections.Generic;
     using System.Reflection;
     using CS2Shared.RiverMochi;
-    using Game;
     using Game.Input;
     using Game.Rendering;
     using Game.Tools;

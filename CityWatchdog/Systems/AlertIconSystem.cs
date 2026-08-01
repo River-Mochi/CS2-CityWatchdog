@@ -11,14 +11,12 @@
 
 namespace CityWatchdog.Systems
 {
-    using System;
     using System.Collections.Generic;
     using System.Text;
     using Colossal.Serialization.Entities;
     using Game.Common;
     using Game.Notifications;
     using Game.Prefabs;
-    using Game.UI;
     using Unity.Collections;
     using Unity.Entities;
 

@@ -31,8 +31,6 @@ namespace CityWatchdog.Systems
     using System;
     using System.Reflection;
     using CS2Shared.RiverMochi;
-    using Game;
-    using Game.Input;
     using Game.Tools;
 
     public partial class RoadArrowControlSystem : UISystemBaseExtension

@@ -20,7 +20,6 @@ namespace CityWatchdog.Systems
     using System;
     using System.Reflection;
     using CS2Shared.RiverMochi;
-    using Game;
     using Game.Areas;
     using Game.Rendering;
 

@@ -17,7 +17,6 @@ namespace CityWatchdog.Systems
     using System.Text;
     using CS2Shared.RiverMochi;
     using Game.Economy;
-    using Game.Notifications;
     using Game.Prefabs;
     using Game.UI;
     using Unity.Collections;

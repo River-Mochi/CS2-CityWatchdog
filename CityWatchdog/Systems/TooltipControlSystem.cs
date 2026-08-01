@@ -19,7 +19,6 @@ namespace CityWatchdog.Systems
 {
     using System;
     using CS2Shared.RiverMochi;
-    using Game;
     using Game.Input;
     using Game.UI.Tooltip;
 
