@@ -34,7 +34,7 @@ namespace CityWatchdog
                 { m_Settings.GetSettingsLocaleID(), title },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.Actions), "操作" },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.MiniHudTab), "ミニHUD" },
-                { m_Settings.GetOptionTabLocaleID(CwdSettings.MoneyTab), "資金・マイルストーン" },
+                { m_Settings.GetOptionTabLocaleID(CwdSettings.MoneyTab), "都市開始" },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.About), "情報" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.AboutUsage), "使い方" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.Notifications), "通知" },
@@ -56,12 +56,12 @@ namespace CityWatchdog
                     "2. **[i]** ボタン: 建物、市民、ツール、下部メニューなど、ゲームのホバーツールチップを <すべて> 表示/非表示。\n" +
                     "3. 道路ボタン: 道路名を表示/非表示。ホットキー: \\.\n" +
                     "4. 地区ボタン: 地区名を表示/非表示。\n" +
-                    "5. 道路矢印ボタン: 一方通行矢印をON/OFF（道路名も非表示）。\n" +
+                    "5. 道路矢印ボタン: 一方通行矢印を表示/非表示（道路名も非表示）。\n" +
                     "\n" +
                     "<通知アラート>\n" +
                     "1. 並び替えは A→Z、Z→A、アクティブのみ。\n" +
-                    "2. <[0/62]> = アイコンON/合計。クリックで全行を展開/折りたたみ。\n" +
-                    "3a. [すべて切替] で全通知アイコンを即OFF/ON。\n" +
+                    "2. <[0/62]> = 表示中アイコン/合計。クリックで全行を展開/折りたたみ。\n" +
+                    "3a. [すべて切替] で全通知アイコンを即非表示/表示。\n" +
                     "3b. アイコンを隠すだけで、都市の問題は直しません。\n" +
                     "\n" +
                     "<資金ヘルプ>\n" +
@@ -70,10 +70,10 @@ namespace CityWatchdog
                     "3. 無限資金セーブ変換は、無限資金で始めた都市専用で、<元に戻せません>。\n" +
                     "\n" +
                     "<下部メニューツールチップ>\n" +
-                    "マネービュー は資金や人口にマウスを置いた時、トレンドなどの詳細を追加します。\n" +
+                    "資金表示は資金や人口にマウスを置いた時、トレンドなどの詳細を追加します。\n" +
                     "\n" +
                     "<カスタムマイルストーン>\n" +
-                    "資金・マイルストーン > 新規都市スタート設定で、都市をロード/開始する前に初期資金やマイルストーンを設定します。" },
+                    "都市開始 > 新規都市スタート設定で、都市をロード/開始する前に初期資金やマイルストーンを設定します。" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.UsageText)), "" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleNotificationsKeyboardBinding)), "通知アイコン切替" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleNotificationsKeyboardBinding)),
@@ -98,7 +98,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleAllTooltipsKeyboardBinding)), "全ホバーツールチップ無効" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleAllTooltipsKeyboardBinding)),
                     "建物、市民、ツール、下部アイコンなど、ゲームのホバーツールチップを <すべて> 表示/非表示にする <ホットキー>。\n" +
-                    "<City Watchdog の資金/人口ポップアップは残ります>; マネービュー が制御します。\n" +
+                    "<City Watchdog の資金/人口ポップアップは残ります>; 資金表示が制御します。\n" +
                     "City Watchdog パネルの [i] アイコンと同じです。" },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "ゲームのホバーツールチップ表示切替" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "メインパネルの不透明度" },
@@ -111,7 +111,7 @@ namespace CityWatchdog
                     "下部メニュー: <資金と人口の矢印> にトレンド値を表示。\n" +
                     "軽いホバー機能 <表示のみ>。\n" +
                     "ゲームの情報パネルを開くより手早く、軽い場合があります。" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyViewMode)), "マネービュー 頻度" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyViewMode)), "資金表示の頻度" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyViewMode)),
                     "下部バーのトレンドを時間ごと/月ごとで選択します。\n" +
                     "月ごとは収入−支出と24時間の人口予測を使います。" },
@@ -129,7 +129,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "全データ" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyTooltipFontScale)), "資金フォントサイズ" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyTooltipFontScale)),
-                    "マネービュー の数値 <フォントサイズ> を調整。\n" +
+                    "資金表示の数値 <フォントサイズ> を調整。\n" +
                     "ゲーム既定 = 100%\n" +
                     "<Mod既定 = 120%>\n" +
                     "画面下の資金にマウスを置きます。\n" +
@@ -148,23 +148,23 @@ namespace CityWatchdog
                     "同じアイコンを続けてクリックすると候補を巡回します。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "クリック: クイック開始" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
-                    "ミニ表示の<クイックスタート>を適用します:\n" +
-                    "**青い星のお気に入り**の初期セットを含みます。\n" +
+                    "ミニ表示の<クイック開始>を適用します:\n" +
+                    "**青い星のお気に入り**の初期設定を含みます。\n" +
                     "**青い星**付きの通知は、合計数が上位5または10以内ならミニ表示に出ます。\n" +
                     "展開した Watchdog パネルで **青い星** を追加/削除できます。\n" +
-                    "セット内容: お気に入り、5アイコン、縦表示、ドラッグ可、100%サイズ、暗いパネル、0件アイコンは非表示。"
+                    "初期設定: お気に入り、5アイコン、縦表示、ドラッグ可、100%サイズ、暗いパネル、0件アイコンは非表示。"
                   },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "ミニ表示モード" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),
                     "ミニ表示で使う通知行を選びます。\n" +
-                    "**上位アクティブ** は現在件数が多いものを表示します。\n" +
+                    "**件数上位** は現在件数が多いものを表示します。\n" +
                     "**お気に入り** はメイン City Watchdog パネルの **青い星** の行を使います。\n" +
                     "お気に入りは好きなだけ選べますが、\n" +
-                    "ミニ表示はその **青い星** リストから上位5件または10件だけ表示します。"
+                    "ミニ表示はその **青い星** リストから件数上位5件または10件だけ表示します。"
                   },
 
-                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "上位アクティブ" },
+                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "件数上位" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "お気に入り" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudItemCount)), "アイコン数" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudItemCount)), "ミニHUDに表示する通知アイコン数を選びます。" },
@@ -207,7 +207,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.CustomMilestone)), "マイルストーン選択" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.CustomMilestone)),
                     "都市ロード時に指定マイルストーンを即解除するには <ロード/開始前> に有効化。\n" +
-                    "- 都市ロード後はON不可。ただし誤ONならOFF可能。\n" +
+                    "- 都市ロード後は有効化不可。ただし誤って有効にした場合は無効化可能。\n" +
                     "- 忘れたらゲームを再起動し、都市に入る前に選択。\n" +
                     "- 保存済みのマイルストーン変更は元に戻せません。古いセーブを使用。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MilestoneLevel)), "マイルストーン" },
@@ -255,7 +255,7 @@ namespace CityWatchdog
                     "<無限資金> で開始した都市用。\n" +
                     "その都市をロード中に、通常の有限資金予算へ変換します。\n" +
                     "ボタンは都市が <無限資金> タイプで、\n" +
-                    "<無限資金コンバーター> がON [ ✓ ] の時だけ有効です。\n" +
+                    "<無限資金コンバーター> が有効 [ ✓ ] の時だけ有効です。\n" +
                     "必ずバックアップし、自己責任で使用してください。元に戻せません。" },
                 { m_Settings.GetOptionWarningLocaleID(nameof(CwdSettings.ConvertUnlimitedMoneySave)),
                     "この都市を無限資金から通常の有限資金へ変換しますか？\n" +
@@ -267,11 +267,11 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.VersionText)), "現在のModバージョン。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.OpenParadox)), "作者の Paradox Mods ページを開きます。" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)), "デバッグ報告をログへ" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)), "診断レポートをログへ" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)),
                     "<通常プレイでは不要です。>\n" +
-                    "テスターやパッチ確認用: <Logs/CityWatchdog.log> にレポートを書き、\n" +
-                    "ゲーム内通知Prefabと Watchdog が制御するアイコンを比較します。" },
+                    "テスターやゲーム更新後の確認用: <Logs/CityWatchdog.log> にレポートを書き、\n" +
+                    "ゲーム内通知プレハブと Watchdog が制御するアイコンを比較します。" },
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenLog)), "ログを開く" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.OpenLog)),
                     "</Logs/CityWatchdog.log> があれば開きます。\n" +
