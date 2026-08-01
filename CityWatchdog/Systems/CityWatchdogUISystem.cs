@@ -25,10 +25,10 @@ namespace CityWatchdog.Systems
     using Unity.Entities;
 
     public partial class CityWatchdogUISystem : UISystemBaseExtension {
-        // Counting alerts scans every icon. Sim-frame throttles for steady updates
-        // ForceUpdate refreshes on city first load.
-        private const int kPanelCountUpdateInterval = 256;
-        private const int kMiniHudCountUpdateInterval = 256;
+        // Only the open panel or mini HUD scans.
+        // Opening the panel or loading a city refreshes right away.
+        private const int kPanelCountUpdateInterval = 256;      // Lower = faster updates, more work.
+        private const int kMiniHudCountUpdateInterval = 256;    // 256 is ~4 sec at normal speed.
 
         private readonly int[] lastNotificationCounts = new int[AlertIconSystem.NotificationCountLength];
         private bool hasLastNotificationCounts;
