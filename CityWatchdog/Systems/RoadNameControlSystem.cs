@@ -25,34 +25,34 @@ namespace CityWatchdog.Systems
     {
         private const string AggregateRenderMethodName = "Render";
 
-        private BoolBinding hideRoadNamesBinding = null!;
-        private AggregateRenderSystem? cachedAggregateRenderSystem;
-        private ToolSystem? cachedToolSystem;
-        private Action<ScriptableRenderContext, List<Camera>>? cachedRenderDelegate;
-        private bool currentlyUnsubscribed;
-        private ProxyAction? toggleAction;
+        private BoolBinding m_HideRoadNamesBinding = null!;
+        private AggregateRenderSystem? m_CachedAggregateRenderSystem;
+        private ToolSystem? m_CachedToolSystem;
+        private Action<ScriptableRenderContext, List<Camera>>? m_CachedRenderDelegate;
+        private bool m_CurrentlyUnsubscribed;
+        private ProxyAction? m_ToggleAction;
 
         protected override void OnCreate()
         {
             base.OnCreate();
 
             bool initial = CwdSettings.Instance?.HideRoadNames ?? false;
-            hideRoadNamesBinding = AddBoolBindingAndTriggerBinding(
+            m_HideRoadNamesBinding = AddBoolBindingAndTriggerBinding(
                 nameof(CwdSettings.HideRoadNames),
                 initial,
                 OnHideRoadNamesToggle);
 
-            toggleAction = EnableHotkey(CwdSettings.ToggleRoadNamesAction);
+            m_ToggleAction = EnableHotkey(CwdSettings.ToggleRoadNamesAction);
         }
 
         protected override void OnDestroy()
         {
             // Restore vanilla rendering on mod unload so the game is clean.
-            if (currentlyUnsubscribed && cachedRenderDelegate != null)
+            if (m_CurrentlyUnsubscribed && m_CachedRenderDelegate != null)
             {
                 try
                 {
-                    RenderPipelineManager.beginContextRendering += cachedRenderDelegate;
+                    RenderPipelineManager.beginContextRendering += m_CachedRenderDelegate;
                 }
                 catch (Exception ex)
                 {
@@ -61,7 +61,7 @@ namespace CityWatchdog.Systems
                         () => $"Failed to re-subscribe AggregateRenderSystem.Render on destroy: {ex.GetType().Name}: {ex.Message}",
                         ex);
                 }
-                currentlyUnsubscribed = false;
+                m_CurrentlyUnsubscribed = false;
             }
             base.OnDestroy();
         }
@@ -69,21 +69,21 @@ namespace CityWatchdog.Systems
         public void SyncFromSettings()
         {
             bool value = CwdSettings.Instance?.HideRoadNames ?? false;
-            if (hideRoadNamesBinding.Value != value)
+            if (m_HideRoadNamesBinding.Value != value)
             {
-                hideRoadNamesBinding.Update(value);
+                m_HideRoadNamesBinding.Update(value);
             }
             ApplyToGame();
         }
 
         protected override void OnUpdate()
         {
-            if (toggleAction == null)
+            if (m_ToggleAction == null)
             {
-                toggleAction = EnableHotkey(CwdSettings.ToggleRoadNamesAction);
+                m_ToggleAction = EnableHotkey(CwdSettings.ToggleRoadNamesAction);
             }
 
-            if (toggleAction?.WasReleasedThisFrame() == true)
+            if (m_ToggleAction?.WasReleasedThisFrame() == true)
             {
                 bool current = CwdSettings.Instance?.HideRoadNames ?? false;
                 OnHideRoadNamesToggle(!current);
@@ -97,7 +97,7 @@ namespace CityWatchdog.Systems
 
         private void OnHideRoadNamesToggle(bool value)
         {
-            hideRoadNamesBinding.Update(value);
+            m_HideRoadNamesBinding.Update(value);
 
             CwdSettings? setting = CwdSettings.Instance;
             if (setting != null)
@@ -111,10 +111,10 @@ namespace CityWatchdog.Systems
 
         private void ApplyToGame()
         {
-            if (cachedAggregateRenderSystem == null)
+            if (m_CachedAggregateRenderSystem == null)
             {
-                cachedAggregateRenderSystem = World.GetExistingSystemManaged<AggregateRenderSystem>();
-                if (cachedAggregateRenderSystem == null)
+                m_CachedAggregateRenderSystem = World.GetExistingSystemManaged<AggregateRenderSystem>();
+                if (m_CachedAggregateRenderSystem == null)
                 {
                     return;
                 }
@@ -122,10 +122,10 @@ namespace CityWatchdog.Systems
 
             // Road-name text is baked into GPU textures, so changing localization would not
             // reliably hide existing labels. Control vanilla render callback instead.
-            if (cachedRenderDelegate == null)
+            if (m_CachedRenderDelegate == null)
             {
-                cachedRenderDelegate = BuildRenderDelegate(cachedAggregateRenderSystem);
-                if (cachedRenderDelegate == null)
+                m_CachedRenderDelegate = BuildRenderDelegate(m_CachedAggregateRenderSystem);
+                if (m_CachedRenderDelegate == null)
                 {
                     LogUtils.WarnOnce(
                         "road-name-render-delegate",
@@ -144,29 +144,29 @@ namespace CityWatchdog.Systems
             // skips the names loop, so we let it run — gives us arrows + no names for free.
             bool shouldBeUnsubscribed = hideRequested && !arrowsForced && !toolWantsArrows;
 
-            if (shouldBeUnsubscribed && !currentlyUnsubscribed)
+            if (shouldBeUnsubscribed && !m_CurrentlyUnsubscribed)
             {
-                RenderPipelineManager.beginContextRendering -= cachedRenderDelegate;
-                currentlyUnsubscribed = true;
+                RenderPipelineManager.beginContextRendering -= m_CachedRenderDelegate;
+                m_CurrentlyUnsubscribed = true;
             }
-            else if (!shouldBeUnsubscribed && currentlyUnsubscribed)
+            else if (!shouldBeUnsubscribed && m_CurrentlyUnsubscribed)
             {
-                RenderPipelineManager.beginContextRendering += cachedRenderDelegate;
-                currentlyUnsubscribed = false;
+                RenderPipelineManager.beginContextRendering += m_CachedRenderDelegate;
+                m_CurrentlyUnsubscribed = false;
             }
         }
 
         private bool NetToolWantsArrows()
         {
-            if (cachedToolSystem == null)
+            if (m_CachedToolSystem == null)
             {
-                cachedToolSystem = World.GetExistingSystemManaged<ToolSystem>();
-                if (cachedToolSystem == null)
+                m_CachedToolSystem = World.GetExistingSystemManaged<ToolSystem>();
+                if (m_CachedToolSystem == null)
                 {
                     return false;
                 }
             }
-            return cachedToolSystem.activeTool != null && cachedToolSystem.activeTool.requireNetArrows;
+            return m_CachedToolSystem.activeTool != null && m_CachedToolSystem.activeTool.requireNetArrows;
         }
 
         private static Action<ScriptableRenderContext, List<Camera>>? BuildRenderDelegate(AggregateRenderSystem system)
