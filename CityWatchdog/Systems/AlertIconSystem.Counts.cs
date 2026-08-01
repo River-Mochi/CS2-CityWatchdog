@@ -214,7 +214,7 @@ namespace CityWatchdog.Systems
 #if DEBUG
             if (index != NotificationCountLength)
             {
-                LogUtils.Debug(() => $"Notification count mapping length mismatch: expected={NotificationCountLength}, actual={index}.");
+                CS2Shared.RiverMochi.LogUtils.Debug(() => $"Notification count mapping length mismatch: expected={NotificationCountLength}, actual={index}.");
             }
 #endif
 
