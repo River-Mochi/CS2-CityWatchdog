@@ -57,7 +57,7 @@ namespace CityWatchdog
                 return $"Milestone {gameMilestoneNumber}";
             }
 
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new();
 
             for (int i = 0; i < fallbackInternalName.Length; i++)
             {

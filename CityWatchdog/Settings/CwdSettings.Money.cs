@@ -1,4 +1,4 @@
-// <copyright file="Setting.Money.cs" company="River-Mochi">
+// <copyright file="CwdSettings.Money.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi. All rights reserved.
 // Licensed under the MIT License. You may not use this file except in compliance with this License.
 // See LICENSE file in the project root for full license information.
@@ -358,7 +358,7 @@ namespace CityWatchdog
 
         private DropdownItem<int>[] GetMilestoneLevelItems()
         {
-            List<DropdownItem<int>> items = new List<DropdownItem<int>>();
+            List<DropdownItem<int>> items = new();
             for (int i = 0; i < Milestones.Length; i++)
             {
                 items.Add(new DropdownItem<int>

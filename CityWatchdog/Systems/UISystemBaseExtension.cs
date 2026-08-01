@@ -11,9 +11,9 @@
 
 namespace CityWatchdog.Systems
 {
+    using System;
     using Colossal.UI.Binding;
     using Game.UI;
-    using System;
 
     public abstract partial class UISystemBaseExtension : UISystemBase
     {
@@ -28,7 +28,7 @@ namespace CityWatchdog.Systems
 
         public BoolBinding AddBoolBinding(string name, bool initialValue)
         {
-            BoolBinding boolBinding = new BoolBinding(ModId, name, initialValue);
+            BoolBinding boolBinding = new(ModId, name, initialValue);
             AddBinding(boolBinding.ValueBinding);
             return boolBinding;
         }
@@ -40,7 +40,7 @@ namespace CityWatchdog.Systems
 
         public TriggerBinding<T> AddTriggerBinding<T>(string name, Action<T> callback)
         {
-            TriggerBinding<T> triggerBinding = new TriggerBinding<T>(ModId, name, callback);
+            TriggerBinding<T> triggerBinding = new(ModId, name, callback);
             AddBinding(triggerBinding);
             return triggerBinding;
         }

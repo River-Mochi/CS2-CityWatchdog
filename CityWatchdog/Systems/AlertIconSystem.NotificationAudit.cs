@@ -11,15 +11,15 @@
 
 namespace CityWatchdog.Systems
 {
-    using CS2Shared.RiverMochi;
-    using Game.Notifications;
-    using Game.Economy;
-    using Game.Prefabs;
-    using Game.UI;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using CS2Shared.RiverMochi;
+    using Game.Economy;
+    using Game.Notifications;
+    using Game.Prefabs;
+    using Game.UI;
     using Unity.Collections;
     using Unity.Entities;
 
@@ -34,7 +34,7 @@ namespace CityWatchdog.Systems
         {
             Dictionary<Entity, string> tracked = BuildTrackedNotificationPrefabMap();
             List<NotificationAuditRow> rows = GetNotificationAuditRows(tracked);
-            HashSet<Entity> gameNotificationPrefabs = new HashSet<Entity>(rows.Select(row => row.Entity));
+            HashSet<Entity> gameNotificationPrefabs = new(rows.Select(row => row.Entity));
 
             List<NotificationAuditRow> trackedRows = rows
                 .Where(row => row.Tracked)
@@ -59,7 +59,7 @@ namespace CityWatchdog.Systems
                 .OrderBy(item => item.Value, StringComparer.Ordinal)
                 .ToList();
 
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new();
             builder.AppendLine("=== City Watchdog Notification Coverage Audit ===");
             builder.AppendLine("Build: manual one-click audit");
             builder.AppendLine("Purpose: compare live game NotificationIconDisplayData prefabs with CWD-controlled notification rows.");
@@ -84,7 +84,7 @@ namespace CityWatchdog.Systems
 
         private Dictionary<Entity, string> BuildTrackedNotificationPrefabMap()
         {
-            Dictionary<Entity, string> tracked = new Dictionary<Entity, string>();
+            Dictionary<Entity, string> tracked = new();
 
             if (TryGetQuerySingleton(electricityParameterQuery, out ElectricityParameterData electricity))
             {
@@ -253,7 +253,7 @@ namespace CityWatchdog.Systems
 
         private List<NotificationAuditRow> GetNotificationAuditRows(Dictionary<Entity, string> tracked)
         {
-            List<NotificationAuditRow> rows = new List<NotificationAuditRow>();
+            List<NotificationAuditRow> rows = new();
             NativeArray<Entity> entities = notificationIconDisplayDataQuery.ToEntityArray(Allocator.Temp);
             try
             {
@@ -410,7 +410,7 @@ namespace CityWatchdog.Systems
 
         private string GetNotificationAuditKind(Entity entity)
         {
-            List<string> kinds = new List<string>();
+            List<string> kinds = new();
 
             try
             {

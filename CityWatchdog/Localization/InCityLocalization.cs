@@ -82,7 +82,7 @@ namespace CityWatchdog
                         continue;
                     }
 
-                    Dictionary<string, string> prefixed = new Dictionary<string, string>(translations.Count);
+                    Dictionary<string, string> prefixed = new(translations.Count);
                     foreach (KeyValuePair<string, string> entry in translations)
                     {
                         if (!string.IsNullOrEmpty(entry.Value))
@@ -132,7 +132,7 @@ namespace CityWatchdog
                 return new Dictionary<string, string>();
             }
 
-            using StreamReader reader = new StreamReader(stream);
+            using StreamReader reader = new(stream);
             string raw = reader.ReadToEnd();
             Variant variant = JSON.Load(raw);
             return variant.Make<Dictionary<string, string>>() ?? new Dictionary<string, string>();
