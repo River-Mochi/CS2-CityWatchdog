@@ -43,6 +43,8 @@
   "PopulationTooltipHomeless": "Homeless:",
   "PopulationTooltipMovedIn": "Moved in:",
   "PopulationTooltipMovedOut": "Moved out:",
+  "PopulationTooltipBirthsDeaths": "Births / Deaths",
+  "PopulationTooltipMovedInOut": "Moved in / out",
   "Electricity": "ELECTRICITY",
   "ElectricityElectricityNotification": "Not enough electricity",
   "ElectricityBottleneckNotification": "Electricity bottleneck",

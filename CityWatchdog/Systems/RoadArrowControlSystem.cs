@@ -23,20 +23,17 @@
 // so CWD does not interfere with tool behavior.
 //
 // `requireNetArrows` is a public property on ToolBaseSystem but its setter is internal,
-// so we go through reflection. No Harmony, no IL patching, no custom render path of our own.
+// so go through reflection, do no Harmony needed.
 //
-// Inspired by — but not copied from — an unpublished community mod that shipped only a DLL.
-// Our identifier names, file layout, persistence wiring, and lifecycle differ. Defaults
-// in OnDestroy restore the original flag so the game is left clean on mod unload.
 
 namespace CityWatchdog.Systems
 {
+    using System;
+    using System.Reflection;
     using CS2Shared.RiverMochi;
     using Game;
     using Game.Input;
     using Game.Tools;
-    using System;
-    using System.Reflection;
 
     public partial class RoadArrowControlSystem : UISystemBaseExtension
     {

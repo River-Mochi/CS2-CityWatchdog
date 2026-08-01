@@ -35,6 +35,11 @@ namespace CityWatchdog
         [SettingsUIHidden]
         public bool Preset2Saved { get; set; }
 
+        // Which slot was last loaded or saved: 0 = none, 1, or 2. Drives the panel's "selected" ring +
+        // dot so the player can tell which preset is currently applied. Cleared to 0 by Show/Hide Icons.
+        [SettingsUIHidden]
+        public int ActivePreset { get; set; }
+
         // Called from SetDefaults so a full settings reset also clears both preset slots.
         private void ResetPresets()
         {
@@ -42,6 +47,7 @@ namespace CityWatchdog
             Preset2 = new NotificationSetting();
             Preset1Saved = false;
             Preset2Saved = false;
+            ActivePreset = 0;
         }
     }
 }

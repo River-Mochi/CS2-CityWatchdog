@@ -10,7 +10,9 @@
     top: 60rem;
     left: var(--screenPadding);
     overflow: visible;
-    width: 360rem;
+    // Widened to fit the preset 1|2 button plus the Show/Hide Icons label with headroom for longer
+    // translated words (e.g. German/Russian) so nothing clips at the right edge.
+    width: 420rem;
 }
 
 .panel {
@@ -18,7 +20,7 @@
     top: 0;
     left: 0;
     overflow: visible;
-    width: 360rem;
+    width: 420rem;
     max-height: 890rem;
     // Let custom wrapper colors show through instead of stacking extra vanilla fills.
     // follows the same idea as ZoneTools: make Panel shell transparent,
@@ -288,7 +290,7 @@
 .toolbar {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     padding-top: 5rem;
     padding-right: 10rem;
@@ -301,6 +303,23 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+// Left map-toggle group keeps its natural size at the far left.
+.toolbarLeft {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
+}
+
+// Right group fills the rest of the row — removing the old dead gap between the two groups — and its
+// Show Icons button flex-grows to absorb the slack, which also lets it widen for longer translations.
+.toolbarButtons {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    min-width: 0;
+    margin-left: 16rem;
 }
 
 // Left side: keep Info + Road-Name + District-Name + Road-Arrow toggles tight.

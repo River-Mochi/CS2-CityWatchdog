@@ -24,6 +24,7 @@ import {
   panelSortMode$,
   preset1Saved$,
   preset2Saved$,
+  activePreset$,
   showRoadArrows$,
   OnControlPanelBindingToggle,
   OnDisableAllTooltipsToggle,
@@ -298,6 +299,8 @@ const NotificationPanelContent = () => {
   // preset1Saved$/preset2Saved$ — whether each "1 | 2" preset slot holds a saved checkbox layout.
   const preset1Saved = useValue(preset1Saved$);
   const preset2Saved = useValue(preset2Saved$);
+  // activePreset$ — which slot (1/2) is currently applied; 0 = none. Drives the "selected" ring + dot.
+  const activePreset = useValue(activePreset$);
   const [expandedSections, setExpandedSections] = useState(createExpandedSections);
   const allValues = useAllNotificationValues();
   const notificationCounts = useValue(notificationCounts$);
@@ -596,28 +599,6 @@ const NotificationPanelContent = () => {
             />
           </CwdTooltip>
 
-          {/* Preset slots "1 | 2": click a slot to load its saved checkbox layout, hold to save the
-              current one into it. Lets players keep favorite setups that Show/Hide Icons won't wipe. */}
-          <div className={presetStyles.presetGroup}>
-            <CwdTooltip tooltip={preset1Tooltip}>
-              <PresetSlot
-                label="1"
-                saved={preset1Saved}
-                onLoad={() => { OnLoadPreset(1); }}
-                onSave={() => { OnSavePreset(1); }}
-              />
-            </CwdTooltip>
-            <div className={presetStyles.presetDivider} />
-            <CwdTooltip tooltip={preset2Tooltip}>
-              <PresetSlot
-                label="2"
-                saved={preset2Saved}
-                onLoad={() => { OnLoadPreset(2); }}
-                onSave={() => { OnSavePreset(2); }}
-              />
-            </CwdTooltip>
-          </div>
-
           <CwdTooltip tooltip={sortMode === SORT_ACTIVE
             ? localize("BackToGrouped", "Back to grouped list")
             : (allSectionsExpanded ? localize("CollapseAll", "Collapse All Rows") : localize("ExpandAll", "Expand All Rows"))}>
@@ -631,6 +612,30 @@ const NotificationPanelContent = () => {
               </PanelButtonText>
             </PanelButton>
           </CwdTooltip>
+
+          {/* Preset slots "1 | 2" sit next to Show Icons because all three control which map icons
+              show. Click a slot to load its saved checkbox layout, hold to save the current one in. */}
+          <div className={presetStyles.presetGroup}>
+            <CwdTooltip tooltip={preset1Tooltip}>
+              <PresetSlot
+                label="1"
+                saved={preset1Saved}
+                active={activePreset === 1}
+                onLoad={() => { OnLoadPreset(1); }}
+                onSave={() => { OnSavePreset(1); }}
+              />
+            </CwdTooltip>
+            <div className={presetStyles.presetDivider} />
+            <CwdTooltip tooltip={preset2Tooltip}>
+              <PresetSlot
+                label="2"
+                saved={preset2Saved}
+                active={activePreset === 2}
+                onLoad={() => { OnLoadPreset(2); }}
+                onSave={() => { OnSavePreset(2); }}
+              />
+            </CwdTooltip>
+          </div>
 
           <CwdTooltip tooltip={localize("ToggleAllTooltip", "Show or hide ALL map notification icons at once.\nColor: green = all shown; blue = mixed; red = all hidden.")}>
             <PanelButton

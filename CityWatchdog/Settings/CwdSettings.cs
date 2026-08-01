@@ -33,7 +33,7 @@ namespace CityWatchdog
 
     [FileLocation("ModsSettings/CityWatchdog/CityWatchdog")]
     [SettingsUITabOrder(Actions, MiniHudTab, MoneyTab, About)]
-    [SettingsUIGroupOrder(AboutUsage, Notifications, MoneyViewGroup, MiniHudGroup, Milestone, Money, SaveConversion, AboutInfo, AboutLinks, AboutDiagnostics, Serialize)]
+    [SettingsUIGroupOrder(AboutUsage, Notifications, MoneyViewGroup, MiniHudGroup, Milestone, SaveConversion, Money, AboutInfo, AboutLinks, AboutDiagnostics, Serialize)]
     [SettingsUIShowGroupName(AboutUsage, Notifications, MoneyViewGroup, MiniHudGroup, Milestone, Money, SaveConversion, AboutDiagnostics, Serialize)]
     public partial class CwdSettings : ModSetting
     {

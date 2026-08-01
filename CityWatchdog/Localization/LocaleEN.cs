@@ -41,7 +41,7 @@ namespace CityWatchdog
                 // --- Tabs ---
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.Actions), "Actions" },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.MiniHudTab), "Mini-HUD" },
-                { m_Settings.GetOptionTabLocaleID(CwdSettings.MoneyTab), "Money-Milestones" },
+                { m_Settings.GetOptionTabLocaleID(CwdSettings.MoneyTab), "City Start" },
                 { m_Settings.GetOptionTabLocaleID(CwdSettings.About), "About" },
 
                 // --- Groups, ordered by Options menu location ---

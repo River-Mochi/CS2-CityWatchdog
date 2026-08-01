@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: src/Systems/CityWatchdogUISystem.cs
-// Purpose: Contains a City Watchdog gameplay or UI system.
+// Purpose: 
 
 namespace CityWatchdog.Systems
 {
@@ -65,6 +65,7 @@ namespace CityWatchdog.Systems
         private ValueBinding<int> mainPanelOpacityBinding = null!;
         private ValueBinding<bool> preset1SavedBinding = null!;
         private ValueBinding<bool> preset2SavedBinding = null!;
+        private ValueBinding<int> activePresetBinding = null!;
         private ValueBinding<bool>? moneyViewBinding;
         private ValueBinding<int>? moneyViewModeBinding;
         private ValueBinding<int>? moneyTooltipModeBinding;
@@ -229,6 +230,7 @@ namespace CityWatchdog.Systems
             mainPanelOpacityBinding = AddValueBinding(nameof(CwdSettings.MainPanelOpacity), CwdSettings.Instance.MainPanelOpacity);
             preset1SavedBinding = AddValueBinding(nameof(CwdSettings.Preset1Saved), CwdSettings.Instance.Preset1Saved);
             preset2SavedBinding = AddValueBinding(nameof(CwdSettings.Preset2Saved), CwdSettings.Instance.Preset2Saved);
+            activePresetBinding = AddValueBinding(nameof(CwdSettings.ActivePreset), CwdSettings.Instance.ActivePreset);
             AddTriggerBinding<int>("SavePreset", SavePreset);
             AddTriggerBinding<int>("LoadPreset", LoadPreset);
             moneyViewBinding = AddValueBinding(nameof(CwdSettings.MoneyView), CwdSettings.Instance.MoneyView);
@@ -775,6 +777,9 @@ namespace CityWatchdog.Systems
             // The controller applies icon state in bulk, then bindings update panel state.
             alertIconSystem.SetAllNotifications(enabled);
             UpdateAllNotificationBindings(enabled);
+
+            // Show/Hide Icons no longer matches either saved slot, so drop the "selected" ring.
+            SetActivePreset(0);
         }
 
         private void UpdateAllNotificationBindings(bool enabled)
@@ -881,6 +886,7 @@ namespace CityWatchdog.Systems
                 return;
             }
 
+            SetActivePreset(slot);
             TrySavePresetSettings("preset-save");
         }
 
@@ -916,7 +922,14 @@ namespace CityWatchdog.Systems
             CwdSettings.Instance.Notification.CopyFrom(source);
             alertIconSystem.ApplyNotificationSettings();
             PushNotificationBindingsFromSettings();
+            SetActivePreset(slot);
             TrySavePresetSettings("preset-load");
+        }
+
+        private void SetActivePreset(int slot)
+        {
+            CwdSettings.Instance.ActivePreset = slot;
+            activePresetBinding.Update(slot);
         }
 
         // Mirrors UpdateAllNotificationBindings but pushes each notification's OWN saved value (used

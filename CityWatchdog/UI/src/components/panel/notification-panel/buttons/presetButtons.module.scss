@@ -7,7 +7,12 @@
 .presetGroup {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  // stretch so the divider between the slots runs the full height instead of only the middle.
+  align-items: stretch;
+  // Fixed size: never grow/shrink when the Show Icons button flexes to fill the toolbar.
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
   height: 32rem;
   border-top-left-radius: 4rem;
   border-top-right-radius: 4rem;
@@ -31,6 +36,7 @@
 }
 
 .presetSlot {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,13 +57,14 @@
   }
 }
 
-// Saved slot: a subtle blue fill signals it holds a setup you can load.
+// Saved slot: a subtle blue tint signals it holds a setup you can load. Solid fills are clipped to
+// the group's rounded shape (overflow: hidden), so they read as rounded, unlike an inset ring.
 .presetSlotSaved {
-  background-color: rgba(30, 131, 170, 0.5);
+  background-color: rgba(84, 215, 255, 0.16);
 }
 
   .presetSlotSaved:hover {
-    background-color: rgba(50, 160, 200, 0.6);
+    background-color: rgba(84, 215, 255, 0.28);
   }
 
 // Empty slot: dimmed. Still holdable (to save into), just clearly "nothing to load yet".
@@ -65,16 +72,44 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
+// The currently-applied slot. A strong solid blue fill (rounded via the group's clipping — no boxy
+// ring) plus bright text and a white dot, so it clearly stands out from the lighter "saved" slot.
+.presetSlotActive {
+  background-color: rgba(30, 131, 170, 0.82);
+  color: #ffffff;
+
+  &:hover {
+    background-color: rgba(45, 160, 205, 0.9);
+  }
+}
+
+// Small white indicator in the bottom-left corner of the active slot (contrasts the blue fill).
+.presetDot {
+  position: absolute;
+  left: 3rem;
+  bottom: 3rem;
+  width: 5rem;
+  height: 5rem;
+  border-top-left-radius: 3rem;
+  border-top-right-radius: 3rem;
+  border-bottom-left-radius: 3rem;
+  border-bottom-right-radius: 3rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  pointer-events: none;
+}
+
 // While holding (before the save fires): a green "charging" highlight so the hold reads as intentional.
+// Defined last so it overlays whatever state (empty/saved/active) the slot is in.
 .presetSlotHolding {
   background-color: rgba(95, 220, 120, 0.55);
+  box-shadow: none;
   color: #ffffff;
 }
 
-// Thin separator between slot 1 and slot 2.
+// Thin separator between slot 1 and slot 2. No fixed height — the group's align-items: stretch makes
+// it run the full height.
 .presetDivider {
   width: 1rem;
-  height: 18rem;
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: 1rem;

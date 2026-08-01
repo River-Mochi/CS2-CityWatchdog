@@ -303,7 +303,7 @@ namespace CityWatchdog
             MiniHudMode = MiniHudModeFavorites;
             MiniHudItemCount = 5;
             MiniHudScale = 100;
-            MiniHudOrientation = MiniHudOrientationVertical;
+            MiniHudOrientation = MiniHudOrientationHorizontal;
             MiniHudPlacement = MiniHudPlacementDraggable;
             MiniHudHideZero = true;
             MiniHudPanelStyle = MiniHudPanelStyleDark;

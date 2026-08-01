@@ -56,26 +56,32 @@ const useLongPress = (onClick: () => void, onLongPress: () => void) => {
 interface PresetSlotProps {
     label: string;
     saved: boolean;
+    // The currently-applied slot: shows a blue ring + dot so the player can tell which preset is on.
+    active: boolean;
     onLoad: () => void;
     onSave: () => void;
 }
 
 // forwardRef so the slot can be a CwdTooltip child (the vanilla Tooltip attaches to the child element).
 export const PresetSlot = forwardRef<HTMLDivElement, PresetSlotProps>(
-    ({ label, saved, onLoad, onSave }, ref) => {
+    ({ label, saved, active, onLoad, onSave }, ref) => {
         const { holding, handlers } = useLongPress(onLoad, onSave);
 
-        const className = [
-            styles.presetSlot,
-            saved ? styles.presetSlotSaved : styles.presetSlotEmpty,
-            holding ? styles.presetSlotHolding : "",
-        ]
+        // active wins over saved wins over empty; the holding highlight overlays whatever state it's in.
+        const stateClass = active
+            ? styles.presetSlotActive
+            : saved
+                ? styles.presetSlotSaved
+                : styles.presetSlotEmpty;
+
+        const className = [styles.presetSlot, stateClass, holding ? styles.presetSlotHolding : ""]
             .filter(Boolean)
             .join(" ");
 
         return (
             <div ref={ref} className={className} role="button" {...handlers}>
                 {label}
+                {active && <span className={styles.presetDot} />}
             </div>
         );
     },

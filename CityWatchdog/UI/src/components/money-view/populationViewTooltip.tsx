@@ -44,29 +44,17 @@ export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseCon
                 value={currentTrend}
             />
             <div className={styles.populationTooltipExtra}>
-                <PopulationTooltipFlow
+                <PopulationTooltipPairRow
                     localization={localization}
-                    label={text("PopulationTooltipBirths", "Births:")}
-                    value={births}
-                    direction={1}
+                    label={text("PopulationTooltipBirthsDeaths", "Births / Deaths")}
+                    positiveValue={births}
+                    negativeValue={deaths}
                 />
-                <PopulationTooltipFlow
+                <PopulationTooltipPairRow
                     localization={localization}
-                    label={text("PopulationTooltipDeaths", "Deaths:")}
-                    value={deaths}
-                    direction={-1}
-                />
-                <PopulationTooltipFlow
-                    localization={localization}
-                    label={text("PopulationTooltipMovedIn", "Moved in:")}
-                    value={movedIn}
-                    direction={1}
-                />
-                <PopulationTooltipFlow
-                    localization={localization}
-                    label={text("PopulationTooltipMovedOut", "Moved out:")}
-                    value={movedAway}
-                    direction={-1}
+                    label={text("PopulationTooltipMovedInOut", "Moved in / out")}
+                    positiveValue={movedIn}
+                    negativeValue={movedAway}
                 />
                 <PopulationTooltipCount
                     localization={localization}
@@ -96,29 +84,39 @@ const containsIcon = (node: ReactNode, icon: string): boolean => {
     return Children.toArray(props?.children).some((child) => containsIcon(child, icon));
 };
 
-const PopulationTooltipFlow = ({
+// Two related flows on one compact row: "Births / Deaths    +693 / -218 /mo."
+// The gain is a bare number; the loss carries the localized /mo. suffix so the pair reads as a
+// single monthly figure while keeping per-language number formatting.
+const PopulationTooltipPairRow = ({
     localization,
     label,
-    value,
-    direction,
+    positiveValue,
+    negativeValue,
 }: {
     readonly localization: Localization;
     readonly label: string;
-    readonly value: number;
-    readonly direction: 1 | -1;
+    readonly positiveValue: number;
+    readonly negativeValue: number;
 }) => {
-    const displayValue = getDisplayWholeValue(value);
+    const gain = getDisplayWholeValue(positiveValue);
+    const loss = getDisplayWholeValue(negativeValue);
 
-    // Births/moved-in add population; deaths/moved-out subtract population.
-    const signedValue = displayValue === 0 ? 0 : displayValue * direction;
+    const gainText = gain === 0
+        ? formatLocalizedIntegerValue(localization, 0, Unit.Integer)
+        : `+${formatLocalizedIntegerValue(localization, gain, Unit.Integer)}`;
+    const lossText = loss === 0
+        ? formatLocalizedIntegerValue(localization, 0, Unit.IntegerPerMonth)
+        : `-${formatLocalizedIntegerValue(localization, loss, Unit.IntegerPerMonth)}`;
 
     return (
-        <PopulationTooltipRate
-            localization={localization}
-            label={label}
-            value={signedValue}
-            unit={Unit.IntegerPerMonth}
-        />
+        <div className={styles.populationTooltipGroup}>
+            <div className={styles.tooltipLabel}>{trimLabelPunctuation(label)}</div>
+            <div className={styles.populationTooltipPairValue}>
+                <span className={styles.positive}>{gainText}</span>
+                <span className={styles.populationTooltipPairSep}> / </span>
+                <span className={styles.negative}>{lossText}</span>
+            </div>
+        </div>
     );
 };
 

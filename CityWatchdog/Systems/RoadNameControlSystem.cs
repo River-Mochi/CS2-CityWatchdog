@@ -25,14 +25,14 @@
 //     the only layer we can reach: the render pipeline subscription itself.
 //
 // Coordination with RoadArrowControlSystem:
-//   The vanilla Render method draws arrows OR names mutually exclusively. When the active tool's
+//   vanilla Render method draws arrows OR names mutually exclusively. When the active tool's
 //   requireNetArrows is true (either because the player has a road/upgrade/bulldoze tool active,
 //   or because RoadArrowControlSystem flipped DefaultToolSystem.requireNetArrows on), Render
 //   returns before the names loop. So in those states we MUST keep Render subscribed (otherwise
 //   we'd kill the arrows), and the names stay hidden as a free side-effect of the vanilla
 //   mutually-exclusive logic.
 //
-//   Final decision: unsubscribe only when HideRoadNames is on AND neither the arrows-force toggle
+//   Unsubscribe only when HideRoadNames is on AND neither the arrows-force toggle
 //   nor a net tool is asking for arrows. In every other state, vanilla handles the right thing.
 
 namespace CityWatchdog.Systems

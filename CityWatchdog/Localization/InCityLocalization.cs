@@ -14,9 +14,8 @@
 // <EnvPath.kUserDataPath>/Mods/CityWatchdog/ and PDX-subscribed installs at
 // <EnvPath.kCacheDataPath>/Mods/pdx_mods/<asset_id>_<version>/.
 //
-// Source pattern: RoadRailSpeeds InCityLocalization.cs (which adapted Algernon's LineTool
-// embedded-CSV to use JSON). See CS2ModdingTips/CS2-InCity-Localization-Pattern.md
-// for River-Mochi localization recipe.
+// Source pattern: RoadRailSpeeds InCityLocalization.cs (adapted Algernon's LineTool
+// CSV to use JSON). See CS2-InCity-Localization-Pattern.md for method.
 //
 // DELIBERATELY does NOT filter by localizationManager.GetSupportedLocales(). CWD supports
 // unofficial locales (vi-VN, tr-TR, th-TH, pt-PT) for players using third-party locale-adder

@@ -19,7 +19,7 @@ export const notificationCounts$ = bindValue<number[]>(mod.id, "NotificationCoun
 
 export const miniHudFavorites$ = bindValue<number[]>(mod.id, "MiniHudFavorites", []);
 export const miniHudEnabled$ = bindValue<boolean>(mod.id, "MiniHudEnabled", true);
-export const miniHudOrientation$ = bindValue<number>(mod.id, "MiniHudOrientation", 1);  // vertical
+export const miniHudOrientation$ = bindValue<number>(mod.id, "MiniHudOrientation", 0);  // horizontal
 export const miniHudPlacement$ = bindValue<number>(mod.id, "MiniHudPlacement", 2);      // draggable
 export const miniHudMode$ = bindValue<number>(mod.id, "MiniHudMode", 1);                // favorites
 export const miniHudItemCount$ = bindValue<number>(mod.id, "MiniHudItemCount", 5);
@@ -43,6 +43,8 @@ export const mainPanelOpacity$ = bindValue<number>(mod.id, "MainPanelOpacity", 7
 // player first saves that slot (an unsaved slot renders dimmed and ignores a load click).
 export const preset1Saved$ = bindValue<boolean>(mod.id, "Preset1Saved", false);
 export const preset2Saved$ = bindValue<boolean>(mod.id, "Preset2Saved", false);
+// Which preset slot is currently applied: 0 = none, 1, or 2. Drives the "selected" ring + dot.
+export const activePreset$ = bindValue<number>(mod.id, "ActivePreset", 0);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
 export const ElectricityBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBottleneckNotification");
