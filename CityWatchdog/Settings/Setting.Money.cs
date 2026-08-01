@@ -1,4 +1,4 @@
-// <copyright file="Setting.Money.cs" company="River-Mochi">
+// <copyright file="CwdSettings.Money.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi. All rights reserved.
 // Licensed under the MIT License. You may not use this file except in compliance with this License.
 // See LICENSE file in the project root for full license information.
@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Settings/Setting.Money.cs
+// File: src/Settings/CwdSettings.Money.cs
 // Purpose: Defines City Watchdog money, milestone, and money-view Options settings.
 
 namespace CityWatchdog
@@ -19,7 +19,7 @@ namespace CityWatchdog
     using Game.UI.Widgets;
     using Unity.Entities;
 
-    public partial class Setting
+    public partial class CwdSettings
     {
         private static readonly string[] Milestones =
         {
@@ -60,32 +60,32 @@ namespace CityWatchdog
         // --------------------------------------------------------------------
 
         [SettingsUISection(Actions, MoneyViewGroup)]
-        [SettingsUISetter(typeof(Setting), nameof(OnMoneyViewChanged))]
+        [SettingsUISetter(typeof(CwdSettings), nameof(OnMoneyViewChanged))]
         public bool MoneyView { get; set; }
 
-        [SettingsUIDropdown(typeof(Setting), nameof(GetMoneyViewModeItems))]
+        [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMoneyViewModeItems))]
         [SettingsUISection(Actions, MoneyViewGroup)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMoneyViewEnabled))]
-        [SettingsUISetter(typeof(Setting), nameof(OnMoneyViewModeChanged))]
+        [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMoneyViewEnabled))]
+        [SettingsUISetter(typeof(CwdSettings), nameof(OnMoneyViewModeChanged))]
         public int MoneyViewMode { get; set; }
 
-        [SettingsUIDropdown(typeof(Setting), nameof(GetMoneyTooltipModeItems))]
+        [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMoneyTooltipModeItems))]
         [SettingsUISection(Actions, MoneyViewGroup)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMoneyViewEnabled))]
-        [SettingsUISetter(typeof(Setting), nameof(OnMoneyTooltipModeChanged))]
+        [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMoneyViewEnabled))]
+        [SettingsUISetter(typeof(CwdSettings), nameof(OnMoneyTooltipModeChanged))]
         public int MoneyTooltipMode { get; set; }
 
         // UI converts 90..130 directly into 0.90em..1.30em for tooltip value text.
         [SettingsUISlider(min = 90, max = 130, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(Actions, MoneyViewGroup)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMoneyViewEnabled))]
-        [SettingsUISetter(typeof(Setting), nameof(OnMoneyTooltipFontScaleChanged))]
+        [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMoneyViewEnabled))]
+        [SettingsUISetter(typeof(CwdSettings), nameof(OnMoneyTooltipFontScaleChanged))]
         public int MoneyTooltipFontScale { get; set; }
 
         [SettingsUISlider(min = 90, max = 130, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(Actions, MoneyViewGroup)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureMoneyViewEnabled))]
-        [SettingsUISetter(typeof(Setting), nameof(OnPopulationTooltipFontScaleChanged))]
+        [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMoneyViewEnabled))]
+        [SettingsUISetter(typeof(CwdSettings), nameof(OnPopulationTooltipFontScaleChanged))]
         public int PopulationTooltipFontScale { get; set; }
 
         // --------------------------------------------------------------------
@@ -107,14 +107,14 @@ namespace CityWatchdog
         [SettingsUISection(MoneyTab, Money)]
         public bool AutomaticAddMoney { get; set; }
 
-        [SettingsUIDropdown(typeof(Setting), nameof(GetAutomaticAddMoneyThresholdItems))]
+        [SettingsUIDropdown(typeof(CwdSettings), nameof(GetAutomaticAddMoneyThresholdItems))]
         [SettingsUISection(MoneyTab, Money)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureAutomaticAddMoneyEnabled))]
+        [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureAutomaticAddMoneyEnabled))]
         public int AutomaticAddMoneyThreshold { get; set; }
 
-        [SettingsUIDropdown(typeof(Setting), nameof(GetAutomaticAddMoneyAmountItems))]
+        [SettingsUIDropdown(typeof(CwdSettings), nameof(GetAutomaticAddMoneyAmountItems))]
         [SettingsUISection(MoneyTab, Money)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(EnsureAutomaticAddMoneyEnabled))]
+        [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureAutomaticAddMoneyEnabled))]
         public int AutomaticAddMoneyAmount { get; set; }
 
 
@@ -123,21 +123,21 @@ namespace CityWatchdog
         // Money-Milestones tab - New city start settings
         // --------------------------------------------------------------------
 
-        [SettingsUIDropdown(typeof(Setting), nameof(GetInitialMoneyItems))]
+        [SettingsUIDropdown(typeof(CwdSettings), nameof(GetInitialMoneyItems))]
         [SettingsUISection(MoneyTab, Milestone)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(IsInGame))]
+        [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(IsInGame))]
         public int InitialMoney { get; set; }
 
         // Safety rule:
         // - OFF while a city is loaded stays disabled, so milestone injection cannot be enabled mid-city.
         // - ON while a city is loaded stays enabled, so it can be turned OFF without rebooting.
         [SettingsUISection(MoneyTab, Milestone)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(CannotEnableCustomMilestoneInGame))]
+        [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(CannotEnableCustomMilestoneInGame))]
         public bool CustomMilestone { get; set; }
 
-        [SettingsUIDropdown(typeof(Setting), nameof(GetMilestoneLevelItems))]
+        [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMilestoneLevelItems))]
         [SettingsUISection(MoneyTab, Milestone)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(GetMilestoneLevelStatus))]
+        [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(GetMilestoneLevelStatus))]
         public int MilestoneLevel { get; set; }
 
         // --------------------------------------------------------------------
@@ -150,7 +150,7 @@ namespace CityWatchdog
         [SettingsUIButton]
         [SettingsUIConfirmation]
         [SettingsUISection(MoneyTab, SaveConversion)]
-        [SettingsUIDisableByCondition(typeof(Setting), nameof(CannotConvertUnlimitedMoneySave))]
+        [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(CannotConvertUnlimitedMoneySave))]
         public bool ConvertUnlimitedMoneySave
         {
             set

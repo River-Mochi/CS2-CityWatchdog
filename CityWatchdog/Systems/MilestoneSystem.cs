@@ -68,7 +68,7 @@ namespace CityWatchdog.Systems
 
         private void ApplyConfiguredMilestone()
         {
-            if (!Setting.Instance.CustomMilestone)
+            if (!CwdSettings.Instance.CustomMilestone)
             {
                 return;
             }
@@ -103,7 +103,7 @@ namespace CityWatchdog.Systems
                 EntityManager.SetComponentData(citySystem.City, devTreePoints);
                 EntityManager.SetComponentData(citySystem.City, xp);
 
-                LogUtils.Info(() => $"Unlock level {Setting.Instance.MilestoneLevel + 1} Milestone");
+                LogUtils.Info(() => $"Unlock level {CwdSettings.Instance.MilestoneLevel + 1} Milestone");
             }
             finally
             {
@@ -124,7 +124,7 @@ namespace CityWatchdog.Systems
             MilestoneLevel currentMilestone,
             out int targetMilestone)
         {
-            targetMilestone = math.min(Setting.Instance.MilestoneLevel + 1, milestoneEntities.Length);
+            targetMilestone = math.min(CwdSettings.Instance.MilestoneLevel + 1, milestoneEntities.Length);
             return currentMilestone.m_AchievedMilestone < targetMilestone;
         }
 

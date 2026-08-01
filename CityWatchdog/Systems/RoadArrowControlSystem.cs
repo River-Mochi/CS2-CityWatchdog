@@ -17,7 +17,7 @@
 //         // draws arrows
 //     }
 //
-// Setting requireNetArrows = true on the default tool makes the vanilla code render
+// CwdSettings requireNetArrows = true on the default tool makes the vanilla code render
 // arrows while no placement, road, zone, bulldozer, or other gameplay tool is active.
 // When one of those tools is active, the vanilla check looks at that tool's own flag,
 // so CWD does not interfere with tool behavior.
@@ -56,9 +56,9 @@ namespace CityWatchdog.Systems
         {
             base.OnCreate();
 
-            bool initial = Setting.Instance?.ShowRoadArrows ?? false;
+            bool initial = CwdSettings.Instance?.ShowRoadArrows ?? false;
             showRoadArrowsBinding = AddBoolBindingAndTriggerBinding(
-                nameof(Setting.ShowRoadArrows),
+                nameof(CwdSettings.ShowRoadArrows),
                 initial,
                 OnShowRoadArrowsToggle);
         }
@@ -76,7 +76,7 @@ namespace CityWatchdog.Systems
 
         public void SyncFromSettings()
         {
-            bool value = Setting.Instance?.ShowRoadArrows ?? false;
+            bool value = CwdSettings.Instance?.ShowRoadArrows ?? false;
             if (showRoadArrowsBinding.Value != value)
             {
                 showRoadArrowsBinding.Update(value);
@@ -88,14 +88,14 @@ namespace CityWatchdog.Systems
         {
             // Reapply each tick so any code path that resets DefaultToolSystem.requireNetArrows
             // gets corrected. The write itself is idempotent — only fires when the value differs.
-            ApplyToGame(Setting.Instance?.ShowRoadArrows ?? false);
+            ApplyToGame(CwdSettings.Instance?.ShowRoadArrows ?? false);
         }
 
         private void OnShowRoadArrowsToggle(bool value)
         {
             showRoadArrowsBinding.Update(value);
 
-            Setting? setting = Setting.Instance;
+            CwdSettings? setting = CwdSettings.Instance;
             if (setting != null)
             {
                 setting.ShowRoadArrows = value;
@@ -198,7 +198,7 @@ namespace CityWatchdog.Systems
             return true;
         }
 
-        private static void TryPersist(Setting setting)
+        private static void TryPersist(CwdSettings setting)
         {
             try
             {

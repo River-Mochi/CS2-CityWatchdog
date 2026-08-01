@@ -34,7 +34,7 @@ namespace CityWatchdog
         public static readonly ILog s_Log =
             LogManager.GetLogger(ModId).SetShowsErrorsInUI(false);
 
-        internal static Setting? Settings { get; private set; }
+        internal static CwdSettings? Settings { get; private set; }
 
         private static bool s_BannerLogged;
 
@@ -60,8 +60,8 @@ namespace CityWatchdog
                 return;
             }
 
-            Setting setting = new Setting(this);
-            Settings = Setting.Instance = setting;
+            CwdSettings setting = new CwdSettings(this);
+            Settings = CwdSettings.Instance = setting;
 
             try
             {
@@ -100,7 +100,7 @@ namespace CityWatchdog
 
             try
             {
-                AssetDatabase.global.LoadSettings(ModId, setting, new Setting(this));
+                AssetDatabase.global.LoadSettings(ModId, setting, new CwdSettings(this));
             }
             catch (Exception ex)
             {

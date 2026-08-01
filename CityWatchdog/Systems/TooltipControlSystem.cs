@@ -11,7 +11,7 @@
 //   - "All vanilla tooltips" toggle drives Game.UI.Tooltip.TooltipUISystem.hideTooltips,
 //     which short-circuits the gameplay world/mouse tooltip pipeline at the source. State is
 //     in-session only: starts off each game launch, flipped via the Info button or Shift+\.
-//   - Setting.DisableCwdTooltips is a UI-side React gate: the panel and the money/population
+//   - CwdSettings.DisableCwdTooltips is a UI-side React gate: the panel and the money/population
 //     extension skip rendering CWD tooltips when it's on. Persisted across sessions.
 //   - No Harmony: hideTooltips is a public setter on the vanilla system, so we just assign.
 
@@ -46,18 +46,18 @@ namespace CityWatchdog.Systems
                 OnDisableAllTooltipsToggle);
 
             disableCwdTooltipsBinding = AddBoolBindingAndTriggerBinding(
-                nameof(Setting.DisableCwdTooltips),
+                nameof(CwdSettings.DisableCwdTooltips),
                 false,
                 OnDisableCwdTooltipsToggle);
 
-            toggleAllTooltipsAction = EnableHotkey(Setting.ToggleAllTooltipsAction);
+            toggleAllTooltipsAction = EnableHotkey(CwdSettings.ToggleAllTooltipsAction);
         }
 
         protected override void OnUpdate()
         {
             if (toggleAllTooltipsAction == null)
             {
-                toggleAllTooltipsAction = EnableHotkey(Setting.ToggleAllTooltipsAction);
+                toggleAllTooltipsAction = EnableHotkey(CwdSettings.ToggleAllTooltipsAction);
             }
 
             if (toggleAllTooltipsAction?.WasReleasedThisFrame() == true)
@@ -113,7 +113,7 @@ namespace CityWatchdog.Systems
         {
             try
             {
-                ProxyAction? action = Setting.Instance?.GetAction(actionName);
+                ProxyAction? action = CwdSettings.Instance?.GetAction(actionName);
                 if (action != null)
                 {
                     action.shouldBeEnabled = true;

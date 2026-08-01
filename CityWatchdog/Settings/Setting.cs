@@ -1,4 +1,4 @@
-// <copyright file="Setting.cs" company="River-Mochi">
+// <copyright file="CwdSettings.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi. All rights reserved.
 // Licensed under the MIT License. You may not use this file except in compliance with this License.
 // See LICENSE file in the project root for full license information.
@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Settings/Setting.cs
+// File: src/Settings/CwdSettings.cs
 // Purpose: Defines shared City Watchdog settings shell, tabs, common Options UI, and key bindings.
 
 namespace CityWatchdog
@@ -35,9 +35,9 @@ namespace CityWatchdog
     [SettingsUITabOrder(Actions, MiniHudTab, MoneyTab, About)]
     [SettingsUIGroupOrder(AboutUsage, Notifications, MoneyViewGroup, MiniHudGroup, Milestone, Money, SaveConversion, AboutInfo, AboutLinks, AboutDiagnostics, Serialize)]
     [SettingsUIShowGroupName(AboutUsage, Notifications, MoneyViewGroup, MiniHudGroup, Milestone, Money, SaveConversion, AboutDiagnostics, Serialize)]
-    public partial class Setting : ModSetting
+    public partial class CwdSettings : ModSetting
     {
-        internal static Setting Instance { get; set; } = null!;
+        internal static CwdSettings Instance { get; set; } = null!;
 
         // Tab IDs.
         internal const string Actions = nameof(Actions);
@@ -82,7 +82,7 @@ namespace CityWatchdog
 
         private int m_MainPanelOpacity = MainPanelOpacityDefault;
 
-        public Setting(IMod mod) : base(mod)
+        public CwdSettings(IMod mod) : base(mod)
         {
             SetDefaults();
         }
@@ -95,7 +95,7 @@ namespace CityWatchdog
         public bool ShowUsage { get; set; }
 
         [SettingsUIMultilineText(UsageIconPath)]
-        [SettingsUIHideByCondition(typeof(Setting), nameof(HideUsageText))]
+        [SettingsUIHideByCondition(typeof(CwdSettings), nameof(HideUsageText))]
         [SettingsUISection(Actions, AboutUsage)]
         public string UsageText => string.Empty;
 
@@ -112,7 +112,7 @@ namespace CityWatchdog
         public ProxyBinding ToggleNotificationPanelKeyboardBinding { get; set; }
 
         [SettingsUISection(Actions, Notifications)]
-        [SettingsUISetter(typeof(Setting), nameof(OnPanelButtonsOnlyStartChanged))]
+        [SettingsUISetter(typeof(CwdSettings), nameof(OnPanelButtonsOnlyStartChanged))]
         public bool PanelButtonsOnlyStart { get; set; }
 
         [SettingsUIKeyboardBinding(BindingKeyboard.Backslash, ToggleRoadNamesAction)]
@@ -139,7 +139,7 @@ namespace CityWatchdog
 
         [SettingsUISlider(min = 30, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(Actions, Notifications)]
-        [SettingsUISetter(typeof(Setting), nameof(OnMainPanelOpacityChanged))]
+        [SettingsUISetter(typeof(CwdSettings), nameof(OnMainPanelOpacityChanged))]
         public int MainPanelOpacity
         {
             get => m_MainPanelOpacity;

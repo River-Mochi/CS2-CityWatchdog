@@ -126,12 +126,12 @@ namespace CityWatchdog.Systems
 
         public void OnSubtractMoney()
         {
-            ApplyMoneyChange(FinanceActionKind.ManualSubtract, Setting.Instance.ManualMoneyAmount);
+            ApplyMoneyChange(FinanceActionKind.ManualSubtract, CwdSettings.Instance.ManualMoneyAmount);
         }
 
         public void OnAddMoney()
         {
-            ApplyMoneyChange(FinanceActionKind.ManualAdd, Setting.Instance.ManualMoneyAmount);
+            ApplyMoneyChange(FinanceActionKind.ManualAdd, CwdSettings.Instance.ManualMoneyAmount);
         }
 
         protected override void OnCreate()
@@ -143,13 +143,13 @@ namespace CityWatchdog.Systems
             automaticMoneyCheckCooldown = 0;
             ResetManualMoneyRepeat();
 
-            addMoneyAction = TryGetAction(Setting.AddMoneyAction);
+            addMoneyAction = TryGetAction(CwdSettings.AddMoneyAction);
             if (addMoneyAction != null)
             {
                 addMoneyAction.shouldBeEnabled = true;
             }
 
-            subtractMoneyAction = TryGetAction(Setting.SubtractMoneyAction);
+            subtractMoneyAction = TryGetAction(CwdSettings.SubtractMoneyAction);
             if (subtractMoneyAction != null)
             {
                 subtractMoneyAction.shouldBeEnabled = true;
@@ -163,7 +163,7 @@ namespace CityWatchdog.Systems
             automaticMoneyCheckCooldown = 0;
 
             if ((serializationContext.purpose == Purpose.NewGame || serializationContext.purpose == Purpose.LoadGame) &&
-                Setting.Instance.InitialMoney != 0)
+                CwdSettings.Instance.InitialMoney != 0)
             {
                 if (!TryGetPlayerMoney(out PlayerMoney playerMoney))
                 {
@@ -173,8 +173,8 @@ namespace CityWatchdog.Systems
                 if (!playerMoney.m_Unlimited)
                 {
                     ApplyMoneyChange(FinanceActionKind.AutoSubtract, playerMoney.money);
-                    ApplyMoneyChange(FinanceActionKind.AutoAdd, Setting.Instance.InitialMoney);
-                    Setting.Instance.ResetInitialMoney();
+                    ApplyMoneyChange(FinanceActionKind.AutoAdd, CwdSettings.Instance.InitialMoney);
+                    CwdSettings.Instance.ResetInitialMoney();
                 }
             }
         }
@@ -209,7 +209,7 @@ namespace CityWatchdog.Systems
             // First press always applies once; held keys repeat only after the delay above.
             if (action.WasPressedThisFrame())
             {
-                ApplyMoneyChange(financeActionKind, Setting.Instance.ManualMoneyAmount);
+                ApplyMoneyChange(financeActionKind, CwdSettings.Instance.ManualMoneyAmount);
                 repeatCooldown = ManualMoneyRepeatInitialDelayUpdates;
                 return;
             }
@@ -226,7 +226,7 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            ApplyMoneyChange(financeActionKind, Setting.Instance.ManualMoneyAmount);
+            ApplyMoneyChange(financeActionKind, CwdSettings.Instance.ManualMoneyAmount);
             repeatCooldown = ManualMoneyRepeatIntervalUpdates;
         }
 
@@ -238,7 +238,7 @@ namespace CityWatchdog.Systems
 
         private void UpdateAutomaticAddMoney()
         {
-            if (!Setting.Instance.AutomaticAddMoney)
+            if (!CwdSettings.Instance.AutomaticAddMoney)
             {
                 automaticMoneyCheckCooldown = 0;
                 return;
@@ -266,7 +266,7 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            int threshold = Setting.Instance.AutomaticAddMoneyThreshold;
+            int threshold = CwdSettings.Instance.AutomaticAddMoneyThreshold;
             if (playerMoney.money >= threshold)
             {
                 return;
@@ -275,7 +275,7 @@ namespace CityWatchdog.Systems
             int amount = GetAutomaticAddMoneyAmount(
                 playerMoney.money,
                 threshold,
-                Setting.Instance.AutomaticAddMoneyAmount);
+                CwdSettings.Instance.AutomaticAddMoneyAmount);
 
             if (amount <= 0)
             {
@@ -308,7 +308,7 @@ namespace CityWatchdog.Systems
         {
             try
             {
-                return Setting.Instance.GetAction(actionName);
+                return CwdSettings.Instance.GetAction(actionName);
             }
             catch (System.Exception ex)
             {

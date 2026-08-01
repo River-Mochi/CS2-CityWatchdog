@@ -63,13 +63,13 @@ namespace CityWatchdog.Systems
         {
             base.OnCreate();
 
-            bool initial = Setting.Instance?.HideRoadNames ?? false;
+            bool initial = CwdSettings.Instance?.HideRoadNames ?? false;
             hideRoadNamesBinding = AddBoolBindingAndTriggerBinding(
-                nameof(Setting.HideRoadNames),
+                nameof(CwdSettings.HideRoadNames),
                 initial,
                 OnHideRoadNamesToggle);
 
-            toggleAction = EnableHotkey(Setting.ToggleRoadNamesAction);
+            toggleAction = EnableHotkey(CwdSettings.ToggleRoadNamesAction);
         }
 
         protected override void OnDestroy()
@@ -95,7 +95,7 @@ namespace CityWatchdog.Systems
 
         public void SyncFromSettings()
         {
-            bool value = Setting.Instance?.HideRoadNames ?? false;
+            bool value = CwdSettings.Instance?.HideRoadNames ?? false;
             if (hideRoadNamesBinding.Value != value)
             {
                 hideRoadNamesBinding.Update(value);
@@ -107,12 +107,12 @@ namespace CityWatchdog.Systems
         {
             if (toggleAction == null)
             {
-                toggleAction = EnableHotkey(Setting.ToggleRoadNamesAction);
+                toggleAction = EnableHotkey(CwdSettings.ToggleRoadNamesAction);
             }
 
             if (toggleAction?.WasReleasedThisFrame() == true)
             {
-                bool current = Setting.Instance?.HideRoadNames ?? false;
+                bool current = CwdSettings.Instance?.HideRoadNames ?? false;
                 OnHideRoadNamesToggle(!current);
             }
 
@@ -126,7 +126,7 @@ namespace CityWatchdog.Systems
         {
             hideRoadNamesBinding.Update(value);
 
-            Setting? setting = Setting.Instance;
+            CwdSettings? setting = CwdSettings.Instance;
             if (setting != null)
             {
                 setting.HideRoadNames = value;
@@ -159,7 +159,7 @@ namespace CityWatchdog.Systems
                 }
             }
 
-            Setting? setting = Setting.Instance;
+            CwdSettings? setting = CwdSettings.Instance;
             bool hideRequested = setting?.HideRoadNames ?? false;
             bool arrowsForced = setting?.ShowRoadArrows ?? false;
             bool toolWantsArrows = NetToolWantsArrows();
@@ -226,7 +226,7 @@ namespace CityWatchdog.Systems
         {
             try
             {
-                ProxyAction? action = Setting.Instance?.GetAction(actionName);
+                ProxyAction? action = CwdSettings.Instance?.GetAction(actionName);
                 if (action != null)
                 {
                     action.shouldBeEnabled = true;
@@ -243,7 +243,7 @@ namespace CityWatchdog.Systems
             }
         }
 
-        private static void TryPersist(Setting setting)
+        private static void TryPersist(CwdSettings setting)
         {
             try
             {

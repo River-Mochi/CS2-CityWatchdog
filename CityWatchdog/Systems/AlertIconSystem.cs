@@ -180,7 +180,7 @@ namespace CityWatchdog.Systems
 
         private static void SetAllNotificationSettings(bool enabled)
         {
-            Setting.NotificationSetting notification = Setting.Instance.Notification;
+            CwdSettings.NotificationSetting notification = CwdSettings.Instance.Notification;
 
             notification.ElectricityElectricityNotification = enabled;
             notification.ElectricityBottleneckNotification = enabled;

@@ -38,9 +38,9 @@ namespace CityWatchdog.Systems
         {
             base.OnCreate();
 
-            currentlyHiding = Setting.Instance?.HideDistrictNames ?? false;
+            currentlyHiding = CwdSettings.Instance?.HideDistrictNames ?? false;
             hideDistrictNamesBinding = AddBoolBindingAndTriggerBinding(
-                nameof(Setting.HideDistrictNames),
+                nameof(CwdSettings.HideDistrictNames),
                 currentlyHiding,
                 OnHideDistrictNamesToggle);
         }
@@ -57,7 +57,7 @@ namespace CityWatchdog.Systems
 
         public void SyncFromSettings()
         {
-            bool value = Setting.Instance?.HideDistrictNames ?? false;
+            bool value = CwdSettings.Instance?.HideDistrictNames ?? false;
             if (hideDistrictNamesBinding.Value != value)
             {
                 hideDistrictNamesBinding.Update(value);
@@ -73,7 +73,7 @@ namespace CityWatchdog.Systems
                 InitializeReflection();
             }
 
-            bool settingValue = Setting.Instance?.HideDistrictNames ?? false;
+            bool settingValue = CwdSettings.Instance?.HideDistrictNames ?? false;
             if (settingValue != currentlyHiding)
             {
                 if (hideDistrictNamesBinding.Value != settingValue)
@@ -94,7 +94,7 @@ namespace CityWatchdog.Systems
         {
             hideDistrictNamesBinding.Update(value);
 
-            Setting? setting = Setting.Instance;
+            CwdSettings? setting = CwdSettings.Instance;
             if (setting != null)
             {
                 setting.HideDistrictNames = value;
@@ -224,7 +224,7 @@ namespace CityWatchdog.Systems
             }
         }
 
-        private static void TryPersist(Setting setting)
+        private static void TryPersist(CwdSettings setting)
         {
             try
             {

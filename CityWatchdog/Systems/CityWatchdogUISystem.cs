@@ -206,108 +206,108 @@ namespace CityWatchdog.Systems
             AddTriggerBinding<string>("PanelPositionChanged", SavePanelPosition);
             AddTriggerBinding<int>("PanelCollapsedSectionsChanged", SavePanelCollapsedSections);
             AddTriggerBinding<int>("PanelSortModeChanged", SavePanelSortMode);
-            miniHudEnabledBinding = AddValueBinding(nameof(Setting.MiniHudEnabled), Setting.Instance.MiniHudEnabled);
-            miniHudModeBinding = AddValueBinding(nameof(Setting.MiniHudMode), Setting.Instance.MiniHudMode);
-            miniHudItemCountBinding = AddValueBinding(nameof(Setting.MiniHudItemCount), Setting.Instance.MiniHudItemCount);
-            miniHudScaleBinding = AddValueBinding(nameof(Setting.MiniHudScale), Setting.Instance.MiniHudScale);
-            miniHudOrientationBinding = AddValueBinding(nameof(Setting.MiniHudOrientation), Setting.Instance.MiniHudOrientation);
-            miniHudPlacementBinding = AddValueBinding(nameof(Setting.MiniHudPlacement), Setting.Instance.MiniHudPlacement);
-            miniHudHideZeroBinding = AddValueBinding(nameof(Setting.MiniHudHideZero), Setting.Instance.MiniHudHideZero);
-            miniHudPanelStyleBinding = AddValueBinding(nameof(Setting.MiniHudPanelStyle), Setting.Instance.MiniHudPanelStyle);
-            miniHudPanelOpacityBinding = AddValueBinding(nameof(Setting.MiniHudPanelOpacity), Setting.Instance.MiniHudPanelOpacity);
-            miniHudHorizontalPositionXBinding = AddValueBinding(nameof(Setting.MiniHudHorizontalPositionX), Setting.Instance.MiniHudHorizontalPositionX);
-            miniHudHorizontalPositionYBinding = AddValueBinding(nameof(Setting.MiniHudHorizontalPositionY), Setting.Instance.MiniHudHorizontalPositionY);
-            miniHudVerticalPositionXBinding = AddValueBinding(nameof(Setting.MiniHudVerticalPositionX), Setting.Instance.MiniHudVerticalPositionX);
-            miniHudVerticalPositionYBinding = AddValueBinding(nameof(Setting.MiniHudVerticalPositionY), Setting.Instance.MiniHudVerticalPositionY);
-            panelPositionXBinding = AddValueBinding(nameof(Setting.PanelPositionX), Setting.Instance.PanelPositionX);
-            panelPositionYBinding = AddValueBinding(nameof(Setting.PanelPositionY), Setting.Instance.PanelPositionY);
-            panelCollapsedSectionsMaskBinding = AddValueBinding(nameof(Setting.PanelCollapsedSectionsMask), Setting.Instance.PanelCollapsedSectionsMask);
-            panelSortModeBinding = AddValueBinding(nameof(Setting.PanelSortMode), Setting.Instance.PanelSortMode);
-            panelButtonsOnlyStartBinding = AddValueBinding(nameof(Setting.PanelButtonsOnlyStart), Setting.Instance.PanelButtonsOnlyStart);
-            mainPanelOpacityBinding = AddValueBinding(nameof(Setting.MainPanelOpacity), Setting.Instance.MainPanelOpacity);
-            moneyViewBinding = AddValueBinding(nameof(Setting.MoneyView), Setting.Instance.MoneyView);
-            moneyViewModeBinding = AddValueBinding(nameof(Setting.MoneyViewMode), Setting.Instance.MoneyViewMode);
-            moneyTooltipModeBinding = AddValueBinding(nameof(Setting.MoneyTooltipMode), Setting.Instance.MoneyTooltipMode);
-            moneyTooltipFontScaleBinding = AddValueBinding(nameof(Setting.MoneyTooltipFontScale), Setting.Instance.MoneyTooltipFontScale);
-            populationTooltipFontScaleBinding = AddValueBinding(nameof(Setting.PopulationTooltipFontScale), Setting.Instance.PopulationTooltipFontScale);
+            miniHudEnabledBinding = AddValueBinding(nameof(CwdSettings.MiniHudEnabled), CwdSettings.Instance.MiniHudEnabled);
+            miniHudModeBinding = AddValueBinding(nameof(CwdSettings.MiniHudMode), CwdSettings.Instance.MiniHudMode);
+            miniHudItemCountBinding = AddValueBinding(nameof(CwdSettings.MiniHudItemCount), CwdSettings.Instance.MiniHudItemCount);
+            miniHudScaleBinding = AddValueBinding(nameof(CwdSettings.MiniHudScale), CwdSettings.Instance.MiniHudScale);
+            miniHudOrientationBinding = AddValueBinding(nameof(CwdSettings.MiniHudOrientation), CwdSettings.Instance.MiniHudOrientation);
+            miniHudPlacementBinding = AddValueBinding(nameof(CwdSettings.MiniHudPlacement), CwdSettings.Instance.MiniHudPlacement);
+            miniHudHideZeroBinding = AddValueBinding(nameof(CwdSettings.MiniHudHideZero), CwdSettings.Instance.MiniHudHideZero);
+            miniHudPanelStyleBinding = AddValueBinding(nameof(CwdSettings.MiniHudPanelStyle), CwdSettings.Instance.MiniHudPanelStyle);
+            miniHudPanelOpacityBinding = AddValueBinding(nameof(CwdSettings.MiniHudPanelOpacity), CwdSettings.Instance.MiniHudPanelOpacity);
+            miniHudHorizontalPositionXBinding = AddValueBinding(nameof(CwdSettings.MiniHudHorizontalPositionX), CwdSettings.Instance.MiniHudHorizontalPositionX);
+            miniHudHorizontalPositionYBinding = AddValueBinding(nameof(CwdSettings.MiniHudHorizontalPositionY), CwdSettings.Instance.MiniHudHorizontalPositionY);
+            miniHudVerticalPositionXBinding = AddValueBinding(nameof(CwdSettings.MiniHudVerticalPositionX), CwdSettings.Instance.MiniHudVerticalPositionX);
+            miniHudVerticalPositionYBinding = AddValueBinding(nameof(CwdSettings.MiniHudVerticalPositionY), CwdSettings.Instance.MiniHudVerticalPositionY);
+            panelPositionXBinding = AddValueBinding(nameof(CwdSettings.PanelPositionX), CwdSettings.Instance.PanelPositionX);
+            panelPositionYBinding = AddValueBinding(nameof(CwdSettings.PanelPositionY), CwdSettings.Instance.PanelPositionY);
+            panelCollapsedSectionsMaskBinding = AddValueBinding(nameof(CwdSettings.PanelCollapsedSectionsMask), CwdSettings.Instance.PanelCollapsedSectionsMask);
+            panelSortModeBinding = AddValueBinding(nameof(CwdSettings.PanelSortMode), CwdSettings.Instance.PanelSortMode);
+            panelButtonsOnlyStartBinding = AddValueBinding(nameof(CwdSettings.PanelButtonsOnlyStart), CwdSettings.Instance.PanelButtonsOnlyStart);
+            mainPanelOpacityBinding = AddValueBinding(nameof(CwdSettings.MainPanelOpacity), CwdSettings.Instance.MainPanelOpacity);
+            moneyViewBinding = AddValueBinding(nameof(CwdSettings.MoneyView), CwdSettings.Instance.MoneyView);
+            moneyViewModeBinding = AddValueBinding(nameof(CwdSettings.MoneyViewMode), CwdSettings.Instance.MoneyViewMode);
+            moneyTooltipModeBinding = AddValueBinding(nameof(CwdSettings.MoneyTooltipMode), CwdSettings.Instance.MoneyTooltipMode);
+            moneyTooltipFontScaleBinding = AddValueBinding(nameof(CwdSettings.MoneyTooltipFontScale), CwdSettings.Instance.MoneyTooltipFontScale);
+            populationTooltipFontScaleBinding = AddValueBinding(nameof(CwdSettings.PopulationTooltipFontScale), CwdSettings.Instance.PopulationTooltipFontScale);
 
-            electricityElectricityNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityElectricityNotification), Setting.Instance.Notification.ElectricityElectricityNotification, OnElectricityElectricityNotificationToggle);
-            electricityBottleneckNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityBottleneckNotification), Setting.Instance.Notification.ElectricityBottleneckNotification, OnElectricityBottleneckNotificationToggle);
-            electricityBuildingBottleneckNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityBuildingBottleneckNotification), Setting.Instance.Notification.ElectricityBuildingBottleneckNotification, OnElectricityBuildingBottleneckNotificationToggle);
-            electricityNotEnoughProductionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityNotEnoughProductionNotification), Setting.Instance.Notification.ElectricityNotEnoughProductionNotification, OnElectricityNotEnoughProductionNotificationToggle);
-            electricityTransformerNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityTransformerNotification), Setting.Instance.Notification.ElectricityTransformerNotification, OnElectricityTransformerNotificationToggle);
-            electricityNotEnoughConnectedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityNotEnoughConnectedNotification), Setting.Instance.Notification.ElectricityNotEnoughConnectedNotification, OnElectricityNotEnoughConnectedNotificationToggle);
-            electricityBatteryEmptyNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityBatteryEmptyNotification), Setting.Instance.Notification.ElectricityBatteryEmptyNotification, OnElectricityBatteryEmptyNotificationToggle);
-            electricityLowVoltageNotConnectedBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityLowVoltageNotConnected), Setting.Instance.Notification.ElectricityLowVoltageNotConnected, OnElectricityLowVoltageNotConnectedToggle);
-            electricityHighVoltageNotConnectedBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ElectricityHighVoltageNotConnected), Setting.Instance.Notification.ElectricityHighVoltageNotConnected, OnElectricityHighVoltageNotConnectedToggle);
+            electricityElectricityNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.ElectricityElectricityNotification), CwdSettings.Instance.Notification.ElectricityElectricityNotification, OnElectricityElectricityNotificationToggle);
+            electricityBottleneckNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.ElectricityBottleneckNotification), CwdSettings.Instance.Notification.ElectricityBottleneckNotification, OnElectricityBottleneckNotificationToggle);
+            electricityBuildingBottleneckNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.ElectricityBuildingBottleneckNotification), CwdSettings.Instance.Notification.ElectricityBuildingBottleneckNotification, OnElectricityBuildingBottleneckNotificationToggle);
+            electricityNotEnoughProductionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.ElectricityNotEnoughProductionNotification), CwdSettings.Instance.Notification.ElectricityNotEnoughProductionNotification, OnElectricityNotEnoughProductionNotificationToggle);
+            electricityTransformerNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.ElectricityTransformerNotification), CwdSettings.Instance.Notification.ElectricityTransformerNotification, OnElectricityTransformerNotificationToggle);
+            electricityNotEnoughConnectedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.ElectricityNotEnoughConnectedNotification), CwdSettings.Instance.Notification.ElectricityNotEnoughConnectedNotification, OnElectricityNotEnoughConnectedNotificationToggle);
+            electricityBatteryEmptyNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.ElectricityBatteryEmptyNotification), CwdSettings.Instance.Notification.ElectricityBatteryEmptyNotification, OnElectricityBatteryEmptyNotificationToggle);
+            electricityLowVoltageNotConnectedBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.ElectricityLowVoltageNotConnected), CwdSettings.Instance.Notification.ElectricityLowVoltageNotConnected, OnElectricityLowVoltageNotConnectedToggle);
+            electricityHighVoltageNotConnectedBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.ElectricityHighVoltageNotConnected), CwdSettings.Instance.Notification.ElectricityHighVoltageNotConnected, OnElectricityHighVoltageNotConnectedToggle);
 
-            waterPipeWaterNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.WaterPipeWaterNotification), Setting.Instance.Notification.WaterPipeWaterNotification, OnWaterPipeWaterNotificationToggle);
-            waterPipeDirtyWaterNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.WaterPipeDirtyWaterNotification), Setting.Instance.Notification.WaterPipeDirtyWaterNotification, OnWaterPipeDirtyWaterNotificationToggle);
-            waterPipeSewageNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.WaterPipeSewageNotification), Setting.Instance.Notification.WaterPipeSewageNotification, OnWaterPipeSewageNotificationToggle);
-            waterPipeWaterPipeNotConnectedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.WaterPipeWaterPipeNotConnectedNotification), Setting.Instance.Notification.WaterPipeWaterPipeNotConnectedNotification, OnWaterPipeWaterPipeNotConnectedNotificationToggle);
-            waterPipeSewagePipeNotConnectedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.WaterPipeSewagePipeNotConnectedNotification), Setting.Instance.Notification.WaterPipeSewagePipeNotConnectedNotification, OnWaterPipeSewagePipeNotConnectedNotificationToggle);
-            waterPipeNotEnoughWaterCapacityNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.WaterPipeNotEnoughWaterCapacityNotification), Setting.Instance.Notification.WaterPipeNotEnoughWaterCapacityNotification, OnWaterPipeNotEnoughWaterCapacityNotificationToggle);
-            waterPipeNotEnoughSewageCapacityNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.WaterPipeNotEnoughSewageCapacityNotification), Setting.Instance.Notification.WaterPipeNotEnoughSewageCapacityNotification, OnWaterPipeNotEnoughSewageCapacityNotificationToggle);
-            waterPipeNotEnoughGroundwaterNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.WaterPipeNotEnoughGroundwaterNotification), Setting.Instance.Notification.WaterPipeNotEnoughGroundwaterNotification, OnWaterPipeNotEnoughGroundwaterNotificationToggle);
-            waterPipeNotEnoughSurfaceWaterNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.WaterPipeNotEnoughSurfaceWaterNotification), Setting.Instance.Notification.WaterPipeNotEnoughSurfaceWaterNotification, OnWaterPipeNotEnoughSurfaceWaterNotificationToggle);
-            waterPipeDirtyWaterPumpNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.WaterPipeDirtyWaterPumpNotification), Setting.Instance.Notification.WaterPipeDirtyWaterPumpNotification, OnWaterPipeDirtyWaterPumpNotificationToggle);
+            waterPipeWaterNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.WaterPipeWaterNotification), CwdSettings.Instance.Notification.WaterPipeWaterNotification, OnWaterPipeWaterNotificationToggle);
+            waterPipeDirtyWaterNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.WaterPipeDirtyWaterNotification), CwdSettings.Instance.Notification.WaterPipeDirtyWaterNotification, OnWaterPipeDirtyWaterNotificationToggle);
+            waterPipeSewageNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.WaterPipeSewageNotification), CwdSettings.Instance.Notification.WaterPipeSewageNotification, OnWaterPipeSewageNotificationToggle);
+            waterPipeWaterPipeNotConnectedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.WaterPipeWaterPipeNotConnectedNotification), CwdSettings.Instance.Notification.WaterPipeWaterPipeNotConnectedNotification, OnWaterPipeWaterPipeNotConnectedNotificationToggle);
+            waterPipeSewagePipeNotConnectedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.WaterPipeSewagePipeNotConnectedNotification), CwdSettings.Instance.Notification.WaterPipeSewagePipeNotConnectedNotification, OnWaterPipeSewagePipeNotConnectedNotificationToggle);
+            waterPipeNotEnoughWaterCapacityNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.WaterPipeNotEnoughWaterCapacityNotification), CwdSettings.Instance.Notification.WaterPipeNotEnoughWaterCapacityNotification, OnWaterPipeNotEnoughWaterCapacityNotificationToggle);
+            waterPipeNotEnoughSewageCapacityNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.WaterPipeNotEnoughSewageCapacityNotification), CwdSettings.Instance.Notification.WaterPipeNotEnoughSewageCapacityNotification, OnWaterPipeNotEnoughSewageCapacityNotificationToggle);
+            waterPipeNotEnoughGroundwaterNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.WaterPipeNotEnoughGroundwaterNotification), CwdSettings.Instance.Notification.WaterPipeNotEnoughGroundwaterNotification, OnWaterPipeNotEnoughGroundwaterNotificationToggle);
+            waterPipeNotEnoughSurfaceWaterNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.WaterPipeNotEnoughSurfaceWaterNotification), CwdSettings.Instance.Notification.WaterPipeNotEnoughSurfaceWaterNotification, OnWaterPipeNotEnoughSurfaceWaterNotificationToggle);
+            waterPipeDirtyWaterPumpNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.WaterPipeDirtyWaterPumpNotification), CwdSettings.Instance.Notification.WaterPipeDirtyWaterPumpNotification, OnWaterPipeDirtyWaterPumpNotificationToggle);
 
-            buildingAbandonedCollapsedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.BuildingAbandonedCollapsedNotification), Setting.Instance.Notification.BuildingAbandonedCollapsedNotification, OnBuildingAbandonedCollapsedNotificationToggle);
-            buildingAbandonedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.BuildingAbandonedNotification), Setting.Instance.Notification.BuildingAbandonedNotification, OnBuildingAbandonedNotificationToggle);
-            buildingCondemnedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.BuildingCondemnedNotification), Setting.Instance.Notification.BuildingCondemnedNotification, OnBuildingCondemnedNotificationToggle);
-            buildingTurnedOffNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.BuildingTurnedOffNotification), Setting.Instance.Notification.BuildingTurnedOffNotification, OnBuildingTurnedOffNotificationToggle);
-            buildingHighRentNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.BuildingHighRentNotification), Setting.Instance.Notification.BuildingHighRentNotification, OnBuildingHighRentNotificationToggle);
-            buildingLevelingNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.BuildingLevelingNotification), Setting.Instance.Notification.BuildingLevelingNotification, OnBuildingLevelingNotificationToggle);
+            buildingAbandonedCollapsedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.BuildingAbandonedCollapsedNotification), CwdSettings.Instance.Notification.BuildingAbandonedCollapsedNotification, OnBuildingAbandonedCollapsedNotificationToggle);
+            buildingAbandonedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.BuildingAbandonedNotification), CwdSettings.Instance.Notification.BuildingAbandonedNotification, OnBuildingAbandonedNotificationToggle);
+            buildingCondemnedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.BuildingCondemnedNotification), CwdSettings.Instance.Notification.BuildingCondemnedNotification, OnBuildingCondemnedNotificationToggle);
+            buildingTurnedOffNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.BuildingTurnedOffNotification), CwdSettings.Instance.Notification.BuildingTurnedOffNotification, OnBuildingTurnedOffNotificationToggle);
+            buildingHighRentNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.BuildingHighRentNotification), CwdSettings.Instance.Notification.BuildingHighRentNotification, OnBuildingHighRentNotificationToggle);
+            buildingLevelingNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.BuildingLevelingNotification), CwdSettings.Instance.Notification.BuildingLevelingNotification, OnBuildingLevelingNotificationToggle);
 
-            trafficBottleneckNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TrafficBottleneckNotification), Setting.Instance.Notification.TrafficBottleneckNotification, OnTrafficBottleneckNotificationToggle);
-            trafficDeadEndNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TrafficDeadEndNotification), Setting.Instance.Notification.TrafficDeadEndNotification, OnTrafficDeadEndNotificationToggle);
-            trafficRoadConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TrafficRoadConnectionNotification), Setting.Instance.Notification.TrafficRoadConnectionNotification, OnTrafficRoadConnectionNotificationToggle);
-            trafficTrackConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TrafficTrackConnectionNotification), Setting.Instance.Notification.TrafficTrackConnectionNotification, OnTrafficTrackConnectionNotificationToggle);
-            trafficCarConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TrafficCarConnectionNotification), Setting.Instance.Notification.TrafficCarConnectionNotification, OnTrafficCarConnectionNotificationToggle);
-            trafficShipConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TrafficShipConnectionNotification), Setting.Instance.Notification.TrafficShipConnectionNotification, OnTrafficShipConnectionNotificationToggle);
-            trafficTrainConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TrafficTrainConnectionNotification), Setting.Instance.Notification.TrafficTrainConnectionNotification, OnTrafficTrainConnectionNotificationToggle);
-            trafficPedestrianConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TrafficPedestrianConnectionNotification), Setting.Instance.Notification.TrafficPedestrianConnectionNotification, OnTrafficPedestrianConnectionNotificationToggle);
-            trafficBicycleConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TrafficBicycleConnectionNotification), Setting.Instance.Notification.TrafficBicycleConnectionNotification, OnTrafficBicycleConnectionNotificationToggle);
+            trafficBottleneckNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.TrafficBottleneckNotification), CwdSettings.Instance.Notification.TrafficBottleneckNotification, OnTrafficBottleneckNotificationToggle);
+            trafficDeadEndNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.TrafficDeadEndNotification), CwdSettings.Instance.Notification.TrafficDeadEndNotification, OnTrafficDeadEndNotificationToggle);
+            trafficRoadConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.TrafficRoadConnectionNotification), CwdSettings.Instance.Notification.TrafficRoadConnectionNotification, OnTrafficRoadConnectionNotificationToggle);
+            trafficTrackConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.TrafficTrackConnectionNotification), CwdSettings.Instance.Notification.TrafficTrackConnectionNotification, OnTrafficTrackConnectionNotificationToggle);
+            trafficCarConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.TrafficCarConnectionNotification), CwdSettings.Instance.Notification.TrafficCarConnectionNotification, OnTrafficCarConnectionNotificationToggle);
+            trafficShipConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.TrafficShipConnectionNotification), CwdSettings.Instance.Notification.TrafficShipConnectionNotification, OnTrafficShipConnectionNotificationToggle);
+            trafficTrainConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.TrafficTrainConnectionNotification), CwdSettings.Instance.Notification.TrafficTrainConnectionNotification, OnTrafficTrainConnectionNotificationToggle);
+            trafficPedestrianConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.TrafficPedestrianConnectionNotification), CwdSettings.Instance.Notification.TrafficPedestrianConnectionNotification, OnTrafficPedestrianConnectionNotificationToggle);
+            trafficBicycleConnectionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.TrafficBicycleConnectionNotification), CwdSettings.Instance.Notification.TrafficBicycleConnectionNotification, OnTrafficBicycleConnectionNotificationToggle);
 
-            companyNoInputsNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.CompanyNoInputsNotification), Setting.Instance.Notification.CompanyNoInputsNotification, OnCompanyNoInputsNotificationToggle);
-            companyNoCustomersNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.CompanyNoCustomersNotification), Setting.Instance.Notification.CompanyNoCustomersNotification, OnCompanyNoCustomersNotificationToggle);
+            companyNoInputsNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.CompanyNoInputsNotification), CwdSettings.Instance.Notification.CompanyNoInputsNotification, OnCompanyNoInputsNotificationToggle);
+            companyNoCustomersNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.CompanyNoCustomersNotification), CwdSettings.Instance.Notification.CompanyNoCustomersNotification, OnCompanyNoCustomersNotificationToggle);
 
-            workProviderUneducatedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.WorkProviderUneducatedNotification), Setting.Instance.Notification.WorkProviderUneducatedNotification, OnWorkProviderUneducatedNotificationToggle);
-            workProviderEducatedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.WorkProviderEducatedNotification), Setting.Instance.Notification.WorkProviderEducatedNotification, OnWorkProviderEducatedNotificationToggle);
+            workProviderUneducatedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.WorkProviderUneducatedNotification), CwdSettings.Instance.Notification.WorkProviderUneducatedNotification, OnWorkProviderUneducatedNotificationToggle);
+            workProviderEducatedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.WorkProviderEducatedNotification), CwdSettings.Instance.Notification.WorkProviderEducatedNotification, OnWorkProviderEducatedNotificationToggle);
 
-            disasterWeatherDamageNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.DisasterWeatherDamageNotification), Setting.Instance.Notification.DisasterWeatherDamageNotification, OnDisasterWeatherDamageNotificationToggle);
-            disasterWeatherDestroyedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.DisasterWeatherDestroyedNotification), Setting.Instance.Notification.DisasterWeatherDestroyedNotification, OnDisasterWeatherDestroyedNotificationToggle);
-            disasterWaterDamageNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.DisasterWaterDamageNotification), Setting.Instance.Notification.DisasterWaterDamageNotification, OnDisasterWaterDamageNotificationToggle);
-            disasterWaterDestroyedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.DisasterWaterDestroyedNotification), Setting.Instance.Notification.DisasterWaterDestroyedNotification, OnDisasterWaterDestroyedNotificationToggle);
-            disasterDestroyedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.DisasterDestroyedNotification), Setting.Instance.Notification.DisasterDestroyedNotification, OnDisasterDestroyedNotificationToggle);
+            disasterWeatherDamageNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.DisasterWeatherDamageNotification), CwdSettings.Instance.Notification.DisasterWeatherDamageNotification, OnDisasterWeatherDamageNotificationToggle);
+            disasterWeatherDestroyedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.DisasterWeatherDestroyedNotification), CwdSettings.Instance.Notification.DisasterWeatherDestroyedNotification, OnDisasterWeatherDestroyedNotificationToggle);
+            disasterWaterDamageNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.DisasterWaterDamageNotification), CwdSettings.Instance.Notification.DisasterWaterDamageNotification, OnDisasterWaterDamageNotificationToggle);
+            disasterWaterDestroyedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.DisasterWaterDestroyedNotification), CwdSettings.Instance.Notification.DisasterWaterDestroyedNotification, OnDisasterWaterDestroyedNotificationToggle);
+            disasterDestroyedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.DisasterDestroyedNotification), CwdSettings.Instance.Notification.DisasterDestroyedNotification, OnDisasterDestroyedNotificationToggle);
 
-            fireFireNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.FireFireNotification), Setting.Instance.Notification.FireFireNotification, OnFireFireNotificationToggle);
-            fireBurnedDownNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.FireBurnedDownNotification), Setting.Instance.Notification.FireBurnedDownNotification, OnFireBurnedDownNotificationToggle);
+            fireFireNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.FireFireNotification), CwdSettings.Instance.Notification.FireFireNotification, OnFireFireNotificationToggle);
+            fireBurnedDownNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.FireBurnedDownNotification), CwdSettings.Instance.Notification.FireBurnedDownNotification, OnFireBurnedDownNotificationToggle);
 
-            garbageGarbageNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.GarbageGarbageNotification), Setting.Instance.Notification.GarbageGarbageNotification, OnGarbageGarbageNotificationToggle);
-            garbageFacilityFullNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.GarbageFacilityFullNotification), Setting.Instance.Notification.GarbageFacilityFullNotification, OnGarbageFacilityFullNotificationToggle);
+            garbageGarbageNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.GarbageGarbageNotification), CwdSettings.Instance.Notification.GarbageGarbageNotification, OnGarbageGarbageNotificationToggle);
+            garbageFacilityFullNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.GarbageFacilityFullNotification), CwdSettings.Instance.Notification.GarbageFacilityFullNotification, OnGarbageFacilityFullNotificationToggle);
 
-            healthcareAmbulanceNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.HealthcareAmbulanceNotification), Setting.Instance.Notification.HealthcareAmbulanceNotification, OnHealthcareAmbulanceNotificationToggle);
-            healthcareHearseNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.HealthcareHearseNotification), Setting.Instance.Notification.HealthcareHearseNotification, OnHealthcareHearseNotificationToggle);
-            healthcareFacilityFullNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.HealthcareFacilityFullNotification), Setting.Instance.Notification.HealthcareFacilityFullNotification, OnHealthcareFacilityFullNotificationToggle);
+            healthcareAmbulanceNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.HealthcareAmbulanceNotification), CwdSettings.Instance.Notification.HealthcareAmbulanceNotification, OnHealthcareAmbulanceNotificationToggle);
+            healthcareHearseNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.HealthcareHearseNotification), CwdSettings.Instance.Notification.HealthcareHearseNotification, OnHealthcareHearseNotificationToggle);
+            healthcareFacilityFullNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.HealthcareFacilityFullNotification), CwdSettings.Instance.Notification.HealthcareFacilityFullNotification, OnHealthcareFacilityFullNotificationToggle);
 
-            policeTrafficAccidentNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.PoliceTrafficAccidentNotification), Setting.Instance.Notification.PoliceTrafficAccidentNotification, OnPoliceTrafficAccidentNotificationToggle);
-            policeCrimeSceneNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.PoliceCrimeSceneNotification), Setting.Instance.Notification.PoliceCrimeSceneNotification, OnPoliceCrimeSceneNotificationToggle);
+            policeTrafficAccidentNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.PoliceTrafficAccidentNotification), CwdSettings.Instance.Notification.PoliceTrafficAccidentNotification, OnPoliceTrafficAccidentNotificationToggle);
+            policeCrimeSceneNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.PoliceCrimeSceneNotification), CwdSettings.Instance.Notification.PoliceCrimeSceneNotification, OnPoliceCrimeSceneNotificationToggle);
 
-            pollutionAirPollutionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.PollutionAirPollutionNotification), Setting.Instance.Notification.PollutionAirPollutionNotification, OnPollutionAirPollutionNotificationToggle);
-            pollutionNoisePollutionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.PollutionNoisePollutionNotification), Setting.Instance.Notification.PollutionNoisePollutionNotification, OnPollutionNoisePollutionNotificationToggle);
-            pollutionGroundPollutionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.PollutionGroundPollutionNotification), Setting.Instance.Notification.PollutionGroundPollutionNotification, OnPollutionGroundPollutionNotificationToggle);
+            pollutionAirPollutionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.PollutionAirPollutionNotification), CwdSettings.Instance.Notification.PollutionAirPollutionNotification, OnPollutionAirPollutionNotificationToggle);
+            pollutionNoisePollutionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.PollutionNoisePollutionNotification), CwdSettings.Instance.Notification.PollutionNoisePollutionNotification, OnPollutionNoisePollutionNotificationToggle);
+            pollutionGroundPollutionNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.PollutionGroundPollutionNotification), CwdSettings.Instance.Notification.PollutionGroundPollutionNotification, OnPollutionGroundPollutionNotificationToggle);
 
-            resourceConsumerNoResourceNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ResourceConsumerNoResourceNotification), Setting.Instance.Notification.ResourceConsumerNoResourceNotification, OnResourceConsumerNoResourceNotificationToggle);
-            resourceConsumerNoFuelNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ResourceConsumerNoFuelNotification), Setting.Instance.Notification.ResourceConsumerNoFuelNotification, OnResourceConsumerNoFuelNotificationToggle);
-            resourceConnectionWarningNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ResourceConnectionWarningNotification), Setting.Instance.Notification.ResourceConnectionWarningNotification, OnResourceConnectionWarningNotificationToggle);
-            resourceConnectionOilPipeNotConnectedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ResourceConnectionOilPipeNotConnectedNotification), Setting.Instance.Notification.ResourceConnectionOilPipeNotConnectedNotification, OnResourceConnectionOilPipeNotConnectedNotificationToggle);
-            resourceConnectionFishingPierNotConnectedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.ResourceConnectionFishingPierNotConnectedNotification), Setting.Instance.Notification.ResourceConnectionFishingPierNotConnectedNotification, OnResourceConnectionFishingPierNotConnectedNotificationToggle);
+            resourceConsumerNoResourceNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.ResourceConsumerNoResourceNotification), CwdSettings.Instance.Notification.ResourceConsumerNoResourceNotification, OnResourceConsumerNoResourceNotificationToggle);
+            resourceConsumerNoFuelNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.ResourceConsumerNoFuelNotification), CwdSettings.Instance.Notification.ResourceConsumerNoFuelNotification, OnResourceConsumerNoFuelNotificationToggle);
+            resourceConnectionWarningNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.ResourceConnectionWarningNotification), CwdSettings.Instance.Notification.ResourceConnectionWarningNotification, OnResourceConnectionWarningNotificationToggle);
+            resourceConnectionOilPipeNotConnectedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.ResourceConnectionOilPipeNotConnectedNotification), CwdSettings.Instance.Notification.ResourceConnectionOilPipeNotConnectedNotification, OnResourceConnectionOilPipeNotConnectedNotificationToggle);
+            resourceConnectionFishingPierNotConnectedNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.ResourceConnectionFishingPierNotConnectedNotification), CwdSettings.Instance.Notification.ResourceConnectionFishingPierNotConnectedNotification, OnResourceConnectionFishingPierNotConnectedNotificationToggle);
 
-            routePathfindNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.RoutePathfindNotification), Setting.Instance.Notification.RoutePathfindNotification, OnRoutePathfindNotificationToggle);
-            routeGateBypassNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.RouteGateBypassNotification), Setting.Instance.Notification.RouteGateBypassNotification, OnRouteGateBypassNotificationToggle);
+            routePathfindNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.RoutePathfindNotification), CwdSettings.Instance.Notification.RoutePathfindNotification, OnRoutePathfindNotificationToggle);
+            routeGateBypassNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.RouteGateBypassNotification), CwdSettings.Instance.Notification.RouteGateBypassNotification, OnRouteGateBypassNotificationToggle);
 
-            transportLineVehicleNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(Setting.Instance.Notification.TransportLineVehicleNotification), Setting.Instance.Notification.TransportLineVehicleNotification, OnTransportLineVehicleNotificationToggle);
+            transportLineVehicleNotificationBinding = AddBoolBindingAndTriggerBinding(nameof(CwdSettings.Instance.Notification.TransportLineVehicleNotification), CwdSettings.Instance.Notification.TransportLineVehicleNotification, OnTransportLineVehicleNotificationToggle);
         }
 
 
@@ -315,47 +315,47 @@ namespace CityWatchdog.Systems
         #region OnElectricityNotificationToggle
         private void OnElectricityElectricityNotificationToggle(bool value) {
             electricityElectricityNotificationBinding.Update(value);
-            Setting.Instance.Notification.ElectricityElectricityNotification = value;
+            CwdSettings.Instance.Notification.ElectricityElectricityNotification = value;
             alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.ElectricityNotification, value, true);
         }
         private void OnElectricityBottleneckNotificationToggle(bool value) {
             electricityBottleneckNotificationBinding.Update(value);
-            Setting.Instance.Notification.ElectricityBottleneckNotification = value;
+            CwdSettings.Instance.Notification.ElectricityBottleneckNotification = value;
             alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.BottleneckNotification, value, true);
         }
         private void OnElectricityBuildingBottleneckNotificationToggle(bool value) {
             electricityBuildingBottleneckNotificationBinding.Update(value);
-            Setting.Instance.Notification.ElectricityBuildingBottleneckNotification = value;
+            CwdSettings.Instance.Notification.ElectricityBuildingBottleneckNotification = value;
             alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.BuildingBottleneckNotification, value, true);
         }
         private void OnElectricityNotEnoughProductionNotificationToggle(bool value) {
             electricityNotEnoughProductionNotificationBinding.Update(value);
-            Setting.Instance.Notification.ElectricityNotEnoughProductionNotification = value;
+            CwdSettings.Instance.Notification.ElectricityNotEnoughProductionNotification = value;
             alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.NotEnoughProductionNotification, value, true);
         }
         private void OnElectricityTransformerNotificationToggle(bool value) {
             electricityTransformerNotificationBinding.Update(value);
-            Setting.Instance.Notification.ElectricityTransformerNotification = value;
+            CwdSettings.Instance.Notification.ElectricityTransformerNotification = value;
             alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.TransformerNotification, value, true);
         }
         private void OnElectricityNotEnoughConnectedNotificationToggle(bool value) {
             electricityNotEnoughConnectedNotificationBinding.Update(value);
-            Setting.Instance.Notification.ElectricityNotEnoughConnectedNotification = value;
+            CwdSettings.Instance.Notification.ElectricityNotEnoughConnectedNotification = value;
             alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.NotEnoughConnectedNotification, value, true);
         }
         private void OnElectricityBatteryEmptyNotificationToggle(bool value) {
             electricityBatteryEmptyNotificationBinding.Update(value);
-            Setting.Instance.Notification.ElectricityBatteryEmptyNotification = value;
+            CwdSettings.Instance.Notification.ElectricityBatteryEmptyNotification = value;
             alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.BatteryEmptyNotification, value, true);
         }
         private void OnElectricityLowVoltageNotConnectedToggle(bool value) {
             electricityLowVoltageNotConnectedBinding.Update(value);
-            Setting.Instance.Notification.ElectricityLowVoltageNotConnected = value;
+            CwdSettings.Instance.Notification.ElectricityLowVoltageNotConnected = value;
             alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.LowVoltageNotConnected, value, true);
         }
         private void OnElectricityHighVoltageNotConnectedToggle(bool value) {
             electricityHighVoltageNotConnectedBinding.Update(value);
-            Setting.Instance.Notification.ElectricityHighVoltageNotConnected = value;
+            CwdSettings.Instance.Notification.ElectricityHighVoltageNotConnected = value;
             alertIconSystem.EnableElectricityNotification(ElectricityNotificationIcon.HighVoltageNotConnected, value, true);
         }
 
@@ -364,52 +364,52 @@ namespace CityWatchdog.Systems
         #region OnWaterPipeNotificationToggle
         private void OnWaterPipeWaterNotificationToggle(bool value) {
             waterPipeWaterNotificationBinding.Update(value);
-            Setting.Instance.Notification.WaterPipeWaterNotification = value;
+            CwdSettings.Instance.Notification.WaterPipeWaterNotification = value;
             alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.WaterNotification, value, true);
         }
         private void OnWaterPipeDirtyWaterNotificationToggle(bool value) {
             waterPipeDirtyWaterNotificationBinding.Update(value);
-            Setting.Instance.Notification.WaterPipeDirtyWaterNotification = value;
+            CwdSettings.Instance.Notification.WaterPipeDirtyWaterNotification = value;
             alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.DirtyWaterNotification, value, true);
         }
         private void OnWaterPipeSewageNotificationToggle(bool value) {
             waterPipeSewageNotificationBinding.Update(value);
-            Setting.Instance.Notification.WaterPipeSewageNotification = value;
+            CwdSettings.Instance.Notification.WaterPipeSewageNotification = value;
             alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.SewageNotification, value, true);
         }
         private void OnWaterPipeWaterPipeNotConnectedNotificationToggle(bool value) {
             waterPipeWaterPipeNotConnectedNotificationBinding.Update(value);
-            Setting.Instance.Notification.WaterPipeWaterPipeNotConnectedNotification = value;
+            CwdSettings.Instance.Notification.WaterPipeWaterPipeNotConnectedNotification = value;
             alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.WaterPipeNotConnectedNotification, value, true);
         }
         private void OnWaterPipeSewagePipeNotConnectedNotificationToggle(bool value) {
             waterPipeSewagePipeNotConnectedNotificationBinding.Update(value);
-            Setting.Instance.Notification.WaterPipeSewagePipeNotConnectedNotification = value;
+            CwdSettings.Instance.Notification.WaterPipeSewagePipeNotConnectedNotification = value;
             alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.SewagePipeNotConnectedNotification, value, true);
         }
         private void OnWaterPipeNotEnoughWaterCapacityNotificationToggle(bool value) {
             waterPipeNotEnoughWaterCapacityNotificationBinding.Update(value);
-            Setting.Instance.Notification.WaterPipeNotEnoughWaterCapacityNotification = value;
+            CwdSettings.Instance.Notification.WaterPipeNotEnoughWaterCapacityNotification = value;
             alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughWaterCapacityNotification, value, true);
         }
         private void OnWaterPipeNotEnoughSewageCapacityNotificationToggle(bool value) {
             waterPipeNotEnoughSewageCapacityNotificationBinding.Update(value);
-            Setting.Instance.Notification.WaterPipeNotEnoughSewageCapacityNotification = value;
+            CwdSettings.Instance.Notification.WaterPipeNotEnoughSewageCapacityNotification = value;
             alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughSewageCapacityNotification, value, true);
         }
         private void OnWaterPipeNotEnoughGroundwaterNotificationToggle(bool value) {
             waterPipeNotEnoughGroundwaterNotificationBinding.Update(value);
-            Setting.Instance.Notification.WaterPipeNotEnoughGroundwaterNotification = value;
+            CwdSettings.Instance.Notification.WaterPipeNotEnoughGroundwaterNotification = value;
             alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughGroundwaterNotification, value, true);
         }
         private void OnWaterPipeNotEnoughSurfaceWaterNotificationToggle(bool value) {
             waterPipeNotEnoughSurfaceWaterNotificationBinding.Update(value);
-            Setting.Instance.Notification.WaterPipeNotEnoughSurfaceWaterNotification = value;
+            CwdSettings.Instance.Notification.WaterPipeNotEnoughSurfaceWaterNotification = value;
             alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughSurfaceWaterNotification, value, true);
         }
         private void OnWaterPipeDirtyWaterPumpNotificationToggle(bool value) {
             waterPipeDirtyWaterPumpNotificationBinding.Update(value);
-            Setting.Instance.Notification.WaterPipeDirtyWaterPumpNotification = value;
+            CwdSettings.Instance.Notification.WaterPipeDirtyWaterPumpNotification = value;
             alertIconSystem.EnableWaterPipeNotification(WaterPipeNotificationIcon.DirtyWaterPumpNotification, value, true);
         }
         #endregion
@@ -417,32 +417,32 @@ namespace CityWatchdog.Systems
         #region OnBuildingNotificationToggle
         private void OnBuildingAbandonedCollapsedNotificationToggle(bool value) {
             buildingAbandonedCollapsedNotificationBinding.Update(value);
-            Setting.Instance.Notification.BuildingAbandonedCollapsedNotification = value;
+            CwdSettings.Instance.Notification.BuildingAbandonedCollapsedNotification = value;
             alertIconSystem.EnableBuildingNotification(BuildingNotificationIcon.AbandonedCollapsedNotification, value, true);
         }
         private void OnBuildingAbandonedNotificationToggle(bool value) {
             buildingAbandonedNotificationBinding.Update(value);
-            Setting.Instance.Notification.BuildingAbandonedNotification = value;
+            CwdSettings.Instance.Notification.BuildingAbandonedNotification = value;
             alertIconSystem.EnableBuildingNotification(BuildingNotificationIcon.AbandonedNotification, value, true);
         }
         private void OnBuildingCondemnedNotificationToggle(bool value) {
             buildingCondemnedNotificationBinding.Update(value);
-            Setting.Instance.Notification.BuildingCondemnedNotification = value;
+            CwdSettings.Instance.Notification.BuildingCondemnedNotification = value;
             alertIconSystem.EnableBuildingNotification(BuildingNotificationIcon.CondemnedNotification, value, true);
         }
         private void OnBuildingTurnedOffNotificationToggle(bool value) {
             buildingTurnedOffNotificationBinding.Update(value);
-            Setting.Instance.Notification.BuildingTurnedOffNotification = value;
+            CwdSettings.Instance.Notification.BuildingTurnedOffNotification = value;
             alertIconSystem.EnableBuildingNotification(BuildingNotificationIcon.TurnedOffNotification, value, true);
         }
         private void OnBuildingHighRentNotificationToggle(bool value) {
             buildingHighRentNotificationBinding.Update(value);
-            Setting.Instance.Notification.BuildingHighRentNotification = value;
+            CwdSettings.Instance.Notification.BuildingHighRentNotification = value;
             alertIconSystem.EnableBuildingNotification(BuildingNotificationIcon.HighRentNotification, value, true);
         }
         private void OnBuildingLevelingNotificationToggle(bool value) {
             buildingLevelingNotificationBinding.Update(value);
-            Setting.Instance.Notification.BuildingLevelingNotification = value;
+            CwdSettings.Instance.Notification.BuildingLevelingNotification = value;
             alertIconSystem.EnableBuildingNotification(BuildingNotificationIcon.LevelingNotification, value, true);
         }
         #endregion
@@ -450,47 +450,47 @@ namespace CityWatchdog.Systems
         #region OnTrafficNotificationToggle
         private void OnTrafficBottleneckNotificationToggle(bool value) {
             trafficBottleneckNotificationBinding.Update(value);
-            Setting.Instance.Notification.TrafficBottleneckNotification = value;
+            CwdSettings.Instance.Notification.TrafficBottleneckNotification = value;
             alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.BottleneckNotification, value, true);
         }
         private void OnTrafficDeadEndNotificationToggle(bool value) {
             trafficDeadEndNotificationBinding.Update(value);
-            Setting.Instance.Notification.TrafficDeadEndNotification = value;
+            CwdSettings.Instance.Notification.TrafficDeadEndNotification = value;
             alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.DeadEndNotification, value, true);
         }
         private void OnTrafficRoadConnectionNotificationToggle(bool value) {
             trafficRoadConnectionNotificationBinding.Update(value);
-            Setting.Instance.Notification.TrafficRoadConnectionNotification = value;
+            CwdSettings.Instance.Notification.TrafficRoadConnectionNotification = value;
             alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.RoadConnectionNotification, value, true);
         }
         private void OnTrafficTrackConnectionNotificationToggle(bool value) {
             trafficTrackConnectionNotificationBinding.Update(value);
-            Setting.Instance.Notification.TrafficTrackConnectionNotification = value;
+            CwdSettings.Instance.Notification.TrafficTrackConnectionNotification = value;
             alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.TrackConnectionNotification, value, true);
         }
         private void OnTrafficCarConnectionNotificationToggle(bool value) {
             trafficCarConnectionNotificationBinding.Update(value);
-            Setting.Instance.Notification.TrafficCarConnectionNotification = value;
+            CwdSettings.Instance.Notification.TrafficCarConnectionNotification = value;
             alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.CarConnectionNotification, value, true);
         }
         private void OnTrafficShipConnectionNotificationToggle(bool value) {
             trafficShipConnectionNotificationBinding.Update(value);
-            Setting.Instance.Notification.TrafficShipConnectionNotification = value;
+            CwdSettings.Instance.Notification.TrafficShipConnectionNotification = value;
             alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.ShipConnectionNotification, value, true);
         }
         private void OnTrafficTrainConnectionNotificationToggle(bool value) {
             trafficTrainConnectionNotificationBinding.Update(value);
-            Setting.Instance.Notification.TrafficTrainConnectionNotification = value;
+            CwdSettings.Instance.Notification.TrafficTrainConnectionNotification = value;
             alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.TrainConnectionNotification, value, true);
         }
         private void OnTrafficPedestrianConnectionNotificationToggle(bool value) {
             trafficPedestrianConnectionNotificationBinding.Update(value);
-            Setting.Instance.Notification.TrafficPedestrianConnectionNotification = value;
+            CwdSettings.Instance.Notification.TrafficPedestrianConnectionNotification = value;
             alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.PedestrianConnectionNotification, value, true);
         }
         private void OnTrafficBicycleConnectionNotificationToggle(bool value) {
             trafficBicycleConnectionNotificationBinding.Update(value);
-            Setting.Instance.Notification.TrafficBicycleConnectionNotification = value;
+            CwdSettings.Instance.Notification.TrafficBicycleConnectionNotification = value;
             alertIconSystem.EnableTrafficNotification(TrafficNotificationIcon.BicycleConnectionNotification, value, true);
         }
         #endregion
@@ -498,12 +498,12 @@ namespace CityWatchdog.Systems
         #region OnCompanyNotificationToggle
         private void OnCompanyNoInputsNotificationToggle(bool value) {
             companyNoInputsNotificationBinding.Update(value);
-            Setting.Instance.Notification.CompanyNoInputsNotification = value;
+            CwdSettings.Instance.Notification.CompanyNoInputsNotification = value;
             alertIconSystem.EnableCompanyNotification(CompanyNotificationIcon.NoInputsNotification, value, true);
         }
         private void OnCompanyNoCustomersNotificationToggle(bool value) {
             companyNoCustomersNotificationBinding.Update(value);
-            Setting.Instance.Notification.CompanyNoCustomersNotification = value;
+            CwdSettings.Instance.Notification.CompanyNoCustomersNotification = value;
             alertIconSystem.EnableCompanyNotification(CompanyNotificationIcon.NoCustomersNotification, value, true);
         }
         #endregion
@@ -511,12 +511,12 @@ namespace CityWatchdog.Systems
         #region OnWorkProviderNotificationToggle
         private void OnWorkProviderUneducatedNotificationToggle(bool value) {
             workProviderUneducatedNotificationBinding.Update(value);
-            Setting.Instance.Notification.WorkProviderUneducatedNotification = value;
+            CwdSettings.Instance.Notification.WorkProviderUneducatedNotification = value;
             alertIconSystem.EnableWorkProviderNotification(WorkProviderNotificationIcon.UneducatedNotification, value, true);
         }
         private void OnWorkProviderEducatedNotificationToggle(bool value) {
             workProviderEducatedNotificationBinding.Update(value);
-            Setting.Instance.Notification.WorkProviderEducatedNotification = value;
+            CwdSettings.Instance.Notification.WorkProviderEducatedNotification = value;
             alertIconSystem.EnableWorkProviderNotification(WorkProviderNotificationIcon.EducatedNotification, value, true);
         }
         #endregion
@@ -524,27 +524,27 @@ namespace CityWatchdog.Systems
         #region OnDisasterNotificationToggle
         private void OnDisasterWeatherDamageNotificationToggle(bool value) {
             disasterWeatherDamageNotificationBinding.Update(value);
-            Setting.Instance.Notification.DisasterWeatherDamageNotification = value;
+            CwdSettings.Instance.Notification.DisasterWeatherDamageNotification = value;
             alertIconSystem.EnableDisasterNotification(DisasterNotificationIcon.WeatherDamageNotification, value, true);
         }
         private void OnDisasterWeatherDestroyedNotificationToggle(bool value) {
             disasterWeatherDestroyedNotificationBinding.Update(value);
-            Setting.Instance.Notification.DisasterWeatherDestroyedNotification = value;
+            CwdSettings.Instance.Notification.DisasterWeatherDestroyedNotification = value;
             alertIconSystem.EnableDisasterNotification(DisasterNotificationIcon.WeatherDestroyedNotification, value, true);
         }
         private void OnDisasterWaterDamageNotificationToggle(bool value) {
             disasterWaterDamageNotificationBinding.Update(value);
-            Setting.Instance.Notification.DisasterWaterDamageNotification = value;
+            CwdSettings.Instance.Notification.DisasterWaterDamageNotification = value;
             alertIconSystem.EnableDisasterNotification(DisasterNotificationIcon.WaterDamageNotification, value, true);
         }
         private void OnDisasterWaterDestroyedNotificationToggle(bool value) {
             disasterWaterDestroyedNotificationBinding.Update(value);
-            Setting.Instance.Notification.DisasterWaterDestroyedNotification = value;
+            CwdSettings.Instance.Notification.DisasterWaterDestroyedNotification = value;
             alertIconSystem.EnableDisasterNotification(DisasterNotificationIcon.WaterDestroyedNotification, value, true);
         }
         private void OnDisasterDestroyedNotificationToggle(bool value) {
             disasterDestroyedNotificationBinding.Update(value);
-            Setting.Instance.Notification.DisasterDestroyedNotification = value;
+            CwdSettings.Instance.Notification.DisasterDestroyedNotification = value;
             alertIconSystem.EnableDisasterNotification(DisasterNotificationIcon.DestroyedNotification, value, true);
         }
         #endregion
@@ -552,12 +552,12 @@ namespace CityWatchdog.Systems
         #region OnFireNotificationToggle
         private void OnFireFireNotificationToggle(bool value) {
             fireFireNotificationBinding.Update(value);
-            Setting.Instance.Notification.FireFireNotification = value;
+            CwdSettings.Instance.Notification.FireFireNotification = value;
             alertIconSystem.EnableFireNotification(FireNotificationIcon.FireNotification, value, true);
         }
         private void OnFireBurnedDownNotificationToggle(bool value) {
             fireBurnedDownNotificationBinding.Update(value);
-            Setting.Instance.Notification.FireBurnedDownNotification = value;
+            CwdSettings.Instance.Notification.FireBurnedDownNotification = value;
             alertIconSystem.EnableFireNotification(FireNotificationIcon.BurnedDownNotification, value, true);
         }
         #endregion
@@ -565,12 +565,12 @@ namespace CityWatchdog.Systems
         #region OnGarbageNotificationToggle
         private void OnGarbageGarbageNotificationToggle(bool value) {
             garbageGarbageNotificationBinding.Update(value);
-            Setting.Instance.Notification.GarbageGarbageNotification = value;
+            CwdSettings.Instance.Notification.GarbageGarbageNotification = value;
             alertIconSystem.EnableGarbageNotification(GarbageNotificationIcon.GarbageNotification, value, true);
         }
         private void OnGarbageFacilityFullNotificationToggle(bool value) {
             garbageFacilityFullNotificationBinding.Update(value);
-            Setting.Instance.Notification.GarbageFacilityFullNotification = value;
+            CwdSettings.Instance.Notification.GarbageFacilityFullNotification = value;
             alertIconSystem.EnableGarbageNotification(GarbageNotificationIcon.FacilityFullNotification, value, true);
         }
         #endregion
@@ -578,17 +578,17 @@ namespace CityWatchdog.Systems
         #region OnHealthcareNotificationToggle
         private void OnHealthcareAmbulanceNotificationToggle(bool value) {
             healthcareAmbulanceNotificationBinding.Update(value);
-            Setting.Instance.Notification.HealthcareAmbulanceNotification = value;
+            CwdSettings.Instance.Notification.HealthcareAmbulanceNotification = value;
             alertIconSystem.EnableHealthcareNotification(HealthcareNotificationIcon.AmbulanceNotification, value, true);
         }
         private void OnHealthcareHearseNotificationToggle(bool value) {
             healthcareHearseNotificationBinding.Update(value);
-            Setting.Instance.Notification.HealthcareHearseNotification = value;
+            CwdSettings.Instance.Notification.HealthcareHearseNotification = value;
             alertIconSystem.EnableHealthcareNotification(HealthcareNotificationIcon.HearseNotification, value, true);
         }
         private void OnHealthcareFacilityFullNotificationToggle(bool value) {
             healthcareFacilityFullNotificationBinding.Update(value);
-            Setting.Instance.Notification.HealthcareFacilityFullNotification = value;
+            CwdSettings.Instance.Notification.HealthcareFacilityFullNotification = value;
             alertIconSystem.EnableHealthcareNotification(HealthcareNotificationIcon.FacilityFullNotification, value, true);
         }
         #endregion
@@ -596,12 +596,12 @@ namespace CityWatchdog.Systems
         #region OnPoliceNotificationToggle
         private void OnPoliceTrafficAccidentNotificationToggle(bool value) {
             policeTrafficAccidentNotificationBinding.Update(value);
-            Setting.Instance.Notification.PoliceTrafficAccidentNotification = value;
+            CwdSettings.Instance.Notification.PoliceTrafficAccidentNotification = value;
             alertIconSystem.EnablePoliceNotification(PoliceNotificationIcon.TrafficAccidentNotification, value, true);
         }
         private void OnPoliceCrimeSceneNotificationToggle(bool value) {
             policeCrimeSceneNotificationBinding.Update(value);
-            Setting.Instance.Notification.PoliceCrimeSceneNotification = value;
+            CwdSettings.Instance.Notification.PoliceCrimeSceneNotification = value;
             alertIconSystem.EnablePoliceNotification(PoliceNotificationIcon.CrimeSceneNotification, value, true);
         }
         #endregion
@@ -609,17 +609,17 @@ namespace CityWatchdog.Systems
         #region OnPollutionNotificationToggle
         private void OnPollutionAirPollutionNotificationToggle(bool value) {
             pollutionAirPollutionNotificationBinding.Update(value);
-            Setting.Instance.Notification.PollutionAirPollutionNotification = value;
+            CwdSettings.Instance.Notification.PollutionAirPollutionNotification = value;
             alertIconSystem.EnablePollutionNotification(PollutionNotificationIcon.AirPollutionNotification, value, true);
         }
         private void OnPollutionNoisePollutionNotificationToggle(bool value) {
             pollutionNoisePollutionNotificationBinding.Update(value);
-            Setting.Instance.Notification.PollutionNoisePollutionNotification = value;
+            CwdSettings.Instance.Notification.PollutionNoisePollutionNotification = value;
             alertIconSystem.EnablePollutionNotification(PollutionNotificationIcon.NoisePollutionNotification, value, true);
         }
         private void OnPollutionGroundPollutionNotificationToggle(bool value) {
             pollutionGroundPollutionNotificationBinding.Update(value);
-            Setting.Instance.Notification.PollutionGroundPollutionNotification = value;
+            CwdSettings.Instance.Notification.PollutionGroundPollutionNotification = value;
             alertIconSystem.EnablePollutionNotification(PollutionNotificationIcon.GroundPollutionNotification, value, true);
         }
         #endregion
@@ -627,13 +627,13 @@ namespace CityWatchdog.Systems
         #region OnResourceConsumerNotificationToggle
         private void OnResourceConsumerNoResourceNotificationToggle(bool value) {
             resourceConsumerNoResourceNotificationBinding.Update(value);
-            Setting.Instance.Notification.ResourceConsumerNoResourceNotification = value;
+            CwdSettings.Instance.Notification.ResourceConsumerNoResourceNotification = value;
             alertIconSystem.EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoResourceNotification, value, true);
         }
 
         private void OnResourceConsumerNoFuelNotificationToggle(bool value) {
             resourceConsumerNoFuelNotificationBinding.Update(value);
-            Setting.Instance.Notification.ResourceConsumerNoFuelNotification = value;
+            CwdSettings.Instance.Notification.ResourceConsumerNoFuelNotification = value;
             alertIconSystem.EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoFuelNotification, value, true);
         }
         #endregion
@@ -641,19 +641,19 @@ namespace CityWatchdog.Systems
         #region OnResourceConnectionNotificationToggle
         private void OnResourceConnectionWarningNotificationToggle(bool value) {
             resourceConnectionWarningNotificationBinding.Update(value);
-            Setting.Instance.Notification.ResourceConnectionWarningNotification = value;
+            CwdSettings.Instance.Notification.ResourceConnectionWarningNotification = value;
             alertIconSystem.EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.ConnectionWarningNotification, value, true);
         }
 
         private void OnResourceConnectionOilPipeNotConnectedNotificationToggle(bool value) {
             resourceConnectionOilPipeNotConnectedNotificationBinding.Update(value);
-            Setting.Instance.Notification.ResourceConnectionOilPipeNotConnectedNotification = value;
+            CwdSettings.Instance.Notification.ResourceConnectionOilPipeNotConnectedNotification = value;
             alertIconSystem.EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.OilPipeNotConnectedNotification, value, true);
         }
 
         private void OnResourceConnectionFishingPierNotConnectedNotificationToggle(bool value) {
             resourceConnectionFishingPierNotConnectedNotificationBinding.Update(value);
-            Setting.Instance.Notification.ResourceConnectionFishingPierNotConnectedNotification = value;
+            CwdSettings.Instance.Notification.ResourceConnectionFishingPierNotConnectedNotification = value;
             alertIconSystem.EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.FishingPierNotConnectedNotification, value, true);
         }
         #endregion
@@ -661,13 +661,13 @@ namespace CityWatchdog.Systems
         #region OnRouteNotificationToggle
         private void OnRoutePathfindNotificationToggle(bool value) {
             routePathfindNotificationBinding.Update(value);
-            Setting.Instance.Notification.RoutePathfindNotification = value;
+            CwdSettings.Instance.Notification.RoutePathfindNotification = value;
             alertIconSystem.EnableRouteNotification(RouteNotificationIcon.PathfindNotification, value, true);
         }
 
         private void OnRouteGateBypassNotificationToggle(bool value) {
             routeGateBypassNotificationBinding.Update(value);
-            Setting.Instance.Notification.RouteGateBypassNotification = value;
+            CwdSettings.Instance.Notification.RouteGateBypassNotification = value;
             alertIconSystem.EnableRouteNotification(RouteNotificationIcon.GateBypassNotification, value, true);
         }
         #endregion
@@ -675,7 +675,7 @@ namespace CityWatchdog.Systems
         #region OnTransportLineNotificationToggle
         private void OnTransportLineVehicleNotificationToggle(bool value) {
             transportLineVehicleNotificationBinding.Update(value);
-            Setting.Instance.Notification.TransportLineVehicleNotification = value;
+            CwdSettings.Instance.Notification.TransportLineVehicleNotification = value;
             alertIconSystem.EnableTransportLineNotification(TransportLineNotificationIcon.VehicleNotification, value, true);
         }
         #endregion
@@ -739,20 +739,20 @@ namespace CityWatchdog.Systems
 
         private void InitializeKeybindActions()
         {
-            toggleNotificationsAction = EnableAction(Setting.ToggleNotificationsAction);
-            toggleNotificationPanelAction = EnableAction(Setting.ToggleNotificationPanelAction);
+            toggleNotificationsAction = EnableAction(CwdSettings.ToggleNotificationsAction);
+            toggleNotificationPanelAction = EnableAction(CwdSettings.ToggleNotificationPanelAction);
         }
 
         private void RefreshKeybindActions()
         {
             if (toggleNotificationsAction == null)
             {
-                toggleNotificationsAction = EnableAction(Setting.ToggleNotificationsAction);
+                toggleNotificationsAction = EnableAction(CwdSettings.ToggleNotificationsAction);
             }
 
             if (toggleNotificationPanelAction == null)
             {
-                toggleNotificationPanelAction = EnableAction(Setting.ToggleNotificationPanelAction);
+                toggleNotificationPanelAction = EnableAction(CwdSettings.ToggleNotificationPanelAction);
             }
         }
 
@@ -773,7 +773,7 @@ namespace CityWatchdog.Systems
 
         private void UpdateAllNotificationBindings(bool enabled)
         {
-            // Keep this list aligned with Setting.NotificationSetting and the BoolBinding fields above.
+            // Keep this list aligned with CwdSettings.NotificationSetting and the BoolBinding fields above.
             electricityElectricityNotificationBinding.Update(enabled);
             electricityBottleneckNotificationBinding.Update(enabled);
             electricityBuildingBottleneckNotificationBinding.Update(enabled);
@@ -855,8 +855,8 @@ namespace CityWatchdog.Systems
 
         private static bool AreAllNotificationSettingsEnabled()
         {
-            // Keep this list aligned with Setting.NotificationSetting.
-            Setting.NotificationSetting notification = Setting.Instance.Notification;
+            // Keep this list aligned with CwdSettings.NotificationSetting.
+            CwdSettings.NotificationSetting notification = CwdSettings.Instance.Notification;
 
             return notification.ElectricityElectricityNotification &&
                    notification.ElectricityBottleneckNotification &&
@@ -932,7 +932,7 @@ namespace CityWatchdog.Systems
         {
             try
             {
-                ProxyAction? action = Setting.Instance.GetAction(actionName);
+                ProxyAction? action = CwdSettings.Instance.GetAction(actionName);
                 if (action != null)
                 {
                     action.shouldBeEnabled = true;
@@ -995,16 +995,16 @@ namespace CityWatchdog.Systems
 
             if (index < 31)
             {
-                Setting.Instance.MiniHudFavoriteMaskLow ^= 1 << index;
+                CwdSettings.Instance.MiniHudFavoriteMaskLow ^= 1 << index;
             }
             else
             {
-                Setting.Instance.MiniHudFavoriteMaskHigh ^= 1 << (index - 31);
+                CwdSettings.Instance.MiniHudFavoriteMaskHigh ^= 1 << (index - 31);
             }
 
             try
             {
-                Setting.Instance.ApplyAndSave();
+                CwdSettings.Instance.ApplyAndSave();
             }
             catch (Exception ex)
             {
@@ -1019,7 +1019,7 @@ namespace CityWatchdog.Systems
 
         private void SaveMiniHudPosition(string payload)
         {
-            if (Setting.Instance.MiniHudPlacement != Setting.MiniHudPlacementDraggable ||
+            if (CwdSettings.Instance.MiniHudPlacement != CwdSettings.MiniHudPlacementDraggable ||
                 string.IsNullOrWhiteSpace(payload))
             {
                 return;
@@ -1034,49 +1034,49 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            if (orientation != Setting.Instance.MiniHudOrientation)
+            if (orientation != CwdSettings.Instance.MiniHudOrientation)
             {
                 return;
             }
 
-            x = Math.Clamp(x, -Setting.MiniHudPositionLimit, Setting.MiniHudPositionLimit);
-            y = Math.Clamp(y, -Setting.MiniHudPositionLimit, Setting.MiniHudPositionLimit);
+            x = Math.Clamp(x, -CwdSettings.MiniHudPositionLimit, CwdSettings.MiniHudPositionLimit);
+            y = Math.Clamp(y, -CwdSettings.MiniHudPositionLimit, CwdSettings.MiniHudPositionLimit);
 
-            if (orientation == Setting.MiniHudOrientationHorizontal)
+            if (orientation == CwdSettings.MiniHudOrientationHorizontal)
             {
-                if (Setting.Instance.MiniHudHorizontalPositionX == x &&
-                    Setting.Instance.MiniHudHorizontalPositionY == y)
+                if (CwdSettings.Instance.MiniHudHorizontalPositionX == x &&
+                    CwdSettings.Instance.MiniHudHorizontalPositionY == y)
                 {
                     return;
                 }
 
-                Setting.Instance.MiniHudHorizontalPositionX = x;
-                Setting.Instance.MiniHudHorizontalPositionY = y;
+                CwdSettings.Instance.MiniHudHorizontalPositionX = x;
+                CwdSettings.Instance.MiniHudHorizontalPositionY = y;
             }
-            else if (orientation == Setting.MiniHudOrientationVertical)
+            else if (orientation == CwdSettings.MiniHudOrientationVertical)
             {
-                if (Setting.Instance.MiniHudVerticalPositionX == x &&
-                    Setting.Instance.MiniHudVerticalPositionY == y)
+                if (CwdSettings.Instance.MiniHudVerticalPositionX == x &&
+                    CwdSettings.Instance.MiniHudVerticalPositionY == y)
                 {
                     return;
                 }
 
-                Setting.Instance.MiniHudVerticalPositionX = x;
-                Setting.Instance.MiniHudVerticalPositionY = y;
+                CwdSettings.Instance.MiniHudVerticalPositionX = x;
+                CwdSettings.Instance.MiniHudVerticalPositionY = y;
             }
             else
             {
                 return;
             }
 
-            Setting.Instance.MiniHudPositionX = x;
-            Setting.Instance.MiniHudPositionY = y;
-            Setting.Instance.MiniHudPositionOrientation = orientation;
+            CwdSettings.Instance.MiniHudPositionX = x;
+            CwdSettings.Instance.MiniHudPositionY = y;
+            CwdSettings.Instance.MiniHudPositionOrientation = orientation;
             UpdateMiniHudPositionBinding(x, y, orientation);
 
             try
             {
-                Setting.Instance.ApplyAndSave();
+                CwdSettings.Instance.ApplyAndSave();
             }
             catch (Exception ex)
             {
@@ -1102,22 +1102,22 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            x = Math.Clamp(x, -Setting.PanelPositionLimit, Setting.PanelPositionLimit);
-            y = Math.Clamp(y, -Setting.PanelPositionLimit, Setting.PanelPositionLimit);
+            x = Math.Clamp(x, -CwdSettings.PanelPositionLimit, CwdSettings.PanelPositionLimit);
+            y = Math.Clamp(y, -CwdSettings.PanelPositionLimit, CwdSettings.PanelPositionLimit);
 
-            if (Setting.Instance.PanelPositionX == x && Setting.Instance.PanelPositionY == y)
+            if (CwdSettings.Instance.PanelPositionX == x && CwdSettings.Instance.PanelPositionY == y)
             {
                 return;
             }
 
-            Setting.Instance.PanelPositionX = x;
-            Setting.Instance.PanelPositionY = y;
+            CwdSettings.Instance.PanelPositionX = x;
+            CwdSettings.Instance.PanelPositionY = y;
             panelPositionXBinding.Update(x);
             panelPositionYBinding.Update(y);
 
             try
             {
-                Setting.Instance.ApplyAndSave();
+                CwdSettings.Instance.ApplyAndSave();
             }
             catch (Exception ex)
             {
@@ -1130,17 +1130,17 @@ namespace CityWatchdog.Systems
 
         private void SavePanelCollapsedSections(int mask)
         {
-            if (Setting.Instance.PanelCollapsedSectionsMask == mask)
+            if (CwdSettings.Instance.PanelCollapsedSectionsMask == mask)
             {
                 return;
             }
 
-            Setting.Instance.PanelCollapsedSectionsMask = mask;
+            CwdSettings.Instance.PanelCollapsedSectionsMask = mask;
             panelCollapsedSectionsMaskBinding.Update(mask);
 
             try
             {
-                Setting.Instance.ApplyAndSave();
+                CwdSettings.Instance.ApplyAndSave();
             }
             catch (Exception ex)
             {
@@ -1153,17 +1153,17 @@ namespace CityWatchdog.Systems
 
         private void SavePanelSortMode(int mode)
         {
-            if (mode < 0 || mode > 2 || Setting.Instance.PanelSortMode == mode)
+            if (mode < 0 || mode > 2 || CwdSettings.Instance.PanelSortMode == mode)
             {
                 return;
             }
 
-            Setting.Instance.PanelSortMode = mode;
+            CwdSettings.Instance.PanelSortMode = mode;
             panelSortModeBinding.Update(mode);
 
             try
             {
-                Setting.Instance.ApplyAndSave();
+                CwdSettings.Instance.ApplyAndSave();
             }
             catch (Exception ex)
             {
@@ -1180,8 +1180,8 @@ namespace CityWatchdog.Systems
             for (int index = 0; index < AlertIconSystem.NotificationCountLength; index++)
             {
                 int mask = index < 31
-                    ? Setting.Instance.MiniHudFavoriteMaskLow
-                    : Setting.Instance.MiniHudFavoriteMaskHigh;
+                    ? CwdSettings.Instance.MiniHudFavoriteMaskLow
+                    : CwdSettings.Instance.MiniHudFavoriteMaskHigh;
                 int bit = index < 31 ? index : index - 31;
                 if ((mask & (1 << bit)) != 0)
                 {
@@ -1231,12 +1231,12 @@ namespace CityWatchdog.Systems
 
         private void UpdateMiniHudPositionBinding(int x, int y, int orientation)
         {
-            if (orientation == Setting.MiniHudOrientationHorizontal)
+            if (orientation == CwdSettings.MiniHudOrientationHorizontal)
             {
                 miniHudHorizontalPositionXBinding?.Update(x);
                 miniHudHorizontalPositionYBinding?.Update(y);
             }
-            else if (orientation == Setting.MiniHudOrientationVertical)
+            else if (orientation == CwdSettings.MiniHudOrientationVertical)
             {
                 miniHudVerticalPositionXBinding?.Update(x);
                 miniHudVerticalPositionYBinding?.Update(y);
@@ -1245,10 +1245,10 @@ namespace CityWatchdog.Systems
 
         public void UpdateMiniHudPositionBindings()
         {
-            miniHudHorizontalPositionXBinding?.Update(Setting.Instance.MiniHudHorizontalPositionX);
-            miniHudHorizontalPositionYBinding?.Update(Setting.Instance.MiniHudHorizontalPositionY);
-            miniHudVerticalPositionXBinding?.Update(Setting.Instance.MiniHudVerticalPositionX);
-            miniHudVerticalPositionYBinding?.Update(Setting.Instance.MiniHudVerticalPositionY);
+            miniHudHorizontalPositionXBinding?.Update(CwdSettings.Instance.MiniHudHorizontalPositionX);
+            miniHudHorizontalPositionYBinding?.Update(CwdSettings.Instance.MiniHudHorizontalPositionY);
+            miniHudVerticalPositionXBinding?.Update(CwdSettings.Instance.MiniHudVerticalPositionX);
+            miniHudVerticalPositionYBinding?.Update(CwdSettings.Instance.MiniHudVerticalPositionY);
         }
 
         public void UpdatePanelButtonsOnlyStartBinding(bool value) => panelButtonsOnlyStartBinding?.Update(value);

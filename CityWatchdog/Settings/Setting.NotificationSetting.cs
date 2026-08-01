@@ -1,4 +1,4 @@
-// <copyright file="Setting.NotificationSetting.cs" company="River-Mochi">
+// <copyright file="CwdSettings.NotificationSetting.cs" company="River-Mochi">
 // Copyright (c) 2026 River-Mochi. All rights reserved.
 // Licensed under the MIT License. You may not use this file except in compliance with this License.
 // See LICENSE file in the project root for full license information.
@@ -6,12 +6,12 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Settings/Setting.NotificationSetting.cs
+// File: src/Settings/CwdSettings.NotificationSetting.cs
 // Purpose: Contains City Watchdog settings and Options UI logic.
 
 namespace CityWatchdog
 {
-    public partial class Setting {
+    public partial class CwdSettings {
         public NotificationSetting Notification { get; set; } = new NotificationSetting();
 
         public class NotificationSetting {

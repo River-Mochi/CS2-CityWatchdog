@@ -32,7 +32,7 @@ namespace CityWatchdog.Systems
         }
 
         public void SetTransportLineNotifications(bool refresh = true) {
-            EnableTransportLineNotification(TransportLineNotificationIcon.VehicleNotification, Setting.Instance.Notification.TransportLineVehicleNotification);
+            EnableTransportLineNotification(TransportLineNotificationIcon.VehicleNotification, CwdSettings.Instance.Notification.TransportLineVehicleNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -50,8 +50,8 @@ namespace CityWatchdog.Systems
         }
 
         public void SetRouteNotifications(bool refresh = true) {
-            EnableRouteNotification(RouteNotificationIcon.PathfindNotification, Setting.Instance.Notification.RoutePathfindNotification);
-            EnableRouteNotification(RouteNotificationIcon.GateBypassNotification, Setting.Instance.Notification.RouteGateBypassNotification);
+            EnableRouteNotification(RouteNotificationIcon.PathfindNotification, CwdSettings.Instance.Notification.RoutePathfindNotification);
+            EnableRouteNotification(RouteNotificationIcon.GateBypassNotification, CwdSettings.Instance.Notification.RouteGateBypassNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -68,8 +68,8 @@ namespace CityWatchdog.Systems
         }
 
         public void SetResourceConsumerNotifications(bool refresh = true) {
-            EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoResourceNotification, Setting.Instance.Notification.ResourceConsumerNoResourceNotification);
-            EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoFuelNotification, Setting.Instance.Notification.ResourceConsumerNoFuelNotification);
+            EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoResourceNotification, CwdSettings.Instance.Notification.ResourceConsumerNoResourceNotification);
+            EnableResourceConsumerNotification(ResourceConsumerNotificationIcon.NoFuelNotification, CwdSettings.Instance.Notification.ResourceConsumerNoFuelNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -89,9 +89,9 @@ namespace CityWatchdog.Systems
         }
 
         public void SetResourceConnectionNotifications(bool refresh = true) {
-            EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.ConnectionWarningNotification, Setting.Instance.Notification.ResourceConnectionWarningNotification);
-            EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.OilPipeNotConnectedNotification, Setting.Instance.Notification.ResourceConnectionOilPipeNotConnectedNotification);
-            EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.FishingPierNotConnectedNotification, Setting.Instance.Notification.ResourceConnectionFishingPierNotConnectedNotification);
+            EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.ConnectionWarningNotification, CwdSettings.Instance.Notification.ResourceConnectionWarningNotification);
+            EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.OilPipeNotConnectedNotification, CwdSettings.Instance.Notification.ResourceConnectionOilPipeNotConnectedNotification);
+            EnableResourceConnectionNotification(ResourceConnectionNotificationIcon.FishingPierNotConnectedNotification, CwdSettings.Instance.Notification.ResourceConnectionFishingPierNotConnectedNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -112,9 +112,9 @@ namespace CityWatchdog.Systems
         }
 
         public void SetPollutionNotifications(bool refresh = true) {
-            EnablePollutionNotification(PollutionNotificationIcon.AirPollutionNotification, Setting.Instance.Notification.PollutionAirPollutionNotification);
-            EnablePollutionNotification(PollutionNotificationIcon.NoisePollutionNotification, Setting.Instance.Notification.PollutionNoisePollutionNotification);
-            EnablePollutionNotification(PollutionNotificationIcon.GroundPollutionNotification, Setting.Instance.Notification.PollutionGroundPollutionNotification);
+            EnablePollutionNotification(PollutionNotificationIcon.AirPollutionNotification, CwdSettings.Instance.Notification.PollutionAirPollutionNotification);
+            EnablePollutionNotification(PollutionNotificationIcon.NoisePollutionNotification, CwdSettings.Instance.Notification.PollutionNoisePollutionNotification);
+            EnablePollutionNotification(PollutionNotificationIcon.GroundPollutionNotification, CwdSettings.Instance.Notification.PollutionGroundPollutionNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -132,8 +132,8 @@ namespace CityWatchdog.Systems
         }
 
         public void SetPoliceNotifications(bool refresh = true) {
-            EnablePoliceNotification(PoliceNotificationIcon.TrafficAccidentNotification, Setting.Instance.Notification.PoliceTrafficAccidentNotification);
-            EnablePoliceNotification(PoliceNotificationIcon.CrimeSceneNotification, Setting.Instance.Notification.PoliceCrimeSceneNotification);
+            EnablePoliceNotification(PoliceNotificationIcon.TrafficAccidentNotification, CwdSettings.Instance.Notification.PoliceTrafficAccidentNotification);
+            EnablePoliceNotification(PoliceNotificationIcon.CrimeSceneNotification, CwdSettings.Instance.Notification.PoliceCrimeSceneNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -154,9 +154,9 @@ namespace CityWatchdog.Systems
         }
 
         public void SetHealthcareNotifications(bool refresh = true) {
-            EnableHealthcareNotification(HealthcareNotificationIcon.AmbulanceNotification, Setting.Instance.Notification.HealthcareAmbulanceNotification);
-            EnableHealthcareNotification(HealthcareNotificationIcon.HearseNotification, Setting.Instance.Notification.HealthcareHearseNotification);
-            EnableHealthcareNotification(HealthcareNotificationIcon.FacilityFullNotification, Setting.Instance.Notification.HealthcareFacilityFullNotification);
+            EnableHealthcareNotification(HealthcareNotificationIcon.AmbulanceNotification, CwdSettings.Instance.Notification.HealthcareAmbulanceNotification);
+            EnableHealthcareNotification(HealthcareNotificationIcon.HearseNotification, CwdSettings.Instance.Notification.HealthcareHearseNotification);
+            EnableHealthcareNotification(HealthcareNotificationIcon.FacilityFullNotification, CwdSettings.Instance.Notification.HealthcareFacilityFullNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -174,8 +174,8 @@ namespace CityWatchdog.Systems
         }
 
         public void SetGarbageNotifications(bool refresh = true) {
-            EnableGarbageNotification(GarbageNotificationIcon.GarbageNotification, Setting.Instance.Notification.GarbageGarbageNotification);
-            EnableGarbageNotification(GarbageNotificationIcon.FacilityFullNotification, Setting.Instance.Notification.GarbageFacilityFullNotification);
+            EnableGarbageNotification(GarbageNotificationIcon.GarbageNotification, CwdSettings.Instance.Notification.GarbageGarbageNotification);
+            EnableGarbageNotification(GarbageNotificationIcon.FacilityFullNotification, CwdSettings.Instance.Notification.GarbageFacilityFullNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -193,8 +193,8 @@ namespace CityWatchdog.Systems
         }
 
         public void SetFireNotifications(bool refresh = true) {
-            EnableFireNotification(FireNotificationIcon.FireNotification, Setting.Instance.Notification.FireFireNotification);
-            EnableFireNotification(FireNotificationIcon.BurnedDownNotification, Setting.Instance.Notification.FireBurnedDownNotification);
+            EnableFireNotification(FireNotificationIcon.FireNotification, CwdSettings.Instance.Notification.FireFireNotification);
+            EnableFireNotification(FireNotificationIcon.BurnedDownNotification, CwdSettings.Instance.Notification.FireBurnedDownNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -221,11 +221,11 @@ namespace CityWatchdog.Systems
         }
 
         public void SetDisasterNotifications(bool refresh = true) {
-            EnableDisasterNotification(DisasterNotificationIcon.WeatherDamageNotification, Setting.Instance.Notification.DisasterWeatherDamageNotification);
-            EnableDisasterNotification(DisasterNotificationIcon.WeatherDestroyedNotification, Setting.Instance.Notification.DisasterWeatherDestroyedNotification);
-            EnableDisasterNotification(DisasterNotificationIcon.WaterDamageNotification, Setting.Instance.Notification.DisasterWaterDamageNotification);
-            EnableDisasterNotification(DisasterNotificationIcon.WaterDestroyedNotification, Setting.Instance.Notification.DisasterWaterDestroyedNotification);
-            EnableDisasterNotification(DisasterNotificationIcon.DestroyedNotification, Setting.Instance.Notification.DisasterDestroyedNotification);
+            EnableDisasterNotification(DisasterNotificationIcon.WeatherDamageNotification, CwdSettings.Instance.Notification.DisasterWeatherDamageNotification);
+            EnableDisasterNotification(DisasterNotificationIcon.WeatherDestroyedNotification, CwdSettings.Instance.Notification.DisasterWeatherDestroyedNotification);
+            EnableDisasterNotification(DisasterNotificationIcon.WaterDamageNotification, CwdSettings.Instance.Notification.DisasterWaterDamageNotification);
+            EnableDisasterNotification(DisasterNotificationIcon.WaterDestroyedNotification, CwdSettings.Instance.Notification.DisasterWaterDestroyedNotification);
+            EnableDisasterNotification(DisasterNotificationIcon.DestroyedNotification, CwdSettings.Instance.Notification.DisasterDestroyedNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -243,15 +243,15 @@ namespace CityWatchdog.Systems
         }
 
         public void SetWorkProviderNotifications(bool refresh = true) {
-            EnableWorkProviderNotification(WorkProviderNotificationIcon.UneducatedNotification, Setting.Instance.Notification.WorkProviderUneducatedNotification);
-            EnableWorkProviderNotification(WorkProviderNotificationIcon.EducatedNotification, Setting.Instance.Notification.WorkProviderEducatedNotification);
+            EnableWorkProviderNotification(WorkProviderNotificationIcon.UneducatedNotification, CwdSettings.Instance.Notification.WorkProviderUneducatedNotification);
+            EnableWorkProviderNotification(WorkProviderNotificationIcon.EducatedNotification, CwdSettings.Instance.Notification.WorkProviderEducatedNotification);
             if (refresh)
                 RefreshIcon();
         }
 
         public void SetCompanyNotifications(bool refresh = true) {
-            EnableCompanyNotification(CompanyNotificationIcon.NoInputsNotification, Setting.Instance.Notification.CompanyNoInputsNotification);
-            EnableCompanyNotification(CompanyNotificationIcon.NoCustomersNotification, Setting.Instance.Notification.CompanyNoCustomersNotification);
+            EnableCompanyNotification(CompanyNotificationIcon.NoInputsNotification, CwdSettings.Instance.Notification.CompanyNoInputsNotification);
+            EnableCompanyNotification(CompanyNotificationIcon.NoCustomersNotification, CwdSettings.Instance.Notification.CompanyNoCustomersNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -270,15 +270,15 @@ namespace CityWatchdog.Systems
         }
 
         public void SetTrafficNotifications(bool refresh = true) {
-            EnableTrafficNotification(TrafficNotificationIcon.BottleneckNotification, Setting.Instance.Notification.TrafficBottleneckNotification);
-            EnableTrafficNotification(TrafficNotificationIcon.DeadEndNotification, Setting.Instance.Notification.TrafficDeadEndNotification);
-            EnableTrafficNotification(TrafficNotificationIcon.RoadConnectionNotification, Setting.Instance.Notification.TrafficRoadConnectionNotification);
-            EnableTrafficNotification(TrafficNotificationIcon.TrackConnectionNotification, Setting.Instance.Notification.TrafficTrackConnectionNotification);
-            EnableTrafficNotification(TrafficNotificationIcon.CarConnectionNotification, Setting.Instance.Notification.TrafficCarConnectionNotification);
-            EnableTrafficNotification(TrafficNotificationIcon.ShipConnectionNotification, Setting.Instance.Notification.TrafficShipConnectionNotification);
-            EnableTrafficNotification(TrafficNotificationIcon.TrainConnectionNotification, Setting.Instance.Notification.TrafficTrainConnectionNotification);
-            EnableTrafficNotification(TrafficNotificationIcon.PedestrianConnectionNotification, Setting.Instance.Notification.TrafficPedestrianConnectionNotification);
-            EnableTrafficNotification(TrafficNotificationIcon.BicycleConnectionNotification, Setting.Instance.Notification.TrafficBicycleConnectionNotification);
+            EnableTrafficNotification(TrafficNotificationIcon.BottleneckNotification, CwdSettings.Instance.Notification.TrafficBottleneckNotification);
+            EnableTrafficNotification(TrafficNotificationIcon.DeadEndNotification, CwdSettings.Instance.Notification.TrafficDeadEndNotification);
+            EnableTrafficNotification(TrafficNotificationIcon.RoadConnectionNotification, CwdSettings.Instance.Notification.TrafficRoadConnectionNotification);
+            EnableTrafficNotification(TrafficNotificationIcon.TrackConnectionNotification, CwdSettings.Instance.Notification.TrafficTrackConnectionNotification);
+            EnableTrafficNotification(TrafficNotificationIcon.CarConnectionNotification, CwdSettings.Instance.Notification.TrafficCarConnectionNotification);
+            EnableTrafficNotification(TrafficNotificationIcon.ShipConnectionNotification, CwdSettings.Instance.Notification.TrafficShipConnectionNotification);
+            EnableTrafficNotification(TrafficNotificationIcon.TrainConnectionNotification, CwdSettings.Instance.Notification.TrafficTrainConnectionNotification);
+            EnableTrafficNotification(TrafficNotificationIcon.PedestrianConnectionNotification, CwdSettings.Instance.Notification.TrafficPedestrianConnectionNotification);
+            EnableTrafficNotification(TrafficNotificationIcon.BicycleConnectionNotification, CwdSettings.Instance.Notification.TrafficBicycleConnectionNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -431,12 +431,12 @@ namespace CityWatchdog.Systems
         }
 
         public void SetBuildingNotifications(bool refresh = true) {
-            EnableBuildingNotification(BuildingNotificationIcon.AbandonedCollapsedNotification, Setting.Instance.Notification.BuildingAbandonedCollapsedNotification);
-            EnableBuildingNotification(BuildingNotificationIcon.AbandonedNotification, Setting.Instance.Notification.BuildingAbandonedNotification);
-            EnableBuildingNotification(BuildingNotificationIcon.CondemnedNotification, Setting.Instance.Notification.BuildingCondemnedNotification);
-            EnableBuildingNotification(BuildingNotificationIcon.TurnedOffNotification, Setting.Instance.Notification.BuildingTurnedOffNotification);
-            EnableBuildingNotification(BuildingNotificationIcon.HighRentNotification, Setting.Instance.Notification.BuildingHighRentNotification);
-            EnableBuildingNotification(BuildingNotificationIcon.LevelingNotification, Setting.Instance.Notification.BuildingLevelingNotification);
+            EnableBuildingNotification(BuildingNotificationIcon.AbandonedCollapsedNotification, CwdSettings.Instance.Notification.BuildingAbandonedCollapsedNotification);
+            EnableBuildingNotification(BuildingNotificationIcon.AbandonedNotification, CwdSettings.Instance.Notification.BuildingAbandonedNotification);
+            EnableBuildingNotification(BuildingNotificationIcon.CondemnedNotification, CwdSettings.Instance.Notification.BuildingCondemnedNotification);
+            EnableBuildingNotification(BuildingNotificationIcon.TurnedOffNotification, CwdSettings.Instance.Notification.BuildingTurnedOffNotification);
+            EnableBuildingNotification(BuildingNotificationIcon.HighRentNotification, CwdSettings.Instance.Notification.BuildingHighRentNotification);
+            EnableBuildingNotification(BuildingNotificationIcon.LevelingNotification, CwdSettings.Instance.Notification.BuildingLevelingNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -467,16 +467,16 @@ namespace CityWatchdog.Systems
         }
 
         public void SetWaterPipeNotifications(bool refresh = true) {
-            EnableWaterPipeNotification(WaterPipeNotificationIcon.WaterNotification, Setting.Instance.Notification.WaterPipeWaterNotification);
-            EnableWaterPipeNotification(WaterPipeNotificationIcon.DirtyWaterNotification, Setting.Instance.Notification.WaterPipeDirtyWaterNotification);
-            EnableWaterPipeNotification(WaterPipeNotificationIcon.SewageNotification, Setting.Instance.Notification.WaterPipeSewageNotification);
-            EnableWaterPipeNotification(WaterPipeNotificationIcon.WaterPipeNotConnectedNotification, Setting.Instance.Notification.WaterPipeWaterPipeNotConnectedNotification);
-            EnableWaterPipeNotification(WaterPipeNotificationIcon.SewagePipeNotConnectedNotification, Setting.Instance.Notification.WaterPipeSewagePipeNotConnectedNotification);
-            EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughWaterCapacityNotification, Setting.Instance.Notification.WaterPipeNotEnoughWaterCapacityNotification);
-            EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughSewageCapacityNotification, Setting.Instance.Notification.WaterPipeNotEnoughSewageCapacityNotification);
-            EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughGroundwaterNotification, Setting.Instance.Notification.WaterPipeNotEnoughGroundwaterNotification);
-            EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughSurfaceWaterNotification, Setting.Instance.Notification.WaterPipeNotEnoughSurfaceWaterNotification);
-            EnableWaterPipeNotification(WaterPipeNotificationIcon.DirtyWaterPumpNotification, Setting.Instance.Notification.WaterPipeDirtyWaterPumpNotification);
+            EnableWaterPipeNotification(WaterPipeNotificationIcon.WaterNotification, CwdSettings.Instance.Notification.WaterPipeWaterNotification);
+            EnableWaterPipeNotification(WaterPipeNotificationIcon.DirtyWaterNotification, CwdSettings.Instance.Notification.WaterPipeDirtyWaterNotification);
+            EnableWaterPipeNotification(WaterPipeNotificationIcon.SewageNotification, CwdSettings.Instance.Notification.WaterPipeSewageNotification);
+            EnableWaterPipeNotification(WaterPipeNotificationIcon.WaterPipeNotConnectedNotification, CwdSettings.Instance.Notification.WaterPipeWaterPipeNotConnectedNotification);
+            EnableWaterPipeNotification(WaterPipeNotificationIcon.SewagePipeNotConnectedNotification, CwdSettings.Instance.Notification.WaterPipeSewagePipeNotConnectedNotification);
+            EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughWaterCapacityNotification, CwdSettings.Instance.Notification.WaterPipeNotEnoughWaterCapacityNotification);
+            EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughSewageCapacityNotification, CwdSettings.Instance.Notification.WaterPipeNotEnoughSewageCapacityNotification);
+            EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughGroundwaterNotification, CwdSettings.Instance.Notification.WaterPipeNotEnoughGroundwaterNotification);
+            EnableWaterPipeNotification(WaterPipeNotificationIcon.NotEnoughSurfaceWaterNotification, CwdSettings.Instance.Notification.WaterPipeNotEnoughSurfaceWaterNotification);
+            EnableWaterPipeNotification(WaterPipeNotificationIcon.DirtyWaterPumpNotification, CwdSettings.Instance.Notification.WaterPipeDirtyWaterPumpNotification);
             if (refresh)
                 RefreshIcon();
         }
@@ -520,15 +520,15 @@ namespace CityWatchdog.Systems
         }
 
         public void SetElectricityNotifications(bool refresh = true) {
-            EnableElectricityNotification(ElectricityNotificationIcon.ElectricityNotification, Setting.Instance.Notification.ElectricityElectricityNotification);
-            EnableElectricityNotification(ElectricityNotificationIcon.BottleneckNotification, Setting.Instance.Notification.ElectricityBottleneckNotification);
-            EnableElectricityNotification(ElectricityNotificationIcon.BuildingBottleneckNotification, Setting.Instance.Notification.ElectricityBuildingBottleneckNotification);
-            EnableElectricityNotification(ElectricityNotificationIcon.NotEnoughProductionNotification, Setting.Instance.Notification.ElectricityNotEnoughProductionNotification);
-            EnableElectricityNotification(ElectricityNotificationIcon.TransformerNotification, Setting.Instance.Notification.ElectricityTransformerNotification);
-            EnableElectricityNotification(ElectricityNotificationIcon.NotEnoughConnectedNotification, Setting.Instance.Notification.ElectricityNotEnoughConnectedNotification);
-            EnableElectricityNotification(ElectricityNotificationIcon.BatteryEmptyNotification, Setting.Instance.Notification.ElectricityBatteryEmptyNotification);
-            EnableElectricityNotification(ElectricityNotificationIcon.LowVoltageNotConnected, Setting.Instance.Notification.ElectricityLowVoltageNotConnected);
-            EnableElectricityNotification(ElectricityNotificationIcon.HighVoltageNotConnected, Setting.Instance.Notification.ElectricityHighVoltageNotConnected);
+            EnableElectricityNotification(ElectricityNotificationIcon.ElectricityNotification, CwdSettings.Instance.Notification.ElectricityElectricityNotification);
+            EnableElectricityNotification(ElectricityNotificationIcon.BottleneckNotification, CwdSettings.Instance.Notification.ElectricityBottleneckNotification);
+            EnableElectricityNotification(ElectricityNotificationIcon.BuildingBottleneckNotification, CwdSettings.Instance.Notification.ElectricityBuildingBottleneckNotification);
+            EnableElectricityNotification(ElectricityNotificationIcon.NotEnoughProductionNotification, CwdSettings.Instance.Notification.ElectricityNotEnoughProductionNotification);
+            EnableElectricityNotification(ElectricityNotificationIcon.TransformerNotification, CwdSettings.Instance.Notification.ElectricityTransformerNotification);
+            EnableElectricityNotification(ElectricityNotificationIcon.NotEnoughConnectedNotification, CwdSettings.Instance.Notification.ElectricityNotEnoughConnectedNotification);
+            EnableElectricityNotification(ElectricityNotificationIcon.BatteryEmptyNotification, CwdSettings.Instance.Notification.ElectricityBatteryEmptyNotification);
+            EnableElectricityNotification(ElectricityNotificationIcon.LowVoltageNotConnected, CwdSettings.Instance.Notification.ElectricityLowVoltageNotConnected);
+            EnableElectricityNotification(ElectricityNotificationIcon.HighVoltageNotConnected, CwdSettings.Instance.Notification.ElectricityHighVoltageNotConnected);
             if (refresh)
                 RefreshIcon();
         }
