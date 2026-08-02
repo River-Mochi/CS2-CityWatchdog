@@ -7,60 +7,47 @@
 // ================= </copyright> ======================
 
 // File: Systems/InterfaceScaleControlSystem.cs
-// Purpose: Title-bar button that toggles the vanilla "Interface Scaling (dev)" flag without the
-//          --developerMode launch flag. That single flag alone makes the whole game + mod UI bigger.
-//
-// Mechanism: GameManager.instance.settings.userInterface is the vanilla InterfaceSettings. Its
-// interfaceScaling bool is a PUBLIC property; the [SettingsUIDeveloper] attribute only HIDES it from
-// the Options menu unless dev mode is on — it does not stop code from setting it. Assigning it +
-// ApplyAndSave() persists it with or without dev mode. We deliberately do NOT touch textScale or
-// toolbarScale: those are normal (non-dev) sliders players already have. No Harmony.
-//
-// Applying it LIVE needs one extra step. The UI reads the scale from the vanilla
-// "options.interfaceScaling" binding, which OptionsUISystem registers via AddUpdateBinding — and
-// UISystemBase only pushes update bindings from OnUpdate, which OptionsUISystem early-returns from
-// unless the Options screen is open. So changing the setting in-city did nothing visible until the
-// player opened Options. We therefore reach that one binding (reflection over UISystemBase's private
-// m_UpdateBindings list, resolved once and cached) and call Update() on it so the scale applies
-// instantly. If that lookup ever fails we log once and fall back to the old behavior (applies when
-// Options is opened) — the toggle still works, it just isn't instant.
-//
-// Sync is EVENT-driven via InterfaceSettings.onSettingsApplied (fires only when a setting changes),
-// so there is no per-frame polling and no FPS cost between changes.
+// Purpose: Toggles the vanilla interface-scaling flag from CWD and applies it immediately.
 
 namespace CityWatchdog.Systems
 {
-    using Colossal.UI.Binding;
-    using CS2Shared.RiverMochi;
-    using Game.SceneFlow;
-    using Game.Settings;
-    using Game.UI;
-    using Game.UI.Menu;
     using System;
     using System.Collections.Generic;
     using System.Reflection;
 
+    using Colossal.UI.Binding;
+
+    using CS2Shared.RiverMochi;
+
+    using Game.SceneFlow;
+    using Game.Settings;
+    using Game.UI;
+    using Game.UI.Menu;
+
     public partial class InterfaceScaleControlSystem : UISystemBaseExtension
     {
-        private BoolBinding interfaceScaleEnabledBinding = null!;
-        private InterfaceSettings? subscribedUi;
+        private const string kInterfaceScaleBindingName = "InterfaceScaleEnabled";
+        private const string kVanillaInterfaceScalePath = "options.interfaceScaling";
+
+        private BoolBinding m_InterfaceScaleEnabledBinding = null!;
+        private InterfaceSettings? m_SubscribedUi;
+        private IUpdateBinding? m_CachedScalingBinding;
+        private bool m_ScalingBindingLookupFailed;
 
         protected override void OnCreate()
         {
             base.OnCreate();
 
-            interfaceScaleEnabledBinding = AddBoolBindingAndTriggerBinding(
-                "InterfaceScaleEnabled",
+            m_InterfaceScaleEnabledBinding = AddBoolBindingAndTriggerBinding(
+                kInterfaceScaleBindingName,
                 GetUI()?.interfaceScaling ?? false,
                 SetInterfaceScaling);
         }
 
         protected override void OnUpdate()
         {
-            // One-time hookup: the settings object may not exist yet at OnCreate. Once it does, sync the
-            // initial state and subscribe to the settings-applied event. After that this early-returns
-            // for free every tick — no per-frame reads.
-            if (subscribedUi != null)
+            // InterfaceSettings may not exist at OnCreate. Hook it once, then use its event.
+            if (m_SubscribedUi != null)
             {
                 return;
             }
@@ -71,27 +58,23 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            interfaceScaleEnabledBinding.Update(ui.interfaceScaling);
+            m_InterfaceScaleEnabledBinding.Update(ui.interfaceScaling);
             ui.onSettingsApplied += OnVanillaSettingsApplied;
-            subscribedUi = ui;
+            m_SubscribedUi = ui;
         }
 
         private static InterfaceSettings? GetUI() => GameManager.instance?.settings?.userInterface;
 
-        // Fires when any interface setting is applied — e.g. the player flips the dev-mode checkbox, or
-        // our own toggle calls ApplyAndSave. Keeps the panel button in sync. Event-driven: costs nothing
-        // between changes.
         private void OnVanillaSettingsApplied(Setting _)
         {
             InterfaceSettings? ui = GetUI();
-            if (ui != null && interfaceScaleEnabledBinding.Value != ui.interfaceScaling)
+            if (ui != null && m_InterfaceScaleEnabledBinding.Value != ui.interfaceScaling)
             {
-                interfaceScaleEnabledBinding.Update(ui.interfaceScaling);
+                m_InterfaceScaleEnabledBinding.Update(ui.interfaceScaling);
             }
         }
 
-        // Public so the CWD Options toggle (CwdSettings.InterfaceScaling) routes through the same path
-        // as the in-city title-bar button: apply, persist, push the vanilla binding, refresh our binding.
+        // Vanilla owns and saves this value; CWD only passes changes through.
         public void SetInterfaceScaling(bool enable)
         {
             InterfaceSettings? ui = GetUI();
@@ -100,7 +83,6 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            // Toggle ONLY the dev interface-scaling flag; that alone resizes the whole UI.
             ui.interfaceScaling = enable;
 
             try
@@ -115,30 +97,17 @@ namespace CityWatchdog.Systems
                     ex);
             }
 
-            // Setting the value is not enough on its own: the UI reads the scale from the vanilla
-            // "options.interfaceScaling" binding, and that binding only pushes to the UI when
-            // OptionsUISystem updates — which it refuses to do unless the Options screen is open
-            // (OptionsUISystem.OnUpdate early-returns otherwise). That is exactly why the resize only
-            // appeared after opening Options. Push that one binding ourselves so it applies instantly.
+            // OptionsUISystem normally pushes this binding only while Options is open.
             PushVanillaInterfaceScalingBinding();
-
-            interfaceScaleEnabledBinding.Update(ui.interfaceScaling);
+            m_InterfaceScaleEnabledBinding.Update(ui.interfaceScaling);
         }
-
-        // Cached lookup of OptionsUISystem's private update-binding list entry for
-        // "options.interfaceScaling". Resolved once, then reused. Instance (not static) fields so a
-        // world reload rebuilds the system and re-resolves rather than holding a stale binding.
-        private IUpdateBinding? cachedScalingBinding;
-        private bool scalingBindingLookupFailed;
 
         private void PushVanillaInterfaceScalingBinding()
         {
             try
             {
-                IUpdateBinding? binding = ResolveScalingBinding();
-
-                // Update() re-reads the getter and pushes to the UI when the value changed.
-                binding?.Update();
+                // Update() re-reads the vanilla getter and pushes the changed value to the UI.
+                ResolveScalingBinding()?.Update();
             }
             catch (Exception ex)
             {
@@ -151,9 +120,9 @@ namespace CityWatchdog.Systems
 
         private IUpdateBinding? ResolveScalingBinding()
         {
-            if (cachedScalingBinding != null || scalingBindingLookupFailed)
+            if (m_CachedScalingBinding != null || m_ScalingBindingLookupFailed)
             {
-                return cachedScalingBinding;
+                return m_CachedScalingBinding;
             }
 
             OptionsUISystem? options = World.GetExistingSystemManaged<OptionsUISystem>();
@@ -162,44 +131,43 @@ namespace CityWatchdog.Systems
                 return null;
             }
 
-            // m_UpdateBindings is declared on UISystemBase (private), holding every binding the system
-            // registered with AddUpdateBinding.
+            // AddUpdateBinding stores its bindings in this private UISystemBase list.
             FieldInfo? field = typeof(UISystemBase).GetField(
                 "m_UpdateBindings",
                 BindingFlags.Instance | BindingFlags.NonPublic);
 
             if (field?.GetValue(options) is not IEnumerable<IUpdateBinding> bindings)
             {
-                scalingBindingLookupFailed = true;
+                m_ScalingBindingLookupFailed = true;
                 LogUtils.WarnOnce(
                     "interface-scale-binding-missing",
-                    () => "Could not read OptionsUISystem update bindings; UI scale will only apply when the Options menu is opened.");
+                    () => "Could not read OptionsUISystem update bindings; UI scale will apply when Options is opened.");
                 return null;
             }
 
             foreach (IUpdateBinding candidate in bindings)
             {
                 if (candidate is BindingBase namedBinding &&
-                    namedBinding.path == "options.interfaceScaling")
+                    namedBinding.path == kVanillaInterfaceScalePath)
                 {
-                    cachedScalingBinding = candidate;
-                    return cachedScalingBinding;
+                    m_CachedScalingBinding = candidate;
+                    return m_CachedScalingBinding;
                 }
             }
 
-            scalingBindingLookupFailed = true;
+            m_ScalingBindingLookupFailed = true;
             LogUtils.WarnOnce(
                 "interface-scale-binding-notfound",
-                () => "options.interfaceScaling binding not found; UI scale will only apply when the Options menu is opened.");
+                () => "options.interfaceScaling binding not found; UI scale will apply when Options is opened.");
             return null;
         }
 
         protected override void OnDestroy()
         {
-            if (subscribedUi != null)
+            if (m_SubscribedUi != null)
             {
-                subscribedUi.onSettingsApplied -= OnVanillaSettingsApplied;
-                subscribedUi = null;
+                m_SubscribedUi.onSettingsApplied -= OnVanillaSettingsApplied;
+                m_SubscribedUi = null;
             }
 
             base.OnDestroy();
