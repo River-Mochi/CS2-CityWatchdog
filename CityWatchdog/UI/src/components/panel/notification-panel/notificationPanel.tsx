@@ -105,8 +105,8 @@ const SORT_ACTIVE = 2;
 let sessionSortMode = SORT_ASCENDING;
 
 const getMainPanelOpacityClass = (value: number) => {
-  const normalized = Math.round(Math.min(100, Math.max(30, Number.isFinite(value) ? value : 70)) / 5) * 5;
-  return styles[`opacity${normalized}`] ?? styles.opacity70;
+  const normalized = Math.round(Math.min(100, Math.max(30, Number.isFinite(value) ? value : 80)) / 5) * 5;
+  return styles[`opacity${normalized}`] ?? styles.opacity80;
 };
 
 // Coherent collapses a literal "\n" inside a text node down to a space, so a multi-line tooltip only
@@ -613,8 +613,8 @@ const NotificationPanelContent = () => {
             </PanelButton>
           </CwdTooltip>
 
-          {/* Preset slots "1 | 2" sit next to Show Icons because all three control which map icons
-              show. Click a slot to load its saved checkbox layout, hold to save the current one in. */}
+          {/* Preset boxes "1" "2" sit next to Show Icons because all three control which map icons
+              show. Click a box to load its saved checkbox layout, hold to save the current one in. */}
           <div className={presetStyles.presetGroup}>
             <CwdTooltip tooltip={preset1Tooltip}>
               <PresetSlot
@@ -625,7 +625,6 @@ const NotificationPanelContent = () => {
                 onSave={() => { OnSavePreset(1); }}
               />
             </CwdTooltip>
-            <div className={presetStyles.presetDivider} />
             <CwdTooltip tooltip={preset2Tooltip}>
               <PresetSlot
                 label="2"

@@ -56,7 +56,7 @@ const useLongPress = (onClick: () => void, onLongPress: () => void) => {
 interface PresetSlotProps {
     label: string;
     saved: boolean;
-    // The currently-applied slot: shows a blue ring + dot so the player can tell which preset is on.
+    // The currently-applied box: shows a blue border + dot so the player can tell which preset is on.
     active: boolean;
     onLoad: () => void;
     onSave: () => void;

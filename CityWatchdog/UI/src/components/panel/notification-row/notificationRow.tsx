@@ -52,7 +52,9 @@ export const NotificationRow = memo(({
     ? styles.subPanel
     : `${styles.subPanel} ${styles.subPanelOff}`;
 
-  const iconLabelClassName = isChecked
+  // Fade the label only when the icon is hidden AND there's nothing active. Rows with a live count
+  // stay bright even when their icon is hidden, so active problems remain visible after "Hide Icons".
+  const iconLabelClassName = (isChecked || count > 0)
     ? styles.iconLabelSection
     : `${styles.iconLabelSection} ${styles.iconLabelSectionOff}`;
 

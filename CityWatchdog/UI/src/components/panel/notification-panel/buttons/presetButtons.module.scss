@@ -1,19 +1,33 @@
-// File: src/UI/src/components/panel/notification-panel/buttons/presetButtons.module.scss
-// Purpose: "1 | 2" preset split button styles.
+// File: src/UI/src/components/panel/notification-panel/buttons/presetButtons.tsx styles
+// Purpose: "1" and "2" preset boxes. Two separate rounded boxes (no shared container / divider) so
+//          the selected box's border rounds cleanly.
 //
 // Longhand CSS only — no shorthand properties (see feedback_no_css_shorthand.md).
 
-// Outer container that joins the two slots into one "1 | 2" control.
+// Transparent wrapper holding the two standalone boxes. The 2rem gap replaces the old divider line.
 .presetGroup {
   display: flex;
   flex-direction: row;
-  // stretch so the divider between the slots runs the full height instead of only the middle.
-  align-items: stretch;
-  // Fixed size: never grow/shrink when the Show Icons button flexes to fill the toolbar.
+  align-items: center;
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: auto;
+}
+
+  .presetGroup > * + * {
+    margin-left: 2rem;
+  }
+
+// A single preset box: its own rounded button, plain by default (empty = gray number).
+.presetSlot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26rem;
   height: 32rem;
+  cursor: pointer;
+  box-sizing: border-box;
   border-top-left-radius: 4rem;
   border-top-right-radius: 4rem;
   border-bottom-left-radius: 4rem;
@@ -31,59 +45,53 @@
   border-bottom-color: rgba(255, 255, 255, 0.35);
   border-left-color: rgba(255, 255, 255, 0.35);
   background-color: rgba(36, 54, 66, 0.58);
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-.presetSlot {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24rem;
-  height: 100%;
-  cursor: pointer;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(255, 255, 255, 0.4);
   font-size: var(--fontSizeS);
   font-weight: 700;
   line-height: 1;
-  transition-property: background-color, color, opacity;
+  transition-property: background-color, border-color, color;
   transition-duration: 120ms, 120ms, 120ms;
   transition-timing-function: ease-out, ease-out, ease-out;
 
   &:hover {
-    background-color: rgba(232, 247, 255, 0.28);
-    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.17);
+    border-top-color: rgba(255, 255, 255, 0.68);
+    border-right-color: rgba(255, 255, 255, 0.68);
+    border-bottom-color: rgba(255, 255, 255, 0.68);
+    border-left-color: rgba(255, 255, 255, 0.68);
   }
 }
 
-// Saved slot: a subtle blue tint signals it holds a setup you can load. Solid fills are clipped to
-// the group's rounded shape (overflow: hidden), so they read as rounded, unlike an inset ring.
-.presetSlotSaved {
-  background-color: rgba(84, 215, 255, 0.16);
-}
-
-  .presetSlotSaved:hover {
-    background-color: rgba(84, 215, 255, 0.28);
-  }
-
-// Empty slot: dimmed. Still holdable (to save into), just clearly "nothing to load yet".
+// Empty box (nothing saved): gray number (matches the base color; explicit for clarity).
 .presetSlotEmpty {
   color: rgba(255, 255, 255, 0.4);
 }
 
-// The currently-applied slot. A strong solid blue fill (rounded via the group's clipping — no boxy
-// ring) plus bright text and a white dot, so it clearly stands out from the lighter "saved" slot.
+// Saved box (not selected): plain box, blue NUMBER — no fill. Signals it holds a setup.
+.presetSlotSaved {
+  color: #6cc8ff;
+}
+
+  .presetSlotSaved:hover {
+    color: #9fe0ff;
+  }
+
+// Selected box (currently applied): plain box + a bright blue rounded border (the box itself is
+// rounded, so no boxy corners) + blue number + the bottom-left dot. No solid fill.
 .presetSlotActive {
-  background-color: rgba(30, 131, 170, 0.82);
-  color: #ffffff;
+  color: #9fe6ff;
+  border-top-color: rgba(84, 215, 255, 0.95);
+  border-right-color: rgba(84, 215, 255, 0.95);
+  border-bottom-color: rgba(84, 215, 255, 0.95);
+  border-left-color: rgba(84, 215, 255, 0.95);
+  box-shadow: 0 0 6rem rgba(84, 215, 255, 0.3);
 
   &:hover {
-    background-color: rgba(45, 160, 205, 0.9);
+    background-color: rgba(84, 215, 255, 0.14);
   }
 }
 
-// Small white indicator in the bottom-left corner of the active slot (contrasts the blue fill).
+// Small blue indicator in the bottom-left corner of the selected box.
 .presetDot {
   position: absolute;
   left: 3rem;
@@ -94,24 +102,17 @@
   border-top-right-radius: 3rem;
   border-bottom-left-radius: 3rem;
   border-bottom-right-radius: 3rem;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(84, 215, 255, 0.95);
   pointer-events: none;
 }
 
-// While holding (before the save fires): a green "charging" highlight so the hold reads as intentional.
-// Defined last so it overlays whatever state (empty/saved/active) the slot is in.
+// While holding to save (transient, ~550ms): a green border + light tint so the hold reads as
+// intentional. Defined last so it overlays whatever state the box is in.
 .presetSlotHolding {
-  background-color: rgba(95, 220, 120, 0.55);
-  box-shadow: none;
   color: #ffffff;
-}
-
-// Thin separator between slot 1 and slot 2. No fixed height — the group's align-items: stretch makes
-// it run the full height.
-.presetDivider {
-  width: 1rem;
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-basis: 1rem;
-  background-color: rgba(255, 255, 255, 0.35);
+  border-top-color: rgba(95, 220, 120, 0.95);
+  border-right-color: rgba(95, 220, 120, 0.95);
+  border-bottom-color: rgba(95, 220, 120, 0.95);
+  border-left-color: rgba(95, 220, 120, 0.95);
+  background-color: rgba(95, 220, 120, 0.3);
 }

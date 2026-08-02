@@ -72,7 +72,7 @@ namespace CityWatchdog
         // Coarse sanity bound (pixels) for the stored draggable panel position. The UI does the
         // real on-screen clamping against the live viewport; this only guards absurd saved values.
         internal const int kPanelPositionLimit = 20000;
-        internal const int kMainPanelOpacityDefault = 70;
+        internal const int kMainPanelOpacityDefault = 80;
 
         private const string kAboutLinksRow = "kAboutLinksRow";
         private const string kDebugButtonsRow = "kDebugButtonsRow";
