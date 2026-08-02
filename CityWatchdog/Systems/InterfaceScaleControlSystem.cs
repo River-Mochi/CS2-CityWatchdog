@@ -13,18 +13,32 @@
 // Mechanism: GameManager.instance.settings.userInterface is the vanilla InterfaceSettings. Its
 // interfaceScaling bool is a PUBLIC property; the [SettingsUIDeveloper] attribute only HIDES it from
 // the Options menu unless dev mode is on — it does not stop code from setting it. Assigning it +
-// ApplyAndSave() takes effect with or without dev mode. We deliberately do NOT touch textScale or
-// toolbarScale: those are normal (non-dev) sliders players already have. No Harmony, no reflection.
+// ApplyAndSave() persists it with or without dev mode. We deliberately do NOT touch textScale or
+// toolbarScale: those are normal (non-dev) sliders players already have. No Harmony.
+//
+// Applying it LIVE needs one extra step. The UI reads the scale from the vanilla
+// "options.interfaceScaling" binding, which OptionsUISystem registers via AddUpdateBinding — and
+// UISystemBase only pushes update bindings from OnUpdate, which OptionsUISystem early-returns from
+// unless the Options screen is open. So changing the setting in-city did nothing visible until the
+// player opened Options. We therefore reach that one binding (reflection over UISystemBase's private
+// m_UpdateBindings list, resolved once and cached) and call Update() on it so the scale applies
+// instantly. If that lookup ever fails we log once and fall back to the old behavior (applies when
+// Options is opened) — the toggle still works, it just isn't instant.
 //
 // Sync is EVENT-driven via InterfaceSettings.onSettingsApplied (fires only when a setting changes),
 // so there is no per-frame polling and no FPS cost between changes.
 
 namespace CityWatchdog.Systems
 {
+    using Colossal.UI.Binding;
     using CS2Shared.RiverMochi;
     using Game.SceneFlow;
     using Game.Settings;
+    using Game.UI;
+    using Game.UI.Menu;
     using System;
+    using System.Collections.Generic;
+    using System.Reflection;
 
     public partial class InterfaceScaleControlSystem : UISystemBaseExtension
     {
@@ -99,31 +113,83 @@ namespace CityWatchdog.Systems
                     ex);
             }
 
-            // Setting the value alone only re-scales the UI the next time the Cohtml view re-lays-out
-            // (which is why it "waited" for the Options menu to open). Force that re-layout now by
-            // resizing the view to its current size, so the scale applies immediately in the city.
-            ForceUiRelayout();
+            // Setting the value is not enough on its own: the UI reads the scale from the vanilla
+            // "options.interfaceScaling" binding, and that binding only pushes to the UI when
+            // OptionsUISystem updates — which it refuses to do unless the Options screen is open
+            // (OptionsUISystem.OnUpdate early-returns otherwise). That is exactly why the resize only
+            // appeared after opening Options. Push that one binding ourselves so it applies instantly.
+            PushVanillaInterfaceScalingBinding();
 
             interfaceScaleEnabledBinding.Update(ui.interfaceScaling);
         }
 
-        private static void ForceUiRelayout()
+        // Cached lookup of OptionsUISystem's private update-binding list entry for
+        // "options.interfaceScaling". Resolved once, then reused. Instance (not static) fields so a
+        // world reload rebuilds the system and re-resolves rather than holding a stale binding.
+        private IUpdateBinding? cachedScalingBinding;
+        private bool scalingBindingLookupFailed;
+
+        private void PushVanillaInterfaceScalingBinding()
         {
             try
             {
-                var view = GameManager.instance?.userInterface?.view;
-                if (view != null)
-                {
-                    view.Resize(view.width, view.height);
-                }
+                IUpdateBinding? binding = ResolveScalingBinding();
+
+                // Update() re-reads the getter and pushes to the UI when the value changed.
+                binding?.Update();
             }
             catch (Exception ex)
             {
                 LogUtils.WarnOnce(
-                    "interface-scale-relayout",
-                    () => $"Failed to force UI relayout: {ex.GetType().Name}: {ex.Message}",
+                    "interface-scale-binding-push",
+                    () => $"Failed to push interfaceScaling binding: {ex.GetType().Name}: {ex.Message}",
                     ex);
             }
+        }
+
+        private IUpdateBinding? ResolveScalingBinding()
+        {
+            if (cachedScalingBinding != null || scalingBindingLookupFailed)
+            {
+                return cachedScalingBinding;
+            }
+
+            OptionsUISystem? options = World.GetExistingSystemManaged<OptionsUISystem>();
+            if (options == null)
+            {
+                return null;
+            }
+
+            // m_UpdateBindings is declared on UISystemBase (private), holding every binding the system
+            // registered with AddUpdateBinding.
+            FieldInfo? field = typeof(UISystemBase).GetField(
+                "m_UpdateBindings",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
+            if (field?.GetValue(options) is not IEnumerable<IUpdateBinding> bindings)
+            {
+                scalingBindingLookupFailed = true;
+                LogUtils.WarnOnce(
+                    "interface-scale-binding-missing",
+                    () => "Could not read OptionsUISystem update bindings; UI scale will only apply when the Options menu is opened.");
+                return null;
+            }
+
+            foreach (IUpdateBinding candidate in bindings)
+            {
+                if (candidate is BindingBase namedBinding &&
+                    namedBinding.path == "options.interfaceScaling")
+                {
+                    cachedScalingBinding = candidate;
+                    return cachedScalingBinding;
+                }
+            }
+
+            scalingBindingLookupFailed = true;
+            LogUtils.WarnOnce(
+                "interface-scale-binding-notfound",
+                () => "options.interfaceScaling binding not found; UI scale will only apply when the Options menu is opened.");
+            return null;
         }
 
         protected override void OnDestroy()

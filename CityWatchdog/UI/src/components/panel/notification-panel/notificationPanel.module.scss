@@ -299,8 +299,8 @@
 }
 
 .headerScaleIcon {
-    width: 22rem;
-    height: 22rem;
+    width: 19rem;
+    height: 19rem;
     display: block;
     pointer-events: none;
     // Icon strokes are black; invert to white to match the other header glyphs.
@@ -341,7 +341,9 @@
 .toolbar {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    // space-between pins the left map-toggle group to the left edge and the right button group to the
+    // right edge. (Cohtml flex does not reliably honor `margin-left: auto`, so don't use that here.)
+    justify-content: space-between;
     align-items: center;
     padding-top: 5rem;
     padding-right: 10rem;
@@ -363,14 +365,15 @@
     flex-basis: auto;
 }
 
-// Right group is content-sized and pushed to the RIGHT edge (margin-left: auto). Show Icons sizes to
-// its own text; longer translations grow the group leftward but it stays right-anchored.
+// Right group is content-sized; `justify-content: space-between` on .toolbar pins it to the right
+// edge. Show Icons sizes to its own text, so longer translations grow the group leftward while it
+// stays right-anchored.
 .toolbarButtons {
     flex-grow: 0;
     flex-shrink: 1;
     flex-basis: auto;
     min-width: 0;
-    margin-left: auto;
+    margin-left: 12rem;
 }
 
 // Left side: keep Info + Road-Name + District-Name + Road-Arrow toggles tight.
