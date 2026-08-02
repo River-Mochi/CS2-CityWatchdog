@@ -231,10 +231,10 @@
 
 .countButtonText {
     white-space: nowrap;
-    font-size: var(--fontSizeXS);
-    font-weight: 750;
+    font-size: var(--fontSizeS);
+    font-weight: 700;
     line-height: 1;
-    letter-spacing: 0.3rem;
+    letter-spacing: 0.2rem;
 }
 
 // The tone classes below are defined AFTER .toolbarButton, so their :hover wins over the generic

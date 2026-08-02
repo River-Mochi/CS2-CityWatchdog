@@ -149,15 +149,11 @@ namespace CityWatchdog
         }
 
 
-        // Mirrors the vanilla "Interface Scaling (dev)" flag, which normally only appears in the game's
+        // Mirrors vanilla "Interface Scaling (dev)" flag, which normally only appears in the game's
         // Options > Interface when launched with --developerMode. Turning it on makes the WHOLE game UI
-        // (and every mod panel) render larger.
-        //
-        // Deliberately NOT backed by a CWD field: the getter reads the live vanilla value and the setter
-        // writes straight through, so this checkbox, the in-city title-bar button, and the vanilla
-        // checkbox can never disagree, and CWD never stores a stale duplicate. During settings
-        // deserialization the control system does not exist yet (LoadSettings runs before systems are
-        // scheduled in Mod.OnLoad), so the setter safely no-ops and cannot clobber the vanilla value.
+        // (+ mod panels) render larger.
+        // Live pass-through to vanilla's dev-only interface-scaling flag.
+        // CWD keeps no duplicate; load-time setter safely no-ops before the control system exists.
         [SettingsUISection(kActions, kNotifications)]
         public bool InterfaceScaling
         {

@@ -46,7 +46,7 @@ export const preset2Saved$ = bindValue<boolean>(mod.id, "Preset2Saved", false);
 // Which preset slot is currently applied: 0 = none, 1, or 2. Drives the "selected" ring + dot.
 export const activePreset$ = bindValue<number>(mod.id, "ActivePreset", 0);
 
-// Vanilla UI scaling (normally dev-mode only). Title-bar button toggles it; level is a CWD Options slider.
+// Vanilla UI scaling (normally dev-mode only). Title-bar button and CWD Options toggle share this live value.
 export const interfaceScaleEnabled$ = bindValue<boolean>(mod.id, "InterfaceScaleEnabled", false);
 export const OnToggleInterfaceScale = (enable: boolean) => trigger(mod.id, "InterfaceScaleEnabled", enable);
 
