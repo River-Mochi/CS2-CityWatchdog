@@ -28,6 +28,8 @@
   "HideIcons": "Ẩn biểu tượng",
   "PresetLoadHint": "Bấm để tải thiết lập biểu tượng đã lưu này.\nNhấn giữ để ghi đè bằng các ô đang chọn.",
   "PresetSaveHint": "Cài đặt sẵn này đang trống.\nNhấn giữ để lưu các ô đang chọn vào đây.",
+  "InterfaceScaleOff": "Phóng to giao diện game (bảng + chữ).\nGiữ nguyên cho đến khi bạn tắt.",
+  "InterfaceScaleOn": "Giao diện lớn đang BẬT.\nBấm để về kích thước bình thường.\nGiống tỉ lệ giao diện nhà phát triển.",
   "ExpandAll": "Mở/thu tất cả hàng.",
   "CollapseAll": "Thu/mở tất cả hàng",
   "SortAscending": "↑Sắp xếp tăng",
