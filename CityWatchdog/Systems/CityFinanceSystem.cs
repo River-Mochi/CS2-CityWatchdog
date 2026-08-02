@@ -25,11 +25,11 @@ namespace CityWatchdog.Systems
     public partial class CityFinanceSystem : GameSystemBaseExtension
     {
         // Counts this system's OnUpdate passes. Higher = automatic money checks less often.
-        private const int AutomaticMoneyCheckIntervalUpdates = 128;
+        private const int kAutomaticMoneyCheckIntervalUpdates = 128;
         // Hold-to-repeat delay for [ and ]. Higher = easier single-taps before repeat begins.
-        private const int ManualMoneyRepeatInitialDelayUpdates = 20;
+        private const int kManualMoneyRepeatInitialDelayUpdates = 20;
         // Hold-to-repeat speed for [ and ] after the delay. Lower = faster repeated money changes.
-        private const int ManualMoneyRepeatIntervalUpdates = 9;
+        private const int kManualMoneyRepeatIntervalUpdates = 9;
 
         private CitySystem m_CitySystem = null!;
         private CityConfigurationSystem m_CityConfigurationSystem = null!;
@@ -210,7 +210,7 @@ namespace CityWatchdog.Systems
             if (action.WasPressedThisFrame())
             {
                 ApplyMoneyChange(financeActionKind, CwdSettings.Instance.ManualMoneyAmount);
-                repeatCooldown = ManualMoneyRepeatInitialDelayUpdates;
+                repeatCooldown = kManualMoneyRepeatInitialDelayUpdates;
                 return;
             }
 
@@ -227,7 +227,7 @@ namespace CityWatchdog.Systems
             }
 
             ApplyMoneyChange(financeActionKind, CwdSettings.Instance.ManualMoneyAmount);
-            repeatCooldown = ManualMoneyRepeatIntervalUpdates;
+            repeatCooldown = kManualMoneyRepeatIntervalUpdates;
         }
 
         private void ResetManualMoneyRepeat()
@@ -250,7 +250,7 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            m_AutomaticMoneyCheckCooldown = AutomaticMoneyCheckIntervalUpdates;
+            m_AutomaticMoneyCheckCooldown = kAutomaticMoneyCheckIntervalUpdates;
             TryAutomaticAddMoney();
         }
 
