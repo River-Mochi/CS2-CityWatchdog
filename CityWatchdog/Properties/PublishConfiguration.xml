@@ -99,6 +99,6 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 - Main Panel now remembers to open to your last position and Sort mode after restarting the game.
 </ChangeLog>
 <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
-<ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
 <ExternalLink Type="github" Url="https://github.com/River-Mochi/CS2-CityWatchdog" />
+<ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
 </Publish>
