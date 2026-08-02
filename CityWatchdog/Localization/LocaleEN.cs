@@ -188,13 +188,14 @@ namespace CityWatchdog
                     "Keep clicking the same icon to rotate through matching spots, then back to the first one."
                 },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "Click This - Quick Start Set" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "Click This - Quick Start" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
                     "Applies a <quick start> for Mini HUD:\n" +
                     "Includes a **starter set of Blue Star favorites**.\n" +
-                    "A notice alert with a **blue Star** qualifies it to appear in the Mini-Hud if it is one of the top 5 or 10 by total count.\n" +
-                    "Add/remove **Blue Stars** in the expanded Watchdog panel.\n" +
-                    "Set includes: Favorites, 5 icons, vertical, draggable, 100% size, dark panel, zero count icons are hidden."
+                    "**Blue Star** favorites tags appear in the Mini-Hud if it is one of the top 5 or 10 by total count (and if Favorites style is selected).\n" +
+                    "Add/remove **Blue Stars** in the city City Watchdog panel.\n" +
+                    "Set includes: Favorites style, 5 icons, horizontal, draggable, 100% icon size, dark panel, zero count icons are hidden.\n" +
+                    "Start with Quick Start, then tweak minor settings to your liking. You can always reset to Quick Start later."
                   },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "Mini HUD Mode" },
