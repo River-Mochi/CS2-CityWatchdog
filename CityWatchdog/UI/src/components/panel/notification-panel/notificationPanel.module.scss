@@ -11,8 +11,8 @@
     left: var(--screenPadding);
     overflow: visible;
     // Widened to fit the preset 1|2 button plus the Show/Hide Icons label with headroom for longer
-    // translated words (e.g. German/Russian) so nothing clips at the right edge.
-    width: 425rem;
+    // translated words so nothing clips at the right edge.
+    width: 420rem;
 }
 
 .panel {
@@ -20,11 +20,11 @@
     top: 0;
     left: 0;
     overflow: visible;
-    width: 425rem;
+    width: 420rem;
     max-height: 890rem;
-    // Let custom wrapper colors show through instead of stacking extra vanilla fills.
-    // follows the same idea as ZoneTools: make Panel shell transparent,
-    // then style the real vanilla header/content wrappers below.
+    // Lets custom wrapper colors show through instead of stacking extra vanilla fills.
+    // follows same idea as ZoneTools: make Panel shell transparent,
+    // then style real vanilla header/content wrappers below.
     --menuPanel1: transparent;
     --menuPanel2: transparent;
     --panelColorDark: transparent;
@@ -263,7 +263,7 @@
     filter: brightness(0) invert(1) opacity(0.95);
 }
 
-// UI-scale toggle button in the header (left of the expand arrow).
+// UI-scale toggle button in the header (left of expand arrow).
 .headerScaleButton {
     display: flex;
     align-items: center;
@@ -290,11 +290,11 @@
 
 // Highlighted when UI scaling is ON.
 .headerScaleButtonActive {
-    background-color: rgba(30, 131, 170, 0.5);
-    box-shadow: 0 0 6rem rgba(84, 215, 255, 0.4);
+    background-color: rgba(30, 131, 170, 0.40);
+    box-shadow: 0 0 4rem rgba(84, 215, 255, 0.32);
 
     &:hover {
-        background-color: rgba(50, 160, 200, 0.58);
+        background-color: rgba(50, 160, 200, 0.50);
     }
 }
 
@@ -307,10 +307,10 @@
     filter: brightness(0) invert(1) opacity(0.85);
 }
 
-// Brighter, fully-white, slightly larger icon when scaling is ON (reads as bolder).
+// Brighter white, slightly larger icon when scaling is ON (reads as bolder).
 .headerScaleButtonActive .headerScaleIcon {
-    filter: brightness(0) invert(1) opacity(1);
-    transform: scale(1.06);
+    filter: brightness(0) invert(1) opacity(0.95);
+    transform: scale(1.02);
     transform-origin: center center;
 }
 

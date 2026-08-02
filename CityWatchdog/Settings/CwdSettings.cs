@@ -74,8 +74,8 @@ namespace CityWatchdog
         internal const int kPanelPositionLimit = 20000;
         internal const int kMainPanelOpacityDefault = 80;
 
-        private const string kAboutLinksRow = "kAboutLinksRow";
-        private const string kDebugButtonsRow = "kDebugButtonsRow";
+        private const string kAboutLinksRow = "AboutLinksRow";
+        private const string kDebugButtonsRow = "1DebugButtonsRow";
         private const string kUsageIconPath = "coui://ui-mods/images/NotificationIcon_PawRainbow.svg";
         private const string kUrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";

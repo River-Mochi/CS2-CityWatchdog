@@ -106,7 +106,7 @@ namespace CityWatchdog.Systems
         {
             try
             {
-                // Update() re-reads the vanilla getter and pushes the changed value to the UI.
+                // Update() re-reads vanilla getter and pushes the changed value to the UI.
                 ResolveScalingBinding()?.Update();
             }
             catch (Exception ex)

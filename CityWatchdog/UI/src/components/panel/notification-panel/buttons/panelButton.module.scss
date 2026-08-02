@@ -104,8 +104,8 @@
     transform: scale(1.06);
 }
 
-// The diagonal road/district artwork reaches close to its SVG edges, so leave enough inset
-// for the button border and hover scale instead of letting its corners escape the frame.
+// Diagonal road/district artwork reaches close to its SVG edges, so leaving enough inset
+// for the button border and hover scale instead of letting its corners escape frame.
 .mapIcon {
     width: 25rem;
     height: 25rem;
@@ -220,7 +220,7 @@
 
 .countButton {
     width: auto;
-    min-width: 42rem;
+    min-width: 45rem;
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: auto;
@@ -232,7 +232,7 @@
 .countButtonText {
     white-space: nowrap;
     font-size: var(--fontSizeXS);
-    font-weight: 700;
+    font-weight: 750;
     line-height: 1;
     letter-spacing: 0.3rem;
 }
