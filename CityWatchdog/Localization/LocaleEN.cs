@@ -180,7 +180,7 @@ namespace CityWatchdog
                 // Mini-HUD tab - Mini HUD Notifications
                 // --------------------------------------------------------------------
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudEnabled)), "Mini HUD" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudEnabled)), "Show Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudEnabled)),
                     "Shows a small city HUD with the most important notification counts.\n" +
                     "Use it as a quick alert strip without opening the full City Watchdog panel.\n" +
