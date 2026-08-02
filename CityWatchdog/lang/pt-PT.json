@@ -28,6 +28,8 @@
   "HideIcons": "Ocultar ícones",
   "PresetLoadHint": "Clica para carregar esta configuração de ícones guardada.\nMantém premido para a substituir pelas caixas selecionadas atuais.",
   "PresetSaveHint": "Esta predefinição está vazia.\nMantém premido para guardar nela as caixas selecionadas atuais.",
+  "InterfaceScaleOff": "Aumenta a interface do jogo (painéis + texto).\nFica ativa até a desligares.",
+  "InterfaceScaleOn": "Interface maior ATIVA.\nClica para voltar ao tamanho normal.\nÉ igual à escala de interface do modo de programador.",
   "ExpandAll": "Expandir/recolher todas as linhas.",
   "CollapseAll": "Recolher/expandir todas as linhas",
   "SortAscending": "↑Ordem crescente",
