@@ -1275,8 +1275,8 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            x = Math.Clamp(x, -CwdSettings.PanelPositionLimit, CwdSettings.PanelPositionLimit);
-            y = Math.Clamp(y, -CwdSettings.PanelPositionLimit, CwdSettings.PanelPositionLimit);
+            x = Math.Clamp(x, -CwdSettings.kPanelPositionLimit, CwdSettings.kPanelPositionLimit);
+            y = Math.Clamp(y, -CwdSettings.kPanelPositionLimit, CwdSettings.kPanelPositionLimit);
 
             if (CwdSettings.Instance.PanelPositionX == x && CwdSettings.Instance.PanelPositionY == y)
             {

@@ -71,8 +71,8 @@ namespace CityWatchdog
 
         // Coarse sanity bound (pixels) for the stored draggable panel position. The UI does the
         // real on-screen clamping against the live viewport; this only guards absurd saved values.
-        internal const int PanelPositionLimit = 20000;
-        internal const int MainPanelOpacityDefault = 70;
+        internal const int kPanelPositionLimit = 20000;
+        internal const int kMainPanelOpacityDefault = 70;
 
         private const string AboutLinksRow = nameof(AboutLinksRow);
         private const string DebugButtonsRow = nameof(DebugButtonsRow);
@@ -80,7 +80,7 @@ namespace CityWatchdog
         private const string UrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
 
-        private int m_MainPanelOpacity = MainPanelOpacityDefault;
+        private int m_MainPanelOpacity = kMainPanelOpacityDefault;
 
         public CwdSettings(IMod mod) : base(mod)
         {
@@ -144,7 +144,7 @@ namespace CityWatchdog
         {
             get => m_MainPanelOpacity;
             set => m_MainPanelOpacity = value <= 0
-                ? MainPanelOpacityDefault
+                ? kMainPanelOpacityDefault
                 : Math.Clamp(value, 30, 100);
         }
 
@@ -293,7 +293,7 @@ namespace CityWatchdog
             HideDistrictNames = false;
             ShowRoadArrows = false;
             PanelButtonsOnlyStart = false;
-            MainPanelOpacity = MainPanelOpacityDefault;
+            MainPanelOpacity = kMainPanelOpacityDefault;
             PanelPositionX = 0;
             PanelPositionY = 0;
             PanelCollapsedSectionsMask = 0;

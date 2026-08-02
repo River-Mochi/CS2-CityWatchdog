@@ -35,7 +35,7 @@ namespace CityWatchdog
         // any enum, so they must be hand-verified against the current index table whenever items are
         // inserted/removed. Bit 24 (Leveling Building) is deliberately NOT included: it's an optional,
         // positive-status row the player opts into manually, not a recommended "problem" alert.
-        private const int MiniHudRecommendedFavoriteMaskLow =
+        private const int kMiniHudRecommendedFavoriteMaskLow =
             (1 << 0) |  // Not enough electricity
             (1 << 1) |  // Electricity bottleneck
             (1 << 6) |  // Battery depleted
@@ -54,7 +54,7 @@ namespace CityWatchdog
             (1 << 27) | // Road required / no road access
             (1 << 28) | // Track not connected
             (1 << 29);  // No car access
-        private const int MiniHudRecommendedFavoriteMaskHigh =
+        private const int kMiniHudRecommendedFavoriteMaskHigh =
             (1 << 1) |  // No pedestrian access
             (1 << 5) |  // Lack of labor
             (1 << 7) |  // Weather damage
@@ -361,14 +361,14 @@ namespace CityWatchdog
             MiniHudVerticalPositionX = Math.Clamp(MiniHudVerticalPositionX, -kMiniHudPositionLimit, kMiniHudPositionLimit);
             MiniHudVerticalPositionY = Math.Clamp(MiniHudVerticalPositionY, -kMiniHudPositionLimit, kMiniHudPositionLimit);
 
-            PanelPositionX = Math.Clamp(PanelPositionX, -PanelPositionLimit, PanelPositionLimit);
-            PanelPositionY = Math.Clamp(PanelPositionY, -PanelPositionLimit, PanelPositionLimit);
+            PanelPositionX = Math.Clamp(PanelPositionX, -kPanelPositionLimit, kPanelPositionLimit);
+            PanelPositionY = Math.Clamp(PanelPositionY, -kPanelPositionLimit, kPanelPositionLimit);
         }
 
         private void SetMiniHudRecommendedFavorites()
         {
-            MiniHudFavoriteMaskLow = MiniHudRecommendedFavoriteMaskLow;
-            MiniHudFavoriteMaskHigh = MiniHudRecommendedFavoriteMaskHigh;
+            MiniHudFavoriteMaskLow = kMiniHudRecommendedFavoriteMaskLow;
+            MiniHudFavoriteMaskHigh = kMiniHudRecommendedFavoriteMaskHigh;
         }
 
         private static void OnMiniHudEnabledChanged(bool value) => GetUISystem()?.UpdateMiniHudEnabledBinding(value);
