@@ -22,7 +22,7 @@ namespace CityWatchdog.Systems
     public partial class AlertIconSystem
     {
         public void EnableTransportLineNotification(TransportLineNotificationIcon transportLineNotificationIcon, bool value, bool refresh = false) {
-            TransportLineData singleton = transportLineNotificationParameterQuery.GetSingleton<TransportLineData>();
+            TransportLineData singleton = m_TransportLineNotificationParameterQuery.GetSingleton<TransportLineData>();
             if (transportLineNotificationIcon == TransportLineNotificationIcon.VehicleNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_VehicleNotification, value);
             }
@@ -37,7 +37,7 @@ namespace CityWatchdog.Systems
         }
 
         public void EnableRouteNotification(RouteNotificationIcon routeNotificationIcon, bool value, bool refresh = false) {
-            RouteConfigurationData singleton = routeNotificationParameterQuery.GetSingleton<RouteConfigurationData>();
+            RouteConfigurationData singleton = m_RouteNotificationParameterQuery.GetSingleton<RouteConfigurationData>();
             if (routeNotificationIcon == RouteNotificationIcon.PathfindNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_PathfindNotification, value);
             }
@@ -96,7 +96,7 @@ namespace CityWatchdog.Systems
         }
 
         public void EnablePollutionNotification(PollutionNotificationIcon pollutionNotificationIcon, bool value, bool refresh = false) {
-            PollutionParameterData singleton = pollutionNotificationParameterQuery.GetSingleton<PollutionParameterData>();
+            PollutionParameterData singleton = m_PollutionNotificationParameterQuery.GetSingleton<PollutionParameterData>();
             if (pollutionNotificationIcon == PollutionNotificationIcon.AirPollutionNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_AirPollutionNotification, value);
             }
@@ -119,7 +119,7 @@ namespace CityWatchdog.Systems
         }
 
         public void EnablePoliceNotification(PoliceNotificationIcon policeNotificationIcon, bool value, bool refresh = false) {
-            PoliceConfigurationData singleton = policeNotificationParameterQuery.GetSingleton<PoliceConfigurationData>();
+            PoliceConfigurationData singleton = m_PoliceNotificationParameterQuery.GetSingleton<PoliceConfigurationData>();
             if (policeNotificationIcon == PoliceNotificationIcon.TrafficAccidentNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_TrafficAccidentNotificationPrefab, value);
             }
@@ -138,7 +138,7 @@ namespace CityWatchdog.Systems
         }
 
         public void EnableHealthcareNotification(HealthcareNotificationIcon healthcareNotificationIcon, bool value, bool refresh = false) {
-            HealthcareParameterData singleton = healthcareNotificationParameterQuery.GetSingleton<HealthcareParameterData>();
+            HealthcareParameterData singleton = m_HealthcareNotificationParameterQuery.GetSingleton<HealthcareParameterData>();
             if (healthcareNotificationIcon == HealthcareNotificationIcon.AmbulanceNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_AmbulanceNotificationPrefab, value);
             }
@@ -161,7 +161,7 @@ namespace CityWatchdog.Systems
         }
 
         public void EnableGarbageNotification(GarbageNotificationIcon garbageNotificationIcon, bool value, bool refresh = false) {
-            GarbageParameterData singleton = garbageNotificationParameterQuery.GetSingleton<GarbageParameterData>();
+            GarbageParameterData singleton = m_GarbageNotificationParameterQuery.GetSingleton<GarbageParameterData>();
             if (garbageNotificationIcon == GarbageNotificationIcon.GarbageNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_GarbageNotificationPrefab, value);
             }
@@ -180,7 +180,7 @@ namespace CityWatchdog.Systems
         }
 
         public void EnableFireNotification(FireNotificationIcon fireNotificationIcon, bool value, bool refresh = false) {
-            FireConfigurationData singleton = fireNotificationParameterQuery.GetSingleton<FireConfigurationData>();
+            FireConfigurationData singleton = m_FireNotificationParameterQuery.GetSingleton<FireConfigurationData>();
             if (fireNotificationIcon == FireNotificationIcon.FireNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_FireNotificationPrefab, value);
             }
@@ -199,7 +199,7 @@ namespace CityWatchdog.Systems
         }
 
         public void EnableDisasterNotification(DisasterNotificationIcon disasterNotificationIcon, bool value, bool refresh = false) {
-            DisasterConfigurationData singleton = disasterNotificationParameterQuery.GetSingleton<DisasterConfigurationData>();
+            DisasterConfigurationData singleton = m_DisasterNotificationParameterQuery.GetSingleton<DisasterConfigurationData>();
             if (disasterNotificationIcon == DisasterNotificationIcon.WeatherDamageNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_WeatherDamageNotificationPrefab, value);
             }
@@ -230,7 +230,7 @@ namespace CityWatchdog.Systems
         }
 
         public void EnableWorkProviderNotification(WorkProviderNotificationIcon workProviderNotificationIcon, bool value, bool refresh = false) {
-            WorkProviderParameterData singleton = workProviderNotificationParameterQuery.GetSingleton<WorkProviderParameterData>();
+            WorkProviderParameterData singleton = m_WorkProviderNotificationParameterQuery.GetSingleton<WorkProviderParameterData>();
             if (workProviderNotificationIcon == WorkProviderNotificationIcon.UneducatedNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_UneducatedNotificationPrefab, value);
             }
@@ -256,7 +256,7 @@ namespace CityWatchdog.Systems
         }
 
         public void EnableCompanyNotification(CompanyNotificationIcon companyNotificationIcon, bool value, bool refresh = false) {
-            CompanyNotificationParameterData singleton = companyNotificationParameterQuery.GetSingleton<CompanyNotificationParameterData>();
+            CompanyNotificationParameterData singleton = m_CompanyNotificationParameterQuery.GetSingleton<CompanyNotificationParameterData>();
             if (companyNotificationIcon == CompanyNotificationIcon.NoInputsNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_NoInputsNotificationPrefab, value);
             }
@@ -283,7 +283,7 @@ namespace CityWatchdog.Systems
         }
 
         public void EnableTrafficNotification(TrafficNotificationIcon trafficNotificationIcon, bool value, bool refresh = false) {
-            TrafficConfigurationData singleton = trafficConfigurationDataQuery.GetSingleton<TrafficConfigurationData>();
+            TrafficConfigurationData singleton = m_TrafficConfigurationDataQuery.GetSingleton<TrafficConfigurationData>();
             if (trafficNotificationIcon == TrafficNotificationIcon.BottleneckNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_BottleneckNotification, value);
             }
@@ -318,7 +318,7 @@ namespace CityWatchdog.Systems
         }
 
         private void SetResourceConsumerNotifications(bool value, System.Func<Entity, bool> predicate) {
-            NativeArray<ResourceConsumerData> consumers = resourceConsumerNotificationParameterQuery.ToComponentDataArray<ResourceConsumerData>(Allocator.Temp);
+            NativeArray<ResourceConsumerData> consumers = m_ResourceConsumerNotificationParameterQuery.ToComponentDataArray<ResourceConsumerData>(Allocator.Temp);
             try {
                 HashSet<Entity> seen = new();
                 for (int i = 0; i < consumers.Length; i++) {
@@ -363,7 +363,7 @@ namespace CityWatchdog.Systems
             }
 
             try {
-                NotificationIconPrefab prefab = prefabSystem.GetPrefab<NotificationIconPrefab>(notificationPrefab);
+                NotificationIconPrefab prefab = m_PrefabSystem.GetPrefab<NotificationIconPrefab>(notificationPrefab);
                 strings = (ImageSystem.GetIcon(prefab) ?? string.Empty, prefab.name ?? string.Empty);
             }
             catch {
@@ -388,7 +388,7 @@ namespace CityWatchdog.Systems
         }
 
         private void SetResourceConnectionNotifications(bool value, System.Func<ResourceConnectionData, bool> predicate) {
-            NativeArray<ResourceConnectionData> connections = resourceConnectionNotificationParameterQuery.ToComponentDataArray<ResourceConnectionData>(Allocator.Temp);
+            NativeArray<ResourceConnectionData> connections = m_ResourceConnectionNotificationParameterQuery.ToComponentDataArray<ResourceConnectionData>(Allocator.Temp);
             try {
                 HashSet<Entity> seen = new();
                 for (int i = 0; i < connections.Length; i++) {
@@ -441,7 +441,7 @@ namespace CityWatchdog.Systems
         }
 
         public void EnableBuildingNotification(BuildingNotificationIcon buildingNotificationIcon, bool value, bool refresh = false) {
-            BuildingConfigurationData singleton = buildingConfigurationDataQuery.GetSingleton<BuildingConfigurationData>();
+            BuildingConfigurationData singleton = m_BuildingConfigurationDataQuery.GetSingleton<BuildingConfigurationData>();
             if (buildingNotificationIcon == BuildingNotificationIcon.AbandonedCollapsedNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_AbandonedCollapsedNotification, value);
             }
@@ -481,7 +481,7 @@ namespace CityWatchdog.Systems
         }
 
         public void EnableWaterPipeNotification(WaterPipeNotificationIcon waterPipeNotificationIcon, bool value, bool refresh = false) {
-            WaterPipeParameterData singleton = waterPipeParameterQuery.GetSingleton<WaterPipeParameterData>();
+            WaterPipeParameterData singleton = m_WaterPipeParameterQuery.GetSingleton<WaterPipeParameterData>();
             if (waterPipeNotificationIcon == WaterPipeNotificationIcon.WaterNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_WaterNotification, value);
             }
@@ -533,7 +533,7 @@ namespace CityWatchdog.Systems
         }
 
         public void EnableElectricityNotification(ElectricityNotificationIcon electricityNotificationIcon, bool value, bool refresh = false) {
-            ElectricityParameterData singleton = electricityParameterQuery.GetSingleton<ElectricityParameterData>();
+            ElectricityParameterData singleton = m_ElectricParameterQuery.GetSingleton<ElectricityParameterData>();
             if (electricityNotificationIcon == ElectricityNotificationIcon.ElectricityNotification) {
                 EntityManager.SetComponentEnabled<NotificationIconDisplayData>(singleton.m_ElectricityNotificationPrefab, value);
             }

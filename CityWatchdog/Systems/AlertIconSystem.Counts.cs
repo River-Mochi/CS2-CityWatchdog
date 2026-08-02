@@ -29,7 +29,7 @@ namespace CityWatchdog.Systems
             int[] counts = new int[NotificationCountLength];
             int index = 0;
 
-            if (electricityParameterQuery.TryGetSingleton(out ElectricityParameterData electricity))
+            if (m_ElectricParameterQuery.TryGetSingleton(out ElectricityParameterData electricity))
             {
                 counts[index++] = Count(electricity.m_ElectricityNotificationPrefab);
                 counts[index++] = Count(electricity.m_BottleneckNotificationPrefab);
@@ -46,7 +46,7 @@ namespace CityWatchdog.Systems
                 index += 9;
             }
 
-            if (waterPipeParameterQuery.TryGetSingleton(out WaterPipeParameterData water))
+            if (m_WaterPipeParameterQuery.TryGetSingleton(out WaterPipeParameterData water))
             {
                 counts[index++] = Count(water.m_WaterNotification);
                 counts[index++] = Count(water.m_DirtyWaterNotification);
@@ -64,7 +64,7 @@ namespace CityWatchdog.Systems
                 index += 10;
             }
 
-            if (buildingConfigurationDataQuery.TryGetSingleton(out BuildingConfigurationData building))
+            if (m_BuildingConfigurationDataQuery.TryGetSingleton(out BuildingConfigurationData building))
             {
                 counts[index++] = Count(building.m_AbandonedCollapsedNotification);
                 counts[index++] = Count(building.m_AbandonedNotification);
@@ -78,7 +78,7 @@ namespace CityWatchdog.Systems
                 index += 6;
             }
 
-            if (trafficConfigurationDataQuery.TryGetSingleton(out TrafficConfigurationData traffic))
+            if (m_TrafficConfigurationDataQuery.TryGetSingleton(out TrafficConfigurationData traffic))
             {
                 counts[index++] = Count(traffic.m_BottleneckNotification);
                 counts[index++] = Count(traffic.m_DeadEndNotification);
@@ -95,7 +95,7 @@ namespace CityWatchdog.Systems
                 index += 9;
             }
 
-            if (companyNotificationParameterQuery.TryGetSingleton(out CompanyNotificationParameterData company))
+            if (m_CompanyNotificationParameterQuery.TryGetSingleton(out CompanyNotificationParameterData company))
             {
                 counts[index++] = Count(company.m_NoInputsNotificationPrefab);
                 counts[index++] = Count(company.m_NoCustomersNotificationPrefab);
@@ -105,7 +105,7 @@ namespace CityWatchdog.Systems
                 index += 2;
             }
 
-            if (workProviderNotificationParameterQuery.TryGetSingleton(out WorkProviderParameterData workProvider))
+            if (m_WorkProviderNotificationParameterQuery.TryGetSingleton(out WorkProviderParameterData workProvider))
             {
                 counts[index++] = Count(workProvider.m_UneducatedNotificationPrefab);
                 counts[index++] = Count(workProvider.m_EducatedNotificationPrefab);
@@ -115,7 +115,7 @@ namespace CityWatchdog.Systems
                 index += 2;
             }
 
-            if (disasterNotificationParameterQuery.TryGetSingleton(out DisasterConfigurationData disaster))
+            if (m_DisasterNotificationParameterQuery.TryGetSingleton(out DisasterConfigurationData disaster))
             {
                 counts[index++] = Count(disaster.m_WeatherDamageNotificationPrefab);
                 counts[index++] = Count(disaster.m_WeatherDestroyedNotificationPrefab);
@@ -128,7 +128,7 @@ namespace CityWatchdog.Systems
                 index += 5;
             }
 
-            if (fireNotificationParameterQuery.TryGetSingleton(out FireConfigurationData fire))
+            if (m_FireNotificationParameterQuery.TryGetSingleton(out FireConfigurationData fire))
             {
                 counts[index++] = Count(fire.m_FireNotificationPrefab);
                 counts[index++] = Count(fire.m_BurnedDownNotificationPrefab);
@@ -138,7 +138,7 @@ namespace CityWatchdog.Systems
                 index += 2;
             }
 
-            if (garbageNotificationParameterQuery.TryGetSingleton(out GarbageParameterData garbage))
+            if (m_GarbageNotificationParameterQuery.TryGetSingleton(out GarbageParameterData garbage))
             {
                 counts[index++] = Count(garbage.m_GarbageNotificationPrefab);
                 counts[index++] = Count(garbage.m_FacilityFullNotificationPrefab);
@@ -148,7 +148,7 @@ namespace CityWatchdog.Systems
                 index += 2;
             }
 
-            if (healthcareNotificationParameterQuery.TryGetSingleton(out HealthcareParameterData healthcare))
+            if (m_HealthcareNotificationParameterQuery.TryGetSingleton(out HealthcareParameterData healthcare))
             {
                 counts[index++] = Count(healthcare.m_AmbulanceNotificationPrefab);
                 counts[index++] = Count(healthcare.m_HearseNotificationPrefab);
@@ -159,7 +159,7 @@ namespace CityWatchdog.Systems
                 index += 3;
             }
 
-            if (policeNotificationParameterQuery.TryGetSingleton(out PoliceConfigurationData police))
+            if (m_PoliceNotificationParameterQuery.TryGetSingleton(out PoliceConfigurationData police))
             {
                 counts[index++] = Count(police.m_TrafficAccidentNotificationPrefab);
                 counts[index++] = Count(police.m_CrimeSceneNotificationPrefab);
@@ -169,7 +169,7 @@ namespace CityWatchdog.Systems
                 index += 2;
             }
 
-            if (pollutionNotificationParameterQuery.TryGetSingleton(out PollutionParameterData pollution))
+            if (m_PollutionNotificationParameterQuery.TryGetSingleton(out PollutionParameterData pollution))
             {
                 counts[index++] = Count(pollution.m_AirPollutionNotification);
                 counts[index++] = Count(pollution.m_NoisePollutionNotification);
@@ -192,7 +192,7 @@ namespace CityWatchdog.Systems
             counts[index++] = fishingPierCount;
             counts[index++] = otherConnectionCount;
 
-            if (routeNotificationParameterQuery.TryGetSingleton(out RouteConfigurationData route))
+            if (m_RouteNotificationParameterQuery.TryGetSingleton(out RouteConfigurationData route))
             {
                 counts[index++] = Count(route.m_PathfindNotification);
                 counts[index++] = Count(route.m_GateBypassNotification);
@@ -202,7 +202,7 @@ namespace CityWatchdog.Systems
                 index += 2;
             }
 
-            if (transportLineNotificationParameterQuery.TryGetSingleton(out TransportLineData transport))
+            if (m_TransportLineNotificationParameterQuery.TryGetSingleton(out TransportLineData transport))
             {
                 counts[index++] = Count(transport.m_VehicleNotification);
             }
@@ -226,7 +226,7 @@ namespace CityWatchdog.Systems
             EntityDictionary.Clear();
 
             ComponentTypeHandle<PrefabRef> prefabRefTypeHandle = GetComponentTypeHandle<PrefabRef>(true);
-            using NativeArray<ArchetypeChunk> chunks = iconQuery.ToArchetypeChunkArray(Allocator.TempJob);
+            using NativeArray<ArchetypeChunk> chunks = m_IconQuery.ToArchetypeChunkArray(Allocator.TempJob);
 
             // ToArchetypeChunkArray syncs only change-filter and enableable types — it cannot know
             // which components we read back out of the chunks, so PrefabRef's write dependency is
@@ -267,7 +267,7 @@ namespace CityWatchdog.Systems
             int matchIndex = 0;
             ComponentTypeHandle<PrefabRef> prefabRefTypeHandle = GetComponentTypeHandle<PrefabRef>(true);
             EntityTypeHandle entityTypeHandle = GetEntityTypeHandle();
-            using NativeArray<ArchetypeChunk> chunks = iconQuery.ToArchetypeChunkArray(Allocator.TempJob);
+            using NativeArray<ArchetypeChunk> chunks = m_IconQuery.ToArchetypeChunkArray(Allocator.TempJob);
 
             // Same reason as BuildActiveIconCounts: a chunk walk completes no read dependency for us.
             CompleteDependency();
@@ -315,7 +315,7 @@ namespace CityWatchdog.Systems
         {
             matcher = _ => false;
 
-            if (index >= 0 && index <= 8 && electricityParameterQuery.TryGetSingleton(out ElectricityParameterData electricity))
+            if (index >= 0 && index <= 8 && m_ElectricParameterQuery.TryGetSingleton(out ElectricityParameterData electricity))
             {
                 Entity prefab = index switch
                 {
@@ -333,7 +333,7 @@ namespace CityWatchdog.Systems
                 return true;
             }
 
-            if (index >= 9 && index <= 18 && waterPipeParameterQuery.TryGetSingleton(out WaterPipeParameterData water))
+            if (index >= 9 && index <= 18 && m_WaterPipeParameterQuery.TryGetSingleton(out WaterPipeParameterData water))
             {
                 Entity prefab = index switch
                 {
@@ -352,7 +352,7 @@ namespace CityWatchdog.Systems
                 return true;
             }
 
-            if (index >= 19 && index <= 24 && buildingConfigurationDataQuery.TryGetSingleton(out BuildingConfigurationData building))
+            if (index >= 19 && index <= 24 && m_BuildingConfigurationDataQuery.TryGetSingleton(out BuildingConfigurationData building))
             {
                 Entity prefab = index switch
                 {
@@ -367,7 +367,7 @@ namespace CityWatchdog.Systems
                 return true;
             }
 
-            if (index >= 25 && index <= 33 && trafficConfigurationDataQuery.TryGetSingleton(out TrafficConfigurationData traffic))
+            if (index >= 25 && index <= 33 && m_TrafficConfigurationDataQuery.TryGetSingleton(out TrafficConfigurationData traffic))
             {
                 Entity prefab = index switch
                 {
@@ -385,7 +385,7 @@ namespace CityWatchdog.Systems
                 return true;
             }
 
-            if (index >= 34 && index <= 35 && companyNotificationParameterQuery.TryGetSingleton(out CompanyNotificationParameterData company))
+            if (index >= 34 && index <= 35 && m_CompanyNotificationParameterQuery.TryGetSingleton(out CompanyNotificationParameterData company))
             {
                 matcher = PrefabMatcher(index == 34
                     ? company.m_NoInputsNotificationPrefab
@@ -393,7 +393,7 @@ namespace CityWatchdog.Systems
                 return true;
             }
 
-            if (index >= 36 && index <= 37 && workProviderNotificationParameterQuery.TryGetSingleton(out WorkProviderParameterData workProvider))
+            if (index >= 36 && index <= 37 && m_WorkProviderNotificationParameterQuery.TryGetSingleton(out WorkProviderParameterData workProvider))
             {
                 matcher = PrefabMatcher(index == 36
                     ? workProvider.m_UneducatedNotificationPrefab
@@ -401,7 +401,7 @@ namespace CityWatchdog.Systems
                 return true;
             }
 
-            if (index >= 38 && index <= 42 && disasterNotificationParameterQuery.TryGetSingleton(out DisasterConfigurationData disaster))
+            if (index >= 38 && index <= 42 && m_DisasterNotificationParameterQuery.TryGetSingleton(out DisasterConfigurationData disaster))
             {
                 Entity prefab = index switch
                 {
@@ -415,7 +415,7 @@ namespace CityWatchdog.Systems
                 return true;
             }
 
-            if (index >= 43 && index <= 44 && fireNotificationParameterQuery.TryGetSingleton(out FireConfigurationData fire))
+            if (index >= 43 && index <= 44 && m_FireNotificationParameterQuery.TryGetSingleton(out FireConfigurationData fire))
             {
                 matcher = PrefabMatcher(index == 43
                     ? fire.m_FireNotificationPrefab
@@ -423,7 +423,7 @@ namespace CityWatchdog.Systems
                 return true;
             }
 
-            if (index >= 45 && index <= 46 && garbageNotificationParameterQuery.TryGetSingleton(out GarbageParameterData garbage))
+            if (index >= 45 && index <= 46 && m_GarbageNotificationParameterQuery.TryGetSingleton(out GarbageParameterData garbage))
             {
                 matcher = PrefabMatcher(index == 45
                     ? garbage.m_GarbageNotificationPrefab
@@ -431,7 +431,7 @@ namespace CityWatchdog.Systems
                 return true;
             }
 
-            if (index >= 47 && index <= 49 && healthcareNotificationParameterQuery.TryGetSingleton(out HealthcareParameterData healthcare))
+            if (index >= 47 && index <= 49 && m_HealthcareNotificationParameterQuery.TryGetSingleton(out HealthcareParameterData healthcare))
             {
                 Entity prefab = index switch
                 {
@@ -443,7 +443,7 @@ namespace CityWatchdog.Systems
                 return true;
             }
 
-            if (index >= 50 && index <= 51 && policeNotificationParameterQuery.TryGetSingleton(out PoliceConfigurationData police))
+            if (index >= 50 && index <= 51 && m_PoliceNotificationParameterQuery.TryGetSingleton(out PoliceConfigurationData police))
             {
                 matcher = PrefabMatcher(index == 50
                     ? police.m_TrafficAccidentNotificationPrefab
@@ -451,7 +451,7 @@ namespace CityWatchdog.Systems
                 return true;
             }
 
-            if (index >= 52 && index <= 54 && pollutionNotificationParameterQuery.TryGetSingleton(out PollutionParameterData pollution))
+            if (index >= 52 && index <= 54 && m_PollutionNotificationParameterQuery.TryGetSingleton(out PollutionParameterData pollution))
             {
                 Entity prefab = index switch
                 {
@@ -486,7 +486,7 @@ namespace CityWatchdog.Systems
                 return true;
             }
 
-            if (index >= 60 && index <= 61 && routeNotificationParameterQuery.TryGetSingleton(out RouteConfigurationData route))
+            if (index >= 60 && index <= 61 && m_RouteNotificationParameterQuery.TryGetSingleton(out RouteConfigurationData route))
             {
                 matcher = PrefabMatcher(index == 60
                     ? route.m_PathfindNotification
@@ -494,7 +494,7 @@ namespace CityWatchdog.Systems
                 return true;
             }
 
-            if (index == 62 && transportLineNotificationParameterQuery.TryGetSingleton(out TransportLineData transport))
+            if (index == 62 && m_TransportLineNotificationParameterQuery.TryGetSingleton(out TransportLineData transport))
             {
                 matcher = PrefabMatcher(transport.m_VehicleNotification);
                 return true;
@@ -512,7 +512,7 @@ namespace CityWatchdog.Systems
         {
             HashSet<Entity> prefabs = new();
             using NativeArray<ResourceConnectionData> connections =
-                resourceConnectionNotificationParameterQuery.ToComponentDataArray<ResourceConnectionData>(Allocator.Temp);
+                m_ResourceConnectionNotificationParameterQuery.ToComponentDataArray<ResourceConnectionData>(Allocator.Temp);
 
             for (int i = 0; i < connections.Length; i++)
             {
@@ -535,7 +535,7 @@ namespace CityWatchdog.Systems
             noFuelCount = 0;
             HashSet<Entity> seen = new();
             using NativeArray<ResourceConsumerData> consumers =
-                resourceConsumerNotificationParameterQuery.ToComponentDataArray<ResourceConsumerData>(Allocator.Temp);
+                m_ResourceConsumerNotificationParameterQuery.ToComponentDataArray<ResourceConsumerData>(Allocator.Temp);
 
             for (int i = 0; i < consumers.Length; i++)
             {
@@ -567,7 +567,7 @@ namespace CityWatchdog.Systems
             otherConnectionCount = 0;
             HashSet<Entity> seen = new();
             using NativeArray<ResourceConnectionData> connections =
-                resourceConnectionNotificationParameterQuery.ToComponentDataArray<ResourceConnectionData>(Allocator.Temp);
+                m_ResourceConnectionNotificationParameterQuery.ToComponentDataArray<ResourceConnectionData>(Allocator.Temp);
 
             for (int i = 0; i < connections.Length; i++)
             {
