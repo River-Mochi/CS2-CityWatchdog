@@ -133,7 +133,7 @@ namespace CityWatchdog
                 // Actions tab - In-City Info Viewer
                 // --------------------------------------------------------------------
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyView)), "Show Money Trends + Population ToolTips" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyView)), "Population + Money trending tooltips" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyView)),
                     "<Recommend Enable>\n" +
                     "Bottom game menu: Shows trend values with the game's bottom toolbar <money and population arrows>.\n" +
@@ -141,14 +141,14 @@ namespace CityWatchdog
                     "Saves time and possible better performance than opening game's Info view panel."
                 },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyViewMode)), "Money View Frequency" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyViewMode)), "View frequency" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyViewMode)),
                     "Choose whether the bottom-toolbar trend text shows hourly or monthly values for money and population.\n" +
                     "Monthly uses budget income minus expenses for money, and a 24-hour projection for population." },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeHourly"), "Hourly (/h)" },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeMonthly"), "Monthly (/mo)" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyTooltipMode)), "Money Tooltip Style" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyTooltipMode)), "Tooltip style" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyTooltipMode)),
                     "Choose how much detail appears in the money hover tooltip.\n" +
                     "Compact = default on first install.\n" +
