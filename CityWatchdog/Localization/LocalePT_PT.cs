@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Localization/LocalePT_PT.cs
+// File: Localization/LocalePT_PT.cs
 // Purpose: Portuguese Portugal (pt-PT) for City Watchdog Options UI menu.
 
 namespace CityWatchdog
@@ -101,6 +101,15 @@ namespace CityWatchdog
                     "<As janelas de dinheiro/população do City Watchdog continuam ativas>; são controladas pela opção Vista de dinheiro acima.\n" +
                     "Idêntico ao ícone [i] no painel do City Watchdog." },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Ocultar/mostrar dicas do jogo" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Interface do jogo maior" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
+                    "Quando ativado [ ✓ ], <toda a interface> fica maior — painéis do jogo e dos mods.\n" +
+                    "Usa a opção do jogo <Escala da interface> sem precisar de <--developerMode>.\n" +
+                    "Fica ativo até o desativares, mesmo que removas o City Watchdog.\n" +
+                    "É igual ao botão de escala na barra de título.\n" +
+                    "Só para o texto: Opções > Interface > <Escala do texto>." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "Opacidade do painel principal" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
                     "Ajusta a transparência do fundo do painel principal de notificações.\n" +
@@ -146,14 +155,15 @@ namespace CityWatchdog
                     "Usa como tira rápida sem abrir o painel completo.\n" +
                     "Clicar num ícone salta para um problema correspondente.\n" +
                     "Clica de novo para alternar entre os problemas até voltar ao primeiro." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "Clica: início rápido" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
-                    "Aplica um <início rápido> para o mini painel:\n" +
-                    "Inclui uma **seleção inicial de estrelas azuis**.\n" +
-                    "Um alerta com **estrela azul** pode aparecer no mini painel se estiver entre as 5 ou 10 maiores contagens totais.\n" +
-                    "Adiciona/remove **estrelas azuis** no painel Watchdog expandido.\n" +
-                    "A predefinição inclui: Favoritos, 5 ícones, vertical, arrastável, tamanho 100 %, painel escuro e ícones com contagem a 0 ocultos."
-                  },
+                    "Aplica um <início rápido> ao Mini HUD:\n" +
+                    "Inclui um **conjunto inicial de estrelas azuis favoritas**.\n" +
+                    "No modo Favoritos, o Mini HUD mostra as 5 ou 10 maiores contagens atuais da tua lista de **estrelas azuis**.\n" +
+                    "Adiciona/remove **estrelas azuis** no painel City Watchdog.\n" +
+                    "Define: Favoritos, 5 ícones, horizontal, arrastável, 100 %, painel escuro e oculta contagens 0.\n" +
+                    "Executa Início rápido novamente quando quiseres repor estas definições." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "Modo mini painel" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),

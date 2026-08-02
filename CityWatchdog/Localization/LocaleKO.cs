@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Localization/LocaleKO.cs
+// File: Localization/LocaleKO.cs
 // Purpose: Korean (ko-KR) for City Watchdog Options UI menu.
 
 namespace CityWatchdog
@@ -101,6 +101,15 @@ namespace CityWatchdog
                     "<City Watchdog 돈/인구 팝업은 유지>; 돈 보기가 제어합니다.\n" +
                     "City Watchdog 패널의 [i] 아이콘과 같습니다." },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "게임 호버 툴팁 숨김/표시" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "게임 UI 크게" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
+                    "활성화 [ ✓ ]하면 게임과 모드의 <전체 인터페이스>가 크게 표시됩니다.\n" +
+                    "<--developerMode> 없이 게임의 <인터페이스 크기 조절> 기능을 사용합니다.\n" +
+                    "City Watchdog를 제거해도 직접 끌 때까지 유지됩니다.\n" +
+                    "제목 표시줄의 크기 조절 버튼과 같은 기능입니다.\n" +
+                    "글자만 바꾸려면: 옵션 > 인터페이스 > <텍스트 크기 조절>." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "메인 패널 불투명도" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
                     "기본 알림 패널 배경의 투명도를 조정합니다.\n" +
@@ -146,14 +155,15 @@ namespace CityWatchdog
                     "전체 패널 없이 빠른 알림 바처럼 사용하세요.\n" +
                     "아이콘 클릭 시 해당 문제 위치로 이동.\n" +
                     "같은 아이콘을 계속 클릭하면 위치를 순환 후 처음으로 돌아갑니다." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "클릭: 빠른 시작" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
-                    "미니 표시창 <빠른 시작>을 적용합니다:\n" +
-                    "**파란 별 즐겨찾기** 시작 설정을 포함합니다.\n" +
-                    "**파란 별**이 붙은 알림은 전체 개수 기준 상위 5개 또는 10개 안에 들면 미니 표시창에 표시될 수 있습니다.\n" +
-                    "펼친 Watchdog 패널에서 **파란 별**을 추가/제거하세요.\n" +
-                    "설정 내용: 즐겨찾기, 아이콘 5개, 세로, 드래그 가능, 100% 크기, 어두운 패널, 0개 아이콘 숨김."
-                  },
+                    "Mini HUD에 <빠른 시작> 설정을 적용합니다:\n" +
+                    "**파란 별 즐겨찾기**의 기본 세트를 추가합니다.\n" +
+                    "즐겨찾기 모드에서는 **파란 별** 목록의 현재 개수 상위 5개 또는 10개를 표시합니다.\n" +
+                    "**파란 별**은 City Watchdog 패널에서 추가/제거합니다.\n" +
+                    "설정: 즐겨찾기, 아이콘 5개, 가로, 드래그 가능, 100%, 어두운 패널, 0개 숨김.\n" +
+                    "빠른 시작을 다시 실행하면 언제든 이 설정으로 초기화할 수 있습니다." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "미니 표시창 모드" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),

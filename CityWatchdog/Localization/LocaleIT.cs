@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Localization/LocaleIT.cs
+// File: Localization/LocaleIT.cs
 // Purpose: Italian (it-IT) for City Watchdog Options UI menu.
 
 namespace CityWatchdog
@@ -102,6 +102,15 @@ namespace CityWatchdog
                     "<Le finestre soldi/popolazione di City Watchdog restano attive>; le controlla Vista soldi.\n" +
                     "Come l’icona [i] nel pannello City Watchdog." },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Nascondi/mostra suggerimenti del gioco" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Interfaccia di gioco più grande" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
+                    "Se attivo [ ✓ ], <tutta l’interfaccia> viene ingrandita — pannelli del gioco e delle mod.\n" +
+                    "Usa l’opzione del gioco <Scala interfaccia> senza <--developerMode>.\n" +
+                    "Resta attivo finché non lo disattivi, anche se rimuovi City Watchdog.\n" +
+                    "È lo stesso pulsante di scala nella barra del titolo.\n" +
+                    "Solo per il testo: Opzioni > Interfaccia > <Scala testo>." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "Opacità pannello principale" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
                     "Regola la trasparenza dello sfondo del pannello principale delle notifiche.\n" +
@@ -147,14 +156,15 @@ namespace CityWatchdog
                     "Usalo come barra rapida senza aprire il pannello completo.\n" +
                     "Clic su un’icona salta a un problema corrispondente.\n" +
                     "Altri clic scorrono i risultati e tornano al primo." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "Clic: avvio rapido" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
-                    "Applica un <avvio rapido> per il mini pannello:\n" +
+                    "Applica un <avvio rapido> al Mini HUD:\n" +
                     "Include una **selezione iniziale di stelle blu**.\n" +
-                    "Un avviso con **stella blu** può apparire nel mini pannello se è tra i 5 o 10 con il conteggio totale più alto.\n" +
-                    "Aggiungi/rimuovi **stelle blu** nel pannello Watchdog espanso.\n" +
-                    "La preimpostazione include: Preferiti, 5 icone, verticale, trascinabile, dimensione 100 %, pannello scuro e icone a 0 nascoste."
-                  },
+                    "In modalità Preferiti, Mini HUD mostra i 5 o 10 conteggi attuali più alti della tua lista di **stelle blu**.\n" +
+                    "Aggiungi/rimuovi le **stelle blu** nel pannello City Watchdog.\n" +
+                    "Imposta: Preferiti, 5 icone, orizzontale, trascinabile, 100 %, pannello scuro e nasconde i conteggi 0.\n" +
+                    "Esegui di nuovo Avvio rapido in qualsiasi momento per ripristinare queste impostazioni." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "Modalità mini pannello" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),

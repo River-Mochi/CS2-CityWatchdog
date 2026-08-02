@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Localization/LocalePL.cs
+// File: Localization/LocalePL.cs
 // Purpose: Polish (pl-PL) for City Watchdog Options UI menu.
 
 namespace CityWatchdog
@@ -101,6 +101,15 @@ namespace CityWatchdog
                     "<Okna pieniędzy/populacji City Watchdog zostają>; steruje nimi Widok pieniędzy.\n" +
                     "Jak ikona [i] w panelu City Watchdog." },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Ukryj/pokaż podpowiedzi gry" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Większy interfejs gry" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
+                    "Po włączeniu [ ✓ ] <cały interfejs> jest większy — panele gry i modów.\n" +
+                    "Używa opcji gry <Skalowanie interfejsu> bez <--developerMode>.\n" +
+                    "Pozostaje włączone do wyłączenia, nawet po usunięciu City Watchdog.\n" +
+                    "Działa tak samo jak przycisk skali na pasku tytułu.\n" +
+                    "Tylko rozmiar tekstu: Opcje > Interfejs > <Skalowanie tekstu>." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "Krycie głównego panelu" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
                     "Dostosowuje przezroczystość tła głównego panelu powiadomień.\n" +
@@ -146,14 +155,15 @@ namespace CityWatchdog
                     "Szybki pasek alertów bez otwierania pełnego panelu.\n" +
                     "Kliknięcie ikony przenosi do pasującego problemu.\n" +
                     "Kolejne kliknięcia przełączają pasujące miejsca i wracają do pierwszego." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "Klik: szybki start" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "Kliknij: szybki start" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
-                    "Stosuje <szybki start> dla mini panelu:\n" +
-                    "Zawiera **początkowy wybór niebieskich gwiazdek**.\n" +
-                    "Alert z **niebieską gwiazdką** może pojawić się w mini panelu, jeśli należy do 5 lub 10 najwyższych według łącznej liczby.\n" +
-                    "Dodawaj/usuwaj **niebieskie gwiazdki** w rozwiniętym panelu Watchdog.\n" +
-                    "Ustawienie zawiera: Ulubione, 5 ikon, pionowo, przeciągane, rozmiar 100 %, ciemny panel i ukryte ikony z liczbą 0."
-                  },
+                    "Stosuje <szybki start> dla Mini HUD:\n" +
+                    "Dodaje **początkowy zestaw niebieskich gwiazdek**.\n" +
+                    "W trybie Ulubione Mini HUD pokazuje 5 lub 10 najwyższych bieżących liczników z listy **niebieskich gwiazdek**.\n" +
+                    "Dodawaj/usuwaj **niebieskie gwiazdki** w panelu City Watchdog.\n" +
+                    "Ustawia: Ulubione, 5 ikon, poziomo, przeciąganie, 100 %, ciemny panel i ukrywa zera.\n" +
+                    "Uruchom Szybki start ponownie, aby w każdej chwili przywrócić te ustawienia." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "Tryb mini panelu" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),

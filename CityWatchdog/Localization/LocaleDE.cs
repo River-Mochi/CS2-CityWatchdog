@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Localization/LocaleDE.cs
+// File: Localization/LocaleDE.cs
 // Purpose: German (de-DE) for City Watchdog Options UI menu.
 
 namespace CityWatchdog
@@ -101,6 +101,15 @@ namespace CityWatchdog
                     "<City-Watchdog-Geld/Bevölkerungs-Popups bleiben an>; sie gehören zu Geldansicht.\n" +
                     "Wie das [i]-Icon im City-Watchdog-Panel." },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Alle Spiel-Hover-Tooltips aus/ein" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Größere Spieloberfläche" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
+                    "Wenn aktiv [ ✓ ], wird die <gesamte Spieloberfläche> größer dargestellt — Spiel- und Mod-Panels.\n" +
+                    "Nutzt die Spieloption <Interface-Skalierung> ohne <--developerMode>.\n" +
+                    "Bleibt aktiv, bis du sie ausschaltest, auch wenn City Watchdog entfernt wird.\n" +
+                    "Entspricht dem Skalierungsbutton in der Titelleiste.\n" +
+                    "Nur für Textgröße: Optionen > Oberfläche > <Textskalierung>." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "Deckkraft des Hauptpanels" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
                     "Passt die Hintergrundtransparenz des Hauptbenachrichtigungsfensters an.\n" +
@@ -146,14 +155,15 @@ namespace CityWatchdog
                     "Schnelle Warnleiste ohne das volle Panel.\n" +
                     "Icon anklicken: springt zu einem passenden Problem.\n" +
                     "Weiterklicken rotiert durch Treffer und zurück zum ersten." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "Klick: Schnellstart" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
-                    "Wendet einen <Schnellstart> für die Mini-Anzeige an:\n" +
-                    "Enthält eine **Startauswahl mit blauen Sternen**.\n" +
-                    "Eine Warnung mit **blauem Stern** kann in der Mini-Anzeige erscheinen, wenn sie nach Gesamtzahl zu den 5 oder 10 höchsten gehört.\n" +
-                    "**Blaue Sterne** im geöffneten Watchdog-Panel hinzufügen/entfernen.\n" +
-                    "Voreinstellung: Favoriten, 5 Icons, vertikal, verschiebbar, 100 % Größe, dunkles Panel; Icons mit 0 werden versteckt."
-                  },
+                    "Wendet einen <Schnellstart> für das Mini HUD an:\n" +
+                    "Enthält eine **Startauswahl blauer Sterne**.\n" +
+                    "Im Favoritenmodus zeigt das Mini HUD die 5 oder 10 höchsten aktuellen Zähler aus deiner **Blaue-Sterne-Liste**.\n" +
+                    "**Blaue Sterne** im City-Watchdog-Panel hinzufügen/entfernen.\n" +
+                    "Setzt: Favoriten, 5 Icons, horizontal, verschiebbar, 100 %, dunkles Panel und blendet Null-Zähler aus.\n" +
+                    "Schnellstart kann jederzeit erneut angewendet werden." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "Mini-Anzeige-Modus" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),

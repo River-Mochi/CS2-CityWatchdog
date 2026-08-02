@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Localization/LocaleTH.cs
+// File: Localization/LocaleTH.cs
 // Purpose: Thai (th-TH) for City Watchdog Options UI menu.
 
 namespace CityWatchdog
@@ -101,6 +101,15 @@ namespace CityWatchdog
                     "<หน้าต่างเงิน/ประชากรของ City Watchdog ยังอยู่>; ควบคุมโดยมุมมองเงิน\n" +
                     "เหมือนไอคอน [i] ในแผง City Watchdog" },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "ซ่อน/แสดงคำแนะนำของเกม" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "ขยาย UI ของเกม" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
+                    "เมื่อเปิด [ ✓ ] <อินเทอร์เฟซทั้งหมด>จะใหญ่ขึ้น ทั้งแผงเกมและม็อด\n" +
+                    "ใช้ตัวเลือก <การปรับขนาดอินเทอร์เฟซ> ของเกมได้โดยไม่ต้องใช้ <--developerMode>\n" +
+                    "จะคงอยู่จนกว่าจะปิด แม้จะลบ City Watchdog แล้ว\n" +
+                    "ทำงานเหมือนปุ่มปรับขนาดบนแถบชื่อ\n" +
+                    "ปรับเฉพาะข้อความ: ตัวเลือก > อินเทอร์เฟซ > <การปรับขนาดข้อความ>" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "ความทึบของแผงหลัก" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
                     "ปรับความโปร่งใสของพื้นหลังแผงการแจ้งเตือนหลัก\n" +
@@ -146,14 +155,15 @@ namespace CityWatchdog
                     "ใช้เป็นแถบเตือนเร็วโดยไม่ต้องเปิดแผงเต็ม\n" +
                     "คลิกไอคอนเพื่อไปยังปัญหาที่ตรงกัน\n" +
                     "คลิกซ้ำเพื่อวนจุดที่ตรงกัน แล้วกลับจุดแรก" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "คลิก: เริ่มเร็ว" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "คลิก: เริ่มด่วน" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
-                    "ใช้ <ตั้งค่าเริ่มเร็ว> สำหรับแผงย่อ:\n" +
-                    "มี **รายการเริ่มต้นดาวสีน้ำเงิน**\n" +
-                    "แจ้งเตือนที่มี **ดาวสีน้ำเงิน** จะแสดงในแผงย่อได้ ถ้าอยู่ใน 5 หรือ 10 อันดับแรกตามจำนวนรวม\n" +
-                    "เพิ่ม/ลบ **ดาวสีน้ำเงิน** ในแผง Watchdog แบบขยาย\n" +
-                    "ค่าที่ตั้ง: รายการโปรด, 5 ไอคอน, แนวตั้ง, ลากได้, ขนาด 100 %, แผงมืด, ซ่อนไอคอนที่นับได้ 0"
-                  },
+                    "ใช้ค่า <เริ่มด่วน> กับ Mini HUD:\n" +
+                    "เพิ่มชุดเริ่มต้นของ **ดาวสีน้ำเงินรายการโปรด**\n" +
+                    "ในโหมดรายการโปรด Mini HUD จะแสดง 5 หรือ 10 อันดับที่มีจำนวนปัจจุบันสูงสุดจากรายการ **ดาวสีน้ำเงิน**\n" +
+                    "เพิ่ม/ลบ **ดาวสีน้ำเงิน** ในแผง City Watchdog\n" +
+                    "ตั้งค่า: รายการโปรด, 5 ไอคอน, แนวนอน, ลากได้, 100%, แผงมืด และซ่อนจำนวน 0\n" +
+                    "กดเริ่มด่วนอีกครั้งเมื่อใดก็ได้เพื่อคืนค่าเหล่านี้" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "โหมดแผงย่อ" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),

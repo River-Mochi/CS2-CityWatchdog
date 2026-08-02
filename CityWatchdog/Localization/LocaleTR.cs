@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Localization/LocaleTR.cs
+// File: Localization/LocaleTR.cs
 // Purpose: Turkish (tr-TR) for City Watchdog Options UI menu.
 
 namespace CityWatchdog
@@ -102,6 +102,15 @@ namespace CityWatchdog
                     "<City Watchdog para/nüfus açılır pencereleri açık kalır>; onları Para Görünümü kontrol eder.\n" +
                     "City Watchdog panelindeki [i] simgesiyle aynı." },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Oyun üzerine-gelme ipuçlarını gizle/göster" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Daha büyük oyun arayüzü" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
+                    "Açıldığında [ ✓ ], <tüm arayüz> büyür — oyun ve mod panelleri.\n" +
+                    "<--developerMode> gerekmeden oyunun <Arayüz Ölçekleme> seçeneğini kullanır.\n" +
+                    "City Watchdog kaldırılsa bile sen kapatana kadar açık kalır.\n" +
+                    "Başlık çubuğundaki ölçek düğmesiyle aynıdır.\n" +
+                    "Yalnızca metin için: Seçenekler > Arayüz > <Metin Ölçekleme>." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "Ana panel opaklığı" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
                     "Ana bildirim panelinin arka plan şeffaflığını ayarlar.\n" +
@@ -147,14 +156,15 @@ namespace CityWatchdog
                     "Tam paneli açmadan hızlı uyarı şeridi olarak kullan.\n" +
                     "Bir simgeye tıklayınca uygun soruna gider.\n" +
                     "Aynı simgeye basmaya devam ederek sorunlar arasında gezer." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "Tıkla: hızlı başlangıç" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
-                    "Mini panel için <hızlı başlangıç> uygular:\n" +
-                    "**Mavi yıldız favorileri** için başlangıç ayarı içerir.\n" +
-                    "**Mavi yıldız** olan bir uyarı, toplam sayıya göre en yüksek 5 veya 10 içindeyse mini panelde görünebilir.\n" +
-                    "Genişletilmiş Watchdog panelinde **mavi yıldız** ekle/kaldır.\n" +
-                    "Ayar içeriği: Favoriler, 5 simge, dikey, sürüklenebilir, %100 boyut, koyu panel ve sayısı 0 olan simgeler gizli."
-                  },
+                    "Mini HUD için <hızlı başlangıç> uygular:\n" +
+                    "Bir **başlangıç mavi yıldız favorileri** seti ekler.\n" +
+                    "Favoriler modunda Mini HUD, **mavi yıldız** listendeki en yüksek 5 veya 10 güncel sayıyı gösterir.\n" +
+                    "City Watchdog panelinde **mavi yıldızları** ekle/kaldır.\n" +
+                    "Ayarlar: Favoriler, 5 ikon, yatay, sürüklenebilir, %100, koyu panel ve sıfır sayıları gizler.\n" +
+                    "Bu ayarları sıfırlamak için Hızlı başlangıcı istediğin zaman yeniden çalıştır." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "Mini panel modu" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),

@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Localization/LocaleJA.cs
+// File: Localization/LocaleJA.cs
 // Purpose: Japanese (ja-JP) for City Watchdog Options UI menu.
 
 namespace CityWatchdog
@@ -101,6 +101,15 @@ namespace CityWatchdog
                     "<City Watchdog の資金/人口ポップアップは残ります>; 資金表示が制御します。\n" +
                     "City Watchdog パネルの [i] アイコンと同じです。" },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "ゲームのホバーツールチップ表示切替" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "ゲームUIを拡大" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
+                    "有効 [ ✓ ] にすると、ゲームとMODの<画面全体>が大きく表示されます。\n" +
+                    "<--developerMode>なしで、ゲーム本来の<インターフェーススケール>を使います。\n" +
+                    "City Watchdogを削除しても、オフにするまで有効です。\n" +
+                    "タイトルバーの拡大ボタンと同じ機能です。\n" +
+                    "文字だけ変える場合: オプション > インターフェース > <テキストスケール>。" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "メインパネルの不透明度" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
                     "通知メインパネルの背景の透明度を調整します。\n" +
@@ -146,14 +155,15 @@ namespace CityWatchdog
                     "フルパネルを開かずに使える簡易アラートバーです。\n" +
                     "アイコンをクリックすると該当問題へジャンプ。\n" +
                     "同じアイコンを続けてクリックすると候補を巡回します。" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "クリック: クイック開始" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "クリック：クイックスタート" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
-                    "ミニ表示の<クイック開始>を適用します:\n" +
-                    "**青い星のお気に入り**の初期設定を含みます。\n" +
-                    "**青い星**付きの通知は、合計数が上位5または10以内ならミニ表示に出ます。\n" +
-                    "展開した Watchdog パネルで **青い星** を追加/削除できます。\n" +
-                    "初期設定: お気に入り、5アイコン、縦表示、ドラッグ可、100%サイズ、暗いパネル、0件アイコンは非表示。"
-                  },
+                    "Mini HUDの<クイックスタート>を適用します:\n" +
+                    "**青い星のお気に入り**の初期セットを追加します。\n" +
+                    "お気に入りモードでは、Mini HUDに**青い星**リストの現在数上位5件または10件を表示します。\n" +
+                    "**青い星**はCity Watchdogパネルで追加/削除できます。\n" +
+                    "設定: お気に入り、5アイコン、横向き、移動可能、100%、暗いパネル、0件を非表示。\n" +
+                    "再度実行すると、いつでもこの設定に戻せます。" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "ミニ表示モード" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),

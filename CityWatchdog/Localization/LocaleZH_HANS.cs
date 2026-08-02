@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Localization/LocaleZH_HANS.cs
+// File: Localization/LocaleZH_HANS.cs
 // Purpose: Simplified Chinese (zh-HANS) for City Watchdog Options UI menu.
 
 namespace CityWatchdog
@@ -102,6 +102,15 @@ namespace CityWatchdog
                     "<City Watchdog 的金钱/人口弹窗会保留>；由金钱视图控制。\n" +
                     "和 City Watchdog 面板内的 [i] 图标相同。" },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "隐藏/显示游戏悬停提示" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "放大游戏界面" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
+                    "启用 [ ✓ ] 后，<整个游戏界面>都会放大，包括游戏和模组面板。\n" +
+                    "无需 <--developerMode> 即可使用游戏自带的<界面缩放>。\n" +
+                    "会一直保持开启，直到你关闭；移除 City Watchdog 后也一样。\n" +
+                    "功能与标题栏的缩放按钮相同。\n" +
+                    "只调整文字：选项 > 界面 > <文字缩放>。" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "主面板不透明度" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
                     "调整主通知面板背景的透明度。\n" +
@@ -147,14 +156,15 @@ namespace CityWatchdog
                     "不用打开完整面板，也能快速看警报。\n" +
                     "点击图标会跳到一个对应问题点。\n" +
                     "继续点击同一图标可轮换问题点，再回到第一个。" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "点击：快速开始" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
-                    "应用迷你面板的<快速开始>：\n" +
-                    "包含一组 **蓝色星星收藏**初始设置。\n" +
-                    "带 **蓝色星星** 的通知，如果总数量排进前 5 或前 10，就可以显示在迷你面板中。\n" +
-                    "在展开的 Watchdog 面板中添加/移除 **蓝色星星**。\n" +
-                    "预设包含：收藏、5 个图标、竖排、可拖动、100% 大小、深色面板，并隐藏数量为 0 的图标。"
-                  },
+                    "为 Mini HUD 应用<快速开始>设置：\n" +
+                    "加入一组初始**蓝星收藏**。\n" +
+                    "在收藏模式下，Mini HUD 会显示**蓝星**列表中当前数量最高的 5 或 10 项。\n" +
+                    "可在 City Watchdog 面板中添加/移除**蓝星**。\n" +
+                    "设置为：收藏、5 个图标、横向、可拖动、100%、深色面板，并隐藏数量为 0 的项目。\n" +
+                    "随时再次运行快速开始即可重置这些设置。" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "迷你面板模式" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),

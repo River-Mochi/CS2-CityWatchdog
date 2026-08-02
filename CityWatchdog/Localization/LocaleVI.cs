@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Localization/LocaleVI.cs
+// File: Localization/LocaleVI.cs
 // Purpose: Vietnamese (vi-VN) for City Watchdog Options UI menu.
 
 namespace CityWatchdog
@@ -101,6 +101,15 @@ namespace CityWatchdog
                     "<Cửa sổ tiền/dân số của City Watchdog vẫn bật>; do Xem tiền điều khiển.\n" +
                     "Giống biểu tượng [i] trong bảng City Watchdog." },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Ẩn/hiện chú thích khi rê chuột của trò chơi" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Giao diện game lớn hơn" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
+                    "Khi bật [ ✓ ], <toàn bộ giao diện> sẽ lớn hơn — cả bảng game và mod.\n" +
+                    "Dùng tùy chọn <Tỷ lệ giao diện> của game mà không cần <--developerMode>.\n" +
+                    "Vẫn bật cho đến khi bạn tắt, kể cả khi gỡ City Watchdog.\n" +
+                    "Giống nút đổi tỷ lệ trên thanh tiêu đề.\n" +
+                    "Chỉ đổi cỡ chữ: Tùy chọn > Giao diện > <Tỷ lệ chữ>." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "Độ đục bảng chính" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
                     "Điều chỉnh độ trong suốt của nền bảng thông báo chính.\n" +
@@ -146,14 +155,15 @@ namespace CityWatchdog
                     "Dùng như thanh cảnh báo nhanh không cần mở bảng đầy đủ.\n" +
                     "Bấm biểu tượng sẽ nhảy tới một vấn đề phù hợp.\n" +
                     "Bấm tiếp cùng biểu tượng để xoay qua các điểm rồi về điểm đầu." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "Bấm: khởi động nhanh" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
-                    "Áp dụng <thiết lập nhanh> cho bảng nhỏ:\n" +
-                    "Bao gồm **lựa chọn sao xanh dương** ban đầu.\n" +
-                    "Cảnh báo có **sao xanh dương** có thể hiện trong bảng nhỏ nếu nằm trong 5 hoặc 10 số lượng cao nhất.\n" +
-                    "Thêm/xóa **sao xanh dương** trong bảng Watchdog đã mở rộng.\n" +
-                    "Thiết lập gồm: Yêu thích, 5 biểu tượng, dọc, kéo được, cỡ 100 %, bảng tối và ẩn biểu tượng có số 0."
-                  },
+                    "Áp dụng <khởi động nhanh> cho Mini HUD:\n" +
+                    "Thêm một **bộ Sao xanh yêu thích ban đầu**.\n" +
+                    "Ở chế độ Yêu thích, Mini HUD hiện 5 hoặc 10 số đếm hiện tại cao nhất trong danh sách **Sao xanh**.\n" +
+                    "Thêm/xóa **Sao xanh** trong bảng City Watchdog.\n" +
+                    "Đặt: Yêu thích, 5 biểu tượng, ngang, kéo được, 100%, bảng tối và ẩn số đếm 0.\n" +
+                    "Chạy lại Khởi động nhanh bất cứ lúc nào để đặt lại các tùy chọn này." },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "Chế độ bảng nhỏ" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),
