@@ -484,7 +484,7 @@ namespace CityWatchdog.Systems
             return notificationIconPrefabs;
         }
 
-        private string LogFlag(string name) => $"--- {name} ---";
+        private static string LogFlag(string name) => $"--- {name} ---";
 
     #endif
     }

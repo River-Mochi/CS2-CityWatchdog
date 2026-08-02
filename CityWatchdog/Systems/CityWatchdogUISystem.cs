@@ -1101,7 +1101,7 @@ namespace CityWatchdog.Systems
                    GameManager.instance.gameMode == GameMode.Game;
         }
 
-        private ProxyAction? EnableAction(string actionName)
+        private static ProxyAction? EnableAction(string actionName)
         {
             try
             {

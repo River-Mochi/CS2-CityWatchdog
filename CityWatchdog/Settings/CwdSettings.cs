@@ -251,7 +251,7 @@ namespace CityWatchdog
         // Conditions and helpers
         // --------------------------------------------------------------------
 
-        private bool IsInGame()
+        private static bool IsInGame()
         {
             return GameManager.instance != null && GameManager.instance.gameMode == GameMode.Game;
         }
@@ -305,9 +305,9 @@ namespace CityWatchdog
             ResetPresets();
         }
 
-        private void OnPanelButtonsOnlyStartChanged(bool value) => GetUISystem()?.UpdatePanelButtonsOnlyStartBinding(value);
+        private static void OnPanelButtonsOnlyStartChanged(bool value) => GetUISystem()?.UpdatePanelButtonsOnlyStartBinding(value);
 
-        private void OnMainPanelOpacityChanged(int value) => GetUISystem()?.UpdateMainPanelOpacityBinding(value);
+        private static void OnMainPanelOpacityChanged(int value) => GetUISystem()?.UpdateMainPanelOpacityBinding(value);
 
         private static CityWatchdogUISystem? GetUISystem()
         {

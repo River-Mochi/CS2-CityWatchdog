@@ -304,7 +304,7 @@ namespace CityWatchdog.Systems
             return (int)amount;
         }
 
-        private ProxyAction? TryGetAction(string actionName)
+        private static ProxyAction? TryGetAction(string actionName)
         {
             try
             {

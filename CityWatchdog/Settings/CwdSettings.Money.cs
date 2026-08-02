@@ -314,35 +314,35 @@ namespace CityWatchdog
         }
 
 
-        private void OnMoneyViewChanged(bool value)
+        private static void OnMoneyViewChanged(bool value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
                 .UpdateMoneyViewBinding(value);
         }
 
-        private void OnMoneyViewModeChanged(int value)
+        private static void OnMoneyViewModeChanged(int value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
                 .UpdateMoneyViewModeBinding(value);
         }
 
-        private void OnMoneyTooltipModeChanged(int value)
+        private static void OnMoneyTooltipModeChanged(int value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
                 .UpdateMoneyTooltipModeBinding(value);
         }
 
-        private void OnMoneyTooltipFontScaleChanged(int value)
+        private static void OnMoneyTooltipFontScaleChanged(int value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
                 .UpdateMoneyTooltipFontScaleBinding(value);
         }
 
-        private void OnPopulationTooltipFontScaleChanged(int value)
+        private static void OnPopulationTooltipFontScaleChanged(int value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
@@ -356,7 +356,7 @@ namespace CityWatchdog
             return IsInGame() || !CustomMilestone;
         }
 
-        private DropdownItem<int>[] GetMilestoneLevelItems()
+        private static DropdownItem<int>[] GetMilestoneLevelItems()
         {
             List<DropdownItem<int>> items = new();
             for (int i = 0; i < s_Milestones.Length; i++)

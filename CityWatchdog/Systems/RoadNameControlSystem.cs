@@ -194,7 +194,7 @@ namespace CityWatchdog.Systems
             }
         }
 
-        private ProxyAction? EnableHotkey(string actionName)
+        private static ProxyAction? EnableHotkey(string actionName)
         {
             try
             {

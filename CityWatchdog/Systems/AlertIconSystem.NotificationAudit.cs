@@ -289,7 +289,7 @@ namespace CityWatchdog.Systems
             return rows;
         }
 
-        private bool TryGetQuerySingleton<T>(EntityQuery query, out T value)
+        private static bool TryGetQuerySingleton<T>(EntityQuery query, out T value)
             where T : unmanaged, IComponentData
         {
             value = default;
