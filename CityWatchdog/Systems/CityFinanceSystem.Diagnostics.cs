@@ -19,20 +19,20 @@ namespace CityWatchdog.Systems
         {
             StringBuilder stringBuilder = new();
             stringBuilder.AppendLine("---Current City Configuration Information---");
-            stringBuilder.AppendLine($"{nameof(cityConfigurationSystem.cityName)}: {cityConfigurationSystem.cityName}");
-            stringBuilder.AppendLine($"{nameof(cityConfigurationSystem.overrideCityName)}: {cityConfigurationSystem.overrideCityName}");
-            stringBuilder.AppendLine($"{nameof(cityConfigurationSystem.leftHandTraffic)}: {cityConfigurationSystem.leftHandTraffic}");
-            stringBuilder.AppendLine($"{nameof(cityConfigurationSystem.overrideLeftHandTraffic)}: {cityConfigurationSystem.overrideLeftHandTraffic}");
-            stringBuilder.AppendLine($"{nameof(cityConfigurationSystem.naturalDisasters)}: {cityConfigurationSystem.naturalDisasters}");
-            stringBuilder.AppendLine($"{nameof(cityConfigurationSystem.overrideNaturalDisasters)}: {cityConfigurationSystem.overrideNaturalDisasters}");
-            stringBuilder.AppendLine($"{nameof(cityConfigurationSystem.unlockAll)}: {cityConfigurationSystem.unlockAll}");
-            stringBuilder.AppendLine($"{nameof(cityConfigurationSystem.overrideUnlockAll)}: {cityConfigurationSystem.overrideUnlockAll}");
-            stringBuilder.AppendLine($"{nameof(cityConfigurationSystem.unlimitedMoney)}: {cityConfigurationSystem.unlimitedMoney}");
-            stringBuilder.AppendLine($"{nameof(cityConfigurationSystem.overrideUnlimitedMoney)}: {cityConfigurationSystem.overrideUnlimitedMoney}");
-            stringBuilder.AppendLine($"{nameof(cityConfigurationSystem.unlockMapTiles)}: {cityConfigurationSystem.unlockMapTiles}");
-            stringBuilder.AppendLine($"{nameof(cityConfigurationSystem.overrideUnlockMapTiles)}: {cityConfigurationSystem.overrideUnlockMapTiles}");
-            stringBuilder.AppendLine($"{nameof(cityConfigurationSystem.overrideLoadedOptions)}: {cityConfigurationSystem.overrideLoadedOptions}");
-            stringBuilder.AppendLine(string.Join(", ", cityConfigurationSystem.usedMods));
+            stringBuilder.AppendLine($"{nameof(m_CityConfigurationSystem.cityName)}: {m_CityConfigurationSystem.cityName}");
+            stringBuilder.AppendLine($"{nameof(m_CityConfigurationSystem.overrideCityName)}: {m_CityConfigurationSystem.overrideCityName}");
+            stringBuilder.AppendLine($"{nameof(m_CityConfigurationSystem.leftHandTraffic)}: {m_CityConfigurationSystem.leftHandTraffic}");
+            stringBuilder.AppendLine($"{nameof(m_CityConfigurationSystem.overrideLeftHandTraffic)}: {m_CityConfigurationSystem.overrideLeftHandTraffic}");
+            stringBuilder.AppendLine($"{nameof(m_CityConfigurationSystem.naturalDisasters)}: {m_CityConfigurationSystem.naturalDisasters}");
+            stringBuilder.AppendLine($"{nameof(m_CityConfigurationSystem.overrideNaturalDisasters)}: {m_CityConfigurationSystem.overrideNaturalDisasters}");
+            stringBuilder.AppendLine($"{nameof(m_CityConfigurationSystem.unlockAll)}: {m_CityConfigurationSystem.unlockAll}");
+            stringBuilder.AppendLine($"{nameof(m_CityConfigurationSystem.overrideUnlockAll)}: {m_CityConfigurationSystem.overrideUnlockAll}");
+            stringBuilder.AppendLine($"{nameof(m_CityConfigurationSystem.unlimitedMoney)}: {m_CityConfigurationSystem.unlimitedMoney}");
+            stringBuilder.AppendLine($"{nameof(m_CityConfigurationSystem.overrideUnlimitedMoney)}: {m_CityConfigurationSystem.overrideUnlimitedMoney}");
+            stringBuilder.AppendLine($"{nameof(m_CityConfigurationSystem.unlockMapTiles)}: {m_CityConfigurationSystem.unlockMapTiles}");
+            stringBuilder.AppendLine($"{nameof(m_CityConfigurationSystem.overrideUnlockMapTiles)}: {m_CityConfigurationSystem.overrideUnlockMapTiles}");
+            stringBuilder.AppendLine($"{nameof(m_CityConfigurationSystem.overrideLoadedOptions)}: {m_CityConfigurationSystem.overrideLoadedOptions}");
+            stringBuilder.AppendLine(string.Join(", ", m_CityConfigurationSystem.usedMods));
             stringBuilder.AppendLine("---End Current City Configuration Information---");
 
         }
