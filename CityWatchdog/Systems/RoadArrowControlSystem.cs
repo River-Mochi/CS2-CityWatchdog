@@ -18,7 +18,7 @@ namespace CityWatchdog.Systems
 
     public partial class RoadArrowControlSystem : UISystemBaseExtension
     {
-        private const string ArrowsPropertyName = "requireNetArrows";
+        private const string kArrowsPropertyName = "requireNetArrows";
 
         private BoolBinding m_ShowRoadArrowsBinding = null!;
         private DefaultToolSystem? m_VanillaDefaultTool;
@@ -120,7 +120,7 @@ namespace CityWatchdog.Systems
             {
                 LogUtils.WarnOnce(
                     "road-arrow-read",
-                    () => $"Failed to read DefaultToolSystem.{ArrowsPropertyName}: {ex.GetType().Name}: {ex.Message}",
+                    () => $"Failed to read DefaultToolSystem.{kArrowsPropertyName}: {ex.GetType().Name}: {ex.Message}",
                     ex);
             }
         }
@@ -141,7 +141,7 @@ namespace CityWatchdog.Systems
             {
                 LogUtils.WarnOnce(
                     "road-arrow-write",
-                    () => $"Failed to write DefaultToolSystem.{ArrowsPropertyName}={target}: {ex.GetType().Name}: {ex.Message}",
+                    () => $"Failed to write DefaultToolSystem.{kArrowsPropertyName}={target}: {ex.GetType().Name}: {ex.Message}",
                     ex);
                 return false;
             }
@@ -163,14 +163,14 @@ namespace CityWatchdog.Systems
                 // Property is public, but its setter is internal. Reflection keeps the hook
                 // limited to this one vanilla property w/out Harmony.
                 m_ArrowsRequiredProperty = typeof(ToolBaseSystem).GetProperty(
-                    ArrowsPropertyName,
+                    kArrowsPropertyName,
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
                 if (m_ArrowsRequiredProperty == null || !m_ArrowsRequiredProperty.CanWrite)
                 {
                     LogUtils.WarnOnce(
                         "road-arrow-prop",
-                        () => $"ToolBaseSystem.{ArrowsPropertyName} not found or not writable; show-road-arrows toggle disabled.");
+                        () => $"ToolBaseSystem.{kArrowsPropertyName} not found or not writable; show-road-arrows toggle disabled.");
                     return false;
                 }
             }

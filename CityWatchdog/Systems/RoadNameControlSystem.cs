@@ -23,7 +23,7 @@ namespace CityWatchdog.Systems
 
     public partial class RoadNameControlSystem : UISystemBaseExtension
     {
-        private const string AggregateRenderMethodName = "Render";
+        private const string kAggregateRenderMethodName = "Render";
 
         private BoolBinding m_HideRoadNamesBinding = null!;
         private AggregateRenderSystem? m_CachedAggregateRenderSystem;
@@ -169,7 +169,7 @@ namespace CityWatchdog.Systems
         private static Action<ScriptableRenderContext, List<Camera>>? BuildRenderDelegate(AggregateRenderSystem system)
         {
             MethodInfo? method = typeof(AggregateRenderSystem).GetMethod(
-                AggregateRenderMethodName,
+                kAggregateRenderMethodName,
                 BindingFlags.Instance | BindingFlags.NonPublic);
 
             if (method == null)

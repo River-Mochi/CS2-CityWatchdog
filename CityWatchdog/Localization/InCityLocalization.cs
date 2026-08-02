@@ -36,8 +36,8 @@ namespace CityWatchdog
 
     internal static class InCityLocalization
     {
-        private const string LangMarker = ".lang.";
-        private const string JsonSuffix = ".json";
+        private const string kLangMarker = ".lang.";
+        private const string kJsonSuffix = ".json";
 
         // Reads embedded lang/*.json resources baked into this assembly and registers each as a
         // MemorySource on the game's LocalizationManager. Each JSON key is prefixed with
@@ -106,21 +106,21 @@ namespace CityWatchdog
 
         private static bool IsLangJsonResource(string resourceName)
         {
-            return resourceName.IndexOf(LangMarker, StringComparison.Ordinal) >= 0
-                && resourceName.EndsWith(JsonSuffix, StringComparison.OrdinalIgnoreCase);
+            return resourceName.IndexOf(kLangMarker, StringComparison.Ordinal) >= 0
+                && resourceName.EndsWith(kJsonSuffix, StringComparison.OrdinalIgnoreCase);
         }
 
         // Resource names look like "CityWatchdog.lang.fr-FR.json" — pull out the "fr-FR" piece.
         private static string GetLocaleId(string resourceName)
         {
-            int markerIndex = resourceName.LastIndexOf(LangMarker, StringComparison.Ordinal);
-            if (markerIndex < 0 || !resourceName.EndsWith(JsonSuffix, StringComparison.OrdinalIgnoreCase))
+            int markerIndex = resourceName.LastIndexOf(kLangMarker, StringComparison.Ordinal);
+            if (markerIndex < 0 || !resourceName.EndsWith(kJsonSuffix, StringComparison.OrdinalIgnoreCase))
             {
                 return string.Empty;
             }
 
-            int startIndex = markerIndex + LangMarker.Length;
-            int length = resourceName.Length - startIndex - JsonSuffix.Length;
+            int startIndex = markerIndex + kLangMarker.Length;
+            int length = resourceName.Length - startIndex - kJsonSuffix.Length;
             return length <= 0 ? string.Empty : resourceName.Substring(startIndex, length);
         }
 

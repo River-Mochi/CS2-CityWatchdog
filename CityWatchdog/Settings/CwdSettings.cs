@@ -76,8 +76,8 @@ namespace CityWatchdog
 
         private const string AboutLinksRow = nameof(AboutLinksRow);
         private const string DebugButtonsRow = nameof(DebugButtonsRow);
-        private const string UsageIconPath = "coui://ui-mods/images/NotificationIcon_PawRainbow.svg";
-        private const string UrlParadox =
+        private const string kUsageIconPath = "coui://ui-mods/images/NotificationIcon_PawRainbow.svg";
+        private const string kUrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
 
         private int m_MainPanelOpacity = kMainPanelOpacityDefault;
@@ -94,7 +94,7 @@ namespace CityWatchdog
         [SettingsUISection(Actions, AboutUsage)]
         public bool ShowUsage { get; set; }
 
-        [SettingsUIMultilineText(UsageIconPath)]
+        [SettingsUIMultilineText(kUsageIconPath)]
         [SettingsUIHideByCondition(typeof(CwdSettings), nameof(HideUsageText))]
         [SettingsUISection(Actions, AboutUsage)]
         public string UsageText => string.Empty;
@@ -195,7 +195,7 @@ namespace CityWatchdog
             {
                 if (value)
                 {
-                    TryOpenUrl(UrlParadox);
+                    TryOpenUrl(kUrlParadox);
                 }
             }
         }
