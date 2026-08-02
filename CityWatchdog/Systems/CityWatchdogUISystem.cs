@@ -1192,7 +1192,7 @@ namespace CityWatchdog.Systems
 
         private void SaveMiniHudPosition(string payload)
         {
-            if (CwdSettings.Instance.MiniHudPlacement != CwdSettings.MiniHudPlacementDraggable ||
+            if (CwdSettings.Instance.MiniHudPlacement != CwdSettings.kMiniHudPlacementDraggable ||
                 string.IsNullOrWhiteSpace(payload))
             {
                 return;
@@ -1212,8 +1212,8 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            x = Math.Clamp(x, -CwdSettings.MiniHudPositionLimit, CwdSettings.MiniHudPositionLimit);
-            y = Math.Clamp(y, -CwdSettings.MiniHudPositionLimit, CwdSettings.MiniHudPositionLimit);
+            x = Math.Clamp(x, -CwdSettings.kMiniHudPositionLimit, CwdSettings.kMiniHudPositionLimit);
+            y = Math.Clamp(y, -CwdSettings.kMiniHudPositionLimit, CwdSettings.kMiniHudPositionLimit);
 
             if (orientation == CwdSettings.kMiniHudOrientationHorizontal)
             {

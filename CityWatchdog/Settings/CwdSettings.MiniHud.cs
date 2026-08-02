@@ -26,11 +26,11 @@ namespace CityWatchdog
         internal const int kMiniHudOrientationVertical = 1;
         internal const int kMiniHudPlacementTopCenter = 0;
         internal const int kMiniHudPlacementTopRight = 1;
-        internal const int MiniHudPlacementDraggable = 2;
-        internal const int MiniHudPanelStyleDark = 0;
-        internal const int MiniHudPanelStyleGlass = 1;
-        internal const int MiniHudPanelOpacityDefault = 30;
-        internal const int MiniHudPositionLimit = 20000;
+        internal const int kMiniHudPlacementDraggable = 2;
+        internal const int kMiniHudPanelStyleDark = 0;
+        internal const int kMiniHudPanelStyleGlass = 1;
+        internal const int kMiniHudPanelOpacityDefault = 30;
+        internal const int kMiniHudPositionLimit = 20000;
         // Bit positions are raw countIndex values (see notificationData.ts) — NOT re-derived from
         // any enum, so they must be hand-verified against the current index table whenever items are
         // inserted/removed. Bit 24 (Leveling Building) is deliberately NOT included: it's an optional,
@@ -274,7 +274,7 @@ namespace CityWatchdog
                 },
                 new DropdownItem<int>
                 {
-                    value = MiniHudPlacementDraggable,
+                    value = kMiniHudPlacementDraggable,
                     displayName = GetOptionLocaleID("MiniHudPlacementDraggable"),
                 },
             };
@@ -286,12 +286,12 @@ namespace CityWatchdog
             {
                 new DropdownItem<int>
                 {
-                    value = MiniHudPanelStyleDark,
+                    value = kMiniHudPanelStyleDark,
                     displayName = GetOptionLocaleID("MiniHudPanelStyleDark"),
                 },
                 new DropdownItem<int>
                 {
-                    value = MiniHudPanelStyleGlass,
+                    value = kMiniHudPanelStyleGlass,
                     displayName = GetOptionLocaleID("MiniHudPanelStyleGlass"),
                 },
             };
@@ -304,10 +304,10 @@ namespace CityWatchdog
             MiniHudItemCount = 5;
             MiniHudScale = 100;
             MiniHudOrientation = kMiniHudOrientationHorizontal;
-            MiniHudPlacement = MiniHudPlacementDraggable;
+            MiniHudPlacement = kMiniHudPlacementDraggable;
             MiniHudHideZero = true;
-            MiniHudPanelStyle = MiniHudPanelStyleDark;
-            MiniHudPanelOpacity = MiniHudPanelOpacityDefault;
+            MiniHudPanelStyle = kMiniHudPanelStyleDark;
+            MiniHudPanelOpacity = kMiniHudPanelOpacityDefault;
             MiniHudGlassStyle = false;
             MiniHudPositionX = 0;
             MiniHudPositionY = 0;
@@ -322,16 +322,16 @@ namespace CityWatchdog
 
         public void NormalizeLoadedSettings()
         {
-            if (MiniHudPanelStyle != MiniHudPanelStyleDark && MiniHudPanelStyle != MiniHudPanelStyleGlass)
+            if (MiniHudPanelStyle != kMiniHudPanelStyleDark && MiniHudPanelStyle != kMiniHudPanelStyleGlass)
             {
-                MiniHudPanelStyle = MiniHudPanelStyleDark;
+                MiniHudPanelStyle = kMiniHudPanelStyleDark;
             }
 
             MiniHudPanelOpacity = MiniHudPanelOpacity <= 0
-                ? MiniHudPanelOpacityDefault
+                ? kMiniHudPanelOpacityDefault
                 : Math.Clamp(MiniHudPanelOpacity, 30, 100);
-            MiniHudPositionX = Math.Clamp(MiniHudPositionX, -MiniHudPositionLimit, MiniHudPositionLimit);
-            MiniHudPositionY = Math.Clamp(MiniHudPositionY, -MiniHudPositionLimit, MiniHudPositionLimit);
+            MiniHudPositionX = Math.Clamp(MiniHudPositionX, -kMiniHudPositionLimit, kMiniHudPositionLimit);
+            MiniHudPositionY = Math.Clamp(MiniHudPositionY, -kMiniHudPositionLimit, kMiniHudPositionLimit);
             if (MiniHudPositionOrientation != kMiniHudOrientationHorizontal &&
                 MiniHudPositionOrientation != kMiniHudOrientationVertical)
             {
@@ -356,10 +356,10 @@ namespace CityWatchdog
                 }
             }
 
-            MiniHudHorizontalPositionX = Math.Clamp(MiniHudHorizontalPositionX, -MiniHudPositionLimit, MiniHudPositionLimit);
-            MiniHudHorizontalPositionY = Math.Clamp(MiniHudHorizontalPositionY, -MiniHudPositionLimit, MiniHudPositionLimit);
-            MiniHudVerticalPositionX = Math.Clamp(MiniHudVerticalPositionX, -MiniHudPositionLimit, MiniHudPositionLimit);
-            MiniHudVerticalPositionY = Math.Clamp(MiniHudVerticalPositionY, -MiniHudPositionLimit, MiniHudPositionLimit);
+            MiniHudHorizontalPositionX = Math.Clamp(MiniHudHorizontalPositionX, -kMiniHudPositionLimit, kMiniHudPositionLimit);
+            MiniHudHorizontalPositionY = Math.Clamp(MiniHudHorizontalPositionY, -kMiniHudPositionLimit, kMiniHudPositionLimit);
+            MiniHudVerticalPositionX = Math.Clamp(MiniHudVerticalPositionX, -kMiniHudPositionLimit, kMiniHudPositionLimit);
+            MiniHudVerticalPositionY = Math.Clamp(MiniHudVerticalPositionY, -kMiniHudPositionLimit, kMiniHudPositionLimit);
 
             PanelPositionX = Math.Clamp(PanelPositionX, -PanelPositionLimit, PanelPositionLimit);
             PanelPositionY = Math.Clamp(PanelPositionY, -PanelPositionLimit, PanelPositionLimit);
