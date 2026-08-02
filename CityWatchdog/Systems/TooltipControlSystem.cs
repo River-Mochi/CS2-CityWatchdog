@@ -20,7 +20,7 @@ namespace CityWatchdog.Systems
     {
         // Binding identifier strings. Kept as constants — React side reads bindings by name,
         // so renaming or removing the underlying C# property must NOT cascade into the JS bundle.
-        private const string DisableAllTooltipsBindingName = "DisableAllTooltips";
+        private const string kDisableAllTooltipsBindingName = "DisableAllTooltips";
 
         private BoolBinding m_DisableAllTooltipsBinding = null!;
         private BoolBinding m_DisableCwdTooltipsBinding = null!;
@@ -34,7 +34,7 @@ namespace CityWatchdog.Systems
             // Both tooltip toggles are in-session only: they start OFF (tooltips shown) every game
             // launch, so new mod tooltips are always visible first; the player must re-toggle to hide.
             m_DisableAllTooltipsBinding = AddBoolBindingAndTriggerBinding(
-                DisableAllTooltipsBindingName,
+                kDisableAllTooltipsBindingName,
                 false,
                 OnDisableAllTooltipsToggle);
 
