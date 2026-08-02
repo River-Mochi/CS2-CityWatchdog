@@ -28,6 +28,8 @@
   "HideIcons": "アイコンを非表示",
   "PresetLoadHint": "クリックして保存済みのアイコン設定を読み込みます。\n長押しすると、現在のチェック状態で上書きします。",
   "PresetSaveHint": "このプリセットは空です。\n長押しすると、現在のチェック状態を保存します。",
+  "InterfaceScaleOff": "ゲームUIを大きくする（パネル＋文字）。\nオフにするまで有効。",
+  "InterfaceScaleOn": "大きいUIがオン。\nクリックで通常サイズに戻す。\n開発者用のインターフェイス拡大と同じ。",
   "ExpandAll": "全行を展開/折りたたみ。",
   "CollapseAll": "全行を折りたたみ/展開",
   "SortAscending": "↑昇順",
