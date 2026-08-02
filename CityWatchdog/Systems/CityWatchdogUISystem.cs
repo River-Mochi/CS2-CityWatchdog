@@ -1215,7 +1215,7 @@ namespace CityWatchdog.Systems
             x = Math.Clamp(x, -CwdSettings.MiniHudPositionLimit, CwdSettings.MiniHudPositionLimit);
             y = Math.Clamp(y, -CwdSettings.MiniHudPositionLimit, CwdSettings.MiniHudPositionLimit);
 
-            if (orientation == CwdSettings.MiniHudOrientationHorizontal)
+            if (orientation == CwdSettings.kMiniHudOrientationHorizontal)
             {
                 if (CwdSettings.Instance.MiniHudHorizontalPositionX == x &&
                     CwdSettings.Instance.MiniHudHorizontalPositionY == y)
@@ -1226,7 +1226,7 @@ namespace CityWatchdog.Systems
                 CwdSettings.Instance.MiniHudHorizontalPositionX = x;
                 CwdSettings.Instance.MiniHudHorizontalPositionY = y;
             }
-            else if (orientation == CwdSettings.MiniHudOrientationVertical)
+            else if (orientation == CwdSettings.kMiniHudOrientationVertical)
             {
                 if (CwdSettings.Instance.MiniHudVerticalPositionX == x &&
                     CwdSettings.Instance.MiniHudVerticalPositionY == y)
@@ -1404,12 +1404,12 @@ namespace CityWatchdog.Systems
 
         private void UpdateMiniHudPositionBinding(int x, int y, int orientation)
         {
-            if (orientation == CwdSettings.MiniHudOrientationHorizontal)
+            if (orientation == CwdSettings.kMiniHudOrientationHorizontal)
             {
                 m_MiniHudHorizontalPositionXBinding?.Update(x);
                 m_MiniHudHorizontalPositionYBinding?.Update(y);
             }
-            else if (orientation == CwdSettings.MiniHudOrientationVertical)
+            else if (orientation == CwdSettings.kMiniHudOrientationVertical)
             {
                 m_MiniHudVerticalPositionXBinding?.Update(x);
                 m_MiniHudVerticalPositionYBinding?.Update(y);

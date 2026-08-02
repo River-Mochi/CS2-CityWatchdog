@@ -47,12 +47,12 @@ namespace CityWatchdog
 
 
 
-        internal const int MoneyViewModeHourly = 0;
-        internal const int MoneyViewModeMonthly = 1;
-        internal const int MoneyTooltipModeFullData = 0;
-        internal const int MoneyTooltipModeCompact = 1;
-        internal const int MoneyTooltipModeMini = 2;
-        internal const int MilestoneTinyVillage = 0;
+        internal const int kMoneyViewModeHourly = 0;
+        internal const int kMoneyViewModeMonthly = 1;
+        internal const int kMoneyTooltipModeFullData = 0;
+        internal const int kMoneyTooltipModeCompact = 1;
+        internal const int kMoneyTooltipModeMini = 2;
+        internal const int kMilestoneTinyVillage = 0;
 
 
 
@@ -253,12 +253,12 @@ namespace CityWatchdog
             {
                 new DropdownItem<int>
                 {
-                    value = MoneyViewModeHourly,
+                    value = kMoneyViewModeHourly,
                     displayName = GetOptionLocaleID("MoneyViewModeHourly"),
                 },
                 new DropdownItem<int>
                 {
-                    value = MoneyViewModeMonthly,
+                    value = kMoneyViewModeMonthly,
                     displayName = GetOptionLocaleID("MoneyViewModeMonthly"),
                 },
             };
@@ -270,17 +270,17 @@ namespace CityWatchdog
             {
                 new DropdownItem<int>
                 {
-                    value = MoneyTooltipModeMini,
+                    value = kMoneyTooltipModeMini,
                     displayName = GetOptionLocaleID("MoneyTooltipModeMini"),
                 },
                 new DropdownItem<int>
                 {
-                    value = MoneyTooltipModeCompact,
+                    value = kMoneyTooltipModeCompact,
                     displayName = GetOptionLocaleID("MoneyTooltipModeCompact"),
                 },
                 new DropdownItem<int>
                 {
-                    value = MoneyTooltipModeFullData,
+                    value = kMoneyTooltipModeFullData,
                     displayName = GetOptionLocaleID("MoneyTooltipModeFullData"),
                 },
             };
@@ -295,8 +295,8 @@ namespace CityWatchdog
         private void ApplyMoneyDefaults()
         {
             MoneyView = true;
-            MoneyViewMode = MoneyViewModeMonthly;
-            MoneyTooltipMode = MoneyTooltipModeCompact;
+            MoneyViewMode = kMoneyViewModeMonthly;
+            MoneyTooltipMode = kMoneyTooltipModeCompact;
             // If defaults change, also update bindValue fallbacks in UI/src/bindings/bindings.tsx.
             MoneyTooltipFontScale = 120;
             PopulationTooltipFontScale = 120;
@@ -308,7 +308,7 @@ namespace CityWatchdog
             InitialMoney = 0;
 
             CustomMilestone = false;
-            MilestoneLevel = MilestoneTinyVillage;
+            MilestoneLevel = kMilestoneTinyVillage;
 
             ConfirmUnlimitedMoneySaveConversion = false;
         }

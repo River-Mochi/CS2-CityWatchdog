@@ -20,12 +20,12 @@ namespace CityWatchdog
 
     public partial class CwdSettings
     {
-        internal const int MiniHudModeTopActive = 0;
-        internal const int MiniHudModeFavorites = 1;
-        internal const int MiniHudOrientationHorizontal = 0;
-        internal const int MiniHudOrientationVertical = 1;
-        internal const int MiniHudPlacementTopCenter = 0;
-        internal const int MiniHudPlacementTopRight = 1;
+        internal const int kMiniHudModeTopActive = 0;
+        internal const int kMiniHudModeFavorites = 1;
+        internal const int kMiniHudOrientationHorizontal = 0;
+        internal const int kMiniHudOrientationVertical = 1;
+        internal const int kMiniHudPlacementTopCenter = 0;
+        internal const int kMiniHudPlacementTopRight = 1;
         internal const int MiniHudPlacementDraggable = 2;
         internal const int MiniHudPanelStyleDark = 0;
         internal const int MiniHudPanelStyleGlass = 1;
@@ -221,12 +221,12 @@ namespace CityWatchdog
             {
                 new DropdownItem<int>
                 {
-                    value = MiniHudModeTopActive,
+                    value = kMiniHudModeTopActive,
                     displayName = GetOptionLocaleID("MiniHudModeTopActive"),
                 },
                 new DropdownItem<int>
                 {
-                    value = MiniHudModeFavorites,
+                    value = kMiniHudModeFavorites,
                     displayName = GetOptionLocaleID("MiniHudModeFavorites"),
                 },
             };
@@ -247,12 +247,12 @@ namespace CityWatchdog
             {
                 new DropdownItem<int>
                 {
-                    value = MiniHudOrientationHorizontal,
+                    value = kMiniHudOrientationHorizontal,
                     displayName = GetOptionLocaleID("MiniHudOrientationHorizontal"),
                 },
                 new DropdownItem<int>
                 {
-                    value = MiniHudOrientationVertical,
+                    value = kMiniHudOrientationVertical,
                     displayName = GetOptionLocaleID("MiniHudOrientationVertical"),
                 },
             };
@@ -264,12 +264,12 @@ namespace CityWatchdog
             {
                 new DropdownItem<int>
                 {
-                    value = MiniHudPlacementTopCenter,
+                    value = kMiniHudPlacementTopCenter,
                     displayName = GetOptionLocaleID("MiniHudPlacementTopCenter"),
                 },
                 new DropdownItem<int>
                 {
-                    value = MiniHudPlacementTopRight,
+                    value = kMiniHudPlacementTopRight,
                     displayName = GetOptionLocaleID("MiniHudPlacementTopRight"),
                 },
                 new DropdownItem<int>
@@ -300,10 +300,10 @@ namespace CityWatchdog
         private void ApplyMiniHudStarterPresetValues()
         {
             MiniHudEnabled = true;
-            MiniHudMode = MiniHudModeFavorites;
+            MiniHudMode = kMiniHudModeFavorites;
             MiniHudItemCount = 5;
             MiniHudScale = 100;
-            MiniHudOrientation = MiniHudOrientationHorizontal;
+            MiniHudOrientation = kMiniHudOrientationHorizontal;
             MiniHudPlacement = MiniHudPlacementDraggable;
             MiniHudHideZero = true;
             MiniHudPanelStyle = MiniHudPanelStyleDark;
@@ -332,8 +332,8 @@ namespace CityWatchdog
                 : Math.Clamp(MiniHudPanelOpacity, 30, 100);
             MiniHudPositionX = Math.Clamp(MiniHudPositionX, -MiniHudPositionLimit, MiniHudPositionLimit);
             MiniHudPositionY = Math.Clamp(MiniHudPositionY, -MiniHudPositionLimit, MiniHudPositionLimit);
-            if (MiniHudPositionOrientation != MiniHudOrientationHorizontal &&
-                MiniHudPositionOrientation != MiniHudOrientationVertical)
+            if (MiniHudPositionOrientation != kMiniHudOrientationHorizontal &&
+                MiniHudPositionOrientation != kMiniHudOrientationVertical)
             {
                 MiniHudPositionOrientation = MiniHudOrientation;
             }
@@ -344,7 +344,7 @@ namespace CityWatchdog
                 MiniHudVerticalPositionX == 0 &&
                 MiniHudVerticalPositionY == 0)
             {
-                if (MiniHudPositionOrientation == MiniHudOrientationHorizontal)
+                if (MiniHudPositionOrientation == kMiniHudOrientationHorizontal)
                 {
                     MiniHudHorizontalPositionX = MiniHudPositionX;
                     MiniHudHorizontalPositionY = MiniHudPositionY;
