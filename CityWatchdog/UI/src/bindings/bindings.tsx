@@ -6,7 +6,7 @@ import mod from "../../mod.json";
 
 export const controlPanelEnabled$ = bindValue<boolean>(mod.id, "ControlPanelEnabled", false);
 export const moneyView$ = bindValue<boolean>(mod.id, "MoneyView", true);
-export const moneyViewMode$ = bindValue<number>(mod.id, "MoneyViewMode", 0);
+export const moneyViewMode$ = bindValue<number>(mod.id, "MoneyViewMode", 1);
 export const moneyTooltipMode$ = bindValue<number>(mod.id, "MoneyTooltipMode", 1);
 export const moneyTooltipFontScale$ = bindValue<number>(mod.id, "MoneyTooltipFontScale", 120);
 export const populationTooltipFontScale$ = bindValue<number>(mod.id, "PopulationTooltipFontScale", 120);

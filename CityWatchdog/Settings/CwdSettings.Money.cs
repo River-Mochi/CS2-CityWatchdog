@@ -295,7 +295,7 @@ namespace CityWatchdog
         private void ApplyMoneyDefaults()
         {
             MoneyView = true;
-            MoneyViewMode = MoneyViewModeHourly;
+            MoneyViewMode = MoneyViewModeMonthly;
             MoneyTooltipMode = MoneyTooltipModeCompact;
             // If defaults change, also update bindValue fallbacks in UI/src/bindings/bindings.tsx.
             MoneyTooltipFontScale = 120;
