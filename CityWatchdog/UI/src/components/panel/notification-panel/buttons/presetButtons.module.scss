@@ -21,6 +21,9 @@
 // A single preset box: its own rounded button, plain by default (empty = gray number).
 .presetSlot {
   position: relative;
+  // Clip the rising fill sweep to the rounded box. (The active glow is an outer box-shadow, which
+  // is NOT clipped by the element's own overflow, so it still shows.)
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -106,13 +109,42 @@
   pointer-events: none;
 }
 
-// While holding to save (transient, ~550ms): a green border + light tint so the hold reads as
-// intentional. Defined last so it overlays whatever state the box is in.
+// While holding to save: a green border frames the box while the fill sweep rises inside it.
+// The rising fill (below) is the main feedback, so no instant background fill here.
 .presetSlotHolding {
   color: #ffffff;
   border-top-color: rgba(95, 220, 120, 0.95);
   border-right-color: rgba(95, 220, 120, 0.95);
   border-bottom-color: rgba(95, 220, 120, 0.95);
   border-left-color: rgba(95, 220, 120, 0.95);
-  background-color: rgba(95, 220, 120, 0.3);
+}
+
+// Save "charging" sweep: a green fill that rises from the bottom to the top over the hold duration,
+// so a press visibly does something — the player self-learns that HOLD = save. At rest scaleY(0)
+// with no transition (snaps back instantly on release); .presetFilling animates it up over 800ms
+// (matching HOLD_MS in presetButtons.tsx).
+.presetFill {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(95, 220, 120, 0.55);
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  transition-property: transform;
+  transition-duration: 0ms;
+  transition-timing-function: linear;
+  pointer-events: none;
+}
+
+.presetFilling {
+  transform: scaleY(1);
+  transition-duration: 800ms;
+}
+
+// Number sits above the fill sweep.
+.presetLabel {
+  position: relative;
+  z-index: 1;
 }

@@ -5,8 +5,9 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import styles from "./presetButtons.module.scss";
 
-// Hold this long (ms) before a press counts as "save" instead of "load".
-const HOLD_MS = 550;
+// Hold this long (ms) before a press counts as "save" instead of "load". Matches the fill-sweep
+// duration in the scss so the box finishes "charging" exactly as the save fires.
+const HOLD_MS = 800;
 
 // Click = onClick; press-and-hold past HOLD_MS = onLongPress (and the click that follows is
 // suppressed). The timer is cleared on release, mouse-leave, and unmount, so no timer ever dangles.
@@ -78,9 +79,16 @@ export const PresetSlot = forwardRef<HTMLDivElement, PresetSlotProps>(
             .filter(Boolean)
             .join(" ");
 
+        // Fill-sweep overlay: rises from the bottom while holding, so a press visibly "charges" up to
+        // the save. Kept behind the number (presetLabel is positioned above it).
+        const fillClassName = holding
+            ? `${styles.presetFill} ${styles.presetFilling}`
+            : styles.presetFill;
+
         return (
             <div ref={ref} className={className} role="button" {...handlers}>
-                {label}
+                <span className={fillClassName} />
+                <span className={styles.presetLabel}>{label}</span>
                 {active && <span className={styles.presetDot} />}
             </div>
         );

@@ -471,11 +471,11 @@ const NotificationPanelContent = () => {
   // Preset slots: tooltip depends on whether the slot already holds a saved layout.
   const savedPresetTooltip = localize(
     "PresetLoadHint",
-    "Click to load this saved icon setup.\nHold to overwrite it with your current checkboxes.",
+    "Click to load this saved icon setup.\nHold 1 second to overwrite it with your current checkboxes.",
   );
   const emptyPresetTooltip = localize(
     "PresetSaveHint",
-    "This preset is empty.\nHold to save your current checkboxes into it.",
+    "This preset is empty.\nHold 1 second to save your current checkboxes into it.",
   );
   const preset1Tooltip = preset1Saved ? savedPresetTooltip : emptyPresetTooltip;
   const preset2Tooltip = preset2Saved ? savedPresetTooltip : emptyPresetTooltip;
