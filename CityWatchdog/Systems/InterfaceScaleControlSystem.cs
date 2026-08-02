@@ -7,15 +7,17 @@
 // ================= </copyright> ======================
 
 // File: Systems/InterfaceScaleControlSystem.cs
-// Purpose: Panel button + Options slider that drive the vanilla (developer-gated) UI scaling without
-//          requiring the --developerMode launch flag.
+// Purpose: Title-bar button that toggles the vanilla "Interface Scaling (dev)" flag without the
+//          --developerMode launch flag. That single flag alone makes the whole game + mod UI bigger.
 //
 // Mechanism: GameManager.instance.settings.userInterface is the vanilla InterfaceSettings. Its
-// interfaceScaling (bool) and textScale (float) are PUBLIC properties; the [SettingsUIDeveloper]
-// attribute on interfaceScaling only HIDES it from the Options menu when dev mode is off — it does
-// not stop code from setting it. The render pipeline (DebugCustomPass) applies scaling based on the
-// interfaceScaling bool, so assigning it + ApplyAndSave() takes effect with or without dev mode.
-// No Harmony, no reflection. (Same settings object TimeWeatherAnarchy reads for time/temperature.)
+// interfaceScaling bool is a PUBLIC property; the [SettingsUIDeveloper] attribute only HIDES it from
+// the Options menu unless dev mode is on — it does not stop code from setting it. Assigning it +
+// ApplyAndSave() takes effect with or without dev mode. We deliberately do NOT touch textScale or
+// toolbarScale: those are normal (non-dev) sliders players already have. No Harmony, no reflection.
+//
+// Sync is EVENT-driven via InterfaceSettings.onSettingsApplied (fires only when a setting changes),
+// so there is no per-frame polling and no FPS cost between changes.
 
 namespace CityWatchdog.Systems
 {
@@ -26,34 +28,53 @@ namespace CityWatchdog.Systems
 
     public partial class InterfaceScaleControlSystem : UISystemBaseExtension
     {
-        private const int kScaleMin = 100;
-        private const int kScaleMax = 150;
-
         private BoolBinding interfaceScaleEnabledBinding = null!;
+        private InterfaceSettings? subscribedUi;
 
         protected override void OnCreate()
         {
             base.OnCreate();
 
-            bool current = GetUI()?.interfaceScaling ?? false;
             interfaceScaleEnabledBinding = AddBoolBindingAndTriggerBinding(
                 "InterfaceScaleEnabled",
-                current,
+                GetUI()?.interfaceScaling ?? false,
                 OnToggleInterfaceScale);
         }
 
         protected override void OnUpdate()
         {
-            // Keep the panel button in sync if the player flips vanilla's own "Interface Scaling (dev)"
-            // checkbox (only visible with dev mode). Reading one bool per UI tick is trivial.
+            // One-time hookup: the settings object may not exist yet at OnCreate. Once it does, sync the
+            // initial state and subscribe to the settings-applied event. After that this early-returns
+            // for free every tick — no per-frame reads.
+            if (subscribedUi != null)
+            {
+                return;
+            }
+
+            InterfaceSettings? ui = GetUI();
+            if (ui == null)
+            {
+                return;
+            }
+
+            interfaceScaleEnabledBinding.Update(ui.interfaceScaling);
+            ui.onSettingsApplied += OnVanillaSettingsApplied;
+            subscribedUi = ui;
+        }
+
+        private static InterfaceSettings? GetUI() => GameManager.instance?.settings?.userInterface;
+
+        // Fires when any interface setting is applied — e.g. the player flips the dev-mode checkbox, or
+        // our own toggle calls ApplyAndSave. Keeps the panel button in sync. Event-driven: costs nothing
+        // between changes.
+        private void OnVanillaSettingsApplied(Setting _)
+        {
             InterfaceSettings? ui = GetUI();
             if (ui != null && interfaceScaleEnabledBinding.Value != ui.interfaceScaling)
             {
                 interfaceScaleEnabledBinding.Update(ui.interfaceScaling);
             }
         }
-
-        private static InterfaceSettings? GetUI() => GameManager.instance?.settings?.userInterface;
 
         private void OnToggleInterfaceScale(bool enable)
         {
@@ -63,37 +84,9 @@ namespace CityWatchdog.Systems
                 return;
             }
 
+            // Toggle ONLY the dev interface-scaling flag; that alone resizes the whole UI.
             ui.interfaceScaling = enable;
 
-            // Only push our text-scale level when turning scaling ON. Turning it off restores the
-            // unscaled UI but leaves the saved textScale value untouched.
-            if (enable)
-            {
-                ui.textScale = Clamp(CwdSettings.Instance.InterfaceScaleLevel) / 100f;
-            }
-
-            Apply(ui);
-            interfaceScaleEnabledBinding.Update(ui.interfaceScaling);
-        }
-
-        // Called from the CWD Options slider. Only re-applies while scaling is already enabled, so
-        // dragging the slider with scaling off never forces the whole game UI to resize.
-        public void ApplyLevelIfEnabled(int level)
-        {
-            InterfaceSettings? ui = GetUI();
-            if (ui == null || !ui.interfaceScaling)
-            {
-                return;
-            }
-
-            ui.textScale = Clamp(level) / 100f;
-            Apply(ui);
-        }
-
-        private static int Clamp(int value) => Math.Max(kScaleMin, Math.Min(kScaleMax, value));
-
-        private static void Apply(InterfaceSettings ui)
-        {
             try
             {
                 ui.ApplyAndSave();
@@ -105,6 +98,19 @@ namespace CityWatchdog.Systems
                     () => $"Failed to apply interface scaling: {ex.GetType().Name}: {ex.Message}",
                     ex);
             }
+
+            interfaceScaleEnabledBinding.Update(ui.interfaceScaling);
+        }
+
+        protected override void OnDestroy()
+        {
+            if (subscribedUi != null)
+            {
+                subscribedUi.onSettingsApplied -= OnVanillaSettingsApplied;
+                subscribedUi = null;
+            }
+
+            base.OnDestroy();
         }
     }
 }

@@ -73,7 +73,6 @@ namespace CityWatchdog
         // real on-screen clamping against the live viewport; this only guards absurd saved values.
         internal const int kPanelPositionLimit = 20000;
         internal const int kMainPanelOpacityDefault = 80;
-        internal const int kInterfaceScaleLevelDefault = 110;
 
         private const string kAboutLinksRow = "kAboutLinksRow";
         private const string kDebugButtonsRow = "kDebugButtonsRow";
@@ -149,13 +148,6 @@ namespace CityWatchdog
                 : Math.Clamp(value, 30, 100);
         }
 
-        // Text-scale level applied when the player enables UI scaling from the panel's scale button.
-        // Drives the vanilla InterfaceSettings.textScale (see InterfaceScaleControlSystem). Setting it
-        // here only re-applies while scaling is already on.
-        [SettingsUISlider(min = 100, max = 150, step = 10, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(kActions, kNotifications)]
-        [SettingsUISetter(typeof(CwdSettings), nameof(OnInterfaceScaleLevelChanged))]
-        public int InterfaceScaleLevel { get; set; }
 
         // Session-only now: the CWD title-bar tooltip toggle starts OFF (tooltips shown) each launch
         // so new mod tooltips are always seen first. Retained only so the binding name stays
@@ -303,7 +295,6 @@ namespace CityWatchdog
             ShowRoadArrows = false;
             PanelButtonsOnlyStart = false;
             MainPanelOpacity = kMainPanelOpacityDefault;
-            InterfaceScaleLevel = kInterfaceScaleLevelDefault;
             PanelPositionX = 0;
             PanelPositionY = 0;
             PanelCollapsedSectionsMask = 0;
@@ -318,11 +309,6 @@ namespace CityWatchdog
         private static void OnPanelButtonsOnlyStartChanged(bool value) => GetUISystem()?.UpdatePanelButtonsOnlyStartBinding(value);
 
         private static void OnMainPanelOpacityChanged(int value) => GetUISystem()?.UpdateMainPanelOpacityBinding(value);
-
-        private static void OnInterfaceScaleLevelChanged(int value) =>
-            World.DefaultGameObjectInjectionWorld?
-                .GetExistingSystemManaged<InterfaceScaleControlSystem>()?
-                .ApplyLevelIfEnabled(value);
 
         private static CityWatchdogUISystem? GetUISystem()
         {

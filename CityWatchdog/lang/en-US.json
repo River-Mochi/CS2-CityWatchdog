@@ -28,7 +28,7 @@
   "HideIcons": "Hide Icons",
   "PresetLoadHint": "Click to load this saved icon setup.\nHold 1 second to overwrite it with your current checkboxes.",
   "PresetSaveHint": "This preset is empty.\nHold 1 second to save your current checkboxes into it.",
-  "InterfaceScaleOff": "Make the whole game interface bigger.\nSet the level in Options (under panel opacity).",
+  "InterfaceScaleOff": "Make the whole game interface bigger — panels and text.\nAffects the entire game and stays on until you turn it off.",
   "InterfaceScaleOn": "Bigger UI is ON.\nClick to return the game interface to normal size.",
   "ExpandAll": "Expand/Collapse all rows.",
   "CollapseAll": "Collapse/Expand all rows",

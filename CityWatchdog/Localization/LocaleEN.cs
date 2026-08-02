@@ -129,11 +129,6 @@ namespace CityWatchdog
                     "Adjusts the main notification panel background transparency.\n" +
                     "Lower values are more transparent. Higher values are darker and more solid." },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaleLevel)), "Bigger UI size" },
-                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaleLevel)),
-                    "Text/UI scale used when you turn on Bigger UI with the scale button in the City Watchdog title bar.\n" +
-                    "This drives the game's built-in interface scaling, normally only available in developer mode.\n" +
-                    "It affects the WHOLE game interface, not just City Watchdog, and persists in your game settings." },
 
                 // --------------------------------------------------------------------
                 // Actions tab - In-City Info Viewer

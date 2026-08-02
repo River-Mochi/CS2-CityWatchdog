@@ -461,7 +461,7 @@ const NotificationPanelContent = () => {
   const dragTitleTooltip = localize("DragTitleBar", "Drag title bar.");
   const scaleTooltip = interfaceScaleEnabled
     ? localize("InterfaceScaleOn", "Bigger UI is ON.\nClick to return the game interface to normal size.")
-    : localize("InterfaceScaleOff", "Make the whole game interface bigger.\nSet the level in Options (under panel opacity).");
+    : localize("InterfaceScaleOff", "Make the whole game interface bigger — panels and text.\nAffects the entire game and stays on until you turn it off.");
 
   // Same text regardless of toggle state — Info button is always discoverable.
   const infoTooltip = localize(

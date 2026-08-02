@@ -1,17 +1,16 @@
 <Publish>
-	<!--Id must be set in order to update existing mod. Leave blank for first publish.-->
-	<ModId Value="144908" />
-	<!--Name of the mod to display to players-->
-	<DisplayName Value="City Watchdog" />
-	<!--Short description of the mod-->
-	<ShortDescription Value="Show/Hide notification icons, add/remove Money, set Milestones, Mini HUD, Better Tooltips." />
-	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
-	<!--LongDescription Value="This is a long description" /-->
-	<LongDescription>
-#### Watchdog organizes notification clutter, unlocks Money or Milestone, and puts control of road names/arrows/districts/tooltips in your hands.
+<!--Id must be set in order to update existing mod. Leave blank for first publish.-->
+<ModId Value="144908" />
+<!--Name of the mod to display to players-->
+<DisplayName Value="City Watchdog" />
+<!--Short description of the mod-->
+<ShortDescription Value="Show/Hide notification icons, add/remove Money, set Milestones, Mini HUD, Better Tooltips." />
+<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
+<!--LongDescription Value="This is a long description" /-->
+<LongDescription>
+#### City Watchdog organizes notification clutter, customizes city start options (e.g. milestones), and puts control of road names/arrows/districts/tooltips in your hands.
 
-- no gameplay impact like heavy UI mods that run every frame.
-- you'll wonder how you've been playing the game without it :)
+- visual comfort controls. you'll wonder how you've been playing without it :)
 - don't forget the Like button, top right, so search works and more people know about the mod.
 
 #### Display toggles
@@ -24,34 +23,32 @@
 - **Notifications**: **Instant on/off** toggle for all city alert icons (ones covering the city).
 - Reduce visual stress while building (does not fix city problems for you).
 - Open full panel from the top-left button.
-- Start city with any Milestone. Trains now! Yes you can! Set Initial money if you want less for a challenge or more.
 
-
-#### Money tools
-- Quick handy info: hover over bottom menu money/population tooltips for instant info chart (faster than opening Info view).
-- Manual: add/subtract money on the fly with hotkeys ([ or ]).
-- Optional automatic money refiller. Manual is still recommended.
+#### City Start Options
+- Start city with any Milestone. Trains now! Set Initial money if you want Less for a challenge or more.
+- Quick handy info: hover over bottom menu money or population tooltips for instant info chart (faster than opening game's Info view).
 - Convert saves from Unlimited Money type to normal Limited Money.
 
 **Hotkeys**
 - Shift+N = open/close panel (same as clicking on Top Left icon).
 - N    = toggle all notification icons on/off (same as clicking on Toggle All * star button)
-- [    = Add Money
-- ]    = Subtract Money
-- Hold the money hotkey to repeat instead of clicking many times.
+- [    = Add Money, hold to repeat.
+- ]    = Subtract Money, hold to repeats.
+
 
 ### Important Notes
-- Unlimited Money save: make a backup before converting the save. Mod cannot undo that conversion. Check mod show instructions.
-- Install Achievement Fixer mod if you want Achievements while using mods, it was removed from this mod.
+- Unlimited Money save: make a backup before converting the save. Mod cannot undo that conversion. Check mod's "show instructions".
+- Install Achievement Fixer mod if you want Achievements while using mods.
+- Good for performance: lightweight for daily use.
 
-I hope you enjoy the new features, better performance, and safety checks!
+I hope you enjoy the new features!
 
 ### Support and feedback
 - Feedback is welcome through GitHub or Discord links on the right.
 - please give a Like so it's easier for people to find this mod. Thank you!
 - 15 languages: Hello, Hallo, Hola, Bonjour, Ciao, こんにちは, 안녕하세요, Cześć, Olá, Olá, สวัสดี, Merhaba, Xin chào, 你好, 你好
 - If anyone can make better thumbnail or screenshots, please let me know.
-- Mod is save safe and safe to remove. Does not use Harmony patch, safer/more compatible. Good for performance: lightweight for daily use.
+- Mod is safe for city saves and safe to remove. Does not use Harmony patch, safer/more compatible.
 
 ### Thanks to all supporters and testers
 - River Mochi - main author
@@ -70,28 +67,28 @@ https://unsplash.com/photos/a-dog-poses-in-front-of-a-distant-castle-bEpjaU_CTcM
 tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 
 </LongDescription>
-	<!--Thumbnail-->
-	<Thumbnail Value="Properties/Thumbnail-dog-city04.jpg" />
-	<!--Screenshot, can be set multiple times-->
-    <Screenshot Value="Properties/image10-Notifications1.jpg" />
-    <Screenshot Value="Properties/image11-Mini-HUD.jpg" />
-    <Screenshot Value="Properties/image12-Before.jpg" />
-    <Screenshot Value="Properties/image15-MinimalPanel.jpg" />
-    <Screenshot Value="Properties/image30-HotKeys-ToolTipViewer.jpg" />
-    <Screenshot Value="Properties/image35-Money.jpg" />
-    <Screenshot Value="Properties/image40-MiniHUD-Options.jpg" />
-    <Screenshot Value="Properties/image50-Milestone-Money.jpg" />
-	<!--Tag, can be set multiple times-->
-	<Tag Value="Code Mod" />
-	<!--Link to the forum post where the mod can be discussed-->
-	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/city-watchdog.1924169/" />
-	<!--Version of the mod-->
-	<ModVersion Value="1.3.0" />
-	<!--Recommended version of the base game to use the mod-->
-	<GameVersion Value="1.6.*" />
-	<!--Dependency for the mod, can be set multiple times-->
-	<Dependency Id="" DisplayName="" />
-	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
+<!--Thumbnail-->
+<Thumbnail Value="Properties/Thumbnail-dog-city04.jpg" />
+<!--Screenshot, can be set multiple times-->
+<Screenshot Value="Properties/image10-Notifications1.jpg" />
+<Screenshot Value="Properties/image11-Mini-HUD.jpg" />
+<Screenshot Value="Properties/image12-Before.jpg" />
+<Screenshot Value="Properties/image15-MinimalPanel.jpg" />
+<Screenshot Value="Properties/image30-HotKeys-ToolTipViewer.jpg" />
+<Screenshot Value="Properties/image35-Money.jpg" />
+<Screenshot Value="Properties/image40-MiniHUD-Options.jpg" />
+<Screenshot Value="Properties/image50-Milestone-Money.jpg" />
+<!--Tag, can be set multiple times-->
+<Tag Value="Code Mod" />
+<!--Link to the forum post where the mod can be discussed-->
+<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/city-watchdog.1924169/" />
+<!--Version of the mod-->
+<ModVersion Value="1.3.0" />
+<!--Recommended version of the base game to use the mod-->
+<GameVersion Value="1.6.*" />
+<!--Dependency for the mod, can be set multiple times-->
+<Dependency Id="" DisplayName="" />
+<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
 <ChangeLog>
 - Added main panel opacity slider (see Options menu)
 - Improved:  A> Z and Z>A  category modes keep child rows sorted A-Z.
@@ -101,7 +98,7 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 - Active counts in main panel and above 0 now have a blue box, still allows click + jump to problem on the map.
 - Main Panel now remembers to open to your last position and Sort mode after restarting the game.
 </ChangeLog>
-	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
-    <ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
-	<ExternalLink Type="github" Url="https://github.com/River-Mochi/CS2-CityWatchdog" />
+<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon, buymeacoffee, kofi, crowdin, gitlab-->
+<ExternalLink Type="discord" Url="https://discord.gg/gwXgvtyhjc" />
+<ExternalLink Type="github" Url="https://github.com/River-Mochi/CS2-CityWatchdog" />
 </Publish>
