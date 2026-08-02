@@ -70,13 +70,14 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
-// Saved box (not selected): plain box, blue NUMBER — no fill. Signals it holds a setup.
+// Saved box (not selected): plain box, GREEN number — no fill. Green = "this slot holds a setup",
+// clearly distinct from the selected box's blue.
 .presetSlotSaved {
-  color: #6cc8ff;
+  color: #5fdc78;
 }
 
   .presetSlotSaved:hover {
-    color: #9fe0ff;
+    color: #8ff0a0;
   }
 
 // Selected box (currently applied): plain box + a bright blue rounded border (the box itself is
@@ -112,7 +113,9 @@
 // While holding to save: a green border frames the box while the fill sweep rises inside it.
 // The rising fill (below) is the main feedback, so no instant background fill here.
 .presetSlotHolding {
+  // White number with a dark shadow so it stays readable over the rising green fill.
   color: #ffffff;
+  text-shadow: 0 0 3rem rgba(0, 0, 0, 0.85), 0 1rem 1rem rgba(0, 0, 0, 0.6);
   border-top-color: rgba(95, 220, 120, 0.95);
   border-right-color: rgba(95, 220, 120, 0.95);
   border-bottom-color: rgba(95, 220, 120, 0.95);

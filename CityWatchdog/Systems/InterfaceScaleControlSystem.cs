@@ -99,7 +99,31 @@ namespace CityWatchdog.Systems
                     ex);
             }
 
+            // Setting the value alone only re-scales the UI the next time the Cohtml view re-lays-out
+            // (which is why it "waited" for the Options menu to open). Force that re-layout now by
+            // resizing the view to its current size, so the scale applies immediately in the city.
+            ForceUiRelayout();
+
             interfaceScaleEnabledBinding.Update(ui.interfaceScaling);
+        }
+
+        private static void ForceUiRelayout()
+        {
+            try
+            {
+                var view = GameManager.instance?.userInterface?.view;
+                if (view != null)
+                {
+                    view.Resize(view.width, view.height);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogUtils.WarnOnce(
+                    "interface-scale-relayout",
+                    () => $"Failed to force UI relayout: {ex.GetType().Name}: {ex.Message}",
+                    ex);
+            }
         }
 
         protected override void OnDestroy()

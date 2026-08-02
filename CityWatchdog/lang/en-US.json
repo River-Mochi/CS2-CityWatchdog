@@ -26,7 +26,7 @@
   "ToggleAll": "TOGGLE ALL",
   "ShowIcons": "Show Icons",
   "HideIcons": "Hide Icons",
-  "PresetLoadHint": "Click to load this saved icon setup.\nHold 1 second to overwrite it with your current checkboxes.",
+  "PresetLoadHint": "Click to show saved preset icons list.\nHold 1 second to overwrite this button with your current checkboxes ☑",
   "PresetSaveHint": "This preset is empty.\nHold 1 second to save your current checkboxes into it.",
   "InterfaceScaleOff": "Make the whole game interface bigger — panels and text.\nAffects the entire game and stays on until you turn it off.",
   "InterfaceScaleOn": "Bigger UI is ON.\nClick to return the game interface to normal size.",

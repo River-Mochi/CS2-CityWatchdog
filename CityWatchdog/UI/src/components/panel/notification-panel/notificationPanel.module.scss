@@ -299,12 +299,19 @@
 }
 
 .headerScaleIcon {
-    width: 18rem;
-    height: 18rem;
+    width: 22rem;
+    height: 22rem;
     display: block;
     pointer-events: none;
     // Icon strokes are black; invert to white to match the other header glyphs.
-    filter: brightness(0) invert(1) opacity(0.9);
+    filter: brightness(0) invert(1) opacity(0.85);
+}
+
+// Brighter, fully-white, slightly larger icon when scaling is ON (reads as bolder).
+.headerScaleButtonActive .headerScaleIcon {
+    filter: brightness(0) invert(1) opacity(1);
+    transform: scale(1.06);
+    transform-origin: center center;
 }
 
 // Standalone X glyph inside the icon-button — vanilla button frame doesn't size the inner img.
@@ -356,14 +363,14 @@
     flex-basis: auto;
 }
 
-// Right group fills the rest of the row — removing the old dead gap between the two groups — and its
-// Show Icons button flex-grows to absorb the slack, which also lets it widen for longer translations.
+// Right group is content-sized and pushed to the RIGHT edge (margin-left: auto). Show Icons sizes to
+// its own text; longer translations grow the group leftward but it stays right-anchored.
 .toolbarButtons {
-    flex-grow: 1;
+    flex-grow: 0;
     flex-shrink: 1;
     flex-basis: auto;
     min-width: 0;
-    margin-left: 16rem;
+    margin-left: auto;
 }
 
 // Left side: keep Info + Road-Name + District-Name + Road-Arrow toggles tight.

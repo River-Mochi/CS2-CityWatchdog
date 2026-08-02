@@ -192,14 +192,14 @@
 
 .toggleButton {
     width: auto;
-    min-width: 90rem;
-    // flex-grow fills the toolbar slack (using the room to the right); overflow hidden clips any
-    // still-too-long label to the button instead of letting it spill left onto the preset boxes.
-    flex-grow: 1;
+    min-width: 74rem;
+    // Content-sized (no grow): the button hugs its label so the right group stays compact and
+    // right-aligned. Longer translations widen it; overflow hidden clips extreme cases.
+    flex-grow: 0;
     flex-shrink: 1;
     flex-basis: auto;
-    padding-left: 4rem;
-    padding-right: 4rem;
+    padding-left: 8rem;
+    padding-right: 8rem;
     overflow: hidden;
     box-sizing: border-box;
 }
