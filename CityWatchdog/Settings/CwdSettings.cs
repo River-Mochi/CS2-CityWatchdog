@@ -74,8 +74,8 @@ namespace CityWatchdog
         internal const int kPanelPositionLimit = 20000;
         internal const int kMainPanelOpacityDefault = 70;
 
-        private const string AboutLinksRow = nameof(AboutLinksRow);
-        private const string DebugButtonsRow = nameof(DebugButtonsRow);
+        private const string kAboutLinksRow = "kAboutLinksRow";
+        private const string kDebugButtonsRow = "kDebugButtonsRow";
         private const string kUsageIconPath = "coui://ui-mods/images/NotificationIcon_PawRainbow.svg";
         private const string kUrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
@@ -186,7 +186,7 @@ namespace CityWatchdog
             Mod.ModVersion;
 #endif
 
-        [SettingsUIButtonGroup(AboutLinksRow)]
+        [SettingsUIButtonGroup(kAboutLinksRow)]
         [SettingsUIButton]
         [SettingsUISection(kAbout, kAboutLinks)]
         public bool OpenParadox
@@ -205,7 +205,7 @@ namespace CityWatchdog
         // About tab - Diagnostics
         // --------------------------------------------------------------------
 
-        [SettingsUIButtonGroup(DebugButtonsRow)]
+        [SettingsUIButtonGroup(kDebugButtonsRow)]
         [SettingsUIButton]
         [SettingsUISection(kAbout, kAboutDiagnostics)]
         public bool WriteNotificationAuditLog
@@ -231,7 +231,7 @@ namespace CityWatchdog
             }
         }
 
-        [SettingsUIButtonGroup(DebugButtonsRow)]
+        [SettingsUIButtonGroup(kDebugButtonsRow)]
         [SettingsUIButton]
         [SettingsUISection(kAbout, kAboutDiagnostics)]
         public bool OpenLog
