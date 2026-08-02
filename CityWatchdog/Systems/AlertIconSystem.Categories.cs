@@ -348,7 +348,7 @@ namespace CityWatchdog.Systems
         // plus ImageSystem.GetIcon, and that ran for every resource prefab on every count scan — the only
         // string work left in that path. Cached per entity, a scan does nothing but trivial compares.
         // Cleared in OnGameLoaded because Entity values are recycled across city loads.
-        private readonly Dictionary<Entity, (string IconPath, string Name)> notificationPrefabStrings = new();
+        private readonly Dictionary<Entity, (string IconPath, string Name)> m_NotificationPrefabStrings = new();
 
         // Only GetPrefab can realistically throw: ImageSystem.GetIcon returns null rather than throwing,
         // so a single try/catch here reproduces the previous per-method behaviour exactly.
@@ -358,7 +358,7 @@ namespace CityWatchdog.Systems
                 return false;
             }
 
-            if (notificationPrefabStrings.TryGetValue(notificationPrefab, out strings)) {
+            if (m_NotificationPrefabStrings.TryGetValue(notificationPrefab, out strings)) {
                 return true;
             }
 
@@ -373,7 +373,7 @@ namespace CityWatchdog.Systems
                 return false;
             }
 
-            notificationPrefabStrings[notificationPrefab] = strings;
+            m_NotificationPrefabStrings[notificationPrefab] = strings;
             return true;
         }
 

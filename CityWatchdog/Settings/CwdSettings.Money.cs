@@ -21,7 +21,7 @@ namespace CityWatchdog
 
     public partial class CwdSettings
     {
-        private static readonly string[] Milestones =
+        private static readonly string[] s_Milestones =
         {
             "TinyVillage",
             "SmallVillage",
@@ -359,12 +359,12 @@ namespace CityWatchdog
         private DropdownItem<int>[] GetMilestoneLevelItems()
         {
             List<DropdownItem<int>> items = new();
-            for (int i = 0; i < Milestones.Length; i++)
+            for (int i = 0; i < s_Milestones.Length; i++)
             {
                 items.Add(new DropdownItem<int>
                 {
                     value = i,
-                    displayName = MilestoneDisplay.Get(i, Milestones[i]),
+                    displayName = MilestoneDisplay.Get(i, s_Milestones[i]),
                 });
             }
 

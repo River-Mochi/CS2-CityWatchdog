@@ -20,7 +20,7 @@ namespace CityWatchdog.Systems
     public partial class AlertIconSystem
     {
         public const int NotificationCountLength = 63;
-        private readonly Dictionary<int, int> nextNotificationEntityOffsets = new();
+        private readonly Dictionary<int, int> m_NextNotificationEntityOffsets = new();
 
         public int[] GetNotificationCounts()
         {
@@ -223,7 +223,7 @@ namespace CityWatchdog.Systems
 
         private void BuildActiveIconCounts()
         {
-            EntityDictionary.Clear();
+            m_EntityDictionary.Clear();
 
             ComponentTypeHandle<PrefabRef> prefabRefTypeHandle = GetComponentTypeHandle<PrefabRef>(true);
             using NativeArray<ArchetypeChunk> chunks = m_IconQuery.ToArchetypeChunkArray(Allocator.TempJob);
@@ -240,15 +240,15 @@ namespace CityWatchdog.Systems
                 for (int j = 0; j < prefabRefs.Length; j++)
                 {
                     Entity prefab = prefabRefs[j].m_Prefab;
-                    EntityDictionary.TryGetValue(prefab, out int count);
-                    EntityDictionary[prefab] = count + 1;
+                    m_EntityDictionary.TryGetValue(prefab, out int count);
+                    m_EntityDictionary[prefab] = count + 1;
                 }
             }
         }
 
         private int Count(Entity prefab)
         {
-            return prefab != Entity.Null && EntityDictionary.TryGetValue(prefab, out int count)
+            return prefab != Entity.Null && m_EntityDictionary.TryGetValue(prefab, out int count)
                 ? count
                 : 0;
         }
@@ -262,7 +262,7 @@ namespace CityWatchdog.Systems
                 return false;
             }
 
-            nextNotificationEntityOffsets.TryGetValue(index, out int nextOffset);
+            m_NextNotificationEntityOffsets.TryGetValue(index, out int nextOffset);
             Entity firstMatch = Entity.Null;
             int matchIndex = 0;
             ComponentTypeHandle<PrefabRef> prefabRefTypeHandle = GetComponentTypeHandle<PrefabRef>(true);
@@ -292,7 +292,7 @@ namespace CityWatchdog.Systems
                     if (matchIndex == nextOffset)
                     {
                         entity = candidate;
-                        nextNotificationEntityOffsets[index] = nextOffset + 1;
+                        m_NextNotificationEntityOffsets[index] = nextOffset + 1;
                         return true;
                     }
 
@@ -302,12 +302,12 @@ namespace CityWatchdog.Systems
 
             if (firstMatch == Entity.Null)
             {
-                nextNotificationEntityOffsets.Remove(index);
+                m_NextNotificationEntityOffsets.Remove(index);
                 return false;
             }
 
             entity = firstMatch;
-            nextNotificationEntityOffsets[index] = 1;
+            m_NextNotificationEntityOffsets[index] = 1;
             return true;
         }
 

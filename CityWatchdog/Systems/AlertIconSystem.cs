@@ -47,7 +47,7 @@ namespace CityWatchdog.Systems
 
             // Entity values are recycled across city loads, so last city's prefab strings must not
             // survive into this one.
-            notificationPrefabStrings.Clear();
+            m_NotificationPrefabStrings.Clear();
 
             SetElectricityNotifications();
             SetWaterPipeNotifications();
@@ -125,21 +125,21 @@ namespace CityWatchdog.Systems
             RequireForUpdate(m_TransportLineNotificationParameterQuery);
         }
 
-        private readonly Dictionary<Entity, int> EntityDictionary = new();
+        private readonly Dictionary<Entity, int> m_EntityDictionary = new();
 
         public void Refresh() {
-            EntityDictionary.Clear();
+            m_EntityDictionary.Clear();
             NativeArray<ArchetypeChunk> nativeArray = m_IconQuery.ToArchetypeChunkArray(Allocator.TempJob);
             ComponentTypeHandle<PrefabRef> prefabRefTypeHandle = GetComponentTypeHandle<PrefabRef>();
             for (int i = 0; i < nativeArray.Length; i++) {
                 NativeArray<PrefabRef> nativeArray2 = nativeArray[i].GetNativeArray(ref prefabRefTypeHandle);
                 for (int j = 0; j < nativeArray2.Length; j++) {
                     Entity prefab = nativeArray2[j].m_Prefab;
-                    if (EntityDictionary.TryGetValue(prefab, out int num)) {
-                        EntityDictionary[prefab] = num + 1;
+                    if (m_EntityDictionary.TryGetValue(prefab, out int num)) {
+                        m_EntityDictionary[prefab] = num + 1;
                     }
                     else {
-                        EntityDictionary.Add(prefab, 1);
+                        m_EntityDictionary.Add(prefab, 1);
                     }
                 }
             }
