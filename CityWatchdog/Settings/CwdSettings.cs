@@ -32,21 +32,21 @@ namespace CityWatchdog
     using UnityEngine;
 
     [FileLocation("ModsSettings/CityWatchdog/CityWatchdog")]
-    [SettingsUITabOrder(Actions, MiniHudTab, MoneyTab, About)]
-    [SettingsUIGroupOrder(AboutUsage, Notifications, MoneyViewGroup, MiniHudGroup, Milestone, SaveConversion, Money, AboutInfo, AboutLinks, AboutDiagnostics, Serialize)]
-    [SettingsUIShowGroupName(AboutUsage, Notifications, MoneyViewGroup, MiniHudGroup, Milestone, Money, SaveConversion, AboutDiagnostics, Serialize)]
+    [SettingsUITabOrder(kActions, kMiniHudTab, kMoneyTab, kAbout)]
+    [SettingsUIGroupOrder(kAboutUsage, kNotifications, kMoneyViewGroup, kMiniHudGroup, kMilestone, kSaveConversion, kMoney, kAboutInfo, kAboutLinks, kAboutDiagnostics, kSerialize)]
+    [SettingsUIShowGroupName(kAboutUsage, kNotifications, kMoneyViewGroup, kMiniHudGroup, kMilestone, kMoney, kSaveConversion, kAboutDiagnostics, kSerialize)]
     public partial class CwdSettings : ModSetting
     {
         internal static CwdSettings Instance { get; set; } = null!;
 
         // Tab IDs.
-        internal const string Actions = nameof(Actions);
-        internal const string MiniHudTab = "MiniHud";
-        internal const string MoneyTab = "Money";
-        internal const string Hotkeys = nameof(Hotkeys);
-        internal const string About = nameof(About);
-        internal const string Debug = nameof(Debug);
-        internal const string Serialize = nameof(Serialize);
+        internal const string kActions = "Actions";
+        internal const string kMiniHudTab = "MiniHud";
+        internal const string kMoneyTab = "Money";
+        internal const string kHotkeys = "Hotkeys";
+        internal const string kAbout = "About";
+        internal const string kDebug = "Debug";
+        internal const string kSerialize = "Serialize";
 
         // Keybinding action IDs.
         public const string AddMoneyAction = nameof(AddMoneyAction);
@@ -57,17 +57,17 @@ namespace CityWatchdog
         public const string ToggleAllTooltipsAction = nameof(ToggleAllTooltipsAction);
 
         // Group IDs.
-        internal const string MoneyViewGroup = nameof(MoneyViewGroup);
-        internal const string Money = nameof(Money);
-        internal const string Notifications = nameof(Notifications);
-        internal const string MiniHudGroup = nameof(MiniHudGroup);
-        internal const string Milestone = nameof(Milestone);
-        internal const string SaveConversion = nameof(SaveConversion);
-        internal const string HotkeyActions = nameof(HotkeyActions);
-        internal const string AboutInfo = nameof(AboutInfo);
-        internal const string AboutLinks = nameof(AboutLinks);
-        internal const string AboutDiagnostics = nameof(AboutDiagnostics);
-        internal const string AboutUsage = nameof(AboutUsage);
+        internal const string kMoneyViewGroup = "MoneyViewGroup";
+        internal const string kMoney = "Money";
+        internal const string kNotifications = "Notifications";
+        internal const string kMiniHudGroup = "MiniHudGroup";
+        internal const string kMilestone = "Milestone";
+        internal const string kSaveConversion = "SaveConversion";
+        internal const string kHotkeyActions = "HotkeyActions";
+        internal const string kAboutInfo = "AboutInfo";
+        internal const string kAboutLinks = "AboutLinks";
+        internal const string kAboutDiagnostics = "AboutDiagnostics";
+        internal const string kAboutUsage = "AboutUsage";
 
         // Coarse sanity bound (pixels) for the stored draggable panel position. The UI does the
         // real on-screen clamping against the live viewport; this only guards absurd saved values.
@@ -91,12 +91,12 @@ namespace CityWatchdog
         // Actions tab - Usage
         // --------------------------------------------------------------------
 
-        [SettingsUISection(Actions, AboutUsage)]
+        [SettingsUISection(kActions, kAboutUsage)]
         public bool ShowUsage { get; set; }
 
         [SettingsUIMultilineText(kUsageIconPath)]
         [SettingsUIHideByCondition(typeof(CwdSettings), nameof(HideUsageText))]
-        [SettingsUISection(Actions, AboutUsage)]
+        [SettingsUISection(kActions, kAboutUsage)]
         public string UsageText => string.Empty;
 
         // --------------------------------------------------------------------
@@ -104,19 +104,19 @@ namespace CityWatchdog
         // --------------------------------------------------------------------
 
         [SettingsUIKeyboardBinding(BindingKeyboard.N, ToggleNotificationsAction)]
-        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISection(kActions, kNotifications)]
         public ProxyBinding ToggleNotificationsKeyboardBinding { get; set; }
 
         [SettingsUIKeyboardBinding(BindingKeyboard.N, ToggleNotificationPanelAction, shift: true)]
-        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISection(kActions, kNotifications)]
         public ProxyBinding ToggleNotificationPanelKeyboardBinding { get; set; }
 
-        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISection(kActions, kNotifications)]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnPanelButtonsOnlyStartChanged))]
         public bool PanelButtonsOnlyStart { get; set; }
 
         [SettingsUIKeyboardBinding(BindingKeyboard.Backslash, ToggleRoadNamesAction)]
-        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISection(kActions, kNotifications)]
         public ProxyBinding ToggleRoadNamesKeyboardBinding { get; set; }
 
         // Persisted across sessions but intentionally hidden from Options UI — controlled only
@@ -134,11 +134,11 @@ namespace CityWatchdog
         public bool ShowRoadArrows { get; set; }
 
         [SettingsUIKeyboardBinding(BindingKeyboard.Backslash, ToggleAllTooltipsAction, shift: true)]
-        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISection(kActions, kNotifications)]
         public ProxyBinding ToggleAllTooltipsKeyboardBinding { get; set; }
 
         [SettingsUISlider(min = 30, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISection(kActions, kNotifications)]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMainPanelOpacityChanged))]
         public int MainPanelOpacity
         {
@@ -175,10 +175,10 @@ namespace CityWatchdog
         // About tab
         // --------------------------------------------------------------------
 
-        [SettingsUISection(About, AboutInfo)]
+        [SettingsUISection(kAbout, kAboutInfo)]
         public string NameText => Mod.ModName;
 
-        [SettingsUISection(About, AboutInfo)]
+        [SettingsUISection(kAbout, kAboutInfo)]
         public string VersionText =>
 #if DEBUG
             Mod.ModVersion + " (DEBUG)";
@@ -188,7 +188,7 @@ namespace CityWatchdog
 
         [SettingsUIButtonGroup(AboutLinksRow)]
         [SettingsUIButton]
-        [SettingsUISection(About, AboutLinks)]
+        [SettingsUISection(kAbout, kAboutLinks)]
         public bool OpenParadox
         {
             set
@@ -207,7 +207,7 @@ namespace CityWatchdog
 
         [SettingsUIButtonGroup(DebugButtonsRow)]
         [SettingsUIButton]
-        [SettingsUISection(About, AboutDiagnostics)]
+        [SettingsUISection(kAbout, kAboutDiagnostics)]
         public bool WriteNotificationAuditLog
         {
             set
@@ -233,7 +233,7 @@ namespace CityWatchdog
 
         [SettingsUIButtonGroup(DebugButtonsRow)]
         [SettingsUIButton]
-        [SettingsUISection(About, AboutDiagnostics)]
+        [SettingsUISection(kAbout, kAboutDiagnostics)]
         public bool OpenLog
         {
             set

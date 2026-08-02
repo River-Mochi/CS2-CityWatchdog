@@ -39,22 +39,22 @@ namespace CityWatchdog
                 { m_Settings.GetSettingsLocaleID(), title },
 
                 // --- Tabs ---
-                { m_Settings.GetOptionTabLocaleID(CwdSettings.Actions), "Actions" },
-                { m_Settings.GetOptionTabLocaleID(CwdSettings.MiniHudTab), "Mini-HUD" },
-                { m_Settings.GetOptionTabLocaleID(CwdSettings.MoneyTab), "City Start" },
-                { m_Settings.GetOptionTabLocaleID(CwdSettings.About), "About" },
+                { m_Settings.GetOptionTabLocaleID(CwdSettings.kActions), "Actions" },
+                { m_Settings.GetOptionTabLocaleID(CwdSettings.kMiniHudTab), "Mini-HUD" },
+                { m_Settings.GetOptionTabLocaleID(CwdSettings.kMoneyTab), "City Start" },
+                { m_Settings.GetOptionTabLocaleID(CwdSettings.kAbout), "About" },
 
                 // --- Groups, ordered by Options menu location ---
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.AboutUsage), "USAGE" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.Notifications), "Notifications" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.MoneyViewGroup), "In-City Info Viewer" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.MiniHudGroup), "Mini HUD Notifications" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.Milestone), "NEW CITY START SETTINGS" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.Money), "Money" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.SaveConversion), "Convert Unlimited Save" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.AboutInfo), "" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.AboutLinks), "" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.AboutDiagnostics), "DIAGNOSTICS" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kAboutUsage), "USAGE" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kNotifications), "Notifications" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMoneyViewGroup), "In-City Info Viewer" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMiniHudGroup), "Mini HUD Notifications" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMilestone), "NEW CITY START SETTINGS" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMoney), "Money" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kSaveConversion), "Convert Unlimited Save" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kAboutInfo), "" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kAboutLinks), "" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kAboutDiagnostics), "DIAGNOSTICS" },
 
                 // --------------------------------------------------------------------
                 // Actions tab - Usage

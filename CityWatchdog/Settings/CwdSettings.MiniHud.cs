@@ -77,12 +77,12 @@ namespace CityWatchdog
         // Mini-HUD tab - Mini HUD Notifications
         // --------------------------------------------------------------------
 
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudEnabledChanged))]
         public bool MiniHudEnabled { get; set; }
 
         [SettingsUIButton]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         public bool ApplyMiniHudRecommendedPreset
         {
             set
@@ -122,48 +122,48 @@ namespace CityWatchdog
         }
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMiniHudModeItems))]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudModeChanged))]
         public int MiniHudMode { get; set; }
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMiniHudItemCountItems))]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudItemCountChanged))]
         public int MiniHudItemCount { get; set; }
 
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudHideZeroChanged))]
         public bool MiniHudHideZero { get; set; }
 
         [SettingsUISlider(min = 90, max = 130, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudScaleChanged))]
         public int MiniHudScale { get; set; }
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMiniHudOrientationItems))]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudOrientationChanged))]
         public int MiniHudOrientation { get; set; }
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMiniHudPlacementItems))]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudPlacementChanged))]
         public int MiniHudPlacement { get; set; }
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMiniHudPanelStyleItems))]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudPanelStyleChanged))]
         public int MiniHudPanelStyle { get; set; }
 
         [SettingsUISlider(min = 30, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudPanelOpacityChanged))]
         public int MiniHudPanelOpacity { get; set; }
