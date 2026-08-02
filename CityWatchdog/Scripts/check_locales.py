@@ -19,10 +19,31 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import DefaultDict, Dict, Iterable, List, Optional, Tuple
 
-
 DICT_START = re.compile(
-    r"(?:return\s+)?new\s+Dictionary\s*<\s*string\s*,\s*string\s*>\s*\{",
-    re.IGNORECASE,
+    r"""
+    (?:
+        # Older explicit Dictionary constructor:
+        # new Dictionary<string, string> { ... }
+        # new Dictionary<string, string>() { ... }
+        (?:return\s+)?
+        new\s+
+        (?:System\.Collections\.Generic\.)?
+        Dictionary\s*<\s*string\s*,\s*string\s*>
+        \s*(?:\(\s*\))?
+
+      |
+
+        # Newer target-typed constructor:
+        # Dictionary<string, string> entries = new() { ... }
+        (?:System\.Collections\.Generic\.)?
+        Dictionary\s*<\s*string\s*,\s*string\s*>
+        \s+[A-Za-z_]\w*
+        \s*=\s*
+        new\s*\(\s*\)
+    )
+    \s*\{
+    """,
+    re.IGNORECASE | re.VERBOSE,
 )
 
 SKIP_DIRS = {

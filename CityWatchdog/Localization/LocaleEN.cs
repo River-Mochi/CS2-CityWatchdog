@@ -84,7 +84,7 @@ namespace CityWatchdog
                     "<Bottom menu tooltips>\n" +
                     "Money View adds extra details like Trending on mouse hover over money or population tooltips.\n\n" +
                     "<Custom milestone>\n" +
-                    "Money-Milestones > NEW CITY START SETTINGS sets Initial Money or Milestones before loading or starting a city."
+                    "City Start sets Initial Money or Milestones before loading or starting a city."
                 },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.UsageText)), "" },
 
@@ -126,21 +126,19 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Bigger Game UI" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
-                    "When enabled [ ✓ ], the <whole game interface> is drawn larger — for game and mod panels.\n" +
-                    "This is the game's own <Interface Scaling> option, which normally only appears in\n" +
-                    "Options > Interface if you launch with the <--developerMode> flag. City Watchdog lets you use it without that.\n" +
-                    "It is a simple on/off.\n\n" +
-             
-                    "<Makes the game a little bigger. It stays on until you turn it off — even if this mod is removed.\n" +
-                    "Same as the scale button in the City Watchdog title bar." +
-                     "For text size only, use Options > Interface > <Text Scaling>."
+                    "When enabled [ ✓ ], the <whole game> is larger — game + mod panels.\n" +
+                    "Uses the game's own <Interface Scaling> option without requiring <--developerMode> launch parameter.\n" +
+                    "This [x] is the Same as the scale button in the City Watchdog title bar (synced).\n" +
+                    "For game text size only, use Options > Interface > <Text Scaling>." +
+                    "This stays on until you turn it off, even if City Watchdog is removed.\n" +
+                    "- To reset interface scale to normal, turn this off before uninstalling the mod.\n"+
+                    "- or start the game one time with launch option <--developerMode>, go to Options > Interface > Interfce Scaling (dev) [ ]"
                 },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "Main panel opacity" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
                     "Adjusts the main notification panel background transparency.\n" +
                     "Lower values are more transparent. Higher values are darker and more solid." },
-
 
                 // --------------------------------------------------------------------
                 // Actions tab - In-City Info Viewer
@@ -263,7 +261,7 @@ namespace CityWatchdog
                     "When enabled [ ✓ ], the Mini HUD hides notification rows with a count of 0." },
 
                 // --------------------------------------------------------------------
-                // Money-Milestones tab - New City Start Settings
+                // Money Milestones tab - New City Start Settings
                 // --------------------------------------------------------------------
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InitialMoney)), "Initial Money" },
