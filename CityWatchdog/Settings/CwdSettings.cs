@@ -149,6 +149,24 @@ namespace CityWatchdog
         }
 
 
+        // Mirrors the vanilla "Interface Scaling (dev)" flag, which normally only appears in the game's
+        // Options > Interface when launched with --developerMode. Turning it on makes the WHOLE game UI
+        // (and every mod panel) render larger.
+        //
+        // Deliberately NOT backed by a CWD field: the getter reads the live vanilla value and the setter
+        // writes straight through, so this checkbox, the in-city title-bar button, and the vanilla
+        // checkbox can never disagree, and CWD never stores a stale duplicate. During settings
+        // deserialization the control system does not exist yet (LoadSettings runs before systems are
+        // scheduled in Mod.OnLoad), so the setter safely no-ops and cannot clobber the vanilla value.
+        [SettingsUISection(kActions, kNotifications)]
+        public bool InterfaceScaling
+        {
+            get => GameManager.instance?.settings?.userInterface?.interfaceScaling ?? false;
+            set => World.DefaultGameObjectInjectionWorld?
+                .GetExistingSystemManaged<InterfaceScaleControlSystem>()?
+                .SetInterfaceScaling(value);
+        }
+
         // Session-only now: the CWD title-bar tooltip toggle starts OFF (tooltips shown) each launch
         // so new mod tooltips are always seen first. Retained only so the binding name stays
         // "DisableCwdTooltips"; the stored value is no longer read to drive behavior.

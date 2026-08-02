@@ -124,6 +124,15 @@ namespace CityWatchdog
                     "Same as clicking the [i] icon on the City Watchdog panel inside the city." },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Hide/Show all game hover tooltips" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Bigger UI (all panels)" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
+                    "When enabled [ ✓ ], the <whole game interface> is drawn larger — every game panel, menu, and mod panel.\n" +
+                    "This is the game's own <Interface Scaling> option, which normally only appears in\n" +
+                    "Options > Interface if you launch with the <--developerMode> flag. City Watchdog lets you use it without that.\n" +
+                    "It is a simple on/off, not a percentage. For text size only, use Options > Interface > <Text Scaling>.\n" +
+                    "<Affects the entire game, not just City Watchdog>, and it stays on until you turn it off — even if this mod is removed.\n" +
+                    "Same as the scale button in the City Watchdog title bar." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "Main panel opacity" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
                     "Adjusts the main notification panel background transparency.\n" +

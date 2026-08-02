@@ -52,7 +52,7 @@ namespace CityWatchdog.Systems
             interfaceScaleEnabledBinding = AddBoolBindingAndTriggerBinding(
                 "InterfaceScaleEnabled",
                 GetUI()?.interfaceScaling ?? false,
-                OnToggleInterfaceScale);
+                SetInterfaceScaling);
         }
 
         protected override void OnUpdate()
@@ -90,7 +90,9 @@ namespace CityWatchdog.Systems
             }
         }
 
-        private void OnToggleInterfaceScale(bool enable)
+        // Public so the CWD Options toggle (CwdSettings.InterfaceScaling) routes through the same path
+        // as the in-city title-bar button: apply, persist, push the vanilla binding, refresh our binding.
+        public void SetInterfaceScaling(bool enable)
         {
             InterfaceSettings? ui = GetUI();
             if (ui == null)
