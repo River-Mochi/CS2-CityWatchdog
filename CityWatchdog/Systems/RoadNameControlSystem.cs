@@ -78,10 +78,7 @@ namespace CityWatchdog.Systems
 
         protected override void OnUpdate()
         {
-            if (m_ToggleAction == null)
-            {
-                m_ToggleAction = EnableHotkey(CwdSettings.ToggleRoadNamesAction);
-            }
+            m_ToggleAction ??= EnableHotkey(CwdSettings.ToggleRoadNamesAction);
 
             if (m_ToggleAction?.WasReleasedThisFrame() == true)
             {

@@ -752,15 +752,9 @@ namespace CityWatchdog.Systems
 
         private void RefreshKeybindActions()
         {
-            if (m_ToggleNotificationsAction == null)
-            {
-                m_ToggleNotificationsAction = EnableAction(CwdSettings.ToggleNotificationsAction);
-            }
+            m_ToggleNotificationsAction ??= EnableAction(CwdSettings.ToggleNotificationsAction);
 
-            if (m_ToggleNotificationPanelAction == null)
-            {
-                m_ToggleNotificationPanelAction = EnableAction(CwdSettings.ToggleNotificationPanelAction);
-            }
+            m_ToggleNotificationPanelAction ??= EnableAction(CwdSettings.ToggleNotificationPanelAction);
         }
 
         private void ToggleAllNotificationsFromHotkey()

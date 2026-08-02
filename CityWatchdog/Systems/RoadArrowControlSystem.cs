@@ -46,7 +46,7 @@ namespace CityWatchdog.Systems
             // Restore vanilla default-tool flag on mod unload so the game is clean.
             if (m_ArrowsCurrentlyForced)
             {
-                WriteArrowsFlag(m_OriginalFlagCaptured ? m_OriginalFlagValue : false);
+                WriteArrowsFlag(m_OriginalFlagCaptured && m_OriginalFlagValue);
                 m_ArrowsCurrentlyForced = false;
             }
             base.OnDestroy();
@@ -95,7 +95,7 @@ namespace CityWatchdog.Systems
             }
             else if (!show && m_ArrowsCurrentlyForced)
             {
-                WriteArrowsFlag(m_OriginalFlagCaptured ? m_OriginalFlagValue : false);
+                WriteArrowsFlag(m_OriginalFlagCaptured && m_OriginalFlagValue);
                 m_ArrowsCurrentlyForced = false;
             }
         }

@@ -167,9 +167,8 @@ namespace CityWatchdog.Systems
                     return;
                 }
 
-                Array? array = arrayField.GetValue(m_CachedAreaBufferSystem) as Array;
                 int districtIndex = (int)AreaType.District;
-                if (array == null || districtIndex < 0 || districtIndex >= array.Length)
+                if (arrayField.GetValue(m_CachedAreaBufferSystem) is not Array array || districtIndex < 0 || districtIndex >= array.Length)
                 {
                     LogUtils.WarnOnce(
                         "district-name-reflect",

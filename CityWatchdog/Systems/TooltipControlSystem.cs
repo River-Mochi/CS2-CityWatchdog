@@ -48,10 +48,7 @@ namespace CityWatchdog.Systems
 
         protected override void OnUpdate()
         {
-            if (m_ToggleAllTooltipsAction == null)
-            {
-                m_ToggleAllTooltipsAction = EnableHotkey(CwdSettings.ToggleAllTooltipsAction);
-            }
+            m_ToggleAllTooltipsAction ??= EnableHotkey(CwdSettings.ToggleAllTooltipsAction);
 
             if (m_ToggleAllTooltipsAction?.WasReleasedThisFrame() == true)
             {
@@ -91,10 +88,7 @@ namespace CityWatchdog.Systems
 
         private void ApplyToGame(bool value)
         {
-            if (m_CachedTooltipUISystem == null)
-            {
-                m_CachedTooltipUISystem = World.GetExistingSystemManaged<TooltipUISystem>();
-            }
+            m_CachedTooltipUISystem ??= World.GetExistingSystemManaged<TooltipUISystem>();
 
             if (m_CachedTooltipUISystem != null)
             {
