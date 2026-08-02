@@ -28,6 +28,8 @@
   "HideIcons": "İkonları gizle",
   "PresetLoadHint": "Bu kayıtlı ikon düzenini yüklemek için tıkla.\nMevcut onay kutularınla üzerine yazmak için basılı tut.",
   "PresetSaveHint": "Bu ön ayar boş.\nMevcut onay kutularını kaydetmek için basılı tut.",
+  "InterfaceScaleOff": "Oyun arayüzünü büyüt (paneller + yazı).\nKapatana kadar açık kalır.",
+  "InterfaceScaleOn": "Büyük arayüz AÇIK.\nNormal boyuta dönmek için tıkla.\nGeliştirici arayüz ölçeğiyle aynıdır.",
   "ExpandAll": "Tüm satırları aç/kapat.",
   "CollapseAll": "Tüm satırları kapat/aç",
   "SortAscending": "↑Artan sırala",
