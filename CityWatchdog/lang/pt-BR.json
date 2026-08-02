@@ -28,6 +28,8 @@
   "HideIcons": "Ocultar ícones",
   "PresetLoadHint": "Clique para carregar esta configuração de ícones salva.\nMantenha pressionado para substituí-la pelas caixas marcadas atuais.",
   "PresetSaveHint": "Esta predefinição está vazia.\nMantenha pressionado para salvar nela as caixas marcadas atuais.",
+  "InterfaceScaleOff": "Aumente a interface do jogo (painéis + texto).\nFica ativa até você desligar.",
+  "InterfaceScaleOn": "Interface maior ATIVADA.\nClique para voltar ao tamanho normal.\nÉ a mesma escala de interface do modo desenvolvedor.",
   "ExpandAll": "Expandir/recolher todas as linhas.",
   "CollapseAll": "Recolher/expandir todas as linhas",
   "SortAscending": "↑Ordem crescente",

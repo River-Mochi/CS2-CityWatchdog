@@ -28,6 +28,8 @@
   "HideIcons": "隱藏圖示",
   "PresetLoadHint": "點擊以載入已儲存的圖示設定。\n長按可用目前勾選項覆寫。",
   "PresetSaveHint": "此預設為空。\n長按可儲存目前勾選項。",
+  "InterfaceScaleOff": "放大遊戲介面（面板 + 文字）。\n會保持開啟，直到你關閉。",
+  "InterfaceScaleOn": "大型介面已開啟。\n點擊恢復正常大小。\n等同開發者介面縮放。",
   "ExpandAll": "展開/收合所有列。",
   "CollapseAll": "收合/展開所有列",
   "SortAscending": "↑升冪",

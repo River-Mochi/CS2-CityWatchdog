@@ -28,6 +28,8 @@
   "HideIcons": "Ukryj ikony",
   "PresetLoadHint": "Kliknij, aby wczytać ten zapisany układ ikon.\nPrzytrzymaj, aby zastąpić go bieżącym wyborem pól.",
   "PresetSaveHint": "Ten preset jest pusty.\nPrzytrzymaj, aby zapisać w nim bieżący wybór pól.",
+  "InterfaceScaleOff": "Powiększ interfejs gry (panele + tekst).\nPozostaje włączony, aż go wyłączysz.",
+  "InterfaceScaleOn": "Duży interfejs jest WŁĄCZONY.\nKliknij, aby wrócić do normalnego rozmiaru.\nTo samo co deweloperska skala interfejsu.",
   "ExpandAll": "Rozwiń/zwiń wszystkie wiersze.",
   "CollapseAll": "Zwiń/rozwiń wszystkie wiersze",
   "SortAscending": "↑Sortuj rosnąco",

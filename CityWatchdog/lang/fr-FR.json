@@ -28,6 +28,8 @@
   "HideIcons": "Icônes",
   "PresetLoadHint": "Cliquer pour charger cette configuration d’icônes enregistrée.\nMaintenir pour la remplacer par les cases actuellement cochées.",
   "PresetSaveHint": "Ce préréglage est vide.\nMaintenir pour y enregistrer les cases actuellement cochées.",
+  "InterfaceScaleOff": "Agrandir l’interface du jeu (panneaux + texte).\nReste activé jusqu’à désactivation.",
+  "InterfaceScaleOn": "Grande interface ACTIVÉE.\nCliquer pour revenir à la taille normale.\nIdentique à l’échelle d’interface développeur.",
   "ExpandAll": "Développer/réduire toutes les lignes.",
   "CollapseAll": "Réduire/développer toutes les lignes",
   "SortAscending": "↑Tri croissant",

@@ -28,6 +28,8 @@
   "HideIcons": "隐藏图标",
   "PresetLoadHint": "点击加载已保存的图标设置。\n长按可用当前勾选项覆盖它。",
   "PresetSaveHint": "此预设为空。\n长按可保存当前勾选项。",
+  "InterfaceScaleOff": "放大游戏界面（面板 + 文字）。\n会保持开启，直到你关闭。",
+  "InterfaceScaleOn": "大界面已开启。\n点击恢复正常大小。\n等同于开发者界面缩放。",
   "ExpandAll": "展开/收起所有行。",
   "CollapseAll": "收起/展开所有行",
   "SortAscending": "↑升序",

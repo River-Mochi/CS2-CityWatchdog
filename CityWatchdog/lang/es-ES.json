@@ -28,6 +28,8 @@
   "HideIcons": "Iconos",
   "PresetLoadHint": "Haz clic para cargar esta configuración de iconos guardada.\nMantén pulsado para reemplazarla con las casillas seleccionadas actuales.",
   "PresetSaveHint": "Este ajuste predefinido está vacío.\nMantén pulsado para guardar en él las casillas seleccionadas actuales.",
+  "InterfaceScaleOff": "Aumenta la interfaz del juego (paneles + texto).\nSe mantiene hasta que la desactives.",
+  "InterfaceScaleOn": "La interfaz grande está ACTIVADA.\nHaz clic para volver al tamaño normal.\nEquivale a la escala de interfaz de desarrollador.",
   "ExpandAll": "Expandir/contraer todas las filas.",
   "CollapseAll": "Contraer/expandir todas las filas",
   "SortAscending": "↑Orden ascendente",
