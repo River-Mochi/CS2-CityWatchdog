@@ -25,6 +25,7 @@ import {
   preset1Saved$,
   preset2Saved$,
   activePreset$,
+  interfaceScaleEnabled$,
   showRoadArrows$,
   OnControlPanelBindingToggle,
   OnDisableAllTooltipsToggle,
@@ -37,6 +38,7 @@ import {
   OnPanelSortModeChanged,
   OnLoadPreset,
   OnSavePreset,
+  OnToggleInterfaceScale,
 } from "../../../bindings/bindings";
 import { Divider } from "../../divider/divider";
 import { InfoPanel } from "../info-panel/infoPanel";
@@ -78,7 +80,11 @@ import DistrictIconPath from "../../../../images/Districts-max.svg";
 // Road-arrow toggle icon tuned for small toolbar rendering.
 import RoadArrowIconPath from "../../../../images/icon-RoadArrows-max.svg";
 
+// UI-scale (title-bar) button icon.
+import ScalePanelsPath from "../../../../images/ScalePanels.svg";
+
 const modIconSrc = TitleBarIconPath;
+const scalePanelsSrc = ScalePanelsPath;
 const sortArrowUpSrc = SortArrowUpPath;
 const sortArrowDownSrc = SortArrowDownPath;
 const sortActiveSrc = SortActivePath;
@@ -159,6 +165,8 @@ const DraggablePanelFrame = ({
   titleBarTooltip,
   dragTitleTooltip,
   panelCollapseTooltip,
+  scaleEnabled,
+  scaleTooltip,
   panelTitle,
   panelCollapsed,
   allSectionsExpanded,
@@ -171,6 +179,8 @@ const DraggablePanelFrame = ({
   titleBarTooltip: ReactNode;
   dragTitleTooltip: ReactNode;
   panelCollapseTooltip: ReactNode;
+  scaleEnabled: boolean;
+  scaleTooltip: ReactNode;
   // Swaps to the Active-view title so the header says what the body is actually showing.
   panelTitle: string;
   panelCollapsed: boolean;
@@ -235,6 +245,18 @@ const DraggablePanelFrame = ({
                 </CwdTooltip>
               )}
             </div>
+            {/* UI-scale toggle — enables the vanilla (dev) interface scaling without the launch flag.
+                Sits left of the expand arrow. Highlights when scaling is on. */}
+            <CwdTooltip tooltip={scaleTooltip} alwaysVisible>
+              <div
+                className={`${styles.headerScaleButton} ${scaleEnabled ? styles.headerScaleButtonActive : ""}`}
+                role="button"
+                aria-pressed={scaleEnabled}
+                onClick={() => { OnToggleInterfaceScale(!scaleEnabled); }}
+              >
+                <img src={scalePanelsSrc} className={styles.headerScaleIcon} />
+              </div>
+            </CwdTooltip>
             <CwdTooltip tooltip={panelCollapseTooltip}>
               <Button
                 className={roundButtonHighlightStyle.button + " " + styles.headerCollapseButton}
@@ -301,6 +323,8 @@ const NotificationPanelContent = () => {
   const preset2Saved = useValue(preset2Saved$);
   // activePreset$ — which slot (1/2) is currently applied; 0 = none. Drives the "selected" ring + dot.
   const activePreset = useValue(activePreset$);
+  // interfaceScaleEnabled$ — vanilla UI scaling on/off (drives the title-bar scale button).
+  const interfaceScaleEnabled = useValue(interfaceScaleEnabled$);
   const [expandedSections, setExpandedSections] = useState(createExpandedSections);
   const allValues = useAllNotificationValues();
   const notificationCounts = useValue(notificationCounts$);
@@ -435,6 +459,9 @@ const NotificationPanelContent = () => {
     : "CITY WATCHDOG";
   const panelCollapseTooltip = localize("PanelCollapseToggle", "Expand/collapse whole panel.");
   const dragTitleTooltip = localize("DragTitleBar", "Drag title bar.");
+  const scaleTooltip = interfaceScaleEnabled
+    ? localize("InterfaceScaleOn", "Bigger UI is ON.\nClick to return the game interface to normal size.")
+    : localize("InterfaceScaleOff", "Make the whole game interface bigger.\nSet the level in Options (under panel opacity).");
 
   // Same text regardless of toggle state — Info button is always discoverable.
   const infoTooltip = localize(
@@ -522,6 +549,8 @@ const NotificationPanelContent = () => {
       titleBarTooltip={titleBarTooltip}
       dragTitleTooltip={dragTitleTooltip}
       panelCollapseTooltip={panelCollapseTooltip}
+      scaleEnabled={interfaceScaleEnabled}
+      scaleTooltip={scaleTooltip}
       panelTitle={panelTitle}
       panelCollapsed={panelCollapsed}
       allSectionsExpanded={allSectionsExpanded}

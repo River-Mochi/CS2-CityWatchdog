@@ -193,16 +193,22 @@
 .toggleButton {
     width: auto;
     min-width: 90rem;
-    // No max-width + flex-grow: 1 so it fills the toolbar slack and grows for longer translations.
+    // flex-grow fills the toolbar slack (using the room to the right); overflow hidden clips any
+    // still-too-long label to the button instead of letting it spill left onto the preset boxes.
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: auto;
     padding-left: 4rem;
     padding-right: 4rem;
+    overflow: hidden;
     box-sizing: border-box;
 }
 
 .toggleButtonText {
+    // min-width: 0 lets the text shrink inside the flex button so the ellipsis engages instead of
+    // overflowing; max-width keeps it within the button.
+    min-width: 0;
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

@@ -12,7 +12,7 @@
     overflow: visible;
     // Widened to fit the preset 1|2 button plus the Show/Hide Icons label with headroom for longer
     // translated words (e.g. German/Russian) so nothing clips at the right edge.
-    width: 420rem;
+    width: 440rem;
 }
 
 .panel {
@@ -20,7 +20,7 @@
     top: 0;
     left: 0;
     overflow: visible;
-    width: 420rem;
+    width: 440rem;
     max-height: 890rem;
     // Let custom wrapper colors show through instead of stacking extra vanilla fills.
     // follows the same idea as ZoneTools: make Panel shell transparent,
@@ -261,6 +261,50 @@
     display: block;
     pointer-events: none;
     filter: brightness(0) invert(1) opacity(0.95);
+}
+
+// UI-scale toggle button in the header (left of the expand arrow).
+.headerScaleButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 24rem;
+    width: 24rem;
+    height: 24rem;
+    margin-left: 5rem;
+    border-top-left-radius: 4rem;
+    border-top-right-radius: 4rem;
+    border-bottom-left-radius: 4rem;
+    border-bottom-right-radius: 4rem;
+    cursor: pointer;
+    transition-property: background-color, box-shadow;
+    transition-duration: 120ms, 120ms;
+    transition-timing-function: ease-out, ease-out;
+
+    &:hover {
+        background-color: rgba(232, 247, 255, 0.18);
+    }
+}
+
+// Highlighted when UI scaling is ON.
+.headerScaleButtonActive {
+    background-color: rgba(30, 131, 170, 0.5);
+    box-shadow: 0 0 6rem rgba(84, 215, 255, 0.4);
+
+    &:hover {
+        background-color: rgba(50, 160, 200, 0.58);
+    }
+}
+
+.headerScaleIcon {
+    width: 18rem;
+    height: 18rem;
+    display: block;
+    pointer-events: none;
+    // Icon strokes are black; invert to white to match the other header glyphs.
+    filter: brightness(0) invert(1) opacity(0.9);
 }
 
 // Standalone X glyph inside the icon-button — vanilla button frame doesn't size the inner img.

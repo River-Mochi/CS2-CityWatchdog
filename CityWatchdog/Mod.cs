@@ -136,6 +136,7 @@ namespace CityWatchdog
                 updateSystem.UpdateAt<RoadNameControlSystem>(SystemUpdatePhase.UIUpdate);
                 updateSystem.UpdateAt<DistrictNameControlSystem>(SystemUpdatePhase.Rendering);
                 updateSystem.UpdateAt<RoadArrowControlSystem>(SystemUpdatePhase.UIUpdate);
+                updateSystem.UpdateAt<InterfaceScaleControlSystem>(SystemUpdatePhase.UIUpdate);
                 updateSystem.UpdateAt<AlertIconSystem>(SystemUpdatePhase.ModificationEnd);
             }
             catch (Exception ex)
