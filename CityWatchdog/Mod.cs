@@ -96,7 +96,7 @@ namespace CityWatchdog
             }
 
             // Custom in-city React UI strings from embedded lang/*.json.
-            InCityLocalization.LoadEmbeddedJsonTranslations(ModId, ModTag, s_Log);
+            InCityLocalization.LoadEmbeddedJsonTranslations(ModId, ModTag);
 
             try
             {
