@@ -11,7 +11,7 @@
     left: var(--screenPadding);
     overflow: visible;
     // Widen to fit all buttons row with headroom for longer translated words.
-    width: 410rem;
+    width: 400rem;
 }
 
 .panel {
@@ -19,7 +19,7 @@
     top: 0;
     left: 0;
     overflow: visible;
-    width: 410rem;
+    width: 400rem;
     max-height: 890rem;
     // Lets custom wrapper colors show through instead of stacking extra vanilla fills.
     // follows same idea as ZoneTools: make Panel shell transparent,
