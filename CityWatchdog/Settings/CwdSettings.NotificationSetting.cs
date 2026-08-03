@@ -96,7 +96,7 @@ namespace CityWatchdog
             public bool TransportLineVehicleNotification { get; set; }
 
             // Copies every notification flag from another snapshot. Used by the in-city preset slots
-            // (save = copy live -> preset; load = copy preset -> live). Unlike Toggle All, a preset
+            // (save = copy live -> preset; load = copy preset -> live). Unlike SHOW ICONS, a preset
             // captures the player's EXACT layout, so BuildingLevelingNotification (the optional row)
             // IS included here. Keep this list complete whenever notifications are added.
             public void CopyFrom(NotificationSetting other) {

@@ -335,7 +335,7 @@
 
 // Toolbar layout:
 // left = Info + Road-Name toggles
-// right = Sort + Count/Expand + Toggle All
+// right = Sort + Count/Expand + SHOW ICONS
 // Coherent flex does not support `gap`. We use justify-content: space-between for the outer
 // row (only 2 groups), and the adjacent-sibling combinator below to space buttons within each group.
 .toolbar {
@@ -381,7 +381,7 @@
     margin-left: 2rem;
 }
 
-// Right side: Sort, Count/Expand, and Toggle All stay almost touching to preserve toolbar room.
+// Right side: Sort, Count/Expand, and SHOW ICONS stay almost touching to preserve toolbar room.
 .toolbarButtons > * + * {
     margin-left: 2rem;
 }

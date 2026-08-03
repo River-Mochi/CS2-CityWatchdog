@@ -766,7 +766,7 @@ namespace CityWatchdog.Systems
 
         private void ApplyAllNotificationToggles(bool enabled)
         {
-            // Shared path for the hotkey and panel Toggle All button.
+            // Shared path for the hotkey and panel SHOW ICONS button.
             // The controller applies icon state in bulk, then bindings update panel state.
             m_AlertIconSystem.SetAllNotifications(enabled);
             UpdateAllNotificationBindings(enabled);
@@ -804,7 +804,7 @@ namespace CityWatchdog.Systems
             m_BuildingCondemnedNotificationBinding.Update(enabled);
             m_BuildingTurnedOffNotificationBinding.Update(enabled);
             m_BuildingHighRentNotificationBinding.Update(enabled);
-            // Deliberately NOT updated here: Leveling is an optional/positive row that Toggle All
+            // Deliberately NOT updated here: Leveling is an optional/positive row that SHOW ICONS
             // and the N hotkey leave alone (its real setting is never touched by SetAllNotificationSettings
             // either) — only its own manual checkbox should change it.
 
@@ -927,7 +927,7 @@ namespace CityWatchdog.Systems
 
         // Mirrors UpdateAllNotificationBindings but pushes each notification's OWN saved value (used
         // after a preset load, where slots differ per notification). Includes BuildingLeveling, which
-        // the bulk Toggle All path deliberately skips.
+        // the bulk SHOW ICONS path deliberately skips.
         private void PushNotificationBindingsFromSettings()
         {
             CwdSettings.NotificationSetting n = CwdSettings.Instance.Notification;

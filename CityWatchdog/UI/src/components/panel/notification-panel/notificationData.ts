@@ -119,8 +119,8 @@ export interface NotificationItem {
 
     // Marks a row as an opt-in, positive-status extra (e.g. Leveling Building) rather than a
     // "problem" alert. Affects it everywhere the panel distinguishes problems from extras:
-    // Toggle All / the N hotkey leave its real setting untouched, its tone/count are excluded from
-    // the Toggle All summary (so that can still reach a clean "all on"), and it never appears in
+    // SHOW ICONS / the N hotkey leave its real setting untouched, its tone/count are excluded from
+    // the SHOW ICONS summary (so that can still reach a clean "all on"), and it never appears in
     // the Active-first triage list (there's nothing to "fix" about it, so it doesn't belong there).
     readonly optional?: boolean;
 }

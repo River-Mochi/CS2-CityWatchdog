@@ -74,8 +74,8 @@ namespace CityWatchdog
                 
                     "<Notification alerts>\n" +
                     "1. Sort button cycles A→Z, Z→A, Active-only list.\n" +
-                    "2. <[0/62]> = icons ON/total. Click to expand/collapse all rows.\n" +
-                    "3a. [Toggle All] instantly turns Off/On all notification icons.\n" +
+                    "2. <[0/63]> = icons ON/total. Click to expand/collapse all rows.\n" +
+                    "3a. [Show Icons] instantly turns Off/On all problem alert icons.\n" +
                     "3b. Shows or hides icons only; does not fix the underlying city problem.\n\n" +
                     "<Money helpers>\n" +
                     "1. Add / Subtract Money: use the default keys <[ or ]> for <Money Hotkey Amount>.\n" +
@@ -94,7 +94,7 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleNotificationsKeyboardBinding)), "Toggle Notification Icons" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleNotificationsKeyboardBinding)),
-                    "<Hotkey> for the same action as the in-game <[TOGGLE ALL]> icon button.\n" +
+                    "<Hotkey> for the same action as the in-game <[SHOW ICONS]> icon button.\n" +
                     "It shows or hides all listed city notification icons instantly." },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleNotificationsAction), "Instant Show/Hide all notification icons" },
 
@@ -261,7 +261,7 @@ namespace CityWatchdog
                     "When enabled [ ✓ ], the Mini HUD hides notification rows with a count of 0." },
 
                 // --------------------------------------------------------------------
-                // Money Milestones tab - New City Start Settings
+                // City Start - New City Start Settings
                 // --------------------------------------------------------------------
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InitialMoney)), "Initial Money" },
