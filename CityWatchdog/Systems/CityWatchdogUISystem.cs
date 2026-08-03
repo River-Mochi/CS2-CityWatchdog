@@ -147,9 +147,7 @@ namespace CityWatchdog.Systems
 
         private BoolBinding m_TransportLineVehicleNotificationBinding = null!;
 
-        // Close the panel on every city load. Active view is a deliberately frozen snapshot, so a
-        // panel left open across a load keeps showing the PREVIOUS city's alert list. Closing unmounts React tree, which discards that
-        // snapshot;  player reopens and gets this city's data.
+        // Close on city load so React drops the previous city's frozen alert snapshot.
         protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
         {
             base.OnGameLoadingComplete(purpose, mode);
@@ -161,9 +159,8 @@ namespace CityWatchdog.Systems
 
             m_PanelVisibleBinding.Update(false);
 
-            // mini HUD stays open across loads, so force a rescan instead of letting it sit on the old
-            // city's totals until the next tick. Clearing m_hasLastNotificationCounts stops the diff in
-            // OnUpdate from suppressing the push when the two cities' arrays happen to match.
+            // mini HUD stays mounted across loads, so force a fresh count scan instead of sitting on
+            // the old city's totals until the next tick.
             m_HasLastNotificationCounts = false;
             m_NotificationCountUpdateState.ForceUpdate();
             m_MiniHudCountUpdateState.ForceUpdate();
@@ -803,9 +800,8 @@ namespace CityWatchdog.Systems
             m_BuildingCondemnedNotificationBinding.Update(enabled);
             m_BuildingTurnedOffNotificationBinding.Update(enabled);
             m_BuildingHighRentNotificationBinding.Update(enabled);
-            // Deliberately NOT updated here: Leveling is an optional/positive row that SHOW ICONS
-            // and the N hotkey leave alone (its real setting is never touched by SetAllNotificationSettings
-            // either) — only its own manual checkbox should change it.
+
+            // Leveling is positive/optional, so Show/Hide Icons and N never change it.
 
             m_TrafficBottleneckNotificationBinding.Update(enabled);
             m_TrafficDeadEndNotificationBinding.Update(enabled);
@@ -924,11 +920,8 @@ namespace CityWatchdog.Systems
             m_ActivePresetBinding.Update(slot);
         }
 
-        // A manual per-notification checkbox change no longer matches either saved slot, so drop the
-        // "selected" ring/dot — the same clear SHOW ICONS and the N hotkey already do via
-        // ApplyAllNotificationToggles. Fired once from the React checkbox path (NotificationRow) rather
-        // than adding a SetActivePreset(0) line to each of the 63 individual toggle handlers. Favorites
-        // deliberately do NOT call this — presets store checkbox layouts, not Mini HUD stars.
+        // Manual checkbox changes no longer match the selected preset.
+        // One React trigger avoids repeating this in every notification handler.
         private void ClearActivePreset()
         {
             SetActivePreset(0);

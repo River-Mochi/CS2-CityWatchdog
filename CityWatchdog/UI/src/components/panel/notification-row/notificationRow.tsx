@@ -62,7 +62,7 @@ export const NotificationRow = memo(({
     ? `${styles.count} ${styles.countJump}`
     : `${styles.count} ${styles.countDisabled}`;
 
-  // The jump target is the whole left-to-count strip (icon + label + count). The star and checkbox
+  // Jump target is the whole left-to-count strip (icon + label + count). The star and checkbox
   // sit OUTSIDE this element, so clicking either never triggers a jump — no stopPropagation needed.
   const jumpAreaClassName = canJumpToAlert
     ? `${styles.rowJumpArea} ${styles.rowJumpAreaClickable}`
@@ -85,9 +85,9 @@ export const NotificationRow = memo(({
     }
   };
 
-  // Toggling a checkbox diverges the live layout from any loaded preset, so clear the preset's
-  // "selected" ring (SHOW ICONS and the N hotkey already do this on the C# side). The star favorite
-  // is intentionally left alone — presets store checkbox layouts, not Mini HUD favorites.
+
+  // Manual checkbox changes clear the selected preset.
+  // Favorites stay independent because presets store only checkbox layouts.
   const onNotificationToggle = (value: boolean) => {
     item.onToggle(value);
     OnClearActivePreset();

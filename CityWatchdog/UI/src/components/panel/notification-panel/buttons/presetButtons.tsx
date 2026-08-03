@@ -9,9 +9,8 @@ import styles from "./presetButtons.module.scss";
 // duration in the scss so the box finishes "charging" exactly as the save fires.
 const HOLD_MS = 800;
 
-// Click = onClick; press-and-hold past HOLD_MS = onLongPress (and the click that follows is
-// suppressed). The timer is cleared on release, mouse-leave, and unmount, so no timer ever dangles.
-// Uses only React state + refs — no DOM mutation.
+// A completed hold saves and suppresses the trailing load click.
+// Cleanup cancels pending timers on release, leave, or unmount.
 const useLongPress = (onClick: () => void, onLongPress: () => void) => {
     const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const longPressed = useRef(false);
@@ -68,7 +67,7 @@ export const PresetSlot = forwardRef<HTMLDivElement, PresetSlotProps>(
     ({ label, saved, active, onLoad, onSave }, ref) => {
         const { holding, handlers } = useLongPress(onLoad, onSave);
 
-        // active wins over saved wins over empty; the holding highlight overlays whatever state it's in.
+        // the holding highlight overlays whatever state it's in.
         const stateClass = active
             ? styles.presetSlotActive
             : saved

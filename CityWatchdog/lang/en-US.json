@@ -26,7 +26,7 @@
   "ToggleAll": "TOGGLE ALL",
   "ShowIcons": "Show Icons",
   "HideIcons": "Hide Icons",
-  "PresetLoadHint": "Click to show saved preset icons.\nHold 1 second to overwrite with your current selected [x] checkboxes.",
+  "PresetLoadHint": "Preset: click to show saved set of checkboxes over buildings.\nHold 1 second to overwrite with your current selected [x] checkboxes.",
   "PresetSaveHint": "Preset is empty.\nHold down 1 second to save your current set of [x] checkboxes.",
   "InterfaceScaleOff": "Make the game interface bigger (panels + text).\nStays on until you turn it off.",
   "InterfaceScaleOn": "Bigger UI is ON.\nClick to return to normal size game interface.\n This is the same as dev Interface Scale.",

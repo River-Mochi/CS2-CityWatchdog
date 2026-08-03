@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: src/Settings/CwdSettings.Presets.cs
-// Purpose: Two saved notification-checkbox presets driven by the in-city panel "1 | 2" buttons.
+// Purpose: Saved notification-checkbox layouts for the in-city "1 | 2" preset buttons.
 
 namespace CityWatchdog
 {
@@ -15,32 +15,27 @@ namespace CityWatchdog
 
     public partial class CwdSettings
     {
-        // Two saved snapshots of the notification checkboxes. The in-city panel exposes them as a
-        // "1 | 2" split button: click a slot to LOAD it, hold a slot to SAVE the current checkboxes
-        // into it. Stored as full NotificationSetting copies so we reuse the same nested-object
-        // serialization the live Notification set already uses — no countIndex bit-mapping to keep in
-        // sync (unlike the Mini HUD favorite masks). [SettingsUIHidden] keeps them out of the Options
-        // UI; they are panel-only state.
+        // Click loads a slot; hold saves the current checkbox layout.
+        // Full NotificationSetting copies avoid a separate index map to maintain.
         [SettingsUIHidden]
         public NotificationSetting Preset1 { get; set; } = new NotificationSetting();
 
         [SettingsUIHidden]
         public NotificationSetting Preset2 { get; set; } = new NotificationSetting();
 
-        // False until the player first saves into the slot. An unsaved slot renders dimmed and ignores
-        // a load click, so a fresh install can never wipe the live set with an empty (all-off) preset.
+        // Unsaved slots stay dim and ignore load clicks.
         [SettingsUIHidden]
         public bool Preset1Saved { get; set; }
 
         [SettingsUIHidden]
         public bool Preset2Saved { get; set; }
 
-        // Which slot was last loaded or saved: 0 = none, 1, or 2. Drives the panel's "selected" ring +
-        // dot so the player can tell which preset is currently applied. Cleared to 0 by Show/Hide Icons.
+        // Selected slot in the panel: 0 = none, 1 or 2.
+        // Cleared when Show/Hide Icons or a manual checkbox changes the live layout.
         [SettingsUIHidden]
         public int ActivePreset { get; set; }
 
-        // Called from SetDefaults so a full settings reset also clears both preset slots.
+        // A full settings reset also clears both preset slots.
         private void ResetPresets()
         {
             Preset1 = new NotificationSetting();

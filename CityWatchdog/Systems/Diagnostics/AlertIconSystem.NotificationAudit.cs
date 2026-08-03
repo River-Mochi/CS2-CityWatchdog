@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: Systems/AlertIconSystem.NotificationAudit.cs
+// File: Systems/Diagnostics/AlertIconSystem.NotificationAudit.cs
 // Purpose: One-click report for comparing game notification prefabs with City Watchdog coverage.
 
 namespace CityWatchdog.Systems

@@ -115,28 +115,15 @@ const getMainPanelOpacityClass = (value: number) => {
   return styles[`opacity${normalized}`] ?? styles.opacity80;
 };
 
-// Coherent collapses a literal "\n" inside a text node down to a space, so a multi-line tooltip only
-// renders as multiple lines if every line becomes its own element. FormattedParagraphs is vanilla's
-// own component for exactly this (game-ui/common/text/formatted-paragraphs.tsx): it splits on
-// /\r\n|\r|\n/, drops blank lines, and renders each line as a themed FormattedText — so we match
-// vanilla tooltip styling instead of hand-rolling divs. Pass it via children; its `text` prop is
-// deprecated in cs2/ui. Centralised here so no call site can drop a line break by forgetting to opt in;
-// non-string (already-JSX) tooltips pass through untouched.
-// className (not theme) is what tightens the line gap: vanilla spaces paragraphs with
-// `.paragraphs_nbD p+p { margin-top: var(--paragraphGap) }` — a wrapper rule matching `p` by element,
-// so overriding the `p` THEME class does nothing. className merges alongside vanilla's wrapper class,
-// letting us re-point --paragraphGap. See tooltipParagraphs in the scss.
+// Coherent collapses "\n" inside one text node.
+// FormattedParagraphs preserves tooltip line breaks with vanilla styling.
 const renderTooltipLines = (tooltip: ReactNode): ReactNode =>
   typeof tooltip === "string" && tooltip.includes("\n")
     ? <FormattedParagraphs className={styles.tooltipParagraphs}>{tooltip}</FormattedParagraphs>
     : tooltip;
 
-// Panel-internal Tooltip wrapper. Three jobs:
-//   1. Passes a `cwdBypass` flag the global TooltipGate extension reads, so panel tooltips stay
-//      visible when the Info button mutes vanilla game tooltips (disableAllTooltips$).
-//   2. Reads disableCwdTooltips$ itself — the CWD title-bar icon mutes panel tooltips by
-//      returning just the children. `alwaysVisible` keeps recovery toggles discoverable.
-//   3. Splits "\n" into one line element each (see renderTooltipLines above).
+// Keeps CWD tooltips independent from the global game-tooltip toggle.
+// alwaysVisible is used for controls that restore hidden CWD tooltips.
 const CwdTooltip = ({
   tooltip,
   alwaysVisible,
@@ -153,12 +140,8 @@ const CwdTooltip = ({
   return <Tooltip {...{ cwdBypass: true }} tooltip={renderTooltipLines(tooltip)}>{children}</Tooltip>;
 };
 
-// Isolates ALL drag-position state so a 60fps drag never re-renders the expensive ~63-row body.
-// The draggable title lives HERE (not passed down) because it needs panelDragging/handlePanelDragStart
-// directly — keeping that coupling local avoids a forwardRef/imperative-handle bridge across component
-// boundaries. `children` (toolbar + rows) is built ONCE by the parent and passed through unchanged, so
-// React sees the same element reference on every drag frame and skips reconciling that whole subtree —
-// only this wrapper's own tiny header JSX re-renders per mouse-move.
+// Keeps 60fps drag state outside the 63-row body.
+// Stable children prevent the notification list from re-rendering while dragging.
 const DraggablePanelFrame = ({
   savedOffset,
   cwdTooltipsDisabled,
