@@ -238,8 +238,10 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudScale)), "Icon size" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudScale)),
-                    "Scale Mini HUD icons and numbers.\n" +
-                    "90% = compact. 100% = default. Increase up to 130% for better visibility."
+                    "Scale Mini HUD icons + numbers.\n" +
+                    "90% = compact. 100% = default.\n" +
+                    "Increase up to 130% for better visibility.\n" +
+                    "Decrease to 90% to make it smaller (hide it and make it less noticeable)."
                 },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudOrientation)), "Orientation" },
