@@ -321,6 +321,75 @@
     filter: brightness(0) invert(1) opacity(1);
 }
 
+// Day/Night cycle button. Sits at the far right of the title bar, just LEFT of the expand arrow.
+// margin-right is the deliberate breathing room so a reach for the arrow can't flip Day/Night.
+.headerDayNightButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 24rem;
+    width: 24rem;
+    height: 24rem;
+    margin-left: 0;
+    // Gap before the expand/collapse button (which adds its own 5rem margin-left on top of this).
+    margin-right: 10rem;
+    border-top-left-radius: 4rem;
+    border-top-right-radius: 4rem;
+    border-bottom-left-radius: 4rem;
+    border-bottom-right-radius: 4rem;
+    background-color: transparent;
+    cursor: pointer;
+    transition-property: background-color, box-shadow;
+    transition-duration: 120ms, 120ms;
+    transition-timing-function: ease-out, ease-out;
+
+    &:hover {
+        background-color: rgba(232, 247, 255, 0.18);
+    }
+}
+
+// Day active: warm amber fill behind the yellow sun.
+.headerDayNightButtonDay {
+    background-color: rgba(255, 190, 40, 0.28);
+
+    &:hover {
+        background-color: rgba(255, 200, 60, 0.38);
+    }
+}
+
+// Night active: cool blue fill behind the moon.
+.headerDayNightButtonNight {
+    background-color: rgba(40, 90, 170, 0.42);
+
+    &:hover {
+        background-color: rgba(60, 115, 200, 0.52);
+    }
+}
+
+.headerDayNightIcon {
+    width: 20rem;
+    height: 20rem;
+    display: block;
+    pointer-events: none;
+}
+
+// Auto: outline sun+moon glyph is black strokes — invert to a soft white so it reads as "not forced".
+.headerDayNightIconAuto {
+    filter: brightness(0) invert(1) opacity(0.8);
+}
+
+// Day: vanilla Sun.svg is already yellow — keep its color, just a touch brighter.
+.headerDayNightIconDay {
+    filter: brightness(1.05);
+}
+
+// Night: moon+Zzz glyph is dark navy — invert to white (its crescent keeps a soft 0.4 alpha of its own).
+.headerDayNightIconNight {
+    filter: brightness(0) invert(1);
+}
+
 // Standalone X glyph inside the icon-button — vanilla button frame doesn't size the inner img.
 // Media/Glyphs/Close.svg is solid black; the filter inverts it to a softened white.
 .headerCloseIcon {

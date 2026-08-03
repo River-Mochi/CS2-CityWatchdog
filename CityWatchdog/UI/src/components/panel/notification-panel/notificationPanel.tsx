@@ -26,6 +26,7 @@ import {
   preset2Saved$,
   activePreset$,
   interfaceScaleEnabled$,
+  dayNightMode$,
   showRoadArrows$,
   OnControlPanelBindingToggle,
   OnDisableAllTooltipsToggle,
@@ -39,6 +40,7 @@ import {
   OnLoadPreset,
   OnSavePreset,
   OnToggleInterfaceScale,
+  OnSetDayNightMode,
 } from "../../../bindings/bindings";
 import { Divider } from "../../divider/divider";
 import { InfoPanel } from "../info-panel/infoPanel";
@@ -84,8 +86,16 @@ import RoadArrowIconPath from "../../../../images/icon-RoadArrows-max.svg";
 // UI-scale (title-bar) button icon.
 import ScalePanelsPath from "../../../../images/ScalePanels.svg";
 
+// Day/Night button icons. Auto (sun+moon outline) and Night (moon+Zzz) are custom mod images;
+// Day reuses the vanilla yellow game sun via its media path (no asset to ship).
+import DayNightAutoPath from "../../../../images/sun-moon-Outline.svg";
+import DayNightNightPath from "../../../../images/moon-sleep.svg";
+
 const modIconSrc = TitleBarIconPath;
 const scalePanelsSrc = ScalePanelsPath;
+const dayNightAutoSrc = DayNightAutoPath;
+const dayNightNightSrc = DayNightNightPath;
+const dayNightDaySrc = "Media/Game/Climate/Sun.svg";
 const sortArrowUpSrc = SortArrowUpPath;
 const sortArrowDownSrc = SortArrowDownPath;
 const sortActiveSrc = SortActivePath;
@@ -151,6 +161,9 @@ const DraggablePanelFrame = ({
   panelCollapseTooltip,
   scaleEnabled,
   scaleTooltip,
+  dayNightMode,
+  dayNightTooltip,
+  onDayNightCycle,
   panelTitle,
   panelCollapsed,
   allSectionsExpanded,
@@ -165,6 +178,10 @@ const DraggablePanelFrame = ({
   panelCollapseTooltip: ReactNode;
   scaleEnabled: boolean;
   scaleTooltip: ReactNode;
+  // Day/Night button: 0 = Auto (natural cycle), 1 = Day (noon), 2 = Night (2 AM).
+  dayNightMode: number;
+  dayNightTooltip: ReactNode;
+  onDayNightCycle: () => void;
   // Swaps to the Active-view title so the header says what the body is actually showing.
   panelTitle: string;
   panelCollapsed: boolean;
@@ -243,6 +260,22 @@ const DraggablePanelFrame = ({
                 </CwdTooltip>
               )}
             </div>
+            {/* Day/Night cycle: Auto → Day → Night → Auto. Placed at the right of the title bar with a
+                deliberate gap before the expand arrow (headerDayNightButton margin-right) so it isn't
+                mis-clicked for collapse. Freezes only the sun; the sim keeps running and nothing is saved. */}
+            <CwdTooltip tooltip={dayNightTooltip}>
+              <div
+                className={`${styles.headerDayNightButton} ${dayNightMode === 1 ? styles.headerDayNightButtonDay : dayNightMode === 2 ? styles.headerDayNightButtonNight : ""}`}
+                role="button"
+                aria-label="Day / Night"
+                onClick={onDayNightCycle}
+              >
+                <img
+                  src={dayNightMode === 1 ? dayNightDaySrc : dayNightMode === 2 ? dayNightNightSrc : dayNightAutoSrc}
+                  className={`${styles.headerDayNightIcon} ${dayNightMode === 1 ? styles.headerDayNightIconDay : dayNightMode === 2 ? styles.headerDayNightIconNight : styles.headerDayNightIconAuto}`}
+                />
+              </div>
+            </CwdTooltip>
             <CwdTooltip tooltip={panelCollapseTooltip}>
               <Button
                 className={roundButtonHighlightStyle.button + " " + styles.headerCollapseButton}
@@ -311,6 +344,8 @@ const NotificationPanelContent = () => {
   const activePreset = useValue(activePreset$);
   // interfaceScaleEnabled$ — vanilla UI scaling on/off (drives the title-bar scale button).
   const interfaceScaleEnabled = useValue(interfaceScaleEnabled$);
+  // dayNightMode$ — 0 Auto (natural cycle), 1 Day (noon), 2 Night (2 AM). Drives the title-bar Day/Night button.
+  const dayNightMode = useValue(dayNightMode$);
   const [expandedSections, setExpandedSections] = useState(createExpandedSections);
   const allValues = useAllNotificationValues();
   const notificationCounts = useValue(notificationCounts$);
@@ -449,6 +484,16 @@ const NotificationPanelContent = () => {
     ? localize("InterfaceScaleOn", "Bigger UI is ON.\nClick to return the game interface to normal size.")
     : localize("InterfaceScaleOff", "Make the whole game interface bigger — panels and text.\nAffects the entire game and stays on until you turn it off.");
 
+  // Cycle button: tooltip names the current state and what the next click will do. Freezes only the
+  // sun (sim keeps running); nothing is saved, so a reboot or uninstall returns to the normal cycle.
+  const dayNightTooltip =
+    dayNightMode === 1
+      ? localize("DayNightDay", "Day / Night: Day — sun frozen at noon.\nClick for Night.")
+      : dayNightMode === 2
+        ? localize("DayNightNight", "Day / Night: Night — sun frozen at 2 AM.\nClick for Auto (natural cycle).")
+        : localize("DayNightAuto", "Day / Night: Auto — natural moving cycle.\nClick to freeze Daytime (noon).");
+  const onDayNightCycle = () => { playSelectSound(); OnSetDayNightMode((dayNightMode + 1) % 3); };
+
   // Same text regardless of toggle state — Info button is always discoverable.
   const infoTooltip = localize(
     "TooltipToggle",
@@ -557,6 +602,9 @@ const NotificationPanelContent = () => {
       panelCollapseTooltip={panelCollapseTooltip}
       scaleEnabled={interfaceScaleEnabled}
       scaleTooltip={scaleTooltip}
+      dayNightMode={dayNightMode}
+      dayNightTooltip={dayNightTooltip}
+      onDayNightCycle={onDayNightCycle}
       panelTitle={panelTitle}
       panelCollapsed={panelCollapsed}
       allSectionsExpanded={allSectionsExpanded}

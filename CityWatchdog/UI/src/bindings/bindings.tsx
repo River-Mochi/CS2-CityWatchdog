@@ -50,6 +50,10 @@ export const activePreset$ = bindValue<number>(mod.id, "ActivePreset", 0);
 export const interfaceScaleEnabled$ = bindValue<boolean>(mod.id, "InterfaceScaleEnabled", false);
 export const OnToggleInterfaceScale = (enable: boolean) => trigger(mod.id, "InterfaceScaleEnabled", enable);
 
+// Day/Night title-bar button: 0 = Auto (natural cycle), 1 = Day (noon), 2 = Night (2 AM). Not saved.
+export const dayNightMode$ = bindValue<number>(mod.id, "DayNightMode", 0);
+export const OnSetDayNightMode = (mode: number) => trigger(mod.id, "SetDayNightMode", mode);
+
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
 export const ElectricityBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBottleneckNotification");
 export const ElectricityBuildingBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBuildingBottleneckNotification");
