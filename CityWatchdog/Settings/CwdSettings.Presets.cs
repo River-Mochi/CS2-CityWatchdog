@@ -23,7 +23,7 @@ namespace CityWatchdog
         [SettingsUIHidden]
         public NotificationSetting Preset2 { get; set; } = new NotificationSetting();
 
-        // Unsaved slots stay dim and ignore load clicks.
+        // Unsaved slots stay dim and ignore clicks until the player saves a layout.
         [SettingsUIHidden]
         public bool Preset1Saved { get; set; }
 

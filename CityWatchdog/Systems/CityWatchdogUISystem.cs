@@ -801,8 +801,8 @@ namespace CityWatchdog.Systems
             m_BuildingTurnedOffNotificationBinding.Update(enabled);
             m_BuildingHighRentNotificationBinding.Update(enabled);
 
-            // Leveling is positive/optional, so Show/Hide Icons and N never change it.
-
+            // Intentionally skip m_BuildingLevelingNotificationBinding:
+            // Leveling is positive/optional, so bulk Show/Hide and N do not change it.
             m_TrafficBottleneckNotificationBinding.Update(enabled);
             m_TrafficDeadEndNotificationBinding.Update(enabled);
             m_TrafficRoadConnectionNotificationBinding.Update(enabled);

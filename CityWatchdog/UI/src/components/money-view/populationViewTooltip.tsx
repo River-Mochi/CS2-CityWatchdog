@@ -165,15 +165,13 @@ const PopulationTooltipUnemployment = ({
     readonly label: string;
     readonly value: number;
 }) => {
-    // Unemployment is a level (a 0–100 percent), not a +/- flow: neutral tone, no sign, whole percent.
-    const displayValue = getDisplayWholeValue(value);
-
+    // Level, not a +/- flow: neutral tone, no sign, one decimal (e.g. "5.3%").
     return (
         <PopulationTooltipRate
             localization={localization}
             label={label}
-            value={displayValue}
-            unit={Unit.Percentage}
+            value={value}
+            unit={Unit.PercentageSingleFraction}
             topRow={true}
             toneOverride="softNeutral"
             showSign={false}
