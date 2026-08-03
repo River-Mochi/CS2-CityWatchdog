@@ -264,7 +264,7 @@ namespace CityWatchdog
                     "When enabled [ ✓ ], the Mini HUD hides notification rows with a count of 0." },
 
                 // --------------------------------------------------------------------
-                // City Start - New City Start Settings
+                // City Start tab - New City Start Settings
                 // --------------------------------------------------------------------
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InitialMoney)), "Initial Start Money" },
@@ -293,7 +293,7 @@ namespace CityWatchdog
                 },
 
                 // --------------------------------------------------------------------
-                // Money-Milestones tab - Money
+                // City Start tab - Money
                 // --------------------------------------------------------------------
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ManualMoneyAmount)), "Money Hotkey Amount" },
@@ -334,7 +334,7 @@ namespace CityWatchdog
                     "Choose a value high enough to bring the city safely above the threshold." },
 
                 // --------------------------------------------------------------------
-                // Money-Milestones tab - Save Conversion
+                // City Start tab - Save Conversion
                 // --------------------------------------------------------------------
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ConfirmUnlimitedMoneySaveConversion)), "Unlimited Money Converter" },
