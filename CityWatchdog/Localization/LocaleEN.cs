@@ -112,10 +112,10 @@ namespace CityWatchdog
                 },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleNotificationPanelAction), "Open/Close notification panel" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.PanelButtonsOnlyStart)), "Panel buttons-only start" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.PanelButtonsOnlyStart)), "Main panel: opens as collapsed 1-row only display" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.PanelButtonsOnlyStart)),
-                    "When enabled [ ✓ ], City Watchdog opens first in the smaller buttons-only view.\n" +
-                    "Use the title-bar arrow or row-count button to open the full panel."
+                    "When enabled [ ✓ ], City Watchdog opens large panel first with only 1-row of buttons displayed.\n" +
+                    "Use the title-bar arrow or [0/63] looking button to expand and show the full panel."
                 },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleRoadNamesKeyboardBinding)), "Hide/Show Road Names" },
