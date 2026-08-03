@@ -6,14 +6,14 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/UISystemBaseExtension.cs
+// File: Systems/UISystemBaseExtension.cs
 // Purpose: Local UI binding helpers used by the React bridge.
 
 namespace CityWatchdog.Systems
 {
+    using System;
     using Colossal.UI.Binding;
     using Game.UI;
-    using System;
 
     public abstract partial class UISystemBaseExtension : UISystemBase
     {
@@ -28,7 +28,7 @@ namespace CityWatchdog.Systems
 
         public BoolBinding AddBoolBinding(string name, bool initialValue)
         {
-            BoolBinding boolBinding = new BoolBinding(ModId, name, initialValue);
+            BoolBinding boolBinding = new(ModId, name, initialValue);
             AddBinding(boolBinding.ValueBinding);
             return boolBinding;
         }
@@ -40,14 +40,22 @@ namespace CityWatchdog.Systems
 
         public TriggerBinding<T> AddTriggerBinding<T>(string name, Action<T> callback)
         {
-            TriggerBinding<T> triggerBinding = new TriggerBinding<T>(ModId, name, callback);
+            TriggerBinding<T> triggerBinding = new(ModId, name, callback);
+            AddBinding(triggerBinding);
+            return triggerBinding;
+        }
+
+        // No-argument trigger (React calls trigger(mod.id, name) with no payload).
+        public TriggerBinding AddTriggerBinding(string name, Action callback)
+        {
+            TriggerBinding triggerBinding = new(ModId, name, callback);
             AddBinding(triggerBinding);
             return triggerBinding;
         }
 
         public ValueBinding<T> AddValueBinding<T>(string name, T initialValue)
         {
-            ValueBinding<T> valueBinding = new ValueBinding<T>(ModId, name, initialValue);
+            ValueBinding<T> valueBinding = new(ModId, name, initialValue);
             AddBinding(valueBinding);
             return valueBinding;
         }

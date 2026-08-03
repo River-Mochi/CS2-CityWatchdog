@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/GameSystemBaseExtension.cs
+// File: Systems/GameSystemBaseExtension.cs
 // Purpose: Small local system base helper
 
 namespace CityWatchdog.Systems

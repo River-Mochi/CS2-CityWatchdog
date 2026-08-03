@@ -6,50 +6,48 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/AlertIconSystem.cs
+// File: Systems/AlertIconSystem.cs
 // Purpose: Applies City Watchdog notification icon settings to vanilla alert prefabs.
 
 namespace CityWatchdog.Systems
 {
-    using System;
     using System.Collections.Generic;
     using System.Text;
     using Colossal.Serialization.Entities;
     using Game.Common;
     using Game.Notifications;
     using Game.Prefabs;
-    using Game.UI;
     using Unity.Collections;
     using Unity.Entities;
 
     public partial class AlertIconSystem : GameSystemBaseExtension {
-        private StringBuilder logBuilder = null!;
-        private EntityQuery iconQuery;
-        private EntityQuery waterPipeParameterQuery;
-        private PrefabSystem prefabSystem = null!;
-        private EntityQuery notificationIconDisplayDataQuery;
-        private EntityQuery electricityParameterQuery;
-        private EntityQuery buildingConfigurationDataQuery;
-        private EntityQuery trafficConfigurationDataQuery;
-        private EntityQuery companyNotificationParameterQuery;
-        private EntityQuery workProviderNotificationParameterQuery;
-        private EntityQuery disasterNotificationParameterQuery;
-        private EntityQuery fireNotificationParameterQuery;
-        private EntityQuery garbageNotificationParameterQuery;
-        private EntityQuery healthcareNotificationParameterQuery;
-        private EntityQuery policeNotificationParameterQuery;
-        private EntityQuery pollutionNotificationParameterQuery;
-        private EntityQuery resourceConsumerNotificationParameterQuery;
-        private EntityQuery resourceConnectionNotificationParameterQuery;
-        private EntityQuery routeNotificationParameterQuery;
-        private EntityQuery transportLineNotificationParameterQuery;
+        private StringBuilder m_LogBuilder = null!;
+        private EntityQuery m_IconQuery;
+        private EntityQuery m_WaterPipeParameterQuery;
+        private PrefabSystem m_PrefabSystem = null!;
+        private EntityQuery m_NotificationIconDisplayDataQuery;
+        private EntityQuery m_ElectricParameterQuery;
+        private EntityQuery m_BuildingConfigurationDataQuery;
+        private EntityQuery m_TrafficConfigurationDataQuery;
+        private EntityQuery m_CompanyNotificationParameterQuery;
+        private EntityQuery m_WorkProviderNotificationParameterQuery;
+        private EntityQuery m_DisasterNotificationParameterQuery;
+        private EntityQuery m_FireNotificationParameterQuery;
+        private EntityQuery m_GarbageNotificationParameterQuery;
+        private EntityQuery m_HealthcareNotificationParameterQuery;
+        private EntityQuery m_PoliceNotificationParameterQuery;
+        private EntityQuery m_PollutionNotificationParameterQuery;
+        private EntityQuery m_ResourceConsumerNotificationParameterQuery;
+        private EntityQuery m_ResourceConnectionNotificationParameterQuery;
+        private EntityQuery m_RouteNotificationParameterQuery;
+        private EntityQuery m_TransportLineNotificationParameterQuery;
 
         protected override void OnGameLoaded(Context serializationContext) {
             base.OnGameLoaded(serializationContext);
 
             // Entity values are recycled across city loads, so last city's prefab strings must not
             // survive into this one.
-            notificationPrefabStrings.Clear();
+            m_NotificationPrefabStrings.Clear();
 
             SetElectricityNotifications();
             SetWaterPipeNotifications();
@@ -74,74 +72,74 @@ namespace CityWatchdog.Systems
 
         protected override void OnCreate() {
             base.OnCreate();
-            logBuilder = new();
-            prefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
-            iconQuery = GetEntityQuery(new ComponentType[] {
+            m_LogBuilder = new();
+            m_PrefabSystem = World.GetOrCreateSystemManaged<PrefabSystem>();
+            m_IconQuery = GetEntityQuery(new ComponentType[] {
                 ComponentType.ReadOnly<Icon>(),
                 ComponentType.ReadOnly<PrefabRef>(),
                 ComponentType.Exclude<Deleted>()
             });
 
-            notificationIconDisplayDataQuery = GetEntityQuery(new ComponentType[] {
+            m_NotificationIconDisplayDataQuery = GetEntityQuery(new ComponentType[] {
                 ComponentType.ReadOnly<NotificationIconDisplayData>(),
             });
 
-            electricityParameterQuery = GetEntityQuery(new ComponentType[] {
+            m_ElectricParameterQuery = GetEntityQuery(new ComponentType[] {
                 ComponentType.ReadOnly<ElectricityParameterData>()
             });
-            waterPipeParameterQuery = GetEntityQuery(new ComponentType[] {
+            m_WaterPipeParameterQuery = GetEntityQuery(new ComponentType[] {
                 ComponentType.ReadOnly<WaterPipeParameterData>()
             });
-            buildingConfigurationDataQuery = GetEntityQuery(new ComponentType[] {
+            m_BuildingConfigurationDataQuery = GetEntityQuery(new ComponentType[] {
                 ComponentType.ReadOnly<BuildingConfigurationData>()
             });
-            trafficConfigurationDataQuery = GetEntityQuery(new ComponentType[] {
+            m_TrafficConfigurationDataQuery = GetEntityQuery(new ComponentType[] {
                 ComponentType.ReadOnly<TrafficConfigurationData>()
             });
-            companyNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<CompanyNotificationParameterData>());
-            workProviderNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<WorkProviderParameterData>());
-            disasterNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<DisasterConfigurationData>());
-            fireNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<FireConfigurationData>());
-            garbageNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<GarbageParameterData>());
-            healthcareNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<HealthcareParameterData>());
-            policeNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<PoliceConfigurationData>());
-            pollutionNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<PollutionParameterData>());
-            resourceConsumerNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<ResourceConsumerData>());
-            resourceConnectionNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<ResourceConnectionData>());
-            routeNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<RouteConfigurationData>());
-            transportLineNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<TransportLineData>());
-            RequireForUpdate(electricityParameterQuery);
-            RequireForUpdate(waterPipeParameterQuery);
-            RequireForUpdate(buildingConfigurationDataQuery);
-            RequireForUpdate(trafficConfigurationDataQuery);
-            RequireForUpdate(companyNotificationParameterQuery);
-            RequireForUpdate(workProviderNotificationParameterQuery);
-            RequireForUpdate(disasterNotificationParameterQuery);
-            RequireForUpdate(fireNotificationParameterQuery);
-            RequireForUpdate(garbageNotificationParameterQuery);
-            RequireForUpdate(healthcareNotificationParameterQuery);
-            RequireForUpdate(policeNotificationParameterQuery);
-            RequireForUpdate(pollutionNotificationParameterQuery);
-            RequireForUpdate(resourceConsumerNotificationParameterQuery);
-            RequireForUpdate(routeNotificationParameterQuery);
-            RequireForUpdate(transportLineNotificationParameterQuery);
+            m_CompanyNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<CompanyNotificationParameterData>());
+            m_WorkProviderNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<WorkProviderParameterData>());
+            m_DisasterNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<DisasterConfigurationData>());
+            m_FireNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<FireConfigurationData>());
+            m_GarbageNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<GarbageParameterData>());
+            m_HealthcareNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<HealthcareParameterData>());
+            m_PoliceNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<PoliceConfigurationData>());
+            m_PollutionNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<PollutionParameterData>());
+            m_ResourceConsumerNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<ResourceConsumerData>());
+            m_ResourceConnectionNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<ResourceConnectionData>());
+            m_RouteNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<RouteConfigurationData>());
+            m_TransportLineNotificationParameterQuery = GetEntityQuery(ComponentType.ReadOnly<TransportLineData>());
+            RequireForUpdate(m_ElectricParameterQuery);
+            RequireForUpdate(m_WaterPipeParameterQuery);
+            RequireForUpdate(m_BuildingConfigurationDataQuery);
+            RequireForUpdate(m_TrafficConfigurationDataQuery);
+            RequireForUpdate(m_CompanyNotificationParameterQuery);
+            RequireForUpdate(m_WorkProviderNotificationParameterQuery);
+            RequireForUpdate(m_DisasterNotificationParameterQuery);
+            RequireForUpdate(m_FireNotificationParameterQuery);
+            RequireForUpdate(m_GarbageNotificationParameterQuery);
+            RequireForUpdate(m_HealthcareNotificationParameterQuery);
+            RequireForUpdate(m_PoliceNotificationParameterQuery);
+            RequireForUpdate(m_PollutionNotificationParameterQuery);
+            RequireForUpdate(m_ResourceConsumerNotificationParameterQuery);
+            RequireForUpdate(m_RouteNotificationParameterQuery);
+            RequireForUpdate(m_TransportLineNotificationParameterQuery);
         }
 
-        private readonly Dictionary<Entity, int> EntityDictionary = new();
+        private readonly Dictionary<Entity, int> m_EntityDictionary = new();
 
         public void Refresh() {
-            EntityDictionary.Clear();
-            NativeArray<ArchetypeChunk> nativeArray = iconQuery.ToArchetypeChunkArray(Allocator.TempJob);
+            m_EntityDictionary.Clear();
+            NativeArray<ArchetypeChunk> nativeArray = m_IconQuery.ToArchetypeChunkArray(Allocator.TempJob);
             ComponentTypeHandle<PrefabRef> prefabRefTypeHandle = GetComponentTypeHandle<PrefabRef>();
             for (int i = 0; i < nativeArray.Length; i++) {
                 NativeArray<PrefabRef> nativeArray2 = nativeArray[i].GetNativeArray(ref prefabRefTypeHandle);
                 for (int j = 0; j < nativeArray2.Length; j++) {
                     Entity prefab = nativeArray2[j].m_Prefab;
-                    if (EntityDictionary.TryGetValue(prefab, out int num)) {
-                        EntityDictionary[prefab] = num + 1;
+                    if (m_EntityDictionary.TryGetValue(prefab, out int num)) {
+                        m_EntityDictionary[prefab] = num + 1;
                     }
                     else {
-                        EntityDictionary.Add(prefab, 1);
+                        m_EntityDictionary.Add(prefab, 1);
                     }
                 }
             }
@@ -158,6 +156,32 @@ namespace CityWatchdog.Systems
         {
             SetAllNotificationSettings(enabled);
 
+            SetElectricityNotifications(false);
+            SetWaterPipeNotifications(false);
+            SetBuildingNotifications(false);
+            SetTrafficNotifications(false);
+            SetCompanyNotifications(false);
+            SetWorkProviderNotifications(false);
+            SetDisasterNotifications(false);
+            SetFireNotifications(false);
+            SetGarbageNotifications(false);
+            SetHealthcareNotifications(false);
+            SetPoliceNotifications(false);
+            SetPollutionNotifications(false);
+            SetResourceConsumerNotifications(false);
+            SetResourceConnectionNotifications(false);
+            SetRouteNotifications(false);
+            SetTransportLineNotifications(false);
+
+            RefreshIcon();
+        }
+
+        // Apply the CURRENT per-notification settings to the map icons. Unlike SetAllNotifications this
+        // does NOT force one value — each notification keeps its own saved state — so it is the apply
+        // path after a preset LOAD, where slots differ per notification. Each category applier reads
+        // CwdSettings.Instance.Notification and skips its own refresh; one RefreshIcon runs at the end.
+        public void ApplyNotificationSettings()
+        {
             SetElectricityNotifications(false);
             SetWaterPipeNotifications(false);
             SetBuildingNotifications(false);

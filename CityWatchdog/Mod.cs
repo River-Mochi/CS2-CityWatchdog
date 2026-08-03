@@ -60,7 +60,7 @@ namespace CityWatchdog
                 return;
             }
 
-            CwdSettings setting = new CwdSettings(this);
+            CwdSettings setting = new(this);
             Settings = CwdSettings.Instance = setting;
 
             try
@@ -96,7 +96,7 @@ namespace CityWatchdog
             }
 
             // Custom in-city React UI strings from embedded lang/*.json.
-            InCityLocalization.LoadEmbeddedJsonTranslations(ModId, ModTag, s_Log);
+            InCityLocalization.LoadEmbeddedJsonTranslations(ModId, ModTag);
 
             try
             {
@@ -136,6 +136,7 @@ namespace CityWatchdog
                 updateSystem.UpdateAt<RoadNameControlSystem>(SystemUpdatePhase.UIUpdate);
                 updateSystem.UpdateAt<DistrictNameControlSystem>(SystemUpdatePhase.Rendering);
                 updateSystem.UpdateAt<RoadArrowControlSystem>(SystemUpdatePhase.UIUpdate);
+                updateSystem.UpdateAt<InterfaceScaleControlSystem>(SystemUpdatePhase.UIUpdate);
                 updateSystem.UpdateAt<AlertIconSystem>(SystemUpdatePhase.ModificationEnd);
             }
             catch (Exception ex)

@@ -1,0 +1,157 @@
+// File: src/UI/src/components/panel/notification-panel/buttons/presetButtons.tsx styles
+// Purpose: "1" and "2" preset boxes. Two separate rounded boxes (no shared container / divider) so
+//          the selected box's border rounds cleanly.
+//
+// Longhand CSS only — no shorthand properties (see feedback_no_css_shorthand.md).
+
+// Transparent wrapper holding the two standalone boxes. The 2rem gap replaces the old divider line.
+.presetGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+}
+
+  .presetGroup > * + * {
+    margin-left: 2rem;
+  }
+
+// A single preset box: its own rounded button, plain by default (empty = gray number).
+.presetSlot {
+  position: relative;
+  // Clip the rising fill sweep to the rounded box. (The active glow is an outer box-shadow, which
+  // is NOT clipped by the element's own overflow, so it still shows.)
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24rem;
+  height: 32rem;
+  cursor: pointer;
+  box-sizing: border-box;
+  border-top-left-radius: 4rem;
+  border-top-right-radius: 4rem;
+  border-bottom-left-radius: 4rem;
+  border-bottom-right-radius: 4rem;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-width: 1rem;
+  border-right-width: 1rem;
+  border-bottom-width: 1rem;
+  border-left-width: 1rem;
+  border-top-color: rgba(255, 255, 255, 0.35);
+  border-right-color: rgba(255, 255, 255, 0.35);
+  border-bottom-color: rgba(255, 255, 255, 0.35);
+  border-left-color: rgba(255, 255, 255, 0.35);
+  background-color: rgba(36, 54, 66, 0.58);
+  color: rgba(255, 255, 255, 0.4);
+  font-size: var(--fontSizeS);
+  font-weight: 700;
+  line-height: 1;
+  transition-property: background-color, border-color, color;
+  transition-duration: 120ms, 120ms, 120ms;
+  transition-timing-function: ease-out, ease-out, ease-out;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.17);
+    border-top-color: rgba(255, 255, 255, 0.68);
+    border-right-color: rgba(255, 255, 255, 0.68);
+    border-bottom-color: rgba(255, 255, 255, 0.68);
+    border-left-color: rgba(255, 255, 255, 0.68);
+  }
+}
+
+// Empty box (nothing saved): gray number (matches the base color; explicit for clarity).
+.presetSlotEmpty {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+// Saved box (not selected): plain box, GREEN number — no fill. Green = "this slot holds a setup",
+// clearly distinct from the selected box's blue.
+.presetSlotSaved {
+  color: #5fdc78;
+}
+
+  .presetSlotSaved:hover {
+    color: #8ff0a0;
+  }
+
+// Selected box (currently applied): plain box + a bright blue rounded border (the box itself is
+// rounded, so no boxy corners) + blue number + the bottom-left dot. No solid fill.
+.presetSlotActive {
+  color: #9fe6ff;
+  border-top-color: rgba(84, 215, 255, 0.95);
+  border-right-color: rgba(84, 215, 255, 0.95);
+  border-bottom-color: rgba(84, 215, 255, 0.95);
+  border-left-color: rgba(84, 215, 255, 0.95);
+  box-shadow: 0 0 6rem rgba(84, 215, 255, 0.3);
+
+  &:hover {
+    background-color: rgba(84, 215, 255, 0.14);
+  }
+}
+
+// Small blue indicator in the bottom-left corner of the selected box.
+.presetDot {
+  position: absolute;
+  left: 3rem;
+  bottom: 3rem;
+  width: 5rem;
+  height: 5rem;
+  border-top-left-radius: 3rem;
+  border-top-right-radius: 3rem;
+  border-bottom-left-radius: 3rem;
+  border-bottom-right-radius: 3rem;
+  background-color: rgba(84, 215, 255, 0.95);
+  pointer-events: none;
+}
+
+// While holding to save: a green border frames the box while the fill sweep rises inside it.
+// The rising fill (below) is the main feedback, so no instant background fill here.
+.presetSlotHolding {
+  // White number with a dark shadow so it stays readable over the rising green fill.
+  color: #ffffff;
+  text-shadow: 0 0 3rem rgba(0, 0, 0, 0.85), 0 1rem 1rem rgba(0, 0, 0, 0.6);
+  border-top-color: rgba(95, 220, 120, 0.95);
+  border-right-color: rgba(95, 220, 120, 0.95);
+  border-bottom-color: rgba(95, 220, 120, 0.95);
+  border-left-color: rgba(95, 220, 120, 0.95);
+}
+
+// Save "charging" sweep: a green fill that rises from the bottom to the top over the hold duration,
+// so a press visibly does something — the player self-learns that HOLD = save. At rest scaleY(0)
+// with no transition (snaps back instantly on release); .presetFilling animates it up over 800ms
+// (matching HOLD_MS in presetButtons.tsx).
+.presetFill {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(95, 220, 120, 0.55);
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  transition-property: transform;
+  transition-duration: 0ms;
+  transition-timing-function: linear;
+  pointer-events: none;
+}
+
+.presetFilling {
+  transform: scaleY(1);
+  transition-duration: 800ms;
+}
+
+// Number sits above the fill sweep.
+.presetLabel {
+  position: relative;
+  z-index: 1;
+  // Bumped one step above the slot's base size (and the 0/62 count button) so the single "1"/"2"
+  // digits carry the same visual weight as the multi-glyph count text sitting next to them.
+  font-size: var(--fontSizeM);
+  font-weight: 700;
+}

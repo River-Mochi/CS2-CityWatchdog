@@ -6,38 +6,38 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/CityFinanceSystem.cs
+// File: Systems/CityFinanceSystem.cs
 // Purpose: Handles City Watchdog money actions, initial money, and automatic money support.
 
 namespace CityWatchdog.Systems
 {
-    using CS2Shared.RiverMochi;
+    using System;
+    using System.Reflection;
     using Colossal.Serialization.Entities;
+    using CS2Shared.RiverMochi;
     using Game;
     using Game.City;
     using Game.Input;
     using Game.SceneFlow;
     using Game.Simulation;
-    using System;
-    using System.Reflection;
     using Unity.Entities;
 
     public partial class CityFinanceSystem : GameSystemBaseExtension
     {
         // Counts this system's OnUpdate passes. Higher = automatic money checks less often.
-        private const int AutomaticMoneyCheckIntervalUpdates = 128;
+        private const int kAutomaticMoneyCheckIntervalUpdates = 128;
         // Hold-to-repeat delay for [ and ]. Higher = easier single-taps before repeat begins.
-        private const int ManualMoneyRepeatInitialDelayUpdates = 20;
+        private const int kManualMoneyRepeatInitialDelayUpdates = 20;
         // Hold-to-repeat speed for [ and ] after the delay. Lower = faster repeated money changes.
-        private const int ManualMoneyRepeatIntervalUpdates = 9;
+        private const int kManualMoneyRepeatIntervalUpdates = 9;
 
-        private CitySystem citySystem = null!;
-        private CityConfigurationSystem cityConfigurationSystem = null!;
-        private ProxyAction? addMoneyAction;
-        private ProxyAction? subtractMoneyAction;
-        private int automaticMoneyCheckCooldown;
-        private int addMoneyRepeatCooldown;
-        private int subtractMoneyRepeatCooldown;
+        private CitySystem m_CitySystem = null!;
+        private CityConfigurationSystem m_CityConfigurationSystem = null!;
+        private ProxyAction? m_AddMoneyAction;
+        private ProxyAction? m_SubtractMoneyAction;
+        private int m_AutomaticMoneyCheckCooldown;
+        private int m_AddMoneyRepeatCooldown;
+        private int m_SubtractMoneyRepeatCooldown;
 
         public enum FinanceActionKind
         {
@@ -60,8 +60,8 @@ namespace CityWatchdog.Systems
                 "Starting set unlimited money to limited money.\n" +
                 $"PlayerMoney.m_Unlimited: {beforeMoney.m_Unlimited}\n" +
                 $"PlayerMoney.money: {beforeMoney.money}\n" +
-                $"CityConfigurationSystem.unlimitedMoney: {cityConfigurationSystem.unlimitedMoney}\n" +
-                $"CityConfigurationSystem.overrideUnlimitedMoney: {cityConfigurationSystem.overrideUnlimitedMoney}");
+                $"CityConfigurationSystem.unlimitedMoney: {m_CityConfigurationSystem.unlimitedMoney}\n" +
+                $"CityConfigurationSystem.overrideUnlimitedMoney: {m_CityConfigurationSystem.overrideUnlimitedMoney}");
 
             ApplyLimitedMoneyMode();
             ClearLoadedUnlimitedMoneyFlag();
@@ -75,19 +75,19 @@ namespace CityWatchdog.Systems
                 "Set unlimited money to limited money completed.\n" +
                 $"PlayerMoney.m_Unlimited: {afterMoney.m_Unlimited}\n" +
                 $"PlayerMoney.money: {afterMoney.money}\n" +
-                $"CityConfigurationSystem.unlimitedMoney: {cityConfigurationSystem.unlimitedMoney}\n" +
-                $"CityConfigurationSystem.overrideUnlimitedMoney: {cityConfigurationSystem.overrideUnlimitedMoney}");
+                $"CityConfigurationSystem.unlimitedMoney: {m_CityConfigurationSystem.unlimitedMoney}\n" +
+                $"CityConfigurationSystem.overrideUnlimitedMoney: {m_CityConfigurationSystem.overrideUnlimitedMoney}");
         }
 
         private void ApplyLimitedMoneyMode()
         {
-            cityConfigurationSystem.unlimitedMoney = false;
-            cityConfigurationSystem.overrideUnlimitedMoney = false;
+            m_CityConfigurationSystem.unlimitedMoney = false;
+            m_CityConfigurationSystem.overrideUnlimitedMoney = false;
 
             if (TryGetPlayerMoney(out PlayerMoney playerMoney))
             {
                 playerMoney.m_Unlimited = false;
-                EntityManager.SetComponentData(citySystem.City, playerMoney);
+                EntityManager.SetComponentData(m_CitySystem.City, playerMoney);
             }
         }
 
@@ -101,15 +101,15 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            loadedUnlimitedMoneyField.SetValue(cityConfigurationSystem, false);
+            loadedUnlimitedMoneyField.SetValue(m_CityConfigurationSystem, false);
         }
 
         public bool CanConvertUnlimitedMoneySave()
         {
             if (GameManager.instance == null ||
                 GameManager.instance.gameMode != GameMode.Game ||
-                citySystem == null ||
-                cityConfigurationSystem == null)
+                m_CitySystem == null ||
+                m_CityConfigurationSystem == null)
             {
                 return false;
             }
@@ -120,8 +120,8 @@ namespace CityWatchdog.Systems
             }
 
             return playerMoney.m_Unlimited ||
-                   cityConfigurationSystem.unlimitedMoney ||
-                   cityConfigurationSystem.overrideUnlimitedMoney;
+                   m_CityConfigurationSystem.unlimitedMoney ||
+                   m_CityConfigurationSystem.overrideUnlimitedMoney;
         }
 
         public void OnSubtractMoney()
@@ -138,21 +138,21 @@ namespace CityWatchdog.Systems
         {
             base.OnCreate();
 
-            citySystem = World.GetOrCreateSystemManaged<CitySystem>();
-            cityConfigurationSystem = World.GetOrCreateSystemManaged<CityConfigurationSystem>();
-            automaticMoneyCheckCooldown = 0;
+            m_CitySystem = World.GetOrCreateSystemManaged<CitySystem>();
+            m_CityConfigurationSystem = World.GetOrCreateSystemManaged<CityConfigurationSystem>();
+            m_AutomaticMoneyCheckCooldown = 0;
             ResetManualMoneyRepeat();
 
-            addMoneyAction = TryGetAction(CwdSettings.AddMoneyAction);
-            if (addMoneyAction != null)
+            m_AddMoneyAction = TryGetAction(CwdSettings.AddMoneyAction);
+            if (m_AddMoneyAction != null)
             {
-                addMoneyAction.shouldBeEnabled = true;
+                m_AddMoneyAction.shouldBeEnabled = true;
             }
 
-            subtractMoneyAction = TryGetAction(CwdSettings.SubtractMoneyAction);
-            if (subtractMoneyAction != null)
+            m_SubtractMoneyAction = TryGetAction(CwdSettings.SubtractMoneyAction);
+            if (m_SubtractMoneyAction != null)
             {
-                subtractMoneyAction.shouldBeEnabled = true;
+                m_SubtractMoneyAction.shouldBeEnabled = true;
             }
         }
 
@@ -160,7 +160,7 @@ namespace CityWatchdog.Systems
         {
             base.OnGameLoaded(serializationContext);
 
-            automaticMoneyCheckCooldown = 0;
+            m_AutomaticMoneyCheckCooldown = 0;
 
             if ((serializationContext.purpose == Purpose.NewGame || serializationContext.purpose == Purpose.LoadGame) &&
                 CwdSettings.Instance.InitialMoney != 0)
@@ -183,7 +183,7 @@ namespace CityWatchdog.Systems
         {
             if (!InGame)
             {
-                automaticMoneyCheckCooldown = 0;
+                m_AutomaticMoneyCheckCooldown = 0;
                 ResetManualMoneyRepeat();
                 return;
             }
@@ -194,8 +194,8 @@ namespace CityWatchdog.Systems
 
         private void UpdateManualMoneyHotkeys()
         {
-            UpdateManualMoneyHotkey(addMoneyAction, FinanceActionKind.ManualAdd, ref addMoneyRepeatCooldown);
-            UpdateManualMoneyHotkey(subtractMoneyAction, FinanceActionKind.ManualSubtract, ref subtractMoneyRepeatCooldown);
+            UpdateManualMoneyHotkey(m_AddMoneyAction, FinanceActionKind.ManualAdd, ref m_AddMoneyRepeatCooldown);
+            UpdateManualMoneyHotkey(m_SubtractMoneyAction, FinanceActionKind.ManualSubtract, ref m_SubtractMoneyRepeatCooldown);
         }
 
         private void UpdateManualMoneyHotkey(ProxyAction? action, FinanceActionKind financeActionKind, ref int repeatCooldown)
@@ -210,7 +210,7 @@ namespace CityWatchdog.Systems
             if (action.WasPressedThisFrame())
             {
                 ApplyMoneyChange(financeActionKind, CwdSettings.Instance.ManualMoneyAmount);
-                repeatCooldown = ManualMoneyRepeatInitialDelayUpdates;
+                repeatCooldown = kManualMoneyRepeatInitialDelayUpdates;
                 return;
             }
 
@@ -227,30 +227,30 @@ namespace CityWatchdog.Systems
             }
 
             ApplyMoneyChange(financeActionKind, CwdSettings.Instance.ManualMoneyAmount);
-            repeatCooldown = ManualMoneyRepeatIntervalUpdates;
+            repeatCooldown = kManualMoneyRepeatIntervalUpdates;
         }
 
         private void ResetManualMoneyRepeat()
         {
-            addMoneyRepeatCooldown = 0;
-            subtractMoneyRepeatCooldown = 0;
+            m_AddMoneyRepeatCooldown = 0;
+            m_SubtractMoneyRepeatCooldown = 0;
         }
 
         private void UpdateAutomaticAddMoney()
         {
             if (!CwdSettings.Instance.AutomaticAddMoney)
             {
-                automaticMoneyCheckCooldown = 0;
+                m_AutomaticMoneyCheckCooldown = 0;
                 return;
             }
 
-            if (automaticMoneyCheckCooldown > 0)
+            if (m_AutomaticMoneyCheckCooldown > 0)
             {
-                automaticMoneyCheckCooldown--;
+                m_AutomaticMoneyCheckCooldown--;
                 return;
             }
 
-            automaticMoneyCheckCooldown = AutomaticMoneyCheckIntervalUpdates;
+            m_AutomaticMoneyCheckCooldown = kAutomaticMoneyCheckIntervalUpdates;
             TryAutomaticAddMoney();
         }
 
@@ -304,7 +304,7 @@ namespace CityWatchdog.Systems
             return (int)amount;
         }
 
-        private ProxyAction? TryGetAction(string actionName)
+        private static ProxyAction? TryGetAction(string actionName)
         {
             try
             {
@@ -324,12 +324,12 @@ namespace CityWatchdog.Systems
         {
             playerMoney = default;
 
-            if (citySystem == null)
+            if (m_CitySystem == null)
             {
                 return false;
             }
 
-            Entity city = citySystem.City;
+            Entity city = m_CitySystem.City;
             if (city == Entity.Null ||
                 !EntityManager.Exists(city) ||
                 !EntityManager.HasComponent<PlayerMoney>(city))
@@ -359,7 +359,7 @@ namespace CityWatchdog.Systems
                 playerMoney.Subtract(money);
             }
 
-            EntityManager.SetComponentData(citySystem.City, playerMoney);
+            EntityManager.SetComponentData(m_CitySystem.City, playerMoney);
         }
     }
 }

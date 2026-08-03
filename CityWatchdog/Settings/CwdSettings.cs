@@ -32,21 +32,21 @@ namespace CityWatchdog
     using UnityEngine;
 
     [FileLocation("ModsSettings/CityWatchdog/CityWatchdog")]
-    [SettingsUITabOrder(Actions, MiniHudTab, MoneyTab, About)]
-    [SettingsUIGroupOrder(AboutUsage, Notifications, MoneyViewGroup, MiniHudGroup, Milestone, Money, SaveConversion, AboutInfo, AboutLinks, AboutDiagnostics, Serialize)]
-    [SettingsUIShowGroupName(AboutUsage, Notifications, MoneyViewGroup, MiniHudGroup, Milestone, Money, SaveConversion, AboutDiagnostics, Serialize)]
+    [SettingsUITabOrder(kActions, kMiniHudTab, kMoneyTab, kAbout)]
+    [SettingsUIGroupOrder(kAboutUsage, kNotifications, kMoneyViewGroup, kMiniHudGroup, kMilestone, kSaveConversion, kMoney, kAboutInfo, kAboutLinks, kAboutDiagnostics, kSerialize)]
+    [SettingsUIShowGroupName(kAboutUsage, kNotifications, kMoneyViewGroup, kMiniHudGroup, kMilestone, kMoney, kSaveConversion, kAboutDiagnostics, kSerialize)]
     public partial class CwdSettings : ModSetting
     {
         internal static CwdSettings Instance { get; set; } = null!;
 
         // Tab IDs.
-        internal const string Actions = nameof(Actions);
-        internal const string MiniHudTab = "MiniHud";
-        internal const string MoneyTab = "Money";
-        internal const string Hotkeys = nameof(Hotkeys);
-        internal const string About = nameof(About);
-        internal const string Debug = nameof(Debug);
-        internal const string Serialize = nameof(Serialize);
+        internal const string kActions = "Actions";
+        internal const string kMiniHudTab = "MiniHud";
+        internal const string kMoneyTab = "Money";
+        internal const string kHotkeys = "Hotkeys";
+        internal const string kAbout = "About";
+        internal const string kDebug = "Debug";
+        internal const string kSerialize = "Serialize";
 
         // Keybinding action IDs.
         public const string AddMoneyAction = nameof(AddMoneyAction);
@@ -57,30 +57,30 @@ namespace CityWatchdog
         public const string ToggleAllTooltipsAction = nameof(ToggleAllTooltipsAction);
 
         // Group IDs.
-        internal const string MoneyViewGroup = nameof(MoneyViewGroup);
-        internal const string Money = nameof(Money);
-        internal const string Notifications = nameof(Notifications);
-        internal const string MiniHudGroup = nameof(MiniHudGroup);
-        internal const string Milestone = nameof(Milestone);
-        internal const string SaveConversion = nameof(SaveConversion);
-        internal const string HotkeyActions = nameof(HotkeyActions);
-        internal const string AboutInfo = nameof(AboutInfo);
-        internal const string AboutLinks = nameof(AboutLinks);
-        internal const string AboutDiagnostics = nameof(AboutDiagnostics);
-        internal const string AboutUsage = nameof(AboutUsage);
+        internal const string kMoneyViewGroup = "MoneyViewGroup";
+        internal const string kMoney = "Money";
+        internal const string kNotifications = "Notifications";
+        internal const string kMiniHudGroup = "MiniHudGroup";
+        internal const string kMilestone = "Milestone";
+        internal const string kSaveConversion = "SaveConversion";
+        internal const string kHotkeyActions = "HotkeyActions";
+        internal const string kAboutInfo = "AboutInfo";
+        internal const string kAboutLinks = "AboutLinks";
+        internal const string kAboutDiagnostics = "AboutDiagnostics";
+        internal const string kAboutUsage = "AboutUsage";
 
         // Coarse sanity bound (pixels) for the stored draggable panel position. The UI does the
         // real on-screen clamping against the live viewport; this only guards absurd saved values.
-        internal const int PanelPositionLimit = 20000;
-        internal const int MainPanelOpacityDefault = 70;
+        internal const int kPanelPositionLimit = 20000;
+        internal const int kMainPanelOpacityDefault = 80;
 
-        private const string AboutLinksRow = nameof(AboutLinksRow);
-        private const string DebugButtonsRow = nameof(DebugButtonsRow);
-        private const string UsageIconPath = "coui://ui-mods/images/NotificationIcon_PawRainbow.svg";
-        private const string UrlParadox =
+        private const string kAboutLinksRow = "AboutLinksRow";
+        private const string kDebugButtonsRow = "1DebugButtonsRow";
+        private const string kUsageIconPath = "coui://ui-mods/images/NotificationIcon_PawRainbow.svg";
+        private const string kUrlParadox =
             "https://mods.paradoxplaza.com/authors/River-mochi/cities_skylines_2?games=cities_skylines_2&orderBy=desc&sortBy=best&time=alltime";
 
-        private int m_MainPanelOpacity = MainPanelOpacityDefault;
+        private int m_MainPanelOpacity = kMainPanelOpacityDefault;
 
         public CwdSettings(IMod mod) : base(mod)
         {
@@ -91,12 +91,12 @@ namespace CityWatchdog
         // Actions tab - Usage
         // --------------------------------------------------------------------
 
-        [SettingsUISection(Actions, AboutUsage)]
+        [SettingsUISection(kActions, kAboutUsage)]
         public bool ShowUsage { get; set; }
 
-        [SettingsUIMultilineText(UsageIconPath)]
+        [SettingsUIMultilineText(kUsageIconPath)]
         [SettingsUIHideByCondition(typeof(CwdSettings), nameof(HideUsageText))]
-        [SettingsUISection(Actions, AboutUsage)]
+        [SettingsUISection(kActions, kAboutUsage)]
         public string UsageText => string.Empty;
 
         // --------------------------------------------------------------------
@@ -104,19 +104,19 @@ namespace CityWatchdog
         // --------------------------------------------------------------------
 
         [SettingsUIKeyboardBinding(BindingKeyboard.N, ToggleNotificationsAction)]
-        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISection(kActions, kNotifications)]
         public ProxyBinding ToggleNotificationsKeyboardBinding { get; set; }
 
         [SettingsUIKeyboardBinding(BindingKeyboard.N, ToggleNotificationPanelAction, shift: true)]
-        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISection(kActions, kNotifications)]
         public ProxyBinding ToggleNotificationPanelKeyboardBinding { get; set; }
 
-        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISection(kActions, kNotifications)]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnPanelButtonsOnlyStartChanged))]
         public bool PanelButtonsOnlyStart { get; set; }
 
         [SettingsUIKeyboardBinding(BindingKeyboard.Backslash, ToggleRoadNamesAction)]
-        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISection(kActions, kNotifications)]
         public ProxyBinding ToggleRoadNamesKeyboardBinding { get; set; }
 
         // Persisted across sessions but intentionally hidden from Options UI — controlled only
@@ -134,18 +134,33 @@ namespace CityWatchdog
         public bool ShowRoadArrows { get; set; }
 
         [SettingsUIKeyboardBinding(BindingKeyboard.Backslash, ToggleAllTooltipsAction, shift: true)]
-        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISection(kActions, kNotifications)]
         public ProxyBinding ToggleAllTooltipsKeyboardBinding { get; set; }
 
         [SettingsUISlider(min = 30, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(Actions, Notifications)]
+        [SettingsUISection(kActions, kNotifications)]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMainPanelOpacityChanged))]
         public int MainPanelOpacity
         {
             get => m_MainPanelOpacity;
             set => m_MainPanelOpacity = value <= 0
-                ? MainPanelOpacityDefault
+                ? kMainPanelOpacityDefault
                 : Math.Clamp(value, 30, 100);
+        }
+
+
+        // Mirrors vanilla "Interface Scaling (dev)" flag, which normally only appears in the game's
+        // Options > Interface when launched with --developerMode. Turning it on makes the WHOLE game UI
+        // (+ mod panels) render larger.
+        // Live pass-through to vanilla's dev-only interface-scaling flag.
+        // CWD keeps no duplicate; load-time setter safely no-ops before the control system exists.
+        [SettingsUISection(kActions, kNotifications)]
+        public bool InterfaceScaling
+        {
+            get => GameManager.instance?.settings?.userInterface?.interfaceScaling ?? false;
+            set => World.DefaultGameObjectInjectionWorld?
+                .GetExistingSystemManaged<InterfaceScaleControlSystem>()?
+                .SetInterfaceScaling(value);
         }
 
         // Session-only now: the CWD title-bar tooltip toggle starts OFF (tooltips shown) each launch
@@ -175,10 +190,10 @@ namespace CityWatchdog
         // About tab
         // --------------------------------------------------------------------
 
-        [SettingsUISection(About, AboutInfo)]
+        [SettingsUISection(kAbout, kAboutInfo)]
         public string NameText => Mod.ModName;
 
-        [SettingsUISection(About, AboutInfo)]
+        [SettingsUISection(kAbout, kAboutInfo)]
         public string VersionText =>
 #if DEBUG
             Mod.ModVersion + " (DEBUG)";
@@ -186,16 +201,16 @@ namespace CityWatchdog
             Mod.ModVersion;
 #endif
 
-        [SettingsUIButtonGroup(AboutLinksRow)]
+        [SettingsUIButtonGroup(kAboutLinksRow)]
         [SettingsUIButton]
-        [SettingsUISection(About, AboutLinks)]
+        [SettingsUISection(kAbout, kAboutLinks)]
         public bool OpenParadox
         {
             set
             {
                 if (value)
                 {
-                    TryOpenUrl(UrlParadox);
+                    TryOpenUrl(kUrlParadox);
                 }
             }
         }
@@ -205,9 +220,9 @@ namespace CityWatchdog
         // About tab - Diagnostics
         // --------------------------------------------------------------------
 
-        [SettingsUIButtonGroup(DebugButtonsRow)]
+        [SettingsUIButtonGroup(kDebugButtonsRow)]
         [SettingsUIButton]
-        [SettingsUISection(About, AboutDiagnostics)]
+        [SettingsUISection(kAbout, kAboutDiagnostics)]
         public bool WriteNotificationAuditLog
         {
             set
@@ -231,9 +246,9 @@ namespace CityWatchdog
             }
         }
 
-        [SettingsUIButtonGroup(DebugButtonsRow)]
+        [SettingsUIButtonGroup(kDebugButtonsRow)]
         [SettingsUIButton]
-        [SettingsUISection(About, AboutDiagnostics)]
+        [SettingsUISection(kAbout, kAboutDiagnostics)]
         public bool OpenLog
         {
             set
@@ -251,7 +266,7 @@ namespace CityWatchdog
         // Conditions and helpers
         // --------------------------------------------------------------------
 
-        private bool IsInGame()
+        private static bool IsInGame()
         {
             return GameManager.instance != null && GameManager.instance.gameMode == GameMode.Game;
         }
@@ -293,7 +308,7 @@ namespace CityWatchdog
             HideDistrictNames = false;
             ShowRoadArrows = false;
             PanelButtonsOnlyStart = false;
-            MainPanelOpacity = MainPanelOpacityDefault;
+            MainPanelOpacity = kMainPanelOpacityDefault;
             PanelPositionX = 0;
             PanelPositionY = 0;
             PanelCollapsedSectionsMask = 0;
@@ -302,11 +317,12 @@ namespace CityWatchdog
             ApplyMiniHudStarterPresetValues();
 
             Notification.SetDefaults();
+            ResetPresets();
         }
 
-        private void OnPanelButtonsOnlyStartChanged(bool value) => GetUISystem()?.UpdatePanelButtonsOnlyStartBinding(value);
+        private static void OnPanelButtonsOnlyStartChanged(bool value) => GetUISystem()?.UpdatePanelButtonsOnlyStartBinding(value);
 
-        private void OnMainPanelOpacityChanged(int value) => GetUISystem()?.UpdateMainPanelOpacityBinding(value);
+        private static void OnMainPanelOpacityChanged(int value) => GetUISystem()?.UpdateMainPanelOpacityBinding(value);
 
         private static CityWatchdogUISystem? GetUISystem()
         {

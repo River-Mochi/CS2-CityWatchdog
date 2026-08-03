@@ -22,6 +22,10 @@ import {
   panelPositionY$,
   panelCollapsedSectionsMask$,
   panelSortMode$,
+  preset1Saved$,
+  preset2Saved$,
+  activePreset$,
+  interfaceScaleEnabled$,
   showRoadArrows$,
   OnControlPanelBindingToggle,
   OnDisableAllTooltipsToggle,
@@ -32,12 +36,18 @@ import {
   OnToggleMiniHudFavorite,
   OnPanelCollapsedSectionsChanged,
   OnPanelSortModeChanged,
+  OnLoadPreset,
+  OnSavePreset,
+  OnToggleInterfaceScale,
 } from "../../../bindings/bindings";
 import { Divider } from "../../divider/divider";
 import { InfoPanel } from "../info-panel/infoPanel";
 import { VanillaComponentResolver } from "../../../utils/vanilla";
+import { playSelectSound } from "../../../utils/uiSound";
 import { NotificationRow } from "../notification-row/notificationRow";
 import { PanelButton, PanelButtonText, type PanelButtonTone } from "./buttons/panelButton";
+import { PresetSlot } from "./buttons/presetButtons";
+import presetStyles from "./buttons/presetButtons.module.scss";
 import styles from "./notificationPanel.module.scss";
 import {
   allIconSources,
@@ -71,7 +81,11 @@ import DistrictIconPath from "../../../../images/Districts-max.svg";
 // Road-arrow toggle icon tuned for small toolbar rendering.
 import RoadArrowIconPath from "../../../../images/icon-RoadArrows-max.svg";
 
+// UI-scale (title-bar) button icon.
+import ScalePanelsPath from "../../../../images/ScalePanels.svg";
+
 const modIconSrc = TitleBarIconPath;
+const scalePanelsSrc = ScalePanelsPath;
 const sortArrowUpSrc = SortArrowUpPath;
 const sortArrowDownSrc = SortArrowDownPath;
 const sortActiveSrc = SortActivePath;
@@ -98,32 +112,19 @@ const SORT_ACTIVE = 2;
 let sessionSortMode = SORT_ASCENDING;
 
 const getMainPanelOpacityClass = (value: number) => {
-  const normalized = Math.round(Math.min(100, Math.max(30, Number.isFinite(value) ? value : 70)) / 5) * 5;
-  return styles[`opacity${normalized}`] ?? styles.opacity70;
+  const normalized = Math.round(Math.min(100, Math.max(30, Number.isFinite(value) ? value : 80)) / 5) * 5;
+  return styles[`opacity${normalized}`] ?? styles.opacity80;
 };
 
-// Coherent collapses a literal "\n" inside a text node down to a space, so a multi-line tooltip only
-// renders as multiple lines if every line becomes its own element. FormattedParagraphs is vanilla's
-// own component for exactly this (game-ui/common/text/formatted-paragraphs.tsx): it splits on
-// /\r\n|\r|\n/, drops blank lines, and renders each line as a themed FormattedText — so we match
-// vanilla tooltip styling instead of hand-rolling divs. Pass it via children; its `text` prop is
-// deprecated in cs2/ui. Centralised here so no call site can drop a line break by forgetting to opt in;
-// non-string (already-JSX) tooltips pass through untouched.
-// className (not theme) is what tightens the line gap: vanilla spaces paragraphs with
-// `.paragraphs_nbD p+p { margin-top: var(--paragraphGap) }` — a wrapper rule matching `p` by element,
-// so overriding the `p` THEME class does nothing. className merges alongside vanilla's wrapper class,
-// letting us re-point --paragraphGap. See tooltipParagraphs in the scss.
+// Coherent collapses "\n" inside one text node.
+// FormattedParagraphs preserves tooltip line breaks with vanilla styling.
 const renderTooltipLines = (tooltip: ReactNode): ReactNode =>
   typeof tooltip === "string" && tooltip.includes("\n")
     ? <FormattedParagraphs className={styles.tooltipParagraphs}>{tooltip}</FormattedParagraphs>
     : tooltip;
 
-// Panel-internal Tooltip wrapper. Three jobs:
-//   1. Passes a `cwdBypass` flag the global TooltipGate extension reads, so panel tooltips stay
-//      visible when the Info button mutes vanilla game tooltips (disableAllTooltips$).
-//   2. Reads disableCwdTooltips$ itself — the CWD title-bar icon mutes panel tooltips by
-//      returning just the children. `alwaysVisible` keeps recovery toggles discoverable.
-//   3. Splits "\n" into one line element each (see renderTooltipLines above).
+// Keeps CWD tooltips independent from the global game-tooltip toggle.
+// alwaysVisible is used for controls that restore hidden CWD tooltips.
 const CwdTooltip = ({
   tooltip,
   alwaysVisible,
@@ -140,18 +141,16 @@ const CwdTooltip = ({
   return <Tooltip {...{ cwdBypass: true }} tooltip={renderTooltipLines(tooltip)}>{children}</Tooltip>;
 };
 
-// Isolates ALL drag-position state so a 60fps drag never re-renders the expensive ~63-row body.
-// The draggable title lives HERE (not passed down) because it needs panelDragging/handlePanelDragStart
-// directly — keeping that coupling local avoids a forwardRef/imperative-handle bridge across component
-// boundaries. `children` (toolbar + rows) is built ONCE by the parent and passed through unchanged, so
-// React sees the same element reference on every drag frame and skips reconciling that whole subtree —
-// only this wrapper's own tiny header JSX re-renders per mouse-move.
+// Keeps 60fps drag state outside the 63-row body.
+// Stable children prevent the notification list from re-rendering while dragging.
 const DraggablePanelFrame = ({
   savedOffset,
   cwdTooltipsDisabled,
   titleBarTooltip,
   dragTitleTooltip,
   panelCollapseTooltip,
+  scaleEnabled,
+  scaleTooltip,
   panelTitle,
   panelCollapsed,
   allSectionsExpanded,
@@ -164,6 +163,8 @@ const DraggablePanelFrame = ({
   titleBarTooltip: ReactNode;
   dragTitleTooltip: ReactNode;
   panelCollapseTooltip: ReactNode;
+  scaleEnabled: boolean;
+  scaleTooltip: ReactNode;
   // Swaps to the Active-view title so the header says what the body is actually showing.
   panelTitle: string;
   panelCollapsed: boolean;
@@ -201,9 +202,23 @@ const DraggablePanelFrame = ({
                   className={`${styles.headerModIconButton} ${cwdTooltipsDisabled ? styles.headerModIconOff : ""}`}
                   role="button"
                   aria-pressed={cwdTooltipsDisabled}
-                  onClick={() => { OnDisableCwdTooltipsToggle(!cwdTooltipsDisabled); }}
+                  onClick={() => { playSelectSound(); OnDisableCwdTooltipsToggle(!cwdTooltipsDisabled); }}
                 >
                   <img src={modIconSrc} className={styles.headerModIcon} />
+                </div>
+              </CwdTooltip>
+              {/* UI-scale toggle — enables the vanilla (dev) interface scaling without the launch flag.
+                  Placed at the far left next to the CWD paw icon, deliberately away from the expand
+                  arrow so players don't flip their UI scale when reaching to expand/collapse. Highlights
+                  when scaling is on. */}
+              <CwdTooltip tooltip={scaleTooltip} alwaysVisible>
+                <div
+                  className={`${styles.headerScaleButton} ${scaleEnabled ? styles.headerScaleButtonActive : ""}`}
+                  role="button"
+                  aria-pressed={scaleEnabled}
+                  onClick={() => { playSelectSound(); OnToggleInterfaceScale(!scaleEnabled); }}
+                >
+                  <img src={scalePanelsSrc} className={styles.headerScaleIcon} />
                 </div>
               </CwdTooltip>
               {/* While actively dragging, skip the Tooltip wrapper entirely rather than just
@@ -232,7 +247,7 @@ const DraggablePanelFrame = ({
               <Button
                 className={roundButtonHighlightStyle.button + " " + styles.headerCollapseButton}
                 variant="icon"
-                onClick={onPanelCollapsedToggle}
+                onSelect={onPanelCollapsedToggle}
                 focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
               >
                 <img
@@ -244,7 +259,7 @@ const DraggablePanelFrame = ({
             <Button
               className={roundButtonHighlightStyle.button + " " + styles.headerCloseButton}
               variant="icon"
-              onClick={onCloseClick}
+              onSelect={onCloseClick}
               focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
             >
               <img src="Media/Glyphs/Close.svg" className={styles.headerCloseIcon} />
@@ -289,6 +304,13 @@ const NotificationPanelContent = () => {
   const districtNamesHidden = useValue(hideDistrictNames$);
   // showRoadArrows$ — Road-Arrow toggle: force vanilla 1-way arrows on when no road tool is active.
   const roadArrowsShown = useValue(showRoadArrows$);
+  // preset1Saved$/preset2Saved$ — whether each "1 | 2" preset slot holds a saved checkbox layout.
+  const preset1Saved = useValue(preset1Saved$);
+  const preset2Saved = useValue(preset2Saved$);
+  // activePreset$ — which slot (1/2) is currently applied; 0 = none. Drives the "selected" ring + dot.
+  const activePreset = useValue(activePreset$);
+  // interfaceScaleEnabled$ — vanilla UI scaling on/off (drives the title-bar scale button).
+  const interfaceScaleEnabled = useValue(interfaceScaleEnabled$);
   const [expandedSections, setExpandedSections] = useState(createExpandedSections);
   const allValues = useAllNotificationValues();
   const notificationCounts = useValue(notificationCounts$);
@@ -302,7 +324,7 @@ const NotificationPanelContent = () => {
   const savedCollapsedMask = useValue(panelCollapsedSectionsMask$);
   const savedSortMode = useValue(panelSortMode$);
 
-  // Active-first sort snapshots the counts so rows don't reshuffle while you read. The snapshot is
+  // Active-first sort snapshots the counts so rows don't reshuffle while player reads. The snapshot is
   // taken on click (see cycleSortMode) and re-taken here on panel (re)open or if it wasn't ready yet.
   useEffect(() => {
     if (sortMode !== SORT_ACTIVE) {
@@ -364,7 +386,7 @@ const NotificationPanelContent = () => {
       })
     : [];
 
-  // Toggle All's tone/count reflect only the bulk-toggleable rows — optional rows (currently just
+  // SHOW ICONS's tone/count reflect only the bulk-toggleable rows — optional rows (currently just
   // Leveling Building) are opt-in extras that bulk actions deliberately skip, so they're left out
   // here too. Otherwise the button could never show "all on" without also requiring that optional
   // row, and its on/off direction would misread which way to toggle.
@@ -423,6 +445,9 @@ const NotificationPanelContent = () => {
     : "CITY WATCHDOG";
   const panelCollapseTooltip = localize("PanelCollapseToggle", "Expand/collapse whole panel.");
   const dragTitleTooltip = localize("DragTitleBar", "Drag title bar.");
+  const scaleTooltip = interfaceScaleEnabled
+    ? localize("InterfaceScaleOn", "Bigger UI is ON.\nClick to return the game interface to normal size.")
+    : localize("InterfaceScaleOff", "Make the whole game interface bigger — panels and text.\nAffects the entire game and stays on until you turn it off.");
 
   // Same text regardless of toggle state — Info button is always discoverable.
   const infoTooltip = localize(
@@ -456,6 +481,18 @@ const NotificationPanelContent = () => {
       "Click to hide district names.",
     );
 
+  // Preset slots: tooltip depends on whether the slot already holds a saved layout.
+  const savedPresetTooltip = localize(
+    "PresetLoadHint",
+    "Click to load this saved icon setup.\nHold 1 second to overwrite it with your current checkboxes.",
+  );
+  const emptyPresetTooltip = localize(
+    "PresetSaveHint",
+    "This preset is empty.\nHold 1 second to save your current checkboxes into it.",
+  );
+  const preset1Tooltip = preset1Saved ? savedPresetTooltip : emptyPresetTooltip;
+  const preset2Tooltip = preset2Saved ? savedPresetTooltip : emptyPresetTooltip;
+
   // Memoized: this sort calls localize() twice per comparison plus localeCompare (both string-heavy),
   // and section titles only change when the sort mode or the game language does — NOT when a count
   // ticks or a checkbox toggles. Without this it re-ran on every panel render for identical output.
@@ -487,6 +524,26 @@ const NotificationPanelContent = () => {
     applyExpandedSections(createExpandedSections(!allSectionsExpanded));
   };
 
+  // When the panel is collapsed to just the button row, Sort — like the count button — opens the
+  // full panel instead of silently cycling the sort icon with nothing to show for it. It reveals the
+  // CURRENT sort's view without advancing it, so what the player sees matches the icon they clicked:
+  // grouped sorts open with all rows expanded; Active opens its flat list (re-snapshotted so it's
+  // fresh). Once the panel is open, Sort cycles A→Z / Z→A / Active as before.
+  const onSortButtonClick = () => {
+    if (!panelCollapsed) {
+      cycleSortMode();
+      return;
+    }
+    setPanelCollapsed(false);
+    if (sortMode === SORT_ACTIVE) {
+      if (notificationCounts.length > 0) {
+        setActiveSnapshot(notificationCounts.slice());
+      }
+    } else {
+      applyExpandedSections(createExpandedSections(true));
+    }
+  };
+
   const onSectionExpandedChange = (section: NotificationSection, expanded: boolean) => {
     applyExpandedSections({ ...expandedSections, [section.localeId]: expanded });
   };
@@ -498,6 +555,8 @@ const NotificationPanelContent = () => {
       titleBarTooltip={titleBarTooltip}
       dragTitleTooltip={dragTitleTooltip}
       panelCollapseTooltip={panelCollapseTooltip}
+      scaleEnabled={interfaceScaleEnabled}
+      scaleTooltip={scaleTooltip}
       panelTitle={panelTitle}
       panelCollapsed={panelCollapsed}
       allSectionsExpanded={allSectionsExpanded}
@@ -571,7 +630,7 @@ const NotificationPanelContent = () => {
               kind="sort"
               iconSrc={sortIconSrc}
               iconKind="sort"
-              onClick={cycleSortMode}
+              onClick={onSortButtonClick}
             />
           </CwdTooltip>
 
@@ -589,14 +648,39 @@ const NotificationPanelContent = () => {
             </PanelButton>
           </CwdTooltip>
 
-          <CwdTooltip tooltip={localize("ToggleAllTooltip", "Show/hide all icons.\nColor: green = all on; blue = mixed; red = all off.")}>
+          {/* Preset boxes "1" "2" sit next to Show Icons because all three control which map icons
+              show. Click a box to load its saved checkbox layout, hold to save the current one in. */}
+          <div className={presetStyles.presetGroup}>
+            <CwdTooltip tooltip={preset1Tooltip}>
+              <PresetSlot
+                label="1"
+                saved={preset1Saved}
+                active={activePreset === 1}
+                onLoad={() => { OnLoadPreset(1); }}
+                onSave={() => { OnSavePreset(1); }}
+              />
+            </CwdTooltip>
+            <CwdTooltip tooltip={preset2Tooltip}>
+              <PresetSlot
+                label="2"
+                saved={preset2Saved}
+                active={activePreset === 2}
+                onLoad={() => { OnLoadPreset(2); }}
+                onSave={() => { OnSavePreset(2); }}
+              />
+            </CwdTooltip>
+          </div>
+
+          <CwdTooltip tooltip={localize("ToggleAllTooltip", "Show or hide ALL map notification icons at once.\nColor: green = all shown; blue = mixed; red = all hidden.")}>
             <PanelButton
               kind="toggle"
               tone={toggleAllTone}
               onClick={onToggleAll}
             >
               <PanelButtonText kind="toggle">
-                {localize("ToggleAll", "Toggle All")}
+                {allSelected
+                  ? localize("HideIcons", "Hide Icons")
+                  : localize("ShowIcons", "Show Icons")}
               </PanelButtonText>
             </PanelButton>
           </CwdTooltip>

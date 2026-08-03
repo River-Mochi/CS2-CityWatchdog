@@ -6,14 +6,14 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/MilestoneSystem.cs
+// File: Systems/MilestoneSystem.cs
 // Purpose: Applies the custom milestone setting to new or loaded cities.
 
 namespace CityWatchdog.Systems
 {
 
-    using CS2Shared.RiverMochi;
     using Colossal.Serialization.Entities;
+    using CS2Shared.RiverMochi;
     using Game.City;
     using Game.Common;
     using Game.Prefabs;
@@ -24,36 +24,36 @@ namespace CityWatchdog.Systems
 
     public partial class MilestoneSystem : GameSystemBaseExtension
     {
-        private EntityArchetype unlockEventArchetype;
-        private EntityQuery milestoneLevelGroup;
-        private EntityQuery milestoneGroup;
-        private CitySystem citySystem = null!;
+        private EntityArchetype m_UnlockEventArchetype;
+        private EntityQuery m_MilestoneLevelGroup;
+        private EntityQuery m_MilestoneGroup;
+        private CitySystem m_CitySystem = null!;
 
         protected override void OnCreate()
         {
             base.OnCreate();
 
-            citySystem = World.GetOrCreateSystemManaged<CitySystem>();
+            m_CitySystem = World.GetOrCreateSystemManaged<CitySystem>();
 
             // Use vanilla Unlock events so milestone rewards and side effects stay game-native.
-            unlockEventArchetype = EntityManager.CreateArchetype(new ComponentType[]
+            m_UnlockEventArchetype = EntityManager.CreateArchetype(new ComponentType[]
             {
                 ComponentType.ReadWrite<Event>(),
                 ComponentType.ReadWrite<Unlock>()
             });
 
-            milestoneLevelGroup = GetEntityQuery(new ComponentType[]
+            m_MilestoneLevelGroup = GetEntityQuery(new ComponentType[]
             {
                 ComponentType.ReadWrite<MilestoneLevel>()
             });
 
-            milestoneGroup = GetEntityQuery(new ComponentType[]
+            m_MilestoneGroup = GetEntityQuery(new ComponentType[]
             {
                 ComponentType.ReadOnly<MilestoneData>()
             });
 
-            RequireForUpdate(milestoneLevelGroup);
-            RequireForUpdate(milestoneGroup);
+            RequireForUpdate(m_MilestoneLevelGroup);
+            RequireForUpdate(m_MilestoneGroup);
         }
 
         protected override void OnGameLoaded(Context serializationContext)
@@ -73,21 +73,21 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            NativeArray<Entity> milestoneEntities = milestoneGroup.ToEntityArray(Allocator.TempJob);
-            NativeArray<MilestoneData> milestoneData = milestoneGroup.ToComponentDataArray<MilestoneData>(Allocator.TempJob);
+            NativeArray<Entity> milestoneEntities = m_MilestoneGroup.ToEntityArray(Allocator.TempJob);
+            NativeArray<MilestoneData> milestoneData = m_MilestoneGroup.ToComponentDataArray<MilestoneData>(Allocator.TempJob);
 
             try
             {
-                MilestoneLevel milestoneLevel = milestoneLevelGroup.GetSingleton<MilestoneLevel>();
+                MilestoneLevel milestoneLevel = m_MilestoneLevelGroup.GetSingleton<MilestoneLevel>();
                 if (!TryGetTargetMilestone(milestoneEntities, milestoneLevel, out int targetMilestone))
                 {
                     return;
                 }
 
-                PlayerMoney playerMoney = EntityManager.GetComponentData<PlayerMoney>(citySystem.City);
-                Creditworthiness creditworthiness = EntityManager.GetComponentData<Creditworthiness>(citySystem.City);
-                DevTreePoints devTreePoints = EntityManager.GetComponentData<DevTreePoints>(citySystem.City);
-                XP xp = EntityManager.GetComponentData<XP>(citySystem.City);
+                PlayerMoney playerMoney = EntityManager.GetComponentData<PlayerMoney>(m_CitySystem.City);
+                Creditworthiness creditworthiness = EntityManager.GetComponentData<Creditworthiness>(m_CitySystem.City);
+                DevTreePoints devTreePoints = EntityManager.GetComponentData<DevTreePoints>(m_CitySystem.City);
+                XP xp = EntityManager.GetComponentData<XP>(m_CitySystem.City);
 
                 // Apply every skipped milestone so jumping several levels keeps rewards consistent.
                 for (int i = milestoneLevel.m_AchievedMilestone; i < targetMilestone; i++)
@@ -97,11 +97,11 @@ namespace CityWatchdog.Systems
                     ApplyMilestoneRewards(milestoneData[i], ref playerMoney, ref creditworthiness, ref devTreePoints, ref xp);
                 }
 
-                milestoneLevelGroup.SetSingleton(milestoneLevel);
-                EntityManager.SetComponentData(citySystem.City, playerMoney);
-                EntityManager.SetComponentData(citySystem.City, creditworthiness);
-                EntityManager.SetComponentData(citySystem.City, devTreePoints);
-                EntityManager.SetComponentData(citySystem.City, xp);
+                m_MilestoneLevelGroup.SetSingleton(milestoneLevel);
+                EntityManager.SetComponentData(m_CitySystem.City, playerMoney);
+                EntityManager.SetComponentData(m_CitySystem.City, creditworthiness);
+                EntityManager.SetComponentData(m_CitySystem.City, devTreePoints);
+                EntityManager.SetComponentData(m_CitySystem.City, xp);
 
                 LogUtils.Info(() => $"Unlock level {CwdSettings.Instance.MilestoneLevel + 1} Milestone");
             }
@@ -130,7 +130,7 @@ namespace CityWatchdog.Systems
 
         private void QueueMilestoneUnlock(Entity milestoneEntity)
         {
-            Entity entity = EntityManager.CreateEntity(unlockEventArchetype);
+            Entity entity = EntityManager.CreateEntity(m_UnlockEventArchetype);
             EntityManager.SetComponentData(entity, new Unlock(milestoneEntity));
         }
 

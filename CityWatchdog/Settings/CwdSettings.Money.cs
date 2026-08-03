@@ -21,7 +21,7 @@ namespace CityWatchdog
 
     public partial class CwdSettings
     {
-        private static readonly string[] Milestones =
+        private static readonly string[] s_Milestones =
         {
             "TinyVillage",
             "SmallVillage",
@@ -47,43 +47,43 @@ namespace CityWatchdog
 
 
 
-        internal const int MoneyViewModeHourly = 0;
-        internal const int MoneyViewModeMonthly = 1;
-        internal const int MoneyTooltipModeFullData = 0;
-        internal const int MoneyTooltipModeCompact = 1;
-        internal const int MoneyTooltipModeMini = 2;
-        internal const int MilestoneTinyVillage = 0;
+        internal const int kMoneyViewModeHourly = 0;
+        internal const int kMoneyViewModeMonthly = 1;
+        internal const int kMoneyTooltipModeFullData = 0;
+        internal const int kMoneyTooltipModeCompact = 1;
+        internal const int kMoneyTooltipModeMini = 2;
+        internal const int kMilestoneTinyVillage = 0;
 
 
 
         // Actions tab - Money View
         // --------------------------------------------------------------------
 
-        [SettingsUISection(Actions, MoneyViewGroup)]
+        [SettingsUISection(kActions, kMoneyViewGroup)]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMoneyViewChanged))]
         public bool MoneyView { get; set; }
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMoneyViewModeItems))]
-        [SettingsUISection(Actions, MoneyViewGroup)]
+        [SettingsUISection(kActions, kMoneyViewGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMoneyViewEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMoneyViewModeChanged))]
         public int MoneyViewMode { get; set; }
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMoneyTooltipModeItems))]
-        [SettingsUISection(Actions, MoneyViewGroup)]
+        [SettingsUISection(kActions, kMoneyViewGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMoneyViewEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMoneyTooltipModeChanged))]
         public int MoneyTooltipMode { get; set; }
 
         // UI converts 90..130 directly into 0.90em..1.30em for tooltip value text.
         [SettingsUISlider(min = 90, max = 130, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(Actions, MoneyViewGroup)]
+        [SettingsUISection(kActions, kMoneyViewGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMoneyViewEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMoneyTooltipFontScaleChanged))]
         public int MoneyTooltipFontScale { get; set; }
 
         [SettingsUISlider(min = 90, max = 130, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(Actions, MoneyViewGroup)]
+        [SettingsUISection(kActions, kMoneyViewGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMoneyViewEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnPopulationTooltipFontScaleChanged))]
         public int PopulationTooltipFontScale { get; set; }
@@ -93,27 +93,27 @@ namespace CityWatchdog
         // --------------------------------------------------------------------
 
         [SettingsUISlider(min = 20000, max = 2000000, step = 20000, scalarMultiplier = 1, unit = Unit.kInteger)]
-        [SettingsUISection(MoneyTab, Money)]
+        [SettingsUISection(kMoneyTab, kMoney)]
         public int ManualMoneyAmount { get; set; }
 
         [SettingsUIKeyboardBinding(BindingKeyboard.LeftBracket, AddMoneyAction)]
-        [SettingsUISection(MoneyTab, Money)]
+        [SettingsUISection(kMoneyTab, kMoney)]
         public ProxyBinding AddMoneyKeyboardBinding { get; set; }
 
         [SettingsUIKeyboardBinding(BindingKeyboard.RightBracket, SubtractMoneyAction)]
-        [SettingsUISection(MoneyTab, Money)]
+        [SettingsUISection(kMoneyTab, kMoney)]
         public ProxyBinding SubtractMoneyKeyboardBinding { get; set; }
 
-        [SettingsUISection(MoneyTab, Money)]
+        [SettingsUISection(kMoneyTab, kMoney)]
         public bool AutomaticAddMoney { get; set; }
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetAutomaticAddMoneyThresholdItems))]
-        [SettingsUISection(MoneyTab, Money)]
+        [SettingsUISection(kMoneyTab, kMoney)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureAutomaticAddMoneyEnabled))]
         public int AutomaticAddMoneyThreshold { get; set; }
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetAutomaticAddMoneyAmountItems))]
-        [SettingsUISection(MoneyTab, Money)]
+        [SettingsUISection(kMoneyTab, kMoney)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureAutomaticAddMoneyEnabled))]
         public int AutomaticAddMoneyAmount { get; set; }
 
@@ -124,19 +124,19 @@ namespace CityWatchdog
         // --------------------------------------------------------------------
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetInitialMoneyItems))]
-        [SettingsUISection(MoneyTab, Milestone)]
+        [SettingsUISection(kMoneyTab, kMilestone)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(IsInGame))]
         public int InitialMoney { get; set; }
 
         // Safety rule:
         // - OFF while a city is loaded stays disabled, so milestone injection cannot be enabled mid-city.
         // - ON while a city is loaded stays enabled, so it can be turned OFF without rebooting.
-        [SettingsUISection(MoneyTab, Milestone)]
+        [SettingsUISection(kMoneyTab, kMilestone)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(CannotEnableCustomMilestoneInGame))]
         public bool CustomMilestone { get; set; }
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMilestoneLevelItems))]
-        [SettingsUISection(MoneyTab, Milestone)]
+        [SettingsUISection(kMoneyTab, kMilestone)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(GetMilestoneLevelStatus))]
         public int MilestoneLevel { get; set; }
 
@@ -144,12 +144,12 @@ namespace CityWatchdog
         // Money-Milestones tab - Unlimited Money Converter
         // --------------------------------------------------------------------
 
-        [SettingsUISection(MoneyTab, SaveConversion)]
+        [SettingsUISection(kMoneyTab, kSaveConversion)]
         public bool ConfirmUnlimitedMoneySaveConversion { get; set; }
 
         [SettingsUIButton]
         [SettingsUIConfirmation]
-        [SettingsUISection(MoneyTab, SaveConversion)]
+        [SettingsUISection(kMoneyTab, kSaveConversion)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(CannotConvertUnlimitedMoneySave))]
         public bool ConvertUnlimitedMoneySave
         {
@@ -253,12 +253,12 @@ namespace CityWatchdog
             {
                 new DropdownItem<int>
                 {
-                    value = MoneyViewModeHourly,
+                    value = kMoneyViewModeHourly,
                     displayName = GetOptionLocaleID("MoneyViewModeHourly"),
                 },
                 new DropdownItem<int>
                 {
-                    value = MoneyViewModeMonthly,
+                    value = kMoneyViewModeMonthly,
                     displayName = GetOptionLocaleID("MoneyViewModeMonthly"),
                 },
             };
@@ -270,17 +270,17 @@ namespace CityWatchdog
             {
                 new DropdownItem<int>
                 {
-                    value = MoneyTooltipModeMini,
+                    value = kMoneyTooltipModeMini,
                     displayName = GetOptionLocaleID("MoneyTooltipModeMini"),
                 },
                 new DropdownItem<int>
                 {
-                    value = MoneyTooltipModeCompact,
+                    value = kMoneyTooltipModeCompact,
                     displayName = GetOptionLocaleID("MoneyTooltipModeCompact"),
                 },
                 new DropdownItem<int>
                 {
-                    value = MoneyTooltipModeFullData,
+                    value = kMoneyTooltipModeFullData,
                     displayName = GetOptionLocaleID("MoneyTooltipModeFullData"),
                 },
             };
@@ -295,8 +295,8 @@ namespace CityWatchdog
         private void ApplyMoneyDefaults()
         {
             MoneyView = true;
-            MoneyViewMode = MoneyViewModeHourly;
-            MoneyTooltipMode = MoneyTooltipModeCompact;
+            MoneyViewMode = kMoneyViewModeMonthly;
+            MoneyTooltipMode = kMoneyTooltipModeCompact;
             // If defaults change, also update bindValue fallbacks in UI/src/bindings/bindings.tsx.
             MoneyTooltipFontScale = 120;
             PopulationTooltipFontScale = 120;
@@ -308,41 +308,41 @@ namespace CityWatchdog
             InitialMoney = 0;
 
             CustomMilestone = false;
-            MilestoneLevel = MilestoneTinyVillage;
+            MilestoneLevel = kMilestoneTinyVillage;
 
             ConfirmUnlimitedMoneySaveConversion = false;
         }
 
 
-        private void OnMoneyViewChanged(bool value)
+        private static void OnMoneyViewChanged(bool value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
                 .UpdateMoneyViewBinding(value);
         }
 
-        private void OnMoneyViewModeChanged(int value)
+        private static void OnMoneyViewModeChanged(int value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
                 .UpdateMoneyViewModeBinding(value);
         }
 
-        private void OnMoneyTooltipModeChanged(int value)
+        private static void OnMoneyTooltipModeChanged(int value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
                 .UpdateMoneyTooltipModeBinding(value);
         }
 
-        private void OnMoneyTooltipFontScaleChanged(int value)
+        private static void OnMoneyTooltipFontScaleChanged(int value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
                 .UpdateMoneyTooltipFontScaleBinding(value);
         }
 
-        private void OnPopulationTooltipFontScaleChanged(int value)
+        private static void OnPopulationTooltipFontScaleChanged(int value)
         {
             World.DefaultGameObjectInjectionWorld?
                 .GetExistingSystemManaged<CityWatchdogUISystem>()?
@@ -356,15 +356,15 @@ namespace CityWatchdog
             return IsInGame() || !CustomMilestone;
         }
 
-        private DropdownItem<int>[] GetMilestoneLevelItems()
+        private static DropdownItem<int>[] GetMilestoneLevelItems()
         {
-            List<DropdownItem<int>> items = new List<DropdownItem<int>>();
-            for (int i = 0; i < Milestones.Length; i++)
+            List<DropdownItem<int>> items = new();
+            for (int i = 0; i < s_Milestones.Length; i++)
             {
                 items.Add(new DropdownItem<int>
                 {
                     value = i,
-                    displayName = MilestoneDisplay.Get(i, Milestones[i]),
+                    displayName = MilestoneDisplay.Get(i, s_Milestones[i]),
                 });
             }
 

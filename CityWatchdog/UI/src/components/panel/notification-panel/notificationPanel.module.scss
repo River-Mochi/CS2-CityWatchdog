@@ -10,7 +10,8 @@
     top: 60rem;
     left: var(--screenPadding);
     overflow: visible;
-    width: 360rem;
+    // Widen to fit all buttons row with headroom for longer translated words.
+    width: 400rem;
 }
 
 .panel {
@@ -18,11 +19,11 @@
     top: 0;
     left: 0;
     overflow: visible;
-    width: 360rem;
+    width: 400rem;
     max-height: 890rem;
-    // Let custom wrapper colors show through instead of stacking extra vanilla fills.
-    // follows the same idea as ZoneTools: make Panel shell transparent,
-    // then style the real vanilla header/content wrappers below.
+    // Lets custom wrapper colors show through instead of stacking extra vanilla fills.
+    // follows same idea as ZoneTools: make Panel shell transparent,
+    // then style real vanilla header/content wrappers below.
     --menuPanel1: transparent;
     --menuPanel2: transparent;
     --panelColorDark: transparent;
@@ -154,7 +155,11 @@
     padding-right: 0;
     padding-bottom: 0;
     padding-left: 0;
-    margin-right: 4rem;
+    // Pull the paw left so it sits more directly over the Info "i" button below it. The extra
+    // margin-right cancels that leftward shift for the scale button + title that follow, so only
+    // the paw moves (tune the -5rem / +5rem pair together to slide it more or less).
+    margin-left: -5rem;
+    margin-right: 9rem;
     border-top-left-radius: 4rem;
     border-top-right-radius: 4rem;
     border-bottom-left-radius: 4rem;
@@ -208,8 +213,8 @@
 }
 
 .headerModIcon {
-    width: 28rem;
-    height: 22rem;
+    width: 30rem;
+    height: 24rem;
     margin-right: 0;
 }
 
@@ -261,6 +266,61 @@
     filter: brightness(0) invert(1) opacity(0.95);
 }
 
+// UI-scale toggle button in the header (left of expand arrow).
+.headerScaleButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 24rem;
+    width: 24rem;
+    height: 24rem;
+    // Far-left placement: paw's own margin-right handles the gap on the left; add a little
+    // separation from the title on the right.
+    margin-left: 0;
+    margin-right: 6rem;
+    border-top-left-radius: 4rem;
+    border-top-right-radius: 4rem;
+    border-bottom-left-radius: 4rem;
+    border-bottom-right-radius: 4rem;
+    cursor: pointer;
+    transition-property: background-color, box-shadow;
+    transition-duration: 120ms, 120ms;
+    transition-timing-function: ease-out, ease-out;
+
+    &:hover {
+        background-color: rgba(232, 247, 255, 0.18);
+    }
+}
+
+// Highlighted when UI scaling is ON.
+.headerScaleButtonActive {
+    background-color: rgba(30, 131, 170, 0.40);
+    // No glow — the flat blue fill alone marks the active state; the halo read as too bright.
+    box-shadow: none;
+
+    &:hover {
+        background-color: rgba(50, 160, 200, 0.50);
+    }
+}
+
+.headerScaleIcon {
+    // Sized close to the 24rem button so the white square covers the blue active fill instead of
+    // leaving a ring of it showing past the icon's outline.
+    width: 22rem;
+    height: 22rem;
+    display: block;
+    pointer-events: none;
+    // Icon strokes are black; invert to white to match the other header glyphs.
+    filter: brightness(0) invert(1) opacity(0.85);
+}
+
+// Crisp, full-white icon when scaling is ON (no scale transform — the icon is already sized up).
+.headerScaleButtonActive .headerScaleIcon {
+    filter: brightness(0) invert(1) opacity(1);
+}
+
 // Standalone X glyph inside the icon-button — vanilla button frame doesn't size the inner img.
 // Media/Glyphs/Close.svg is solid black; the filter inverts it to a softened white.
 .headerCloseIcon {
@@ -282,12 +342,14 @@
 
 // Toolbar layout:
 // left = Info + Road-Name toggles
-// right = Sort + Count/Expand + Toggle All
+// right = Sort + Count/Expand + SHOW ICONS
 // Coherent flex does not support `gap`. We use justify-content: space-between for the outer
 // row (only 2 groups), and the adjacent-sibling combinator below to space buttons within each group.
 .toolbar {
     display: flex;
     flex-direction: row;
+    // space-between pins the left map-toggle group to the left edge and the right button group to the
+    // right edge. (Cohtml flex does not reliably honor `margin-left: auto`, so don't use that here.)
     justify-content: space-between;
     align-items: center;
     padding-top: 5rem;
@@ -303,12 +365,30 @@
     align-items: center;
 }
 
+// Left map-toggle group keeps its natural size at the far left.
+.toolbarLeft {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
+}
+
+// Right group is content-sized; `justify-content: space-between` on .toolbar pins it to the right
+// edge. Show Icons sizes to its own text, so longer translations grow the group leftward while it
+// stays right-anchored.
+.toolbarButtons {
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: auto;
+    min-width: 0;
+    margin-left: 12rem;
+}
+
 // Left side: keep Info + Road-Name + District-Name + Road-Arrow toggles tight.
 .toolbarLeft > * + * {
     margin-left: 2rem;
 }
 
-// Right side: Sort, Count/Expand, and Toggle All stay almost touching to preserve toolbar room.
+// Right side: Sort, Count/Expand, and SHOW ICONS stay almost touching to preserve toolbar room.
 .toolbarButtons > * + * {
     margin-left: 2rem;
 }

@@ -12,10 +12,7 @@
 namespace CityWatchdog
 {
     using System.Collections.Generic; // Dictionary and KeyValuePair
-
     using Colossal;                   // IDictionarySource
-
-    using Game.UI.Editor;
 
     public sealed class LocaleVI : IDictionarySource
     {
@@ -32,253 +29,375 @@ namespace CityWatchdog
         {
             string title = Mod.ModName + " (Người gác thành phố)";
 
-            Dictionary<string, string> entries = new Dictionary<string, string>
+            Dictionary<string, string> entries = new()
             {
+                // --- Mod title ---
                 { m_Settings.GetSettingsLocaleID(), title },
-                { m_Settings.GetOptionTabLocaleID(CwdSettings.Actions), "Hành động" },
-                { m_Settings.GetOptionTabLocaleID(CwdSettings.MiniHudTab), "Mini-HUD" },
-                { m_Settings.GetOptionTabLocaleID(CwdSettings.MoneyTab), "Tiền-Mốc" },
-                { m_Settings.GetOptionTabLocaleID(CwdSettings.About), "Giới thiệu" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.AboutUsage), "CÁCH DÙNG" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.Notifications), "Thông báo" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.MoneyViewGroup), "Thông tin trong thành phố" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.MiniHudGroup), "Cảnh báo Mini HUD" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.Milestone), "THIẾT LẬP THÀNH PHỐ MỚI" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.Money), "Tiền" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.SaveConversion), "Đổi save vô hạn" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.AboutInfo), "" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.AboutLinks), "" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.AboutDiagnostics), "CHẨN ĐOÁN" },
+
+                // --- Tabs ---
+                { m_Settings.GetOptionTabLocaleID(CwdSettings.kActions), "Hành động" },
+                { m_Settings.GetOptionTabLocaleID(CwdSettings.kMiniHudTab), "Mini-HUD" },
+                { m_Settings.GetOptionTabLocaleID(CwdSettings.kMoneyTab), "Khởi đầu TP" },
+                { m_Settings.GetOptionTabLocaleID(CwdSettings.kAbout), "Giới thiệu" },
+
+                // --- Groups, ordered by Options menu location ---
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kAboutUsage), "CÁCH DÙNG" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kNotifications), "Thông báo" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMoneyViewGroup), "Thông tin trong thành phố" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMiniHudGroup), "Cảnh báo Mini HUD" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMilestone), "THIẾT LẬP THÀNH PHỐ MỚI" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMoney), "Tiền" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kSaveConversion), "Đổi bản lưu vô hạn" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kAboutInfo), "" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kAboutLinks), "" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kAboutDiagnostics), "CHẨN ĐOÁN" },
+
+                // --------------------------------------------------------------------
+                // Actions tab - Usage
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ShowUsage)), "Hiện hướng dẫn" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ShowUsage)), "Hiện hoặc ẩn hướng dẫn bên dưới." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.UsageText)),
                     "A. Dùng biểu tượng dấu chân ở góc trái trên, hoặc Shift+N, để mở bảng chính.\n" +
                     "<Nút hiển thị>\n" +
-                    "1. Biểu tượng thanh tiêu đề: hiện/ẩn tooltip của City Watchdog.\n" +
+                    "1. Biểu tượng thanh tiêu đề: hiện/ẩn chú thích của City Watchdog.\n" +
                     "\n" +
-                    "2. Nút **[i]**: ẩn/hiện <TẤT CẢ> tooltip hover của game: công trình, dân, công cụ, menu dưới.\n" +
+                    "2. Nút **[i]**: ẩn/hiện <TẤT CẢ> chú thích của trò chơi: công trình, dân, công cụ và menu dưới.\n" +
                     "3. Nút đường: ẩn/hiện tên đường. Phím tắt: \\.\n" +
                     "4. Nút quận: ẩn/hiện tên quận.\n" +
-                    "5. Nút mũi tên đường: ép mũi tên 1 chiều ON/OFF (cũng ẩn tên đường).\n" +
+                    "5. Nút mũi tên đường: hiện/ẩn mũi tên một chiều (cũng ẩn tên đường).\n" +
                     "\n" +
                     "<Cảnh báo>\n" +
                     "1. Nút sắp xếp đổi A→Z, Z→A, chỉ cảnh báo đang có.\n" +
-                    "2. <[0/62]> = icon ON/tổng. Bấm để bung/thu tất cả dòng.\n" +
-                    "3a. [Bật/tắt tất cả] tắt/bật ngay mọi icon cảnh báo.\n" +
-                    "3b. Chỉ ẩn icon; không sửa lỗi trong thành phố.\n" +
+                    "2. <[0/62]> = biểu tượng đang hiện/tổng. Bấm để bung/thu tất cả dòng.\n" +
+                    "3a. [Hiện biểu tượng] tắt/bật ngay mọi biểu tượng cảnh báo vấn đề.\n" +
+                    "3b. Bộ nhớ [1 | 2]: bấm để tải; giữ 1 giây để lưu các ô đang chọn.\n" +
+                    "3c. Ẩn biểu tượng không sửa được vấn đề trong thành phố.\n" +
                     "\n" +
-                    "<Trợ giúp tiền>\n" +
+                    "<Trợ giúp>\n" +
                     "1. Thêm / trừ tiền: dùng phím mặc định <[ hoặc ]> cho <Số tiền phím tắt>.\n" +
                     "2. Tiền tự động thêm tiền khi thành phố xuống dưới giới hạn bạn đặt.\n" +
-                    "3. Đổi save Tiền vô hạn chỉ dùng cho thành phố bắt đầu bằng Tiền vô hạn và <không hoàn tác>.\n" +
+                    "3. Đổi bản lưu Tiền vô hạn chỉ dùng cho thành phố bắt đầu bằng Tiền vô hạn và <không hoàn tác>.\n" +
                     "\n" +
-                    "<Tooltip menu dưới>\n" +
+                    "<Chú thích menu dưới>\n" +
                     "Xem tiền thêm chi tiết như xu hướng khi rê chuột lên tiền hoặc dân số.\n" +
                     "\n" +
                     "<Mốc tùy chỉnh>\n" +
-                    "Tiền-Mốc > THIẾT LẬP THÀNH PHỐ MỚI đặt tiền ban đầu hoặc mốc trước khi tải/bắt đầu." },
+                    "Khởi đầu TP đặt tiền ban đầu hoặc mốc trước khi tải hay bắt đầu thành phố."
+                },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.UsageText)), "" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleNotificationsKeyboardBinding)), "Bật/tắt icon cảnh báo" },
+
+                // --------------------------------------------------------------------
+                // Actions tab - Notifications
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleNotificationsKeyboardBinding)), "Bật/tắt biểu tượng cảnh báo" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleNotificationsKeyboardBinding)),
-                    "<Phím tắt> giống nút <[Bật/tắt tất cả]> trong game.\n" +
-                    "Hiện hoặc ẩn ngay tất cả icon cảnh báo đã liệt kê." },
-                { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleNotificationsAction), "Hiện/ẩn mọi icon cảnh báo" },
+                    "<Phím tắt> giống nút <[HIỆN BIỂU TƯỢNG]> trong trò chơi.\n" +
+                    "Hiện hoặc ẩn ngay mọi biểu tượng cảnh báo vấn đề."
+                },
+                { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleNotificationsAction), "Hiện/ẩn ngay biểu tượng cảnh báo vấn đề" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleNotificationPanelKeyboardBinding)), "Mở/đóng bảng cảnh báo" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleNotificationPanelKeyboardBinding)),
                     "<Phím tắt> để mở hoặc đóng\n" +
                     "<bảng cảnh báo> trong thành phố.\n" +
-                    "Giống bấm icon góc trái trên." },
+                    "Giống bấm biểu tượng góc trái trên."
+                },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleNotificationPanelAction), "Mở/đóng bảng cảnh báo" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.PanelButtonsOnlyStart)), "Mở dạng chỉ nút" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.PanelButtonsOnlyStart)),
                     "Khi bật [ ✓ ], City Watchdog mở trước ở giao diện nhỏ chỉ có nút.\n" +
-                    "Dùng mũi tên tiêu đề hoặc nút số dòng để mở bảng đầy đủ." },
+                    "Dùng mũi tên tiêu đề hoặc nút số dòng để mở bảng đầy đủ."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleRoadNamesKeyboardBinding)), "Ẩn/hiện tên đường" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleRoadNamesKeyboardBinding)),
-                    "<Phím tắt> để ẩn/hiện tên đường gốc của game.\n" +
-                    "Giống icon Tên đường trong City Watchdog." },
+                    "<Phím tắt> để ẩn/hiện tên đường gốc của trò chơi.\n" +
+                    "Giống biểu tượng Tên đường trong City Watchdog."
+                },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleRoadNamesAction), "Ẩn/hiện tên đường" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleAllTooltipsKeyboardBinding)), "Tắt mọi tooltip hover" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleAllTooltipsKeyboardBinding)), "Tắt mọi chú thích khi rê chuột" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleAllTooltipsKeyboardBinding)),
-                    "<Phím tắt> để ẩn/hiện TẤT CẢ tooltip hover của game: công trình, dân, công cụ và icon dưới.\n" +
-                    "<Popup tiền/dân số của City Watchdog vẫn bật>; do Xem tiền điều khiển.\n" +
-                    "Giống icon [i] trong bảng City Watchdog." },
-                { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Ẩn/hiện tooltip hover của game" },
+                    "<Phím tắt> để ẩn/hiện TẤT CẢ chú thích khi rê chuột của trò chơi: công trình, dân, công cụ và biểu tượng dưới.\n" +
+                    "<Cửa sổ tiền/dân số của City Watchdog vẫn bật>; do Xem tiền điều khiển.\n" +
+                    "Giống biểu tượng [i] trong bảng City Watchdog."
+                },
+                { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Ẩn/hiện chú thích khi rê chuột của trò chơi" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Giao diện game lớn hơn" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
+                    "Khi bật [ ✓ ], <toàn bộ giao diện trò chơi> sẽ lớn hơn — cả bảng game và mod.\n" +
+                    "Dùng tùy chọn <Tỷ lệ giao diện> của game mà không cần tham số <--developerMode>.\n" +
+                    "Ô [x] này đồng bộ với nút đổi tỷ lệ trên thanh tiêu đề City Watchdog.\n" +
+                    "Chỉ đổi cỡ chữ: Tùy chọn > Giao diện > <Tỷ lệ chữ>.\n" +
+                    "Vẫn bật cho đến khi bạn tắt, kể cả khi gỡ City Watchdog.\n" +
+                    "- Tắt trước khi gỡ mod để trở về kích thước bình thường.\n" +
+                    "- Hoặc chạy một lần với <--developerMode> rồi tắt Tùy chọn > Giao diện > Tỷ lệ giao diện (dev)."
+                },
+
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "Độ đục bảng chính" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
                     "Điều chỉnh độ trong suốt của nền bảng thông báo chính.\n" +
-                    "Giá trị thấp trong suốt hơn. Giá trị cao tối và đục hơn." },
+                    "Giá trị thấp trong suốt hơn. Giá trị cao tối và đục hơn."
+                },
+
+                // --------------------------------------------------------------------
+                // Actions tab - In-City Info Viewer
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyView)), "Xu hướng tiền + dân số" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyView)),
                     "<Nên bật>\n" +
                     "Menu dưới: hiện xu hướng ở mũi tên <tiền và dân số>.\n" +
-                    "Tính năng hover nhẹ <chỉ hiển thị>;\n" +
-                    "tiết kiệm thời gian và có thể nhẹ hơn mở bảng Info của game." },
+                    "Tính năng rê chuột nhẹ <chỉ hiển thị>;\n" +
+                    "tiết kiệm thời gian và có thể nhẹ hơn mở bảng thông tin của trò chơi."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyViewMode)), "Tần suất Xem tiền" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyViewMode)),
                     "Chọn số theo giờ hoặc theo tháng ở thanh dưới.\n" +
-                    "Theo tháng dùng thu nhập trừ chi phí và dự báo dân số 24 giờ." },
+                    "Theo tháng dùng thu nhập trừ chi phí và dự báo dân số 24 giờ."
+                },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeHourly"), "Theo giờ (/h)" },
                 { m_Settings.GetOptionLocaleID("MoneyViewModeMonthly"), "Theo tháng (/mo)" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyTooltipMode)), "Kiểu tooltip tiền" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyTooltipMode)), "Kiểu chú thích tiền" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyTooltipMode)),
-                    "Chọn mức chi tiết trong tooltip tiền.\n" +
+                    "Chọn mức chi tiết trong chú thích tiền.\n" +
                     "Gọn = mặc định lần cài đầu.\n" +
-                    "<Mini> chỉ hiện 2 giá trị Net cho /mo và /h.\n" +
+                    "<Tối giản> chỉ hiện 2 giá trị ròng cho /mo và /h.\n" +
                     "<Gọn> rút ngắn số lớn (15.21M thay vì 15,212,318).\n" +
-                    "<Dữ liệu đầy đủ> hiện số dài và tổng." },
-                { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Mini" },
+                    "<Dữ liệu đầy đủ> hiện số dài và tổng."
+                },
+                { m_Settings.GetOptionLocaleID("MoneyTooltipModeMini"), "Tối giản" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeCompact"), "Gọn" },
                 { m_Settings.GetOptionLocaleID("MoneyTooltipModeFullData"), "Dữ liệu đầy đủ" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MoneyTooltipFontScale)), "Cỡ chữ tiền" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MoneyTooltipFontScale)),
                     "Chỉnh <cỡ chữ> số trong Xem tiền.\n" +
-                    "Mặc định game = 100%\n" +
+                    "Mặc định trò chơi = 100%\n" +
                     "<Mặc định mod = 120%>\n" +
                     "Rê chuột lên Tiền ở dưới màn hình.\n" +
-                    "Cho người chơi khó đọc tooltip nhỏ." },
+                    "Cho người chơi khó đọc chú thích nhỏ."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.PopulationTooltipFontScale)), "Cỡ chữ dân số" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.PopulationTooltipFontScale)),
                     "Chỉnh <cỡ chữ> số dân số.\n" +
-                    "Mặc định game = 100%\n" +
+                    "Mặc định trò chơi = 100%\n" +
                     "<Mặc định mod = 120%>\n" +
-                    "Rê chuột lên Dân số ở dưới màn hình." },
+                    "Rê chuột lên Dân số ở dưới màn hình."
+                },
+
+                // --------------------------------------------------------------------
+                // Mini-HUD tab - Mini HUD Notifications
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudEnabled)), "Mini HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudEnabled)),
                     "Hiện HUD nhỏ với các số cảnh báo quan trọng.\n" +
                     "Dùng như thanh cảnh báo nhanh không cần mở bảng đầy đủ.\n" +
-                    "Bấm icon sẽ nhảy tới một vấn đề phù hợp.\n" +
-                    "Bấm tiếp cùng icon để xoay qua các điểm rồi về điểm đầu." },
+                    "Bấm biểu tượng sẽ nhảy tới một vấn đề phù hợp.\n" +
+                    "Bấm tiếp cùng biểu tượng để xoay qua các điểm rồi về điểm đầu."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)), "Bấm: khởi động nhanh" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
-                    "Áp dụng <thiết lập nhanh> cho bảng nhỏ:\n" +
-                    "Bao gồm **bộ yêu thích sao xanh dương** ban đầu.\n" +
-                    "Cảnh báo có **sao xanh dương** có thể hiện trong bảng nhỏ nếu nằm trong top 5 hoặc 10 theo tổng số lượng.\n" +
-                    "Thêm/xóa **sao xanh dương** trong bảng Watchdog đã mở rộng.\n" +
-                    "Bộ này gồm: Yêu thích, 5 biểu tượng, dọc, kéo được, cỡ 100 %, bảng tối, ẩn biểu tượng có số 0."
-                  },
+                    "Áp dụng <khởi động nhanh> cho Mini HUD:\n" +
+                    "Thêm một **bộ Sao xanh yêu thích ban đầu**.\n" +
+                    "Ở chế độ Yêu thích, Mini HUD hiện 5 hoặc 10 số đếm hiện tại cao nhất trong danh sách **Sao xanh**.\n" +
+                    "Thêm/xóa **Sao xanh** trong bảng City Watchdog.\n" +
+                    "Đặt: Yêu thích, 5 biểu tượng, ngang, kéo được, 100%, bảng tối và ẩn số đếm 0.\n" +
+                    "Chạy lại Khởi động nhanh bất cứ lúc nào để đặt lại các tùy chọn này."
+                },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "Chế độ bảng nhỏ" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),
                     "Chọn các dòng cảnh báo bảng nhỏ dùng.\n" +
-                    "**Đang hoạt động cao nhất** hiện các số đếm cao nhất.\n" +
+                    "**Số lượng cao nhất** hiện các số đếm hiện tại cao nhất.\n" +
                     "**Yêu thích** dùng các dòng có **sao xanh dương** trong bảng chính City Watchdog.\n" +
                     "Bạn có thể chọn bao nhiêu yêu thích cũng được,\n" +
-                    "nhưng bảng nhỏ chỉ hiện top 5 hoặc top 10 từ danh sách **sao xanh dương** đó."
-                  },
-                
-                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Cảnh báo đang có nhiều nhất" },
+                    "nhưng bảng nhỏ chỉ hiện 5 hoặc 10 số cao nhất từ danh sách **sao xanh dương** đó."
+                },
+                { m_Settings.GetOptionLocaleID("MiniHudModeTopActive"), "Cảnh báo nhiều nhất" },
                 { m_Settings.GetOptionLocaleID("MiniHudModeFavorites"), "Yêu thích" },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudItemCount)), "Số icon" },
-                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudItemCount)), "Chọn số icon Mini HUD có thể hiện." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudScale)), "Cỡ icon" },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudItemCount)), "Số biểu tượng" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudItemCount)), "Chọn số biểu tượng Mini HUD có thể hiện." },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudScale)), "Cỡ biểu tượng" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudScale)),
-                    "Phóng to/thu nhỏ icon và số của Mini HUD.\n" +
-                    "90% = gọn. 100% = mặc định. Tối đa 130% để dễ nhìn." },
+                    "Phóng to/thu nhỏ biểu tượng và số của Mini HUD.\n" +
+                    "90% = gọn. 100% = mặc định. Tối đa 130% để dễ nhìn."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudOrientation)), "Hướng" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudOrientation)), "Chọn hàng ngang hoặc cột dọc." },
                 { m_Settings.GetOptionLocaleID("MiniHudOrientationHorizontal"), "Ngang" },
                 { m_Settings.GetOptionLocaleID("MiniHudOrientationVertical"), "Dọc" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudPlacement)), "Vị trí HUD" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudPlacement)),
                     "Chọn nơi Mini HUD xuất hiện.\n" +
-                    "Kéo được cho phép di chuyển trong UI thành phố." },
+                    "Kéo được cho phép di chuyển trong giao diện thành phố."
+                },
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementTopCenter"), "Trên giữa" },
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementTopRight"), "Trên phải" },
                 { m_Settings.GetOptionLocaleID("MiniHudPlacementDraggable"), "Kéo được" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudPanelStyle)), "Kiểu tối hoặc kính" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudPanelStyle)),
                     "Chọn nền Mini HUD.\n" +
                     "Kính từ trong sang trắng mờ; không tối hơn.\n" +
-                    "Dùng nền tối để có HUD tối kiểu game." },
+                    "Dùng nền tối để có HUD tối kiểu trò chơi."
+                },
                 { m_Settings.GetOptionLocaleID("MiniHudPanelStyleDark"), "Bảng tối" },
                 { m_Settings.GetOptionLocaleID("MiniHudPanelStyleGlass"), "Bảng kính" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudPanelOpacity)), "Độ đục nền" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudPanelOpacity)),
                     "Chỉnh độ trong suốt nền Mini HUD.\n" +
                     "Thấp = trong hơn. Cao = đặc hơn.\n" +
-                    "Kính trắng hơn. Tối đậm hơn." },
+                    "Kính trắng hơn. Tối đậm hơn."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudHideZero)), "Ẩn cảnh báo 0" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudHideZero)), "Khi bật [ ✓ ], Mini HUD ẩn các dòng có số 0." },
+
+                // --------------------------------------------------------------------
+                // City Start tab - New City Start Settings
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InitialMoney)), "Tiền ban đầu" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InitialMoney)),
-                    "Đặt số dư đầu cho thành phố mới dùng <tiền giới hạn> hoặc thành phố đầu tiên được tải,\n" +
-                    "rồi tự về mặc định game.\n" +
-                    "Bị xám nếu đã tải thành phố.\n" +
-                    "Đặt trước khi tải/bắt đầu. Sau đó dùng <Số tiền phím tắt> hoặc <Tiền tự động>." },
-                { m_Settings.GetOptionLocaleID("GameDefault"), "Mặc định game" },
+                    "Đặt số dư cho thành phố <tiền giới hạn> được tải tiếp theo — mới hoặc đã có.\n" +
+                    "Sau khi áp dụng một lần, tùy chọn này trở về mặc định trò chơi.\n" +
+                    "Bị xám khi đã tải thành phố.\n" +
+                    "Đặt trước khi tải hoặc bắt đầu thành phố. Sau đó dùng <Số tiền phím tắt> khi cần."
+                },
+
+                { m_Settings.GetOptionLocaleID("GameDefault"), "Mặc định trò chơi" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.CustomMilestone)), "Chọn mốc" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.CustomMilestone)),
                     "Bật <trước khi tải hoặc bắt đầu> để mở mốc đã chọn khi tải thành phố.\n" +
                     "- Không thể bật khi đã vào thành phố, nhưng có thể tắt nếu bật nhầm.\n" +
-                    "- Quên thì khởi động lại game và chọn trước khi vào thành phố.\n" +
-                    "- Mod không hoàn tác mốc đã lưu; dùng save cũ nếu cần." },
+                    "- Quên thì khởi động lại trò chơi và chọn trước khi vào thành phố.\n" +
+                    "- Mod không hoàn tác mốc đã lưu; dùng bản lưu cũ nếu cần."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MilestoneLevel)), "Mốc" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MilestoneLevel)),
                     "Chọn mốc để mở ở lần tải thành phố tiếp theo.\n" +
                     "Chỉ chỉnh được <ngoài thành phố đã tải> và khi [Chọn mốc] bật [ ✓ ].\n" +
                     "Nếu thành phố đã ở mốc đó hoặc cao hơn, sẽ không đổi.\n" +
-                    "Chỉ đổi nếu mốc chọn cao hơn hiện tại." },
+                    "Chỉ đổi nếu mốc chọn cao hơn hiện tại."
+                },
+
+                // --------------------------------------------------------------------
+                // City Start tab - Money
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ManualMoneyAmount)), "Số tiền phím tắt" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ManualMoneyAmount)),
                     "Dùng số này với phím Thêm tiền và Trừ tiền.\n" +
                     "<Mặc định mod = 40,000>\n" +
                     "Không làm gì nếu không dùng phím tắt trong thành phố.\n" +
-                    "Muốn tự động thì bật Tiền tự động." },
+                    "Muốn tự động thì bật Tiền tự động."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.AddMoneyKeyboardBinding)), "Thêm tiền" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.AddMoneyKeyboardBinding)), "Phím tắt để <Thêm tiền> trong thành phố." },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.AddMoneyAction), "Thêm tiền" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.SubtractMoneyKeyboardBinding)), "Trừ tiền" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.SubtractMoneyKeyboardBinding)), "Phím tắt để <Trừ tiền> trong thành phố." },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.SubtractMoneyAction), "Trừ tiền" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.AutomaticAddMoney)), "Tiền tự động" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.AutomaticAddMoney)),
                     "Khi bật [ ✓ ], City Watchdog kiểm tra số dư thành phố.\n" +
-                    "- Nếu số dư <dưới ngưỡng>,\n" +
-                    "  nó thêm số tiền đã chọn.\n" +
-                    "- Nên dùng tiền thủ công bằng phím (<[> hoặc <]>) khi cần\n" +
-                    "  thay vì tự động; tùy chọn vẫn có sẵn." },
+                    "- Nếu số dư <dưới ngưỡng>, hệ thống thêm đủ tiền để đạt ngưỡng.\n" +
+                    "- Luôn thêm ít nhất Số tiền tự động đã chọn.\n" +
+                    "- Nếu chỉ thỉnh thoảng cần tiền, nên dùng phím tắt thủ công (<[> hoặc <]>)."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.AutomaticAddMoneyThreshold)), "Ngưỡng tiền tự động" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.AutomaticAddMoneyThreshold)),
-                    "Nếu bật và số dư thành phố thấp hơn giá trị này,\n" +
-                    "sẽ thêm số tiền đã chọn." },
+                    "Nếu Tiền tự động đang bật và số dư thấp hơn giá trị này,\n" +
+                    "tiền sẽ được thêm cho đến khi đạt ít nhất ngưỡng này."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.AutomaticAddMoneyAmount)), "Số tiền tự động" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.AutomaticAddMoneyAmount)),
-                    "Số tiền thêm mỗi lần tự động chạy.\n" +
-                    "Chọn đủ lớn để vượt ngưỡng an toàn." },
+                    "Số tiền tối thiểu được thêm mỗi lần Tiền tự động chạy.\n" +
+                    "Nếu cần nhiều hơn để đạt ngưỡng, City Watchdog sẽ thêm số lớn hơn."
+                },
+
+                // --------------------------------------------------------------------
+                // City Start tab - Save Conversion
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ConfirmUnlimitedMoneySaveConversion)), "Bộ đổi Tiền vô hạn" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ConfirmUnlimitedMoneySaveConversion)),
                     "<Sao lưu thành phố TRƯỚC>.\n" +
                     "Đổi thành phố bắt đầu bằng Tiền vô hạn thành thành phố bình thường.\n" +
-                    "Bật mục này mở nút <[Đổi save Tiền vô hạn]> khi thành phố đã tải là kiểu <Tiền vô hạn>.\n" +
+                    "Bật mục này mở nút <[Đổi bản lưu Tiền vô hạn]> khi thành phố đã tải là kiểu <Tiền vô hạn>.\n" +
                     "City Watchdog không thể hoàn tác.\n" +
-                    "Thành phố bình thường không cần dùng." },
+                    "Thành phố bình thường không cần dùng."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ConvertUnlimitedMoneySave)), "Đổi thành phố Tiền vô hạn thành bình thường" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ConvertUnlimitedMoneySave)),
                     "Dành cho thành phố bắt đầu bằng <Tiền vô hạn>.\n" +
-                    "Khi thành phố đó đang tải, đổi save sang ngân sách tiền giới hạn bình thường.\n" +
+                    "Khi thành phố đó đang tải, đổi bản lưu sang ngân sách tiền giới hạn bình thường.\n" +
                     "Nút sẽ <tắt/xám> trừ khi thành phố là kiểu <Tiền vô hạn>\n" +
-                    "và <Bộ đổi Tiền vô hạn> đang ON [ ✓ ].\n" +
-                    "Hãy sao lưu và tự chịu rủi ro; City Watchdog không hoàn tác." },
+                    "và <Bộ đổi Tiền vô hạn> đang BẬT [ ✓ ].\n" +
+                    "Hãy sao lưu và tự chịu rủi ro; City Watchdog không hoàn tác."
+                },
+
                 { m_Settings.GetOptionWarningLocaleID(nameof(CwdSettings.ConvertUnlimitedMoneySave)),
                     "Đổi thành phố này từ Tiền vô hạn sang tiền giới hạn bình thường?\n" +
                     "Sao lưu TRƯỚC; City Watchdog không hoàn tác.\n" +
-                    "Bạn chắc chứ?" },
+                    "Bạn chắc chứ?"
+                },
+
+                // --------------------------------------------------------------------
+                // About tab
+                // --------------------------------------------------------------------
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.NameText)), "Tên mod" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.NameText)), "Tên hiển thị của mod này." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.VersionText)), "Phiên bản" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.VersionText)), "Phiên bản mod hiện tại." },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenParadox)), "Paradox Mods" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.OpenParadox)), "Mở trang Paradox Mods của tác giả." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)), "Ghi báo cáo debug" },
+
+                // --------------------------------------------------------------------
+                // About tab - Diagnostics
+                // --------------------------------------------------------------------
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)), "Báo cáo chẩn đoán" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.WriteNotificationAuditLog)),
                     "<Không cần cho chơi bình thường.>\n" +
-                    "Cho tester và kiểm tra sau patch: ghi báo cáo vào <Logs/CityWatchdog.log>\n" +
-                    "so sánh prefab cảnh báo game với icon Watchdog đang điều khiển." },
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenLog)), "Mở log" },
+                    "Cho người thử nghiệm và kiểm tra sau cập nhật trò chơi: ghi báo cáo vào <Logs/CityWatchdog.log>\n" +
+                    "so sánh các thông báo trực tiếp của trò chơi với biểu tượng do Watchdog điều khiển."
+                },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.OpenLog)), "Mở nhật ký" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.OpenLog)),
                     "Mở </Logs/CityWatchdog.log> nếu có.\n" +
-                    "Nếu thiếu, mở thư mục Logs/." },
+                    "Nếu thiếu, mở thư mục Logs/."
+                },
             };
 
             return entries;

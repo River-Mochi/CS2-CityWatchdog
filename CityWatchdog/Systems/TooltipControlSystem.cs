@@ -6,33 +6,26 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/TooltipControlSystem.cs
-// Purpose: Tooltip on/off toggles.
-//   - "All vanilla tooltips" toggle drives Game.UI.Tooltip.TooltipUISystem.hideTooltips,
-//     which short-circuits the gameplay world/mouse tooltip pipeline at the source. State is
-//     in-session only: starts off each game launch, flipped via the Info button or Shift+\.
-//   - CwdSettings.DisableCwdTooltips is a UI-side React gate: the panel and the money/population
-//     extension skip rendering CWD tooltips when it's on. Persisted across sessions.
-//   - No Harmony: hideTooltips is a public setter on the vanilla system, so we just assign.
+// File: Systems/TooltipControlSystem.cs
+// Purpose: Controls vanilla and CWD tooltip visibility, including the tooltip hotkey.
 
 namespace CityWatchdog.Systems
 {
+    using System;
     using CS2Shared.RiverMochi;
-    using Game;
     using Game.Input;
     using Game.UI.Tooltip;
-    using System;
 
     public partial class TooltipControlSystem : UISystemBaseExtension
     {
         // Binding identifier strings. Kept as constants — React side reads bindings by name,
         // so renaming or removing the underlying C# property must NOT cascade into the JS bundle.
-        private const string DisableAllTooltipsBindingName = "DisableAllTooltips";
+        private const string kDisableAllTooltipsBindingName = "DisableAllTooltips";
 
-        private BoolBinding disableAllTooltipsBinding = null!;
-        private BoolBinding disableCwdTooltipsBinding = null!;
-        private TooltipUISystem? cachedTooltipUISystem;
-        private ProxyAction? toggleAllTooltipsAction;
+        private BoolBinding m_DisableAllTooltipsBinding = null!;
+        private BoolBinding m_DisableCwdTooltipsBinding = null!;
+        private TooltipUISystem? m_CachedTooltipUISystem;
+        private ProxyAction? m_ToggleAllTooltipsAction;
 
         protected override void OnCreate()
         {
@@ -40,72 +33,67 @@ namespace CityWatchdog.Systems
 
             // Both tooltip toggles are in-session only: they start OFF (tooltips shown) every game
             // launch, so new mod tooltips are always visible first; the player must re-toggle to hide.
-            disableAllTooltipsBinding = AddBoolBindingAndTriggerBinding(
-                DisableAllTooltipsBindingName,
+            m_DisableAllTooltipsBinding = AddBoolBindingAndTriggerBinding(
+                kDisableAllTooltipsBindingName,
                 false,
                 OnDisableAllTooltipsToggle);
 
-            disableCwdTooltipsBinding = AddBoolBindingAndTriggerBinding(
+            m_DisableCwdTooltipsBinding = AddBoolBindingAndTriggerBinding(
                 nameof(CwdSettings.DisableCwdTooltips),
                 false,
                 OnDisableCwdTooltipsToggle);
 
-            toggleAllTooltipsAction = EnableHotkey(CwdSettings.ToggleAllTooltipsAction);
+            m_ToggleAllTooltipsAction = EnableHotkey(CwdSettings.ToggleAllTooltipsAction);
         }
 
         protected override void OnUpdate()
         {
-            if (toggleAllTooltipsAction == null)
-            {
-                toggleAllTooltipsAction = EnableHotkey(CwdSettings.ToggleAllTooltipsAction);
-            }
+            m_ToggleAllTooltipsAction ??= EnableHotkey(CwdSettings.ToggleAllTooltipsAction);
 
-            if (toggleAllTooltipsAction?.WasReleasedThisFrame() == true)
+            if (m_ToggleAllTooltipsAction?.WasReleasedThisFrame() == true)
             {
-                OnDisableAllTooltipsToggle(!disableAllTooltipsBinding.Value);
+                OnDisableAllTooltipsToggle(!m_DisableAllTooltipsBinding.Value);
             }
 
             // Cheap idempotent re-apply: the vanilla TooltipUISystem is only created
             // in Game/Editor mode, so we cannot grab it during main menu. Keep the
             // game's hideTooltips field aligned with our binding once it appears.
-            if (cachedTooltipUISystem == null)
+            if (m_CachedTooltipUISystem == null)
             {
-                cachedTooltipUISystem = World.GetExistingSystemManaged<TooltipUISystem>();
-                if (cachedTooltipUISystem == null)
+                m_CachedTooltipUISystem = World.GetExistingSystemManaged<TooltipUISystem>();
+                if (m_CachedTooltipUISystem == null)
                 {
                     return;
                 }
             }
 
-            bool desired = disableAllTooltipsBinding.Value;
-            if (cachedTooltipUISystem.hideTooltips != desired)
+            bool desired = m_DisableAllTooltipsBinding.Value;
+            if (m_CachedTooltipUISystem.hideTooltips != desired)
             {
-                cachedTooltipUISystem.hideTooltips = desired;
+                m_CachedTooltipUISystem.hideTooltips = desired;
             }
         }
 
         private void OnDisableAllTooltipsToggle(bool value)
         {
-            disableAllTooltipsBinding.Update(value);
+            m_DisableAllTooltipsBinding.Update(value);
             ApplyToGame(value);
         }
 
         private void OnDisableCwdTooltipsToggle(bool value)
         {
             // In-session only: update the binding but do not persist, so tooltips return next launch.
-            disableCwdTooltipsBinding.Update(value);
+            m_DisableCwdTooltipsBinding.Update(value);
         }
 
         private void ApplyToGame(bool value)
         {
-            if (cachedTooltipUISystem == null)
-            {
-                cachedTooltipUISystem = World.GetExistingSystemManaged<TooltipUISystem>();
-            }
+            m_CachedTooltipUISystem ??= World.GetExistingSystemManaged<TooltipUISystem>();
 
-            if (cachedTooltipUISystem != null)
+            if (m_CachedTooltipUISystem != null)
             {
-                cachedTooltipUISystem.hideTooltips = value;
+                // hideTooltips has a public setter, so no har. patching needed.
+                m_CachedTooltipUISystem.hideTooltips = value;
             }
         }
 

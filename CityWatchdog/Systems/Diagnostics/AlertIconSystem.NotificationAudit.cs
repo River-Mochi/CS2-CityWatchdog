@@ -6,20 +6,19 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/AlertIconSystem.NotificationAudit.cs
+// File: Systems/Diagnostics/AlertIconSystem.NotificationAudit.cs
 // Purpose: One-click report for comparing game notification prefabs with City Watchdog coverage.
 
 namespace CityWatchdog.Systems
 {
-    using CS2Shared.RiverMochi;
-    using Game.Notifications;
-    using Game.Economy;
-    using Game.Prefabs;
-    using Game.UI;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using CS2Shared.RiverMochi;
+    using Game.Economy;
+    using Game.Prefabs;
+    using Game.UI;
     using Unity.Collections;
     using Unity.Entities;
 
@@ -34,7 +33,7 @@ namespace CityWatchdog.Systems
         {
             Dictionary<Entity, string> tracked = BuildTrackedNotificationPrefabMap();
             List<NotificationAuditRow> rows = GetNotificationAuditRows(tracked);
-            HashSet<Entity> gameNotificationPrefabs = new HashSet<Entity>(rows.Select(row => row.Entity));
+            HashSet<Entity> gameNotificationPrefabs = new(rows.Select(row => row.Entity));
 
             List<NotificationAuditRow> trackedRows = rows
                 .Where(row => row.Tracked)
@@ -59,7 +58,7 @@ namespace CityWatchdog.Systems
                 .OrderBy(item => item.Value, StringComparer.Ordinal)
                 .ToList();
 
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new();
             builder.AppendLine("=== City Watchdog Notification Coverage Audit ===");
             builder.AppendLine("Build: manual one-click audit");
             builder.AppendLine("Purpose: compare live game NotificationIconDisplayData prefabs with CWD-controlled notification rows.");
@@ -84,9 +83,9 @@ namespace CityWatchdog.Systems
 
         private Dictionary<Entity, string> BuildTrackedNotificationPrefabMap()
         {
-            Dictionary<Entity, string> tracked = new Dictionary<Entity, string>();
+            Dictionary<Entity, string> tracked = new();
 
-            if (TryGetQuerySingleton(electricityParameterQuery, out ElectricityParameterData electricity))
+            if (TryGetQuerySingleton(m_ElectricParameterQuery, out ElectricityParameterData electricity))
             {
                 AddTracked(tracked, electricity.m_ElectricityNotificationPrefab, "ElectricityElectricityNotification");
                 AddTracked(tracked, electricity.m_BottleneckNotificationPrefab, "ElectricityBottleneckNotification");
@@ -99,7 +98,7 @@ namespace CityWatchdog.Systems
                 AddTracked(tracked, electricity.m_HighVoltageNotConnectedPrefab, "ElectricityHighVoltageNotConnected");
             }
 
-            if (TryGetQuerySingleton(waterPipeParameterQuery, out WaterPipeParameterData water))
+            if (TryGetQuerySingleton(m_WaterPipeParameterQuery, out WaterPipeParameterData water))
             {
                 AddTracked(tracked, water.m_WaterNotification, "WaterPipeWaterNotification");
                 AddTracked(tracked, water.m_DirtyWaterNotification, "WaterPipeDirtyWaterNotification");
@@ -113,7 +112,7 @@ namespace CityWatchdog.Systems
                 AddTracked(tracked, water.m_DirtyWaterPumpNotification, "WaterPipeDirtyWaterPumpNotification");
             }
 
-            if (TryGetQuerySingleton(buildingConfigurationDataQuery, out BuildingConfigurationData building))
+            if (TryGetQuerySingleton(m_BuildingConfigurationDataQuery, out BuildingConfigurationData building))
             {
                 AddTracked(tracked, building.m_AbandonedCollapsedNotification, "BuildingAbandonedCollapsedNotification");
                 AddTracked(tracked, building.m_AbandonedNotification, "BuildingAbandonedNotification");
@@ -122,7 +121,7 @@ namespace CityWatchdog.Systems
                 AddTracked(tracked, building.m_HighRentNotification, "BuildingHighRentNotification");
             }
 
-            if (TryGetQuerySingleton(trafficConfigurationDataQuery, out TrafficConfigurationData traffic))
+            if (TryGetQuerySingleton(m_TrafficConfigurationDataQuery, out TrafficConfigurationData traffic))
             {
                 AddTracked(tracked, traffic.m_BottleneckNotification, "TrafficBottleneckNotification");
                 AddTracked(tracked, traffic.m_DeadEndNotification, "TrafficDeadEndNotification");
@@ -135,19 +134,19 @@ namespace CityWatchdog.Systems
                 AddTracked(tracked, traffic.m_BicycleConnectionNotification, "TrafficBicycleConnectionNotification");
             }
 
-            if (TryGetQuerySingleton(companyNotificationParameterQuery, out CompanyNotificationParameterData company))
+            if (TryGetQuerySingleton(m_CompanyNotificationParameterQuery, out CompanyNotificationParameterData company))
             {
                 AddTracked(tracked, company.m_NoInputsNotificationPrefab, "CompanyNoInputsNotification");
                 AddTracked(tracked, company.m_NoCustomersNotificationPrefab, "CompanyNoCustomersNotification");
             }
 
-            if (TryGetQuerySingleton(workProviderNotificationParameterQuery, out WorkProviderParameterData workProvider))
+            if (TryGetQuerySingleton(m_WorkProviderNotificationParameterQuery, out WorkProviderParameterData workProvider))
             {
                 AddTracked(tracked, workProvider.m_UneducatedNotificationPrefab, "WorkProviderUneducatedNotification");
                 AddTracked(tracked, workProvider.m_EducatedNotificationPrefab, "WorkProviderEducatedNotification");
             }
 
-            if (TryGetQuerySingleton(disasterNotificationParameterQuery, out DisasterConfigurationData disaster))
+            if (TryGetQuerySingleton(m_DisasterNotificationParameterQuery, out DisasterConfigurationData disaster))
             {
                 AddTracked(tracked, disaster.m_WeatherDamageNotificationPrefab, "DisasterWeatherDamageNotification");
                 AddTracked(tracked, disaster.m_WeatherDestroyedNotificationPrefab, "DisasterWeatherDestroyedNotification");
@@ -156,32 +155,32 @@ namespace CityWatchdog.Systems
                 AddTracked(tracked, disaster.m_DestroyedNotificationPrefab, "DisasterDestroyedNotification");
             }
 
-            if (TryGetQuerySingleton(fireNotificationParameterQuery, out FireConfigurationData fire))
+            if (TryGetQuerySingleton(m_FireNotificationParameterQuery, out FireConfigurationData fire))
             {
                 AddTracked(tracked, fire.m_FireNotificationPrefab, "FireFireNotification");
                 AddTracked(tracked, fire.m_BurnedDownNotificationPrefab, "FireBurnedDownNotification");
             }
 
-            if (TryGetQuerySingleton(garbageNotificationParameterQuery, out GarbageParameterData garbage))
+            if (TryGetQuerySingleton(m_GarbageNotificationParameterQuery, out GarbageParameterData garbage))
             {
                 AddTracked(tracked, garbage.m_GarbageNotificationPrefab, "GarbageGarbageNotification");
                 AddTracked(tracked, garbage.m_FacilityFullNotificationPrefab, "GarbageFacilityFullNotification");
             }
 
-            if (TryGetQuerySingleton(healthcareNotificationParameterQuery, out HealthcareParameterData healthcare))
+            if (TryGetQuerySingleton(m_HealthcareNotificationParameterQuery, out HealthcareParameterData healthcare))
             {
                 AddTracked(tracked, healthcare.m_AmbulanceNotificationPrefab, "HealthcareAmbulanceNotification");
                 AddTracked(tracked, healthcare.m_HearseNotificationPrefab, "HealthcareHearseNotification");
                 AddTracked(tracked, healthcare.m_FacilityFullNotificationPrefab, "HealthcareFacilityFullNotification");
             }
 
-            if (TryGetQuerySingleton(policeNotificationParameterQuery, out PoliceConfigurationData police))
+            if (TryGetQuerySingleton(m_PoliceNotificationParameterQuery, out PoliceConfigurationData police))
             {
                 AddTracked(tracked, police.m_TrafficAccidentNotificationPrefab, "PoliceTrafficAccidentNotification");
                 AddTracked(tracked, police.m_CrimeSceneNotificationPrefab, "PoliceCrimeSceneNotification");
             }
 
-            if (TryGetQuerySingleton(pollutionNotificationParameterQuery, out PollutionParameterData pollution))
+            if (TryGetQuerySingleton(m_PollutionNotificationParameterQuery, out PollutionParameterData pollution))
             {
                 AddTracked(tracked, pollution.m_AirPollutionNotification, "PollutionAirPollutionNotification");
                 AddTracked(tracked, pollution.m_NoisePollutionNotification, "PollutionNoisePollutionNotification");
@@ -191,13 +190,13 @@ namespace CityWatchdog.Systems
             AddResourceConsumerTrackedPrefabs(tracked);
             AddResourceConnectionTrackedPrefabs(tracked);
 
-            if (TryGetQuerySingleton(routeNotificationParameterQuery, out RouteConfigurationData route))
+            if (TryGetQuerySingleton(m_RouteNotificationParameterQuery, out RouteConfigurationData route))
             {
                 AddTracked(tracked, route.m_PathfindNotification, "RoutePathfindNotification");
                 AddTracked(tracked, route.m_GateBypassNotification, "RouteGateBypassNotification");
             }
 
-            if (TryGetQuerySingleton(transportLineNotificationParameterQuery, out TransportLineData transportLine))
+            if (TryGetQuerySingleton(m_TransportLineNotificationParameterQuery, out TransportLineData transportLine))
             {
                 AddTracked(tracked, transportLine.m_VehicleNotification, "TransportLineVehicleNotification");
             }
@@ -207,13 +206,13 @@ namespace CityWatchdog.Systems
 
         private void AddResourceConsumerTrackedPrefabs(Dictionary<Entity, string> tracked)
         {
-            if (resourceConsumerNotificationParameterQuery.CalculateEntityCount() == 0)
+            if (m_ResourceConsumerNotificationParameterQuery.CalculateEntityCount() == 0)
             {
                 return;
             }
 
             NativeArray<ResourceConsumerData> consumers =
-                resourceConsumerNotificationParameterQuery.ToComponentDataArray<ResourceConsumerData>(Allocator.Temp);
+                m_ResourceConsumerNotificationParameterQuery.ToComponentDataArray<ResourceConsumerData>(Allocator.Temp);
             try
             {
                 for (int i = 0; i < consumers.Length; i++)
@@ -230,13 +229,13 @@ namespace CityWatchdog.Systems
 
         private void AddResourceConnectionTrackedPrefabs(Dictionary<Entity, string> tracked)
         {
-            if (resourceConnectionNotificationParameterQuery.CalculateEntityCount() == 0)
+            if (m_ResourceConnectionNotificationParameterQuery.CalculateEntityCount() == 0)
             {
                 return;
             }
 
             NativeArray<ResourceConnectionData> connections =
-                resourceConnectionNotificationParameterQuery.ToComponentDataArray<ResourceConnectionData>(Allocator.Temp);
+                m_ResourceConnectionNotificationParameterQuery.ToComponentDataArray<ResourceConnectionData>(Allocator.Temp);
             try
             {
                 for (int i = 0; i < connections.Length; i++)
@@ -253,8 +252,8 @@ namespace CityWatchdog.Systems
 
         private List<NotificationAuditRow> GetNotificationAuditRows(Dictionary<Entity, string> tracked)
         {
-            List<NotificationAuditRow> rows = new List<NotificationAuditRow>();
-            NativeArray<Entity> entities = notificationIconDisplayDataQuery.ToEntityArray(Allocator.Temp);
+            List<NotificationAuditRow> rows = new();
+            NativeArray<Entity> entities = m_NotificationIconDisplayDataQuery.ToEntityArray(Allocator.Temp);
             try
             {
                 for (int i = 0; i < entities.Length; i++)
@@ -290,7 +289,7 @@ namespace CityWatchdog.Systems
             return rows;
         }
 
-        private bool TryGetQuerySingleton<T>(EntityQuery query, out T value)
+        private static bool TryGetQuerySingleton<T>(EntityQuery query, out T value)
             where T : unmanaged, IComponentData
         {
             value = default;
@@ -360,7 +359,7 @@ namespace CityWatchdog.Systems
         {
             try
             {
-                return prefabSystem.GetPrefab<NotificationIconPrefab>(entity);
+                return m_PrefabSystem.GetPrefab<NotificationIconPrefab>(entity);
             }
             catch
             {
@@ -410,7 +409,7 @@ namespace CityWatchdog.Systems
 
         private string GetNotificationAuditKind(Entity entity)
         {
-            List<string> kinds = new List<string>();
+            List<string> kinds = new();
 
             try
             {

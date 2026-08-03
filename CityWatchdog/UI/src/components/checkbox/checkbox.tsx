@@ -2,6 +2,7 @@
 // Purpose: Small checkbox control used by City Watchdog panel rows.
 
 import { Icon } from "cs2/ui";
+import { playSelectSound } from "../../utils/uiSound";
 import styles from "./checkbox.module.scss";
 
 interface CheckboxProps {
@@ -17,7 +18,7 @@ export const Checkbox = ({ isChecked, onValueToggle }: CheckboxProps) => {
             type="button"
             className={styles.checkboxContainer}
             aria-pressed={isChecked}
-            onClick={() => onValueToggle(!isChecked)}
+            onClick={() => { playSelectSound(); onValueToggle(!isChecked); }}
         >
             {isChecked && <Icon
                 src={checkmarkSrc}

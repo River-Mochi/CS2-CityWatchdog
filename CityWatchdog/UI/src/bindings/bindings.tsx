@@ -6,7 +6,7 @@ import mod from "../../mod.json";
 
 export const controlPanelEnabled$ = bindValue<boolean>(mod.id, "ControlPanelEnabled", false);
 export const moneyView$ = bindValue<boolean>(mod.id, "MoneyView", true);
-export const moneyViewMode$ = bindValue<number>(mod.id, "MoneyViewMode", 0);
+export const moneyViewMode$ = bindValue<number>(mod.id, "MoneyViewMode", 1);
 export const moneyTooltipMode$ = bindValue<number>(mod.id, "MoneyTooltipMode", 1);
 export const moneyTooltipFontScale$ = bindValue<number>(mod.id, "MoneyTooltipFontScale", 120);
 export const populationTooltipFontScale$ = bindValue<number>(mod.id, "PopulationTooltipFontScale", 120);
@@ -19,7 +19,7 @@ export const notificationCounts$ = bindValue<number[]>(mod.id, "NotificationCoun
 
 export const miniHudFavorites$ = bindValue<number[]>(mod.id, "MiniHudFavorites", []);
 export const miniHudEnabled$ = bindValue<boolean>(mod.id, "MiniHudEnabled", true);
-export const miniHudOrientation$ = bindValue<number>(mod.id, "MiniHudOrientation", 1);  // vertical
+export const miniHudOrientation$ = bindValue<number>(mod.id, "MiniHudOrientation", 0);  // horizontal
 export const miniHudPlacement$ = bindValue<number>(mod.id, "MiniHudPlacement", 2);      // draggable
 export const miniHudMode$ = bindValue<number>(mod.id, "MiniHudMode", 1);                // favorites
 export const miniHudItemCount$ = bindValue<number>(mod.id, "MiniHudItemCount", 5);
@@ -37,7 +37,18 @@ export const panelPositionX$ = bindValue<number>(mod.id, "PanelPositionX", 0);
 export const panelPositionY$ = bindValue<number>(mod.id, "PanelPositionY", 0);
 export const panelCollapsedSectionsMask$ = bindValue<number>(mod.id, "PanelCollapsedSectionsMask", 0);
 export const panelSortMode$ = bindValue<number>(mod.id, "PanelSortMode", 0);
-export const mainPanelOpacity$ = bindValue<number>(mod.id, "MainPanelOpacity", 70);
+export const mainPanelOpacity$ = bindValue<number>(mod.id, "MainPanelOpacity", 80);
+
+// Notification-checkbox presets: the panel's "1 | 2" split button. Each flag is false until the
+// player first saves that slot (an unsaved slot renders dimmed and ignores a load click).
+export const preset1Saved$ = bindValue<boolean>(mod.id, "Preset1Saved", false);
+export const preset2Saved$ = bindValue<boolean>(mod.id, "Preset2Saved", false);
+// Which preset slot is currently applied: 0 = none, 1, or 2. Drives the "selected" ring + dot.
+export const activePreset$ = bindValue<number>(mod.id, "ActivePreset", 0);
+
+// Vanilla UI scaling (normally dev-mode only). Title-bar button and CWD Options toggle share this live value.
+export const interfaceScaleEnabled$ = bindValue<boolean>(mod.id, "InterfaceScaleEnabled", false);
+export const OnToggleInterfaceScale = (enable: boolean) => trigger(mod.id, "InterfaceScaleEnabled", enable);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
 export const ElectricityBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBottleneckNotification");
@@ -105,6 +116,11 @@ export const TransportLineVehicleNotificationBinding$ = bindValue<boolean>(mod.i
 
 export const OnControlPanelBindingToggle = (enable: boolean) => trigger(mod.id, "ControlPanelEnabled", enable);
 export const OnToggleAllNotifications = (enable: boolean) => trigger(mod.id, "ToggleAllNotifications", enable);
+// Presets: click a slot to load it, hold a slot to save the current checkboxes into it.
+export const OnLoadPreset = (slot: number) => trigger(mod.id, "LoadPreset", slot);
+export const OnSavePreset = (slot: number) => trigger(mod.id, "SavePreset", slot);
+// Clears the "selected" preset ring once the live layout diverges from a loaded preset (manual checkbox change).
+export const OnClearActivePreset = () => trigger(mod.id, "ClearActivePreset");
 export const OnDisableAllTooltipsToggle = (disable: boolean) => trigger(mod.id, "DisableAllTooltips", disable);
 export const OnDisableCwdTooltipsToggle = (disable: boolean) => trigger(mod.id, "DisableCwdTooltips", disable);
 export const OnHideRoadNamesToggle = (hide: boolean) => trigger(mod.id, "HideRoadNames", hide);

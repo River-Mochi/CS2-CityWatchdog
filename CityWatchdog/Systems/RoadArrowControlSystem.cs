@@ -6,58 +6,36 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/RoadArrowControlSystem.cs
-// Purpose: Toggle to show 1-way road direction arrows even when no road tool is active.
-//
-// Approach: tell the vanilla DefaultToolSystem that it "wants" net arrows. When the player
-// has no specific tool selected, the active tool IS the default tool, and the vanilla
-// AggregateRenderSystem.Render method does:
-//
-//     if (m_ToolSystem.activeTool != null && m_ToolSystem.activeTool.requireNetArrows) {
-//         // draws arrows
-//     }
-//
-// CwdSettings requireNetArrows = true on the default tool makes the vanilla code render
-// arrows while no placement, road, zone, bulldozer, or other gameplay tool is active.
-// When one of those tools is active, the vanilla check looks at that tool's own flag,
-// so CWD does not interfere with tool behavior.
-//
-// `requireNetArrows` is a public property on ToolBaseSystem but its setter is internal,
-// so we go through reflection. No Harmony, no IL patching, no custom render path of our own.
-//
-// Inspired by — but not copied from — an unpublished community mod that shipped only a DLL.
-// Our identifier names, file layout, persistence wiring, and lifecycle differ. Defaults
-// in OnDestroy restore the original flag so the game is left clean on mod unload.
+// File: Systems/RoadArrowControlSystem.cs
+// Purpose: Shows one-way road arrows while the default tool is active.
 
 namespace CityWatchdog.Systems
 {
-    using CS2Shared.RiverMochi;
-    using Game;
-    using Game.Input;
-    using Game.Tools;
     using System;
     using System.Reflection;
+    using CS2Shared.RiverMochi;
+    using Game.Tools;
 
     public partial class RoadArrowControlSystem : UISystemBaseExtension
     {
-        private const string ArrowsPropertyName = "requireNetArrows";
+        private const string kArrowsPropertyName = "requireNetArrows";
 
-        private BoolBinding showRoadArrowsBinding = null!;
-        private DefaultToolSystem? vanillaDefaultTool;
-        private PropertyInfo? arrowsRequiredProperty;
+        private BoolBinding m_ShowRoadArrowsBinding = null!;
+        private DefaultToolSystem? m_VanillaDefaultTool;
+        private PropertyInfo? m_ArrowsRequiredProperty;
 
         // When we set the flag to true we save the previous value (vanilla default is false).
         // Used to put the flag back where we found it on toggle-off and on system destroy.
-        private bool originalFlagCaptured;
-        private bool originalFlagValue;
-        private bool arrowsCurrentlyForced;
+        private bool m_OriginalFlagCaptured;
+        private bool m_OriginalFlagValue;
+        private bool m_ArrowsCurrentlyForced;
 
         protected override void OnCreate()
         {
             base.OnCreate();
 
             bool initial = CwdSettings.Instance?.ShowRoadArrows ?? false;
-            showRoadArrowsBinding = AddBoolBindingAndTriggerBinding(
+            m_ShowRoadArrowsBinding = AddBoolBindingAndTriggerBinding(
                 nameof(CwdSettings.ShowRoadArrows),
                 initial,
                 OnShowRoadArrowsToggle);
@@ -66,10 +44,10 @@ namespace CityWatchdog.Systems
         protected override void OnDestroy()
         {
             // Restore vanilla default-tool flag on mod unload so the game is clean.
-            if (arrowsCurrentlyForced)
+            if (m_ArrowsCurrentlyForced)
             {
-                WriteArrowsFlag(originalFlagCaptured ? originalFlagValue : false);
-                arrowsCurrentlyForced = false;
+                WriteArrowsFlag(m_OriginalFlagCaptured && m_OriginalFlagValue);
+                m_ArrowsCurrentlyForced = false;
             }
             base.OnDestroy();
         }
@@ -77,9 +55,9 @@ namespace CityWatchdog.Systems
         public void SyncFromSettings()
         {
             bool value = CwdSettings.Instance?.ShowRoadArrows ?? false;
-            if (showRoadArrowsBinding.Value != value)
+            if (m_ShowRoadArrowsBinding.Value != value)
             {
-                showRoadArrowsBinding.Update(value);
+                m_ShowRoadArrowsBinding.Update(value);
             }
             ApplyToGame(value);
         }
@@ -93,7 +71,7 @@ namespace CityWatchdog.Systems
 
         private void OnShowRoadArrowsToggle(bool value)
         {
-            showRoadArrowsBinding.Update(value);
+            m_ShowRoadArrowsBinding.Update(value);
 
             CwdSettings? setting = CwdSettings.Instance;
             if (setting != null)
@@ -107,24 +85,24 @@ namespace CityWatchdog.Systems
 
         private void ApplyToGame(bool show)
         {
-            if (show && !arrowsCurrentlyForced)
+            if (show && !m_ArrowsCurrentlyForced)
             {
                 CaptureOriginalFlag();
                 if (WriteArrowsFlag(true))
                 {
-                    arrowsCurrentlyForced = true;
+                    m_ArrowsCurrentlyForced = true;
                 }
             }
-            else if (!show && arrowsCurrentlyForced)
+            else if (!show && m_ArrowsCurrentlyForced)
             {
-                WriteArrowsFlag(originalFlagCaptured ? originalFlagValue : false);
-                arrowsCurrentlyForced = false;
+                WriteArrowsFlag(m_OriginalFlagCaptured && m_OriginalFlagValue);
+                m_ArrowsCurrentlyForced = false;
             }
         }
 
         private void CaptureOriginalFlag()
         {
-            if (originalFlagCaptured)
+            if (m_OriginalFlagCaptured)
             {
                 return;
             }
@@ -135,14 +113,14 @@ namespace CityWatchdog.Systems
 
             try
             {
-                originalFlagValue = (bool)(arrowsRequiredProperty!.GetValue(vanillaDefaultTool) ?? false);
-                originalFlagCaptured = true;
+                m_OriginalFlagValue = (bool)(m_ArrowsRequiredProperty!.GetValue(m_VanillaDefaultTool) ?? false);
+                m_OriginalFlagCaptured = true;
             }
             catch (Exception ex)
             {
                 LogUtils.WarnOnce(
                     "road-arrow-read",
-                    () => $"Failed to read DefaultToolSystem.{ArrowsPropertyName}: {ex.GetType().Name}: {ex.Message}",
+                    () => $"Failed to read DefaultToolSystem.{kArrowsPropertyName}: {ex.GetType().Name}: {ex.Message}",
                     ex);
             }
         }
@@ -156,14 +134,14 @@ namespace CityWatchdog.Systems
 
             try
             {
-                arrowsRequiredProperty!.SetValue(vanillaDefaultTool, target);
+                m_ArrowsRequiredProperty!.SetValue(m_VanillaDefaultTool, target);
                 return true;
             }
             catch (Exception ex)
             {
                 LogUtils.WarnOnce(
                     "road-arrow-write",
-                    () => $"Failed to write DefaultToolSystem.{ArrowsPropertyName}={target}: {ex.GetType().Name}: {ex.Message}",
+                    () => $"Failed to write DefaultToolSystem.{kArrowsPropertyName}={target}: {ex.GetType().Name}: {ex.Message}",
                     ex);
                 return false;
             }
@@ -171,26 +149,28 @@ namespace CityWatchdog.Systems
 
         private bool ResolveReflectionTargets()
         {
-            if (vanillaDefaultTool == null)
+            if (m_VanillaDefaultTool == null)
             {
-                vanillaDefaultTool = World.GetExistingSystemManaged<DefaultToolSystem>();
-                if (vanillaDefaultTool == null)
+                m_VanillaDefaultTool = World.GetExistingSystemManaged<DefaultToolSystem>();
+                if (m_VanillaDefaultTool == null)
                 {
                     return false;
                 }
             }
 
-            if (arrowsRequiredProperty == null)
+            if (m_ArrowsRequiredProperty == null)
             {
-                arrowsRequiredProperty = typeof(ToolBaseSystem).GetProperty(
-                    ArrowsPropertyName,
+                // Property is public, but its setter is internal. Reflection keeps the hook
+                // limited to this one vanilla property w/out Harmony.
+                m_ArrowsRequiredProperty = typeof(ToolBaseSystem).GetProperty(
+                    kArrowsPropertyName,
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
-                if (arrowsRequiredProperty == null || !arrowsRequiredProperty.CanWrite)
+                if (m_ArrowsRequiredProperty == null || !m_ArrowsRequiredProperty.CanWrite)
                 {
                     LogUtils.WarnOnce(
                         "road-arrow-prop",
-                        () => $"ToolBaseSystem.{ArrowsPropertyName} not found or not writable; show-road-arrows toggle disabled.");
+                        () => $"ToolBaseSystem.{kArrowsPropertyName} not found or not writable; show-road-arrows toggle disabled.");
                     return false;
                 }
             }

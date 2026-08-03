@@ -6,34 +6,8 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Systems/RoadNameControlSystem.cs
-// Purpose: Toggle for vanilla aggregate road-name labels.
-//
-// Mechanism: unsubscribe AggregateRenderSystem.Render from RenderPipelineManager.beginContextRendering
-// whenever we want road names to NOT render, and let it stay subscribed when we want names or arrows
-// to render. Done via Delegate.CreateDelegate against the private Render method — no Harmony, no IL
-// patching.
-//
-// Why this and not the localization-dictionary overwrite approach we tried first:
-//   - AggregateMeshSystem bakes each road label's TEXT INTO A GPU TEXTURE the first time the label
-//     is created. The localization lookup runs only during that bake. Once a texture exists,
-//     blanking the dictionary entry has zero visible effect on the already-rendered label.
-//   - Existing labels would stay visible until something forced a rebake (a tool click, a hover,
-//     a road edit, a locale reload). Restoring originals on toggle-off had the inverse problem.
-//   - RoadNameRemover gets away with the localization-blank trick because Harmony patches catch
-//     TryGetValue inside every bake. Without Harmony we can't ride that pulse, so we operate at
-//     the only layer we can reach: the render pipeline subscription itself.
-//
-// Coordination with RoadArrowControlSystem:
-//   The vanilla Render method draws arrows OR names mutually exclusively. When the active tool's
-//   requireNetArrows is true (either because the player has a road/upgrade/bulldoze tool active,
-//   or because RoadArrowControlSystem flipped DefaultToolSystem.requireNetArrows on), Render
-//   returns before the names loop. So in those states we MUST keep Render subscribed (otherwise
-//   we'd kill the arrows), and the names stay hidden as a free side-effect of the vanilla
-//   mutually-exclusive logic.
-//
-//   Final decision: unsubscribe only when HideRoadNames is on AND neither the arrows-force toggle
-//   nor a net tool is asking for arrows. In every other state, vanilla handles the right thing.
+// File: Systems/RoadNameControlSystem.cs
+// Purpose: Hides road names w/out blocking road arrows.
 
 namespace CityWatchdog.Systems
 {
@@ -41,7 +15,6 @@ namespace CityWatchdog.Systems
     using System.Collections.Generic;
     using System.Reflection;
     using CS2Shared.RiverMochi;
-    using Game;
     using Game.Input;
     using Game.Rendering;
     using Game.Tools;
@@ -50,36 +23,36 @@ namespace CityWatchdog.Systems
 
     public partial class RoadNameControlSystem : UISystemBaseExtension
     {
-        private const string AggregateRenderMethodName = "Render";
+        private const string kAggregateRenderMethodName = "Render";
 
-        private BoolBinding hideRoadNamesBinding = null!;
-        private AggregateRenderSystem? cachedAggregateRenderSystem;
-        private ToolSystem? cachedToolSystem;
-        private Action<ScriptableRenderContext, List<Camera>>? cachedRenderDelegate;
-        private bool currentlyUnsubscribed;
-        private ProxyAction? toggleAction;
+        private BoolBinding m_HideRoadNamesBinding = null!;
+        private AggregateRenderSystem? m_CachedAggregateRenderSystem;
+        private ToolSystem? m_CachedToolSystem;
+        private Action<ScriptableRenderContext, List<Camera>>? m_CachedRenderDelegate;
+        private bool m_CurrentlyUnsubscribed;
+        private ProxyAction? m_ToggleAction;
 
         protected override void OnCreate()
         {
             base.OnCreate();
 
             bool initial = CwdSettings.Instance?.HideRoadNames ?? false;
-            hideRoadNamesBinding = AddBoolBindingAndTriggerBinding(
+            m_HideRoadNamesBinding = AddBoolBindingAndTriggerBinding(
                 nameof(CwdSettings.HideRoadNames),
                 initial,
                 OnHideRoadNamesToggle);
 
-            toggleAction = EnableHotkey(CwdSettings.ToggleRoadNamesAction);
+            m_ToggleAction = EnableHotkey(CwdSettings.ToggleRoadNamesAction);
         }
 
         protected override void OnDestroy()
         {
             // Restore vanilla rendering on mod unload so the game is clean.
-            if (currentlyUnsubscribed && cachedRenderDelegate != null)
+            if (m_CurrentlyUnsubscribed && m_CachedRenderDelegate != null)
             {
                 try
                 {
-                    RenderPipelineManager.beginContextRendering += cachedRenderDelegate;
+                    RenderPipelineManager.beginContextRendering += m_CachedRenderDelegate;
                 }
                 catch (Exception ex)
                 {
@@ -88,7 +61,7 @@ namespace CityWatchdog.Systems
                         () => $"Failed to re-subscribe AggregateRenderSystem.Render on destroy: {ex.GetType().Name}: {ex.Message}",
                         ex);
                 }
-                currentlyUnsubscribed = false;
+                m_CurrentlyUnsubscribed = false;
             }
             base.OnDestroy();
         }
@@ -96,35 +69,32 @@ namespace CityWatchdog.Systems
         public void SyncFromSettings()
         {
             bool value = CwdSettings.Instance?.HideRoadNames ?? false;
-            if (hideRoadNamesBinding.Value != value)
+            if (m_HideRoadNamesBinding.Value != value)
             {
-                hideRoadNamesBinding.Update(value);
+                m_HideRoadNamesBinding.Update(value);
             }
             ApplyToGame();
         }
 
         protected override void OnUpdate()
         {
-            if (toggleAction == null)
-            {
-                toggleAction = EnableHotkey(CwdSettings.ToggleRoadNamesAction);
-            }
+            m_ToggleAction ??= EnableHotkey(CwdSettings.ToggleRoadNamesAction);
 
-            if (toggleAction?.WasReleasedThisFrame() == true)
+            if (m_ToggleAction?.WasReleasedThisFrame() == true)
             {
                 bool current = CwdSettings.Instance?.HideRoadNames ?? false;
                 OnHideRoadNamesToggle(!current);
             }
 
             // Re-evaluate every frame because two of the inputs (tool active, arrows-force setting)
-            // can change without us being notified. The subscribe/unsubscribe writes themselves are
-            // idempotent — they only run on transition.
+            // can change w/out us being notified. Subscribe/unsubscribe writes themselves are
+            // idempotent — only run on transition.
             ApplyToGame();
         }
 
         private void OnHideRoadNamesToggle(bool value)
         {
-            hideRoadNamesBinding.Update(value);
+            m_HideRoadNamesBinding.Update(value);
 
             CwdSettings? setting = CwdSettings.Instance;
             if (setting != null)
@@ -138,19 +108,21 @@ namespace CityWatchdog.Systems
 
         private void ApplyToGame()
         {
-            if (cachedAggregateRenderSystem == null)
+            if (m_CachedAggregateRenderSystem == null)
             {
-                cachedAggregateRenderSystem = World.GetExistingSystemManaged<AggregateRenderSystem>();
-                if (cachedAggregateRenderSystem == null)
+                m_CachedAggregateRenderSystem = World.GetExistingSystemManaged<AggregateRenderSystem>();
+                if (m_CachedAggregateRenderSystem == null)
                 {
                     return;
                 }
             }
 
-            if (cachedRenderDelegate == null)
+            // Road-name text is baked into GPU textures, so changing localization would not
+            // reliably hide existing labels. Control vanilla render callback instead.
+            if (m_CachedRenderDelegate == null)
             {
-                cachedRenderDelegate = BuildRenderDelegate(cachedAggregateRenderSystem);
-                if (cachedRenderDelegate == null)
+                m_CachedRenderDelegate = BuildRenderDelegate(m_CachedAggregateRenderSystem);
+                if (m_CachedRenderDelegate == null)
                 {
                     LogUtils.WarnOnce(
                         "road-name-render-delegate",
@@ -164,40 +136,40 @@ namespace CityWatchdog.Systems
             bool arrowsForced = setting?.ShowRoadArrows ?? false;
             bool toolWantsArrows = NetToolWantsArrows();
 
-            // Only suppress vanilla Render when road names are configured hidden AND nothing else needs
+            // Only suppress vanilla Render when road names are config hidden AND nothing else needs
             // the arrows path. When arrows are forced or a net tool is active, vanilla naturally
             // skips the names loop, so we let it run — gives us arrows + no names for free.
             bool shouldBeUnsubscribed = hideRequested && !arrowsForced && !toolWantsArrows;
 
-            if (shouldBeUnsubscribed && !currentlyUnsubscribed)
+            if (shouldBeUnsubscribed && !m_CurrentlyUnsubscribed)
             {
-                RenderPipelineManager.beginContextRendering -= cachedRenderDelegate;
-                currentlyUnsubscribed = true;
+                RenderPipelineManager.beginContextRendering -= m_CachedRenderDelegate;
+                m_CurrentlyUnsubscribed = true;
             }
-            else if (!shouldBeUnsubscribed && currentlyUnsubscribed)
+            else if (!shouldBeUnsubscribed && m_CurrentlyUnsubscribed)
             {
-                RenderPipelineManager.beginContextRendering += cachedRenderDelegate;
-                currentlyUnsubscribed = false;
+                RenderPipelineManager.beginContextRendering += m_CachedRenderDelegate;
+                m_CurrentlyUnsubscribed = false;
             }
         }
 
         private bool NetToolWantsArrows()
         {
-            if (cachedToolSystem == null)
+            if (m_CachedToolSystem == null)
             {
-                cachedToolSystem = World.GetExistingSystemManaged<ToolSystem>();
-                if (cachedToolSystem == null)
+                m_CachedToolSystem = World.GetExistingSystemManaged<ToolSystem>();
+                if (m_CachedToolSystem == null)
                 {
                     return false;
                 }
             }
-            return cachedToolSystem.activeTool != null && cachedToolSystem.activeTool.requireNetArrows;
+            return m_CachedToolSystem.activeTool != null && m_CachedToolSystem.activeTool.requireNetArrows;
         }
 
         private static Action<ScriptableRenderContext, List<Camera>>? BuildRenderDelegate(AggregateRenderSystem system)
         {
             MethodInfo? method = typeof(AggregateRenderSystem).GetMethod(
-                AggregateRenderMethodName,
+                kAggregateRenderMethodName,
                 BindingFlags.Instance | BindingFlags.NonPublic);
 
             if (method == null)
@@ -222,7 +194,7 @@ namespace CityWatchdog.Systems
             }
         }
 
-        private ProxyAction? EnableHotkey(string actionName)
+        private static ProxyAction? EnableHotkey(string actionName)
         {
             try
             {

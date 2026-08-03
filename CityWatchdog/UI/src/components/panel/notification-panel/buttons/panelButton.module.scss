@@ -1,9 +1,7 @@
 // File: src/UI/src/components/panel/notification-panel/buttons/panelButton.module.scss
 // Purpose: Notification-panel button styling.
 //
-// CSS rules in this file are all LONGHAND. Coherent Gameface can fail on var() inside shorthand
-// declarations, so button CSS stays explicit and predictable.
-
+// CSS rules: use all LONGHAND. Coherent Gameface can fail on var() inside shorthand
 // Cohtml SVG img hover gotcha: do NOT change or animate `filter` on these toolbar icons.
 // That caused a black flash on fast hover. Use container hover colors plus transform-only icon grow.
 .iconButton {
@@ -104,8 +102,8 @@
     transform: scale(1.06);
 }
 
-// The diagonal road/district artwork reaches close to its SVG edges, so leave enough inset
-// for the button border and hover scale instead of letting its corners escape the frame.
+// Diagonal road/district artwork reaches close to its SVG edges, so leaving enough inset
+// for the button border and hover scale instead of letting its corners escape frame.
 .mapIcon {
     width: 25rem;
     height: 25rem;
@@ -193,17 +191,22 @@
 .toggleButton {
     width: auto;
     min-width: 74rem;
-    max-width: 122rem;
+    // Content-sized (no grow): button hugs its label so the right group stays compact and
+    // right-aligned. Longer translations widen it; overflow hidden clips extreme cases.
     flex-grow: 0;
     flex-shrink: 1;
     flex-basis: auto;
-    padding-left: 4rem;
-    padding-right: 4rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    overflow: hidden;
     box-sizing: border-box;
 }
 
 .toggleButtonText {
-    max-width: 114rem;
+    // min-width: 0 lets the text shrink inside the flex button so the ellipsis engages instead of
+    // overflowing; max-width keeps it within the button.
+    min-width: 0;
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -215,7 +218,7 @@
 
 .countButton {
     width: auto;
-    min-width: 42rem;
+    min-width: 45rem;
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: auto;
@@ -226,18 +229,30 @@
 
 .countButtonText {
     white-space: nowrap;
-    font-size: var(--fontSizeXS);
+    font-size: var(--fontSizeS);
     font-weight: 700;
     line-height: 1;
-    letter-spacing: 0.3rem;
+    letter-spacing: 0.2rem;
 }
 
+// The tone classes below are defined AFTER .toolbarButton, so their :hover wins over the generic
+// white hover — the button keeps its red/green/blue identity and only gains a light white tint.
 .toggleAllOn {
     border-top-color: rgba(95, 220, 120, 0.9);
     border-right-color: rgba(95, 220, 120, 0.9);
     border-bottom-color: rgba(95, 220, 120, 0.9);
     border-left-color: rgba(95, 220, 120, 0.9);
     background-color: rgba(40, 110, 62, 0.58);
+
+    &:hover {
+        background-color: rgba(56, 140, 84, 0.72);
+        border-top-color: rgba(150, 240, 175, 0.95);
+        border-right-color: rgba(150, 240, 175, 0.95);
+        border-bottom-color: rgba(150, 240, 175, 0.95);
+        border-left-color: rgba(150, 240, 175, 0.95);
+        box-shadow: inset 0 0 0 40rem rgba(255, 255, 255, 0.12), 0 0 8rem rgba(95, 220, 120, 0.28);
+        color: #ffffff;
+    }
 }
 
 .toggleAllPartial {
@@ -246,6 +261,16 @@
     border-bottom-color: rgba(84, 215, 255, 0.9);
     border-left-color: rgba(84, 215, 255, 0.9);
     background-color: rgba(36, 88, 112, 0.58);
+
+    &:hover {
+        background-color: rgba(52, 118, 148, 0.72);
+        border-top-color: rgba(150, 232, 255, 0.95);
+        border-right-color: rgba(150, 232, 255, 0.95);
+        border-bottom-color: rgba(150, 232, 255, 0.95);
+        border-left-color: rgba(150, 232, 255, 0.95);
+        box-shadow: inset 0 0 0 40rem rgba(255, 255, 255, 0.12), 0 0 8rem rgba(84, 215, 255, 0.28);
+        color: #ffffff;
+    }
 }
 
 .toggleAllOff {
@@ -254,4 +279,14 @@
     border-bottom-color: rgba(245, 96, 96, 0.9);
     border-left-color: rgba(245, 96, 96, 0.9);
     background-color: rgba(112, 42, 42, 0.58);
+
+    &:hover {
+        background-color: rgba(158, 60, 60, 0.72);
+        border-top-color: rgba(255, 150, 150, 0.95);
+        border-right-color: rgba(255, 150, 150, 0.95);
+        border-bottom-color: rgba(255, 150, 150, 0.95);
+        border-left-color: rgba(255, 150, 150, 0.95);
+        box-shadow: inset 0 0 0 40rem rgba(255, 255, 255, 0.12), 0 0 8rem rgba(245, 96, 96, 0.28);
+        color: #ffffff;
+    }
 }

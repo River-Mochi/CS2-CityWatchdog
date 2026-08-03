@@ -20,22 +20,22 @@ namespace CityWatchdog
 
     public partial class CwdSettings
     {
-        internal const int MiniHudModeTopActive = 0;
-        internal const int MiniHudModeFavorites = 1;
-        internal const int MiniHudOrientationHorizontal = 0;
-        internal const int MiniHudOrientationVertical = 1;
-        internal const int MiniHudPlacementTopCenter = 0;
-        internal const int MiniHudPlacementTopRight = 1;
-        internal const int MiniHudPlacementDraggable = 2;
-        internal const int MiniHudPanelStyleDark = 0;
-        internal const int MiniHudPanelStyleGlass = 1;
-        internal const int MiniHudPanelOpacityDefault = 30;
-        internal const int MiniHudPositionLimit = 20000;
+        internal const int kMiniHudModeTopActive = 0;
+        internal const int kMiniHudModeFavorites = 1;
+        internal const int kMiniHudOrientationHorizontal = 0;
+        internal const int kMiniHudOrientationVertical = 1;
+        internal const int kMiniHudPlacementTopCenter = 0;
+        internal const int kMiniHudPlacementTopRight = 1;
+        internal const int kMiniHudPlacementDraggable = 2;
+        internal const int kMiniHudPanelStyleDark = 0;
+        internal const int kMiniHudPanelStyleGlass = 1;
+        internal const int kMiniHudPanelOpacityDefault = 30;
+        internal const int kMiniHudPositionLimit = 20000;
         // Bit positions are raw countIndex values (see notificationData.ts) — NOT re-derived from
         // any enum, so they must be hand-verified against the current index table whenever items are
         // inserted/removed. Bit 24 (Leveling Building) is deliberately NOT included: it's an optional,
         // positive-status row the player opts into manually, not a recommended "problem" alert.
-        private const int MiniHudRecommendedFavoriteMaskLow =
+        private const int kMiniHudRecommendedFavoriteMaskLow =
             (1 << 0) |  // Not enough electricity
             (1 << 1) |  // Electricity bottleneck
             (1 << 6) |  // Battery depleted
@@ -54,7 +54,7 @@ namespace CityWatchdog
             (1 << 27) | // Road required / no road access
             (1 << 28) | // Track not connected
             (1 << 29);  // No car access
-        private const int MiniHudRecommendedFavoriteMaskHigh =
+        private const int kMiniHudRecommendedFavoriteMaskHigh =
             (1 << 1) |  // No pedestrian access
             (1 << 5) |  // Lack of labor
             (1 << 7) |  // Weather damage
@@ -77,12 +77,12 @@ namespace CityWatchdog
         // Mini-HUD tab - Mini HUD Notifications
         // --------------------------------------------------------------------
 
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudEnabledChanged))]
         public bool MiniHudEnabled { get; set; }
 
         [SettingsUIButton]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         public bool ApplyMiniHudRecommendedPreset
         {
             set
@@ -122,48 +122,48 @@ namespace CityWatchdog
         }
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMiniHudModeItems))]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudModeChanged))]
         public int MiniHudMode { get; set; }
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMiniHudItemCountItems))]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudItemCountChanged))]
         public int MiniHudItemCount { get; set; }
 
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudHideZeroChanged))]
         public bool MiniHudHideZero { get; set; }
 
         [SettingsUISlider(min = 90, max = 130, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudScaleChanged))]
         public int MiniHudScale { get; set; }
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMiniHudOrientationItems))]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudOrientationChanged))]
         public int MiniHudOrientation { get; set; }
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMiniHudPlacementItems))]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudPlacementChanged))]
         public int MiniHudPlacement { get; set; }
 
         [SettingsUIDropdown(typeof(CwdSettings), nameof(GetMiniHudPanelStyleItems))]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudPanelStyleChanged))]
         public int MiniHudPanelStyle { get; set; }
 
         [SettingsUISlider(min = 30, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(MiniHudTab, MiniHudGroup)]
+        [SettingsUISection(kMiniHudTab, kMiniHudGroup)]
         [SettingsUIDisableByCondition(typeof(CwdSettings), nameof(EnsureMiniHudEnabled))]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMiniHudPanelOpacityChanged))]
         public int MiniHudPanelOpacity { get; set; }
@@ -221,12 +221,12 @@ namespace CityWatchdog
             {
                 new DropdownItem<int>
                 {
-                    value = MiniHudModeTopActive,
+                    value = kMiniHudModeTopActive,
                     displayName = GetOptionLocaleID("MiniHudModeTopActive"),
                 },
                 new DropdownItem<int>
                 {
-                    value = MiniHudModeFavorites,
+                    value = kMiniHudModeFavorites,
                     displayName = GetOptionLocaleID("MiniHudModeFavorites"),
                 },
             };
@@ -247,12 +247,12 @@ namespace CityWatchdog
             {
                 new DropdownItem<int>
                 {
-                    value = MiniHudOrientationHorizontal,
+                    value = kMiniHudOrientationHorizontal,
                     displayName = GetOptionLocaleID("MiniHudOrientationHorizontal"),
                 },
                 new DropdownItem<int>
                 {
-                    value = MiniHudOrientationVertical,
+                    value = kMiniHudOrientationVertical,
                     displayName = GetOptionLocaleID("MiniHudOrientationVertical"),
                 },
             };
@@ -264,17 +264,17 @@ namespace CityWatchdog
             {
                 new DropdownItem<int>
                 {
-                    value = MiniHudPlacementTopCenter,
+                    value = kMiniHudPlacementTopCenter,
                     displayName = GetOptionLocaleID("MiniHudPlacementTopCenter"),
                 },
                 new DropdownItem<int>
                 {
-                    value = MiniHudPlacementTopRight,
+                    value = kMiniHudPlacementTopRight,
                     displayName = GetOptionLocaleID("MiniHudPlacementTopRight"),
                 },
                 new DropdownItem<int>
                 {
-                    value = MiniHudPlacementDraggable,
+                    value = kMiniHudPlacementDraggable,
                     displayName = GetOptionLocaleID("MiniHudPlacementDraggable"),
                 },
             };
@@ -286,12 +286,12 @@ namespace CityWatchdog
             {
                 new DropdownItem<int>
                 {
-                    value = MiniHudPanelStyleDark,
+                    value = kMiniHudPanelStyleDark,
                     displayName = GetOptionLocaleID("MiniHudPanelStyleDark"),
                 },
                 new DropdownItem<int>
                 {
-                    value = MiniHudPanelStyleGlass,
+                    value = kMiniHudPanelStyleGlass,
                     displayName = GetOptionLocaleID("MiniHudPanelStyleGlass"),
                 },
             };
@@ -300,14 +300,14 @@ namespace CityWatchdog
         private void ApplyMiniHudStarterPresetValues()
         {
             MiniHudEnabled = true;
-            MiniHudMode = MiniHudModeFavorites;
+            MiniHudMode = kMiniHudModeFavorites;
             MiniHudItemCount = 5;
             MiniHudScale = 100;
-            MiniHudOrientation = MiniHudOrientationVertical;
-            MiniHudPlacement = MiniHudPlacementDraggable;
+            MiniHudOrientation = kMiniHudOrientationHorizontal;
+            MiniHudPlacement = kMiniHudPlacementDraggable;
             MiniHudHideZero = true;
-            MiniHudPanelStyle = MiniHudPanelStyleDark;
-            MiniHudPanelOpacity = MiniHudPanelOpacityDefault;
+            MiniHudPanelStyle = kMiniHudPanelStyleDark;
+            MiniHudPanelOpacity = kMiniHudPanelOpacityDefault;
             MiniHudGlassStyle = false;
             MiniHudPositionX = 0;
             MiniHudPositionY = 0;
@@ -322,18 +322,18 @@ namespace CityWatchdog
 
         public void NormalizeLoadedSettings()
         {
-            if (MiniHudPanelStyle != MiniHudPanelStyleDark && MiniHudPanelStyle != MiniHudPanelStyleGlass)
+            if (MiniHudPanelStyle != kMiniHudPanelStyleDark && MiniHudPanelStyle != kMiniHudPanelStyleGlass)
             {
-                MiniHudPanelStyle = MiniHudPanelStyleDark;
+                MiniHudPanelStyle = kMiniHudPanelStyleDark;
             }
 
             MiniHudPanelOpacity = MiniHudPanelOpacity <= 0
-                ? MiniHudPanelOpacityDefault
+                ? kMiniHudPanelOpacityDefault
                 : Math.Clamp(MiniHudPanelOpacity, 30, 100);
-            MiniHudPositionX = Math.Clamp(MiniHudPositionX, -MiniHudPositionLimit, MiniHudPositionLimit);
-            MiniHudPositionY = Math.Clamp(MiniHudPositionY, -MiniHudPositionLimit, MiniHudPositionLimit);
-            if (MiniHudPositionOrientation != MiniHudOrientationHorizontal &&
-                MiniHudPositionOrientation != MiniHudOrientationVertical)
+            MiniHudPositionX = Math.Clamp(MiniHudPositionX, -kMiniHudPositionLimit, kMiniHudPositionLimit);
+            MiniHudPositionY = Math.Clamp(MiniHudPositionY, -kMiniHudPositionLimit, kMiniHudPositionLimit);
+            if (MiniHudPositionOrientation != kMiniHudOrientationHorizontal &&
+                MiniHudPositionOrientation != kMiniHudOrientationVertical)
             {
                 MiniHudPositionOrientation = MiniHudOrientation;
             }
@@ -344,7 +344,7 @@ namespace CityWatchdog
                 MiniHudVerticalPositionX == 0 &&
                 MiniHudVerticalPositionY == 0)
             {
-                if (MiniHudPositionOrientation == MiniHudOrientationHorizontal)
+                if (MiniHudPositionOrientation == kMiniHudOrientationHorizontal)
                 {
                     MiniHudHorizontalPositionX = MiniHudPositionX;
                     MiniHudHorizontalPositionY = MiniHudPositionY;
@@ -356,37 +356,37 @@ namespace CityWatchdog
                 }
             }
 
-            MiniHudHorizontalPositionX = Math.Clamp(MiniHudHorizontalPositionX, -MiniHudPositionLimit, MiniHudPositionLimit);
-            MiniHudHorizontalPositionY = Math.Clamp(MiniHudHorizontalPositionY, -MiniHudPositionLimit, MiniHudPositionLimit);
-            MiniHudVerticalPositionX = Math.Clamp(MiniHudVerticalPositionX, -MiniHudPositionLimit, MiniHudPositionLimit);
-            MiniHudVerticalPositionY = Math.Clamp(MiniHudVerticalPositionY, -MiniHudPositionLimit, MiniHudPositionLimit);
+            MiniHudHorizontalPositionX = Math.Clamp(MiniHudHorizontalPositionX, -kMiniHudPositionLimit, kMiniHudPositionLimit);
+            MiniHudHorizontalPositionY = Math.Clamp(MiniHudHorizontalPositionY, -kMiniHudPositionLimit, kMiniHudPositionLimit);
+            MiniHudVerticalPositionX = Math.Clamp(MiniHudVerticalPositionX, -kMiniHudPositionLimit, kMiniHudPositionLimit);
+            MiniHudVerticalPositionY = Math.Clamp(MiniHudVerticalPositionY, -kMiniHudPositionLimit, kMiniHudPositionLimit);
 
-            PanelPositionX = Math.Clamp(PanelPositionX, -PanelPositionLimit, PanelPositionLimit);
-            PanelPositionY = Math.Clamp(PanelPositionY, -PanelPositionLimit, PanelPositionLimit);
+            PanelPositionX = Math.Clamp(PanelPositionX, -kPanelPositionLimit, kPanelPositionLimit);
+            PanelPositionY = Math.Clamp(PanelPositionY, -kPanelPositionLimit, kPanelPositionLimit);
         }
 
         private void SetMiniHudRecommendedFavorites()
         {
-            MiniHudFavoriteMaskLow = MiniHudRecommendedFavoriteMaskLow;
-            MiniHudFavoriteMaskHigh = MiniHudRecommendedFavoriteMaskHigh;
+            MiniHudFavoriteMaskLow = kMiniHudRecommendedFavoriteMaskLow;
+            MiniHudFavoriteMaskHigh = kMiniHudRecommendedFavoriteMaskHigh;
         }
 
-        private void OnMiniHudEnabledChanged(bool value) => GetUISystem()?.UpdateMiniHudEnabledBinding(value);
+        private static void OnMiniHudEnabledChanged(bool value) => GetUISystem()?.UpdateMiniHudEnabledBinding(value);
 
-        private void OnMiniHudModeChanged(int value) => GetUISystem()?.UpdateMiniHudModeBinding(value);
+        private static void OnMiniHudModeChanged(int value) => GetUISystem()?.UpdateMiniHudModeBinding(value);
 
-        private void OnMiniHudItemCountChanged(int value) => GetUISystem()?.UpdateMiniHudItemCountBinding(value);
+        private static void OnMiniHudItemCountChanged(int value) => GetUISystem()?.UpdateMiniHudItemCountBinding(value);
 
-        private void OnMiniHudScaleChanged(int value) => GetUISystem()?.UpdateMiniHudScaleBinding(value);
+        private static void OnMiniHudScaleChanged(int value) => GetUISystem()?.UpdateMiniHudScaleBinding(value);
 
-        private void OnMiniHudOrientationChanged(int value) => GetUISystem()?.UpdateMiniHudOrientationBinding(value);
+        private static void OnMiniHudOrientationChanged(int value) => GetUISystem()?.UpdateMiniHudOrientationBinding(value);
 
-        private void OnMiniHudPlacementChanged(int value) => GetUISystem()?.UpdateMiniHudPlacementBinding(value);
+        private static void OnMiniHudPlacementChanged(int value) => GetUISystem()?.UpdateMiniHudPlacementBinding(value);
 
-        private void OnMiniHudHideZeroChanged(bool value) => GetUISystem()?.UpdateMiniHudHideZeroBinding(value);
+        private static void OnMiniHudHideZeroChanged(bool value) => GetUISystem()?.UpdateMiniHudHideZeroBinding(value);
 
-        private void OnMiniHudPanelStyleChanged(int value) => GetUISystem()?.UpdateMiniHudPanelStyleBinding(value);
+        private static void OnMiniHudPanelStyleChanged(int value) => GetUISystem()?.UpdateMiniHudPanelStyleBinding(value);
 
-        private void OnMiniHudPanelOpacityChanged(int value) => GetUISystem()?.UpdateMiniHudPanelOpacityBinding(value);
+        private static void OnMiniHudPanelOpacityChanged(int value) => GetUISystem()?.UpdateMiniHudPanelOpacityBinding(value);
     }
 }
