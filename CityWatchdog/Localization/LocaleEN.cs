@@ -71,13 +71,15 @@ namespace CityWatchdog
                     "3. Road button: hide/show road name labels. Hotkey: \\.\n" +
                     "4. District button: hide/show district name labels.\n" +
                     "5. Road Arrow button: force 1-way road arrows on/off (also hides road names).\n\n" +
-                
+
                     "<Notification alerts>\n" +
                     "1. Sort button cycles A→Z, Z→A, Active-only list.\n" +
                     "2. <[0/63]> = icons ON/total. Click to expand/collapse all rows.\n" +
                     "3a. [Show Icons] instantly turns Off/On all problem alert icons.\n" +
-                    "3b. Shows or hides icons only; does not fix the underlying city problem.\n\n" +
-                    "<Money helpers>\n" +
+                    "3b. Presets [1 | 2]: click to load; hold for 1 second to save the current checkboxes.\n" +
+                    "3c. Hiding an icon does not fix the underlying city problem.\n\n" +
+
+                    "<Helpers>\n" +
                     "1. Add / Subtract Money: use the default keys <[ or ]> for <Money Hotkey Amount>.\n" +
                     "2. Automatic money adds money when a city goes lower than the limit you set.\n" +
                     "3. Convert Unlimited Money Save is only for cities that were started with Unlimited Money and is <not reversible>.\n\n" +
@@ -126,14 +128,15 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Bigger Game UI" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
-                    "When enabled [ ✓ ], the <whole game> is larger — game + mod panels.\n" +
-                    "Uses the game's own <Interface Scaling> option without requiring <--developerMode> launch parameter.\n" +
-                    "This [x] is the Same as the scale button in the City Watchdog title bar (synced).\n" +
+                    "When enabled [ ✓ ], the <whole game UI> is larger — game + mod panels.\n" +
+                    "Uses the game's own <Interface Scaling> option without requiring the <--developerMode> launch parameter.\n" +
+                    "This [x] checkbox is synced with the scale button in the City Watchdog title bar.\n" +
                     "For game text size only, use Options > Interface > <Text Scaling>." +
                     "This stays on until you turn it off, even if City Watchdog is removed.\n" +
-                    "- To reset interface scale to normal, turn this off before uninstalling the mod.\n"+
-                    "- or start the game one time with launch option <--developerMode>, go to Options > Interface > Interfce Scaling (dev) [ ]"
-                },
+                    "- Turn this off before uninstalling to return the interface to normal size.\n" +
+                    "- Or launch once with <--developerMode> and turn off Options > Interface > Interface Scaling (dev)."
+                    },
+
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MainPanelOpacity)), "Main panel opacity" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MainPanelOpacity)),
@@ -203,11 +206,11 @@ namespace CityWatchdog
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ApplyMiniHudRecommendedPreset)),
                     "Applies a <quick start> for Mini HUD:\n" +
                     "Includes a **starter set of Blue Star favorites**.\n" +
-                    "**Blue Star** favorites tags appear in the Mini-Hud if it is one of the top 5 or 10 by total count (and if Favorites style is selected).\n" +
-                    "Add/remove **Blue Stars** in the city City Watchdog panel.\n" +
-                    "Set includes: Favorites style, 5 icons, horizontal, draggable, 100% icon size, dark panel, zero count icons are hidden.\n" +
-                    "Start with Quick Start, then tweak minor settings to your liking. You can always reset to Quick Start later."
-                  },
+                    "In Favorites mode, Mini HUD shows the top 5 or 10 current counts from your **Blue Star** list.\n" +
+                    "Add or remove **Blue Stars** in the City Watchdog panel.\n" +
+                    "Sets: Favorites, 5 icons, horizontal, draggable, 100% size, dark panel, and hides zero counts.\n" +
+                    "Run Quick Start again anytime to reset these settings."
+                },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.MiniHudMode)), "Mini HUD Mode" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.MiniHudMode)),
@@ -264,12 +267,13 @@ namespace CityWatchdog
                 // City Start - New City Start Settings
                 // --------------------------------------------------------------------
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InitialMoney)), "Initial Money" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InitialMoney)), "Initial Start Money" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InitialMoney)),
-                    "Sets the starting balance for a new <limited money> city or the first loaded city,\n" +
-                    "then resets to Game Default after it applies.\n" +
-                    "This is grayed out if a city is already loaded.\n" +
-                    "Set this before starting/loading a city. It applies once, then use <Money Hotkey Amount> or <Automatic Add Money> afterward." },
+                    "Sets the balance for the next loaded <limited-money> city — new or existing.\n" + 
+                    "After it applies once, this setting resets to Game Default.\n" +
+                    "This is grayed out once a city is already loaded.\n" +
+                    "Set it before loading or starting the city. Afterward, use <Money Hotkey Amount> if needed." },
+
                 { m_Settings.GetOptionLocaleID("GameDefault"), "Game Default" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.CustomMilestone)), "Milestone Selector" },
