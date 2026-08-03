@@ -51,13 +51,13 @@ namespace CityWatchdog.Systems
             m_PlanetarySystem = World.GetOrCreateSystemManaged<PlanetarySystem>();
             m_DayNightModeBinding = AddValueBinding("DayNightMode", kModeAuto);
             AddTriggerBinding<int>("SetDayNightMode", OnSetDayNightMode);
-            m_ToggleDayNightAction = EnableAction(CwdSettings.ToggleDayNightAction);
+            m_ToggleDayNightAction = EnableHotkey(CwdSettings.ToggleDayNightAction);
         }
 
         // Poll the (optional) hotkey. Works even when the panel is closed — it's a quick toggle.
         protected override void OnUpdate()
         {
-            m_ToggleDayNightAction ??= EnableAction(CwdSettings.ToggleDayNightAction);
+            m_ToggleDayNightAction ??= EnableHotkey(CwdSettings.ToggleDayNightAction);
 
             if (IsInGame() && m_ToggleDayNightAction?.WasReleasedThisFrame() == true)
             {
@@ -151,11 +151,12 @@ namespace CityWatchdog.Systems
                    GameManager.instance.gameMode == GameMode.Game;
         }
 
-        private static ProxyAction? EnableAction(string actionName)
+        // Matches the EnableHotkey helper in RoadNameControlSystem / TooltipControlSystem.
+        private static ProxyAction? EnableHotkey(string actionName)
         {
             try
             {
-                ProxyAction? action = CwdSettings.Instance.GetAction(actionName);
+                ProxyAction? action = CwdSettings.Instance?.GetAction(actionName);
                 if (action != null)
                 {
                     action.shouldBeEnabled = true;
@@ -166,8 +167,8 @@ namespace CityWatchdog.Systems
             catch (Exception ex)
             {
                 LogUtils.WarnOnce(
-                    "missing-keybind-" + actionName,
-                    () => $"Keybinding action '{actionName}' is unavailable: {ex.GetType().Name}: {ex.Message}",
+                    "day-night-hotkey-" + actionName,
+                    () => $"Keybinding '{actionName}' unavailable: {ex.GetType().Name}: {ex.Message}",
                     ex);
                 return null;
             }
