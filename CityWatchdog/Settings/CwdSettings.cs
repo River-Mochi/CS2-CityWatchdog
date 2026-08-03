@@ -55,6 +55,7 @@ namespace CityWatchdog
         public const string ToggleNotificationPanelAction = nameof(ToggleNotificationPanelAction);
         public const string ToggleRoadNamesAction = nameof(ToggleRoadNamesAction);
         public const string ToggleAllTooltipsAction = nameof(ToggleAllTooltipsAction);
+        public const string ToggleDayNightAction = nameof(ToggleDayNightAction);
 
         // Group IDs.
         internal const string kMoneyViewGroup = "MoneyViewGroup";
@@ -136,6 +137,12 @@ namespace CityWatchdog
         [SettingsUIKeyboardBinding(BindingKeyboard.Backslash, ToggleAllTooltipsAction, shift: true)]
         [SettingsUISection(kActions, kNotifications)]
         public ProxyBinding ToggleAllTooltipsKeyboardBinding { get; set; }
+
+        // Day/Night quick toggle (Night ⟷ Auto). BindingKeyboard.None ships it UNBOUND so it can't
+        // collide with another mod on install — the player picks their own key in Options > Actions.
+        [SettingsUIKeyboardBinding(BindingKeyboard.None, ToggleDayNightAction)]
+        [SettingsUISection(kActions, kNotifications)]
+        public ProxyBinding ToggleDayNightKeyboardBinding { get; set; }
 
         [SettingsUISlider(min = 30, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(kActions, kNotifications)]

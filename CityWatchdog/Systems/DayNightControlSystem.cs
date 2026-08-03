@@ -11,10 +11,14 @@
 
 namespace CityWatchdog.Systems
 {
+    using System;
+
     using Colossal.Serialization.Entities;
     using Colossal.UI.Binding;
     using CS2Shared.RiverMochi;
     using Game;
+    using Game.Input;
+    using Game.SceneFlow;
     using Game.Simulation;
 
     // Nothing here is saved. The whole feature is two live properties on the vanilla PlanetarySystem
@@ -37,6 +41,9 @@ namespace CityWatchdog.Systems
         // Only release overrideTime if WE took control, so we never stomp another mod's override.
         private bool m_OverrideActive;
 
+        // Optional hotkey — unbound by default (see CwdSettings.ToggleDayNightKeyboardBinding).
+        private ProxyAction? m_ToggleDayNightAction;
+
         protected override void OnCreate()
         {
             base.OnCreate();
@@ -44,6 +51,24 @@ namespace CityWatchdog.Systems
             m_PlanetarySystem = World.GetOrCreateSystemManaged<PlanetarySystem>();
             m_DayNightModeBinding = AddValueBinding("DayNightMode", kModeAuto);
             AddTriggerBinding<int>("SetDayNightMode", OnSetDayNightMode);
+            m_ToggleDayNightAction = EnableAction(CwdSettings.ToggleDayNightAction);
+        }
+
+        // Poll the (optional) hotkey. Works even when the panel is closed — it's a quick toggle.
+        protected override void OnUpdate()
+        {
+            m_ToggleDayNightAction ??= EnableAction(CwdSettings.ToggleDayNightAction);
+
+            if (IsInGame() && m_ToggleDayNightAction?.WasReleasedThisFrame() == true)
+            {
+                ToggleAutoNight();
+            }
+        }
+
+        // Hotkey behavior: Night ⟷ Auto only (no Day). From Day, a press goes to Night, then Auto.
+        private void ToggleAutoNight()
+        {
+            SetMode(m_DayNightModeBinding.value == kModeNight ? kModeAuto : kModeNight);
         }
 
         // Fresh city shouldn't inherit a frozen sun from the previous one — back to Auto on real loads.
@@ -117,6 +142,34 @@ namespace CityWatchdog.Systems
                     }
 
                     break;
+            }
+        }
+
+        private static bool IsInGame()
+        {
+            return GameManager.instance != null &&
+                   GameManager.instance.gameMode == GameMode.Game;
+        }
+
+        private static ProxyAction? EnableAction(string actionName)
+        {
+            try
+            {
+                ProxyAction? action = CwdSettings.Instance.GetAction(actionName);
+                if (action != null)
+                {
+                    action.shouldBeEnabled = true;
+                }
+
+                return action;
+            }
+            catch (Exception ex)
+            {
+                LogUtils.WarnOnce(
+                    "missing-keybind-" + actionName,
+                    () => $"Keybinding action '{actionName}' is unavailable: {ex.GetType().Name}: {ex.Message}",
+                    ex);
+                return null;
             }
         }
     }

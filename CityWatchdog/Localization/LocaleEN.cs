@@ -133,6 +133,13 @@ namespace CityWatchdog
                 },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Hide/Show all game hover tooltips" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleDayNightKeyboardBinding)), "Day / Night: quick toggle Night" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleDayNightKeyboardBinding)),
+                    "<Hotkey> to flip the panel's Day/Night button between Night and Auto (natural cycle).\n" +
+                    "Skips the Day step. Unbound by default — set your own key so it can't clash with another mod."
+                },
+                { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleDayNightAction), "Toggle Night / Auto (natural cycle)" },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Bigger Game UI" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
                     "When enabled [ ✓ ], the <whole game UI> is larger — game + mod panels.\n" +

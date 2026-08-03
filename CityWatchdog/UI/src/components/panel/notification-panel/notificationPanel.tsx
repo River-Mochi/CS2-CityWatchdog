@@ -86,9 +86,9 @@ import RoadArrowIconPath from "../../../../images/icon-RoadArrows-max.svg";
 // UI-scale (title-bar) button icon.
 import ScalePanelsPath from "../../../../images/ScalePanels.svg";
 
-// Day/Night button icons. Auto (sun+moon outline) and Night (moon+Zzz) are custom mod images;
+// Day/Night button icons. Auto (filled sun+moon) and Night (moon+Zzz) are custom mod images;
 // Day reuses the vanilla yellow game sun via its media path (no asset to ship).
-import DayNightAutoPath from "../../../../images/sun-moon-Outline.svg";
+import DayNightAutoPath from "../../../../images/sun-moon-Filled.svg";
 import DayNightNightPath from "../../../../images/moon-sleep.svg";
 
 const modIconSrc = TitleBarIconPath;
@@ -265,7 +265,7 @@ const DraggablePanelFrame = ({
                 mis-clicked for collapse. Freezes only the sun; the sim keeps running and nothing is saved. */}
             <CwdTooltip tooltip={dayNightTooltip}>
               <div
-                className={`${styles.headerDayNightButton} ${dayNightMode === 1 ? styles.headerDayNightButtonDay : dayNightMode === 2 ? styles.headerDayNightButtonNight : ""}`}
+                className={`${styles.headerDayNightButton} ${dayNightMode === 2 ? styles.headerDayNightButtonNight : ""}`}
                 role="button"
                 aria-label="Day / Night"
                 onClick={onDayNightCycle}

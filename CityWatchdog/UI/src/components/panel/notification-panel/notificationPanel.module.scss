@@ -294,14 +294,15 @@
     }
 }
 
-// Highlighted when UI scaling is ON.
+// Highlighted when UI scaling is ON. Uses the canonical "active blue" shared with the Road-Arrows
+// toggle (.iconButtonActive) and the Night button, so every "on" state reads the same color.
 .headerScaleButtonActive {
-    background-color: rgba(30, 131, 170, 0.40);
+    background-color: rgba(30, 131, 170, 0.58);
     // No glow — the flat blue fill alone marks the active state; the halo read as too bright.
     box-shadow: none;
 
     &:hover {
-        background-color: rgba(50, 160, 200, 0.50);
+        background-color: rgba(84, 215, 255, 0.5);
     }
 }
 
@@ -350,21 +351,13 @@
     }
 }
 
-// Day active: warm amber fill behind the yellow sun.
-.headerDayNightButtonDay {
-    background-color: rgba(255, 190, 40, 0.28);
-
-    &:hover {
-        background-color: rgba(255, 200, 60, 0.38);
-    }
-}
-
-// Night active: cool blue fill behind the moon.
+// Day has no active fill on purpose — the yellow sun alone marks the state (per design).
+// Night active: same canonical "active blue" as the Road-Arrows and UI-Scale "on" states.
 .headerDayNightButtonNight {
-    background-color: rgba(40, 90, 170, 0.42);
+    background-color: rgba(30, 131, 170, 0.58);
 
     &:hover {
-        background-color: rgba(60, 115, 200, 0.52);
+        background-color: rgba(84, 215, 255, 0.5);
     }
 }
 
@@ -375,9 +368,9 @@
     pointer-events: none;
 }
 
-// Auto: outline sun+moon glyph is black strokes — invert to a soft white so it reads as "not forced".
+// Auto: filled sun+moon glyph is black — invert to solid white.
 .headerDayNightIconAuto {
-    filter: brightness(0) invert(1) opacity(0.8);
+    filter: brightness(0) invert(1);
 }
 
 // Day: vanilla Sun.svg is already yellow — keep its color, just a touch brighter.
@@ -385,7 +378,7 @@
     filter: brightness(1.05);
 }
 
-// Night: moon+Zzz glyph is dark navy — invert to white (its crescent keeps a soft 0.4 alpha of its own).
+// Night: moon+Zzz glyph is dark navy — invert to white (crescent now full-opacity in the SVG).
 .headerDayNightIconNight {
     filter: brightness(0) invert(1);
 }
