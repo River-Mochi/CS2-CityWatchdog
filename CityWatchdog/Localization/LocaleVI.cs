@@ -71,7 +71,7 @@ namespace CityWatchdog
                     "\n" +
                     "<Cảnh báo>\n" +
                     "1. Nút sắp xếp đổi A→Z, Z→A, chỉ cảnh báo đang có.\n" +
-                    "2. <[0/63]> = biểu tượng đang hiện/tổng. Bấm để bung/thu tất cả dòng.\n" +
+                    "2. <[0/62]> = biểu tượng đang hiện/tổng. Bấm để bung/thu tất cả dòng.\n" +
                     "3a. [Hiện biểu tượng] tắt/bật ngay mọi biểu tượng cảnh báo vấn đề.\n" +
                     "3b. Bộ nhớ [1 | 2]: bấm để tải; giữ 1 giây để lưu các ô đang chọn.\n" +
                     "3c. Ẩn biểu tượng không sửa được vấn đề trong thành phố.\n" +

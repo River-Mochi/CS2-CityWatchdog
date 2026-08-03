@@ -71,7 +71,7 @@ namespace CityWatchdog
                     "\n" +
                     "<Bildirim uyarıları>\n" +
                     "1. Sıralama: A→Z, Z→A, sadece aktif liste.\n" +
-                    "2. <[0/63]> = görünür simgeler/toplam. Tıkla: tüm satırları aç/kapat.\n" +
+                    "2. <[0/62]> = görünür simgeler/toplam. Tıkla: tüm satırları aç/kapat.\n" +
                     "3a. [Simgeleri göster] tüm sorun uyarı simgelerini hemen kapatır/açar.\n" +
                     "3b. Hazır ayarlar [1 | 2]: yüklemek için tıkla; mevcut kutuları kaydetmek için 1 saniye basılı tut.\n" +
                     "3c. Bir simgeyi gizlemek şehir sorununu çözmez.\n" +

@@ -71,7 +71,7 @@ namespace CityWatchdog
                     "\n" +
                     "<Avvisi>\n" +
                     "1. Ordine: A→Z, Z→A, solo attivi.\n" +
-                    "2. <[0/63]> = icone ATTIVE/totale. Clic: espandi/comprimi tutte le righe.\n" +
+                    "2. <[0/62]> = icone ATTIVE/totale. Clic: espandi/comprimi tutte le righe.\n" +
                     "3a. [Mostra icone] spegne/accende subito tutte le icone degli avvisi di problema.\n" +
                     "3b. Preimpostazioni [1 | 2]: clic per caricare; tieni premuto 1 secondo per salvare le caselle attuali.\n" +
                     "3c. Nascondere un’icona non risolve il problema della città.\n" +

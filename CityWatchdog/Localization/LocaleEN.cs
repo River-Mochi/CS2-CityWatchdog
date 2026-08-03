@@ -75,7 +75,7 @@ namespace CityWatchdog
                     "\n" +
                     "<Notification alerts>\n" +
                     "1. Sort button cycles A→Z, Z→A, Active-only list.\n" +
-                    "2. <[0/63]> = icons ON/total. Click to expand/collapse all rows.\n" +
+                    "2. <[0/62]> = icons ON/total. Click to expand/collapse all rows.\n" +
                     "3a. [Show Icons] instantly turns Off/On all problem alert icons.\n" +
                     "3b. Presets [1 | 2]: click to load; hold for 1 second to save the current checkboxes.\n" +
                     "3c. Hiding an icon does not fix the underlying city problem.\n" +
@@ -115,7 +115,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.PanelButtonsOnlyStart)), "Main panel: opens as collapsed 1-row only display" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.PanelButtonsOnlyStart)),
                     "When enabled [ ✓ ], City Watchdog opens large panel first with only 1-row of buttons displayed.\n" +
-                    "Use the title-bar arrow or [0/63] looking button to expand and show the full panel."
+                    "Use the title-bar arrow or [0/62] looking button to expand and show the full panel."
                 },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleRoadNamesKeyboardBinding)), "Hide/Show Road Names" },

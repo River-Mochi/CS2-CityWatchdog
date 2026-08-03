@@ -71,7 +71,7 @@ namespace CityWatchdog
                     "\n" +
                     "<Alertes>\n" +
                     "1. Tri : A→Z, Z→A, liste active seule.\n" +
-                    "2. <[0/63]> = icônes actives/total. Clique pour ouvrir/fermer toutes les lignes.\n" +
+                    "2. <[0/62]> = icônes actives/total. Clique pour ouvrir/fermer toutes les lignes.\n" +
                     "3a. [Afficher les icônes] active/désactive immédiatement toutes les icônes d’alerte de problème.\n" +
                     "3b. Préréglages [1 | 2] : clique pour charger ; maintiens 1 seconde pour enregistrer les cases actuelles.\n" +
                     "3c. Masquer une icône ne corrige pas le problème de la ville.\n" +

@@ -71,7 +71,7 @@ namespace CityWatchdog
                     "\n" +
                     "<Alertas>\n" +
                     "1. Ordenar cambia A→Z, Z→A y lista solo activa.\n" +
-                    "2. <[0/63]> = iconos ACTIVOS/total. Clic: expandir/contraer todas las filas.\n" +
+                    "2. <[0/62]> = iconos ACTIVOS/total. Clic: expandir/contraer todas las filas.\n" +
                     "3a. [Mostrar iconos] apaga/enciende al instante todos los iconos de alertas de problemas.\n" +
                     "3b. Preajustes [1 | 2]: clic para cargar; mantén 1 segundo para guardar las casillas actuales.\n" +
                     "3c. Ocultar un icono no arregla el problema de la ciudad.\n" +

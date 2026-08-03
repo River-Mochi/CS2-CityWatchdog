@@ -71,7 +71,7 @@ namespace CityWatchdog
                     "\n" +
                     "<Warnmeldungen>\n" +
                     "1. Sortierbutton wechselt A→Z, Z→A, Nur aktive Liste.\n" +
-                    "2. <[0/63]> = Icons AN/Gesamt. Klick: alle Zeilen auf-/zuklappen.\n" +
+                    "2. <[0/62]> = Icons AN/Gesamt. Klick: alle Zeilen auf-/zuklappen.\n" +
                     "3a. [Icons anzeigen] schaltet alle Problem-Warnicons sofort aus/an.\n" +
                     "3b. Voreinstellungen [1 | 2]: klicken zum Laden; 1 Sekunde halten, um die aktuellen Kontrollkästchen zu speichern.\n" +
                     "3c. Ein ausgeblendetes Icon behebt das Stadtproblem nicht.\n" +
