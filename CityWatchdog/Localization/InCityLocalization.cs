@@ -31,7 +31,7 @@ namespace CityWatchdog
     using System.Reflection;
     using Colossal.Json;
     using Colossal.Localization;
-    using Colossal.Logging;
+    using CS2Shared.RiverMochi;
     using Game.SceneFlow;
 
     internal static class InCityLocalization
@@ -42,12 +42,12 @@ namespace CityWatchdog
         // Reads embedded lang/*.json resources baked into this assembly and registers each as a
         // MemorySource on the game's LocalizationManager. Each JSON key is prefixed with
         // "<modId>.UI." to match the React-side translate() lookup pattern.
-        public static void LoadEmbeddedJsonTranslations(string modId, string modTag, ILog log)
+        public static void LoadEmbeddedJsonTranslations(string modId, string modTag)
         {
             LocalizationManager? localizationManager = GameManager.instance?.localizationManager;
             if (localizationManager == null)
             {
-                log.Warn($"{modTag} InCityLocalization: no LocalizationManager available.");
+                LogUtils.Warn($"{modTag} InCityLocalization: no LocalizationManager available.");
                 return;
             }
 
@@ -59,7 +59,7 @@ namespace CityWatchdog
 
             if (resourceNames.Length == 0)
             {
-                log.Warn($"{modTag} InCityLocalization: no embedded lang/*.json resources found in '{assembly.GetName().Name}'.");
+                LogUtils.Warn($"{modTag} InCityLocalization: no embedded lang/*.json resources found in '{assembly.GetName().Name}'.");
                 return;
             }
 
@@ -69,7 +69,7 @@ namespace CityWatchdog
                 string localeId = GetLocaleId(resourceName);
                 if (string.IsNullOrWhiteSpace(localeId))
                 {
-                    log.Warn($"{modTag} InCityLocalization: could not extract locale id from '{resourceName}'.");
+                    LogUtils.Warn($"{modTag} InCityLocalization: could not extract locale id from '{resourceName}'.");
                     continue;
                 }
 
@@ -78,7 +78,7 @@ namespace CityWatchdog
                     Dictionary<string, string> translations = ReadJsonResource(assembly, resourceName);
                     if (translations.Count == 0)
                     {
-                        log.Warn($"{modTag} InCityLocalization: empty translations in '{resourceName}'.");
+                        LogUtils.Warn($"{modTag} InCityLocalization: empty translations in '{resourceName}'.");
                         continue;
                     }
 
@@ -96,11 +96,12 @@ namespace CityWatchdog
                 }
                 catch (Exception ex)
                 {
-                    log.Warn($"{modTag} InCityLocalization: failed loading '{resourceName}': {ex.GetType().Name}: {ex.Message}");
+                    LogUtils.Warn($"{modTag} InCityLocalization: failed loading '{resourceName}': {ex.GetType().Name}: {ex.Message}");
                 }
             }
+
 #if DEBUG
-            log.Info($"{modTag} InCityLocalization: registered {registered}/{resourceNames.Length} embedded locale sources.");
+            LogUtils.Info($"{modTag} InCityLocalization: registered {registered}/{resourceNames.Length} embedded locale sources.");
 #endif
         }
 

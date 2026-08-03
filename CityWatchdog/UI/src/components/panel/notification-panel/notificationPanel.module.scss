@@ -155,7 +155,11 @@
     padding-right: 0;
     padding-bottom: 0;
     padding-left: 0;
-    margin-right: 4rem;
+    // Pull the paw left so it sits more directly over the Info "i" button below it. The extra
+    // margin-right cancels that leftward shift for the scale button + title that follow, so only
+    // the paw moves (tune the -5rem / +5rem pair together to slide it more or less).
+    margin-left: -5rem;
+    margin-right: 9rem;
     border-top-left-radius: 4rem;
     border-top-right-radius: 4rem;
     border-bottom-left-radius: 4rem;
@@ -209,8 +213,8 @@
 }
 
 .headerModIcon {
-    width: 28rem;
-    height: 22rem;
+    width: 30rem;
+    height: 24rem;
     margin-right: 0;
 }
 
@@ -293,8 +297,8 @@
 // Highlighted when UI scaling is ON.
 .headerScaleButtonActive {
     background-color: rgba(30, 131, 170, 0.40);
-    // Tighter, dimmer glow so the active button reads crisp instead of blurry.
-    box-shadow: 0 0 2rem rgba(84, 215, 255, 0.28);
+    // No glow — the flat blue fill alone marks the active state; the halo read as too bright.
+    box-shadow: none;
 
     &:hover {
         background-color: rgba(50, 160, 200, 0.50);

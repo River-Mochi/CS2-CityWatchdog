@@ -53,7 +53,7 @@ I hope you enjoy the new features!
 ### New Bigger Scale button
 - Stays on until you click it off, even if CWD is removed as it's part of game's interface.
 - To reset interface scale to normal, simple turn this button/toggle off before uninstalling the mod.
-- or start the game one time with launch option --developerMode, go to Options > Interface > uncheck Interface Scaling (dev) [ ].
+- Or start the game one time with --developerMode, the go to Options > Interface and turn off Interface Scaling (dev) checkbox.
 
 ### Thanks to all supporters and testers
 - River Mochi - main author
@@ -99,7 +99,7 @@ tags: Visual, UI UX tool tips,UI organize icons, Mini HUD view
 - now available in normal mode from the CWD title bar or mod Options.
 - synced with the same [x] checkbox in Options and the game's vanilla Interface Scaling (dev) ☑ checkbox.
 - New notification Presets [1 | 2] for saving sets of ☑ checkboxes (hold "1" or "2" down for 1 second to save whatever you currently checked ☑).
-- you now have 4 choices for Notification Icons: All icons On/Off or Preset 1 or 2 (if the All button was not custom enough).
+- you now have 4 choices for Notification Icons: all problem icons On/Off or Preset 1 or 2 (for more custom action).
 - Notification row is now clickable to jump to issues, not just the count number.
 - Main panel Rows with active alerts stay bright white even when their icons are hidden with Hide Icons.
 - Renamed: City Start tab replaces Milestone tab name.

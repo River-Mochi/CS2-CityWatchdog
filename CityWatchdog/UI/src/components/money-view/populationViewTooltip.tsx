@@ -2,7 +2,7 @@
 // Purpose: Adds CWD population flow rows to the vanilla population tooltip.
 
 import { bindValue, useValue } from "cs2/api";
-import { infoview, toolbarBottom } from "cs2/bindings";
+import { infoview } from "cs2/bindings";
 import { LocalizedNumber, Unit, useLocalization, type Localization } from "cs2/l10n";
 import { useText } from "../shared/localization";
 import { Children, isValidElement, type CSSProperties, type ReactNode } from "react";
@@ -13,12 +13,16 @@ import { getDisplayWholeValue, getNumericValue, getSignedAmountTone, POPULATION_
 // Vanilla exposes this binding, but the generated cs2/bindings type does not currently list it.
 const homeless$ = bindValue<number>("populationInfo", "homeless", 0);
 
+// Vanilla unemployment rate — already a 0–100 percent (CountHouseholdDataSystem.UnemploymentRate),
+// from the same PopulationInfoviewUISystem "populationInfo" group. No CWD sim query needed.
+const unemployment$ = bindValue<number>("populationInfo", "unemployment", 0);
+
 export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseContent: ReactNode }) => {
     const localization = useLocalization();
     const text = useText();
     const moneyViewEnabled = useValue(moneyView$);
     const populationTooltipFontScale = useValue(populationTooltipFontScale$);
-    const currentTrend = getNumericValue(useValue(toolbarBottom.populationDelta$));
+    const unemployment = getNumericValue(useValue(unemployment$));
 
     // These come from vanilla PopulationInfoviewUISystem, so CWD does not need its own sim queries.
     const births = getNumericValue(useValue(infoview.birthRate$));
@@ -38,10 +42,10 @@ export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseCon
     return (
         <div className={styles.populationTooltipWrapper} style={tooltipStyle}>
             <div className={styles.tooltipTitle}>City Watchdog</div>
-            <PopulationTooltipCurrentTrend
+            <PopulationTooltipUnemployment
                 localization={localization}
-                label={text("PopulationTooltipCurrentTrend", "Current trend:")}
-                value={currentTrend}
+                label={text("PopulationTooltipUnemployment", "Unemployment:")}
+                value={unemployment}
             />
             <div className={styles.populationTooltipExtra}>
                 <PopulationTooltipFlow
@@ -145,7 +149,7 @@ const PopulationTooltipCount = ({
     );
 };
 
-const PopulationTooltipCurrentTrend = ({
+const PopulationTooltipUnemployment = ({
     localization,
     label,
     value,
@@ -154,6 +158,7 @@ const PopulationTooltipCurrentTrend = ({
     readonly label: string;
     readonly value: number;
 }) => {
+    // Unemployment is a level (a 0–100 percent), not a +/- flow: neutral tone, no sign, whole percent.
     const displayValue = getDisplayWholeValue(value);
 
     return (
@@ -161,8 +166,10 @@ const PopulationTooltipCurrentTrend = ({
             localization={localization}
             label={label}
             value={displayValue}
-            unit={Unit.IntegerPerHour}
+            unit={Unit.Percentage}
             topRow={true}
+            toneOverride="softNeutral"
+            showSign={false}
         />
     );
 };
