@@ -17,6 +17,10 @@ const homeless$ = bindValue<number>("populationInfo", "homeless", 0);
 // from the same PopulationInfoviewUISystem "populationInfo" group. No CWD sim query needed.
 const unemployment$ = bindValue<number>("populationInfo", "unemployment", 0);
 
+// Vanilla homelessness rate — homeless as a 0–100 percent of moved-in residents (same group).
+// Pairs with the homeless head-count so the row shows both, like the vanilla population info view.
+const homelessness$ = bindValue<number>("populationInfo", "homelessness", 0);
+
 export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseContent: ReactNode }) => {
     const localization = useLocalization();
     const text = useText();
@@ -28,6 +32,7 @@ export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseCon
     const births = getNumericValue(useValue(infoview.birthRate$));
     const deaths = getNumericValue(useValue(infoview.deathRate$));
     const homeless = getNumericValue(useValue(homeless$));
+    const homelessRate = getNumericValue(useValue(homelessness$));
     const movedIn = getNumericValue(useValue(infoview.movedIn$));
     const movedAway = getNumericValue(useValue(infoview.movedAway$));
 
@@ -72,10 +77,11 @@ export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseCon
                     value={movedAway}
                     direction={-1}
                 />
-                <PopulationTooltipCount
+                <PopulationTooltipHomeless
                     localization={localization}
                     label={text("PopulationTooltipHomeless", "Homeless:")}
-                    value={homeless}
+                    count={homeless}
+                    rate={homelessRate}
                 />
             </div>
         </div>
@@ -126,26 +132,29 @@ const PopulationTooltipFlow = ({
     );
 };
 
-const PopulationTooltipCount = ({
+const PopulationTooltipHomeless = ({
     localization,
     label,
-    value,
+    count,
+    rate,
 }: {
     readonly localization: Localization;
     readonly label: string;
-    readonly value: number;
+    readonly count: number;
+    readonly rate: number;
 }) => {
-    const displayValue = getDisplayWholeValue(value);
+    // Vanilla shows both the homeless head-count and its share of residents — mirror that as "524 (0.5%)".
+    // Count is a whole integer; the rate is a small 0–100 percent kept to one decimal so a sub-1% still reads.
+    const countText = formatLocalizedIntegerValue(localization, getDisplayWholeValue(count), Unit.Integer);
+    const rateText = formatLocalizedIntegerValue(localization, rate, Unit.PercentageSingleFraction);
 
     return (
-        <PopulationTooltipRate
-            localization={localization}
-            label={label}
-            value={displayValue}
-            unit={Unit.Integer}
-            toneOverride="softNeutral"
-            showSign={false}
-        />
+        <div className={styles.populationTooltipGroup}>
+            <div className={styles.tooltipLabel}>{trimLabelPunctuation(label)}</div>
+            <div className={`${styles.populationTooltipValueLine} ${styles.softNeutral}`}>
+                {`${countText} (${rateText})`}
+            </div>
+        </div>
     );
 };
 

@@ -2,7 +2,7 @@
 // Purpose: Renders one notification alert row with icon, label, count, favorite marker, and checkbox.
 
 import { memo, type KeyboardEvent } from "react";
-import { OnMiniHudNotificationClicked } from "../../../bindings/bindings";
+import { OnClearActivePreset, OnMiniHudNotificationClicked } from "../../../bindings/bindings";
 import { Checkbox } from "../../checkbox/checkbox";
 import { FavoriteButton } from "../../favorites/favoriteButton";
 import { formatPanelNotificationCount } from "../../shared/formatNotificationCount";
@@ -85,6 +85,14 @@ export const NotificationRow = memo(({
     }
   };
 
+  // Toggling a checkbox diverges the live layout from any loaded preset, so clear the preset's
+  // "selected" ring (SHOW ICONS and the N hotkey already do this on the C# side). The star favorite
+  // is intentionally left alone — presets store checkbox layouts, not Mini HUD favorites.
+  const onNotificationToggle = (value: boolean) => {
+    item.onToggle(value);
+    OnClearActivePreset();
+  };
+
   return (
     <div className={rowClassName}>
       {/* Jump area: icon + label + count. Clicking anywhere here jumps to the alert on the map. */}
@@ -112,7 +120,7 @@ export const NotificationRow = memo(({
           favorite={favorite}
           onToggle={onFavoriteToggle}
         />
-        <Checkbox isChecked={isChecked} onValueToggle={item.onToggle} />
+        <Checkbox isChecked={isChecked} onValueToggle={onNotificationToggle} />
       </div>
     </div>
   );

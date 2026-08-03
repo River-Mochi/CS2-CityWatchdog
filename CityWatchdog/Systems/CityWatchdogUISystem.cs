@@ -230,6 +230,7 @@ namespace CityWatchdog.Systems
             m_ActivePresetBinding = AddValueBinding(nameof(CwdSettings.ActivePreset), CwdSettings.Instance.ActivePreset);
             AddTriggerBinding<int>("SavePreset", SavePreset);
             AddTriggerBinding<int>("LoadPreset", LoadPreset);
+            AddTriggerBinding("ClearActivePreset", ClearActivePreset);
             m_MoneyViewBinding = AddValueBinding(nameof(CwdSettings.MoneyView), CwdSettings.Instance.MoneyView);
             m_MoneyViewModeBinding = AddValueBinding(nameof(CwdSettings.MoneyViewMode), CwdSettings.Instance.MoneyViewMode);
             m_MoneyTooltipModeBinding = AddValueBinding(nameof(CwdSettings.MoneyTooltipMode), CwdSettings.Instance.MoneyTooltipMode);
@@ -921,6 +922,16 @@ namespace CityWatchdog.Systems
         {
             CwdSettings.Instance.ActivePreset = slot;
             m_ActivePresetBinding.Update(slot);
+        }
+
+        // A manual per-notification checkbox change no longer matches either saved slot, so drop the
+        // "selected" ring/dot — the same clear SHOW ICONS and the N hotkey already do via
+        // ApplyAllNotificationToggles. Fired once from the React checkbox path (NotificationRow) rather
+        // than adding a SetActivePreset(0) line to each of the 63 individual toggle handlers. Favorites
+        // deliberately do NOT call this — presets store checkbox layouts, not Mini HUD stars.
+        private void ClearActivePreset()
+        {
+            SetActivePreset(0);
         }
 
         // Mirrors UpdateAllNotificationBindings but pushes each notification's OWN saved value (used

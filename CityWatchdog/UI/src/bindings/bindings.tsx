@@ -119,6 +119,8 @@ export const OnToggleAllNotifications = (enable: boolean) => trigger(mod.id, "To
 // Presets: click a slot to load it, hold a slot to save the current checkboxes into it.
 export const OnLoadPreset = (slot: number) => trigger(mod.id, "LoadPreset", slot);
 export const OnSavePreset = (slot: number) => trigger(mod.id, "SavePreset", slot);
+// Clears the "selected" preset ring once the live layout diverges from a loaded preset (manual checkbox change).
+export const OnClearActivePreset = () => trigger(mod.id, "ClearActivePreset");
 export const OnDisableAllTooltipsToggle = (disable: boolean) => trigger(mod.id, "DisableAllTooltips", disable);
 export const OnDisableCwdTooltipsToggle = (disable: boolean) => trigger(mod.id, "DisableCwdTooltips", disable);
 export const OnHideRoadNamesToggle = (hide: boolean) => trigger(mod.id, "HideRoadNames", hide);

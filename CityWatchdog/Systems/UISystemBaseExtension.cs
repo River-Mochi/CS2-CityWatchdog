@@ -45,6 +45,14 @@ namespace CityWatchdog.Systems
             return triggerBinding;
         }
 
+        // No-argument trigger (React calls trigger(mod.id, name) with no payload).
+        public TriggerBinding AddTriggerBinding(string name, Action callback)
+        {
+            TriggerBinding triggerBinding = new(ModId, name, callback);
+            AddBinding(triggerBinding);
+            return triggerBinding;
+        }
+
         public ValueBinding<T> AddValueBinding<T>(string name, T initialValue)
         {
             ValueBinding<T> valueBinding = new(ModId, name, initialValue);
