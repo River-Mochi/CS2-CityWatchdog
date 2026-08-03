@@ -40,6 +40,7 @@
 
     <!-- Make UI-only edits participate in Visual Studio's up-to-date check. -->
     <ItemGroup>
+        <UpToDateCheckInput Include="UI\**\*.ts" />
         <UpToDateCheckInput Include="UI\**\*.tsx" />
         <UpToDateCheckInput Include="UI\**\*.scss" />
         <UpToDateCheckInput Include="UI\**\*.svg" />
