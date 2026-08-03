@@ -263,7 +263,7 @@ const DraggablePanelFrame = ({
               <Button
                 className={roundButtonHighlightStyle.button + " " + styles.headerCollapseButton}
                 variant="icon"
-                onClick={onPanelCollapsedToggle}
+                onSelect={onPanelCollapsedToggle}
                 focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
               >
                 <img
@@ -275,7 +275,7 @@ const DraggablePanelFrame = ({
             <Button
               className={roundButtonHighlightStyle.button + " " + styles.headerCloseButton}
               variant="icon"
-              onClick={onCloseClick}
+              onSelect={onCloseClick}
               focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
             >
               <img src="Media/Glyphs/Close.svg" className={styles.headerCloseIcon} />

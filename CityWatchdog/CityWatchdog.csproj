@@ -16,8 +16,7 @@
 
         <!-- Paradox Mods publish config -->
         <PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
-        <!-- Path to the PowerShell that syncs PublishConfiguration.xml + mod.json with $(Version). -->
-        <PublishConfigScript>$(MSBuildProjectDirectory)\Scripts\Update-PublishConfig.ps1</PublishConfigScript>
+
 
         <Nullable>enable</Nullable>
 
@@ -40,7 +39,7 @@
         <Product>City Watchdog</Product>
         <Copyright>Copyright © 2026 River-Mochi</Copyright>
 
-        <!-- Allow Scripts either beside this project (/src/Scripts) or at repo root (/Scripts). -->
+        <!-- Path to the PowerShell that syncs PublishConfiguration.xml + mod.json with $(Version). -->
         <PublishConfigScript>$(MSBuildProjectDirectory)\Scripts\Update-PublishConfig.ps1</PublishConfigScript>
         <PublishConfigScript Condition="!Exists('$(PublishConfigScript)')">$(MSBuildProjectDirectory)\..\Scripts\Update-PublishConfig.ps1</PublishConfigScript>
     </PropertyGroup>

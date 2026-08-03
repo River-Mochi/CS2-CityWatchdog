@@ -20,7 +20,7 @@
 
 #### Features
 - **Mini HUD**: custom tracker list for any problem; repeat clicking the icon will cycle and jump to all map spots.
-- **Notifications**: **Instant on/off** toggle for all city alert icons (ones covering the city).
+- **Notifications**: **Instant on/off** toggle for all problem alert icons (icons over buildings or cars).
 - Reduce visual stress while building (does not fix city problems for you).
 - Open full panel from the top-left button.
 
@@ -50,10 +50,11 @@ I hope you enjoy the new features!
 - If anyone can make better thumbnail or screenshots, please let me know.
 - Mod is safe for city saves and safe to remove. Does not use Harmony patch, safer/more compatible.
 
+
 ### New Bigger Scale button
-- Stays on until you click it off, even if CWD is removed as it's part of game's interface.
-- To reset interface scale to normal, simple turn this button/toggle off before uninstalling the mod.
-- Or start the game one time with --developerMode, the go to Options > Interface and turn off Interface Scaling (dev) checkbox.
+- Stays on until you click it off, even if CWD is removed, because it uses the game's real interface setting.
+- To reset the interface scale to normal, simply turn this button/toggle off before uninstalling the mod.
+- Or start the game once with --developerMode, then go to Options > Interface and turn off Interface Scaling (dev) checkbox.
 
 ### Thanks to all supporters and testers
 - River Mochi - main author

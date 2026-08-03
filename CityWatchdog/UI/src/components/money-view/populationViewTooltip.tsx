@@ -10,15 +10,13 @@ import { moneyView$, populationTooltipFontScale$ } from "../../bindings/bindings
 import styles from "./moneyView.module.scss";
 import { getDisplayWholeValue, getNumericValue, getSignedAmountTone, POPULATION_ICON } from "./moneyViewShared";
 
-// Vanilla exposes this binding, but the generated cs2/bindings type does not currently list it.
+// Every figure here comes from vanilla's PopulationInfoviewUISystem — the same source as the vanilla
+// population info view (births, deaths, moved in/out, homeless), so CWD runs no sim queries of its own.
+// unemployment IS in the generated cs2/bindings types, so it's read straight off infoview.* below.
+// homeless (head-count) and homelessness (homeless as a % of residents) are NOT in the generated types
+// yet, so bind them by name from the same "populationInfo" group. Both rates are pre-computed by the
+// game as a 0–100 percent (Count*Data*System.*Rate = 100f * …), so CWD only displays — it never computes.
 const homeless$ = bindValue<number>("populationInfo", "homeless", 0);
-
-// Vanilla unemployment rate — already a 0–100 percent (CountHouseholdDataSystem.UnemploymentRate),
-// from the same PopulationInfoviewUISystem "populationInfo" group. No CWD sim query needed.
-const unemployment$ = bindValue<number>("populationInfo", "unemployment", 0);
-
-// Vanilla homelessness rate — homeless as a 0–100 percent of moved-in residents (same group).
-// Pairs with the homeless head-count so the row shows both, like the vanilla population info view.
 const homelessness$ = bindValue<number>("populationInfo", "homelessness", 0);
 
 export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseContent: ReactNode }) => {
@@ -26,7 +24,7 @@ export const PopulationViewTooltipContent = ({ baseContent }: { readonly baseCon
     const text = useText();
     const moneyViewEnabled = useValue(moneyView$);
     const populationTooltipFontScale = useValue(populationTooltipFontScale$);
-    const unemployment = getNumericValue(useValue(unemployment$));
+    const unemployment = getNumericValue(useValue(infoview.unemployment$));
 
     // These come from vanilla PopulationInfoviewUISystem, so CWD does not need its own sim queries.
     const births = getNumericValue(useValue(infoview.birthRate$));

@@ -62,7 +62,7 @@ export const InfoPanel = ({
             {title && collapsible && (
                 <Button
                     className={styles.infoPanelHeader}
-                    onClick={toggleExpanded}
+                    onSelect={toggleExpanded}
                 >
                     <span className={styles.infoPanelTitle}>{title}</span>
                     {summary && <span className={`${styles.infoPanelSummary} ${summaryStateClass}`}>{summary}</span>}

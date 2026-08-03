@@ -17,6 +17,8 @@ interface PanelButtonProps {
     iconSrc?: string;
     iconAlt?: string;
     ariaPressed?: boolean;
+    // Activation handler. Wired to the vanilla cs2/ui Button's onSelect (CS2's native click/sound/focus
+    // + controller path), not a raw DOM onClick — onClick is only correct on raw <button>/<div> elements.
     onClick: () => void;
     children?: ReactNode;
 }
@@ -97,7 +99,7 @@ export const PanelButton = ({
             <Button
                 className={classNames(styles.iconButton, toneClass(tone))}
                 variant="icon"
-                onClick={onClick}
+                onSelect={onClick}
                 focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
             >
                 {icon}
@@ -109,7 +111,7 @@ export const PanelButton = ({
     return (
         <Button
             className={classNames(styles.toolbarButton, toolbarKindClass(kind), toneClass(tone))}
-            onClick={onClick}
+            onSelect={onClick}
             focusKey={VanillaComponentResolver.instance.FOCUS_DISABLED}
         >
             {icon}
