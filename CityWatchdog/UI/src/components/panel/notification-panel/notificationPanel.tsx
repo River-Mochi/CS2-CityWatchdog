@@ -484,14 +484,14 @@ const NotificationPanelContent = () => {
     ? localize("InterfaceScaleOn", "Bigger UI is ON.\nClick to return the game interface to normal size.")
     : localize("InterfaceScaleOff", "Make the whole game interface bigger — panels and text.\nAffects the entire game and stays on until you turn it off.");
 
-  // Cycle button: tooltip names the current state and what the next click will do. Freezes only the
-  // sun (sim keeps running); nothing is saved, so a reboot or uninstall returns to the normal cycle.
+  // Cycle button: single-line tooltip names the current state. Freezes only the sun (sim keeps
+  // running); nothing is saved, so a reboot or uninstall returns to the normal cycle.
   const dayNightTooltip =
     dayNightMode === 1
-      ? localize("DayNightDay", "Day / Night: Day — sun frozen at noon.\nClick for Night.")
+      ? localize("DayNightDay", "Day / Night: Day (noon)")
       : dayNightMode === 2
-        ? localize("DayNightNight", "Day / Night: Night — sun frozen at 2 AM.\nClick for Auto (natural cycle).")
-        : localize("DayNightAuto", "Day / Night: Auto — natural moving cycle.\nClick to freeze Daytime (noon).");
+        ? localize("DayNightNight", "Day / Night: Night (2 AM)")
+        : localize("DayNightAuto", "Day / Night: Auto (normal cycle)");
   const onDayNightCycle = () => { playSelectSound(); OnSetDayNightMode((dayNightMode + 1) % 3); };
 
   // Same text regardless of toggle state — Info button is always discoverable.

@@ -294,10 +294,11 @@
     }
 }
 
-// Highlighted when UI scaling is ON. Uses the canonical "active blue" shared with the Road-Arrows
-// toggle (.iconButtonActive) and the Night button, so every "on" state reads the same color.
+// Highlighted when UI scaling is ON. Same blue hue as the Road-Arrows/Night "on" state, but a
+// lower idle alpha on purpose: UI-scale is usually left ON permanently, so a calmer fill is less
+// distracting. It still brightens to the shared cyan on hover.
 .headerScaleButtonActive {
-    background-color: rgba(30, 131, 170, 0.58);
+    background-color: rgba(30, 131, 170, 0.42);
     // No glow — the flat blue fill alone marks the active state; the halo read as too bright.
     box-shadow: none;
 
@@ -368,14 +369,15 @@
     pointer-events: none;
 }
 
-// Auto: filled sun+moon glyph is black — invert to solid white.
+// Auto: filled sun+moon glyph is black — invert to a soft (not full-bright) white so the bar stays calm.
 .headerDayNightIconAuto {
-    filter: brightness(0) invert(1);
+    filter: brightness(0) invert(1) opacity(0.72);
 }
 
-// Day: vanilla Sun.svg is already yellow — keep its color, just a touch brighter.
+// Day: recolor the yellow game Sun.svg to a soft white (brightness(0)+invert) so it doesn't stand
+// out on the title bar. opacity keeps it from being full-bright.
 .headerDayNightIconDay {
-    filter: brightness(1.05);
+    filter: brightness(0) invert(1) opacity(0.75);
 }
 
 // Night: moon+Zzz glyph is dark navy — invert to white (crescent now full-opacity in the SVG).
