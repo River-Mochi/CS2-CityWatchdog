@@ -49,7 +49,7 @@ namespace CityWatchdog
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.kNotifications), "Notifications" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMoneyViewGroup), "In-City Info Viewer" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMiniHudGroup), "Mini HUD Notifications" },
-                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMilestone), "NEW CITY START SETTINGS" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMilestone), "CITY START SETTINGS" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMoney), "Money" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.kSaveConversion), "Convert Unlimited Save" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.kAboutInfo), "" },
