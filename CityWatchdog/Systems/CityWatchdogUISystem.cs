@@ -147,11 +147,9 @@ namespace CityWatchdog.Systems
 
         private BoolBinding m_TransportLineVehicleNotificationBinding = null!;
 
-        // Close the panel on every city load. The Active view is a deliberately frozen snapshot, so a
-        // panel left open across a load keeps showing the PREVIOUS city's alert list — 8 disconnected oil
-        // pipes that exist in the city you just left. Closing unmounts the React tree, which discards that
-        // snapshot; the player reopens and gets this city's data. Players don't expect a mod panel to
-        // survive a load anyway.
+        // Close the panel on every city load. Active view is a deliberately frozen snapshot, so a
+        // panel left open across a load keeps showing the PREVIOUS city's alert list. Closing unmounts React tree, which discards that
+        // snapshot;  player reopens and gets this city's data.
         protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
         {
             base.OnGameLoadingComplete(purpose, mode);
@@ -163,7 +161,7 @@ namespace CityWatchdog.Systems
 
             m_PanelVisibleBinding.Update(false);
 
-            // The mini HUD stays open across loads, so force a rescan instead of letting it sit on the old
+            // mini HUD stays open across loads, so force a rescan instead of letting it sit on the old
             // city's totals until the next tick. Clearing m_hasLastNotificationCounts stops the diff in
             // OnUpdate from suppressing the push when the two cities' arrays happen to match.
             m_HasLastNotificationCounts = false;

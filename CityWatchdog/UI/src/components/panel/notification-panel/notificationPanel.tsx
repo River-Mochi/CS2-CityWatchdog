@@ -338,7 +338,7 @@ const NotificationPanelContent = () => {
   const savedCollapsedMask = useValue(panelCollapsedSectionsMask$);
   const savedSortMode = useValue(panelSortMode$);
 
-  // Active-first sort snapshots the counts so rows don't reshuffle while you read. The snapshot is
+  // Active-first sort snapshots the counts so rows don't reshuffle while player reads. The snapshot is
   // taken on click (see cycleSortMode) and re-taken here on panel (re)open or if it wasn't ready yet.
   useEffect(() => {
     if (sortMode !== SORT_ACTIVE) {
