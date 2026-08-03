@@ -272,7 +272,10 @@
     flex-basis: 24rem;
     width: 24rem;
     height: 24rem;
-    margin-left: 5rem;
+    // Far-left placement: paw's own margin-right handles the gap on the left; add a little
+    // separation from the title on the right.
+    margin-left: 0;
+    margin-right: 6rem;
     border-top-left-radius: 4rem;
     border-top-right-radius: 4rem;
     border-bottom-left-radius: 4rem;
@@ -290,7 +293,8 @@
 // Highlighted when UI scaling is ON.
 .headerScaleButtonActive {
     background-color: rgba(30, 131, 170, 0.40);
-    box-shadow: 0 0 4rem rgba(84, 215, 255, 0.40);
+    // Tighter, dimmer glow so the active button reads crisp instead of blurry.
+    box-shadow: 0 0 2rem rgba(84, 215, 255, 0.28);
 
     &:hover {
         background-color: rgba(50, 160, 200, 0.50);
@@ -298,19 +302,19 @@
 }
 
 .headerScaleIcon {
-    width: 19rem;
-    height: 19rem;
+    // Sized close to the 24rem button so the white square covers the blue active fill instead of
+    // leaving a ring of it showing past the icon's outline.
+    width: 22rem;
+    height: 22rem;
     display: block;
     pointer-events: none;
     // Icon strokes are black; invert to white to match the other header glyphs.
     filter: brightness(0) invert(1) opacity(0.85);
 }
 
-// Brighter white, slightly larger icon when scaling is ON (reads as bolder).
+// Crisp, full-white icon when scaling is ON (no scale transform — the icon is already sized up).
 .headerScaleButtonActive .headerScaleIcon {
-    filter: brightness(0) invert(1) opacity(0.95);
-    transform: scale(1.02);
-    transform-origin: center center;
+    filter: brightness(0) invert(1) opacity(1);
 }
 
 // Standalone X glyph inside the icon-button — vanilla button frame doesn't size the inner img.

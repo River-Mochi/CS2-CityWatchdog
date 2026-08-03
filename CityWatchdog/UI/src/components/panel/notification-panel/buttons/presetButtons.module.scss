@@ -150,4 +150,8 @@
 .presetLabel {
   position: relative;
   z-index: 1;
+  // Bumped one step above the slot's base size (and the 0/62 count button) so the single "1"/"2"
+  // digits carry the same visual weight as the multi-glyph count text sitting next to them.
+  font-size: var(--fontSizeM);
+  font-weight: 700;
 }

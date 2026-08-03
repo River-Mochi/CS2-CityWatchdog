@@ -223,6 +223,20 @@ const DraggablePanelFrame = ({
                   <img src={modIconSrc} className={styles.headerModIcon} />
                 </div>
               </CwdTooltip>
+              {/* UI-scale toggle — enables the vanilla (dev) interface scaling without the launch flag.
+                  Placed at the far left next to the CWD paw icon, deliberately away from the expand
+                  arrow so players don't flip their UI scale when reaching to expand/collapse. Highlights
+                  when scaling is on. */}
+              <CwdTooltip tooltip={scaleTooltip} alwaysVisible>
+                <div
+                  className={`${styles.headerScaleButton} ${scaleEnabled ? styles.headerScaleButtonActive : ""}`}
+                  role="button"
+                  aria-pressed={scaleEnabled}
+                  onClick={() => { OnToggleInterfaceScale(!scaleEnabled); }}
+                >
+                  <img src={scalePanelsSrc} className={styles.headerScaleIcon} />
+                </div>
+              </CwdTooltip>
               {/* While actively dragging, skip the Tooltip wrapper entirely rather than just
                                 hiding it — the title's DOM position lags one rAF tick behind the raw
                                 mousemove during a fast drag, so a hover-tracking tooltip mounted here
@@ -245,18 +259,6 @@ const DraggablePanelFrame = ({
                 </CwdTooltip>
               )}
             </div>
-            {/* UI-scale toggle — enables the vanilla (dev) interface scaling without the launch flag.
-                Sits left of the expand arrow. Highlights when scaling is on. */}
-            <CwdTooltip tooltip={scaleTooltip} alwaysVisible>
-              <div
-                className={`${styles.headerScaleButton} ${scaleEnabled ? styles.headerScaleButtonActive : ""}`}
-                role="button"
-                aria-pressed={scaleEnabled}
-                onClick={() => { OnToggleInterfaceScale(!scaleEnabled); }}
-              >
-                <img src={scalePanelsSrc} className={styles.headerScaleIcon} />
-              </div>
-            </CwdTooltip>
             <CwdTooltip tooltip={panelCollapseTooltip}>
               <Button
                 className={roundButtonHighlightStyle.button + " " + styles.headerCollapseButton}
@@ -538,6 +540,26 @@ const NotificationPanelContent = () => {
     applyExpandedSections(createExpandedSections(!allSectionsExpanded));
   };
 
+  // When the panel is collapsed to just the button row, Sort — like the count button — opens the
+  // full panel instead of silently cycling the sort icon with nothing to show for it. It reveals the
+  // CURRENT sort's view without advancing it, so what the player sees matches the icon they clicked:
+  // grouped sorts open with all rows expanded; Active opens its flat list (re-snapshotted so it's
+  // fresh). Once the panel is open, Sort cycles A→Z / Z→A / Active as before.
+  const onSortButtonClick = () => {
+    if (!panelCollapsed) {
+      cycleSortMode();
+      return;
+    }
+    setPanelCollapsed(false);
+    if (sortMode === SORT_ACTIVE) {
+      if (notificationCounts.length > 0) {
+        setActiveSnapshot(notificationCounts.slice());
+      }
+    } else {
+      applyExpandedSections(createExpandedSections(true));
+    }
+  };
+
   const onSectionExpandedChange = (section: NotificationSection, expanded: boolean) => {
     applyExpandedSections({ ...expandedSections, [section.localeId]: expanded });
   };
@@ -624,7 +646,7 @@ const NotificationPanelContent = () => {
               kind="sort"
               iconSrc={sortIconSrc}
               iconKind="sort"
-              onClick={cycleSortMode}
+              onClick={onSortButtonClick}
             />
           </CwdTooltip>
 
