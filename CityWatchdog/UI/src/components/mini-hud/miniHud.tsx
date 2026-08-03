@@ -4,6 +4,7 @@
 import { useValue } from "cs2/api";
 import { game } from "cs2/bindings";
 import { Tooltip } from "cs2/ui";
+import { playSelectSound } from "../../utils/uiSound";
 import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import {
     disableCwdTooltips$,
@@ -379,6 +380,7 @@ export const MiniHud = () => {
     const onItemClick = (event: ReactMouseEvent<HTMLDivElement>, index: number) => {
         event.preventDefault();
         event.stopPropagation();
+        playSelectSound();
         OnMiniHudNotificationClicked(index);
     };
 

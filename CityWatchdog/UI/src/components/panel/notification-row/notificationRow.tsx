@@ -3,6 +3,7 @@
 
 import { memo, type KeyboardEvent } from "react";
 import { OnClearActivePreset, OnMiniHudNotificationClicked } from "../../../bindings/bindings";
+import { playSelectSound } from "../../../utils/uiSound";
 import { Checkbox } from "../../checkbox/checkbox";
 import { FavoriteButton } from "../../favorites/favoriteButton";
 import { formatPanelNotificationCount } from "../../shared/formatNotificationCount";
@@ -70,6 +71,7 @@ export const NotificationRow = memo(({
 
   const onJumpClick = () => {
     if (canJumpToAlert) {
+      playSelectSound();
       OnMiniHudNotificationClicked(countIndex);
     }
   };
@@ -81,6 +83,7 @@ export const NotificationRow = memo(({
 
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
+      playSelectSound();
       OnMiniHudNotificationClicked(countIndex);
     }
   };

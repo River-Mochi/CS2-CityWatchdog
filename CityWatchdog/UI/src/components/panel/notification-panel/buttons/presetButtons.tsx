@@ -3,6 +3,7 @@
 //          save the current notification checkboxes into it.
 
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import { playSelectSound } from "../../../../utils/uiSound";
 import styles from "./presetButtons.module.scss";
 
 // Hold this long (ms) before a press counts as "save" instead of "load". Matches the fill-sweep
@@ -47,6 +48,7 @@ const useLongPress = (onClick: () => void, onLongPress: () => void) => {
             longPressed.current = false;
             return;
         }
+        playSelectSound();
         onClick();
     }, [onClick]);
 

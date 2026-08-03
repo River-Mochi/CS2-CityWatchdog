@@ -3,6 +3,7 @@
 
 import { useText } from "../shared/localization";
 import { VanillaComponentResolver } from "../../utils/vanilla";
+import { playSelectSound } from "../../utils/uiSound";
 import { FavoriteStarIcon } from "./favoriteStarIcon";
 import styles from "./favoriteButton.module.scss";
 
@@ -27,6 +28,7 @@ export const FavoriteButton = ({ favorite, onToggle }: FavoriteButtonProps) => {
                 onMouseDown={(event) => event.stopPropagation()}
                 onClick={(event) => {
                     event.stopPropagation();
+                    playSelectSound();
                     onToggle();
                 }}
             >

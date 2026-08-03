@@ -43,6 +43,7 @@ import {
 import { Divider } from "../../divider/divider";
 import { InfoPanel } from "../info-panel/infoPanel";
 import { VanillaComponentResolver } from "../../../utils/vanilla";
+import { playSelectSound } from "../../../utils/uiSound";
 import { NotificationRow } from "../notification-row/notificationRow";
 import { PanelButton, PanelButtonText, type PanelButtonTone } from "./buttons/panelButton";
 import { PresetSlot } from "./buttons/presetButtons";
@@ -201,7 +202,7 @@ const DraggablePanelFrame = ({
                   className={`${styles.headerModIconButton} ${cwdTooltipsDisabled ? styles.headerModIconOff : ""}`}
                   role="button"
                   aria-pressed={cwdTooltipsDisabled}
-                  onClick={() => { OnDisableCwdTooltipsToggle(!cwdTooltipsDisabled); }}
+                  onClick={() => { playSelectSound(); OnDisableCwdTooltipsToggle(!cwdTooltipsDisabled); }}
                 >
                   <img src={modIconSrc} className={styles.headerModIcon} />
                 </div>
@@ -215,7 +216,7 @@ const DraggablePanelFrame = ({
                   className={`${styles.headerScaleButton} ${scaleEnabled ? styles.headerScaleButtonActive : ""}`}
                   role="button"
                   aria-pressed={scaleEnabled}
-                  onClick={() => { OnToggleInterfaceScale(!scaleEnabled); }}
+                  onClick={() => { playSelectSound(); OnToggleInterfaceScale(!scaleEnabled); }}
                 >
                   <img src={scalePanelsSrc} className={styles.headerScaleIcon} />
                 </div>
