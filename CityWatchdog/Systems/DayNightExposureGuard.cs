@@ -31,6 +31,46 @@ namespace CityWatchdog.Systems
         private Exposure m_Exposure = null!;
         private bool m_Unavailable;
 
+        // Build the volume up front (on city/editor load) instead of during a click, so the first
+        // switch has no GameObject allocation in the middle of it.
+        public void Prepare()
+        {
+            if (m_Volume != null || m_Unavailable)
+            {
+                return;
+            }
+
+            if (!EnsureVolume())
+            {
+                // Early creation can fail if the render stack isn't up yet — allow a retry on first use
+                // rather than disabling the guard for the whole session.
+                m_Unavailable = false;
+            }
+        }
+
+        // EV offset applied on top of auto-exposure. Used to start the new scene at the OLD scene's
+        // brightness, then eased to 0 so brightness ramps one way instead of dipping.
+        public void SetCompensation(float ev)
+        {
+            if (m_Volume == null)
+            {
+                return;
+            }
+
+            try
+            {
+                m_Exposure.compensation.overrideState = true;
+                m_Exposure.compensation.value = ev;
+            }
+            catch (Exception ex)
+            {
+                LogUtils.WarnOnce(
+                    "day-night-exposure-comp",
+                    () => $"Could not set exposure compensation: {ex.GetType().Name}: {ex.Message}",
+                    ex);
+            }
+        }
+
         // Call right BEFORE changing the time: instant adaptation means the first frame of the new
         // lighting is already exposed correctly, so it never ramps through the flash.
         public bool Begin()
@@ -89,6 +129,8 @@ namespace CityWatchdog.Systems
                 m_Exposure.adaptationMode.overrideState = false;
                 m_Exposure.adaptationSpeedDarkToLight.overrideState = false;
                 m_Exposure.adaptationSpeedLightToDark.overrideState = false;
+                m_Exposure.compensation.overrideState = false;
+                m_Exposure.compensation.value = 0f;
                 m_Volume.weight = 0f;
             }
             catch (Exception ex)
@@ -102,8 +144,13 @@ namespace CityWatchdog.Systems
 
         public void Dispose()
         {
+            // Unity's == treats a destroyed object as null, so this also covers a volume the engine
+            // already tore down on a scene change; fields are cleared either way below.
             if (m_Volume == null)
             {
+                m_Volume = null!;
+                m_Exposure = null!;
+                m_Unavailable = false;   // let the next load try again
                 return;
             }
 
@@ -121,9 +168,10 @@ namespace CityWatchdog.Systems
 
             m_Volume = null!;
             m_Exposure = null!;
+            m_Unavailable = false;   // let the next load try again
         }
 
-        // Created on first use (render stack isn't ready at OnCreate) and left disabled between
+        // Built by Prepare() on load, or lazily on first use as a fallback. Kept at weight 0 between
         // switches, so it costs nothing while idle.
         private bool EnsureVolume()
         {

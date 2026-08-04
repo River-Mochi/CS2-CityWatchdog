@@ -34,33 +34,24 @@ namespace CityWatchdog.Systems
         private const float kDayTime = 12f;
         private const float kNightTime = 2f;
 
-        // Wall-clock seconds that exposure adaptation stays instant after a switch — just long enough
-        // for the histogram to settle on the new lighting.
-        private const float kExposureGuardSeconds = 0.5f;
-
-        // Light dim that softens the lighting cut. The exposure guard already removes the blowout, so
-        // this only has to hide the one-frame jump — keep it gentle, never near-black.
-        private const float kFadePeak = 0.55f;
-        private const float kFadeInSeconds = 0.30f;
-        private const float kFadeHoldSeconds = 0.08f;
-        private const float kFadeOutSeconds = 0.50f;
+        // Brightness ramp. The time changes instantly, then exposure compensation starts the new scene
+        // at the OLD scene's brightness and eases to 0 — so day->night only ever gets darker and
+        // night->day only ever gets brighter. No dip, no overshoot.
+        private const float kTransitionSeconds = 1.1f;
+        private const float kMaxCompensationEV = 3f;   // EV offset for a full noon <-> midnight swing
 
         private readonly DayNightExposureGuard m_ExposureGuard = new();
 
         private ValueBinding<int> m_DayNightModeBinding = null!;
-        private ValueBinding<float> m_FadeBinding = null!;
         private PlanetarySystem? m_PlanetarySystem;
+        private TimeSystem? m_TimeSystem;
 
         // Only release overrideTime if WE took control, so we never stomp another mod's override.
         private bool m_OverrideActive;
 
-        private bool m_Fading;
-        private float m_FadeElapsed;
-        private int m_PendingMode;
-        private bool m_ModeApplied;
-
-        private bool m_GuardActive;
-        private float m_GuardElapsed;
+        private bool m_Ramping;
+        private float m_RampElapsed;
+        private float m_StartCompensation;
 
         // Optional hotkey — unbound by default (see CwdSettings.ToggleDayNightKeyboardBinding).
         private ProxyAction? m_ToggleDayNightAction;
@@ -73,8 +64,8 @@ namespace CityWatchdog.Systems
             base.OnCreate();
 
             m_PlanetarySystem = World.GetOrCreateSystemManaged<PlanetarySystem>();
+            m_TimeSystem = World.GetOrCreateSystemManaged<TimeSystem>();
             m_DayNightModeBinding = AddValueBinding("DayNightMode", kModeAuto);
-            m_FadeBinding = AddValueBinding("DayNightFade", 0f);
             AddTriggerBinding<int>("SetDayNightMode", OnSetDayNightMode);
             m_ToggleDayNightAction = EnableHotkey(CwdSettings.ToggleDayNightAction);
         }
@@ -88,20 +79,9 @@ namespace CityWatchdog.Systems
                 ToggleDayNight();
             }
 
-            if (m_Fading)
+            if (m_Ramping)
             {
-                AdvanceFade();
-            }
-
-            if (m_GuardActive)
-            {
-                // Wall-clock delta so the window also elapses while the sim is paused.
-                m_GuardElapsed += UnityEngine.Time.deltaTime;
-                if (m_GuardElapsed >= kExposureGuardSeconds)
-                {
-                    m_ExposureGuard.End();
-                    m_GuardActive = false;
-                }
+                AdvanceRamp();
             }
         }
 
@@ -123,10 +103,22 @@ namespace CityWatchdog.Systems
                 m_ToggleDayNightAction.shouldBeEnabled = mode.IsGameOrEditor();
             }
 
-            if (mode.IsGameOrEditor() && (purpose == Purpose.NewGame || purpose == Purpose.LoadGame))
+            if (mode.IsGameOrEditor())
             {
-                SetMode(kModeAuto, allowTransition: false);
+                m_ExposureGuard.Prepare();
+
+                if (purpose == Purpose.NewGame || purpose == Purpose.LoadGame)
+                {
+                    SetMode(kModeAuto, allowTransition: false);
+                }
+
+                return;
             }
+
+            // Leaving to the main menu: drop our volume so nothing of ours sits in the render stack
+            // while no city is loaded. Rebuilt on the next load.
+            EndRamp();
+            m_ExposureGuard.Dispose();
         }
 
         // Restore the natural cycle and drop our exposure volume on unload, so disabling CWD leaves
@@ -139,12 +131,7 @@ namespace CityWatchdog.Systems
                 m_OverrideActive = false;
             }
 
-            if (m_GuardActive)
-            {
-                m_ExposureGuard.End();
-                m_GuardActive = false;
-            }
-
+            EndRamp();
             m_ExposureGuard.Dispose();
 
             base.OnDestroy();
@@ -164,83 +151,72 @@ namespace CityWatchdog.Systems
                 m_DayNightModeBinding.Update(mode);
             }
 
-            if (allowTransition && ShouldSmooth())
+            if (!allowTransition || !ShouldSmooth())
             {
-                // The sun change is deferred to the dim's low point (see AdvanceFade).
-                m_PendingMode = mode;
-                m_ModeApplied = false;
-                m_FadeElapsed = 0f;
-                m_Fading = true;
+                EndRamp();
+                ApplyMode(mode);
                 return;
             }
 
-            CancelFade();
+            // Brightness difference between where we are and where we're going decides which way (and
+            // how far) to offset exposure, so partial changes (dusk -> noon) ramp less than a full swing.
+            float fromLight = DaylightAmount(m_PlanetarySystem?.time ?? 12f);
+            float toLight = DaylightAmount(TargetHour(mode));
+            m_StartCompensation = (fromLight - toLight) * kMaxCompensationEV;
+
+            if (m_ExposureGuard.Begin())
+            {
+                m_ExposureGuard.SetCompensation(m_StartCompensation);
+                m_RampElapsed = 0f;
+                m_Ramping = true;
+            }
+
             ApplyMode(mode);
+        }
+
+        private float TargetHour(int mode) => mode switch
+        {
+            kModeDay => kDayTime,
+            kModeNight => kNightTime,
+            _ => (m_TimeSystem?.normalizedTime ?? 0.5f) * 24f,
+        };
+
+        // 1 at noon, 0 at midnight — a cheap stand-in for how bright the scene will be at that hour.
+        private static float DaylightAmount(float hour)
+        {
+            return (UnityEngine.Mathf.Cos((hour - 12f) / 12f * UnityEngine.Mathf.PI) + 1f) * 0.5f;
+        }
+
+        private void AdvanceRamp()
+        {
+            // Wall-clock delta so the ramp plays even while the sim is paused.
+            m_RampElapsed += UnityEngine.Time.deltaTime;
+            float k = m_RampElapsed / kTransitionSeconds;
+
+            if (k >= 1f)
+            {
+                EndRamp();
+                return;
+            }
+
+            // Ease-out: most of the correction happens early, then it settles gently.
+            float eased = 1f - ((1f - k) * (1f - k));
+            m_ExposureGuard.SetCompensation(m_StartCompensation * (1f - eased));
+        }
+
+        private void EndRamp()
+        {
+            if (m_Ramping)
+            {
+                m_Ramping = false;
+            }
+
+            m_ExposureGuard.End();
         }
 
         private static bool ShouldSmooth()
         {
             return IsInGameOrEditor() && (CwdSettings.Instance?.SmoothDayNightTransition ?? true);
-        }
-
-        private void CancelFade()
-        {
-            m_Fading = false;
-            if (m_FadeBinding.value != 0f)
-            {
-                m_FadeBinding.Update(0f);
-            }
-        }
-
-        private void AdvanceFade()
-        {
-            // Wall-clock delta so the dim plays even while the sim is paused.
-            m_FadeElapsed += UnityEngine.Time.deltaTime;
-
-            float holdEnd = kFadeInSeconds + kFadeHoldSeconds;
-            float end = holdEnd + kFadeOutSeconds;
-            float opacity;
-
-            if (m_FadeElapsed < kFadeInSeconds)
-            {
-                opacity = kFadePeak * (m_FadeElapsed / kFadeInSeconds);
-            }
-            else if (m_FadeElapsed < holdEnd)
-            {
-                opacity = kFadePeak;
-                ApplyPendingModeOnce();
-            }
-            else if (m_FadeElapsed < end)
-            {
-                opacity = kFadePeak * (1f - ((m_FadeElapsed - holdEnd) / kFadeOutSeconds));
-            }
-            else
-            {
-                ApplyPendingModeOnce();   // safety if the hold window was skipped by a long frame
-                opacity = 0f;
-                m_Fading = false;
-            }
-
-            m_FadeBinding.Update(opacity);
-        }
-
-        // Exposure must go instant BEFORE the time changes, or it ramps through the flash.
-        private void ApplyPendingModeOnce()
-        {
-            if (m_ModeApplied)
-            {
-                return;
-            }
-
-            m_ModeApplied = true;
-
-            if (m_ExposureGuard.Begin())
-            {
-                m_GuardActive = true;
-                m_GuardElapsed = 0f;
-            }
-
-            ApplyMode(m_PendingMode);
         }
 
         // Set-once: with overrideTime=true, PlanetarySystem stops recomputing time from the sim clock,

@@ -6,7 +6,6 @@ import mod from "../mod.json";
 import { EntryButton } from "./components/entry-button/entryButton";
 import { MiniHud } from "./components/mini-hud/miniHud";
 import { NotificationPanel } from "./components/panel/notification-panel/notificationPanel";
-import { DayNightFadeOverlay } from "./components/day-night/dayNightFadeOverlay";
 import { DescriptionTooltipMoneyViewExtension, StatFieldMoneyViewExtension, TooltipGateExtension } from "./components/money-view/moneyView";
 import { VanillaComponentResolver } from "./utils/vanilla";
 // Side-effect import — webpack emits this SVG to coui://ui-mods/images/ so the C# Options UI
@@ -42,9 +41,6 @@ const register: ModRegistrar = (moduleRegistry) => {
     moduleRegistry.append("GameTopLeft", EntryButton);
     moduleRegistry.append("Game", NotificationPanel);
     moduleRegistry.append("Game", MiniHud);
-    // Day/Night dim — city AND map editor (the hotkey works in both).
-    moduleRegistry.append("Game", DayNightFadeOverlay);
-    moduleRegistry.append("Editor", DayNightFadeOverlay);
 };
 
 export default register;

@@ -53,8 +53,6 @@ export const OnToggleInterfaceScale = (enable: boolean) => trigger(mod.id, "Inte
 // Day/Night title-bar button: 0 = Auto (natural cycle), 1 = Day (noon), 2 = Night (2 AM). Not saved.
 export const dayNightMode$ = bindValue<number>(mod.id, "DayNightMode", 0);
 export const OnSetDayNightMode = (mode: number) => trigger(mod.id, "SetDayNightMode", mode);
-// Light dim opacity driven by C# to soften the lighting cut during a Day/Night switch.
-export const dayNightFade$ = bindValue<number>(mod.id, "DayNightFade", 0);
 
 export const ElectricityElectricityNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityElectricityNotification");
 export const ElectricityBottleneckNotificationBinding$ = bindValue<boolean>(mod.id, "ElectricityBottleneckNotification");
