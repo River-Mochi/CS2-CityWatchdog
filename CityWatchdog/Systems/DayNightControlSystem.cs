@@ -7,7 +7,8 @@
 // ================= </copyright> ======================
 
 // File: Systems/DayNightControlSystem.cs
-// Purpose: Title-bar Day/Night button. Freezes the sun at noon or 2 AM, or lets the natural cycle run.
+// Purpose: Day/Night control for the panel button (city) and the hotkey (city AND map editor).
+//          Freezes the sun at noon or 2 AM, or lets the natural cycle run.
 
 namespace CityWatchdog.Systems
 {
@@ -21,9 +22,9 @@ namespace CityWatchdog.Systems
     using Game.SceneFlow;
     using Game.Simulation;
 
-    // Nothing here is saved. The whole feature is two live properties on the vanilla PlanetarySystem
-    // (overrideTime + time), neither of which the game serializes — so a reboot, or uninstalling CWD,
-    // always returns to the normal moving cycle. No save file is ever touched.
+    // Nothing is saved. The feature is two live properties on the vanilla PlanetarySystem
+    // (overrideTime + time), neither serialized — so a reboot, or uninstalling CWD, always returns to
+    // the normal moving cycle. No save file (city or global) is touched.
     public partial class DayNightControlSystem : UISystemBaseExtension
     {
         // 0/1/2 mirror TimeWeatherAnarchy's Default/Day/Night (minus its Custom + season/geo options).
@@ -31,7 +32,7 @@ namespace CityWatchdog.Systems
         private const int kModeDay = 1;
         private const int kModeNight = 2;
 
-        // Hours (0-24) fed straight into PlanetarySystem.time. 2 AM sits in the deepest dark.
+        // Hours (0-24) fed into PlanetarySystem.time. 2 AM sits in the deepest dark.
         private const float kDayTime = 12f;
         private const float kNightTime = 2f;
 
@@ -44,6 +45,9 @@ namespace CityWatchdog.Systems
         // Optional hotkey — unbound by default (see CwdSettings.ToggleDayNightKeyboardBinding).
         private ProxyAction? m_ToggleDayNightAction;
 
+        // Run in the map editor as well as in a city, so the hotkey works while editing maps.
+        public override GameMode gameMode => GameMode.GameOrEditor;
+
         protected override void OnCreate()
         {
             base.OnCreate();
@@ -54,29 +58,36 @@ namespace CityWatchdog.Systems
             m_ToggleDayNightAction = EnableHotkey(CwdSettings.ToggleDayNightAction);
         }
 
-        // Poll the (optional) hotkey. Works even when the panel is closed — it's a quick toggle.
         protected override void OnUpdate()
         {
             m_ToggleDayNightAction ??= EnableHotkey(CwdSettings.ToggleDayNightAction);
 
-            if (IsInGame() && m_ToggleDayNightAction?.WasReleasedThisFrame() == true)
+            if (IsInGameOrEditor() && m_ToggleDayNightAction?.WasReleasedThisFrame() == true)
             {
-                ToggleAutoNight();
+                ToggleDayNight();
             }
         }
 
-        // Hotkey behavior: Night ⟷ Auto only (no Day). From Day, a press goes to Night, then Auto.
-        private void ToggleAutoNight()
+        // Hotkey behavior: Day ⟷ Night (matches TimeWeatherAnarchy). Auto lives only on the panel
+        // button — the hotkey is for fast day/night flips while building, so it never lands on Auto
+        // (which would keep drifting back to night on its own). From Auto, the first press goes to Day.
+        private void ToggleDayNight()
         {
-            SetMode(m_DayNightModeBinding.value == kModeNight ? kModeAuto : kModeNight);
+            SetMode(m_DayNightModeBinding.value == kModeDay ? kModeNight : kModeDay);
         }
 
-        // Fresh city shouldn't inherit a frozen sun from the previous one — back to Auto on real loads.
+        // Fresh city/map shouldn't inherit a frozen sun from the previous one — back to Auto on real
+        // loads. Also (re)enable the hotkey for whichever mode we just entered (city or editor).
         protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
         {
             base.OnGameLoadingComplete(purpose, mode);
 
-            if (mode == GameMode.Game && (purpose == Purpose.NewGame || purpose == Purpose.LoadGame))
+            if (m_ToggleDayNightAction != null)
+            {
+                m_ToggleDayNightAction.shouldBeEnabled = mode.IsGameOrEditor();
+            }
+
+            if (mode.IsGameOrEditor() && (purpose == Purpose.NewGame || purpose == Purpose.LoadGame))
             {
                 SetMode(kModeAuto);
             }
@@ -145,10 +156,10 @@ namespace CityWatchdog.Systems
             }
         }
 
-        private static bool IsInGame()
+        private static bool IsInGameOrEditor()
         {
             return GameManager.instance != null &&
-                   GameManager.instance.gameMode == GameMode.Game;
+                   GameManager.instance.gameMode.IsGameOrEditor();
         }
 
         // Matches the EnableHotkey helper in RoadNameControlSystem / TooltipControlSystem.

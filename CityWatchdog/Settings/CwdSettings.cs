@@ -138,8 +138,8 @@ namespace CityWatchdog
         [SettingsUISection(kActions, kNotifications)]
         public ProxyBinding ToggleAllTooltipsKeyboardBinding { get; set; }
 
-        // Day/Night quick toggle (Night ⟷ Auto). BindingKeyboard.None ships it UNBOUND so it can't
-        // collide with another mod on install — the player picks their own key in Options > Actions.
+        // Day/Night quick toggle (Day <-> Night, like TWA). BindingKeyboard.None ships it UNBOUND so
+        // it can't collide with another mod on install — player picks their own key in Options > Actions.
         [SettingsUIKeyboardBinding(BindingKeyboard.None, ToggleDayNightAction)]
         [SettingsUISection(kActions, kNotifications)]
         public ProxyBinding ToggleDayNightKeyboardBinding { get; set; }

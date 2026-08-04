@@ -133,12 +133,12 @@ namespace CityWatchdog
                 },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Hide/Show all game hover tooltips" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleDayNightKeyboardBinding)), "Day / Night: quick toggle Night" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleDayNightKeyboardBinding)), "Day / Night: flip Day and Night" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleDayNightKeyboardBinding)),
-                    "<Hotkey> to flip the panel's Day/Night button between Night and Auto (natural cycle).\n" +
-                    "Skips the Day step. Unbound by default — set your own key so it can't clash with another mod."
+                    "<Hotkey> to flip the sun between Day (noon) and Night (2 AM) — a fast day/night check while building.\n" +
+                    "From Auto, the first press goes to Day. Unbound by default — set your own key so it can't clash with another mod."
                 },
-                { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleDayNightAction), "Toggle Night / Auto (natural cycle)" },
+                { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleDayNightAction), "Flip Day / Night" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Bigger Game UI" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
