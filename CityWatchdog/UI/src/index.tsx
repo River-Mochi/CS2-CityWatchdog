@@ -42,7 +42,7 @@ const register: ModRegistrar = (moduleRegistry) => {
     moduleRegistry.append("GameTopLeft", EntryButton);
     moduleRegistry.append("Game", NotificationPanel);
     moduleRegistry.append("Game", MiniHud);
-    // Day/Night transition dim — city AND map editor (the sun override + hotkey both run in the editor).
+    // Day/Night dim — city AND map editor (the hotkey works in both).
     moduleRegistry.append("Game", DayNightFadeOverlay);
     moduleRegistry.append("Editor", DayNightFadeOverlay);
 };

@@ -140,10 +140,10 @@ namespace CityWatchdog
                 },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleDayNightAction), "Flip Day / Night" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.SmoothDayNightTransition)), "Smooth Day / Night transition" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.SmoothDayNightTransition)), "No flash on Day / Night switch" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.SmoothDayNightTransition)),
-                    "When ON, a quick screen dim covers the Day/Night switch, hiding the bright flash that can strain your eyes.\n" +
-                    "Works with the button and the hotkey, in a city and in the map editor. Turn OFF for an instant switch."
+                    "When ON, the camera exposure adjusts instantly as the sun jumps, so you don't get the bright flash that can strain your eyes.\n" +
+                    "Works with the button and the hotkey, in a city and in the map editor. Turn OFF to use the game's normal exposure."
                 },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Bigger Game UI" },
