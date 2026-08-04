@@ -140,6 +140,12 @@ namespace CityWatchdog
                 },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleDayNightAction), "Flip Day / Night" },
 
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.SmoothDayNightTransition)), "Smooth Day / Night transition" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.SmoothDayNightTransition)),
+                    "When ON, a quick screen dim covers the Day/Night switch, hiding the bright flash that can strain your eyes.\n" +
+                    "Works with the button and the hotkey, in a city and in the map editor. Turn OFF for an instant switch."
+                },
+
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Bigger Game UI" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),
                     "When enabled [ ✓ ], the <whole game UI> is larger — game + mod panels.\n" +

@@ -144,6 +144,12 @@ namespace CityWatchdog
         [SettingsUISection(kActions, kNotifications)]
         public ProxyBinding ToggleDayNightKeyboardBinding { get; set; }
 
+        // When ON, a brief screen dim covers the Day/Night switch, hiding the bright HDR auto-exposure
+        // flash that can strain eyes. OFF = instant switch. Read live by DayNightControlSystem; saved
+        // as a normal player preference (not city state).
+        [SettingsUISection(kActions, kNotifications)]
+        public bool SmoothDayNightTransition { get; set; }
+
         [SettingsUISlider(min = 30, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
         [SettingsUISection(kActions, kNotifications)]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnMainPanelOpacityChanged))]
@@ -314,6 +320,7 @@ namespace CityWatchdog
             HideRoadNames = false;
             HideDistrictNames = false;
             ShowRoadArrows = false;
+            SmoothDayNightTransition = true;
             PanelButtonsOnlyStart = false;
             MainPanelOpacity = kMainPanelOpacityDefault;
             PanelPositionX = 0;
