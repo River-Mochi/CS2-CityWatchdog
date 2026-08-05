@@ -163,7 +163,8 @@ const DraggablePanelFrame = ({
   scaleTooltip,
   dayNightMode,
   dayNightTooltip,
-  onDayNightCycle,
+  onDayNightToggle,
+  onDayNightAuto,
   panelTitle,
   panelCollapsed,
   allSectionsExpanded,
@@ -178,10 +179,11 @@ const DraggablePanelFrame = ({
   panelCollapseTooltip: ReactNode;
   scaleEnabled: boolean;
   scaleTooltip: ReactNode;
-  // Day/Night button: 0 = Auto (natural cycle), 1 = Day (noon), 2 = Night (2 AM).
+  // Day/Night button: 0 = Auto, 1 = Day (1 PM), 2 = Night (1 AM).
   dayNightMode: number;
   dayNightTooltip: ReactNode;
-  onDayNightCycle: () => void;
+  onDayNightToggle: () => void;
+  onDayNightAuto: () => void;
   // Swaps to the Active-view title so the header says what the body is actually showing.
   panelTitle: string;
   panelCollapsed: boolean;
@@ -260,15 +262,20 @@ const DraggablePanelFrame = ({
                 </CwdTooltip>
               )}
             </div>
-            {/* Day/Night cycle: Auto → Day → Night → Auto. Placed at the right of the title bar with a
-                deliberate gap before the expand arrow (headerDayNightButton margin-right) so it isn't
-                mis-clicked for collapse. Freezes only the sun; the sim keeps running and nothing is saved. */}
+            {/* Left-click flips Day/Night. Right-click returns to the vanilla Auto cycle. */}
             <CwdTooltip tooltip={dayNightTooltip}>
               <div
                 className={`${styles.headerDayNightButton} ${dayNightMode === 2 ? styles.headerDayNightButtonNight : ""}`}
                 role="button"
                 aria-label="Day / Night"
-                onClick={onDayNightCycle}
+                onClick={onDayNightToggle}
+                onMouseDown={(event) => {
+                  if (event.button === 2) {
+                    event.preventDefault();
+                    onDayNightAuto();
+                  }
+                }}
+                onContextMenu={(event) => { event.preventDefault(); }}
               >
                 <img
                   src={dayNightMode === 1 ? dayNightDaySrc : dayNightMode === 2 ? dayNightNightSrc : dayNightAutoSrc}
@@ -344,7 +351,7 @@ const NotificationPanelContent = () => {
   const activePreset = useValue(activePreset$);
   // interfaceScaleEnabled$ — vanilla UI scaling on/off (drives the title-bar scale button).
   const interfaceScaleEnabled = useValue(interfaceScaleEnabled$);
-  // dayNightMode$ — 0 Auto (natural cycle), 1 Day (noon), 2 Night (2 AM). Drives the title-bar Day/Night button.
+  // dayNightMode$ — 0 Auto, 1 Day (1 PM), 2 Night (1 AM).
   const dayNightMode = useValue(dayNightMode$);
   const [expandedSections, setExpandedSections] = useState(createExpandedSections);
   const allValues = useAllNotificationValues();
@@ -484,15 +491,23 @@ const NotificationPanelContent = () => {
     ? localize("InterfaceScaleOn", "Bigger UI is ON.\nClick to return the game interface to normal size.")
     : localize("InterfaceScaleOff", "Make the whole game interface bigger — panels and text.\nAffects the entire game and stays on until you turn it off.");
 
-  // Cycle button: single-line tooltip names the current state. Freezes only the sun (sim keeps
-  // running); nothing is saved, so a reboot or uninstall returns to the normal cycle.
+  // Left-click is the builder workflow. Right-click is the less-used return to vanilla Auto.
   const dayNightTooltip =
     dayNightMode === 1
-      ? localize("DayNightDay", "Day / Night: Day (noon)")
+      ? localize("DayNightDay", "Day / Night: Day (1 PM)\nLeft-click: Night\nRight-click: Auto")
       : dayNightMode === 2
-        ? localize("DayNightNight", "Day / Night: Night (2 AM)")
-        : localize("DayNightAuto", "Day / Night: Auto (normal cycle)");
-  const onDayNightCycle = () => { playSelectSound(); OnSetDayNightMode((dayNightMode + 1) % 3); };
+        ? localize("DayNightNight", "Day / Night: Night (1 AM)\nLeft-click: Day\nRight-click: Auto")
+        : localize("DayNightAuto", "Day / Night: Auto (normal cycle)\nLeft-click: Day\nRight-click: Auto");
+
+  const onDayNightToggle = () => {
+    playSelectSound();
+    OnSetDayNightMode(dayNightMode === 1 ? 2 : 1);
+  };
+
+  const onDayNightAuto = () => {
+    playSelectSound();
+    OnSetDayNightMode(0);
+  };
 
   // Same text regardless of toggle state — Info button is always discoverable.
   const infoTooltip = localize(
@@ -604,7 +619,8 @@ const NotificationPanelContent = () => {
       scaleTooltip={scaleTooltip}
       dayNightMode={dayNightMode}
       dayNightTooltip={dayNightTooltip}
-      onDayNightCycle={onDayNightCycle}
+      onDayNightToggle={onDayNightToggle}
+      onDayNightAuto={onDayNightAuto}
       panelTitle={panelTitle}
       panelCollapsed={panelCollapsed}
       allSectionsExpanded={allSectionsExpanded}

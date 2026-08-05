@@ -12,6 +12,7 @@
 namespace CityWatchdog.Systems
 {
     using System;
+    using System.Reflection;
 
     using Colossal.Serialization.Entities;
     using Colossal.UI.Binding;
@@ -20,43 +21,45 @@ namespace CityWatchdog.Systems
 
     using Game;
     using Game.Input;
+    using Game.Rendering;
     using Game.SceneFlow;
     using Game.Settings;
     using Game.Simulation;
 
-    // Day/Night mode is runtime-only. Auto releases the vanilla clock without changing the save.
+    using UnityEngine;
+    using UnityEngine.Rendering.HighDefinition;
+
+    // Day/Night state is runtime-only. Auto releases the vanilla clock without changing the save.
     public partial class DayNightControlSystem : UISystemBaseExtension
     {
         private const int kModeAuto = 0;
         private const int kModeDay = 1;
         private const int kModeNight = 2;
 
-        private const float kDayTime = 12f;
-        private const float kNightTime = 2f;
+        private const float kDayTime = 13f;
+        private const float kNightTime = 1f;
         private const float kVanillaFixedDayTime = 14.5f;
         private const float kHoursPerDay = 24f;
-        private const float kHalfDay = 12f;
 
-        // Fast enough for building checks, but long enough to read as sunrise/sunset instead of a cut.
-        private const float kTransitionSeconds = 1.2f;
-        private const float kExposureSettleSeconds = 0.15f;
+        private const string kResetPostProcessingHistoryFieldName = "resetPostProcessingHistory";
 
-        private readonly DayNightExposureGuard m_ExposureGuard = new();
+        // HDCamera is public, but its narrow post-processing reset flag is internal.
+        // Cache the lookup once; reflection runs only when the player changes the lighting mode.
+        private static readonly FieldInfo? s_ResetPostProcessingHistoryField =
+            typeof(HDCamera).GetField(
+                kResetPostProcessingHistoryFieldName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private static bool s_LoggedHistoryReset;
 
         private ValueBinding<int> m_DayNightModeBinding = null!;
         private PlanetarySystem? m_PlanetarySystem;
         private TimeSystem? m_TimeSystem;
+        private CameraUpdateSystem? m_CameraUpdateSystem;
         private ProxyAction? m_ToggleDayNightAction;
 
-        // True only while CWD owns PlanetarySystem.overrideTime.
+        // Only release overrideTime if CWD took control.
         private bool m_OverrideActive;
-
-        private bool m_Transitioning;
-        private float m_TransitionElapsed;
-        private float m_TransitionStartHour;
-        private float m_TransitionDistanceHours;
-        private int m_TransitionTargetMode;
-        private float m_ExposureSettleRemaining;
 
         // The hotkey also works in the map editor.
         public override GameMode gameMode => GameMode.GameOrEditor;
@@ -67,6 +70,8 @@ namespace CityWatchdog.Systems
 
             m_PlanetarySystem = World.GetOrCreateSystemManaged<PlanetarySystem>();
             m_TimeSystem = World.GetOrCreateSystemManaged<TimeSystem>();
+            m_CameraUpdateSystem = World.GetOrCreateSystemManaged<CameraUpdateSystem>();
+
             m_DayNightModeBinding = AddValueBinding("DayNightMode", kModeAuto);
             AddTriggerBinding<int>("SetDayNightMode", OnSetDayNightMode);
             m_ToggleDayNightAction = EnableHotkey(CwdSettings.ToggleDayNightAction);
@@ -80,16 +85,6 @@ namespace CityWatchdog.Systems
             {
                 ToggleDayNight();
             }
-
-            float deltaTime = UnityEngine.Time.unscaledDeltaTime;
-            if (m_Transitioning)
-            {
-                AdvanceTransition(deltaTime);
-            }
-            else if (m_ExposureSettleRemaining > 0f)
-            {
-                AdvanceExposureSettle(deltaTime);
-            }
         }
 
         // Hotkey is Day <-> Night. From Auto, the first press selects Day.
@@ -99,7 +94,7 @@ namespace CityWatchdog.Systems
                 ? kModeNight
                 : kModeDay;
 
-            SetMode(targetMode, allowTransition: true);
+            SetMode(targetMode, resetPostProcessingHistory: true);
         }
 
         protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
@@ -111,20 +106,12 @@ namespace CityWatchdog.Systems
                 m_ToggleDayNightAction.shouldBeEnabled = mode.IsGameOrEditor();
             }
 
-            if (mode.IsGameOrEditor())
+            if (mode.IsGameOrEditor() &&
+                (purpose == Purpose.NewGame || purpose == Purpose.LoadGame))
             {
-                m_ExposureGuard.Prepare();
-
-                if (purpose == Purpose.NewGame || purpose == Purpose.LoadGame)
-                {
-                    SetMode(kModeAuto, allowTransition: false);
-                }
-
-                return;
+                // A new city/map should not inherit the previous session's frozen time.
+                SetMode(kModeAuto, resetPostProcessingHistory: false);
             }
-
-            StopVisualTransition();
-            m_ExposureGuard.Dispose();
         }
 
         protected override void OnDestroy()
@@ -135,153 +122,29 @@ namespace CityWatchdog.Systems
                 m_OverrideActive = false;
             }
 
-            StopVisualTransition();
-            m_ExposureGuard.Dispose();
-
             base.OnDestroy();
         }
 
         private void OnSetDayNightMode(int mode)
         {
-            SetMode(mode, allowTransition: true);
+            SetMode(mode, resetPostProcessingHistory: true);
         }
 
-        private void SetMode(int mode, bool allowTransition)
+        private void SetMode(int mode, bool resetPostProcessingHistory)
         {
             mode = Math.Clamp(mode, kModeAuto, kModeNight);
-            int previousMode = m_DayNightModeBinding.value;
 
             if (m_DayNightModeBinding.value != mode)
             {
                 m_DayNightModeBinding.Update(mode);
             }
 
-            if (!allowTransition || !ShouldSmooth())
-            {
-                StopVisualTransition();
-                ApplyModeImmediate(mode);
-                return;
-            }
-
-            if (mode == previousMode && !m_Transitioning)
-            {
-                return;
-            }
-
-            StartTransition(previousMode, mode);
+            ApplyMode(
+                mode,
+                resetPostProcessingHistory && ShouldResetPostProcessingHistory());
         }
 
-        private void StartTransition(int previousMode, int targetMode)
-        {
-            if (m_PlanetarySystem == null)
-            {
-                return;
-            }
-
-            bool wasTransitioning = m_Transitioning;
-            float startHour = NormalizeHour(m_PlanetarySystem.time);
-            float targetHour = TargetHour(targetMode);
-
-            // Stable Day <-> Night switches move forward through sunset or sunrise.
-            // Auto changes and rapid reversals take the shorter path.
-            bool useForwardPath =
-                !wasTransitioning &&
-                ((previousMode == kModeDay && targetMode == kModeNight) ||
-                 (previousMode == kModeNight && targetMode == kModeDay));
-
-            float distanceHours = useForwardPath
-                ? ForwardHourDistance(startHour, targetHour)
-                : ShortestHourDistance(startHour, targetHour);
-
-            m_ExposureGuard.Begin();
-
-            m_PlanetarySystem.overrideTime = true;
-            m_OverrideActive = true;
-
-            m_TransitionStartHour = startHour;
-            m_TransitionDistanceHours = distanceHours;
-            m_TransitionTargetMode = targetMode;
-            m_TransitionElapsed = 0f;
-            m_ExposureSettleRemaining = 0f;
-            m_Transitioning = true;
-
-            if (Math.Abs(distanceHours) < 0.001f)
-            {
-                CompleteTransition();
-            }
-        }
-
-        private void AdvanceTransition(float deltaTime)
-        {
-            if (m_PlanetarySystem == null)
-            {
-                StopVisualTransition();
-                return;
-            }
-
-            m_TransitionElapsed += Math.Max(0f, deltaTime);
-            float progress = UnityEngine.Mathf.Clamp01(m_TransitionElapsed / kTransitionSeconds);
-
-            // SmoothStep gives a gentle start and finish without pausing at intermediate hours.
-            float eased = progress * progress * (3f - (2f * progress));
-            float hour = m_TransitionStartHour + (m_TransitionDistanceHours * eased);
-
-            m_PlanetarySystem.overrideTime = true;
-            m_PlanetarySystem.time = NormalizeHour(hour);
-
-            if (progress >= 1f)
-            {
-                CompleteTransition();
-            }
-        }
-
-        private void CompleteTransition()
-        {
-            if (m_PlanetarySystem == null)
-            {
-                StopVisualTransition();
-                return;
-            }
-
-            m_Transitioning = false;
-
-            if (m_TransitionTargetMode == kModeAuto)
-            {
-                // Match the live vanilla clock before releasing overrideTime.
-                m_PlanetarySystem.time = GetNaturalHour();
-                m_PlanetarySystem.overrideTime = false;
-                m_OverrideActive = false;
-            }
-            else
-            {
-                m_PlanetarySystem.overrideTime = true;
-                m_PlanetarySystem.time = TargetHour(m_TransitionTargetMode);
-                m_OverrideActive = true;
-            }
-
-            // Keep instant exposure for a few rendered frames after the final lighting state lands.
-            m_ExposureSettleRemaining = kExposureSettleSeconds;
-        }
-
-        private void AdvanceExposureSettle(float deltaTime)
-        {
-            m_ExposureSettleRemaining -= Math.Max(0f, deltaTime);
-            if (m_ExposureSettleRemaining <= 0f)
-            {
-                m_ExposureSettleRemaining = 0f;
-                m_ExposureGuard.End();
-            }
-        }
-
-        private void StopVisualTransition()
-        {
-            m_Transitioning = false;
-            m_TransitionElapsed = 0f;
-            m_ExposureSettleRemaining = 0f;
-            m_ExposureGuard.End();
-        }
-
-        private void ApplyModeImmediate(int mode)
+        private void ApplyMode(int mode, bool resetPostProcessingHistory)
         {
             if (m_PlanetarySystem == null)
             {
@@ -303,29 +166,33 @@ namespace CityWatchdog.Systems
                     break;
 
                 default:
-                    if (m_OverrideActive)
+                    if (!m_OverrideActive)
                     {
-                        m_PlanetarySystem.overrideTime = false;
-                        m_OverrideActive = false;
+                        return;
                     }
 
+                    // Match the live vanilla clock before releasing overrideTime, avoiding one
+                    // rendered frame at the old fixed hour.
+                    m_PlanetarySystem.overrideTime = true;
+                    m_PlanetarySystem.time = GetNaturalHour();
                     break;
             }
-        }
 
-        private float TargetHour(int mode)
-        {
-            return mode switch
+            if (resetPostProcessingHistory)
             {
-                kModeDay => kDayTime,
-                kModeNight => kNightTime,
-                _ => GetNaturalHour(),
-            };
+                TryResetPostProcessingHistory();
+            }
+
+            if (mode == kModeAuto)
+            {
+                m_PlanetarySystem.overrideTime = false;
+                m_OverrideActive = false;
+            }
         }
 
         private float GetNaturalHour()
         {
-            // Vanilla uses a fixed 14:30 scene when its Day/night visuals option is off.
+            // Vanilla uses a fixed 14:30 scene when Day/night visuals is disabled.
             if (GameManager.instance?.gameMode == GameMode.Game &&
                 SharedSettings.instance?.gameplay is GameplaySettings gameplay &&
                 !gameplay.dayNightVisual)
@@ -333,27 +200,54 @@ namespace CityWatchdog.Systems
                 return kVanillaFixedDayTime;
             }
 
-            return NormalizeHour((m_TimeSystem?.normalizedTime ?? 0.5f) * kHoursPerDay);
+            return Mathf.Repeat(
+                (m_TimeSystem?.normalizedTime ?? 0.5f) * kHoursPerDay,
+                kHoursPerDay);
         }
 
-        private static float NormalizeHour(float hour)
+        private void TryResetPostProcessingHistory()
         {
-            return UnityEngine.Mathf.Repeat(hour, kHoursPerDay);
+            FieldInfo? resetField = s_ResetPostProcessingHistoryField;
+            if (resetField == null)
+            {
+                LogUtils.WarnOnce(
+                    "day-night-history-field-missing",
+                    () => $"HDRP field '{kResetPostProcessingHistoryFieldName}' was not found. " +
+                          "Day/Night still changes time, but its stale exposure history cannot be reset.");
+                return;
+            }
+
+            Camera? camera = m_CameraUpdateSystem?.activeCamera ?? Camera.main;
+            if (camera == null)
+            {
+                LogUtils.WarnOnce(
+                    "day-night-active-camera-missing",
+                    () => "Day/Night post-processing history reset skipped: no active game camera.");
+                return;
+            }
+
+            try
+            {
+                HDCamera hdCamera = HDCamera.GetOrCreate(camera);
+                resetField.SetValue(hdCamera, true);
+
+                if (!s_LoggedHistoryReset)
+                {
+                    s_LoggedHistoryReset = true;
+                    LogUtils.Info("[CWD] Day/Night HDRP post-processing history reset active.");
+                }
+            }
+            catch (Exception ex)
+            {
+                LogUtils.WarnOnce(
+                    "day-night-history-reset-failed",
+                    () => $"Day/Night HDRP history reset failed: {ex.GetType().Name}: {ex.Message}",
+                    ex);
+            }
         }
 
-        private static float ForwardHourDistance(float fromHour, float toHour)
-        {
-            return UnityEngine.Mathf.Repeat(toHour - fromHour, kHoursPerDay);
-        }
-
-        private static float ShortestHourDistance(float fromHour, float toHour)
-        {
-            return UnityEngine.Mathf.Repeat(
-                toHour - fromHour + kHalfDay,
-                kHoursPerDay) - kHalfDay;
-        }
-
-        private static bool ShouldSmooth()
+        // Keep the existing setting as an A/B test switch for this build.
+        private static bool ShouldResetPostProcessingHistory()
         {
             return IsInGameOrEditor() &&
                 (CwdSettings.Instance?.SmoothDayNightTransition ?? true);
