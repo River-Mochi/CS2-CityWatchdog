@@ -101,7 +101,7 @@ namespace CityWatchdog.Systems
 
             if (m_Darkening)
             {
-                AdvanceDarkening(Time.unscaledDeltaTime);
+                AdvanceDarkening(UnityEngine.Time.unscaledDeltaTime);
             }
         }
 
