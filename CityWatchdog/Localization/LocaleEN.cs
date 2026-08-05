@@ -47,6 +47,7 @@ namespace CityWatchdog
                 // --- Groups, ordered by Options menu location ---
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.kAboutUsage), "USAGE" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.kNotifications), "Notifications" },
+                { m_Settings.GetOptionGroupLocaleID(CwdSettings.kHotkeyActions), "KEYBINDS: MAIN PANEL" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMoneyViewGroup), "In-City Info Viewer" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMiniHudGroup), "Mini HUD Notifications" },
                 { m_Settings.GetOptionGroupLocaleID(CwdSettings.kMilestone), "CITY START SETTINGS" },
@@ -135,15 +136,17 @@ namespace CityWatchdog
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleDayNightKeyboardBinding)), "Day / Night: flip Day and Night" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleDayNightKeyboardBinding)),
-                    "<Hotkey> to flip the sun between Day (noon) and Night (2 AM) — a fast day/night check while building.\n" +
+                    "<Hotkey> to flip the sun between Day (1 PM) and Night (1 AM) — a fast day/night check while building.\n" +
                     "From Auto, the first press goes to Day. Unbound by default — set your own key so it can't clash with another mod."
                 },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleDayNightAction), "Flip Day / Night" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.SmoothDayNightTransition)), "No flash on Day / Night switch" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.SmoothDayNightTransition)), "Smoother Day / Night switch" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.SmoothDayNightTransition)),
-                    "When ON, the camera exposure adjusts instantly as the sun jumps, so you don't get the bright flash that can strain your eyes.\n" +
-                    "Works with the button and the hotkey, in a city and in the map editor. Turn OFF to use the game's normal exposure."
+                    "<Recommended ON>\n" +
+                    "Switching to Night uses a short sunset transition so the game's exposure can follow the darker lighting.\n" +
+                    "Switching to Day resets HDRP exposure history to reduce the bright white flash.\n" +
+                    "Works with the button and hotkey in a city or map editor. Turn OFF to use the game's normal instant switch."
                 },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Bigger Game UI" },

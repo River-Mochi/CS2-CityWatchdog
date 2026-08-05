@@ -33,8 +33,8 @@ namespace CityWatchdog
 
     [FileLocation("ModsSettings/CityWatchdog/CityWatchdog")]
     [SettingsUITabOrder(kActions, kMiniHudTab, kMoneyTab, kAbout)]
-    [SettingsUIGroupOrder(kAboutUsage, kNotifications, kMoneyViewGroup, kMiniHudGroup, kMilestone, kSaveConversion, kMoney, kAboutInfo, kAboutLinks, kAboutDiagnostics, kSerialize)]
-    [SettingsUIShowGroupName(kAboutUsage, kNotifications, kMoneyViewGroup, kMiniHudGroup, kMilestone, kMoney, kSaveConversion, kAboutDiagnostics, kSerialize)]
+    [SettingsUIGroupOrder(kAboutUsage, kNotifications, kHotkeyActions, kMoneyViewGroup, kMiniHudGroup, kMilestone, kSaveConversion, kMoney, kAboutInfo, kAboutLinks, kAboutDiagnostics, kSerialize)]
+    [SettingsUIShowGroupName(kAboutUsage, kNotifications, kHotkeyActions, kMoneyViewGroup, kMiniHudGroup, kMilestone, kMoney, kSaveConversion, kAboutDiagnostics, kSerialize)]
     public partial class CwdSettings : ModSetting
     {
         internal static CwdSettings Instance { get; set; } = null!;
@@ -101,24 +101,66 @@ namespace CityWatchdog
         public string UsageText => string.Empty;
 
         // --------------------------------------------------------------------
-        // Actions tab - Notifications
+        // Actions tab - Notifications and panel display
         // --------------------------------------------------------------------
 
-        [SettingsUIKeyboardBinding(BindingKeyboard.N, ToggleNotificationsAction)]
+        // Uses a short sunset path when darkening and resets HDRP exposure history only when
+        // brightening. OFF keeps the game's instant lighting change for A/B testing.
         [SettingsUISection(kActions, kNotifications)]
-        public ProxyBinding ToggleNotificationsKeyboardBinding { get; set; }
+        public bool SmoothDayNightTransition { get; set; }
 
-        [SettingsUIKeyboardBinding(BindingKeyboard.N, ToggleNotificationPanelAction, shift: true)]
+        // Mirrors vanilla "Interface Scaling (dev)" flag, which normally only appears in the game's
+        // Options > Interface when launched with --developerMode. Turning it on makes the whole game
+        // UI (+ mod panels) render larger. CWD keeps no duplicate setting value.
         [SettingsUISection(kActions, kNotifications)]
-        public ProxyBinding ToggleNotificationPanelKeyboardBinding { get; set; }
+        public bool InterfaceScaling
+        {
+            get => GameManager.instance?.settings?.userInterface?.interfaceScaling ?? false;
+            set => World.DefaultGameObjectInjectionWorld?
+                .GetExistingSystemManaged<InterfaceScaleControlSystem>()?
+                .SetInterfaceScaling(value);
+        }
+
+        [SettingsUISlider(min = 30, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
+        [SettingsUISection(kActions, kNotifications)]
+        [SettingsUISetter(typeof(CwdSettings), nameof(OnMainPanelOpacityChanged))]
+        public int MainPanelOpacity
+        {
+            get => m_MainPanelOpacity;
+            set => m_MainPanelOpacity = value <= 0
+                ? kMainPanelOpacityDefault
+                : Math.Clamp(value, 30, 100);
+        }
 
         [SettingsUISection(kActions, kNotifications)]
         [SettingsUISetter(typeof(CwdSettings), nameof(OnPanelButtonsOnlyStartChanged))]
         public bool PanelButtonsOnlyStart { get; set; }
 
+        // --------------------------------------------------------------------
+        // Actions tab - Main panel keybinds
+        // --------------------------------------------------------------------
+
+        [SettingsUIKeyboardBinding(BindingKeyboard.N, ToggleNotificationPanelAction, shift: true)]
+        [SettingsUISection(kActions, kHotkeyActions)]
+        public ProxyBinding ToggleNotificationPanelKeyboardBinding { get; set; }
+
+        [SettingsUIKeyboardBinding(BindingKeyboard.N, ToggleNotificationsAction)]
+        [SettingsUISection(kActions, kHotkeyActions)]
+        public ProxyBinding ToggleNotificationsKeyboardBinding { get; set; }
+
         [SettingsUIKeyboardBinding(BindingKeyboard.Backslash, ToggleRoadNamesAction)]
-        [SettingsUISection(kActions, kNotifications)]
+        [SettingsUISection(kActions, kHotkeyActions)]
         public ProxyBinding ToggleRoadNamesKeyboardBinding { get; set; }
+
+        [SettingsUIKeyboardBinding(BindingKeyboard.Backslash, ToggleAllTooltipsAction, shift: true)]
+        [SettingsUISection(kActions, kHotkeyActions)]
+        public ProxyBinding ToggleAllTooltipsKeyboardBinding { get; set; }
+
+        // Day/Night quick toggle (Day <-> Night, like TWA). BindingKeyboard.None ships it UNBOUND so
+        // it can't collide with another mod on install — player picks their own key in Options > Actions.
+        [SettingsUIKeyboardBinding(BindingKeyboard.None, ToggleDayNightAction)]
+        [SettingsUISection(kActions, kHotkeyActions)]
+        public ProxyBinding ToggleDayNightKeyboardBinding { get; set; }
 
         // Persisted across sessions but intentionally hidden from Options UI — controlled only
         // by the Road-Names button on the in-game panel (or the \ hotkey).
@@ -133,48 +175,6 @@ namespace CityWatchdog
         // Hidden from Options UI; toggled from the in-game panel button.
         [SettingsUIHidden]
         public bool ShowRoadArrows { get; set; }
-
-        [SettingsUIKeyboardBinding(BindingKeyboard.Backslash, ToggleAllTooltipsAction, shift: true)]
-        [SettingsUISection(kActions, kNotifications)]
-        public ProxyBinding ToggleAllTooltipsKeyboardBinding { get; set; }
-
-        // Day/Night quick toggle (Day <-> Night, like TWA). BindingKeyboard.None ships it UNBOUND so
-        // it can't collide with another mod on install — player picks their own key in Options > Actions.
-        [SettingsUIKeyboardBinding(BindingKeyboard.None, ToggleDayNightAction)]
-        [SettingsUISection(kActions, kNotifications)]
-        public ProxyBinding ToggleDayNightKeyboardBinding { get; set; }
-
-        // When ON, a brief screen dim covers the Day/Night switch, hiding the bright HDR auto-exposure
-        // flash that can strain eyes. OFF = instant switch. Read live by DayNightControlSystem; saved
-        // as a normal player preference (not city state).
-        [SettingsUISection(kActions, kNotifications)]
-        public bool SmoothDayNightTransition { get; set; }
-
-        [SettingsUISlider(min = 30, max = 100, step = 5, scalarMultiplier = 1, unit = Unit.kPercentage)]
-        [SettingsUISection(kActions, kNotifications)]
-        [SettingsUISetter(typeof(CwdSettings), nameof(OnMainPanelOpacityChanged))]
-        public int MainPanelOpacity
-        {
-            get => m_MainPanelOpacity;
-            set => m_MainPanelOpacity = value <= 0
-                ? kMainPanelOpacityDefault
-                : Math.Clamp(value, 30, 100);
-        }
-
-
-        // Mirrors vanilla "Interface Scaling (dev)" flag, which normally only appears in the game's
-        // Options > Interface when launched with --developerMode. Turning it on makes the WHOLE game UI
-        // (+ mod panels) render larger.
-        // Live pass-through to vanilla's dev-only interface-scaling flag.
-        // CWD keeps no duplicate; load-time setter safely no-ops before the control system exists.
-        [SettingsUISection(kActions, kNotifications)]
-        public bool InterfaceScaling
-        {
-            get => GameManager.instance?.settings?.userInterface?.interfaceScaling ?? false;
-            set => World.DefaultGameObjectInjectionWorld?
-                .GetExistingSystemManaged<InterfaceScaleControlSystem>()?
-                .SetInterfaceScaling(value);
-        }
 
         // Session-only now: the CWD title-bar tooltip toggle starts OFF (tooltips shown) each launch
         // so new mod tooltips are always seen first. Retained only so the binding name stays
@@ -200,6 +200,7 @@ namespace CityWatchdog
         [SettingsUIHidden]
         public int PanelSortMode { get; set; }
 
+        // --------------------------------------------------------------------
         // About tab
         // --------------------------------------------------------------------
 
@@ -227,7 +228,6 @@ namespace CityWatchdog
                 }
             }
         }
-
 
         // --------------------------------------------------------------------
         // About tab - Diagnostics

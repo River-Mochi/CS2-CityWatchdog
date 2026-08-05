@@ -40,6 +40,11 @@ namespace CityWatchdog.Systems
         private const float kNightTime = 1f;
         private const float kVanillaFixedDayTime = 14.5f;
         private const float kHoursPerDay = 24f;
+        private const float kHalfDay = 12f;
+
+        private const float kMinimumLightingDifference = 0.05f;
+        private const float kMinimumDarkeningSeconds = 0.35f;
+        private const float kMaximumDarkeningSeconds = 1.25f;
 
         private const string kResetPostProcessingHistoryFieldName = "resetPostProcessingHistory";
 
@@ -60,6 +65,14 @@ namespace CityWatchdog.Systems
 
         // Only release overrideTime if CWD took control.
         private bool m_OverrideActive;
+
+        // Darkening uses a short sunset path so auto exposure can follow the lighting change.
+        private bool m_Darkening;
+        private float m_DarkeningElapsed;
+        private float m_DarkeningDuration;
+        private float m_DarkeningStartHour;
+        private float m_DarkeningDistanceHours;
+        private int m_DarkeningTargetMode;
 
         // The hotkey also works in the map editor.
         public override GameMode gameMode => GameMode.GameOrEditor;
@@ -85,6 +98,11 @@ namespace CityWatchdog.Systems
             {
                 ToggleDayNight();
             }
+
+            if (m_Darkening)
+            {
+                AdvanceDarkening(Time.unscaledDeltaTime);
+            }
         }
 
         // Hotkey is Day <-> Night. From Auto, the first press selects Day.
@@ -94,7 +112,7 @@ namespace CityWatchdog.Systems
                 ? kModeNight
                 : kModeDay;
 
-            SetMode(targetMode, resetPostProcessingHistory: true);
+            SetMode(targetMode, useSmootherSwitch: true);
         }
 
         protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
@@ -110,12 +128,14 @@ namespace CityWatchdog.Systems
                 (purpose == Purpose.NewGame || purpose == Purpose.LoadGame))
             {
                 // A new city/map should not inherit the previous session's frozen time.
-                SetMode(kModeAuto, resetPostProcessingHistory: false);
+                SetMode(kModeAuto, useSmootherSwitch: false);
             }
         }
 
         protected override void OnDestroy()
         {
+            StopDarkening();
+
             if (m_OverrideActive && m_PlanetarySystem != null)
             {
                 m_PlanetarySystem.overrideTime = false;
@@ -127,10 +147,10 @@ namespace CityWatchdog.Systems
 
         private void OnSetDayNightMode(int mode)
         {
-            SetMode(mode, resetPostProcessingHistory: true);
+            SetMode(mode, useSmootherSwitch: true);
         }
 
-        private void SetMode(int mode, bool resetPostProcessingHistory)
+        private void SetMode(int mode, bool useSmootherSwitch)
         {
             mode = Math.Clamp(mode, kModeAuto, kModeNight);
 
@@ -139,12 +159,137 @@ namespace CityWatchdog.Systems
                 m_DayNightModeBinding.Update(mode);
             }
 
-            ApplyMode(
-                mode,
-                resetPostProcessingHistory && ShouldResetPostProcessingHistory());
+            if (!useSmootherSwitch || !ShouldUseSmootherSwitch())
+            {
+                StopDarkening();
+                ApplyModeImmediate(mode, resetPostProcessingHistory: false);
+                return;
+            }
+
+            ApplyModeProtected(mode);
         }
 
-        private void ApplyMode(int mode, bool resetPostProcessingHistory)
+        private void ApplyModeProtected(int mode)
+        {
+            if (m_PlanetarySystem == null)
+            {
+                return;
+            }
+
+            float startHour = NormalizeHour(m_PlanetarySystem.time);
+            float targetHour = TargetHour(mode);
+            float startLight = DaylightAmount(startHour);
+            float targetLight = DaylightAmount(targetHour);
+            float lightingDifference = targetLight - startLight;
+
+            if (lightingDifference < -kMinimumLightingDifference)
+            {
+                StartDarkening(mode, startHour, targetHour);
+                return;
+            }
+
+            StopDarkening();
+
+            // Resetting HDRP history is useful only when the target is meaningfully brighter.
+            // During a darkening switch HDRP's neutral reset frame is itself the white/X-ray flash.
+            bool resetHistory = lightingDifference > kMinimumLightingDifference;
+            ApplyModeImmediate(mode, resetHistory);
+        }
+
+        private void StartDarkening(int targetMode, float startHour, float targetHour)
+        {
+            if (m_PlanetarySystem == null)
+            {
+                return;
+            }
+
+            float distanceHours = ChooseDarkerPathDistance(startHour, targetHour);
+            if (Mathf.Abs(distanceHours) < 0.001f)
+            {
+                ApplyModeImmediate(targetMode, resetPostProcessingHistory: false);
+                return;
+            }
+
+            float distanceRatio = Mathf.Clamp01(Mathf.Abs(distanceHours) / kHalfDay);
+
+            m_PlanetarySystem.overrideTime = true;
+            m_OverrideActive = true;
+
+            m_Darkening = true;
+            m_DarkeningElapsed = 0f;
+            m_DarkeningDuration = Mathf.Lerp(
+                kMinimumDarkeningSeconds,
+                kMaximumDarkeningSeconds,
+                distanceRatio);
+            m_DarkeningStartHour = startHour;
+            m_DarkeningDistanceHours = distanceHours;
+            m_DarkeningTargetMode = targetMode;
+        }
+
+        private void AdvanceDarkening(float deltaTime)
+        {
+            if (m_PlanetarySystem == null)
+            {
+                StopDarkening();
+                return;
+            }
+
+            if (!ShouldUseSmootherSwitch())
+            {
+                int targetMode = m_DarkeningTargetMode;
+                StopDarkening();
+                ApplyModeImmediate(targetMode, resetPostProcessingHistory: false);
+                return;
+            }
+
+            m_DarkeningElapsed += Math.Max(0f, deltaTime);
+            float progress = Mathf.Clamp01(m_DarkeningElapsed / m_DarkeningDuration);
+
+            // SmoothStep gives exposure time to follow without pausing at intermediate hours.
+            float eased = progress * progress * (3f - (2f * progress));
+            m_PlanetarySystem.overrideTime = true;
+            m_PlanetarySystem.time = NormalizeHour(
+                m_DarkeningStartHour + (m_DarkeningDistanceHours * eased));
+
+            if (progress >= 1f)
+            {
+                CompleteDarkening();
+            }
+        }
+
+        private void CompleteDarkening()
+        {
+            if (m_PlanetarySystem == null)
+            {
+                StopDarkening();
+                return;
+            }
+
+            int targetMode = m_DarkeningTargetMode;
+            StopDarkening();
+
+            if (targetMode == kModeAuto)
+            {
+                // Re-sample the live clock after the short transition, then release CWD's override.
+                m_PlanetarySystem.time = GetNaturalHour();
+                m_PlanetarySystem.overrideTime = false;
+                m_OverrideActive = false;
+                return;
+            }
+
+            m_PlanetarySystem.overrideTime = true;
+            m_PlanetarySystem.time = TargetHour(targetMode);
+            m_OverrideActive = true;
+        }
+
+        private void StopDarkening()
+        {
+            m_Darkening = false;
+            m_DarkeningElapsed = 0f;
+            m_DarkeningDuration = 0f;
+        }
+
+        private void ApplyModeImmediate(int mode, bool resetPostProcessingHistory)
         {
             if (m_PlanetarySystem == null)
             {
@@ -190,6 +335,16 @@ namespace CityWatchdog.Systems
             }
         }
 
+        private float TargetHour(int mode)
+        {
+            return mode switch
+            {
+                kModeDay => kDayTime,
+                kModeNight => kNightTime,
+                _ => GetNaturalHour(),
+            };
+        }
+
         private float GetNaturalHour()
         {
             // Vanilla uses a fixed 14:30 scene when Day/night visuals is disabled.
@@ -200,9 +355,61 @@ namespace CityWatchdog.Systems
                 return kVanillaFixedDayTime;
             }
 
-            return Mathf.Repeat(
-                (m_TimeSystem?.normalizedTime ?? 0.5f) * kHoursPerDay,
-                kHoursPerDay);
+            return NormalizeHour(
+                (m_TimeSystem?.normalizedTime ?? 0.5f) * kHoursPerDay);
+        }
+
+        private static float ChooseDarkerPathDistance(float startHour, float targetHour)
+        {
+            float forwardDistance = Mathf.Repeat(targetHour - startHour, kHoursPerDay);
+            float backwardDistance = forwardDistance - kHoursPerDay;
+
+            if (Mathf.Abs(forwardDistance) < 0.001f)
+            {
+                return 0f;
+            }
+
+            float forwardPeak = PeakDaylightOnPath(startHour, forwardDistance);
+            float backwardPeak = PeakDaylightOnPath(startHour, backwardDistance);
+
+            if (forwardPeak < backwardPeak - 0.01f)
+            {
+                return forwardDistance;
+            }
+
+            if (backwardPeak < forwardPeak - 0.01f)
+            {
+                return backwardDistance;
+            }
+
+            return Mathf.Abs(forwardDistance) <= Mathf.Abs(backwardDistance)
+                ? forwardDistance
+                : backwardDistance;
+        }
+
+        private static float PeakDaylightOnPath(float startHour, float distanceHours)
+        {
+            const int sampleCount = 8;
+            float peak = 0f;
+
+            for (int i = 1; i <= sampleCount; i++)
+            {
+                float hour = startHour + (distanceHours * i / sampleCount);
+                peak = Mathf.Max(peak, DaylightAmount(hour));
+            }
+
+            return peak;
+        }
+
+        private static float DaylightAmount(float hour)
+        {
+            float radians = (NormalizeHour(hour) - 6f) * Mathf.PI / kHalfDay;
+            return Mathf.Max(0f, Mathf.Sin(radians));
+        }
+
+        private static float NormalizeHour(float hour)
+        {
+            return Mathf.Repeat(hour, kHoursPerDay);
         }
 
         private void TryResetPostProcessingHistory()
@@ -234,7 +441,7 @@ namespace CityWatchdog.Systems
                 if (!s_LoggedHistoryReset)
                 {
                     s_LoggedHistoryReset = true;
-                    LogUtils.Info("[CWD] Day/Night HDRP post-processing history reset active.");
+                    LogUtils.Info("[CWD] Day/Night HDRP brightening history reset active.");
                 }
             }
             catch (Exception ex)
@@ -246,8 +453,7 @@ namespace CityWatchdog.Systems
             }
         }
 
-        // Keep the existing setting as an A/B test switch for this build.
-        private static bool ShouldResetPostProcessingHistory()
+        private static bool ShouldUseSmootherSwitch()
         {
             return IsInGameOrEditor() &&
                 (CwdSettings.Instance?.SmoothDayNightTransition ?? true);
