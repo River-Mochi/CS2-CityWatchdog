@@ -134,19 +134,21 @@ namespace CityWatchdog
                 },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Hide/Show all game hover tooltips" },
 
-                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleDayNightKeyboardBinding)), "Day / Night: flip Day and Night" },
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleDayNightKeyboardBinding)), "Flip Day to Night" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleDayNightKeyboardBinding)),
-                    "<Hotkey> to flip the sun between Day (1 PM) and Night (1 AM) — a fast day/night check while building.\n" +
-                    "From Auto, the first press goes to Day. Unbound by default — set your own key so it can't clash with another mod."
+                    "<Hotkey> to flip the sun between Day (1 PM) and Night (1 AM) — a fast day/night check for city lighting effects.\n" +
+                    "Set your own keybind so it can't clash with another mod."
                 },
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleDayNightAction), "Flip Day / Night" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.SmoothDayNightTransition)), "Smoother Day / Night switch" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.SmoothDayNightTransition)),
                     "<Recommended ON>\n" +
+                    "Reduce flashing when quick flipping day to night.\n" +
                     "Switching to Night uses a short sunset transition so the game's exposure can follow the darker lighting.\n" +
-                    "Switching to Day resets HDRP exposure history to reduce the bright white flash.\n" +
-                    "Works with the button and hotkey in a city or map editor. Turn OFF to use the game's normal instant switch."
+                    "Switching to Day resets HDRP exposure to reduce the bright white flash.\n" +
+                    "Works with the button and hotkey in a city or map editor.\n" +
+                    "Turn OFF to use the game's normal instant switch or compare the differences."
                 },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Bigger Game UI" },
