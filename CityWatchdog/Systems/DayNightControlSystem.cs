@@ -13,20 +13,16 @@ namespace CityWatchdog.Systems
 {
     using System;
     using System.Reflection;
-
     using Colossal.Serialization.Entities;
     using Colossal.UI.Binding;
-
     using CS2Shared.RiverMochi;
-
     using Game;
     using Game.Input;
     using Game.Rendering;
     using Game.SceneFlow;
     using Game.Settings;
     using Game.Simulation;
-
-    using UnityEngine;
+    using UnityEngine;      // Mathf
     using UnityEngine.Rendering.HighDefinition;
 
     // Day/Night state is runtime-only. Auto releases the vanilla clock without changing the save.
@@ -44,7 +40,17 @@ namespace CityWatchdog.Systems
 
         private const float kMinimumLightingDifference = 0.05f;
         private const float kMinimumDarkeningSeconds = 0.35f;
-        private const float kMaximumDarkeningSeconds = 1.25f;
+
+        private const float kMaximumDarkeningSeconds = 2.35f;
+        // Day -> Night is visually nonlinear in game.
+        private const float kDarkeningPhase1Portion = 0.38f; // 1 PM -> 6:30 PM; modest time in afternoon.
+        private const float kDarkeningPhase2Portion = 0.37f; // 6:30 PM -> 8:45 PM; longer near dusk/twilight.
+        private const float kDarkeningPhase3Portion = 0.25f; // 8:45 PM -> 1 AM; finish the step into Night.
+
+        // For a full 1 PM -> 1 AM path, these positions correspond to 6:30 PM and 8:45 PM.
+        // Path fractions also keep shorter darkening transitions working correctly.
+        private const float kDarkeningPhase1PathEnd = 5.5f / kHalfDay;
+        private const float kDarkeningPhase2PathEnd = 7.75f / kHalfDay;
 
         private const string kResetPostProcessingHistoryFieldName = "resetPostProcessingHistory";
 
@@ -101,6 +107,7 @@ namespace CityWatchdog.Systems
 
             if (m_Darkening)
             {
+                // Wall-clock time keeps the lighting transition moving while the game is paused.
                 AdvanceDarkening(UnityEngine.Time.unscaledDeltaTime);
             }
         }
@@ -228,7 +235,8 @@ namespace CityWatchdog.Systems
 
         private void AdvanceDarkening(float deltaTime)
         {
-            if (m_PlanetarySystem == null)
+            PlanetarySystem? planetarySystem = m_PlanetarySystem;
+            if (planetarySystem == null)
             {
                 StopDarkening();
                 return;
@@ -242,17 +250,47 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            m_DarkeningElapsed += Math.Max(0f, deltaTime);
-            float progress = Mathf.Clamp01(m_DarkeningElapsed / m_DarkeningDuration);
+            m_DarkeningElapsed += Mathf.Max(0f, deltaTime);
 
-            // SmoothStep gives exposure time to follow without pausing at intermediate hours.
-            float eased = progress * progress * (3f - (2f * progress));
-            m_PlanetarySystem.overrideTime = true;
-            m_PlanetarySystem.time = NormalizeHour(
-                m_DarkeningStartHour + (m_DarkeningDistanceHours * eased));
+            float duration = Mathf.Max(0.001f, m_DarkeningDuration);
+            float progress = Mathf.Clamp01(m_DarkeningElapsed / duration);
+            float phase1End = kDarkeningPhase1Portion;
+            float phase2End = kDarkeningPhase1Portion + kDarkeningPhase2Portion;
+
+            float pathProgress;
+
+            if (progress < phase1End)
+            {
+                // Full Day -> Night path: 1 PM -> 6:30 PM.
+                float t = Smooth01(progress / phase1End);
+                pathProgress = Lerp01(0f, kDarkeningPhase1PathEnd, t);
+            }
+            else if (progress < phase2End)
+            {
+                // Full Day -> Night path: 6:30 PM -> 8:45 PM.
+                float t = Smooth01(
+                    (progress - phase1End) / kDarkeningPhase2Portion);
+                pathProgress = Lerp01(
+                    kDarkeningPhase1PathEnd,
+                    kDarkeningPhase2PathEnd,
+                    t);
+            }
+            else
+            {
+                // Full Day -> Night path: 8:45 PM -> 1 AM.
+                float t = Smooth01(
+                    (progress - phase2End) / kDarkeningPhase3Portion);
+                pathProgress = Lerp01(kDarkeningPhase2PathEnd, 1f, t);
+            }
+
+            planetarySystem.overrideTime = true;
+            planetarySystem.time = NormalizeHour(
+                m_DarkeningStartHour +
+                (m_DarkeningDistanceHours * pathProgress));
 
             if (progress >= 1f)
             {
+                // Reuse the normal completion path, including Auto release.
                 CompleteDarkening();
             }
         }
@@ -486,5 +524,17 @@ namespace CityWatchdog.Systems
                 return null;
             }
         }
+
+        private static float Smooth01(float t)
+        {
+            t = Mathf.Clamp01(t);
+            return t * t * (3f - (2f * t));
+        }
+
+        private static float Lerp01(float a, float b, float t)
+        {
+            return a + ((b - a) * Mathf.Clamp01(t));
+        }
+
     }
 }
