@@ -21,6 +21,7 @@ namespace CityWatchdog
     using Game;
     using Game.Modding;
     using Game.SceneFlow;
+    using Game.Simulation;
 
     public sealed class Mod : IMod
     {
@@ -130,7 +131,7 @@ namespace CityWatchdog
             try
             {
                 updateSystem.UpdateAt<CityFinanceSystem>(SystemUpdatePhase.ModificationEnd);
-                updateSystem.UpdateAt<MilestoneSystem>(SystemUpdatePhase.ModificationEnd);
+                updateSystem.UpdateAt<CityWatchdog.Systems.MilestoneSystem>(SystemUpdatePhase.ModificationEnd);
                 updateSystem.UpdateAt<CityWatchdogUISystem>(SystemUpdatePhase.UIUpdate);
                 updateSystem.UpdateAt<TooltipControlSystem>(SystemUpdatePhase.UIUpdate);
                 updateSystem.UpdateAt<RoadNameControlSystem>(SystemUpdatePhase.UIUpdate);
@@ -140,8 +141,7 @@ namespace CityWatchdog
 
                 // Apply the requested hour before PlanetarySystem recalculates the sun/moon,
                 // which vanilla then passes to LightingSystem later in the same PreCulling phase.
-                updateSystem.UpdateBefore<DayNightControlSystem, Game.Simulation.PlanetarySystem>(
-                    SystemUpdatePhase.PreCulling);
+                updateSystem.UpdateBefore<DayNightControlSystem, global::Game.Simulation.PlanetarySystem>(SystemUpdatePhase.PreCulling);
 
                 updateSystem.UpdateAt<AlertIconSystem>(SystemUpdatePhase.ModificationEnd);
             }
