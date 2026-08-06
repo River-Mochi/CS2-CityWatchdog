@@ -47,6 +47,9 @@ namespace CityWatchdog.Systems
         // Passive Debug showed the first acceptable recovering Night frames near EV 1.
         // Seed both HDRP histories there so Day -> Night skips EV 6 and the X-ray/black pair.
         private const float kNightExposureSeedEv = 1f;
+        private const int kNightExposureSeedMaximumWaitFrames = 8;
+        private const float kNightExposureReadyMinimumEv = 0.5f;
+        private const float kNightExposureReadyMaximumEv = 6.5f;
 
         private const string kResetPostProcessingHistoryFieldName =
             "resetPostProcessingHistory";
@@ -56,8 +59,6 @@ namespace CityWatchdog.Systems
             "current";
         private const string kExposurePreviousFieldName =
             "previous";
-        private const string kGpuExposureValueFieldName =
-            "m_GpuExposureValue";
 
         // HDCamera is public, but its narrow post-processing reset flag is internal.
         // Cache the lookup once; reflection runs only when switching to a brighter scene.
@@ -85,11 +86,6 @@ namespace CityWatchdog.Systems
                 BindingFlags.Public |
                 BindingFlags.NonPublic);
 
-        private static readonly FieldInfo? s_NightGpuExposureValueField =
-            typeof(HDCamera).GetField(
-                kGpuExposureValueFieldName,
-                BindingFlags.Instance | BindingFlags.NonPublic);
-
         private static bool s_LoggedHistoryReset;
         private static bool s_LoggedNightExposureSeed;
 
@@ -101,6 +97,11 @@ namespace CityWatchdog.Systems
 
         // Only release overrideTime if CWD took control.
         private bool m_OverrideActive;
+
+        // Day -> Night first renders one unmodified darker frame. On the next UI update,
+        // seed only after HDRP's volume stack has switched from the Day EV limits to Night.
+        private bool m_NightExposureSeedPending;
+        private int m_NightExposureSeedStartFrame;
 
         // The hotkey also works in the map editor.
         public override GameMode gameMode => GameMode.GameOrEditor;
@@ -136,6 +137,7 @@ namespace CityWatchdog.Systems
                 ToggleDayNight();
             }
 
+            AdvanceNightExposureSeed();
             AdvanceExposureDebug();
         }
 
@@ -180,6 +182,7 @@ namespace CityWatchdog.Systems
         protected override void OnDestroy()
         {
             StopExposureDebug();
+            CancelNightExposureSeed();
 
             PlanetarySystem? planetarySystem = m_PlanetarySystem;
             if (m_OverrideActive && planetarySystem != null)
@@ -207,6 +210,12 @@ namespace CityWatchdog.Systems
             mode = Math.Max(kModeAuto, Math.Min(kModeNight, mode));
 
             int previousMode = m_DayNightModeBinding.value;
+
+            if (mode != kModeNight)
+            {
+                CancelNightExposureSeed();
+            }
+
             bool useSmootherSwitch =
                 useProtection &&
                 ShouldUseSmootherSwitch();
@@ -260,15 +269,17 @@ namespace CityWatchdog.Systems
                     break;
 
                 case kModeNight:
-                    if (seedNightExposure)
-                    {
-                        TrySeedNightExposure();
-                    }
-
-                    // Jump the sun/shadows directly once. Exposure remains AutomaticHistogram.
+                    // Jump the sun/shadows directly once. Do not seed while HDRP still has
+                    // the Day volume stack; that produced the full-screen white frame.
                     planetarySystem.overrideTime = true;
                     planetarySystem.time = kNightTime;
                     m_OverrideActive = true;
+
+                    if (seedNightExposure)
+                    {
+                        ScheduleNightExposureSeed();
+                    }
+
                     break;
 
                 default:
@@ -378,7 +389,92 @@ namespace CityWatchdog.Systems
                 Camera.main;
         }
 
-        private void TrySeedNightExposure()
+        private void ScheduleNightExposureSeed()
+        {
+            m_NightExposureSeedPending = true;
+            m_NightExposureSeedStartFrame = UnityEngine.Time.frameCount;
+        }
+
+        private void CancelNightExposureSeed()
+        {
+            m_NightExposureSeedPending = false;
+            m_NightExposureSeedStartFrame = 0;
+        }
+
+        private void AdvanceNightExposureSeed()
+        {
+            if (!m_NightExposureSeedPending ||
+                m_DayNightModeBinding.value != kModeNight)
+            {
+                return;
+            }
+
+            int waitedFrames =
+                UnityEngine.Time.frameCount -
+                m_NightExposureSeedStartFrame;
+
+            // Always allow the first direct 1 AM frame to render without CWD changing exposure.
+            if (waitedFrames < 1)
+            {
+                return;
+            }
+
+            Camera? camera = GetActiveCamera();
+            if (camera == null)
+            {
+                if (waitedFrames >= kNightExposureSeedMaximumWaitFrames)
+                {
+                    CancelNightExposureSeed();
+                }
+
+                return;
+            }
+
+            HDCamera hdCamera;
+            try
+            {
+                hdCamera = HDCamera.GetOrCreate(camera);
+            }
+            catch
+            {
+                if (waitedFrames >= kNightExposureSeedMaximumWaitFrames)
+                {
+                    CancelNightExposureSeed();
+                }
+
+                return;
+            }
+
+            Exposure? exposure =
+                hdCamera.volumeStack?.GetComponent<Exposure>();
+
+            bool nightVolumeReady =
+                exposure != null &&
+                exposure.limitMin.value <=
+                    kNightExposureReadyMinimumEv &&
+                exposure.limitMax.value <=
+                    kNightExposureReadyMaximumEv;
+
+            if (!nightVolumeReady)
+            {
+                if (waitedFrames >= kNightExposureSeedMaximumWaitFrames)
+                {
+                    CancelNightExposureSeed();
+
+                    LogUtils.WarnOnce(
+                        "day-night-night-volume-not-ready",
+                        () =>
+                            "Day/Night exposure seed skipped because HDRP did not switch to the Night EV limits in time.");
+                }
+
+                return;
+            }
+
+            CancelNightExposureSeed();
+            TrySeedNightExposure(hdCamera);
+        }
+
+        private void TrySeedNightExposure(HDCamera hdCamera)
         {
             FieldInfo? texturesField = s_NightExposureTexturesField;
             FieldInfo? currentField = s_NightExposureCurrentField;
@@ -396,21 +492,8 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            Camera? camera = GetActiveCamera();
-            if (camera == null)
-            {
-                LogUtils.WarnOnce(
-                    "day-night-exposure-seed-camera-missing",
-                    () =>
-                        "Day/Night exposure-history seed skipped: no active game camera.");
-                return;
-            }
-
             try
             {
-                HDCamera hdCamera =
-                    HDCamera.GetOrCreate(camera);
-
                 object? exposureTextures =
                     texturesField.GetValue(hdCamera);
 
@@ -485,16 +568,11 @@ namespace CityWatchdog.Systems
                         commandBuffer);
                 }
 
-                // Keep HDRP's delayed CPU readback near the same value as both native textures.
-                s_NightGpuExposureValueField?.SetValue(
-                    hdCamera,
-                    exposureMultiplier);
-
                 if (!s_LoggedNightExposureSeed)
                 {
                     s_LoggedNightExposureSeed = true;
                     LogUtils.Info(
-                        $"[CWD] Day/Night seeded both HDRP exposure histories at EV {kNightExposureSeedEv:F1}.");
+                        $"[CWD] Day/Night seeded both HDRP exposure histories at EV {kNightExposureSeedEv:F1} after the Night volume became active.");
                 }
             }
             catch (Exception ex)
