@@ -28,6 +28,15 @@ namespace CityWatchdog.Systems
     // Day/Night state is runtime-only. Auto releases the vanilla clock without changing the save.
     public partial class DayNightControlSystem : UISystemBaseExtension
     {
+        private enum DarkeningPhase
+        {
+            Idle,
+            AwaitExposureReadback,
+            PrimeFixedExposure,
+            HoldFirstNightFrame,
+            ProgressiveRelease,
+        }
+
         private const int kModeAuto = 0;
         private const int kModeDay = 1;
         private const int kModeNight = 2;
@@ -40,10 +49,9 @@ namespace CityWatchdog.Systems
 
         private const float kMinimumLightingDifference = 0.05f;
 
-        // Avoid a fast time-lapse. Jump once to the last stable dusk seen before the
-        // game's late-twilight exposure spike, let exposure settle, then jump to Night.
-        private const float kNightDuskTime = 20.25f; // 8:15 PM
-        private const float kNightDuskHoldSeconds = 0.65f;
+        // The sun jumps only once. Exposure then settles while the 1 AM shadows stay still.
+        private const float kProgressiveReleaseSeconds = 0.32f;
+        private const float kProgressiveAdaptationSpeed = 4f;
 
         private const string kResetPostProcessingHistoryFieldName = "resetPostProcessingHistory";
 
@@ -55,19 +63,22 @@ namespace CityWatchdog.Systems
                 BindingFlags.Instance | BindingFlags.NonPublic);
 
         private static bool s_LoggedHistoryReset;
+        private static bool s_LoggedExposureBridge;
 
         private ValueBinding<int> m_DayNightModeBinding = null!;
         private PlanetarySystem? m_PlanetarySystem;
         private TimeSystem? m_TimeSystem;
         private CameraUpdateSystem? m_CameraUpdateSystem;
         private ProxyAction? m_ToggleDayNightAction;
+        private DayNightExposureBridge? m_ExposureBridge;
 
         // Only release overrideTime if CWD took control.
         private bool m_OverrideActive;
 
-        // Day -> Night uses two visual states only: stable dusk, then Night.
-        private bool m_Darkening;
-        private float m_DarkeningElapsed;
+        private DarkeningPhase m_DarkeningPhase;
+        private int m_DarkeningToken;
+        private int m_PhaseStartFrame;
+        private float m_PhaseElapsed;
 
         // The hotkey also works in the map editor.
         public override GameMode gameMode => GameMode.GameOrEditor;
@@ -79,6 +90,7 @@ namespace CityWatchdog.Systems
             m_PlanetarySystem = World.GetOrCreateSystemManaged<PlanetarySystem>();
             m_TimeSystem = World.GetOrCreateSystemManaged<TimeSystem>();
             m_CameraUpdateSystem = World.GetOrCreateSystemManaged<CameraUpdateSystem>();
+            m_ExposureBridge = new DayNightExposureBridge();
 
             m_DayNightModeBinding = AddValueBinding("DayNightMode", kModeAuto);
             AddTriggerBinding<int>("SetDayNightMode", OnSetDayNightMode);
@@ -94,9 +106,9 @@ namespace CityWatchdog.Systems
                 ToggleDayNight();
             }
 
-            if (m_Darkening)
+            if (m_DarkeningPhase != DarkeningPhase.Idle)
             {
-                // Wall-clock time keeps the lighting transition moving while the game is paused.
+                // Wall-clock time keeps the short exposure release moving while paused.
                 AdvanceDarkening(UnityEngine.Time.unscaledDeltaTime);
             }
         }
@@ -131,6 +143,8 @@ namespace CityWatchdog.Systems
         protected override void OnDestroy()
         {
             StopDarkening();
+            m_ExposureBridge?.Dispose();
+            m_ExposureBridge = null;
 
             if (m_OverrideActive && m_PlanetarySystem != null)
             {
@@ -148,7 +162,7 @@ namespace CityWatchdog.Systems
 
         private void SetMode(int mode, bool useSmootherSwitch)
         {
-            mode = Math.Clamp(mode, kModeAuto, kModeNight);
+            mode = Math.Max(kModeAuto, Math.Min(kModeNight, mode));
 
             if (m_DayNightModeBinding.value != mode)
             {
@@ -179,8 +193,8 @@ namespace CityWatchdog.Systems
             float targetLight = DaylightAmount(targetHour);
             float lightingDifference = targetLight - startLight;
 
-            // Only the explicit Night mode uses the staged darkening path.
-            // Auto remains an immediate release back to the vanilla clock.
+            // Only a meaningful move into explicit Night uses the exposure bridge.
+            // Auto and Night -> Day keep the already-tested immediate behavior.
             if (mode == kModeNight &&
                 lightingDifference < -kMinimumLightingDifference)
             {
@@ -190,7 +204,7 @@ namespace CityWatchdog.Systems
 
             StopDarkening();
 
-            // Keep the tested HDRP reset only when moving to a brighter scene.
+            // Keep the existing narrow HDRP reset only when moving to a brighter scene.
             bool resetHistory =
                 lightingDifference > kMinimumLightingDifference;
             ApplyModeImmediate(mode, resetHistory);
@@ -199,24 +213,77 @@ namespace CityWatchdog.Systems
         private void StartDarkening()
         {
             PlanetarySystem? planetarySystem = m_PlanetarySystem;
-            if (planetarySystem == null)
+            DayNightExposureBridge? exposureBridge = m_ExposureBridge;
+            Camera? camera = GetActiveCamera();
+
+            StopDarkening();
+
+            if (planetarySystem == null ||
+                exposureBridge == null ||
+                camera == null)
+            {
+                FallBackToImmediateNight(
+                    "Day/Night exposure bridge could not start because the active camera was unavailable.");
+                return;
+            }
+
+            int token = ++m_DarkeningToken;
+            m_DarkeningPhase = DarkeningPhase.AwaitExposureReadback;
+            m_PhaseElapsed = 0f;
+
+            // Read HDRP's actual 1x1 exposure texture while the Day image is unchanged.
+            // No dusk time and no moving sunset shadows are shown during this readback.
+            bool requested = exposureBridge.RequestCurrentExposure(
+                camera,
+                (success, exposureEv) =>
+                    OnCurrentExposureRead(token, success, exposureEv));
+
+            if (!requested)
+            {
+                FallBackToImmediateNight(
+                    "Day/Night could not read HDRP's current exposure texture.");
+            }
+        }
+
+        private void OnCurrentExposureRead(
+            int token,
+            bool success,
+            float exposureEv)
+        {
+            if (token != m_DarkeningToken ||
+                m_DarkeningPhase != DarkeningPhase.AwaitExposureReadback ||
+                m_DayNightModeBinding.value != kModeNight)
             {
                 return;
             }
 
-            // One discrete shadow/sun change instead of sweeping through 12 game hours.
-            planetarySystem.overrideTime = true;
-            planetarySystem.time = kNightDuskTime;
-            m_OverrideActive = true;
+            DayNightExposureBridge? exposureBridge = m_ExposureBridge;
+            if (!success ||
+                exposureBridge == null ||
+                !exposureBridge.BeginFixed(exposureEv))
+            {
+                FallBackToImmediateNight(
+                    "Day/Night could not convert the current HDRP exposure into a fixed bridge value.");
+                return;
+            }
 
-            m_Darkening = true;
-            m_DarkeningElapsed = 0f;
+            m_DarkeningPhase = DarkeningPhase.PrimeFixedExposure;
+            m_PhaseStartFrame = UnityEngine.Time.frameCount;
+            m_PhaseElapsed = 0f;
+
+            if (!s_LoggedExposureBridge)
+            {
+                s_LoggedExposureBridge = true;
+                LogUtils.Info("[CWD] Day/Night HDRP fixed-exposure bridge active.");
+            }
         }
 
         private void AdvanceDarkening(float deltaTime)
         {
             PlanetarySystem? planetarySystem = m_PlanetarySystem;
-            if (planetarySystem == null)
+            DayNightExposureBridge? exposureBridge = m_ExposureBridge;
+
+            if (planetarySystem == null || exposureBridge == null)
             {
                 StopDarkening();
                 return;
@@ -231,21 +298,75 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            // Hold one stable dusk frame-state long enough for normal HDRP exposure
-            // to move toward darkness without showing a fast-moving sun or shadows.
-            planetarySystem.overrideTime = true;
-            planetarySystem.time = kNightDuskTime;
-
-            m_DarkeningElapsed += Mathf.Max(0f, deltaTime);
-            if (m_DarkeningElapsed < kNightDuskHoldSeconds)
+            switch (m_DarkeningPhase)
             {
-                return;
+                case DarkeningPhase.AwaitExposureReadback:
+                    // The asynchronous 1x1 texture readback normally completes within a few frames.
+                    return;
+
+                case DarkeningPhase.PrimeFixedExposure:
+                    if (UnityEngine.Time.frameCount <= m_PhaseStartFrame)
+                    {
+                        return;
+                    }
+
+                    // HDRP has rendered Day once with the exact captured fixed exposure.
+                    // Jump directly to 1 AM; there is no visible dusk hold or time-lapse.
+                    planetarySystem.overrideTime = true;
+                    planetarySystem.time = kNightTime;
+                    m_OverrideActive = true;
+
+                    m_DarkeningPhase = DarkeningPhase.HoldFirstNightFrame;
+                    m_PhaseStartFrame = UnityEngine.Time.frameCount;
+                    return;
+
+                case DarkeningPhase.HoldFirstNightFrame:
+                    if (UnityEngine.Time.frameCount <= m_PhaseStartFrame)
+                    {
+                        return;
+                    }
+
+                    // Keep one complete 1 AM frame on the known fixed exposure so HDRP does
+                    // not combine new Night lighting with stale automatic-exposure history.
+                    if (!exposureBridge.BeginProgressiveRelease(
+                        kProgressiveAdaptationSpeed,
+                        kProgressiveAdaptationSpeed))
+                    {
+                        exposureBridge.EndOverride();
+                        m_DarkeningPhase = DarkeningPhase.Idle;
+                        return;
+                    }
+
+                    // The game's real automatic exposure now starts from the fixed value that
+                    // HDRP wrote into its own exposure history. Shadows remain fixed at 1 AM.
+                    m_DarkeningPhase = DarkeningPhase.ProgressiveRelease;
+                    m_PhaseElapsed = 0f;
+                    return;
+
+                case DarkeningPhase.ProgressiveRelease:
+                    m_PhaseElapsed += Mathf.Max(0f, deltaTime);
+                    if (m_PhaseElapsed < kProgressiveReleaseSeconds)
+                    {
+                        return;
+                    }
+
+                    exposureBridge.EndOverride();
+                    m_DarkeningPhase = DarkeningPhase.Idle;
+                    m_PhaseElapsed = 0f;
+                    return;
+
+                default:
+                    return;
             }
+        }
+
+        private void FallBackToImmediateNight(string reason)
+        {
+            LogUtils.WarnOnce(
+                "day-night-exposure-bridge-unavailable",
+                () => reason + " The switch will use the immediate Night fallback.");
 
             StopDarkening();
-
-            // Exposure now comes from the already-dark dusk scene. Do not reset
-            // history here; the reset's neutral frame caused the former white/X-ray flash.
             ApplyModeImmediate(
                 kModeNight,
                 resetPostProcessingHistory: false);
@@ -253,8 +374,11 @@ namespace CityWatchdog.Systems
 
         private void StopDarkening()
         {
-            m_Darkening = false;
-            m_DarkeningElapsed = 0f;
+            ++m_DarkeningToken;
+            m_DarkeningPhase = DarkeningPhase.Idle;
+            m_PhaseStartFrame = 0;
+            m_PhaseElapsed = 0f;
+            m_ExposureBridge?.EndOverride();
         }
 
         private void ApplyModeImmediate(int mode, bool resetPostProcessingHistory)
@@ -338,6 +462,11 @@ namespace CityWatchdog.Systems
             return Mathf.Repeat(hour, kHoursPerDay);
         }
 
+        private Camera? GetActiveCamera()
+        {
+            return m_CameraUpdateSystem?.activeCamera ?? Camera.main;
+        }
+
         private void TryResetPostProcessingHistory()
         {
             FieldInfo? resetField = s_ResetPostProcessingHistoryField;
@@ -350,7 +479,7 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            Camera? camera = m_CameraUpdateSystem?.activeCamera ?? Camera.main;
+            Camera? camera = GetActiveCamera();
             if (camera == null)
             {
                 LogUtils.WarnOnce(
@@ -412,6 +541,5 @@ namespace CityWatchdog.Systems
                 return null;
             }
         }
-
     }
 }
