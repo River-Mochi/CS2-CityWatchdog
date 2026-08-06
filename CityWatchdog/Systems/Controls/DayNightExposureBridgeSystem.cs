@@ -28,8 +28,10 @@ namespace CityWatchdog.Systems
         private const string kLightingExposureFieldName = "m_Exposure";
         private const string kLightingProfileFieldName = "m_Profile";
 
-        // Four rendered values for the usual 14 -> 6 change: 12, 10, 8, 6.
-        private const int kNightBridgeFrameCount = 4;
+        // One intermediate value for the usual 14 -> 6 change: 10, then vanilla 6.
+        private const int kNightBridgeFrameCount = 2;
+        private const int kNightRecoveryFrameCount = 4;
+        private const float kLightToDarkSpeedMultiplier = 4f;
         private const float kExposureRangeDifference = 0.05f;
 
         private static readonly FieldInfo? s_LightingExposureField =
@@ -49,6 +51,11 @@ namespace CityWatchdog.Systems
         private int m_NightBridgeFrame;
         private float m_NightBridgeStartMax;
 
+        private bool m_NightRecoveryActive;
+        private int m_NightRecoveryFrame;
+        private float m_OriginalLightToDarkSpeed;
+        private float m_BoostedLightToDarkSpeed;
+
         private bool m_AutoCheckPending;
         private bool m_AutoBaselineValid;
         private float m_AutoBeforeMin;
@@ -66,6 +73,7 @@ namespace CityWatchdog.Systems
         {
             ProcessAutoBrighteningCheck();
             ProcessNightBridge();
+            ProcessNightRecovery();
         }
 
         internal void AttachController(
@@ -98,20 +106,44 @@ namespace CityWatchdog.Systems
             m_NightBridgeFrame = 0;
             m_NightBridgeActive = true;
 
+            m_OriginalLightToDarkSpeed =
+                exposure.adaptationSpeedLightToDark.value;
+            m_BoostedLightToDarkSpeed =
+                Mathf.Max(
+                    m_OriginalLightToDarkSpeed,
+                    m_OriginalLightToDarkSpeed *
+                    kLightToDarkSpeedMultiplier);
+
+            m_NightRecoveryFrame = 0;
+            m_NightRecoveryActive = false;
+
 #if DEBUG
             LogUtils.Info(
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "[CWD-DN-BRIDGE] NIGHT begin startMin={0:F3} startMax={1:F3}",
+                    "[CWD-DN-BRIDGE] NIGHT begin startMin={0:F3} startMax={1:F3} originalLtoD={2:F3} boostedLtoD={3:F3}",
                     exposure.limitMin.value,
-                    m_NightBridgeStartMax));
+                    m_NightBridgeStartMax,
+                    m_OriginalLightToDarkSpeed,
+                    m_BoostedLightToDarkSpeed));
 #endif
         }
 
         internal void CancelNightTransition()
         {
+            bool restoreSpeed =
+                m_NightBridgeActive ||
+                m_NightRecoveryActive;
+
             m_NightBridgeActive = false;
             m_NightBridgeFrame = 0;
+            m_NightRecoveryActive = false;
+            m_NightRecoveryFrame = 0;
+
+            if (restoreSpeed)
+            {
+                RestoreLightToDarkSpeed();
+            }
         }
 
         internal void ArmAutoBrighteningCheck()
@@ -263,6 +295,9 @@ namespace CityWatchdog.Systems
                     exposure.limitMin.value,
                     appliedMax);
 
+            exposure.adaptationSpeedLightToDark.value =
+                m_BoostedLightToDarkSpeed;
+
             // LightingSystem calls Reset before this system; signal the profile again
             // after changing the value so HDRP sees this frame's bridge limit.
             TryGetLightingProfile()?.Reset();
@@ -271,13 +306,14 @@ namespace CityWatchdog.Systems
             LogUtils.Info(
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "[CWD-DN-BRIDGE] NIGHT frame={0}/{1} state={2} min={3:F3} vanillaMax={4:F3} appliedMax={5:F3}",
+                    "[CWD-DN-BRIDGE] NIGHT frame={0}/{1} state={2} min={3:F3} vanillaMax={4:F3} appliedMax={5:F3} LtoD={6:F3}",
                     m_NightBridgeFrame,
                     kNightBridgeFrameCount - 1,
                     state,
                     exposure.limitMin.value,
                     vanillaNightMax,
-                    exposure.limitMax.value));
+                    exposure.limitMax.value,
+                    exposure.adaptationSpeedLightToDark.value));
 #endif
 
             m_NightBridgeFrame++;
@@ -285,13 +321,79 @@ namespace CityWatchdog.Systems
             if (m_NightBridgeFrame >=
                 kNightBridgeFrameCount)
             {
-                CancelNightTransition();
+                m_NightBridgeActive = false;
+                m_NightBridgeFrame = 0;
+                m_NightRecoveryActive = true;
+                m_NightRecoveryFrame = 0;
 
 #if DEBUG
                 LogUtils.Info(
-                    "[CWD-DN-BRIDGE] NIGHT end");
+                    "[CWD-DN-BRIDGE] NIGHT bridge end; boosted recovery active");
 #endif
             }
+        }
+
+        private void ProcessNightRecovery()
+        {
+            if (!m_NightRecoveryActive)
+            {
+                return;
+            }
+
+            if (!(CwdSettings.Instance?
+                    .SmoothDayNightTransition ?? true) ||
+                !TryGetLightingExposure(out Exposure? exposure) ||
+                exposure == null ||
+                m_LightingSystem.state != LightingSystem.State.Night)
+            {
+                CancelNightTransition();
+                return;
+            }
+
+            exposure.adaptationSpeedLightToDark.value =
+                m_BoostedLightToDarkSpeed;
+
+            TryGetLightingProfile()?.Reset();
+
+#if DEBUG
+            LogUtils.Info(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "[CWD-DN-BRIDGE] NIGHT recovery={0}/{1} EVmax={2:F3} LtoD={3:F3}",
+                    m_NightRecoveryFrame,
+                    kNightRecoveryFrameCount - 1,
+                    exposure.limitMax.value,
+                    exposure.adaptationSpeedLightToDark.value));
+#endif
+
+            m_NightRecoveryFrame++;
+
+            if (m_NightRecoveryFrame >=
+                kNightRecoveryFrameCount)
+            {
+                m_NightRecoveryActive = false;
+                m_NightRecoveryFrame = 0;
+                RestoreLightToDarkSpeed();
+
+#if DEBUG
+                LogUtils.Info(
+                    "[CWD-DN-BRIDGE] NIGHT recovery end");
+#endif
+            }
+        }
+
+        private void RestoreLightToDarkSpeed()
+        {
+            if (!TryGetLightingExposure(out Exposure? exposure) ||
+                exposure == null)
+            {
+                return;
+            }
+
+            exposure.adaptationSpeedLightToDark.value =
+                m_OriginalLightToDarkSpeed;
+
+            TryGetLightingProfile()?.Reset();
         }
 
         private bool TryGetLightingExposure(
