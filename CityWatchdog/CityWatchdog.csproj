@@ -151,11 +151,6 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
-    <ItemGroup>
-      <Compile Remove="Systems\Dev1\**" />
-      <EmbeddedResource Remove="Systems\Dev1\**" />
-      <None Remove="Systems\Dev1\**" />
-    </ItemGroup>
 
     <!-- Run npm ci only on first use or after package-lock.json changes. -->
     <Target Name="NpmInstallIfNeeded" AfterTargets="Build" Condition="Exists('$(ProjectDir)UI\package.json') AND Exists('$(ProjectDir)UI\package-lock.json')" Inputs="$(ProjectDir)UI\package-lock.json" Outputs="$(ProjectDir)UI\node_modules\.stamp">
