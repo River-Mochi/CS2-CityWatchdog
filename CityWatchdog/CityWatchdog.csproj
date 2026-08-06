@@ -152,7 +152,9 @@
         </Content>
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Systems\Dev1\" />
+      <Compile Remove="Systems\Dev1\**" />
+      <EmbeddedResource Remove="Systems\Dev1\**" />
+      <None Remove="Systems\Dev1\**" />
     </ItemGroup>
 
     <!-- Run npm ci only on first use or after package-lock.json changes. -->
