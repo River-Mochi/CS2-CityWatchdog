@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: Systems/DayNightControlSystem.cs
+// File: Systems/Controls/DayNightControlSystem.cs
 // Purpose: Day/Night control for the panel button and optional hotkey.
 
 namespace CityWatchdog.Systems
@@ -27,6 +27,7 @@ namespace CityWatchdog.Systems
     using Game.Simulation;
 
     using UnityEngine;
+    using UnityEngine.Rendering;
     using UnityEngine.Rendering.HighDefinition;
 
     // Day/Night state is runtime-only. Auto releases the vanilla clock without changing the save.
@@ -43,8 +44,20 @@ namespace CityWatchdog.Systems
         private const float kHalfDay = 12f;
         private const float kMinimumLightingDifference = 0.05f;
 
+        // Passive Debug showed the first acceptable recovering Night frames near EV 1.
+        // Seed both HDRP histories there so Day -> Night skips EV 6 and the X-ray/black pair.
+        private const float kNightExposureSeedEv = 1f;
+
         private const string kResetPostProcessingHistoryFieldName =
             "resetPostProcessingHistory";
+        private const string kExposureTexturesFieldName =
+            "m_ExposureTextures";
+        private const string kExposureCurrentFieldName =
+            "current";
+        private const string kExposurePreviousFieldName =
+            "previous";
+        private const string kGpuExposureValueFieldName =
+            "m_GpuExposureValue";
 
         // HDCamera is public, but its narrow post-processing reset flag is internal.
         // Cache the lookup once; reflection runs only when switching to a brighter scene.
@@ -53,7 +66,32 @@ namespace CityWatchdog.Systems
                 kResetPostProcessingHistoryFieldName,
                 BindingFlags.Instance | BindingFlags.NonPublic);
 
+        private static readonly FieldInfo? s_NightExposureTexturesField =
+            typeof(HDCamera).GetField(
+                kExposureTexturesFieldName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private static readonly FieldInfo? s_NightExposureCurrentField =
+            s_NightExposureTexturesField?.FieldType.GetField(
+                kExposureCurrentFieldName,
+                BindingFlags.Instance |
+                BindingFlags.Public |
+                BindingFlags.NonPublic);
+
+        private static readonly FieldInfo? s_NightExposurePreviousField =
+            s_NightExposureTexturesField?.FieldType.GetField(
+                kExposurePreviousFieldName,
+                BindingFlags.Instance |
+                BindingFlags.Public |
+                BindingFlags.NonPublic);
+
+        private static readonly FieldInfo? s_NightGpuExposureValueField =
+            typeof(HDCamera).GetField(
+                kGpuExposureValueFieldName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
         private static bool s_LoggedHistoryReset;
+        private static bool s_LoggedNightExposureSeed;
 
         private ValueBinding<int> m_DayNightModeBinding = null!;
         private PlanetarySystem? m_PlanetarySystem;
@@ -169,10 +207,18 @@ namespace CityWatchdog.Systems
             mode = Math.Max(kModeAuto, Math.Min(kModeNight, mode));
 
             int previousMode = m_DayNightModeBinding.value;
-            bool resetHistory =
+            bool useSmootherSwitch =
                 useProtection &&
-                ShouldUseSmootherSwitch() &&
+                ShouldUseSmootherSwitch();
+
+            bool resetHistory =
+                useSmootherSwitch &&
                 IsBrighterTransition(mode);
+
+            bool seedNightExposure =
+                useSmootherSwitch &&
+                mode == kModeNight &&
+                IsDarkerTransition(mode);
 
             if (captureDebug && previousMode != mode)
             {
@@ -191,12 +237,13 @@ namespace CityWatchdog.Systems
                 m_DayNightModeBinding.Update(mode);
             }
 
-            ApplyMode(mode, resetHistory);
+            ApplyMode(mode, resetHistory, seedNightExposure);
         }
 
         private void ApplyMode(
             int mode,
-            bool resetPostProcessingHistory)
+            bool resetPostProcessingHistory,
+            bool seedNightExposure)
         {
             PlanetarySystem? planetarySystem = m_PlanetarySystem;
             if (planetarySystem == null)
@@ -213,8 +260,12 @@ namespace CityWatchdog.Systems
                     break;
 
                 case kModeNight:
-                    // Day -> Night is intentionally direct during passive Debug capture.
-                    // Do not change Exposure mode, volume settings, or HDRP textures here.
+                    if (seedNightExposure)
+                    {
+                        TrySeedNightExposure();
+                    }
+
+                    // Jump the sun/shadows directly once. Exposure remains AutomaticHistogram.
                     planetarySystem.overrideTime = true;
                     planetarySystem.time = kNightTime;
                     m_OverrideActive = true;
@@ -260,6 +311,23 @@ namespace CityWatchdog.Systems
 
             return targetLight - currentLight >
                 kMinimumLightingDifference;
+        }
+
+        private bool IsDarkerTransition(int targetMode)
+        {
+            PlanetarySystem? planetarySystem = m_PlanetarySystem;
+            if (planetarySystem == null)
+            {
+                return false;
+            }
+
+            float currentLight =
+                DaylightAmount(NormalizeHour(planetarySystem.time));
+            float targetLight =
+                DaylightAmount(TargetHour(targetMode));
+
+            return targetLight - currentLight <
+                -kMinimumLightingDifference;
         }
 
         private float TargetHour(int mode)
@@ -308,6 +376,135 @@ namespace CityWatchdog.Systems
             return
                 m_CameraUpdateSystem?.activeCamera ??
                 Camera.main;
+        }
+
+        private void TrySeedNightExposure()
+        {
+            FieldInfo? texturesField = s_NightExposureTexturesField;
+            FieldInfo? currentField = s_NightExposureCurrentField;
+            FieldInfo? previousField = s_NightExposurePreviousField;
+
+            if (texturesField == null ||
+                currentField == null ||
+                previousField == null)
+            {
+                LogUtils.WarnOnce(
+                    "day-night-exposure-history-fields-missing",
+                    () =>
+                        "Day/Night could not find HDRP's paired exposure-history fields. " +
+                        "The switch will use the game's normal Day -> Night exposure.");
+                return;
+            }
+
+            Camera? camera = GetActiveCamera();
+            if (camera == null)
+            {
+                LogUtils.WarnOnce(
+                    "day-night-exposure-seed-camera-missing",
+                    () =>
+                        "Day/Night exposure-history seed skipped: no active game camera.");
+                return;
+            }
+
+            try
+            {
+                HDCamera hdCamera =
+                    HDCamera.GetOrCreate(camera);
+
+                object? exposureTextures =
+                    texturesField.GetValue(hdCamera);
+
+                RTHandle? current =
+                    exposureTextures == null
+                        ? null
+                        : currentField.GetValue(exposureTextures)
+                            as RTHandle;
+
+                RTHandle? previous =
+                    exposureTextures == null
+                        ? null
+                        : previousField.GetValue(exposureTextures)
+                            as RTHandle;
+
+                RenderTexture? currentTexture = current?.rt;
+                RenderTexture? previousTexture = previous?.rt;
+
+                if (currentTexture == null ||
+                    previousTexture == null ||
+                    !currentTexture.IsCreated() ||
+                    !previousTexture.IsCreated())
+                {
+                    LogUtils.WarnOnce(
+                        "day-night-exposure-history-unavailable",
+                        () =>
+                            "Day/Night exposure-history seed skipped: HDRP history textures are not ready.");
+                    return;
+                }
+
+                float exposureMultiplier =
+                    ColorUtils.ConvertEV100ToExposure(
+                        kNightExposureSeedEv);
+
+                Color seedValue =
+                    new(
+                        exposureMultiplier,
+                        kNightExposureSeedEv,
+                        0f,
+                        0f);
+
+                CommandBuffer commandBuffer =
+                    CommandBufferPool.Get(
+                        "CWD Day/Night exposure seed");
+
+                try
+                {
+                    commandBuffer.SetRenderTarget(currentTexture);
+                    commandBuffer.ClearRenderTarget(
+                        clearDepth: false,
+                        clearColor: true,
+                        backgroundColor: seedValue);
+
+                    if (!ReferenceEquals(
+                            currentTexture,
+                            previousTexture))
+                    {
+                        commandBuffer.SetRenderTarget(
+                            previousTexture);
+                        commandBuffer.ClearRenderTarget(
+                            clearDepth: false,
+                            clearColor: true,
+                            backgroundColor: seedValue);
+                    }
+
+                    Graphics.ExecuteCommandBuffer(
+                        commandBuffer);
+                }
+                finally
+                {
+                    CommandBufferPool.Release(
+                        commandBuffer);
+                }
+
+                // Keep HDRP's delayed CPU readback near the same value as both native textures.
+                s_NightGpuExposureValueField?.SetValue(
+                    hdCamera,
+                    exposureMultiplier);
+
+                if (!s_LoggedNightExposureSeed)
+                {
+                    s_LoggedNightExposureSeed = true;
+                    LogUtils.Info(
+                        $"[CWD] Day/Night seeded both HDRP exposure histories at EV {kNightExposureSeedEv:F1}.");
+                }
+            }
+            catch (Exception ex)
+            {
+                LogUtils.WarnOnce(
+                    "day-night-exposure-seed-failed",
+                    () =>
+                        $"Day/Night HDRP exposure-history seed failed: {ex.GetType().Name}: {ex.Message}",
+                    ex);
+            }
         }
 
         private void TryResetPostProcessingHistory()
