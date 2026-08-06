@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: src/Mod.cs
+// File: Mod.cs
 // Purpose: Mod entrypoint; registers settings, localization, systems, keybindings, and the dedicated mod log.
 
 namespace CityWatchdog
@@ -66,10 +66,13 @@ namespace CityWatchdog
 
             try
             {
-                LocalizationManager? localizationManager = GameManager.instance.localizationManager;
+                LocalizationManager? localizationManager =
+                    GameManager.instance.localizationManager;
+
                 if (localizationManager == null)
                 {
-                    LogUtils.Warn($"{ModTag} LocalizationManager is null; locale sources were not registered.");
+                    LogUtils.Warn(
+                        $"{ModTag} LocalizationManager is null; locale sources were not registered.");
                 }
                 else
                 {
@@ -93,7 +96,10 @@ namespace CityWatchdog
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"{ModTag} Options localization registration failed: {ex.GetType().Name}: {ex.Message}", ex);
+                LogUtils.Error(
+                    $"{ModTag} Options localization registration failed: " +
+                    $"{ex.GetType().Name}: {ex.Message}",
+                    ex);
             }
 
             // Custom in-city React UI strings from embedded lang/*.json.
@@ -101,11 +107,16 @@ namespace CityWatchdog
 
             try
             {
-                AssetDatabase.global.LoadSettings(ModId, setting, new CwdSettings(this));
+                AssetDatabase.global.LoadSettings(
+                    ModId,
+                    setting,
+                    new CwdSettings(this));
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"{ModTag} Settings load failed: {ex.GetType().Name}: {ex.Message}", ex);
+                LogUtils.Error(
+                    $"{ModTag} Settings load failed: {ex.GetType().Name}: {ex.Message}",
+                    ex);
             }
 
             setting.NormalizeLoadedSettings();
@@ -116,7 +127,10 @@ namespace CityWatchdog
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"{ModTag} Options UI registration failed: {ex.GetType().Name}: {ex.Message}", ex);
+                LogUtils.Error(
+                    $"{ModTag} Options UI registration failed: " +
+                    $"{ex.GetType().Name}: {ex.Message}",
+                    ex);
             }
 
             try
@@ -125,29 +139,47 @@ namespace CityWatchdog
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"{ModTag} Keybinding registration failed: {ex.GetType().Name}: {ex.Message}", ex);
+                LogUtils.Error(
+                    $"{ModTag} Keybinding registration failed: " +
+                    $"{ex.GetType().Name}: {ex.Message}",
+                    ex);
             }
 
             try
             {
-                updateSystem.UpdateAt<CityFinanceSystem>(SystemUpdatePhase.ModificationEnd);
-                updateSystem.UpdateAt<CityWatchdog.Systems.MilestoneSystem>(SystemUpdatePhase.ModificationEnd);
-                updateSystem.UpdateAt<CityWatchdogUISystem>(SystemUpdatePhase.UIUpdate);
-                updateSystem.UpdateAt<TooltipControlSystem>(SystemUpdatePhase.UIUpdate);
-                updateSystem.UpdateAt<RoadNameControlSystem>(SystemUpdatePhase.UIUpdate);
-                updateSystem.UpdateAt<DistrictNameControlSystem>(SystemUpdatePhase.Rendering);
-                updateSystem.UpdateAt<RoadArrowControlSystem>(SystemUpdatePhase.UIUpdate);
-                updateSystem.UpdateAt<InterfaceScaleControlSystem>(SystemUpdatePhase.UIUpdate);
+                updateSystem.UpdateAt<CityFinanceSystem>(
+                    SystemUpdatePhase.ModificationEnd);
+                updateSystem.UpdateAt<CwdMilestoneSystem>(
+                    SystemUpdatePhase.ModificationEnd);
+                updateSystem.UpdateAt<CityWatchdogUISystem>(
+                    SystemUpdatePhase.UIUpdate);
+                updateSystem.UpdateAt<TooltipControlSystem>(
+                    SystemUpdatePhase.UIUpdate);
+                updateSystem.UpdateAt<RoadNameControlSystem>(
+                    SystemUpdatePhase.UIUpdate);
+                updateSystem.UpdateAt<DistrictNameControlSystem>(
+                    SystemUpdatePhase.Rendering);
+                updateSystem.UpdateAt<RoadArrowControlSystem>(
+                    SystemUpdatePhase.UIUpdate);
+                updateSystem.UpdateAt<InterfaceScaleControlSystem>(
+                    SystemUpdatePhase.UIUpdate);
 
-                // Apply the requested hour before PlanetarySystem recalculates the sun/moon,
-                // which vanilla then passes to LightingSystem later in the same PreCulling phase.
-                updateSystem.UpdateBefore<DayNightControlSystem, global::Game.Simulation.PlanetarySystem>(SystemUpdatePhase.PreCulling);
+                // Apply the requested hour before PlanetarySystem recalculates the sun/moon.
+                // LightingSystem then consumes that updated state later in PreCulling.
+                updateSystem.UpdateBefore<
+                    DayNightControlSystem,
+                    PlanetarySystem>(
+                        SystemUpdatePhase.PreCulling);
 
-                updateSystem.UpdateAt<AlertIconSystem>(SystemUpdatePhase.ModificationEnd);
+                updateSystem.UpdateAt<AlertIconSystem>(
+                    SystemUpdatePhase.ModificationEnd);
             }
             catch (Exception ex)
             {
-                LogUtils.Error($"{ModTag} System scheduling failed: {ex.GetType().Name}: {ex.Message}", ex);
+                LogUtils.Error(
+                    $"{ModTag} System scheduling failed: " +
+                    $"{ex.GetType().Name}: {ex.Message}",
+                    ex);
             }
         }
 

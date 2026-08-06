@@ -103,7 +103,8 @@
         <Reference Include="Unity.InputSystem">
             <Private>false</Private>
         </Reference>
-        <!-- HDRP: Volume (Core.Runtime) + Exposure/AdaptationMode (HighDefinition.Runtime) for DayNightExposureGuard. -->
+
+        <!-- HDRP types used by the Day/Night history reset and passive Debug tracing. -->
         <Reference Include="Unity.RenderPipelines.Core.Runtime">
             <Private>false</Private>
         </Reference>
