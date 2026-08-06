@@ -6,7 +6,7 @@
 // all copies or substantial portions of this code.
 // ================= </copyright> ======================
 
-// File: Systems/Diagnostics/AlertIconSystem.Debug.cs
+// File: Systems/Dev/AlertIconSystem.Debug.cs
 // Purpose: Keeps AlertIconSystem debug-only prefab/icon inspection helpers out of the release-facing system file.
 
 namespace CityWatchdog.Systems
