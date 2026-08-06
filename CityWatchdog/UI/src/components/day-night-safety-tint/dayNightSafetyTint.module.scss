@@ -1,4 +1,5 @@
-// A1 safety tint: no blur, no CSS filter, and it never captures input.
+// A2 safety shutter: fully opaque only during the short Day -> Night cover.
+// No blur, no CSS filter, and it never captures input.
 .tint {
     position: fixed;
     top: 0;
