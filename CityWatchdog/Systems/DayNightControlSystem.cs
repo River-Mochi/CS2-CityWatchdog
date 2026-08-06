@@ -22,7 +22,7 @@ namespace CityWatchdog.Systems
     using Game.SceneFlow;
     using Game.Settings;
     using Game.Simulation;
-    using UnityEngine;      // Mathf
+    using UnityEngine;
     using UnityEngine.Rendering.HighDefinition;
 
     // Day/Night state is runtime-only. Auto releases the vanilla clock without changing the save.
@@ -39,18 +39,11 @@ namespace CityWatchdog.Systems
         private const float kHalfDay = 12f;
 
         private const float kMinimumLightingDifference = 0.05f;
-        private const float kMinimumDarkeningSeconds = 0.35f;
 
-        private const float kMaximumDarkeningSeconds = 2.35f;
-        // Day -> Night is visually nonlinear in game.
-        private const float kDarkeningPhase1Portion = 0.38f; // 1 PM -> 6:30 PM; modest time in afternoon.
-        private const float kDarkeningPhase2Portion = 0.37f; // 6:30 PM -> 8:45 PM; longer near dusk/twilight.
-        private const float kDarkeningPhase3Portion = 0.25f; // 8:45 PM -> 1 AM; finish the step into Night.
-
-        // For a full 1 PM -> 1 AM path, these positions correspond to 6:30 PM and 8:45 PM.
-        // Path fractions also keep shorter darkening transitions working correctly.
-        private const float kDarkeningPhase1PathEnd = 5.5f / kHalfDay;
-        private const float kDarkeningPhase2PathEnd = 7.75f / kHalfDay;
+        // Avoid a fast time-lapse. Jump once to the last stable dusk seen before the
+        // game's late-twilight exposure spike, let exposure settle, then jump to Night.
+        private const float kNightDuskTime = 20.25f; // 8:15 PM
+        private const float kNightDuskHoldSeconds = 0.65f;
 
         private const string kResetPostProcessingHistoryFieldName = "resetPostProcessingHistory";
 
@@ -72,13 +65,9 @@ namespace CityWatchdog.Systems
         // Only release overrideTime if CWD took control.
         private bool m_OverrideActive;
 
-        // Darkening uses a short sunset path so auto exposure can follow the lighting change.
+        // Day -> Night uses two visual states only: stable dusk, then Night.
         private bool m_Darkening;
         private float m_DarkeningElapsed;
-        private float m_DarkeningDuration;
-        private float m_DarkeningStartHour;
-        private float m_DarkeningDistanceHours;
-        private int m_DarkeningTargetMode;
 
         // The hotkey also works in the map editor.
         public override GameMode gameMode => GameMode.GameOrEditor;
@@ -178,59 +167,50 @@ namespace CityWatchdog.Systems
 
         private void ApplyModeProtected(int mode)
         {
-            if (m_PlanetarySystem == null)
+            PlanetarySystem? planetarySystem = m_PlanetarySystem;
+            if (planetarySystem == null)
             {
                 return;
             }
 
-            float startHour = NormalizeHour(m_PlanetarySystem.time);
+            float startHour = NormalizeHour(planetarySystem.time);
             float targetHour = TargetHour(mode);
             float startLight = DaylightAmount(startHour);
             float targetLight = DaylightAmount(targetHour);
             float lightingDifference = targetLight - startLight;
 
-            if (lightingDifference < -kMinimumLightingDifference)
+            // Only the explicit Night mode uses the staged darkening path.
+            // Auto remains an immediate release back to the vanilla clock.
+            if (mode == kModeNight &&
+                lightingDifference < -kMinimumLightingDifference)
             {
-                StartDarkening(mode, startHour, targetHour);
+                StartDarkening();
                 return;
             }
 
             StopDarkening();
 
-            // Resetting HDRP history is useful only when the target is meaningfully brighter.
-            // During a darkening switch HDRP's neutral reset frame is itself the white/X-ray flash.
-            bool resetHistory = lightingDifference > kMinimumLightingDifference;
+            // Keep the tested HDRP reset only when moving to a brighter scene.
+            bool resetHistory =
+                lightingDifference > kMinimumLightingDifference;
             ApplyModeImmediate(mode, resetHistory);
         }
 
-        private void StartDarkening(int targetMode, float startHour, float targetHour)
+        private void StartDarkening()
         {
-            if (m_PlanetarySystem == null)
+            PlanetarySystem? planetarySystem = m_PlanetarySystem;
+            if (planetarySystem == null)
             {
                 return;
             }
 
-            float distanceHours = ChooseDarkerPathDistance(startHour, targetHour);
-            if (Mathf.Abs(distanceHours) < 0.001f)
-            {
-                ApplyModeImmediate(targetMode, resetPostProcessingHistory: false);
-                return;
-            }
-
-            float distanceRatio = Mathf.Clamp01(Mathf.Abs(distanceHours) / kHalfDay);
-
-            m_PlanetarySystem.overrideTime = true;
+            // One discrete shadow/sun change instead of sweeping through 12 game hours.
+            planetarySystem.overrideTime = true;
+            planetarySystem.time = kNightDuskTime;
             m_OverrideActive = true;
 
             m_Darkening = true;
             m_DarkeningElapsed = 0f;
-            m_DarkeningDuration = Mathf.Lerp(
-                kMinimumDarkeningSeconds,
-                kMaximumDarkeningSeconds,
-                distanceRatio);
-            m_DarkeningStartHour = startHour;
-            m_DarkeningDistanceHours = distanceHours;
-            m_DarkeningTargetMode = targetMode;
         }
 
         private void AdvanceDarkening(float deltaTime)
@@ -244,87 +224,37 @@ namespace CityWatchdog.Systems
 
             if (!ShouldUseSmootherSwitch())
             {
-                int targetMode = m_DarkeningTargetMode;
                 StopDarkening();
-                ApplyModeImmediate(targetMode, resetPostProcessingHistory: false);
+                ApplyModeImmediate(
+                    kModeNight,
+                    resetPostProcessingHistory: false);
                 return;
             }
+
+            // Hold one stable dusk frame-state long enough for normal HDRP exposure
+            // to move toward darkness without showing a fast-moving sun or shadows.
+            planetarySystem.overrideTime = true;
+            planetarySystem.time = kNightDuskTime;
 
             m_DarkeningElapsed += Mathf.Max(0f, deltaTime);
-
-            float duration = Mathf.Max(0.001f, m_DarkeningDuration);
-            float progress = Mathf.Clamp01(m_DarkeningElapsed / duration);
-            float phase1End = kDarkeningPhase1Portion;
-            float phase2End = kDarkeningPhase1Portion + kDarkeningPhase2Portion;
-
-            float pathProgress;
-
-            if (progress < phase1End)
+            if (m_DarkeningElapsed < kNightDuskHoldSeconds)
             {
-                // Full Day -> Night path: 1 PM -> 6:30 PM.
-                float t = Smooth01(progress / phase1End);
-                pathProgress = Lerp01(0f, kDarkeningPhase1PathEnd, t);
-            }
-            else if (progress < phase2End)
-            {
-                // Full Day -> Night path: 6:30 PM -> 8:45 PM.
-                float t = Smooth01(
-                    (progress - phase1End) / kDarkeningPhase2Portion);
-                pathProgress = Lerp01(
-                    kDarkeningPhase1PathEnd,
-                    kDarkeningPhase2PathEnd,
-                    t);
-            }
-            else
-            {
-                // Full Day -> Night path: 8:45 PM -> 1 AM.
-                float t = Smooth01(
-                    (progress - phase2End) / kDarkeningPhase3Portion);
-                pathProgress = Lerp01(kDarkeningPhase2PathEnd, 1f, t);
-            }
-
-            planetarySystem.overrideTime = true;
-            planetarySystem.time = NormalizeHour(
-                m_DarkeningStartHour +
-                (m_DarkeningDistanceHours * pathProgress));
-
-            if (progress >= 1f)
-            {
-                // Reuse the normal completion path, including Auto release.
-                CompleteDarkening();
-            }
-        }
-
-        private void CompleteDarkening()
-        {
-            if (m_PlanetarySystem == null)
-            {
-                StopDarkening();
                 return;
             }
 
-            int targetMode = m_DarkeningTargetMode;
             StopDarkening();
 
-            if (targetMode == kModeAuto)
-            {
-                // Re-sample the live clock after the short transition, then release CWD's override.
-                m_PlanetarySystem.time = GetNaturalHour();
-                m_PlanetarySystem.overrideTime = false;
-                m_OverrideActive = false;
-                return;
-            }
-
-            m_PlanetarySystem.overrideTime = true;
-            m_PlanetarySystem.time = TargetHour(targetMode);
-            m_OverrideActive = true;
+            // Exposure now comes from the already-dark dusk scene. Do not reset
+            // history here; the reset's neutral frame caused the former white/X-ray flash.
+            ApplyModeImmediate(
+                kModeNight,
+                resetPostProcessingHistory: false);
         }
 
         private void StopDarkening()
         {
             m_Darkening = false;
             m_DarkeningElapsed = 0f;
-            m_DarkeningDuration = 0f;
         }
 
         private void ApplyModeImmediate(int mode, bool resetPostProcessingHistory)
@@ -395,48 +325,6 @@ namespace CityWatchdog.Systems
 
             return NormalizeHour(
                 (m_TimeSystem?.normalizedTime ?? 0.5f) * kHoursPerDay);
-        }
-
-        private static float ChooseDarkerPathDistance(float startHour, float targetHour)
-        {
-            float forwardDistance = Mathf.Repeat(targetHour - startHour, kHoursPerDay);
-            float backwardDistance = forwardDistance - kHoursPerDay;
-
-            if (Mathf.Abs(forwardDistance) < 0.001f)
-            {
-                return 0f;
-            }
-
-            float forwardPeak = PeakDaylightOnPath(startHour, forwardDistance);
-            float backwardPeak = PeakDaylightOnPath(startHour, backwardDistance);
-
-            if (forwardPeak < backwardPeak - 0.01f)
-            {
-                return forwardDistance;
-            }
-
-            if (backwardPeak < forwardPeak - 0.01f)
-            {
-                return backwardDistance;
-            }
-
-            return Mathf.Abs(forwardDistance) <= Mathf.Abs(backwardDistance)
-                ? forwardDistance
-                : backwardDistance;
-        }
-
-        private static float PeakDaylightOnPath(float startHour, float distanceHours)
-        {
-            const int sampleCount = 8;
-            float peak = 0f;
-
-            for (int i = 1; i <= sampleCount; i++)
-            {
-                float hour = startHour + (distanceHours * i / sampleCount);
-                peak = Mathf.Max(peak, DaylightAmount(hour));
-            }
-
-            return peak;
         }
 
         private static float DaylightAmount(float hour)
@@ -523,17 +411,6 @@ namespace CityWatchdog.Systems
                     ex);
                 return null;
             }
-        }
-
-        private static float Smooth01(float t)
-        {
-            t = Mathf.Clamp01(t);
-            return t * t * (3f - (2f * t));
-        }
-
-        private static float Lerp01(float a, float b, float t)
-        {
-            return a + ((b - a) * Mathf.Clamp01(t));
         }
 
     }
