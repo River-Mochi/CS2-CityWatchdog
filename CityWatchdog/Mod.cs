@@ -137,7 +137,12 @@ namespace CityWatchdog
                 updateSystem.UpdateAt<DistrictNameControlSystem>(SystemUpdatePhase.Rendering);
                 updateSystem.UpdateAt<RoadArrowControlSystem>(SystemUpdatePhase.UIUpdate);
                 updateSystem.UpdateAt<InterfaceScaleControlSystem>(SystemUpdatePhase.UIUpdate);
-                updateSystem.UpdateAt<DayNightControlSystem>(SystemUpdatePhase.UIUpdate);
+
+                // Apply the requested hour before PlanetarySystem recalculates the sun/moon,
+                // which vanilla then passes to LightingSystem later in the same PreCulling phase.
+                updateSystem.UpdateBefore<DayNightControlSystem, Game.Simulation.PlanetarySystem>(
+                    SystemUpdatePhase.PreCulling);
+
                 updateSystem.UpdateAt<AlertIconSystem>(SystemUpdatePhase.ModificationEnd);
             }
             catch (Exception ex)
