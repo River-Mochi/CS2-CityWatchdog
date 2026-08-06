@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/Controls/DayNightExposureBridgeSystem.cs
-// Purpose: Tests a narrow automatic-exposure limit bridge after vanilla LightingSystem.
+// Purpose: Tests instant HDRP exposure adaptation during the direct Day -> Night switch.
 
 namespace CityWatchdog.Systems
 {
@@ -19,7 +19,6 @@ namespace CityWatchdog.Systems
 
     using Game.Rendering;
 
-    using UnityEngine;
     using UnityEngine.Rendering;
     using UnityEngine.Rendering.HighDefinition;
 
@@ -28,10 +27,9 @@ namespace CityWatchdog.Systems
         private const string kLightingExposureFieldName = "m_Exposure";
         private const string kLightingProfileFieldName = "m_Profile";
 
-        // Four rendered values: Night max + 3, +2, +1, then vanilla Night max.
-        // This keeps a short runway without holding Night at the Day EV range.
-        private const int kNightBridgeFrameCount = 4;
-        private const float kNightBridgeStartAboveVanilla = 3f;
+        // Let the new dark scene settle with instant exposure before restoring
+        // the profile's normal Progressive adaptation.
+        private const double kNightFixedAdaptationSeconds = 0.5d;
         private const float kExposureRangeDifference = 0.05f;
 
         private static readonly FieldInfo? s_LightingExposureField =
@@ -47,9 +45,11 @@ namespace CityWatchdog.Systems
         private LightingSystem m_LightingSystem = null!;
         private DayNightControlSystem? m_ControlSystem;
 
-        private bool m_NightBridgeActive;
-        private int m_NightBridgeFrame;
-        private float m_NightBridgeStartMax;
+        private bool m_NightTransitionActive;
+        private double m_NightReleaseTime;
+        private bool m_NightOriginalAdaptationValid;
+        private AdaptationMode m_NightOriginalAdaptationMode;
+        private bool m_NightOriginalAdaptationOverrideState;
 
         private bool m_AutoCheckPending;
         private bool m_AutoBaselineValid;
@@ -67,7 +67,7 @@ namespace CityWatchdog.Systems
         protected override void OnUpdate()
         {
             ProcessAutoBrighteningCheck();
-            ProcessNightBridge();
+            ProcessNightTransition();
         }
 
         internal void AttachController(
@@ -88,31 +88,52 @@ namespace CityWatchdog.Systems
         internal void BeginNightTransition()
         {
             CancelAutoBrighteningCheck();
+            CancelNightTransition();
 
-            if (!TryGetLightingExposure(out Exposure? exposure))
+            if (!TryGetLightingExposure(out Exposure? exposure) ||
+                exposure == null)
             {
-                m_NightBridgeActive = false;
                 return;
             }
 
-            m_NightBridgeStartMax = exposure.limitMax.value;
-            m_NightBridgeFrame = 0;
-            m_NightBridgeActive = true;
+            m_NightOriginalAdaptationMode =
+                exposure.adaptationMode.value;
+            m_NightOriginalAdaptationOverrideState =
+                exposure.adaptationMode.overrideState;
+            m_NightOriginalAdaptationValid = true;
+
+            m_NightReleaseTime =
+                World.Time.ElapsedTime +
+                kNightFixedAdaptationSeconds;
+            m_NightTransitionActive = true;
+
+            // This runs immediately before DayNightControlSystem changes the hour.
+            ApplyFixedAdaptation(exposure);
 
 #if DEBUG
             LogUtils.Info(
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "[CWD-DN-BRIDGE] NIGHT begin startMin={0:F3} startMax={1:F3}",
+                    "[CWD-DN-FIXED] NIGHT begin original={0} override={1} releaseIn={2:F2}s min={3:F3} max={4:F3}",
+                    m_NightOriginalAdaptationMode,
+                    m_NightOriginalAdaptationOverrideState,
+                    kNightFixedAdaptationSeconds,
                     exposure.limitMin.value,
-                    m_NightBridgeStartMax));
+                    exposure.limitMax.value));
 #endif
         }
 
         internal void CancelNightTransition()
         {
-            m_NightBridgeActive = false;
-            m_NightBridgeFrame = 0;
+            if (m_NightTransitionActive ||
+                m_NightOriginalAdaptationValid)
+            {
+                RestoreNightAdaptation();
+            }
+
+            m_NightTransitionActive = false;
+            m_NightOriginalAdaptationValid = false;
+            m_NightReleaseTime = 0d;
         }
 
         internal void ArmAutoBrighteningCheck()
@@ -176,7 +197,7 @@ namespace CityWatchdog.Systems
             LogUtils.Info(
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "[CWD-DN-BRIDGE] AUTO state={0} beforeMin={1:F3} beforeMax={2:F3} afterMin={3:F3} afterMax={4:F3} reset={5}",
+                    "[CWD-DN-FIXED] AUTO state={0} beforeMin={1:F3} beforeMax={2:F3} afterMin={3:F3} afterMax={4:F3} reset={5}",
                     state,
                     m_AutoBeforeMin,
                     m_AutoBeforeMax,
@@ -193,9 +214,9 @@ namespace CityWatchdog.Systems
             m_AutoBaselineValid = false;
         }
 
-        private void ProcessNightBridge()
+        private void ProcessNightTransition()
         {
-            if (!m_NightBridgeActive)
+            if (!m_NightTransitionActive)
             {
                 return;
             }
@@ -214,94 +235,89 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            LightingSystem.State state =
-                m_LightingSystem.state;
+            double elapsedTime =
+                World.Time.ElapsedTime;
 
-            if (state != LightingSystem.State.Night)
-            {
-#if DEBUG
-                LogUtils.Info(
-                    $"[CWD-DN-BRIDGE] NIGHT canceled state={state}");
-#endif
-                CancelNightTransition();
-                return;
-            }
-
-            float vanillaNightMax =
-                exposure.limitMax.value;
-
-            if (m_NightBridgeStartMax <=
-                vanillaNightMax +
-                kExposureRangeDifference)
+            if (elapsedTime >= m_NightReleaseTime)
             {
 #if DEBUG
                 LogUtils.Info(
                     string.Format(
                         CultureInfo.InvariantCulture,
-                        "[CWD-DN-BRIDGE] NIGHT not-needed startMax={0:F3} vanillaMax={1:F3}",
-                        m_NightBridgeStartMax,
-                        vanillaNightMax));
+                        "[CWD-DN-FIXED] NIGHT release state={0} current={1} min={2:F3} max={3:F3}",
+                        m_LightingSystem.state,
+                        exposure.adaptationMode.value,
+                        exposure.limitMin.value,
+                        exposure.limitMax.value));
 #endif
+
                 CancelNightTransition();
                 return;
             }
 
-            float progress =
-                kNightBridgeFrameCount <= 1
-                    ? 1f
-                    : (float)m_NightBridgeFrame /
-                      (kNightBridgeFrameCount - 1);
+            // LightingSystem may copy profile values each frame, so reapply Fixed
+            // after LightingSystem until the short hold has completed.
+            ApplyFixedAdaptation(exposure);
 
-            // Start close to Night's range. The old 14 -> 6 bridge kept the
-            // newly dark scene exposed near Day EV for too many black frames.
-            float bridgeStartMax =
-                Mathf.Min(
-                    m_NightBridgeStartMax,
-                    vanillaNightMax +
-                    kNightBridgeStartAboveVanilla);
-
-            float appliedMax =
-                Mathf.Lerp(
-                    bridgeStartMax,
-                    vanillaNightMax,
-                    progress);
-
-            exposure.limitMax.value =
-                Mathf.Max(
+#if DEBUG
+            LogUtils.Info(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "[CWD-DN-FIXED] NIGHT hold state={0} remaining={1:F3}s adaptation={2} min={3:F3} max={4:F3}",
+                    m_LightingSystem.state,
+                    Math.Max(
+                        0d,
+                        m_NightReleaseTime -
+                        elapsedTime),
+                    exposure.adaptationMode.value,
                     exposure.limitMin.value,
-                    appliedMax);
+                    exposure.limitMax.value));
+#endif
+        }
 
-            // LightingSystem calls Reset before this system; signal the profile again
-            // after changing the value so HDRP sees this frame's bridge limit.
+        private void ApplyFixedAdaptation(
+            Exposure exposure)
+        {
+            bool changed =
+                exposure.adaptationMode.value !=
+                    AdaptationMode.Fixed ||
+                !exposure.adaptationMode.overrideState;
+
+            exposure.adaptationMode.overrideState = true;
+            exposure.adaptationMode.value =
+                AdaptationMode.Fixed;
+
+            if (changed)
+            {
+                // Tell HDRP that this frame's runtime profile value changed.
+                TryGetLightingProfile()?.Reset();
+            }
+        }
+
+        private void RestoreNightAdaptation()
+        {
+            if (!m_NightOriginalAdaptationValid ||
+                !TryGetLightingExposure(out Exposure? exposure) ||
+                exposure == null)
+            {
+                return;
+            }
+
+            exposure.adaptationMode.value =
+                m_NightOriginalAdaptationMode;
+            exposure.adaptationMode.overrideState =
+                m_NightOriginalAdaptationOverrideState;
+
             TryGetLightingProfile()?.Reset();
 
 #if DEBUG
             LogUtils.Info(
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "[CWD-DN-BRIDGE] NIGHT frame={0}/{1} state={2} min={3:F3} capturedMax={4:F3} bridgeStartMax={5:F3} vanillaMax={6:F3} appliedMax={7:F3}",
-                    m_NightBridgeFrame,
-                    kNightBridgeFrameCount - 1,
-                    state,
-                    exposure.limitMin.value,
-                    m_NightBridgeStartMax,
-                    bridgeStartMax,
-                    vanillaNightMax,
-                    exposure.limitMax.value));
+                    "[CWD-DN-FIXED] NIGHT restored adaptation={0} override={1}",
+                    exposure.adaptationMode.value,
+                    exposure.adaptationMode.overrideState));
 #endif
-
-            m_NightBridgeFrame++;
-
-            if (m_NightBridgeFrame >=
-                kNightBridgeFrameCount)
-            {
-                CancelNightTransition();
-
-#if DEBUG
-                LogUtils.Info(
-                    "[CWD-DN-BRIDGE] NIGHT end");
-#endif
-            }
         }
 
         private bool TryGetLightingExposure(
@@ -320,7 +336,7 @@ namespace CityWatchdog.Systems
             LogUtils.WarnOnce(
                 "day-night-lighting-exposure-missing",
                 () =>
-                    $"Day/Night exposure bridge unavailable: LightingSystem field '{kLightingExposureFieldName}' was not found.");
+                    $"Day/Night exposure test unavailable: LightingSystem field '{kLightingExposureFieldName}' was not found.");
 
             return false;
         }
@@ -337,7 +353,7 @@ namespace CityWatchdog.Systems
                 LogUtils.WarnOnce(
                     "day-night-lighting-profile-missing",
                     () =>
-                        $"Day/Night exposure bridge could not refresh LightingSystem field '{kLightingProfileFieldName}'.");
+                        $"Day/Night exposure test could not refresh LightingSystem field '{kLightingProfileFieldName}'.");
             }
 
             return profile;
