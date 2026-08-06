@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/Controls/DayNightExposureBridgeSystem.cs
-// Purpose: Tests a narrow automatic-exposure limit bridge after vanilla LightingSystem.
+// Purpose: Stages Day-to-Night through vanilla Dusk while automatic exposure settles.
 
 namespace CityWatchdog.Systems
 {
@@ -28,11 +28,14 @@ namespace CityWatchdog.Systems
         private const string kLightingExposureFieldName = "m_Exposure";
         private const string kLightingProfileFieldName = "m_Profile";
 
-        // One intermediate value for the usual 14 -> 6 change: 10, then vanilla 6.
-        private const int kNightBridgeFrameCount = 2;
-        private const int kNightRecoveryFrameCount = 4;
-        private const float kTransitionVolumePriority = 10000f;
-        private const float kTemporaryLightToDarkSpeed = 100f;
+        // This is the earlier no-X-ray limit sequence: 14, 13, ... 6.
+        private const int kDuskLimitBridgeFrameCount = 9;
+
+        // After reaching the Night range, keep vanilla Dusk for several rendered
+        // frames so both alternating exposure histories can approach Night EV.
+        private const int kDuskSettleFrameCount = 10;
+        private const int kNightArrivalWaitFrameCount = 4;
+
         private const float kExposureRangeDifference = 0.05f;
 
         private static readonly FieldInfo? s_LightingExposureField =
@@ -47,16 +50,16 @@ namespace CityWatchdog.Systems
 
         private LightingSystem m_LightingSystem = null!;
         private DayNightControlSystem? m_ControlSystem;
-        private GameObject? m_TransitionVolumeObject;
-        private Volume? m_TransitionVolume;
-        private Exposure? m_TransitionExposure;
 
-        private bool m_NightBridgeActive;
-        private int m_NightBridgeFrame;
-        private float m_NightBridgeStartMax;
+        private bool m_DuskLimitBridgeActive;
+        private int m_DuskLimitBridgeFrame;
+        private float m_DuskStartMax;
 
-        private bool m_NightRecoveryActive;
-        private int m_NightRecoveryFrame;
+        private bool m_DuskSettleActive;
+        private int m_DuskSettleFrame;
+
+        private bool m_WaitingForNight;
+        private int m_NightArrivalWaitFrame;
 
         private bool m_AutoCheckPending;
         private bool m_AutoBaselineValid;
@@ -69,30 +72,24 @@ namespace CityWatchdog.Systems
 
             m_LightingSystem =
                 World.GetOrCreateSystemManaged<LightingSystem>();
-
-            CreateTransitionVolume();
-        }
-
-        protected override void OnDestroy()
-        {
-            DisableTransitionSpeedOverride();
-
-            if (m_TransitionVolumeObject != null)
-            {
-                UnityEngine.Object.Destroy(m_TransitionVolumeObject);
-                m_TransitionVolumeObject = null;
-                m_TransitionVolume = null;
-                m_TransitionExposure = null;
-            }
-
-            base.OnDestroy();
         }
 
         protected override void OnUpdate()
         {
             ProcessAutoBrighteningCheck();
-            ProcessNightBridge();
-            ProcessNightRecovery();
+
+            if (m_DuskLimitBridgeActive)
+            {
+                ProcessDuskLimitBridge();
+            }
+            else if (m_DuskSettleActive)
+            {
+                ProcessDuskSettle();
+            }
+            else if (m_WaitingForNight)
+            {
+                ProcessNightArrival();
+            }
         }
 
         internal void AttachController(
@@ -104,7 +101,9 @@ namespace CityWatchdog.Systems
         internal void DetachController(
             DayNightControlSystem controlSystem)
         {
-            if (ReferenceEquals(m_ControlSystem, controlSystem))
+            if (ReferenceEquals(
+                    m_ControlSystem,
+                    controlSystem))
             {
                 m_ControlSystem = null;
             }
@@ -113,40 +112,41 @@ namespace CityWatchdog.Systems
         internal void BeginNightTransition()
         {
             CancelAutoBrighteningCheck();
+            CancelNightTransition();
 
-            if (!TryGetLightingExposure(out Exposure? exposure) ||
+            if (!TryGetLightingExposure(
+                    out Exposure? exposure) ||
                 exposure == null)
             {
-                m_NightBridgeActive = false;
                 return;
             }
 
-            m_NightBridgeStartMax = exposure.limitMax.value;
-            m_NightBridgeFrame = 0;
-            m_NightBridgeActive = true;
+            m_DuskStartMax =
+                exposure.limitMax.value;
 
-            m_NightRecoveryFrame = 0;
-            m_NightRecoveryActive = false;
-            EnableTransitionSpeedOverride();
+            m_DuskLimitBridgeFrame = 0;
+            m_DuskLimitBridgeActive = true;
 
 #if DEBUG
             LogUtils.Info(
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "[CWD-DN-BRIDGE] NIGHT begin startMin={0:F3} startMax={1:F3} volumeLtoD={2:F3}",
+                    "[CWD-DN-BRIDGE] DUSK begin startMin={0:F3} startMax={1:F3}",
                     exposure.limitMin.value,
-                    m_NightBridgeStartMax,
-                    kTemporaryLightToDarkSpeed));
+                    m_DuskStartMax));
 #endif
         }
 
         internal void CancelNightTransition()
         {
-            m_NightBridgeActive = false;
-            m_NightBridgeFrame = 0;
-            m_NightRecoveryActive = false;
-            m_NightRecoveryFrame = 0;
-            DisableTransitionSpeedOverride();
+            m_DuskLimitBridgeActive = false;
+            m_DuskLimitBridgeFrame = 0;
+
+            m_DuskSettleActive = false;
+            m_DuskSettleFrame = 0;
+
+            m_WaitingForNight = false;
+            m_NightArrivalWaitFrame = 0;
         }
 
         internal void ArmAutoBrighteningCheck()
@@ -155,12 +155,17 @@ namespace CityWatchdog.Systems
 
             m_AutoCheckPending = true;
             m_AutoBaselineValid =
-                TryGetLightingExposure(out Exposure? exposure);
+                TryGetLightingExposure(
+                    out Exposure? exposure);
 
-            if (m_AutoBaselineValid && exposure != null)
+            if (m_AutoBaselineValid &&
+                exposure != null)
             {
-                m_AutoBeforeMin = exposure.limitMin.value;
-                m_AutoBeforeMax = exposure.limitMax.value;
+                m_AutoBeforeMin =
+                    exposure.limitMin.value;
+
+                m_AutoBeforeMax =
+                    exposure.limitMax.value;
             }
         }
 
@@ -185,7 +190,8 @@ namespace CityWatchdog.Systems
 
             m_AutoCheckPending = false;
 
-            if (!TryGetLightingExposure(out Exposure? exposure) ||
+            if (!TryGetLightingExposure(
+                    out Exposure? exposure) ||
                 exposure == null)
             {
                 return;
@@ -221,27 +227,18 @@ namespace CityWatchdog.Systems
 
             if (brighterRange)
             {
-                m_ControlSystem?.RequestBrighteningHistoryReset();
+                m_ControlSystem?
+                    .RequestBrighteningHistoryReset();
             }
 
             m_AutoBaselineValid = false;
         }
 
-        private void ProcessNightBridge()
+        private void ProcessDuskLimitBridge()
         {
-            if (!m_NightBridgeActive)
-            {
-                return;
-            }
-
-            if (!(CwdSettings.Instance?
-                    .SmoothDayNightTransition ?? true))
-            {
-                CancelNightTransition();
-                return;
-            }
-
-            if (!TryGetLightingExposure(out Exposure? exposure) ||
+            if (!SmootherSwitchEnabled() ||
+                !TryGetLightingExposure(
+                    out Exposure? exposure) ||
                 exposure == null)
             {
                 CancelNightTransition();
@@ -251,46 +248,44 @@ namespace CityWatchdog.Systems
             LightingSystem.State state =
                 m_LightingSystem.state;
 
-            if (state != LightingSystem.State.Night)
+            if (state != LightingSystem.State.Dusk)
             {
 #if DEBUG
                 LogUtils.Info(
-                    $"[CWD-DN-BRIDGE] NIGHT canceled state={state}");
+                    $"[CWD-DN-BRIDGE] DUSK expected Dusk but state={state}; falling back to Night.");
 #endif
-                CancelNightTransition();
+
+                m_DuskLimitBridgeActive = false;
+                m_WaitingForNight = true;
+                m_NightArrivalWaitFrame = 0;
+
+                m_ControlSystem?
+                    .CompleteDuskToNightTransition();
+
                 return;
             }
 
-            float vanillaNightMax =
+            float vanillaDuskMax =
                 exposure.limitMax.value;
 
-            if (m_NightBridgeStartMax <=
-                vanillaNightMax +
+            if (m_DuskStartMax <=
+                vanillaDuskMax +
                 kExposureRangeDifference)
             {
-#if DEBUG
-                LogUtils.Info(
-                    string.Format(
-                        CultureInfo.InvariantCulture,
-                        "[CWD-DN-BRIDGE] NIGHT not-needed startMax={0:F3} vanillaMax={1:F3}",
-                        m_NightBridgeStartMax,
-                        vanillaNightMax));
-#endif
-                CancelNightTransition();
+                StartDuskSettle();
                 return;
             }
 
-            // Start moving on the first Night frame instead of holding Day max for a frame.
             float progress =
-                kNightBridgeFrameCount <= 1
+                kDuskLimitBridgeFrameCount <= 1
                     ? 1f
-                    : (float)(m_NightBridgeFrame + 1) /
-                      kNightBridgeFrameCount;
+                    : (float)m_DuskLimitBridgeFrame /
+                      (kDuskLimitBridgeFrameCount - 1);
 
             float appliedMax =
                 Mathf.Lerp(
-                    m_NightBridgeStartMax,
-                    vanillaNightMax,
+                    m_DuskStartMax,
+                    vanillaDuskMax,
                     progress);
 
             exposure.limitMax.value =
@@ -298,152 +293,146 @@ namespace CityWatchdog.Systems
                     exposure.limitMin.value,
                     appliedMax);
 
-            EnableTransitionSpeedOverride();
-
-            // LightingSystem calls Reset before this system; signal the profile again
-            // after changing the value so HDRP sees this frame's bridge limit.
+            // LightingSystem resets its profile before this system.
+            // Refresh it after changing this frame's maximum EV.
             TryGetLightingProfile()?.Reset();
 
 #if DEBUG
             LogUtils.Info(
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "[CWD-DN-BRIDGE] NIGHT frame={0}/{1} state={2} min={3:F3} vanillaMax={4:F3} appliedMax={5:F3} volumeLtoD={6:F3}",
-                    m_NightBridgeFrame,
-                    kNightBridgeFrameCount - 1,
+                    "[CWD-DN-BRIDGE] DUSK bridge={0}/{1} state={2} min={3:F3} vanillaMax={4:F3} appliedMax={5:F3}",
+                    m_DuskLimitBridgeFrame,
+                    kDuskLimitBridgeFrameCount - 1,
                     state,
                     exposure.limitMin.value,
-                    vanillaNightMax,
-                    exposure.limitMax.value,
-                    kTemporaryLightToDarkSpeed));
+                    vanillaDuskMax,
+                    exposure.limitMax.value));
 #endif
 
-            m_NightBridgeFrame++;
+            m_DuskLimitBridgeFrame++;
 
-            if (m_NightBridgeFrame >=
-                kNightBridgeFrameCount)
+            if (m_DuskLimitBridgeFrame >=
+                kDuskLimitBridgeFrameCount)
             {
-                m_NightBridgeActive = false;
-                m_NightBridgeFrame = 0;
-                m_NightRecoveryActive = true;
-                m_NightRecoveryFrame = 0;
-
-#if DEBUG
-                LogUtils.Info(
-                    "[CWD-DN-BRIDGE] NIGHT bridge end; boosted recovery active");
-#endif
+                StartDuskSettle();
             }
         }
 
-        private void ProcessNightRecovery()
+        private void StartDuskSettle()
         {
-            if (!m_NightRecoveryActive)
-            {
-                return;
-            }
+            m_DuskLimitBridgeActive = false;
+            m_DuskLimitBridgeFrame = 0;
 
-            if (!(CwdSettings.Instance?
-                    .SmoothDayNightTransition ?? true) ||
-                !TryGetLightingExposure(out Exposure? exposure) ||
-                exposure == null ||
-                m_LightingSystem.state != LightingSystem.State.Night)
+            m_DuskSettleActive = true;
+            m_DuskSettleFrame = 0;
+
+#if DEBUG
+            LogUtils.Info(
+                "[CWD-DN-BRIDGE] DUSK limit bridge end; vanilla Dusk settling.");
+#endif
+        }
+
+        private void ProcessDuskSettle()
+        {
+            if (!SmootherSwitchEnabled() ||
+                !TryGetLightingExposure(
+                    out Exposure? exposure) ||
+                exposure == null)
             {
                 CancelNightTransition();
                 return;
             }
 
-            EnableTransitionSpeedOverride();
+            LightingSystem.State state =
+                m_LightingSystem.state;
 
-            TryGetLightingProfile()?.Reset();
+            if (state != LightingSystem.State.Dusk)
+            {
+#if DEBUG
+                LogUtils.Info(
+                    $"[CWD-DN-BRIDGE] DUSK settle canceled state={state}");
+#endif
+
+                CancelNightTransition();
+                return;
+            }
 
 #if DEBUG
             LogUtils.Info(
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "[CWD-DN-BRIDGE] NIGHT recovery={0}/{1} EVmax={2:F3} volumeLtoD={3:F3}",
-                    m_NightRecoveryFrame,
-                    kNightRecoveryFrameCount - 1,
-                    exposure.limitMax.value,
-                    kTemporaryLightToDarkSpeed));
+                    "[CWD-DN-BRIDGE] DUSK settle={0}/{1} min={2:F3} max={3:F3}",
+                    m_DuskSettleFrame,
+                    kDuskSettleFrameCount - 1,
+                    exposure.limitMin.value,
+                    exposure.limitMax.value));
 #endif
 
-            m_NightRecoveryFrame++;
+            m_DuskSettleFrame++;
 
-            if (m_NightRecoveryFrame >=
-                kNightRecoveryFrameCount)
+            if (m_DuskSettleFrame <
+                kDuskSettleFrameCount)
             {
-                m_NightRecoveryActive = false;
-                m_NightRecoveryFrame = 0;
-                DisableTransitionSpeedOverride();
-
-#if DEBUG
-                LogUtils.Info(
-                    "[CWD-DN-BRIDGE] NIGHT recovery end");
-#endif
-            }
-        }
-
-        private void CreateTransitionVolume()
-        {
-            GameObject volumeObject =
-                new("CWD Day Night Exposure Transition");
-
-            volumeObject.hideFlags =
-                HideFlags.HideAndDontSave;
-
-            UnityEngine.Object.DontDestroyOnLoad(
-                volumeObject);
-
-            Volume volume =
-                volumeObject.AddComponent<Volume>();
-
-            volume.isGlobal = true;
-            volume.priority = kTransitionVolumePriority;
-            volume.weight = 0f;
-
-            Exposure transitionExposure =
-                volume.profile.Add<Exposure>();
-
-            transitionExposure.active = true;
-            transitionExposure.adaptationSpeedLightToDark.overrideState = true;
-            transitionExposure.adaptationSpeedLightToDark.value =
-                kTemporaryLightToDarkSpeed;
-
-            m_TransitionVolumeObject = volumeObject;
-            m_TransitionVolume = volume;
-            m_TransitionExposure = transitionExposure;
-        }
-
-        private void EnableTransitionSpeedOverride()
-        {
-            Volume? volume =
-                m_TransitionVolume;
-
-            Exposure? exposure =
-                m_TransitionExposure;
-
-            if (volume == null ||
-                exposure == null)
-            {
-                LogUtils.WarnOnce(
-                    "day-night-transition-volume-missing",
-                    () =>
-                        "Day/Night temporary exposure-speed volume is unavailable.");
                 return;
             }
 
-            exposure.adaptationSpeedLightToDark.value =
-                kTemporaryLightToDarkSpeed;
+            m_DuskSettleActive = false;
+            m_DuskSettleFrame = 0;
 
-            volume.weight = 1f;
+            m_WaitingForNight = true;
+            m_NightArrivalWaitFrame = 0;
+
+#if DEBUG
+            LogUtils.Info(
+                "[CWD-DN-BRIDGE] DUSK settled; requesting final 1 AM Night.");
+#endif
+
+            // This runs after LightingSystem. PlanetarySystem sees 1 AM next frame.
+            m_ControlSystem?
+                .CompleteDuskToNightTransition();
         }
 
-        private void DisableTransitionSpeedOverride()
+        private void ProcessNightArrival()
         {
-            if (m_TransitionVolume != null)
+            LightingSystem.State state =
+                m_LightingSystem.state;
+
+            if (state == LightingSystem.State.Night)
             {
-                m_TransitionVolume.weight = 0f;
+#if DEBUG
+                LogUtils.Info(
+                    "[CWD-DN-BRIDGE] NIGHT arrived after Dusk.");
+#endif
+
+                m_WaitingForNight = false;
+                m_NightArrivalWaitFrame = 0;
+                return;
             }
+
+            m_NightArrivalWaitFrame++;
+
+            if (m_NightArrivalWaitFrame <
+                kNightArrivalWaitFrameCount)
+            {
+                return;
+            }
+
+#if DEBUG
+            LogUtils.Info(
+                $"[CWD-DN-BRIDGE] NIGHT arrival timed out state={state}");
+#endif
+
+            m_WaitingForNight = false;
+            m_NightArrivalWaitFrame = 0;
+        }
+
+        private static bool SmootherSwitchEnabled()
+        {
+            return
+                CwdSettings.Instance?
+                    .SmoothDayNightTransition ??
+                true;
         }
 
         private bool TryGetLightingExposure(
