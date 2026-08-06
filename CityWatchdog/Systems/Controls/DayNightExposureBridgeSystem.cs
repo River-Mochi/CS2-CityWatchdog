@@ -103,7 +103,7 @@ namespace CityWatchdog.Systems
             m_NightOriginalAdaptationValid = true;
 
             m_NightReleaseTime =
-                World.Time.ElapsedTime +
+                UnityEngine.Time.unscaledTimeAsDouble +
                 kNightFixedAdaptationSeconds;
             m_NightTransitionActive = true;
 
@@ -236,7 +236,7 @@ namespace CityWatchdog.Systems
             }
 
             double elapsedTime =
-                World.Time.ElapsedTime;
+                UnityEngine.Time.unscaledTimeAsDouble;
 
             if (elapsedTime >= m_NightReleaseTime)
             {
