@@ -31,7 +31,8 @@ namespace CityWatchdog.Systems
         // One intermediate value for the usual 14 -> 6 change: 10, then vanilla 6.
         private const int kNightBridgeFrameCount = 2;
         private const int kNightRecoveryFrameCount = 4;
-        private const float kLightToDarkSpeedMultiplier = 4f;
+        private const float kTransitionVolumePriority = 10000f;
+        private const float kTemporaryLightToDarkSpeed = 100f;
         private const float kExposureRangeDifference = 0.05f;
 
         private static readonly FieldInfo? s_LightingExposureField =
@@ -46,6 +47,9 @@ namespace CityWatchdog.Systems
 
         private LightingSystem m_LightingSystem = null!;
         private DayNightControlSystem? m_ControlSystem;
+        private GameObject? m_TransitionVolumeObject;
+        private Volume? m_TransitionVolume;
+        private Exposure? m_TransitionExposure;
 
         private bool m_NightBridgeActive;
         private int m_NightBridgeFrame;
@@ -53,8 +57,6 @@ namespace CityWatchdog.Systems
 
         private bool m_NightRecoveryActive;
         private int m_NightRecoveryFrame;
-        private float m_OriginalLightToDarkSpeed;
-        private float m_BoostedLightToDarkSpeed;
 
         private bool m_AutoCheckPending;
         private bool m_AutoBaselineValid;
@@ -67,6 +69,23 @@ namespace CityWatchdog.Systems
 
             m_LightingSystem =
                 World.GetOrCreateSystemManaged<LightingSystem>();
+
+            CreateTransitionVolume();
+        }
+
+        protected override void OnDestroy()
+        {
+            DisableTransitionSpeedOverride();
+
+            if (m_TransitionVolumeObject != null)
+            {
+                UnityEngine.Object.Destroy(m_TransitionVolumeObject);
+                m_TransitionVolumeObject = null;
+                m_TransitionVolume = null;
+                m_TransitionExposure = null;
+            }
+
+            base.OnDestroy();
         }
 
         protected override void OnUpdate()
@@ -106,44 +125,28 @@ namespace CityWatchdog.Systems
             m_NightBridgeFrame = 0;
             m_NightBridgeActive = true;
 
-            m_OriginalLightToDarkSpeed =
-                exposure.adaptationSpeedLightToDark.value;
-            m_BoostedLightToDarkSpeed =
-                Mathf.Max(
-                    m_OriginalLightToDarkSpeed,
-                    m_OriginalLightToDarkSpeed *
-                    kLightToDarkSpeedMultiplier);
-
             m_NightRecoveryFrame = 0;
             m_NightRecoveryActive = false;
+            EnableTransitionSpeedOverride();
 
 #if DEBUG
             LogUtils.Info(
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "[CWD-DN-BRIDGE] NIGHT begin startMin={0:F3} startMax={1:F3} originalLtoD={2:F3} boostedLtoD={3:F3}",
+                    "[CWD-DN-BRIDGE] NIGHT begin startMin={0:F3} startMax={1:F3} volumeLtoD={2:F3}",
                     exposure.limitMin.value,
                     m_NightBridgeStartMax,
-                    m_OriginalLightToDarkSpeed,
-                    m_BoostedLightToDarkSpeed));
+                    kTemporaryLightToDarkSpeed));
 #endif
         }
 
         internal void CancelNightTransition()
         {
-            bool restoreSpeed =
-                m_NightBridgeActive ||
-                m_NightRecoveryActive;
-
             m_NightBridgeActive = false;
             m_NightBridgeFrame = 0;
             m_NightRecoveryActive = false;
             m_NightRecoveryFrame = 0;
-
-            if (restoreSpeed)
-            {
-                RestoreLightToDarkSpeed();
-            }
+            DisableTransitionSpeedOverride();
         }
 
         internal void ArmAutoBrighteningCheck()
@@ -295,8 +298,7 @@ namespace CityWatchdog.Systems
                     exposure.limitMin.value,
                     appliedMax);
 
-            exposure.adaptationSpeedLightToDark.value =
-                m_BoostedLightToDarkSpeed;
+            EnableTransitionSpeedOverride();
 
             // LightingSystem calls Reset before this system; signal the profile again
             // after changing the value so HDRP sees this frame's bridge limit.
@@ -306,14 +308,14 @@ namespace CityWatchdog.Systems
             LogUtils.Info(
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "[CWD-DN-BRIDGE] NIGHT frame={0}/{1} state={2} min={3:F3} vanillaMax={4:F3} appliedMax={5:F3} LtoD={6:F3}",
+                    "[CWD-DN-BRIDGE] NIGHT frame={0}/{1} state={2} min={3:F3} vanillaMax={4:F3} appliedMax={5:F3} volumeLtoD={6:F3}",
                     m_NightBridgeFrame,
                     kNightBridgeFrameCount - 1,
                     state,
                     exposure.limitMin.value,
                     vanillaNightMax,
                     exposure.limitMax.value,
-                    exposure.adaptationSpeedLightToDark.value));
+                    kTemporaryLightToDarkSpeed));
 #endif
 
             m_NightBridgeFrame++;
@@ -350,8 +352,7 @@ namespace CityWatchdog.Systems
                 return;
             }
 
-            exposure.adaptationSpeedLightToDark.value =
-                m_BoostedLightToDarkSpeed;
+            EnableTransitionSpeedOverride();
 
             TryGetLightingProfile()?.Reset();
 
@@ -359,11 +360,11 @@ namespace CityWatchdog.Systems
             LogUtils.Info(
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "[CWD-DN-BRIDGE] NIGHT recovery={0}/{1} EVmax={2:F3} LtoD={3:F3}",
+                    "[CWD-DN-BRIDGE] NIGHT recovery={0}/{1} EVmax={2:F3} volumeLtoD={3:F3}",
                     m_NightRecoveryFrame,
                     kNightRecoveryFrameCount - 1,
                     exposure.limitMax.value,
-                    exposure.adaptationSpeedLightToDark.value));
+                    kTemporaryLightToDarkSpeed));
 #endif
 
             m_NightRecoveryFrame++;
@@ -373,7 +374,7 @@ namespace CityWatchdog.Systems
             {
                 m_NightRecoveryActive = false;
                 m_NightRecoveryFrame = 0;
-                RestoreLightToDarkSpeed();
+                DisableTransitionSpeedOverride();
 
 #if DEBUG
                 LogUtils.Info(
@@ -382,18 +383,67 @@ namespace CityWatchdog.Systems
             }
         }
 
-        private void RestoreLightToDarkSpeed()
+        private void CreateTransitionVolume()
         {
-            if (!TryGetLightingExposure(out Exposure? exposure) ||
+            GameObject volumeObject =
+                new("CWD Day Night Exposure Transition");
+
+            volumeObject.hideFlags =
+                HideFlags.HideAndDontSave;
+
+            UnityEngine.Object.DontDestroyOnLoad(
+                volumeObject);
+
+            Volume volume =
+                volumeObject.AddComponent<Volume>();
+
+            volume.isGlobal = true;
+            volume.priority = kTransitionVolumePriority;
+            volume.weight = 0f;
+
+            Exposure transitionExposure =
+                volume.profile.Add<Exposure>();
+
+            transitionExposure.active = true;
+            transitionExposure.adaptationSpeedLightToDark.overrideState = true;
+            transitionExposure.adaptationSpeedLightToDark.value =
+                kTemporaryLightToDarkSpeed;
+
+            m_TransitionVolumeObject = volumeObject;
+            m_TransitionVolume = volume;
+            m_TransitionExposure = transitionExposure;
+        }
+
+        private void EnableTransitionSpeedOverride()
+        {
+            Volume? volume =
+                m_TransitionVolume;
+
+            Exposure? exposure =
+                m_TransitionExposure;
+
+            if (volume == null ||
                 exposure == null)
             {
+                LogUtils.WarnOnce(
+                    "day-night-transition-volume-missing",
+                    () =>
+                        "Day/Night temporary exposure-speed volume is unavailable.");
                 return;
             }
 
             exposure.adaptationSpeedLightToDark.value =
-                m_OriginalLightToDarkSpeed;
+                kTemporaryLightToDarkSpeed;
 
-            TryGetLightingProfile()?.Reset();
+            volume.weight = 1f;
+        }
+
+        private void DisableTransitionSpeedOverride()
+        {
+            if (m_TransitionVolume != null)
+            {
+                m_TransitionVolume.weight = 0f;
+            }
         }
 
         private bool TryGetLightingExposure(
