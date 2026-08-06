@@ -73,7 +73,8 @@ namespace CityWatchdog.Systems
         private bool m_PendingCaptureDebug;
         private int m_AppliedMode = kModeAuto;
 
-        // A1 test: the React overlay darkens first, then tells C# when Night can be applied.
+
+        // Test A2: the React shutter becomes opaque before C# applies Night.
         private bool m_SafetyTintActive;
         private bool m_SafetyTintNightApplied;
         private bool m_SafetyTintCaptureDebug;
@@ -261,7 +262,7 @@ namespace CityWatchdog.Systems
                 useProtection &&
                 ShouldUseSmootherSwitch();
 
-            // A1 applies only to Day -> Night. Night -> Day and Night -> Auto stay unchanged.
+            // Tests of safety shutter applies only to Day -> Night.
             if (smootherSwitch &&
                 mode == kModeNight &&
                 m_AppliedMode == kModeDay)
@@ -336,7 +337,7 @@ namespace CityWatchdog.Systems
 
 #if DEBUG
             LogUtils.Info(
-                $"[CWD-DN-TINT] begin token={m_SafetyTintToken} opacity=0.85");
+               $"[CWD-DN-TINT] begin token={m_SafetyTintToken} opacity=0.95"
 #endif
         }
 
@@ -365,7 +366,7 @@ namespace CityWatchdog.Systems
                     resetHistory);
             }
 
-            // The UI tint is already at 85% before this direct clock change.
+            // The UI tint is already at 95% before this direct clock change.
             ApplyMode(
                 kModeNight,
                 resetHistory);

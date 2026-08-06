@@ -1,5 +1,5 @@
 // File: src/UI/src/components/day-night-safety-tint/dayNightSafetyTint.tsx
-// Purpose: A1 test — briefly shades Day -> Night so the X-ray frames are less visible.
+// Purpose: A2 test — briefly covers Day -> Night with an opaque dark shutter.
 
 import { useValue } from "cs2/api";
 import { useEffect, useRef, useState } from "react";
@@ -61,7 +61,7 @@ export const DayNightSafetyTint = () => {
             setPhase("fadeIn");
         }, 1);
 
-        // C# changes the clock only after the tint has reached 85%.
+        // C# changes the clock only after the tint has reached 95%.
         const readyTimer = window.setTimeout(() => {
             setPhase("hold");
             OnDayNightSafetyTintReady(token);

@@ -1,32 +1,32 @@
-// A2 safety shutter: fully opaque only during the short Day -> Night cover.
+// A2B safety shutter: fully opaque dark night-blue during Day -> Night.
 // No blur, no CSS filter, and it never captures input.
 .tint {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgb(10, 12, 16);
-    pointer-events: none;
-    z-index: 100000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(22, 28, 42);
+  pointer-events: none;
+  z-index: 100000;
 }
 
 .armed {
-    opacity: 0;
-    transition: none;
+  opacity: 0;
+  transition: none;
 }
 
 .fadeIn {
-    opacity: 1;
-    transition: opacity 50ms linear;
+  opacity: 0.95;
+  transition: opacity 50ms linear;
 }
 
 .hold {
-    opacity: 1;
-    transition: none;
+  opacity: 0.95;
+  transition: none;
 }
 
 .fadeOut {
-    opacity: 0;
-    transition: opacity 80ms linear;
+  opacity: 0;
+  transition: opacity 80ms linear;
 }
