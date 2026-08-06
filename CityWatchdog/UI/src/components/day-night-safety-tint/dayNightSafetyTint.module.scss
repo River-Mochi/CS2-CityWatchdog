@@ -1,0 +1,31 @@
+// A1 safety tint: no blur, no CSS filter, and it never captures input.
+.tint {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(10, 12, 16);
+    pointer-events: none;
+    z-index: 100000;
+}
+
+.armed {
+    opacity: 0;
+    transition: none;
+}
+
+.fadeIn {
+    opacity: 0.85;
+    transition: opacity 50ms linear;
+}
+
+.hold {
+    opacity: 0.85;
+    transition: none;
+}
+
+.fadeOut {
+    opacity: 0;
+    transition: opacity 80ms linear;
+}

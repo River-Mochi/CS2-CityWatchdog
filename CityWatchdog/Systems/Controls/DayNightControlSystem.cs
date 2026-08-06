@@ -43,6 +43,9 @@ namespace CityWatchdog.Systems
         private const float kHalfDay = 12f;
         private const float kMinimumLightingDifference = 0.05f;
 
+        // Prevent a broken/missing UI callback from leaving the tint or mode request stuck.
+        private const double kSafetyTintUiTimeoutSeconds = 1d;
+
         private const string kResetPostProcessingHistoryFieldName =
             "resetPostProcessingHistory";
 
@@ -56,6 +59,7 @@ namespace CityWatchdog.Systems
         private static bool s_LoggedHistoryReset;
 
         private ValueBinding<int> m_DayNightModeBinding = null!;
+        private ValueBinding<int> m_DayNightSafetyTintTokenBinding = null!;
         private PlanetarySystem? m_PlanetarySystem;
         private TimeSystem? m_TimeSystem;
         private CameraUpdateSystem? m_CameraUpdateSystem;
@@ -68,6 +72,13 @@ namespace CityWatchdog.Systems
         private bool m_PendingUseProtection;
         private bool m_PendingCaptureDebug;
         private int m_AppliedMode = kModeAuto;
+
+        // A1 test: the React overlay darkens first, then tells C# when Night can be applied.
+        private bool m_SafetyTintActive;
+        private bool m_SafetyTintNightApplied;
+        private bool m_SafetyTintCaptureDebug;
+        private int m_SafetyTintToken;
+        private double m_SafetyTintDeadline;
 
         // Only release overrideTime if CWD took control.
         private bool m_OverrideActive;
@@ -91,9 +102,19 @@ namespace CityWatchdog.Systems
 
             m_DayNightModeBinding =
                 AddValueBinding("DayNightMode", kModeAuto);
+            m_DayNightSafetyTintTokenBinding =
+                AddValueBinding("DayNightSafetyTintToken", 0);
+
             AddTriggerBinding<int>(
                 "SetDayNightMode",
                 OnSetDayNightMode);
+            AddTriggerBinding<int>(
+                "DayNightSafetyTintReady",
+                OnDayNightSafetyTintReady);
+            AddTriggerBinding<int>(
+                "DayNightSafetyTintComplete",
+                OnDayNightSafetyTintComplete);
+
             m_ToggleDayNightAction =
                 EnableHotkey(CwdSettings.ToggleDayNightAction);
         }
@@ -111,6 +132,7 @@ namespace CityWatchdog.Systems
 
             // Mod.cs orders this update immediately before PlanetarySystem in PreCulling.
             ApplyPendingMode();
+            CheckSafetyTintTimeout();
             AdvanceExposureDebug();
         }
 
@@ -144,6 +166,9 @@ namespace CityWatchdog.Systems
                 (purpose == Purpose.NewGame ||
                  purpose == Purpose.LoadGame))
             {
+                CancelSafetyTintTransition(
+                    restoreDisplayedMode: false);
+
                 // A new city/map should not inherit the previous session's frozen time.
                 QueueMode(
                     kModeAuto,
@@ -157,6 +182,8 @@ namespace CityWatchdog.Systems
         {
             StopExposureDebug();
             m_HasPendingMode = false;
+            CancelSafetyTintTransition(
+                restoreDisplayedMode: false);
             m_ExposureBridgeSystem?.CancelAll();
             m_ExposureBridgeSystem?.DetachController(this);
 
@@ -185,6 +212,18 @@ namespace CityWatchdog.Systems
             bool force = false)
         {
             mode = Math.Max(kModeAuto, Math.Min(kModeNight, mode));
+
+            if (m_SafetyTintActive)
+            {
+                if (!force)
+                {
+                    // Ignore extra clicks during the quarter-second safety tint.
+                    return;
+                }
+
+                CancelSafetyTintTransition(
+                    restoreDisplayedMode: false);
+            }
 
             int displayedMode = m_DayNightModeBinding.value;
             if (!force &&
@@ -222,20 +261,24 @@ namespace CityWatchdog.Systems
                 useProtection &&
                 ShouldUseSmootherSwitch();
 
+            // A1 applies only to Day -> Night. Night -> Day and Night -> Auto stay unchanged.
+            if (smootherSwitch &&
+                mode == kModeNight &&
+                m_AppliedMode == kModeDay)
+            {
+                BeginSafetyTintNightTransition(
+                    captureDebug);
+                return;
+            }
+
+            // The failed Fixed-adaptation Night test is removed.
+            m_ExposureBridgeSystem?.CancelNightTransition();
+
             if (smootherSwitch)
             {
-                if (mode == kModeNight)
-                {
-                    m_ExposureBridgeSystem?.BeginNightTransition();
-                }
-                else
-                {
-                    m_ExposureBridgeSystem?.CancelNightTransition();
-                }
-
                 if (mode == kModeAuto)
                 {
-                    // The bridge checks the real vanilla exposure range after LightingSystem.
+                    // Check the real vanilla exposure range after LightingSystem.
                     m_ExposureBridgeSystem?.ArmAutoBrighteningCheck();
                 }
                 else
@@ -269,6 +312,155 @@ namespace CityWatchdog.Systems
 
             ApplyMode(mode, resetHistory);
             m_AppliedMode = mode;
+        }
+
+        private void BeginSafetyTintNightTransition(
+            bool captureDebug)
+        {
+            m_ExposureBridgeSystem?.CancelAll();
+
+            m_SafetyTintActive = true;
+            m_SafetyTintNightApplied = false;
+            m_SafetyTintCaptureDebug = captureDebug;
+            m_SafetyTintDeadline =
+                UnityEngine.Time.unscaledTimeAsDouble +
+                kSafetyTintUiTimeoutSeconds;
+
+            m_SafetyTintToken =
+                m_SafetyTintToken == int.MaxValue
+                    ? 1
+                    : m_SafetyTintToken + 1;
+
+            m_DayNightSafetyTintTokenBinding.Update(
+                m_SafetyTintToken);
+
+#if DEBUG
+            LogUtils.Info(
+                $"[CWD-DN-TINT] begin token={m_SafetyTintToken} opacity=0.85");
+#endif
+        }
+
+        private void OnDayNightSafetyTintReady(
+            int token)
+        {
+            if (!m_SafetyTintActive ||
+                m_SafetyTintNightApplied ||
+                token != m_SafetyTintToken)
+            {
+                return;
+            }
+
+            bool resetHistory = false;
+
+            if (m_SafetyTintCaptureDebug &&
+                m_AppliedMode != kModeNight)
+            {
+                float beforeHour =
+                    NormalizeHour(m_PlanetarySystem?.time ?? 0f);
+
+                BeginExposureDebug(
+                    m_AppliedMode,
+                    kModeNight,
+                    beforeHour,
+                    resetHistory);
+            }
+
+            // The UI tint is already at 85% before this direct clock change.
+            ApplyMode(
+                kModeNight,
+                resetHistory);
+            m_AppliedMode = kModeNight;
+            m_SafetyTintNightApplied = true;
+            m_SafetyTintDeadline =
+                UnityEngine.Time.unscaledTimeAsDouble +
+                kSafetyTintUiTimeoutSeconds;
+
+#if DEBUG
+            LogUtils.Info(
+                $"[CWD-DN-TINT] covered token={token} appliedHour={kNightTime:F1}");
+#endif
+        }
+
+        private void OnDayNightSafetyTintComplete(
+            int token)
+        {
+            if (!m_SafetyTintActive ||
+                token != m_SafetyTintToken)
+            {
+                return;
+            }
+
+            if (!m_SafetyTintNightApplied)
+            {
+                // Never perform an uncovered fallback switch.
+                m_DayNightModeBinding.Update(
+                    m_AppliedMode);
+
+                LogUtils.WarnOnce(
+                    "day-night-safety-tint-ready-missed",
+                    () =>
+                        "Day/Night safety tint completed before its ready callback. The Night switch was canceled.");
+            }
+
+#if DEBUG
+            LogUtils.Info(
+                $"[CWD-DN-TINT] complete token={token} nightApplied={m_SafetyTintNightApplied}");
+#endif
+
+            CancelSafetyTintTransition(
+                restoreDisplayedMode: false);
+        }
+
+        private void CheckSafetyTintTimeout()
+        {
+            if (!m_SafetyTintActive ||
+                UnityEngine.Time.unscaledTimeAsDouble <
+                    m_SafetyTintDeadline)
+            {
+                return;
+            }
+
+            if (!m_SafetyTintNightApplied)
+            {
+                // Safer to stay in Day than expose the player to an uncovered X-ray frame.
+                m_DayNightModeBinding.Update(
+                    m_AppliedMode);
+
+                LogUtils.WarnOnce(
+                    "day-night-safety-tint-ready-timeout",
+                    () =>
+                        "Day/Night safety tint did not report ready. The Night switch was canceled.");
+            }
+            else
+            {
+                LogUtils.WarnOnce(
+                    "day-night-safety-tint-complete-timeout",
+                    () =>
+                        "Day/Night safety tint did not report completion. CWD forced the overlay binding off.");
+            }
+
+            CancelSafetyTintTransition(
+                restoreDisplayedMode: false);
+        }
+
+        private void CancelSafetyTintTransition(
+            bool restoreDisplayedMode)
+        {
+            if (restoreDisplayedMode &&
+                m_DayNightModeBinding.value !=
+                    m_AppliedMode)
+            {
+                m_DayNightModeBinding.Update(
+                    m_AppliedMode);
+            }
+
+            m_SafetyTintActive = false;
+            m_SafetyTintNightApplied = false;
+            m_SafetyTintCaptureDebug = false;
+            m_SafetyTintDeadline = 0d;
+
+            // Token zero tells React to cancel timers and remove the overlay.
+            m_DayNightSafetyTintTokenBinding.Update(0);
         }
 
         private void ApplyMode(
