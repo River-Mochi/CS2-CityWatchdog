@@ -59,6 +59,7 @@ namespace CityWatchdog.Systems
         private PlanetarySystem? m_PlanetarySystem;
         private TimeSystem? m_TimeSystem;
         private CameraUpdateSystem? m_CameraUpdateSystem;
+        private DayNightExposureBridgeSystem? m_ExposureBridgeSystem;
         private ProxyAction? m_ToggleDayNightAction;
 
         // The UI queues requests. OnUpdate applies them in PreCulling before PlanetarySystem.
@@ -84,6 +85,9 @@ namespace CityWatchdog.Systems
                 World.GetOrCreateSystemManaged<TimeSystem>();
             m_CameraUpdateSystem =
                 World.GetOrCreateSystemManaged<CameraUpdateSystem>();
+            m_ExposureBridgeSystem =
+                World.GetOrCreateSystemManaged<DayNightExposureBridgeSystem>();
+            m_ExposureBridgeSystem.AttachController(this);
 
             m_DayNightModeBinding =
                 AddValueBinding("DayNightMode", kModeAuto);
@@ -153,6 +157,8 @@ namespace CityWatchdog.Systems
         {
             StopExposureDebug();
             m_HasPendingMode = false;
+            m_ExposureBridgeSystem?.CancelAll();
+            m_ExposureBridgeSystem?.DetachController(this);
 
             PlanetarySystem? planetarySystem = m_PlanetarySystem;
             if (m_OverrideActive && planetarySystem != null)
@@ -212,9 +218,41 @@ namespace CityWatchdog.Systems
             bool captureDebug = m_PendingCaptureDebug;
             m_HasPendingMode = false;
 
-            bool resetHistory =
+            bool smootherSwitch =
                 useProtection &&
-                ShouldUseSmootherSwitch() &&
+                ShouldUseSmootherSwitch();
+
+            if (smootherSwitch)
+            {
+                if (mode == kModeNight)
+                {
+                    m_ExposureBridgeSystem?.BeginNightTransition();
+                }
+                else
+                {
+                    m_ExposureBridgeSystem?.CancelNightTransition();
+                }
+
+                if (mode == kModeAuto)
+                {
+                    // The bridge checks the real vanilla exposure range after LightingSystem.
+                    m_ExposureBridgeSystem?.ArmAutoBrighteningCheck();
+                }
+                else
+                {
+                    m_ExposureBridgeSystem?.CancelAutoBrighteningCheck();
+                }
+            }
+            else
+            {
+                m_ExposureBridgeSystem?.CancelAll();
+            }
+
+            // Auto is evaluated after LightingSystem because its real state may be
+            // Sunset/Dawn even when the simple sun-height estimate reports darkness.
+            bool resetHistory =
+                smootherSwitch &&
+                mode != kModeAuto &&
                 IsBrighterTransition(mode);
 
             if (captureDebug && m_AppliedMode != mode)
@@ -346,6 +384,11 @@ namespace CityWatchdog.Systems
             return
                 m_CameraUpdateSystem?.activeCamera ??
                 Camera.main;
+        }
+
+        internal void RequestBrighteningHistoryReset()
+        {
+            TryResetPostProcessingHistory();
         }
 
         private void TryResetPostProcessingHistory()

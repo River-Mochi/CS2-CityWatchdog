@@ -20,6 +20,7 @@ namespace CityWatchdog
     using CS2Shared.RiverMochi;
     using Game;
     using Game.Modding;
+    using Game.Rendering;
     using Game.SceneFlow;
     using Game.Simulation;
 
@@ -169,6 +170,13 @@ namespace CityWatchdog
                 updateSystem.UpdateBefore<
                     DayNightControlSystem,
                     PlanetarySystem>(
+                        SystemUpdatePhase.PreCulling);
+
+                // LightingSystem first applies the real vanilla state and exposure range.
+                // The bridge then softens only the abrupt Day -> Night maximum-EV clamp.
+                updateSystem.UpdateAfter<
+                    DayNightExposureBridgeSystem,
+                    LightingSystem>(
                         SystemUpdatePhase.PreCulling);
 
                 updateSystem.UpdateAt<AlertIconSystem>(
