@@ -36,8 +36,7 @@ namespace CityWatchdog.Systems
         private const int kModeDay = 1;
         private const int kModeNight = 2;
 
-        private const float kDayTime = 12.5f;
-        private const float kDuskTime = 20.25f;
+        private const float kDayTime = 13f;
         private const float kNightTime = 1f;
         private const float kVanillaFixedDayTime = 14.5f;
         private const float kHoursPerDay = 24f;
@@ -223,10 +222,6 @@ namespace CityWatchdog.Systems
                 useProtection &&
                 ShouldUseSmootherSwitch();
 
-            bool stageNightThroughDusk =
-                smootherSwitch &&
-                mode == kModeNight;
-
             if (smootherSwitch)
             {
                 if (mode == kModeNight)
@@ -272,18 +267,13 @@ namespace CityWatchdog.Systems
                     resetHistory);
             }
 
-            ApplyMode(
-                mode,
-                resetHistory,
-                stageNightThroughDusk);
-
+            ApplyMode(mode, resetHistory);
             m_AppliedMode = mode;
         }
 
         private void ApplyMode(
             int mode,
-            bool resetPostProcessingHistory,
-            bool stageNightThroughDusk)
+            bool resetPostProcessingHistory)
         {
             PlanetarySystem? planetarySystem = m_PlanetarySystem;
             if (planetarySystem == null)
@@ -300,15 +290,9 @@ namespace CityWatchdog.Systems
                     break;
 
                 case kModeNight:
+                    // One direct time change. PlanetarySystem and LightingSystem run after this.
                     planetarySystem.overrideTime = true;
-
-                    // With smoothing enabled, let vanilla render its real Dusk state first.
-                    // The bridge moves to 1 AM only after exposure has settled in Dusk.
-                    planetarySystem.time =
-                        stageNightThroughDusk
-                            ? kDuskTime
-                            : kNightTime;
-
+                    planetarySystem.time = kNightTime;
                     m_OverrideActive = true;
                     break;
 
@@ -405,22 +389,6 @@ namespace CityWatchdog.Systems
         internal void RequestBrighteningHistoryReset()
         {
             TryResetPostProcessingHistory();
-        }
-
-        internal void CompleteDuskToNightTransition()
-        {
-            PlanetarySystem? planetarySystem =
-                m_PlanetarySystem;
-
-            if (planetarySystem == null ||
-                m_AppliedMode != kModeNight)
-            {
-                return;
-            }
-
-            planetarySystem.overrideTime = true;
-            planetarySystem.time = kNightTime;
-            m_OverrideActive = true;
         }
 
         private void TryResetPostProcessingHistory()
