@@ -337,7 +337,7 @@ namespace CityWatchdog.Systems
 
 #if DEBUG
             LogUtils.Info(
-               $"[CWD-DN-TINT] begin token={m_SafetyTintToken} opacity=0.95"
+               $"[CWD-DN-TINT] begin token={m_SafetyTintToken} opacity=0.95");
 #endif
         }
 
