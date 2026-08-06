@@ -28,8 +28,8 @@ namespace CityWatchdog.Systems
         private const string kLightingExposureFieldName = "m_Exposure";
         private const string kLightingProfileFieldName = "m_Profile";
 
-        // Nine rendered values: 14, 13, 12, 11, 10, 9, 8, 7, then vanilla 6.
-        private const int kNightBridgeFrameCount = 9;
+        // Four rendered values for the usual 14 -> 6 change: 12, 10, 8, 6.
+        private const int kNightBridgeFrameCount = 4;
         private const float kExposureRangeDifference = 0.05f;
 
         private static readonly FieldInfo? s_LightingExposureField =
@@ -87,7 +87,8 @@ namespace CityWatchdog.Systems
         {
             CancelAutoBrighteningCheck();
 
-            if (!TryGetLightingExposure(out Exposure? exposure))
+            if (!TryGetLightingExposure(out Exposure? exposure) ||
+                exposure == null)
             {
                 m_NightBridgeActive = false;
                 return;
@@ -244,11 +245,12 @@ namespace CityWatchdog.Systems
                 return;
             }
 
+            // Start moving on the first Night frame instead of holding Day max for a frame.
             float progress =
                 kNightBridgeFrameCount <= 1
                     ? 1f
-                    : (float)m_NightBridgeFrame /
-                      (kNightBridgeFrameCount - 1);
+                    : (float)(m_NightBridgeFrame + 1) /
+                      kNightBridgeFrameCount;
 
             float appliedMax =
                 Mathf.Lerp(
