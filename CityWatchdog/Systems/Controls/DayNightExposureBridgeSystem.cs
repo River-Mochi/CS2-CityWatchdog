@@ -28,8 +28,10 @@ namespace CityWatchdog.Systems
         private const string kLightingExposureFieldName = "m_Exposure";
         private const string kLightingProfileFieldName = "m_Profile";
 
-        // Nine rendered values: 14, 13, 12, 11, 10, 9, 8, 7, then vanilla 6.
-        private const int kNightBridgeFrameCount = 9;
+        // Four rendered values: Night max + 3, +2, +1, then vanilla Night max.
+        // This keeps a short runway without holding Night at the Day EV range.
+        private const int kNightBridgeFrameCount = 4;
+        private const float kNightBridgeStartAboveVanilla = 3f;
         private const float kExposureRangeDifference = 0.05f;
 
         private static readonly FieldInfo? s_LightingExposureField =
@@ -250,9 +252,17 @@ namespace CityWatchdog.Systems
                     : (float)m_NightBridgeFrame /
                       (kNightBridgeFrameCount - 1);
 
+            // Start close to Night's range. The old 14 -> 6 bridge kept the
+            // newly dark scene exposed near Day EV for too many black frames.
+            float bridgeStartMax =
+                Mathf.Min(
+                    m_NightBridgeStartMax,
+                    vanillaNightMax +
+                    kNightBridgeStartAboveVanilla);
+
             float appliedMax =
                 Mathf.Lerp(
-                    m_NightBridgeStartMax,
+                    bridgeStartMax,
                     vanillaNightMax,
                     progress);
 
@@ -269,11 +279,13 @@ namespace CityWatchdog.Systems
             LogUtils.Info(
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "[CWD-DN-BRIDGE] NIGHT frame={0}/{1} state={2} min={3:F3} vanillaMax={4:F3} appliedMax={5:F3}",
+                    "[CWD-DN-BRIDGE] NIGHT frame={0}/{1} state={2} min={3:F3} capturedMax={4:F3} bridgeStartMax={5:F3} vanillaMax={6:F3} appliedMax={7:F3}",
                     m_NightBridgeFrame,
                     kNightBridgeFrameCount - 1,
                     state,
                     exposure.limitMin.value,
+                    m_NightBridgeStartMax,
+                    bridgeStartMax,
                     vanillaNightMax,
                     exposure.limitMax.value));
 #endif

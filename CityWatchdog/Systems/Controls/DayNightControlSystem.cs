@@ -36,7 +36,7 @@ namespace CityWatchdog.Systems
         private const int kModeDay = 1;
         private const int kModeNight = 2;
 
-        private const float kDayTime = 13f;
+        private const float kDayTime = 12.5f;
         private const float kNightTime = 1f;
         private const float kVanillaFixedDayTime = 14.5f;
         private const float kHoursPerDay = 24f;
