@@ -94,6 +94,10 @@ namespace CityWatchdog.Systems
         {
             base.OnCreate();
 
+#if DEBUG
+            DayNightR2RenderCapture.Initialize();
+#endif
+
             m_PlanetarySystem =
                 World.GetOrCreateSystemManaged<PlanetarySystem>();
             m_TimeSystem =
@@ -187,6 +191,10 @@ namespace CityWatchdog.Systems
         protected override void OnDestroy()
         {
             StopExposureDebug();
+#if DEBUG
+            DayNightR2RenderCapture.Shutdown();
+#endif
+
             m_HasPendingMode = false;
             CancelSafetyTintTransition(restoreDisplayedMode: false);
             m_ExposureBridgeSystem?.CancelAll();
@@ -402,7 +410,10 @@ namespace CityWatchdog.Systems
                     resetHistory);
             }
 
-            // We are now inside the PreCulling OnUpdate immediately before PlanetarySystem.
+// We are now inside the PreCulling OnUpdate immediately before PlanetarySystem.
+#if DEBUG
+            DayNightR2RenderCapture.Begin(token);
+#endif
             m_ExposureBridgeSystem?.BeginNightTransition();
 
 #if DEBUG
