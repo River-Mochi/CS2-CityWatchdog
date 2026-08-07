@@ -315,10 +315,10 @@ namespace CityWatchdog.Systems
         }
 
         private void BeginSafetyTintNightTransition(
-        bool captureDebug)
+            bool captureDebug)
         {
+            // Do not arm the bridge yet. The UI timing callback has not applied Night.
             m_ExposureBridgeSystem?.CancelAll();
-            m_ExposureBridgeSystem?.BeginNightTransition();
 
             m_SafetyTintActive = true;
             m_SafetyTintNightApplied = false;
@@ -335,11 +335,12 @@ namespace CityWatchdog.Systems
             m_DayNightSafetyTintTokenBinding.Update(
                 m_SafetyTintToken);
 
-#if DEBUG
-        LogUtils.Info(
-            $"[CWD-DN-BRIDGE] request token={m_SafetyTintToken} values=5");
-#endif
+        #if DEBUG
+            LogUtils.Info(
+                $"[CWD-DN-BRIDGE] E1.1 waiting token={m_SafetyTintToken} values=5");
+        #endif
         }
+
 
         private void OnDayNightSafetyTintReady(
             int token)
@@ -366,7 +367,15 @@ namespace CityWatchdog.Systems
                     resetHistory);
             }
 
-            // Five-value Night exposure-limit bridge is armed before this clock change.
+            // Arm only now, immediately before the direct Night clock change.
+            // The bridge system runs after vanilla LightingSystem.
+            m_ExposureBridgeSystem?.BeginNightTransition();
+
+        #if DEBUG
+            LogUtils.Info(
+                $"[CWD-DN-BRIDGE] E1.1 armed token={token} values=5");
+        #endif
+
             ApplyMode(
                 kModeNight,
                 resetHistory);
@@ -376,11 +385,12 @@ namespace CityWatchdog.Systems
                 UnityEngine.Time.unscaledTimeAsDouble +
                 kSafetyTintUiTimeoutSeconds;
 
-#if DEBUG
+        #if DEBUG
             LogUtils.Info(
                 $"[CWD-DN-TINT] covered token={token} appliedHour={kNightTime:F1}");
-#endif
+        #endif
         }
+
 
         private void OnDayNightSafetyTintComplete(
             int token)
