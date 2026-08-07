@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/Controls/DayNightExposureBridgeSystem.cs
-// Purpose: E1 test — bridges Night limitMax in five rendered values
+// Purpose: E2B test — bridges Night limitMax in three rendered values
 // after vanilla LightingSystem, then checks real vanilla Auto exposure changes.
 
 namespace CityWatchdog.Systems
@@ -29,9 +29,10 @@ namespace CityWatchdog.Systems
         private const string kLightingExposureFieldName = "m_Exposure";
         private const string kLightingProfileFieldName = "m_Profile";
 
-        // With Day max 14 and Night max 6:
-        // approximately 14 -> 12 -> 10 -> 8 -> 6.
-        private const int kNightBridgeFrameCount = 5;
+        // E2B: with Day max 14 and Night max 6:
+        // approximately 14 -> 10 -> 6.
+        private const int kNightBridgeFrameCount = 3;
+
         private const float kExposureRangeDifference = 0.05f;
 
         private static readonly FieldInfo? s_LightingExposureField =

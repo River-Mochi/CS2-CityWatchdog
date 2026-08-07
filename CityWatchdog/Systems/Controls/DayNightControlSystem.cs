@@ -342,7 +342,7 @@ namespace CityWatchdog.Systems
 
         #if DEBUG
             LogUtils.Info(
-                $"[CWD-DN-BRIDGE] E1.1 waiting token={m_SafetyTintToken} values=5");
+    $"[CWD-DN-BRIDGE] E2B waiting token={m_SafetyTintToken} values=3");
         #endif
         }
 
@@ -364,7 +364,7 @@ namespace CityWatchdog.Systems
 
         #if DEBUG
             LogUtils.Info(
-                $"[CWD-DN-BRIDGE] E1.2 ready queued token={token} values=5");
+    $"[CWD-DN-BRIDGE] E2B ready queued token={token} values=3");
         #endif
         }
        
@@ -406,8 +406,8 @@ namespace CityWatchdog.Systems
             m_ExposureBridgeSystem?.BeginNightTransition();
 
         #if DEBUG
-            LogUtils.Info(
-                $"[CWD-DN-BRIDGE] E1.2 armed token={token} values=5");
+        LogUtils.Info(
+            $"[CWD-DN-BRIDGE] E2B armed token={token} values=3");
         #endif
 
             ApplyMode(
