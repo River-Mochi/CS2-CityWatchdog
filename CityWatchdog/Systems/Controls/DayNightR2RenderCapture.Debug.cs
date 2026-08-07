@@ -99,7 +99,7 @@ namespace CityWatchdog.Systems
                 LogUtils.WarnOnce(
                     "day-night-r2-camera-missing",
                     () =>
-                        "R1 render capture could not start because the main game camera or HDRP capture volumes were unavailable.");
+                        "R2 render capture could not start because the main game camera or HDRP capture volumes were unavailable.");
                 return;
             }
 
