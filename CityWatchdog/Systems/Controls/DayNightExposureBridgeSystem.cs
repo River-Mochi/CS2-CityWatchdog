@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/Controls/DayNightExposureBridgeSystem.cs
-// Purpose: Temporarily darkens the real rendered scene during Day -> Night,
+// Purpose: Temporarily suppresses bright highlights during Day -> Night,
 // then checks real vanilla Auto exposure changes after LightingSystem.
 
 namespace CityWatchdog.Systems
@@ -29,9 +29,10 @@ namespace CityWatchdog.Systems
         private const string kLightingExposureFieldName = "m_Exposure";
         private const float kExposureRangeDifference = 0.05f;
 
-        // D1 sunglasses test. Post Exposure is ordinary EV, not the EV100
-        // number stored in HDRP automatic-exposure history.
-        private const float kNightShadePostExposure = -3f;
+        // D2: reduce only upper tones instead of darkening the whole screen.
+        private const float kNightHighlightOffset = -0.75f;
+        private const float kNightHighlightStart = 0.45f;
+        private const float kNightHighlightEnd = 0.90f;
         private const double kNightShadeFadeInSeconds = 0.05d;
         private const double kNightShadeFadeOutStartSeconds = 0.175d;
         private const double kNightShadeEndSeconds = 0.255d;
@@ -46,7 +47,7 @@ namespace CityWatchdog.Systems
         private DayNightControlSystem? m_ControlSystem;
 
         private Volume m_NightShadeVolume = null!;
-        private ColorAdjustments m_NightShadeColor = null!;
+        private ShadowsMidtonesHighlights m_NightHighlightShade = null!;
         private bool m_NightShadeActive;
         private bool m_NightShadeFullLogged;
         private bool m_NightShadeReleaseLogged;
@@ -66,17 +67,27 @@ namespace CityWatchdog.Systems
 
             m_NightShadeVolume =
                 VolumeHelper.CreateVolume(
-                    "CWD-DayNightSunglasses",
+                    "CWD-DayNightHighlightShade",
                     kNightShadeVolumePriority);
 
             VolumeHelper.GetOrCreateVolumeComponent(
                 m_NightShadeVolume,
-                ref m_NightShadeColor);
+                ref m_NightHighlightShade);
 
-            // Only Post Exposure is overridden. The scene, color, sky,
-            // water, shadows, LUT, and automatic exposure stay untouched.
-            m_NightShadeColor.postExposure.Override(
-                kNightShadePostExposure);
+            // RGB stays neutral. Negative W lowers highlight lightness.
+            m_NightHighlightShade.highlights.Override(
+                new Vector4(
+                    1f,
+                    1f,
+                    1f,
+                    kNightHighlightOffset));
+
+            // Leave shadows alone and blend the effect only into upper tones.
+            m_NightHighlightShade.highlightsStart.Override(
+                kNightHighlightStart);
+            m_NightHighlightShade.highlightsEnd.Override(
+                kNightHighlightEnd);
+
             m_NightShadeVolume.weight = 0f;
         }
 
@@ -123,8 +134,10 @@ namespace CityWatchdog.Systems
             LogUtils.Info(
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "[CWD-DN-SHADE] begin postEV={0:F1} fadeInMs={1:F0} releaseMs={2:F0} endMs={3:F0}",
-                    kNightShadePostExposure,
+                    "[CWD-DN-HIGHLIGHT] begin offset={0:F2} start={1:F2} end={2:F2} fadeInMs={3:F0} releaseMs={4:F0} endMs={5:F0}",
+                    kNightHighlightOffset,
+                    kNightHighlightStart,
+                    kNightHighlightEnd,
                     kNightShadeFadeInSeconds * 1000d,
                     kNightShadeFadeOutStartSeconds * 1000d,
                     kNightShadeEndSeconds * 1000d));
@@ -203,7 +216,7 @@ namespace CityWatchdog.Systems
                     LogUtils.Info(
                         string.Format(
                             CultureInfo.InvariantCulture,
-                            "[CWD-DN-SHADE] full elapsedMs={0:F1} weight=1.000",
+                            "[CWD-DN-HIGHLIGHT] full elapsedMs={0:F1} weight=1.000",
                             elapsed * 1000d));
                 }
 #endif
@@ -225,7 +238,7 @@ namespace CityWatchdog.Systems
                     LogUtils.Info(
                         string.Format(
                             CultureInfo.InvariantCulture,
-                            "[CWD-DN-SHADE] release elapsedMs={0:F1}",
+                            "[CWD-DN-HIGHLIGHT] release elapsedMs={0:F1}",
                             elapsed * 1000d));
                 }
 #endif
@@ -236,7 +249,7 @@ namespace CityWatchdog.Systems
                 LogUtils.Info(
                     string.Format(
                         CultureInfo.InvariantCulture,
-                        "[CWD-DN-SHADE] end elapsedMs={0:F1}",
+                        "[CWD-DN-HIGHLIGHT] end elapsedMs={0:F1}",
                         elapsed * 1000d));
 #endif
 

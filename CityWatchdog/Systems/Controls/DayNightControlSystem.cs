@@ -183,8 +183,7 @@ namespace CityWatchdog.Systems
         {
             StopExposureDebug();
             m_HasPendingMode = false;
-            CancelSafetyTintTransition(
-                restoreDisplayedMode: false);
+            CancelSafetyTintTransition(restoreDisplayedMode: false);
             m_ExposureBridgeSystem?.CancelAll();
             m_ExposureBridgeSystem?.DetachController(this);
 
@@ -337,8 +336,7 @@ namespace CityWatchdog.Systems
                 m_SafetyTintToken);
 
 #if DEBUG
-            LogUtils.Info(
-               $"[CWD-DN-SHADE] request token={m_SafetyTintToken} postEV=-3.0");
+            LogUtils.Info( $"[CWD-DN-HIGHLIGHT] request token={m_SafetyTintToken} offset=-0.75");
 #endif
         }
 
@@ -367,7 +365,7 @@ namespace CityWatchdog.Systems
                     resetHistory);
             }
 
-            // HDRP post-exposure shade is at full weight before this clock change.
+            // HDRP highlight suppression is at full weight before this clock change.
             ApplyMode(
                 kModeNight,
                 resetHistory);
