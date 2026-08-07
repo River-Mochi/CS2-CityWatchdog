@@ -265,6 +265,12 @@ namespace CityWatchdog.Systems
             bool captureDebug = m_PendingCaptureDebug;
             m_HasPendingMode = false;
 
+            // new Day/Default request should stop any hidden Night hold immediately.
+            if (mode != kModeNight)
+            {
+                DayNightFrozenFrameTransition.CancelActiveHold();
+            }
+
             bool smootherSwitch =
                 useProtection &&
                 ShouldUseSmootherSwitch();
