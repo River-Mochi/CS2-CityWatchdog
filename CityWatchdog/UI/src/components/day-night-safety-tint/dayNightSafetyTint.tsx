@@ -1,45 +1,22 @@
 // File: src/UI/src/components/day-night-safety-tint/dayNightSafetyTint.tsx
-// Purpose: A2 test — briefly covers Day -> Night with an opaque dark shutter.
+// Purpose: D1 timing handshake only. The visible darkening now comes from
+// HDRP ColorAdjustments, so this component draws no flat screen overlay.
 
 import { useValue } from "cs2/api";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import {
     dayNightSafetyTintToken$,
     OnDayNightSafetyTintComplete,
     OnDayNightSafetyTintReady,
 } from "../../bindings/dayNightSafetyTintBindings";
-import styles from "./dayNightSafetyTint.module.scss";
 
-const FADE_IN_MS = 50;
-const COVERED_HOLD_MS = 120;
-const FADE_OUT_MS = 80;
+const SHADE_FADE_IN_MS = 50;
+const SHADE_HOLD_MS = 120;
+const SHADE_FADE_OUT_MS = 80;
 const TIMER_MARGIN_MS = 5;
-
-type TintPhase =
-    | "hidden"
-    | "armed"
-    | "fadeIn"
-    | "hold"
-    | "fadeOut";
-
-const getPhaseClass = (phase: TintPhase) => {
-    switch (phase) {
-        case "armed":
-            return styles.armed;
-        case "fadeIn":
-            return styles.fadeIn;
-        case "hold":
-            return styles.hold;
-        case "fadeOut":
-            return styles.fadeOut;
-        default:
-            return "";
-    }
-};
 
 export const DayNightSafetyTint = () => {
     const token = useValue(dayNightSafetyTintToken$);
-    const [phase, setPhase] = useState<TintPhase>("hidden");
     const timers = useRef<number[]>([]);
 
     useEffect(() => {
@@ -50,36 +27,24 @@ export const DayNightSafetyTint = () => {
         timers.current = [];
 
         if (token <= 0) {
-            setPhase("hidden");
             return;
         }
 
-        // Mount fully transparent first so Cohtml has a starting frame to animate from.
-        setPhase("armed");
-
-        const fadeInTimer = window.setTimeout(() => {
-            setPhase("fadeIn");
-        }, 1);
-
-        // C# changes the clock only after the tint has reached 95%.
+        // C# applies Night only after the HDRP shade has reached full weight.
         const readyTimer = window.setTimeout(() => {
-            setPhase("hold");
             OnDayNightSafetyTintReady(token);
-        }, FADE_IN_MS + TIMER_MARGIN_MS);
-
-        const fadeOutTimer = window.setTimeout(() => {
-            setPhase("fadeOut");
-        }, FADE_IN_MS + TIMER_MARGIN_MS + COVERED_HOLD_MS);
+        }, SHADE_FADE_IN_MS + TIMER_MARGIN_MS);
 
         const completeTimer = window.setTimeout(() => {
-            setPhase("hidden");
             OnDayNightSafetyTintComplete(token);
-        }, FADE_IN_MS + TIMER_MARGIN_MS + COVERED_HOLD_MS + FADE_OUT_MS + TIMER_MARGIN_MS);
+        }, SHADE_FADE_IN_MS +
+            TIMER_MARGIN_MS +
+            SHADE_HOLD_MS +
+            SHADE_FADE_OUT_MS +
+            TIMER_MARGIN_MS);
 
         timers.current = [
-            fadeInTimer,
             readyTimer,
-            fadeOutTimer,
             completeTimer,
         ];
 
@@ -92,14 +57,5 @@ export const DayNightSafetyTint = () => {
         };
     }, [token]);
 
-    if (phase === "hidden") {
-        return null;
-    }
-
-    return (
-        <div
-            aria-hidden="true"
-            className={`${styles.tint} ${getPhaseClass(phase)}`}
-        />
-    );
+    return null;
 };

@@ -7,7 +7,8 @@
 // ================= </copyright> ======================
 
 // File: Systems/Controls/DayNightExposureBridgeSystem.cs
-// Purpose: Checks real vanilla Auto exposure changes after LightingSystem.
+// Purpose: Temporarily darkens the real rendered scene during Day -> Night,
+// then checks real vanilla Auto exposure changes after LightingSystem.
 
 namespace CityWatchdog.Systems
 {
@@ -19,12 +20,22 @@ namespace CityWatchdog.Systems
 
     using Game.Rendering;
 
+    using UnityEngine;
+    using UnityEngine.Rendering;
     using UnityEngine.Rendering.HighDefinition;
 
     public partial class DayNightExposureBridgeSystem : GameSystemBaseExtension
     {
         private const string kLightingExposureFieldName = "m_Exposure";
         private const float kExposureRangeDifference = 0.05f;
+
+        // D1 sunglasses test. Post Exposure is ordinary EV, not the EV100
+        // number stored in HDRP automatic-exposure history.
+        private const float kNightShadePostExposure = -3f;
+        private const double kNightShadeFadeInSeconds = 0.05d;
+        private const double kNightShadeFadeOutStartSeconds = 0.175d;
+        private const double kNightShadeEndSeconds = 0.255d;
+        private const int kNightShadeVolumePriority = 3000;
 
         private static readonly FieldInfo? s_LightingExposureField =
             typeof(LightingSystem).GetField(
@@ -33,6 +44,13 @@ namespace CityWatchdog.Systems
 
         private LightingSystem m_LightingSystem = null!;
         private DayNightControlSystem? m_ControlSystem;
+
+        private Volume m_NightShadeVolume = null!;
+        private ColorAdjustments m_NightShadeColor = null!;
+        private bool m_NightShadeActive;
+        private bool m_NightShadeFullLogged;
+        private bool m_NightShadeReleaseLogged;
+        private double m_NightShadeStartTime;
 
         private bool m_AutoCheckPending;
         private bool m_AutoBaselineValid;
@@ -45,11 +63,34 @@ namespace CityWatchdog.Systems
 
             m_LightingSystem =
                 World.GetOrCreateSystemManaged<LightingSystem>();
+
+            m_NightShadeVolume =
+                VolumeHelper.CreateVolume(
+                    "CWD-DayNightSunglasses",
+                    kNightShadeVolumePriority);
+
+            VolumeHelper.GetOrCreateVolumeComponent(
+                m_NightShadeVolume,
+                ref m_NightShadeColor);
+
+            // Only Post Exposure is overridden. The scene, color, sky,
+            // water, shadows, LUT, and automatic exposure stay untouched.
+            m_NightShadeColor.postExposure.Override(
+                kNightShadePostExposure);
+            m_NightShadeVolume.weight = 0f;
         }
 
         protected override void OnUpdate()
         {
             ProcessAutoBrighteningCheck();
+            ProcessNightShade();
+        }
+
+        protected override void OnDestroy()
+        {
+            CancelAll();
+            VolumeHelper.DestroyVolume(m_NightShadeVolume);
+            base.OnDestroy();
         }
 
         internal void AttachController(
@@ -67,13 +108,46 @@ namespace CityWatchdog.Systems
             }
         }
 
+        internal void BeginNightTransition()
+        {
+            CancelAutoBrighteningCheck();
+
+            m_NightShadeActive = true;
+            m_NightShadeFullLogged = false;
+            m_NightShadeReleaseLogged = false;
+            m_NightShadeStartTime =
+                UnityEngine.Time.unscaledTimeAsDouble;
+            m_NightShadeVolume.weight = 0f;
+
+#if DEBUG
+            LogUtils.Info(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "[CWD-DN-SHADE] begin postEV={0:F1} fadeInMs={1:F0} releaseMs={2:F0} endMs={3:F0}",
+                    kNightShadePostExposure,
+                    kNightShadeFadeInSeconds * 1000d,
+                    kNightShadeFadeOutStartSeconds * 1000d,
+                    kNightShadeEndSeconds * 1000d));
+#endif
+        }
+
         internal void CancelNightTransition()
         {
-            // A1 does not modify Night exposure. Kept for controller cleanup calls.
+            m_NightShadeActive = false;
+            m_NightShadeFullLogged = false;
+            m_NightShadeReleaseLogged = false;
+            m_NightShadeStartTime = 0d;
+
+            if (m_NightShadeVolume != null)
+            {
+                m_NightShadeVolume.weight = 0f;
+            }
         }
 
         internal void ArmAutoBrighteningCheck()
         {
+            CancelNightTransition();
+
             m_AutoCheckPending = true;
             m_AutoBaselineValid =
                 TryGetLightingExposure(out Exposure? exposure);
@@ -95,6 +169,83 @@ namespace CityWatchdog.Systems
         {
             CancelNightTransition();
             CancelAutoBrighteningCheck();
+        }
+
+        private void ProcessNightShade()
+        {
+            if (!m_NightShadeActive)
+            {
+                return;
+            }
+
+            double elapsed =
+                UnityEngine.Time.unscaledTimeAsDouble -
+                m_NightShadeStartTime;
+
+            float weight;
+
+            if (elapsed < kNightShadeFadeInSeconds)
+            {
+                weight = Mathf.SmoothStep(
+                    0f,
+                    1f,
+                    (float)(elapsed /
+                        kNightShadeFadeInSeconds));
+            }
+            else if (elapsed < kNightShadeFadeOutStartSeconds)
+            {
+                weight = 1f;
+
+#if DEBUG
+                if (!m_NightShadeFullLogged)
+                {
+                    m_NightShadeFullLogged = true;
+                    LogUtils.Info(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            "[CWD-DN-SHADE] full elapsedMs={0:F1} weight=1.000",
+                            elapsed * 1000d));
+                }
+#endif
+            }
+            else if (elapsed < kNightShadeEndSeconds)
+            {
+                weight = Mathf.SmoothStep(
+                    1f,
+                    0f,
+                    (float)((elapsed -
+                        kNightShadeFadeOutStartSeconds) /
+                        (kNightShadeEndSeconds -
+                         kNightShadeFadeOutStartSeconds)));
+
+#if DEBUG
+                if (!m_NightShadeReleaseLogged)
+                {
+                    m_NightShadeReleaseLogged = true;
+                    LogUtils.Info(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            "[CWD-DN-SHADE] release elapsedMs={0:F1}",
+                            elapsed * 1000d));
+                }
+#endif
+            }
+            else
+            {
+#if DEBUG
+                LogUtils.Info(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "[CWD-DN-SHADE] end elapsedMs={0:F1}",
+                        elapsed * 1000d));
+#endif
+
+                CancelNightTransition();
+                return;
+            }
+
+            m_NightShadeVolume.weight =
+                Mathf.Clamp01(weight);
         }
 
         private void ProcessAutoBrighteningCheck()
@@ -142,7 +293,8 @@ namespace CityWatchdog.Systems
 
             if (brighterRange)
             {
-                m_ControlSystem?.RequestBrighteningHistoryReset();
+                m_ControlSystem?
+                    .RequestBrighteningHistoryReset();
             }
 
             m_AutoBaselineValid = false;
