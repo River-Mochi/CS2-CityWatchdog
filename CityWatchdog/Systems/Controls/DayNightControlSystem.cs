@@ -336,8 +336,8 @@ namespace CityWatchdog.Systems
                 m_SafetyTintToken);
 
 #if DEBUG
-           LogUtils.Info(
-                $"[CWD-DN-OUTLINE] request token={m_SafetyTintToken}");
+        LogUtils.Info(
+            $"[CWD-DN-BRIDGE] request token={m_SafetyTintToken} values=5");
 #endif
         }
 
@@ -366,7 +366,7 @@ namespace CityWatchdog.Systems
                     resetHistory);
             }
 
-            // OutlinesWorldUIPass is disabled before this clock change.
+            // Five-value Night exposure-limit bridge is armed before this clock change.
             ApplyMode(
                 kModeNight,
                 resetHistory);

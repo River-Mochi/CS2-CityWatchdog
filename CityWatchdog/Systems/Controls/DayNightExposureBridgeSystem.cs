@@ -7,13 +7,12 @@
 // ================= </copyright> ======================
 
 // File: Systems/Controls/DayNightExposureBridgeSystem.cs
-// Purpose: H3 diagnostic — briefly disables the vanilla OutlinesWorldUIPass
-// during Day -> Night, then checks real vanilla Auto exposure changes.
+// Purpose: E1 test — bridges Night limitMax in five rendered values
+// after vanilla LightingSystem, then checks real vanilla Auto exposure changes.
 
 namespace CityWatchdog.Systems
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Reflection;
 
@@ -21,27 +20,36 @@ namespace CityWatchdog.Systems
 
     using Game.Rendering;
 
+    using UnityEngine;
+    using UnityEngine.Rendering;
     using UnityEngine.Rendering.HighDefinition;
 
     public partial class DayNightExposureBridgeSystem : GameSystemBaseExtension
     {
         private const string kLightingExposureFieldName = "m_Exposure";
+        private const string kLightingProfileFieldName = "m_Profile";
+
+        // With Day max 14 and Night max 6:
+        // approximately 14 -> 12 -> 10 -> 8 -> 6.
+        private const int kNightBridgeFrameCount = 5;
         private const float kExposureRangeDifference = 0.05f;
-        private const double kOutlinePassDisableMaxSeconds = 0.35d;
 
         private static readonly FieldInfo? s_LightingExposureField =
             typeof(LightingSystem).GetField(
                 kLightingExposureFieldName,
                 BindingFlags.Instance | BindingFlags.NonPublic);
 
-        private readonly List<OutlinesWorldUIPass> m_OutlinePasses = new();
-        private readonly List<bool> m_OutlinePassOriginalEnabled = new();
+        private static readonly FieldInfo? s_LightingProfileField =
+            typeof(LightingSystem).GetField(
+                kLightingProfileFieldName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
 
         private LightingSystem m_LightingSystem = null!;
         private DayNightControlSystem? m_ControlSystem;
 
-        private bool m_OutlinePassSuppressed;
-        private double m_OutlinePassDisabledAt;
+        private bool m_NightBridgeActive;
+        private int m_NightBridgeFrame;
+        private float m_NightBridgeStartMax;
 
         private bool m_AutoCheckPending;
         private bool m_AutoBaselineValid;
@@ -59,13 +67,7 @@ namespace CityWatchdog.Systems
         protected override void OnUpdate()
         {
             ProcessAutoBrighteningCheck();
-            ProcessOutlinePassFailSafe();
-        }
-
-        protected override void OnDestroy()
-        {
-            CancelAll();
-            base.OnDestroy();
+            ProcessNightBridge();
         }
 
         internal void AttachController(
@@ -86,71 +88,37 @@ namespace CityWatchdog.Systems
         internal void BeginNightTransition()
         {
             CancelAutoBrighteningCheck();
-            RestoreOutlinePasses();
 
-            CustomPassVolume[] volumes =
-                UnityEngine.Object.FindObjectsOfType<CustomPassVolume>();
-
-            int originallyEnabled = 0;
-
-            for (int i = 0; i < volumes.Length; i++)
+            if (!TryGetLightingExposure(out Exposure? exposure))
             {
-                CustomPassVolume volume = volumes[i];
-                if (volume == null || volume.customPasses == null)
-                {
-                    continue;
-                }
-
-                for (int j = 0; j < volume.customPasses.Count; j++)
-                {
-                    if (volume.customPasses[j] is not OutlinesWorldUIPass pass)
-                    {
-                        continue;
-                    }
-
-                    bool wasEnabled = pass.enabled;
-
-                    m_OutlinePasses.Add(pass);
-                    m_OutlinePassOriginalEnabled.Add(wasEnabled);
-
-                    if (wasEnabled)
-                    {
-                        originallyEnabled++;
-                    }
-
-                    // H3 diagnostic: remove the entire pass, not just its colors.
-                    pass.enabled = false;
-                }
-            }
-
-            if (m_OutlinePasses.Count == 0)
-            {
-                LogUtils.WarnOnce(
-                    "day-night-outline-pass-missing",
-                    () =>
-                        "Day/Night H3 diagnostic could not find OutlinesWorldUIPass.");
-
+                m_NightBridgeActive = false;
                 return;
             }
 
-            m_OutlinePassSuppressed = true;
-            m_OutlinePassDisabledAt =
-                UnityEngine.Time.unscaledTimeAsDouble;
+            m_NightBridgeStartMax = exposure.limitMax.value;
+            m_NightBridgeFrame = 0;
+            m_NightBridgeActive = true;
 
 #if DEBUG
             LogUtils.Info(
-                $"[CWD-DN-OUTLINE] disabled count={m_OutlinePasses.Count} originallyEnabled={originallyEnabled}");
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "[CWD-DN-BRIDGE] NIGHT begin values={0} startMin={1:F3} startMax={2:F3}",
+                    kNightBridgeFrameCount,
+                    exposure.limitMin.value,
+                    m_NightBridgeStartMax));
 #endif
         }
 
         internal void CancelNightTransition()
         {
-            RestoreOutlinePasses();
+            m_NightBridgeActive = false;
+            m_NightBridgeFrame = 0;
         }
 
         internal void ArmAutoBrighteningCheck()
         {
-            RestoreOutlinePasses();
+            CancelNightTransition();
 
             m_AutoCheckPending = true;
             m_AutoBaselineValid =
@@ -171,86 +139,8 @@ namespace CityWatchdog.Systems
 
         internal void CancelAll()
         {
-            RestoreOutlinePasses();
+            CancelNightTransition();
             CancelAutoBrighteningCheck();
-        }
-
-        private void ProcessOutlinePassFailSafe()
-        {
-            if (!m_OutlinePassSuppressed)
-            {
-                return;
-            }
-
-            double elapsed =
-                UnityEngine.Time.unscaledTimeAsDouble -
-                m_OutlinePassDisabledAt;
-
-            if (elapsed < kOutlinePassDisableMaxSeconds)
-            {
-                return;
-            }
-
-#if DEBUG
-            LogUtils.Info(
-                string.Format(
-                    CultureInfo.InvariantCulture,
-                    "[CWD-DN-OUTLINE] fail-safe restore elapsedMs={0:F1}",
-                    elapsed * 1000d));
-#endif
-
-            RestoreOutlinePasses();
-        }
-
-        private void RestoreOutlinePasses()
-        {
-            if (m_OutlinePasses.Count == 0)
-            {
-                m_OutlinePassSuppressed = false;
-                m_OutlinePassDisabledAt = 0d;
-                return;
-            }
-
-            int restoredEnabled = 0;
-
-            for (int i = 0; i < m_OutlinePasses.Count; i++)
-            {
-                OutlinesWorldUIPass pass =
-                    m_OutlinePasses[i];
-
-                bool originalEnabled =
-                    i < m_OutlinePassOriginalEnabled.Count &&
-                    m_OutlinePassOriginalEnabled[i];
-
-                pass.enabled = originalEnabled;
-
-                if (originalEnabled)
-                {
-                    restoredEnabled++;
-                }
-            }
-
-#if DEBUG
-            if (m_OutlinePassSuppressed)
-            {
-                double elapsed =
-                    UnityEngine.Time.unscaledTimeAsDouble -
-                    m_OutlinePassDisabledAt;
-
-                LogUtils.Info(
-                    string.Format(
-                        CultureInfo.InvariantCulture,
-                        "[CWD-DN-OUTLINE] restored count={0} enabled={1} elapsedMs={2:F1}",
-                        m_OutlinePasses.Count,
-                        restoredEnabled,
-                        elapsed * 1000d));
-            }
-#endif
-
-            m_OutlinePasses.Clear();
-            m_OutlinePassOriginalEnabled.Clear();
-            m_OutlinePassSuppressed = false;
-            m_OutlinePassDisabledAt = 0d;
         }
 
         private void ProcessAutoBrighteningCheck()
@@ -305,6 +195,107 @@ namespace CityWatchdog.Systems
             m_AutoBaselineValid = false;
         }
 
+        private void ProcessNightBridge()
+        {
+            if (!m_NightBridgeActive)
+            {
+                return;
+            }
+
+            if (!(CwdSettings.Instance?
+                    .SmoothDayNightTransition ?? true))
+            {
+                CancelNightTransition();
+                return;
+            }
+
+            if (!TryGetLightingExposure(out Exposure? exposure) ||
+                exposure == null)
+            {
+                CancelNightTransition();
+                return;
+            }
+
+            LightingSystem.State state =
+                m_LightingSystem.state;
+
+            if (state != LightingSystem.State.Night)
+            {
+#if DEBUG
+                LogUtils.Info(
+                    $"[CWD-DN-BRIDGE] NIGHT canceled state={state}");
+#endif
+                CancelNightTransition();
+                return;
+            }
+
+            float vanillaNightMax =
+                exposure.limitMax.value;
+
+            if (m_NightBridgeStartMax <=
+                vanillaNightMax +
+                kExposureRangeDifference)
+            {
+#if DEBUG
+                LogUtils.Info(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "[CWD-DN-BRIDGE] NIGHT not-needed startMax={0:F3} vanillaMax={1:F3}",
+                        m_NightBridgeStartMax,
+                        vanillaNightMax));
+#endif
+                CancelNightTransition();
+                return;
+            }
+
+            float progress =
+                kNightBridgeFrameCount <= 1
+                    ? 1f
+                    : (float)m_NightBridgeFrame /
+                      (kNightBridgeFrameCount - 1);
+
+            float appliedMax =
+                Mathf.Lerp(
+                    m_NightBridgeStartMax,
+                    vanillaNightMax,
+                    progress);
+
+            exposure.limitMax.value =
+                Mathf.Max(
+                    exposure.limitMin.value,
+                    appliedMax);
+
+            // LightingSystem calls Reset before this system; signal the profile again
+            // after changing the value so HDRP sees this frame's bridge limit.
+            TryGetLightingProfile()?.Reset();
+
+#if DEBUG
+            LogUtils.Info(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "[CWD-DN-BRIDGE] NIGHT frame={0}/{1} state={2} min={3:F3} vanillaMax={4:F3} appliedMax={5:F3}",
+                    m_NightBridgeFrame,
+                    kNightBridgeFrameCount - 1,
+                    state,
+                    exposure.limitMin.value,
+                    vanillaNightMax,
+                    exposure.limitMax.value));
+#endif
+
+            m_NightBridgeFrame++;
+
+            if (m_NightBridgeFrame >=
+                kNightBridgeFrameCount)
+            {
+                CancelNightTransition();
+
+#if DEBUG
+                LogUtils.Info(
+                    "[CWD-DN-BRIDGE] NIGHT end");
+#endif
+            }
+        }
+
         private bool TryGetLightingExposure(
             out Exposure? exposure)
         {
@@ -321,9 +312,27 @@ namespace CityWatchdog.Systems
             LogUtils.WarnOnce(
                 "day-night-lighting-exposure-missing",
                 () =>
-                    $"Day/Night Auto exposure check unavailable: LightingSystem field '{kLightingExposureFieldName}' was not found.");
+                    $"Day/Night exposure bridge unavailable: LightingSystem field '{kLightingExposureFieldName}' was not found.");
 
             return false;
+        }
+
+        private VolumeProfile? TryGetLightingProfile()
+        {
+            VolumeProfile? profile =
+                s_LightingProfileField?
+                    .GetValue(m_LightingSystem)
+                    as VolumeProfile;
+
+            if (profile == null)
+            {
+                LogUtils.WarnOnce(
+                    "day-night-lighting-profile-missing",
+                    () =>
+                        $"Day/Night exposure bridge could not refresh LightingSystem field '{kLightingProfileFieldName}'.");
+            }
+
+            return profile;
         }
     }
 }
