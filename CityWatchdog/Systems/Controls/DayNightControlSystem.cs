@@ -316,9 +316,10 @@ namespace CityWatchdog.Systems
         }
 
         private void BeginSafetyTintNightTransition(
-            bool captureDebug)
+        bool captureDebug)
         {
             m_ExposureBridgeSystem?.CancelAll();
+            m_ExposureBridgeSystem?.BeginNightTransition();
 
             m_SafetyTintActive = true;
             m_SafetyTintNightApplied = false;
@@ -337,7 +338,7 @@ namespace CityWatchdog.Systems
 
 #if DEBUG
             LogUtils.Info(
-               $"[CWD-DN-TINT] begin token={m_SafetyTintToken} opacity=0.95");
+               $"[CWD-DN-SHADE] request token={m_SafetyTintToken} postEV=-3.0");
 #endif
         }
 
@@ -366,7 +367,7 @@ namespace CityWatchdog.Systems
                     resetHistory);
             }
 
-            // The UI tint is already at 95% before this direct clock change.
+            // HDRP post-exposure shade is at full weight before this clock change.
             ApplyMode(
                 kModeNight,
                 resetHistory);
@@ -459,8 +460,9 @@ namespace CityWatchdog.Systems
             m_SafetyTintNightApplied = false;
             m_SafetyTintCaptureDebug = false;
             m_SafetyTintDeadline = 0d;
+            m_ExposureBridgeSystem?.CancelNightTransition();
 
-            // Token zero tells React to cancel timers and remove the overlay.
+            // Token zero tells React to cancel its timers.
             m_DayNightSafetyTintTokenBinding.Update(0);
         }
 
