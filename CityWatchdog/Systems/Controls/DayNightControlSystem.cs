@@ -93,6 +93,7 @@ namespace CityWatchdog.Systems
         protected override void OnCreate()
         {
             base.OnCreate();
+             DayNightFrozenFrameTransition.Initialize();
 
             m_PlanetarySystem =
                 World.GetOrCreateSystemManaged<PlanetarySystem>();
@@ -187,6 +188,8 @@ namespace CityWatchdog.Systems
         protected override void OnDestroy()
         {
             StopExposureDebug();
+            DayNightFrozenFrameTransition.Shutdown();
+
             m_HasPendingMode = false;
             CancelSafetyTintTransition(restoreDisplayedMode: false);
             m_ExposureBridgeSystem?.CancelAll();
@@ -337,8 +340,9 @@ namespace CityWatchdog.Systems
                     ? 1
                     : m_SafetyTintToken + 1;
 
-            m_DayNightSafetyTintTokenBinding.Update(
-                m_SafetyTintToken);
+            m_DayNightSafetyTintTokenBinding.Update(m_SafetyTintToken);
+
+            DayNightFrozenFrameTransition.RequestDayCapture(m_SafetyTintToken);
 
         #if DEBUG
             LogUtils.Info(
@@ -376,16 +380,27 @@ namespace CityWatchdog.Systems
                 return;
             }
 
+
             int token = m_SafetyTintReadyToken;
-            m_SafetyTintReadyPending = false;
-            m_SafetyTintReadyToken = 0;
 
             if (!m_SafetyTintActive ||
                 m_SafetyTintNightApplied ||
                 token != m_SafetyTintToken)
             {
+                m_SafetyTintReadyPending = false;
+                m_SafetyTintReadyToken = 0;
                 return;
             }
+
+            // Keep Day rendered until the clean camera frame has been captured.
+            if (!DayNightFrozenFrameTransition.IsDayCaptureReady(token))
+            {
+                return;
+            }
+
+            m_SafetyTintReadyPending = false;
+            m_SafetyTintReadyToken = 0;
+
 
             bool resetHistory = false;
 
@@ -402,8 +417,13 @@ namespace CityWatchdog.Systems
                     resetHistory);
             }
 
+
+            // Hold the last clean Day frame while the real Night frames settle underneath.
+            DayNightFrozenFrameTransition.BeginHold(token);
+
             // We are now inside the PreCulling OnUpdate immediately before PlanetarySystem.
             m_ExposureBridgeSystem?.BeginNightTransition();
+
 
         #if DEBUG
             LogUtils.Info(
@@ -507,6 +527,8 @@ namespace CityWatchdog.Systems
             m_SafetyTintDeadline = 0d;
             m_SafetyTintReadyPending = false;
             m_SafetyTintReadyToken = 0;
+
+            DayNightFrozenFrameTransition.CancelPendingCapture(m_SafetyTintToken);
             m_ExposureBridgeSystem?.CancelNightTransition();
 
 
