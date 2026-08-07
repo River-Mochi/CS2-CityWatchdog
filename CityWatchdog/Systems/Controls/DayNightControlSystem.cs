@@ -74,12 +74,15 @@ namespace CityWatchdog.Systems
         private int m_AppliedMode = kModeAuto;
 
 
-        // Test A2: the React shutter becomes opaque before C# applies Night.
+        // Test E1.2: the React shutter becomes opaque before C# applies Night.
         private bool m_SafetyTintActive;
         private bool m_SafetyTintNightApplied;
         private bool m_SafetyTintCaptureDebug;
         private int m_SafetyTintToken;
         private double m_SafetyTintDeadline;
+
+        private bool m_SafetyTintReadyPending;
+        private int m_SafetyTintReadyToken;
 
         // Only release overrideTime if CWD took control.
         private bool m_OverrideActive;
@@ -133,8 +136,10 @@ namespace CityWatchdog.Systems
 
             // Mod.cs orders this update immediately before PlanetarySystem in PreCulling.
             ApplyPendingMode();
+            ApplyPendingSafetyTintReady();
             CheckSafetyTintTimeout();
             AdvanceExposureDebug();
+
         }
 
         // Hotkey is Day <-> Night. From Auto, the first press selects Day.
@@ -352,6 +357,36 @@ namespace CityWatchdog.Systems
                 return;
             }
 
+            // COHTML trigger callbacks are not PreCulling system update.
+            // Queue this so the clock change happens in OnUpdate before PlanetarySystem.
+            m_SafetyTintReadyPending = true;
+            m_SafetyTintReadyToken = token;
+
+        #if DEBUG
+            LogUtils.Info(
+                $"[CWD-DN-BRIDGE] E1.2 ready queued token={token} values=5");
+        #endif
+        }
+       
+
+        private void ApplyPendingSafetyTintReady()
+        {
+            if (!m_SafetyTintReadyPending)
+            {
+                return;
+            }
+
+            int token = m_SafetyTintReadyToken;
+            m_SafetyTintReadyPending = false;
+            m_SafetyTintReadyToken = 0;
+
+            if (!m_SafetyTintActive ||
+                m_SafetyTintNightApplied ||
+                token != m_SafetyTintToken)
+            {
+                return;
+            }
+
             bool resetHistory = false;
 
             if (m_SafetyTintCaptureDebug &&
@@ -367,13 +402,12 @@ namespace CityWatchdog.Systems
                     resetHistory);
             }
 
-            // Arm only now, immediately before the direct Night clock change.
-            // The bridge system runs after vanilla LightingSystem.
+            // We are now inside the PreCulling OnUpdate immediately before PlanetarySystem.
             m_ExposureBridgeSystem?.BeginNightTransition();
 
         #if DEBUG
             LogUtils.Info(
-                $"[CWD-DN-BRIDGE] E1.1 armed token={token} values=5");
+                $"[CWD-DN-BRIDGE] E1.2 armed token={token} values=5");
         #endif
 
             ApplyMode(
@@ -390,6 +424,7 @@ namespace CityWatchdog.Systems
                 $"[CWD-DN-TINT] covered token={token} appliedHour={kNightTime:F1}");
         #endif
         }
+
 
 
         private void OnDayNightSafetyTintComplete(
@@ -465,11 +500,15 @@ namespace CityWatchdog.Systems
                     m_AppliedMode);
             }
 
+
             m_SafetyTintActive = false;
             m_SafetyTintNightApplied = false;
             m_SafetyTintCaptureDebug = false;
             m_SafetyTintDeadline = 0d;
+            m_SafetyTintReadyPending = false;
+            m_SafetyTintReadyToken = 0;
             m_ExposureBridgeSystem?.CancelNightTransition();
+
 
             // Token zero tells React to cancel its timers.
             m_DayNightSafetyTintTokenBinding.Update(0);
