@@ -93,6 +93,9 @@ namespace CityWatchdog.Systems
         protected override void OnCreate()
         {
             base.OnCreate();
+#if DEBUG
+    DayNightR1RenderCapture.Initialize();
+#endif
 
             m_PlanetarySystem =
                 World.GetOrCreateSystemManaged<PlanetarySystem>();
@@ -187,6 +190,10 @@ namespace CityWatchdog.Systems
         protected override void OnDestroy()
         {
             StopExposureDebug();
+#if DEBUG
+    DayNightR1RenderCapture.Shutdown();
+#endif
+
             m_HasPendingMode = false;
             CancelSafetyTintTransition(restoreDisplayedMode: false);
             m_ExposureBridgeSystem?.CancelAll();
@@ -402,13 +409,18 @@ namespace CityWatchdog.Systems
                     resetHistory);
             }
 
-            // We are now inside the PreCulling OnUpdate immediately before PlanetarySystem.
-            m_ExposureBridgeSystem?.BeginNightTransition();
+        // We are now inside the PreCulling OnUpdate immediately before PlanetarySystem.
+#if DEBUG
+        DayNightR1RenderCapture.Begin(token);
+#endif
+        m_ExposureBridgeSystem?.BeginNightTransition();
 
-        #if DEBUG
+
+
+#if DEBUG
         LogUtils.Info(
             $"[CWD-DN-BRIDGE] E2B armed token={token} values=3");
-        #endif
+#endif
 
             ApplyMode(
                 kModeNight,
@@ -419,10 +431,10 @@ namespace CityWatchdog.Systems
                 UnityEngine.Time.unscaledTimeAsDouble +
                 kSafetyTintUiTimeoutSeconds;
 
-        #if DEBUG
+#if DEBUG
             LogUtils.Info(
                 $"[CWD-DN-TINT] covered token={token} appliedHour={kNightTime:F1}");
-        #endif
+#endif
         }
 
 
