@@ -7,7 +7,7 @@
 // ================= </copyright> ======================
 
 // File: Systems/Controls/DayNightFrozenFrameTransition.cs
-// Purpose: P1.1 test. Hold the last clean Day camera result at endCameraRendering.
+// Purpose: P1.2 test. Hold the last clean Day camera result at endCameraRendering.
 
 namespace CityWatchdog.Systems
 {
@@ -83,7 +83,7 @@ namespace CityWatchdog.Systems
 
 #if DEBUG
             LogUtils.Info(
-                $"[CWD-DN-P1.1] Day capture requested token={token}");
+                $"[CWD-DN-P1.2] Day capture requested token={token}");
 #endif
         }
 
@@ -120,7 +120,7 @@ namespace CityWatchdog.Systems
 
 #if DEBUG
             LogUtils.Info(
-                $"[CWD-DN-P1.1] hold begin token={token} seconds={kHoldSeconds:F3}");
+                $"[CWD-DN-P1.2] hold begin token={token} seconds={kHoldSeconds:F3}");
 #endif
 
             return true;
@@ -207,7 +207,7 @@ namespace CityWatchdog.Systems
 
 #if DEBUG
                 LogUtils.Info(
-                    $"[CWD-DN-P1.1] Day captured token={s_CaptureToken} unityFrame={Time.frameCount} size={s_FrozenDay.width}x{s_FrozenDay.height}");
+                    $"[CWD-DN-P1.2] Day captured token={s_CaptureToken} unityFrame={Time.frameCount} size={s_FrozenDay.width}x{s_FrozenDay.height}");
 #endif
 
                 return;
@@ -234,7 +234,7 @@ namespace CityWatchdog.Systems
 
 #if DEBUG
                 LogUtils.Info(
-                    $"[CWD-DN-P1.1] hold end token={token} elapsed={elapsed:F3}s overlayFrames={overlayFrames}");
+                    $"[CWD-DN-P1.2] hold end token={token} elapsed={elapsed:F3}s overlayFrames={overlayFrames}");
 #endif
 
                 return;
@@ -251,11 +251,18 @@ namespace CityWatchdog.Systems
 
             try
             {
-                // This callback is after HDRP finishes this camera.
+                // CameraTarget and our RenderTexture use opposite vertical orientation here.
                 holdCommandBuffer.Blit(
                     new RenderTargetIdentifier(
                         s_FrozenDay),
-                    BuiltinRenderTextureType.CameraTarget);
+                    new RenderTargetIdentifier(
+                        BuiltinRenderTextureType.CameraTarget),
+                    new Vector2(
+                        1f,
+                        -1f),
+                    new Vector2(
+                        0f,
+                        1f));
 
                 context.ExecuteCommandBuffer(
                     holdCommandBuffer);
@@ -274,7 +281,7 @@ namespace CityWatchdog.Systems
                 s_LoggedFirstOverlay = true;
 
                 LogUtils.Info(
-                    $"[CWD-DN-P1.1] first final-camera overlay token={s_HoldToken} unityFrame={Time.frameCount}");
+                    $"[CWD-DN-P1.2] first final-camera overlay token={s_HoldToken} unityFrame={Time.frameCount}");
             }
 #endif
         }
@@ -335,4 +342,3 @@ namespace CityWatchdog.Systems
         }
     }
 }
-
