@@ -342,7 +342,7 @@ namespace CityWatchdog.Systems
 
         #if DEBUG
             LogUtils.Info(
-                $"[CWD-DN-BRIDGE] E1.1 waiting token={m_SafetyTintToken} values=5");
+            $"[CWD-DN-BRIDGE] E2A waiting token={m_SafetyTintToken} values=4");
         #endif
         }
 
@@ -363,8 +363,8 @@ namespace CityWatchdog.Systems
             m_SafetyTintReadyToken = token;
 
         #if DEBUG
-            LogUtils.Info(
-                $"[CWD-DN-BRIDGE] E1.2 ready queued token={token} values=5");
+   LogUtils.Info(
+    $"[CWD-DN-BRIDGE] E2A ready queued token={token} values=4");
         #endif
         }
        
@@ -405,10 +405,10 @@ namespace CityWatchdog.Systems
             // We are now inside the PreCulling OnUpdate immediately before PlanetarySystem.
             m_ExposureBridgeSystem?.BeginNightTransition();
 
-        #if DEBUG
-            LogUtils.Info(
-                $"[CWD-DN-BRIDGE] E1.2 armed token={token} values=5");
-        #endif
+#if DEBUG
+        LogUtils.Info(
+            $"[CWD-DN-BRIDGE] E2A armed token={token} values=4");
+#endif
 
             ApplyMode(
                 kModeNight,
