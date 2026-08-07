@@ -7,12 +7,13 @@
 // ================= </copyright> ======================
 
 // File: Systems/Controls/DayNightExposureBridgeSystem.cs
-// Purpose: Temporarily suppresses bright highlights during Day -> Night,
-// then checks real vanilla Auto exposure changes after LightingSystem.
+// Purpose: H3 diagnostic — briefly disables the vanilla OutlinesWorldUIPass
+// during Day -> Night, then checks real vanilla Auto exposure changes.
 
 namespace CityWatchdog.Systems
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Reflection;
 
@@ -20,38 +21,27 @@ namespace CityWatchdog.Systems
 
     using Game.Rendering;
 
-    using UnityEngine;
-    using UnityEngine.Rendering;
     using UnityEngine.Rendering.HighDefinition;
 
     public partial class DayNightExposureBridgeSystem : GameSystemBaseExtension
     {
         private const string kLightingExposureFieldName = "m_Exposure";
         private const float kExposureRangeDifference = 0.05f;
-
-        // D2: reduce only upper tones instead of darkening the whole screen.
-        private const float kNightHighlightOffset = -0.75f;
-        private const float kNightHighlightStart = 0.45f;
-        private const float kNightHighlightEnd = 0.90f;
-        private const double kNightShadeFadeInSeconds = 0.05d;
-        private const double kNightShadeFadeOutStartSeconds = 0.175d;
-        private const double kNightShadeEndSeconds = 0.255d;
-        private const int kNightShadeVolumePriority = 3000;
+        private const double kOutlinePassDisableMaxSeconds = 0.35d;
 
         private static readonly FieldInfo? s_LightingExposureField =
             typeof(LightingSystem).GetField(
                 kLightingExposureFieldName,
                 BindingFlags.Instance | BindingFlags.NonPublic);
 
+        private readonly List<OutlinesWorldUIPass> m_OutlinePasses = new();
+        private readonly List<bool> m_OutlinePassOriginalEnabled = new();
+
         private LightingSystem m_LightingSystem = null!;
         private DayNightControlSystem? m_ControlSystem;
 
-        private Volume m_NightShadeVolume = null!;
-        private ShadowsMidtonesHighlights m_NightHighlightShade = null!;
-        private bool m_NightShadeActive;
-        private bool m_NightShadeFullLogged;
-        private bool m_NightShadeReleaseLogged;
-        private double m_NightShadeStartTime;
+        private bool m_OutlinePassSuppressed;
+        private double m_OutlinePassDisabledAt;
 
         private bool m_AutoCheckPending;
         private bool m_AutoBaselineValid;
@@ -64,43 +54,17 @@ namespace CityWatchdog.Systems
 
             m_LightingSystem =
                 World.GetOrCreateSystemManaged<LightingSystem>();
-
-            m_NightShadeVolume =
-                VolumeHelper.CreateVolume(
-                    "CWD-DayNightHighlightShade",
-                    kNightShadeVolumePriority);
-
-            VolumeHelper.GetOrCreateVolumeComponent(
-                m_NightShadeVolume,
-                ref m_NightHighlightShade);
-
-            // RGB stays neutral. Negative W lowers highlight lightness.
-            m_NightHighlightShade.highlights.Override(
-                new Vector4(
-                    1f,
-                    1f,
-                    1f,
-                    kNightHighlightOffset));
-
-            // Leave shadows alone and blend the effect only into upper tones.
-            m_NightHighlightShade.highlightsStart.Override(
-                kNightHighlightStart);
-            m_NightHighlightShade.highlightsEnd.Override(
-                kNightHighlightEnd);
-
-            m_NightShadeVolume.weight = 0f;
         }
 
         protected override void OnUpdate()
         {
             ProcessAutoBrighteningCheck();
-            ProcessNightShade();
+            ProcessOutlinePassFailSafe();
         }
 
         protected override void OnDestroy()
         {
             CancelAll();
-            VolumeHelper.DestroyVolume(m_NightShadeVolume);
             base.OnDestroy();
         }
 
@@ -122,44 +86,71 @@ namespace CityWatchdog.Systems
         internal void BeginNightTransition()
         {
             CancelAutoBrighteningCheck();
+            RestoreOutlinePasses();
 
-            m_NightShadeActive = true;
-            m_NightShadeFullLogged = false;
-            m_NightShadeReleaseLogged = false;
-            m_NightShadeStartTime =
+            CustomPassVolume[] volumes =
+                UnityEngine.Object.FindObjectsOfType<CustomPassVolume>();
+
+            int originallyEnabled = 0;
+
+            for (int i = 0; i < volumes.Length; i++)
+            {
+                CustomPassVolume volume = volumes[i];
+                if (volume == null || volume.customPasses == null)
+                {
+                    continue;
+                }
+
+                for (int j = 0; j < volume.customPasses.Count; j++)
+                {
+                    if (volume.customPasses[j] is not OutlinesWorldUIPass pass)
+                    {
+                        continue;
+                    }
+
+                    bool wasEnabled = pass.enabled;
+
+                    m_OutlinePasses.Add(pass);
+                    m_OutlinePassOriginalEnabled.Add(wasEnabled);
+
+                    if (wasEnabled)
+                    {
+                        originallyEnabled++;
+                    }
+
+                    // H3 diagnostic: remove the entire pass, not just its colors.
+                    pass.enabled = false;
+                }
+            }
+
+            if (m_OutlinePasses.Count == 0)
+            {
+                LogUtils.WarnOnce(
+                    "day-night-outline-pass-missing",
+                    () =>
+                        "Day/Night H3 diagnostic could not find OutlinesWorldUIPass.");
+
+                return;
+            }
+
+            m_OutlinePassSuppressed = true;
+            m_OutlinePassDisabledAt =
                 UnityEngine.Time.unscaledTimeAsDouble;
-            m_NightShadeVolume.weight = 0f;
 
 #if DEBUG
             LogUtils.Info(
-                string.Format(
-                    CultureInfo.InvariantCulture,
-                    "[CWD-DN-HIGHLIGHT] begin offset={0:F2} start={1:F2} end={2:F2} fadeInMs={3:F0} releaseMs={4:F0} endMs={5:F0}",
-                    kNightHighlightOffset,
-                    kNightHighlightStart,
-                    kNightHighlightEnd,
-                    kNightShadeFadeInSeconds * 1000d,
-                    kNightShadeFadeOutStartSeconds * 1000d,
-                    kNightShadeEndSeconds * 1000d));
+                $"[CWD-DN-OUTLINE] disabled count={m_OutlinePasses.Count} originallyEnabled={originallyEnabled}");
 #endif
         }
 
         internal void CancelNightTransition()
         {
-            m_NightShadeActive = false;
-            m_NightShadeFullLogged = false;
-            m_NightShadeReleaseLogged = false;
-            m_NightShadeStartTime = 0d;
-
-            if (m_NightShadeVolume != null)
-            {
-                m_NightShadeVolume.weight = 0f;
-            }
+            RestoreOutlinePasses();
         }
 
         internal void ArmAutoBrighteningCheck()
         {
-            CancelNightTransition();
+            RestoreOutlinePasses();
 
             m_AutoCheckPending = true;
             m_AutoBaselineValid =
@@ -180,85 +171,86 @@ namespace CityWatchdog.Systems
 
         internal void CancelAll()
         {
-            CancelNightTransition();
+            RestoreOutlinePasses();
             CancelAutoBrighteningCheck();
         }
 
-        private void ProcessNightShade()
+        private void ProcessOutlinePassFailSafe()
         {
-            if (!m_NightShadeActive)
+            if (!m_OutlinePassSuppressed)
             {
                 return;
             }
 
             double elapsed =
                 UnityEngine.Time.unscaledTimeAsDouble -
-                m_NightShadeStartTime;
+                m_OutlinePassDisabledAt;
 
-            float weight;
-
-            if (elapsed < kNightShadeFadeInSeconds)
+            if (elapsed < kOutlinePassDisableMaxSeconds)
             {
-                weight = Mathf.SmoothStep(
-                    0f,
-                    1f,
-                    (float)(elapsed /
-                        kNightShadeFadeInSeconds));
-            }
-            else if (elapsed < kNightShadeFadeOutStartSeconds)
-            {
-                weight = 1f;
-
-#if DEBUG
-                if (!m_NightShadeFullLogged)
-                {
-                    m_NightShadeFullLogged = true;
-                    LogUtils.Info(
-                        string.Format(
-                            CultureInfo.InvariantCulture,
-                            "[CWD-DN-HIGHLIGHT] full elapsedMs={0:F1} weight=1.000",
-                            elapsed * 1000d));
-                }
-#endif
-            }
-            else if (elapsed < kNightShadeEndSeconds)
-            {
-                weight = Mathf.SmoothStep(
-                    1f,
-                    0f,
-                    (float)((elapsed -
-                        kNightShadeFadeOutStartSeconds) /
-                        (kNightShadeEndSeconds -
-                         kNightShadeFadeOutStartSeconds)));
-
-#if DEBUG
-                if (!m_NightShadeReleaseLogged)
-                {
-                    m_NightShadeReleaseLogged = true;
-                    LogUtils.Info(
-                        string.Format(
-                            CultureInfo.InvariantCulture,
-                            "[CWD-DN-HIGHLIGHT] release elapsedMs={0:F1}",
-                            elapsed * 1000d));
-                }
-#endif
-            }
-            else
-            {
-#if DEBUG
-                LogUtils.Info(
-                    string.Format(
-                        CultureInfo.InvariantCulture,
-                        "[CWD-DN-HIGHLIGHT] end elapsedMs={0:F1}",
-                        elapsed * 1000d));
-#endif
-
-                CancelNightTransition();
                 return;
             }
 
-            m_NightShadeVolume.weight =
-                Mathf.Clamp01(weight);
+#if DEBUG
+            LogUtils.Info(
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    "[CWD-DN-OUTLINE] fail-safe restore elapsedMs={0:F1}",
+                    elapsed * 1000d));
+#endif
+
+            RestoreOutlinePasses();
+        }
+
+        private void RestoreOutlinePasses()
+        {
+            if (m_OutlinePasses.Count == 0)
+            {
+                m_OutlinePassSuppressed = false;
+                m_OutlinePassDisabledAt = 0d;
+                return;
+            }
+
+            int restoredEnabled = 0;
+
+            for (int i = 0; i < m_OutlinePasses.Count; i++)
+            {
+                OutlinesWorldUIPass pass =
+                    m_OutlinePasses[i];
+
+                bool originalEnabled =
+                    i < m_OutlinePassOriginalEnabled.Count &&
+                    m_OutlinePassOriginalEnabled[i];
+
+                pass.enabled = originalEnabled;
+
+                if (originalEnabled)
+                {
+                    restoredEnabled++;
+                }
+            }
+
+#if DEBUG
+            if (m_OutlinePassSuppressed)
+            {
+                double elapsed =
+                    UnityEngine.Time.unscaledTimeAsDouble -
+                    m_OutlinePassDisabledAt;
+
+                LogUtils.Info(
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "[CWD-DN-OUTLINE] restored count={0} enabled={1} elapsedMs={2:F1}",
+                        m_OutlinePasses.Count,
+                        restoredEnabled,
+                        elapsed * 1000d));
+            }
+#endif
+
+            m_OutlinePasses.Clear();
+            m_OutlinePassOriginalEnabled.Clear();
+            m_OutlinePassSuppressed = false;
+            m_OutlinePassDisabledAt = 0d;
         }
 
         private void ProcessAutoBrighteningCheck()

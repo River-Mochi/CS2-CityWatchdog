@@ -336,7 +336,8 @@ namespace CityWatchdog.Systems
                 m_SafetyTintToken);
 
 #if DEBUG
-            LogUtils.Info( $"[CWD-DN-HIGHLIGHT] request token={m_SafetyTintToken} offset=-0.75");
+           LogUtils.Info(
+                $"[CWD-DN-OUTLINE] request token={m_SafetyTintToken}");
 #endif
         }
 
@@ -365,7 +366,7 @@ namespace CityWatchdog.Systems
                     resetHistory);
             }
 
-            // HDRP highlight suppression is at full weight before this clock change.
+            // OutlinesWorldUIPass is disabled before this clock change.
             ApplyMode(
                 kModeNight,
                 resetHistory);
