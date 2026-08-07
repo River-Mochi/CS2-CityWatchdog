@@ -7,46 +7,25 @@
 // ================= </copyright> ======================
 
 // File: Systems/Controls/DayNightFrozenFrameTransition.cs
-// Purpose: P1 test. Hold the last clean Day camera frame while Night settles.
+// Purpose: P1.1 test. Hold the last clean Day camera result at endCameraRendering.
 
 namespace CityWatchdog.Systems
 {
-    using System;
-
     using CS2Shared.RiverMochi;
 
     using UnityEngine;
-    using UnityEngine.Experimental.Rendering;
     using UnityEngine.Rendering;
-    using UnityEngine.Rendering.HighDefinition;
-
-    internal sealed class DayNightFrozenFramePass : CustomPass
-    {
-        protected override void Execute(
-            CustomPassContext ctx)
-        {
-            DayNightFrozenFrameTransition.Execute(
-                ctx);
-        }
-    }
 
     internal static class DayNightFrozenFrameTransition
     {
-        // P1 only: first prove that hiding the unstable frames removes the visible artifacts.
-        // If this works, the next test can replace the hard release with a short crossfade.
+        // First prove the clean Day frame can cover the unstable Night frames.
+        // If this works, the next test can replace the hard release with a crossfade.
         private const double kHoldSeconds = 0.30d;
 
-        // CustomPassVolume executes higher priorities first. A very low priority keeps
-        // this copy late among other passes at the same AfterPostProcess injection point.
-        private const float kVolumePriority = -10000f;
-
-        private static CustomPassVolume? s_Volume;
-
         private static RenderTexture? s_FrozenDay;
-        private static RTHandle? s_FrozenDayHandle;
-        private static GraphicsFormat s_FrozenFormat = GraphicsFormat.None;
-
         private static Camera? s_TargetCamera;
+
+        private static bool s_Initialized;
 
         private static bool s_CaptureRequested;
         private static bool s_CaptureReady;
@@ -61,19 +40,26 @@ namespace CityWatchdog.Systems
 
         internal static void Initialize()
         {
-            EnsureVolume();
+            if (s_Initialized)
+            {
+                return;
+            }
+
+            RenderPipelineManager.endCameraRendering +=
+                OnEndCameraRendering;
+
+            s_Initialized = true;
         }
 
         internal static void RequestDayCapture(
             int token)
         {
-            EnsureVolume();
+            Initialize();
 
             Camera? camera =
                 Camera.main;
 
-            if (camera == null ||
-                s_Volume == null)
+            if (camera == null)
             {
                 LogUtils.WarnOnce(
                     "day-night-frozen-frame-camera-missing",
@@ -83,7 +69,6 @@ namespace CityWatchdog.Systems
             }
 
             s_TargetCamera = camera;
-            s_Volume.targetCamera = camera;
 
             s_CaptureToken = token;
             s_CaptureRequested = true;
@@ -98,7 +83,7 @@ namespace CityWatchdog.Systems
 
 #if DEBUG
             LogUtils.Info(
-                $"[CWD-DN-P1] Day capture requested token={token}");
+                $"[CWD-DN-P1.1] Day capture requested token={token}");
 #endif
         }
 
@@ -114,7 +99,7 @@ namespace CityWatchdog.Systems
             int token)
         {
             if (!IsDayCaptureReady(token) ||
-                s_FrozenDayHandle == null)
+                s_FrozenDay == null)
             {
                 LogUtils.WarnOnce(
                     $"day-night-frozen-frame-not-ready-{token}",
@@ -135,7 +120,7 @@ namespace CityWatchdog.Systems
 
 #if DEBUG
             LogUtils.Info(
-                $"[CWD-DN-P1] hold begin token={token} seconds={kHoldSeconds:F3}");
+                $"[CWD-DN-P1.1] hold begin token={token} seconds={kHoldSeconds:F3}");
 #endif
 
             return true;
@@ -156,80 +141,75 @@ namespace CityWatchdog.Systems
 
         internal static void Shutdown()
         {
+            if (s_Initialized)
+            {
+                RenderPipelineManager.endCameraRendering -=
+                    OnEndCameraRendering;
+
+                s_Initialized = false;
+            }
+
             s_CaptureRequested = false;
             s_CaptureReady = false;
             s_HoldActive = false;
             s_TargetCamera = null;
 
             ReleaseFrozenTarget();
-            DestroyVolume();
         }
 
-        internal static void Execute(
-            CustomPassContext ctx)
+        private static void OnEndCameraRendering(
+            ScriptableRenderContext context,
+            Camera camera)
         {
-            // Idle cost is just this branch when no transition is active.
-            if (!s_CaptureRequested &&
-                !s_HoldActive)
-            {
-                return;
-            }
-
-            Camera? camera =
-                ctx.hdCamera?.camera;
-
-            if (camera == null ||
-                camera.cameraType != CameraType.Game ||
+            if ((!s_CaptureRequested &&
+                 !s_HoldActive) ||
                 s_TargetCamera == null ||
-                camera != s_TargetCamera)
-            {
-                return;
-            }
-
-            RTHandle? cameraColor =
-                ctx.cameraColorBuffer;
-
-            if (cameraColor == null ||
-                cameraColor.rt == null)
+                camera != s_TargetCamera ||
+                camera.cameraType != CameraType.Game)
             {
                 return;
             }
 
             if (s_CaptureRequested)
             {
-                GraphicsFormat format =
-                    cameraColor.rt.graphicsFormat;
-
                 EnsureFrozenTarget(
-                    camera,
-                    format);
+                    camera);
 
-                if (s_FrozenDayHandle == null)
+                if (s_FrozenDay == null)
                 {
                     return;
                 }
 
-                // Capture the final clean Day world frame on the GPU.
-                HDUtils.BlitCameraTexture(
-                    ctx.cmd,
-                    cameraColor,
-                    s_FrozenDayHandle);
+                CommandBuffer commandBuffer =
+                    CommandBufferPool.Get(
+                        "CWD DayNight capture clean Day");
+
+                try
+                {
+                    // P1 wrote inside HDRP, but later rendering still changed the displayed frame.
+                    // P1.1 copies the finished main-camera target instead.
+                    commandBuffer.Blit(
+                        BuiltinRenderTextureType.CameraTarget,
+                        new RenderTargetIdentifier(
+                            s_FrozenDay));
+
+                    context.ExecuteCommandBuffer(
+                        commandBuffer);
+                }
+                finally
+                {
+                    CommandBufferPool.Release(
+                        commandBuffer);
+                }
 
                 s_CaptureRequested = false;
                 s_CaptureReady = true;
 
 #if DEBUG
                 LogUtils.Info(
-                    $"[CWD-DN-P1] Day captured token={s_CaptureToken} unityFrame={Time.frameCount} size={s_FrozenDay?.width}x{s_FrozenDay?.height} format={format}");
+                    $"[CWD-DN-P1.1] Day captured token={s_CaptureToken} unityFrame={Time.frameCount} size={s_FrozenDay.width}x{s_FrozenDay.height}");
 #endif
 
-                // This is still the normal Day frame. Do not overlay it onto itself.
-                return;
-            }
-
-            if (!s_HoldActive ||
-                s_FrozenDayHandle == null)
-            {
                 return;
             }
 
@@ -254,18 +234,37 @@ namespace CityWatchdog.Systems
 
 #if DEBUG
                 LogUtils.Info(
-                    $"[CWD-DN-P1] hold end token={token} elapsed={elapsed:F3}s overlayFrames={overlayFrames}");
+                    $"[CWD-DN-P1.1] hold end token={token} elapsed={elapsed:F3}s overlayFrames={overlayFrames}");
 #endif
 
-                // Let this frame show the now-settled live Night scene.
                 return;
             }
 
-            // Replace only the 3D camera result; later UI rendering can remain live.
-            HDUtils.BlitCameraTexture(
-                ctx.cmd,
-                s_FrozenDayHandle,
-                cameraColor);
+            if (s_FrozenDay == null)
+            {
+                return;
+            }
+
+            CommandBuffer holdCommandBuffer =
+                CommandBufferPool.Get(
+                    "CWD DayNight show frozen Day");
+
+            try
+            {
+                // This callback is after HDRP finishes this camera.
+                holdCommandBuffer.Blit(
+                    new RenderTargetIdentifier(
+                        s_FrozenDay),
+                    BuiltinRenderTextureType.CameraTarget);
+
+                context.ExecuteCommandBuffer(
+                    holdCommandBuffer);
+            }
+            finally
+            {
+                CommandBufferPool.Release(
+                    holdCommandBuffer);
+            }
 
             s_OverlayFrames++;
 
@@ -275,137 +274,65 @@ namespace CityWatchdog.Systems
                 s_LoggedFirstOverlay = true;
 
                 LogUtils.Info(
-                    $"[CWD-DN-P1] first frozen overlay token={s_HoldToken} unityFrame={Time.frameCount}");
+                    $"[CWD-DN-P1.1] first final-camera overlay token={s_HoldToken} unityFrame={Time.frameCount}");
             }
 #endif
         }
 
-        private static void EnsureVolume()
-        {
-            if (s_Volume != null)
-            {
-                return;
-            }
-
-            GameObject gameObject =
-                new("CWD-DayNight-FrozenFrame");
-
-            gameObject.hideFlags =
-                HideFlags.HideAndDontSave;
-
-            CustomPassVolume volume =
-                gameObject.AddComponent<CustomPassVolume>();
-
-            volume.isGlobal = true;
-            volume.priority =
-                kVolumePriority;
-            volume.injectionPoint =
-                CustomPassInjectionPoint.AfterPostProcess;
-
-            Camera? camera =
-                Camera.main;
-
-            if (camera != null)
-            {
-                volume.targetCamera =
-                    camera;
-            }
-
-            volume.customPasses.Add(
-                new DayNightFrozenFramePass());
-
-            s_Volume = volume;
-        }
-
         private static void EnsureFrozenTarget(
-            Camera camera,
-            GraphicsFormat format)
+            Camera camera)
         {
             int width =
-                Math.Max(
+                System.Math.Max(
                     1,
                     camera.pixelWidth);
 
             int height =
-                Math.Max(
+                System.Math.Max(
                     1,
                     camera.pixelHeight);
 
             if (s_FrozenDay != null &&
-                s_FrozenDayHandle != null &&
                 s_FrozenDay.width == width &&
-                s_FrozenDay.height == height &&
-                s_FrozenFormat == format)
+                s_FrozenDay.height == height)
             {
                 return;
             }
 
             ReleaseFrozenTarget();
 
-            // Match the camera buffer format so the held frame stays as close as possible
-            // to the actual clean Day camera result.
+            // Store the finished camera image rather than the HDR scene-radiance buffer.
             s_FrozenDay =
                 new RenderTexture(
                     width,
                     height,
                     0,
-                    format)
+                    RenderTextureFormat.Default,
+                    RenderTextureReadWrite.Default)
                 {
-                    name = "CWD-DayNight-FrozenDay",
+                    name = "CWD-DayNight-FrozenDay-FinalCamera",
                     filterMode = FilterMode.Bilinear,
                     wrapMode = TextureWrapMode.Clamp,
                     hideFlags = HideFlags.HideAndDontSave,
                 };
 
             s_FrozenDay.Create();
-
-            s_FrozenDayHandle =
-                RTHandles.Alloc(
-                    s_FrozenDay);
-
-            s_FrozenFormat =
-                format;
         }
 
         private static void ReleaseFrozenTarget()
         {
-            if (s_FrozenDayHandle != null)
-            {
-                s_FrozenDayHandle.Release();
-                s_FrozenDayHandle = null;
-            }
-
-            if (s_FrozenDay != null)
-            {
-                s_FrozenDay.Release();
-
-                UnityEngine.Object.Destroy(
-                    s_FrozenDay);
-
-                s_FrozenDay = null;
-            }
-
-            s_FrozenFormat =
-                GraphicsFormat.None;
-        }
-
-        private static void DestroyVolume()
-        {
-            if (s_Volume == null)
+            if (s_FrozenDay == null)
             {
                 return;
             }
 
-            GameObject gameObject =
-                s_Volume.gameObject;
+            s_FrozenDay.Release();
 
-            s_Volume = null;
+            UnityEngine.Object.Destroy(
+                s_FrozenDay);
 
-            if (gameObject != null)
-            {
-                UnityEngine.Object.Destroy(
-                    gameObject);
-            }
+            s_FrozenDay = null;
         }
     }
 }
+
