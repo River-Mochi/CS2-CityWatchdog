@@ -132,13 +132,15 @@ namespace CityWatchdog
                     "<City Watchdog's own money/population popups stay on>; those are controlled by the Money View option above.\n" +
                     "Same as clicking the [i] icon on the City Watchdog panel inside the city."
                 },
-                { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Hide/Show all game hover tooltips" },
+                { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleAllTooltipsAction), "Hide/Show all game hover tooltips" },           
+         
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.ToggleDayNightKeyboardBinding)), "Flip Day to Night" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.ToggleDayNightKeyboardBinding)),
-                    "<Hotkey> to flip the sun between Day (1 PM) and Night (1 AM) — a fast day/night check for city lighting effects.\n" +
+                    "<Hotkey> to flip between your selected Day preset and Night (1 AM) — a fast day/night check for city lighting effects.\n" +
                     "Set your own keybind so it can't clash with another mod."
                 },
+
                 { m_Settings.GetBindingKeyLocaleID(CwdSettings.ToggleDayNightAction), "Flip Day / Night" },
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.SmoothDayNightTransition)), "Smoother Day / Night switch" },
@@ -150,6 +152,19 @@ namespace CityWatchdog
                     "Works with the button and hotkey in a city or map editor.\n" +
                     "Turn OFF to use the game's normal instant switch or compare the differences."
                 },
+
+                { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.DayVisualPreset)), "Day visual preset" },
+                { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.DayVisualPreset)),
+                    "Choose the visual time used by the Day button.\n" +
+                    "<Vanilla Day — 2:30 PM> is the default.\n" +
+                    "Simulation time keeps running normally; this changes only the Day visual lighting.\n" +
+                    "Bright Day = 12:30 PM. Soft Day = 3:40 PM."
+                },
+                { m_Settings.GetOptionLocaleID("DayVisualPresetBright"), "Bright Day — 12:30 PM" },
+                { m_Settings.GetOptionLocaleID("DayVisualPresetVanilla"), "Vanilla Day — 2:30 PM" },
+                { m_Settings.GetOptionLocaleID("DayVisualPresetSoft"), "Soft Day — 3:40 PM" },
+
+
 
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.InterfaceScaling)), "Bigger Game UI" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.InterfaceScaling)),

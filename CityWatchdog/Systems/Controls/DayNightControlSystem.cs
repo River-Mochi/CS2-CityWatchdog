@@ -578,7 +578,7 @@ namespace CityWatchdog.Systems
             {
                 case kModeDay:
                     planetarySystem.overrideTime = true;
-                    planetarySystem.time = kDayTime;
+                    planetarySystem.time = GetSelectedDayTime();
                     m_OverrideActive = true;
                     break;
 
@@ -634,8 +634,8 @@ namespace CityWatchdog.Systems
         private float TargetHour(int mode)
         {
             return mode switch
-            {
-                kModeDay => kDayTime,
+            {         
+                kModeDay => GetSelectedDayTime(),
                 kModeNight => kNightTime,
                 _ => GetNaturalHour(),
             };

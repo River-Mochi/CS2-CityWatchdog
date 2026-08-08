@@ -109,9 +109,15 @@ namespace CityWatchdog
         [SettingsUISection(kActions, kNotifications)]
         public bool SmoothDayNightTransition { get; set; }
 
+        [SettingsUIDropdown(typeof(CwdSettings), nameof(GetDayVisualPresetItems))]
+        [SettingsUISection(kActions, kNotifications)]
+        [SettingsUISetter(typeof(CwdSettings), nameof(OnDayVisualPresetChanged))]
+        public int DayVisualPreset { get; set; }
+
+
         // Mirrors vanilla "Interface Scaling (dev)" flag, which normally only appears in the game's
         // Options > Interface when launched with --developerMode. Turning it on makes the whole game
-        // UI (+ mod panels) render larger. CWD keeps no duplicate setting value.
+        // UI (+ mod panels) larger. CWD keeps no duplicate setting value.
         [SettingsUISection(kActions, kNotifications)]
         public bool InterfaceScaling
         {
@@ -321,7 +327,9 @@ namespace CityWatchdog
             HideDistrictNames = false;
             ShowRoadArrows = false;
             SmoothDayNightTransition = true;
-            PanelButtonsOnlyStart = false;
+            PanelButtonsOnlyStart = false; 
+            DayVisualPreset = kDayVisualPresetVanilla;
+
             MainPanelOpacity = kMainPanelOpacityDefault;
             PanelPositionX = 0;
             PanelPositionY = 0;
