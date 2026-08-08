@@ -89,7 +89,8 @@ namespace CityWatchdog.Systems
         {
             CancelAutoBrighteningCheck();
 
-            if (!TryGetLightingExposure(out Exposure? exposure))
+            if (!TryGetLightingExposure(out Exposure? exposure) ||
+                exposure == null)
             {
                 m_NightBridgeActive = false;
                 return;
