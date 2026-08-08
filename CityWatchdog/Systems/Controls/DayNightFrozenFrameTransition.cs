@@ -69,6 +69,7 @@ namespace CityWatchdog.Systems
         private static float s_LastGpuExposure;
         private static int s_StableSamples;
         private static bool s_LoggedExposureUnavailable;
+        private static bool s_RequireNightExposure = true;
 
         internal static void Initialize()
         {
@@ -123,7 +124,8 @@ namespace CityWatchdog.Systems
         }
 
         internal static bool BeginHold(
-            int token)
+            int token,
+            bool requireNightExposure = true)
         {
             if (!IsDayCaptureReady(token) ||
                 s_FrozenDay == null)
@@ -141,6 +143,7 @@ namespace CityWatchdog.Systems
             s_HoldActive = true;
             s_OverlayFrames = 0;
             s_LoggedFirstOverlay = false;
+            s_RequireNightExposure = requireNightExposure;
 
             s_HasLastGpuExposure = false;
             s_LastGpuExposure = 0f;
@@ -250,7 +253,8 @@ namespace CityWatchdog.Systems
 
             bool safeExposureState =
                 exposureAvailable &&
-                gpuExposure >= kMinimumNightExposure &&
+                (!s_RequireNightExposure ||
+                 gpuExposure >= kMinimumNightExposure) &&
                 s_StableSamples >= kStableSamplesRequired;
 
             if (minimumCoverComplete &&
@@ -415,7 +419,11 @@ namespace CityWatchdog.Systems
                     s_LastGpuExposure) /
                 denominator;
 
-            if (gpuExposure >= kMinimumNightExposure &&
+            bool exposureAllowed =
+                !s_RequireNightExposure ||
+                gpuExposure >= kMinimumNightExposure;
+
+            if (exposureAllowed &&
                 relativeChange <= kStableRelativeChange)
             {
                 s_StableSamples++;
@@ -528,6 +536,7 @@ namespace CityWatchdog.Systems
             s_HasLastGpuExposure = false;
             s_LastGpuExposure = 0f;
             s_StableSamples = 0;
+            s_RequireNightExposure = true;
         }
 
         private static void EnsureFrozenTarget(

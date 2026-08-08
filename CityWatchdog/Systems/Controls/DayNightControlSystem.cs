@@ -137,6 +137,7 @@ namespace CityWatchdog.Systems
 
             // Mod.cs orders this update immediately before PlanetarySystem in PreCulling.
             ApplyPendingMode();
+            ApplyPendingDayToDefaultTransition();
             ApplyPendingSafetyTintReady();
             CheckSafetyTintTimeout();
             AdvanceExposureDebug();
@@ -173,6 +174,8 @@ namespace CityWatchdog.Systems
                 (purpose == Purpose.NewGame ||
                  purpose == Purpose.LoadGame))
             {
+                CancelPendingDayToDefaultTransition(
+                    restoreDisplayedMode: false);
                 CancelSafetyTintTransition(
                     restoreDisplayedMode: false);
 
@@ -188,6 +191,8 @@ namespace CityWatchdog.Systems
         protected override void OnDestroy()
         {
             StopExposureDebug();
+            CancelPendingDayToDefaultTransition(
+                restoreDisplayedMode: false);
             DayNightFrozenFrameTransition.Shutdown();
 
             m_HasPendingMode = false;
@@ -265,6 +270,13 @@ namespace CityWatchdog.Systems
             bool captureDebug = m_PendingCaptureDebug;
             m_HasPendingMode = false;
 
+            if (m_DayToDefaultPending &&
+                mode != kModeAuto)
+            {
+                CancelPendingDayToDefaultTransition(
+                    restoreDisplayedMode: false);
+            }
+
             // new Day/Default request should stop any hidden Night hold immediately.
             if (mode != kModeNight)
             {
@@ -274,6 +286,16 @@ namespace CityWatchdog.Systems
             bool smootherSwitch =
                 useProtection &&
                 ShouldUseSmootherSwitch();
+
+            // P1.4: freeze the current clean Day while vanilla Default settles.
+            if (smootherSwitch &&
+                mode == kModeAuto &&
+                m_AppliedMode == kModeDay)
+            {
+                BeginDayToDefaultTransition(
+                    captureDebug);
+                return;
+            }
 
             // Tests of safety shutter applies only to Day -> Night.
             if (smootherSwitch &&
