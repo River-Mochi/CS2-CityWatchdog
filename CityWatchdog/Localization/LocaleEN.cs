@@ -156,9 +156,10 @@ namespace CityWatchdog
                 { m_Settings.GetOptionLabelLocaleID(nameof(CwdSettings.DayVisualPreset)), "Day visual preset" },
                 { m_Settings.GetOptionDescLocaleID(nameof(CwdSettings.DayVisualPreset)),
                     "Choose the visual time used by the Day button.\n" +
-                    "<Vanilla Day — 2:30 PM> is the default.\n" +
+                    "<Vanilla Day — 2:30 PM> (default). This is the same as the Gameplay option for day-only.\n" +
+                    "Brighter Day = 12:30 PM.\n" +
+                    "Soft Day = 3:40 PM." +
                     "Simulation time keeps running normally; this changes only the Day visual lighting.\n" +
-                    "Bright Day = 12:30 PM. Soft Day = 3:40 PM."
                 },
                 { m_Settings.GetOptionLocaleID("DayVisualPresetBright"), "Bright Day — 12:30 PM" },
                 { m_Settings.GetOptionLocaleID("DayVisualPresetVanilla"), "Vanilla Day — 2:30 PM" },
