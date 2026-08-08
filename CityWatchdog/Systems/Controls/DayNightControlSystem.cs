@@ -38,7 +38,7 @@ namespace CityWatchdog.Systems
 
         private const float kDayTime = 12.5f;
         private const float kNightTime = 1f;
-        private const float kVanillaFixedDayTime = 14.5f;
+
         private const float kHoursPerDay = 24f;
         private const float kHalfDay = 12f;
         private const float kMinimumLightingDifference = 0.05f;
@@ -174,10 +174,12 @@ namespace CityWatchdog.Systems
                 (purpose == Purpose.NewGame ||
                  purpose == Purpose.LoadGame))
             {
+
                 CancelPendingDayToDefaultTransition(
                     restoreDisplayedMode: false);
                 CancelSafetyTintTransition(
                     restoreDisplayedMode: false);
+                DeactivateDayVisualContext();
 
                 // A new city/map should not inherit the previous session's frozen time.
                 QueueMode(
@@ -193,6 +195,7 @@ namespace CityWatchdog.Systems
             StopExposureDebug();
             CancelPendingDayToDefaultTransition(
                 restoreDisplayedMode: false);
+            DeactivateDayVisualContext();
             DayNightFrozenFrameTransition.Shutdown();
 
             m_HasPendingMode = false;
@@ -577,19 +580,25 @@ namespace CityWatchdog.Systems
             switch (mode)
             {
                 case kModeDay:
-                    planetarySystem.overrideTime = true;
-                    planetarySystem.time = GetSelectedDayTime();
+                    ApplySelectedDayContext(
+                        planetarySystem);
                     m_OverrideActive = true;
                     break;
 
                 case kModeNight:
-                    // One direct time change. PlanetarySystem and LightingSystem run after this.
+                    DeactivateDayVisualContext();
+
+                    // Night keeps the live simulation date/year and fixes only the visual hour.
                     planetarySystem.overrideTime = true;
+                    RestoreSimulationDateForNight(
+                        planetarySystem);
                     planetarySystem.time = kNightTime;
                     m_OverrideActive = true;
                     break;
 
                 default:
+                    DeactivateDayVisualContext();
+
                     if (!m_OverrideActive)
                     {
                         return;
@@ -601,6 +610,8 @@ namespace CityWatchdog.Systems
                     planetarySystem.time = GetNaturalHour();
                     break;
             }
+
+
 
             if (resetPostProcessingHistory)
             {

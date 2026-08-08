@@ -66,9 +66,6 @@ namespace CityWatchdog.Systems
 
         protected override void OnUpdate()
         {
-#if DEBUG
-            ProbeVanillaFixedDay();
-#endif
             ProcessAutoBrighteningCheck();
             ProcessNightBridge();
         }

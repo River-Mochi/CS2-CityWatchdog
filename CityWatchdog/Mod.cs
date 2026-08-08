@@ -148,39 +148,30 @@ namespace CityWatchdog
 
             try
             {
-                updateSystem.UpdateAt<CityFinanceSystem>(
-                    SystemUpdatePhase.ModificationEnd);
-                updateSystem.UpdateAt<CwdMilestoneSystem>(
-                    SystemUpdatePhase.ModificationEnd);
-                updateSystem.UpdateAt<CityWatchdogUISystem>(
-                    SystemUpdatePhase.UIUpdate);
-                updateSystem.UpdateAt<TooltipControlSystem>(
-                    SystemUpdatePhase.UIUpdate);
-                updateSystem.UpdateAt<RoadNameControlSystem>(
-                    SystemUpdatePhase.UIUpdate);
-                updateSystem.UpdateAt<DistrictNameControlSystem>(
-                    SystemUpdatePhase.Rendering);
-                updateSystem.UpdateAt<RoadArrowControlSystem>(
-                    SystemUpdatePhase.UIUpdate);
-                updateSystem.UpdateAt<InterfaceScaleControlSystem>(
-                    SystemUpdatePhase.UIUpdate);
+                updateSystem.UpdateAt<CityFinanceSystem>(SystemUpdatePhase.ModificationEnd);
+                updateSystem.UpdateAt<CwdMilestoneSystem>(SystemUpdatePhase.ModificationEnd);
+                updateSystem.UpdateAt<CityWatchdogUISystem>(SystemUpdatePhase.UIUpdate);
+                updateSystem.UpdateAt<TooltipControlSystem>(SystemUpdatePhase.UIUpdate);
+                updateSystem.UpdateAt<RoadNameControlSystem>(SystemUpdatePhase.UIUpdate);
+                updateSystem.UpdateAt<DistrictNameControlSystem>(SystemUpdatePhase.Rendering);
+                updateSystem.UpdateAt<RoadArrowControlSystem>(SystemUpdatePhase.UIUpdate);
+                updateSystem.UpdateAt<InterfaceScaleControlSystem>(SystemUpdatePhase.UIUpdate);
 
                 // Apply the requested hour before PlanetarySystem recalculates the sun/moon.
                 // LightingSystem then consumes that updated state later in PreCulling.
-                updateSystem.UpdateBefore<
-                    DayNightControlSystem,
-                    PlanetarySystem>(
-                        SystemUpdatePhase.PreCulling);
+                updateSystem.UpdateBefore<DayNightControlSystem, PlanetarySystem>(SystemUpdatePhase.PreCulling);
 
-                // LightingSystem first applies the real vanilla state and exposure range.
-                // The bridge then softens only the abrupt Day -> Night maximum-EV clamp.
-                updateSystem.UpdateAfter<
-                    DayNightExposureBridgeSystem,
-                    LightingSystem>(
-                        SystemUpdatePhase.PreCulling);
+                // CWD Day keeps the map coordinates untouched, then replaces only the
+                // runtime SunLight with the cached fixed-Day result before LightingSystem.
+                updateSystem.UpdateAfter<DayVisualContextSystem,PlanetarySystem>(SystemUpdatePhase.PreCulling);
 
-                updateSystem.UpdateAt<AlertIconSystem>(
-                    SystemUpdatePhase.ModificationEnd);
+                updateSystem.UpdateBefore<DayVisualContextSystem,LightingSystem>(SystemUpdatePhase.PreCulling);
+
+                // LightingSystem first applies real vanilla state and exposure range.
+                // Bridge then softens only the abrupt Day -> Night maximum-EV clamp.
+                updateSystem.UpdateAfter<DayNightExposureBridgeSystem,LightingSystem>(SystemUpdatePhase.PreCulling);
+
+                updateSystem.UpdateAt<AlertIconSystem>(SystemUpdatePhase.ModificationEnd);
             }
             catch (Exception ex)
             {
